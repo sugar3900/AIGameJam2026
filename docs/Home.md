@@ -16,7 +16,7 @@ Central hub for planning and design docs. Start here.
 - [[Core Loop]]
 - Mechanics: `02 Design/Mechanics/`
 - Levels: `02 Design/Levels/`
-- Characters: `02 Design/Characters/`
+- Characters: [[Lukey]] · [[Malcolm]] · [[Wyatt]] · [[Tyler]]
 
 ## Art & Audio
 - [[Art Direction]]
@@ -24,6 +24,7 @@ Central hub for planning and design docs. Start here.
 
 ## Tech
 - [[Tech Overview]] — engine, architecture, conventions
+- [[Dialogue Format]] — how to write/edit the branching dialogue JSON
 - [[AI Usage Log]] — how AI tools were used (for jam rules / writeup)
 
 ## Ideas & Logs
