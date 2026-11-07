@@ -4,6 +4,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
+using Avalonia.Threading;
 using StoryWriter.Model;
 using StoryWriter.UI;
 
@@ -79,9 +80,19 @@ public sealed class GraphView : Control
 			PreviewNodeId = null;
 			PreviewTrail.Clear();
 			Rebuild();
+			// Frame the new conversation once layout has settled. Never from Render(): changing the view
+			// there invalidates the visual mid-render, which Avalonia 12 treats as fatal.
 			_fitPending = true;
+			Dispatcher.UIThread.Post(ApplyPendingView, DispatcherPriority.Loaded);
 			InvalidateVisual();
 		}
+	}
+
+	void ApplyPendingView()
+	{
+		if (!_fitPending || Bounds.Width < 10) return; // OnSizeChanged will pick it up
+		_fitPending = false;
+		InitialView();
 	}
 
 	bool _fitPending;
@@ -246,19 +257,11 @@ public sealed class GraphView : Control
 	{
 		base.OnSizeChanged(e);
 		if (_fitPending && e.NewSize.Width > 10)
-		{
-			_fitPending = false;
-			InitialView();
-		}
+			Dispatcher.UIThread.Post(ApplyPendingView, DispatcherPriority.Loaded);
 	}
 
 	public override void Render(DrawingContext ctx)
 	{
-		if (_fitPending && Bounds.Width > 10)
-		{
-			_fitPending = false;
-			InitialView();
-		}
 		ctx.FillRectangle(Palette.Canvas, new Rect(Bounds.Size));
 		DrawGrid(ctx);
 		if (_doc == null)
