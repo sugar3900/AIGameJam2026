@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 128 128">
+  <!-- White heart, tinted at runtime. -->
+  <path d="M64 112 C 20 84, 6 58, 14 36 C 22 14, 50 10, 64 32 C 78 10, 106 14, 114 36 C 122 58, 108 84, 64 112 Z" fill="#FFFFFF"/>
+  <path d="M30 36 C 34 26, 44 22, 52 28" stroke="#FFFFFF" stroke-opacity="0.0" stroke-width="6" fill="none"/>
+</svg>

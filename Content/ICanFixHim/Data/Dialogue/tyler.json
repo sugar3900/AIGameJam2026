@@ -1,0 +1,329 @@
+{
+    "id": "tyler",
+    "name": "Tyler",
+    "malady": "Pink Tile",
+    "room": "bathroom",
+    "tagline": "Installed in 1957. Never once apologized.",
+    "look": {
+        "skin": "#E8B4A0",
+        "shirt": "#F7C6D6",
+        "pants": "#EADCC4",
+        "shoes": "#7A4A3A",
+        "glow": "#FF7AB8",
+        "scale": 1.02,
+        "props": [
+            { "shape": "cube", "socket": "head", "loc": [10.5, 0, 163.5], "scale": [3, 11, 2.5], "color": "#5A3420" },
+            { "shape": "cylinder", "socket": "spine_03", "loc": [0, 0, 120], "scale": [40, 34, 42], "color": "#FF8FC0" },
+            { "shape": "sphere", "socket": "head", "loc": [3, 0, 176], "rot": [0, -15, 0], "scale": [22, 19, 11], "color": "#5A3420" },
+            { "shape": "cube", "socket": "spine_05", "loc": [14, 0, 140], "scale": [3, 8, 8], "color": "#C2185B" }
+        ]
+    },
+    "entries": [
+        { "if": "fixed && ending_romance_success", "node": "after_rs" },
+        { "if": "fixed && ending_romance_failure", "node": "after_rf" },
+        { "if": "fixed && ending_friend_success", "node": "after_fs" },
+        { "if": "fixed", "node": "after_ff" },
+        { "if": "visits == 0", "node": "v1" },
+        { "if": "visits == 1", "node": "v2" },
+        { "if": "visits == 2", "node": "v3" },
+        { "if": "true", "node": "v4" }
+    ],
+    "endings": {
+        "romance_success": {
+            "title": "Tile Death Do Us Part",
+            "text": "Tyler is restored, regrouted and hopelessly devoted. He has agreed to let you add one (1) plant to the bathroom. He named it Mamie. Your bathroom is the pinkest, happiest room in the house."
+        },
+        "romance_failure": {
+            "title": "Grout of Here",
+            "text": "Tyler left for a mid-century modern museum, where he is now a featured exhibit. The plaque calls him 'bold.' He calls you 'that woman.'"
+        },
+        "friend_success": {
+            "title": "Pink for Everybody",
+            "text": "Tyler is your loudest, proudest friend. He now hosts a monthly 'Everybody Pink' brunch in the bathroom. Even Malcolm came once. He wore a pink scarf. Ironically. Probably."
+        },
+        "friend_failure": {
+            "title": "Retiled",
+            "text": "Tyler refused to speak to you ever again. Your bathroom is matte white subway tile now. It's very tasteful. It feels like a hospital. Sometimes you miss the pink."
+        }
+    },
+    "nodes": {
+        "v1": {
+            "lines": [
+                "*The pink tiles shimmer. A man in a salmon blazer, a pink sweater vest and a truly confident mustache steps out of the wall, adjusting his cufflinks.*",
+                "Ah. Finally. A visitor with taste. Or at least a visitor. Let's start there.",
+                "Tyler. Pink [Tile|tile]. Installed 1957, and frankly, never been better.",
+                "Now, I don't want to alarm you, but someone has been calling me 'dated.' Was it you? It was you, wasn't it."
+            ],
+            "topics": { "tile": "v1_tile" },
+            "choices": [
+                { "text": "Your mustache is... a lot. I like it.", "goto": "v1_flirt", "do": { "romance": 2 } },
+                { "text": "It's a LOT of pink, Tyler.", "goto": "v1_pink", "do": { "friendship": 1 } },
+                { "text": "It was me. You're hideous.", "goto": "v1_rude", "do": { "friction": 2 } }
+            ]
+        },
+        "v1_tile": {
+            "lines": [
+                "Glazed ceramic. Four and a quarter inches square. 'Flamingo Dream,' by American Olean.",
+                "They don't make a tile like me anymore. Mainly because of the lead. But STILL."
+            ],
+            "do": { "friendship": 1 },
+            "goto": "v1_menu"
+        },
+        "v1_menu": {
+            "lines": [ "Well? I'm waiting. I've been waiting since the Eisenhower administration. I'm very good at it." ],
+            "choices": [
+                { "text": "Your mustache is... a lot. I like it.", "goto": "v1_flirt", "do": { "romance": 2 } },
+                { "text": "It's a LOT of pink, Tyler.", "goto": "v1_pink", "do": { "friendship": 1 } },
+                { "text": "It was me. You're hideous.", "goto": "v1_rude", "do": { "friction": 2 } }
+            ]
+        },
+        "v1_pink": {
+            "lines": [
+                "A lot of pink? A LOT of pink? Are you aware that pink was considered a MASCULINE color until the 1940s?",
+                "Pink is diluted red! The color of war! Of blood! Of really bold salmon!",
+                "Blue was for girls. Dainty. Delicate. I'm a historian. I have read a placard."
+            ],
+            "choices": [
+                { "text": "Huh. I actually didn't know that.", "goto": "v1_learned", "do": { "friendship": 2 } },
+                { "text": "Colors don't have genders, Tyler.", "goto": "v1_genders", "do": { "friendship": 1, "friction": 1 } }
+            ]
+        },
+        "v1_learned": {
+            "lines": [
+                "*He puffs up like a satisfied pigeon.*",
+                "Of course you didn't. Nobody reads placards anymore. Stick with me, I'll teach you everything. Mostly about grout."
+            ],
+            "goto": "v1_end"
+        },
+        "v1_genders": {
+            "lines": [
+                "*He opens his mouth. Closes it. Opens it again.*",
+                "...That's a very modern position. I'll have to think about it. In my day we had two genders and four bathroom colors.",
+                "You: And now?",
+                "Now, apparently, there are lots of genders and everybody wants 'greige.' I don't know which upsets me more."
+            ],
+            "goto": "v1_end"
+        },
+        "v1_flirt": {
+            "lines": [
+                "*He strokes the mustache with visible pride.*",
+                "It's called a 'Gentleman's Push-Broom.' It takes forty minutes a morning. You're welcome.",
+                "And may I say, you have the bone structure of someone who could pull off a pink bathroom. That is the highest compliment I give."
+            ],
+            "goto": "v1_end"
+        },
+        "v1_rude": {
+            "lines": [
+                "Hideous?! I'll have you know Mamie Eisenhower had this EXACT bathroom!",
+                "*He clutches his pearls. He has pearls. Of course he has pearls.*",
+                "Well. I've been insulted by better. Mostly contractors."
+            ],
+            "goto": "v1_end"
+        },
+        "v1_end": {
+            "lines": [ "I'll let you get back to your beige little life. Do visit. I'll be here. Being iconic." ],
+            "end": true
+        },
+
+        "v2": {
+            "lines": [
+                "*Tyler is inspecting the grout lines with a jeweler's loupe.*",
+                "Oh, it's you. Come. Look at this grout. Sixty-seven years and not a single crack.",
+                "That's called craftsmanship, sweetheart. That's called being built different."
+            ],
+            "choices": [
+                { "text": "What's it like, being a tile?", "goto": "v2_life", "do": { "friendship": 1 } },
+                { "text": "You're kind of cute when you're smug.", "goto": "v2_cute", "do": { "romance": 2 } },
+                { "text": "Your grout is literally mildewing.", "goto": "v2_mildew", "do": { "friction": 1 } },
+                { "text": "Wyatt seems to like you, you know.", "if": "wyatt.met", "goto": "v2_wyatt", "do": { "friendship": 1 } }
+            ]
+        },
+        "v2_life": {
+            "lines": [
+                "Lonely, at times. People come in here at their most... private. And then they leave. Nobody stays for the TILE.",
+                "Do you know how many people have cried in this bathroom? Hundreds. I comforted every one of them. Silently. By being pink.",
+                "Pink is [comforting]. It's science. They paint jail cells pink to calm the criminals!"
+            ],
+            "topics": { "comforting": { "goto": "v2_baker", "do": { "friendship": 1 } } },
+            "goto": "v2_end"
+        },
+        "v2_baker": {
+            "lines": [
+                "Baker-Miller Pink. 1979. Calmed the prisoners right down. Didn't work forever, but then, what does?",
+                "You: Tyler, are you comparing my bathroom to a prison?",
+                "I'm comparing it to a SUCCESS."
+            ],
+            "goto": "v2_end"
+        },
+        "v2_cute": {
+            "lines": [
+                "Smug? I'm CONFIDENT. There's a difference. Smugness is just confidence that has been right more often.",
+                "*He's blushing. It's hard to tell, with all the pink, but he is.*",
+                "...Cute, you said?"
+            ],
+            "goto": "v2_end"
+        },
+        "v2_mildew": {
+            "lines": [
+                "That is NOT mine. That's the goth in the bedroom. He creeps under the wall at night like a sad little raccoon.",
+                "Mildew is not a design choice. It's a cry for help. Unlike pink, which is a cry for JOY."
+            ],
+            "goto": "v2_end"
+        },
+        "v2_wyatt": {
+            "lines": [
+                "The sparky one? The fuse box boy with hair like a startled cat?",
+                "His wiring is tragically pre-war. Knob-and-tube. Practically a hazard to look at.",
+                "...Did he say something about me? Not that I care. Did he?"
+            ],
+            "do": { "flag.tyler_curious": 1 },
+            "goto": "v2_end"
+        },
+        "v2_end": {
+            "lines": [ "Now, if you'll excuse me, I need to buff myself. A tile's work is never done." ],
+            "end": true
+        },
+
+        "v3": {
+            "lines": [
+                "*Tyler is sitting on the edge of the tub, blazer off, looking unusually small.*",
+                "I saw the catalogs on your kitchen table. 'Subway tile.' 'Matte white.' '[Modern farmhouse|farmhouse].'",
+                "You're going to replace me. Just say it."
+            ],
+            "topics": { "farmhouse": "v3_farm" },
+            "choices": [
+                { "text": "I'm not replacing you. I'm restoring you. You're one of a kind.", "goto": "v3_rom", "do": { "romance": 2 } },
+                { "text": "Things change, Tyler. Colors. Gender roles. You can change too.", "goto": "v3_friend", "do": { "friendship": 2 } },
+                { "text": "Yes. You're getting gutted.", "goto": "v3_cold", "do": { "friction": 2 } },
+                { "text": "Wyatt really does like you. Pink and all.", "if": "flag.tyler_curious && flag.wyatt_likes_tyler", "goto": "v3_wyatt", "do": { "friendship": 1 } }
+            ]
+        },
+        "v3_farm": {
+            "lines": [
+                "Shiplap. Little wooden signs that say 'GATHER.' That's not a design, {player}, it's a hostage situation.",
+                "*He shudders so hard a tile clicks.*"
+            ],
+            "goto": "v3_menu"
+        },
+        "v3_menu": {
+            "lines": [ "Well? Don't spare my feelings. I'm glazed. Things slide right off." ],
+            "choices": [
+                { "text": "I'm not replacing you. I'm restoring you. You're one of a kind.", "goto": "v3_rom", "do": { "romance": 2 } },
+                { "text": "Things change, Tyler. Colors. Gender roles. You can change too.", "goto": "v3_friend", "do": { "friendship": 2 } },
+                { "text": "Yes. You're getting gutted.", "goto": "v3_cold", "do": { "friction": 2 } }
+            ]
+        },
+        "v3_rom": {
+            "lines": [
+                "*He looks up. The mustache trembles.*",
+                "Restoring. Not replacing.",
+                "Nobody has ever wanted to keep me just as I am. Polished, sure. Regrouted. But ME.",
+                "*He takes your hand and kisses the back of it, very formally. Then, much less formally, he kisses you.*"
+            ],
+            "fx": "hearts",
+            "goto": "v3_end"
+        },
+        "v3_friend": {
+            "lines": [
+                "...You think I could? Change?",
+                "I've been pink since Eisenhower. I thought men wore hats and women wore aprons and a bathroom was a statement.",
+                "*He looks at his reflection in a tile.*",
+                "Maybe I could be... a pink that's for everybody. Is that a thing? Everybody pink?",
+                "You: That's absolutely a thing.",
+                "Huh. Everybody pink. I like that."
+            ],
+            "goto": "v3_end"
+        },
+        "v3_cold": {
+            "lines": [
+                "*He stands, puts his blazer back on and smooths his mustache with shaking fingers.*",
+                "Gutted. Right. Well. At least I'll go down in a blaze of salmon."
+            ],
+            "goto": "v3_end"
+        },
+        "v3_wyatt": {
+            "lines": [
+                "He— really? Me? Pink me?",
+                "*He turns a shade of pink you didn't know existed.*",
+                "Well. I suppose his wiring isn't THAT pre-war. It has a certain vintage charm. Like me."
+            ],
+            "do": { "wyatt.friendship": 1 },
+            "goto": "v3_end"
+        },
+        "v3_end": {
+            "lines": [ "Next time you come, I suppose you'll bring the grout. Be gentle. I've never been regrouted by someone I liked." ],
+            "end": true
+        },
+
+        "v4": {
+            "lines": [
+                "*Tyler stands at attention by his wall, mustache freshly combed, holding a grout float like a bouquet.*",
+                "Alright. Regrout me. Restore me. Make me fabulous for another sixty-seven years."
+            ],
+            "choices": [
+                { "text": "You're already fabulous. I'm just making it official.", "if": "romance >= 4 && friction < 3", "goto": "v4_rs" },
+                { "text": "I like you, Tyler. But you are exhausting.", "if": "romance >= 4 && friction >= 3", "goto": "v4_rf" },
+                { "text": "Let's make you a pink for everybody.", "if": "friendship >= 3 && friction < 3", "goto": "v4_fs" },
+                { "text": "Let's just get it done.", "goto": "v4_auto" }
+            ]
+        },
+        "v4_rs": {
+            "lines": [
+                "*You regrout every line, slowly and carefully. He narrates the whole thing like a nature documentary about himself.*",
+                "*The tiles gleam. The cracked ones are whole. The pink is somehow pinker.*",
+                "Look at me. LOOK at me. I'm restored. I'm a landmark. I'm— {player}, why are you looking at me like that?"
+            ],
+            "goto": "v4_rs2"
+        },
+        "v4_rs2": {
+            "fx": "fade",
+            "fxText": "Turns out the tub was big enough for two. Mamie Eisenhower would NOT have approved.",
+            "lines": [ "...I'm going to need to be regrouted again. Immediately." ],
+            "ending": "romance_success"
+        },
+        "v4_rf": {
+            "lines": [
+                "*You regrout in silence. He critiques your technique the entire time.*",
+                "*The tiles gleam. Tyler looks at himself, then at you.*",
+                "Exhausting. I see.",
+                "I have been chosen by the decorators of four first ladies. I don't need to be TOLERATED.",
+                "*He collects his pearls and exits with enormous dignity. He takes the soap dish with him.*"
+            ],
+            "ending": "romance_failure"
+        },
+        "v4_fs": {
+            "lines": [
+                "*You regrout together. He teaches you the right angle for the float. You teach him the word 'nonbinary.' He writes it down.*",
+                "*The tiles gleam, pinker than ever.*",
+                "A pink for everybody. Boys, girls, everybody in between and outside of it. Even the goth.",
+                "I've never felt so modern. I hate it. I love it. Let's get brunch."
+            ],
+            "ending": "friend_success"
+        },
+        "v4_auto": {
+            "lines": [
+                "*You regrout every line. Tyler watches in silence, which is unprecedented.*",
+                "*The tiles gleam. He adjusts his cufflinks.*",
+                "Well. That's me done, then."
+            ],
+            "ending": "auto"
+        },
+
+        "after_rs": {
+            "lines": [ "Darling! You're back. I've had the grout touched up in your honor. Look at it. LOOK at it." ],
+            "end": true
+        },
+        "after_rf": {
+            "lines": [ "*Tyler sniffs.*", "I'm only here to collect my cufflinks. The museum is expecting me." ],
+            "end": true
+        },
+        "after_fs": {
+            "lines": [ "Everybody Pink brunch is Sunday! I've invited the goth. And the sparky one. Bring mimosas. Pink ones, obviously." ],
+            "end": true
+        },
+        "after_ff": {
+            "lines": [ "*Tyler turns his back on you.*", "I don't speak to people who say 'greige.'" ],
+            "end": true
+        }
+    }
+}

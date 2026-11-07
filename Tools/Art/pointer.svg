@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 128 128">
+  <!-- Pointing hand cursor with painted nails. Hotspot = fingertip (55, 6). -->
+  <g stroke="#3B1434" stroke-width="4" stroke-linejoin="round">
+    <rect x="44" y="6" width="22" height="66" rx="11" fill="#FFD9C2"/>
+    <rect x="62" y="48" width="17" height="30" rx="8.5" fill="#FFD9C2"/>
+    <rect x="76" y="53" width="16" height="28" rx="8" fill="#FFD9C2"/>
+    <rect x="89" y="59" width="14" height="26" rx="7" fill="#FFD9C2"/>
+    <rect x="40" y="58" width="62" height="48" rx="20" fill="#FFD9C2"/>
+    <ellipse cx="40" cy="80" rx="10" ry="17" transform="rotate(-28 40 80)" fill="#FFD9C2"/>
+    <rect x="48" y="98" width="48" height="24" rx="6" fill="#FF5CA8"/>
+  </g>
+  <!-- Nails -->
+  <rect x="48" y="10" width="14" height="17" rx="7" fill="#FF2E88" stroke="#3B1434" stroke-width="2"/>
+  <rect x="51" y="13" width="4" height="7" rx="2" fill="#FFFFFF" opacity="0.8"/>
+  <ellipse cx="33" cy="68" rx="5" ry="7" transform="rotate(-28 33 68)" fill="#FF2E88" stroke="#3B1434" stroke-width="2"/>
+  <!-- Knuckle creases -->
+  <path d="M66 74 q4 3 9 0 M80 78 q4 3 8 0" stroke="#3B1434" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- Cuff dots -->
+  <circle cx="60" cy="110" r="3" fill="#FFFFFF"/><circle cx="72" cy="110" r="3" fill="#FFFFFF"/><circle cx="84" cy="110" r="3" fill="#FFFFFF"/>
+</svg>

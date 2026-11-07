@@ -1,0 +1,363 @@
+{
+    "id": "malcolm",
+    "name": "Malcolm",
+    "malady": "Black Mold",
+    "room": "bedroom",
+    "tagline": "Toxic. Brooding. Growing on you.",
+    "look": {
+        "skin": "#A3AD9C",
+        "shirt": "#1C1C21",
+        "pants": "#121216",
+        "shoes": "#0B0B0D",
+        "glow": "#6BCF7F",
+        "scale": 0.98,
+        "props": [
+            { "shape": "sphere", "socket": "head", "loc": [-3, 2, 176], "rot": [0, -10, 0], "scale": [28, 27, 9], "color": "#141414" },
+            { "shape": "cylinder", "socket": "neck_01", "loc": [0, 0, 150], "scale": [26, 26, 11], "color": "#1A1A1A" },
+            { "shape": "cube", "socket": "spine_05", "loc": [12, 7, 126], "rot": [0, 0, 8], "scale": [4, 10, 42], "color": "#1A1A1A" },
+            { "shape": "sphere", "socket": "head", "loc": [7, -4, 172], "scale": [10, 5, 3], "color": "#2E3B2E" }
+        ]
+    },
+    "entries": [
+        { "if": "fixed && ending_romance_success", "node": "after_rs" },
+        { "if": "fixed && ending_romance_failure", "node": "after_rf" },
+        { "if": "fixed && ending_friend_success", "node": "after_fs" },
+        { "if": "fixed", "node": "after_ff" },
+        { "if": "visits == 0", "node": "v1" },
+        { "if": "visits == 1", "node": "v2" },
+        { "if": "visits == 2", "node": "v3" },
+        { "if": "lukey.fixed", "node": "v4_dry" },
+        { "if": "true", "node": "v4" }
+    ],
+    "endings": {
+        "romance_success": {
+            "title": "Fungus Among Us",
+            "text": "Malcolm moved into the (thoroughly ventilated) bedroom. He writes you a poem every morning. They are all extremely dark and extremely about you. He has started saying 'please' in a way that makes you blush."
+        },
+        "romance_failure": {
+            "title": "Spore Loser",
+            "text": "Malcolm left to haunt a basement in Portland. He self-published a chapbook about you called 'Remediation.' Every review is just someone coughing."
+        },
+        "friend_success": {
+            "title": "Mildew Friends Forever",
+            "text": "Malcolm is your best gloomy friend. He sits on your couch in head-to-toe black and critiques your TV shows. Against all odds, he is growing. Emotionally, this time."
+        },
+        "friend_failure": {
+            "title": "Rot in Peace",
+            "text": "Malcolm is gone. Sometimes a dark spot appears on the ceiling in the shape of a frowning face. You paint over it. It comes back. It always comes back."
+        }
+    },
+    "nodes": {
+        "v1": {
+            "lines": [
+                "*The stain on the wall shivers. Spores drift up like dark glitter. A pale man in black unfolds himself from the plaster.*",
+                "Ugh. Light. Who let the light in.",
+                "I am Malcolm. I am the mold. I am the slow, creeping truth that every house eventually [rots|rot]."
+            ],
+            "topics": { "rot": "v1_rot" },
+            "choices": [
+                { "text": "That's so dramatic. I kind of love it.", "goto": "v1_love", "do": { "romance": 2 } },
+                { "text": "Are you... okay?", "goto": "v1_okay", "do": { "friendship": 1 } },
+                { "text": "Get off my wall.", "goto": "v1_boss", "do": { "romance": 1, "friction": 1 } }
+            ]
+        },
+        "v1_rot": {
+            "lines": [
+                "Everything rots. Your house. Your hopes. That banana you left on the counter three days ago.",
+                "I wrote a poem about it. It's called 'Banana.' It's forty pages."
+            ],
+            "do": { "friendship": 1 },
+            "goto": "v1_menu"
+        },
+        "v1_menu": {
+            "lines": [ "...Where was I. Ah, yes. Despair." ],
+            "choices": [
+                { "text": "That's so dramatic. I kind of love it.", "goto": "v1_love", "do": { "romance": 2 } },
+                { "text": "Are you... okay?", "goto": "v1_okay", "do": { "friendship": 1 } },
+                { "text": "Get off my wall.", "goto": "v1_boss", "do": { "romance": 1, "friction": 1 } }
+            ]
+        },
+        "v1_love": {
+            "lines": [
+                "*He blinks, slowly, like a cat that has been complimented by a lesser cat.*",
+                "Nobody has ever called me dramatic in a nice tone before.",
+                "Usually it's 'oh my god, what is that SMELL,' and then bleach. So much bleach."
+            ],
+            "goto": "v1_end"
+        },
+        "v1_okay": {
+            "lines": [
+                "Okay? No. I am a fungus. I am never okay. Okay is for drywall.",
+                "...But thank you for asking. Nobody asks. They just spray."
+            ],
+            "goto": "v1_end"
+        },
+        "v1_boss": {
+            "lines": [
+                "*He shudders. Not unhappily.*",
+                "Say that again. ...No. Don't. I'm fine. Everything is fine."
+            ],
+            "goto": "v1_end"
+        },
+        "v1_end": {
+            "lines": [
+                "Leave me now. I must brood. The afternoon light is hitting the baseboard at a deeply upsetting angle.",
+                "I'll be here. Spreading."
+            ],
+            "end": true
+        },
+
+        "v2": {
+            "lines": [
+                "You came back. Nobody comes back. What do you want? Is it suffering? I can arrange suffering.",
+                "I've written you a poem. It's about you. It's also about rot. Most of them are about rot."
+            ],
+            "choices": [
+                { "text": "Read it to me.", "goto": "v2_poem", "do": { "romance": 1 } },
+                { "text": "Only if it's short.", "goto": "v2_short", "do": { "friendship": 1 } },
+                { "text": "Hard pass.", "goto": "v2_pass", "do": { "friction": 1 } },
+                { "text": "Lukey says you drink his leaks.", "if": "flag.lukey_feeds_mold", "goto": "v2_lukey" }
+            ]
+        },
+        "v2_poem": {
+            "lines": [
+                "*He clears his throat. A small cloud of spores escapes.*",
+                "'Ode to the Homeowner.' Ahem.",
+                "*Thou camest with thy [bleach] and thy terrible lamp. / And I, a stain, did watch thee, being damp. / Thou art a window I can never open. / Also thou hast a nice face. That is all I am hoping.*",
+                "...It needs work."
+            ],
+            "topics": { "bleach": { "goto": "v2_bleach", "do": { "friendship": 1 } } },
+            "choices": [
+                { "text": "That was beautiful.", "goto": "v2_beautiful", "do": { "romance": 2 } },
+                { "text": "The last line didn't rhyme.", "goto": "v2_critic", "do": { "friendship": 1, "friction": 1 } }
+            ]
+        },
+        "v2_bleach": {
+            "lines": [
+                "Don't. Say. That word.",
+                "*He clutches the wall. A whole patch of him goes pale.*",
+                "...Forgive me. Childhood trauma. The previous owners had a spray bottle and no sense of mercy."
+            ],
+            "goto": "v2_end"
+        },
+        "v2_beautiful": {
+            "lines": [
+                "*His cheeks go from grey to a slightly warmer grey.*",
+                "Stop it. Compliments make me grow. Literally. Look. I'm spreading.",
+                "*He is, in fact, spreading.*"
+            ],
+            "goto": "v2_end"
+        },
+        "v2_critic": {
+            "lines": [
+                "Rhyme is a cage, {player}. Rhyme is for greeting cards and people who are happy.",
+                "...But fine. I'll rewrite it. Tonight. Alone. In the dark. Where I do my best work."
+            ],
+            "goto": "v2_end"
+        },
+        "v2_short": {
+            "lines": [
+                "Short. Fine.",
+                "*Damp. / Dark. / You.*",
+                "It's a haiku. It's missing a line, because I am also missing something.",
+                "You: That's actually... really good.",
+                "I know. I hate that I'm good."
+            ],
+            "goto": "v2_end"
+        },
+        "v2_pass": {
+            "lines": [
+                "*He nods slowly, as if this confirms everything he has ever believed.*",
+                "Of course. Nobody wants the poem. Nobody wants the mold.",
+                "I'll just be here. Being an air quality concern."
+            ],
+            "goto": "v2_end"
+        },
+        "v2_lukey": {
+            "lines": [
+                "*His eyes narrow.*",
+                "Lukey. That dripping oaf. He thinks he's so wholesome, with his flannel and his... moisture.",
+                "Yes. I drink what he spills. It's codependent. It's disgusting. It's the most stable relationship I've ever had.",
+                "If he ever gets fixed, I'll dry up. I'll become a regular wall. Beige. [Healthy|healthy]."
+            ],
+            "topics": { "healthy": { "goto": "v2_healthy", "do": { "friendship": 1 } } },
+            "goto": "v2_end"
+        },
+        "v2_healthy": {
+            "lines": [
+                "*He says the word like it's a slur.*",
+                "Can you imagine me going on walks. Drinking water on purpose. Having hobbies that are not weeping."
+            ],
+            "goto": "v2_end"
+        },
+        "v2_end": {
+            "lines": [
+                "Leave. Before I start enjoying this.",
+                "Actually, wait— no. Go. Go. I'll write about this later."
+            ],
+            "end": true
+        },
+
+        "v3": {
+            "lines": [
+                "*Malcolm is lying on the floor beneath his stain, staring at the ceiling.*",
+                "I've figured it out. You're going to fix me, aren't you. Scrub me. Seal me. Paint me over in some cheerful [eggshell].",
+                "...Do it. Tell me what to do. I'm so tired of deciding how to be miserable."
+            ],
+            "topics": { "eggshell": "v3_eggshell" },
+            "choices": [
+                { "text": "Then here's an order: let me take care of you.", "goto": "v3_rom", "do": { "romance": 2 } },
+                { "text": "I'm not going to boss you around, Malcolm. You get to choose.", "goto": "v3_friend", "do": { "friendship": 2 } },
+                { "text": "Fine. Stop whining and get in the bucket.", "goto": "v3_harsh", "do": { "romance": 1, "friction": 2 } },
+                { "text": "Lukey's going to dry you out first. Gently.", "if": "flag.lukey_will_dry_malcolm", "goto": "v3_lukey", "do": { "friendship": 1 } }
+            ]
+        },
+        "v3_eggshell": {
+            "lines": [
+                "Eggshell. The color of giving up. The color of a dentist's waiting room.",
+                "*He shudders so hard a spore falls out of his hair.*"
+            ],
+            "goto": "v3_menu"
+        },
+        "v3_menu": {
+            "lines": [ "Well? Command me. Or don't. I'm not your mother. I'm your wall." ],
+            "choices": [
+                { "text": "Then here's an order: let me take care of you.", "goto": "v3_rom", "do": { "romance": 2 } },
+                { "text": "I'm not going to boss you around, Malcolm. You get to choose.", "goto": "v3_friend", "do": { "friendship": 2 } },
+                { "text": "Fine. Stop whining and get in the bucket.", "goto": "v3_harsh", "do": { "romance": 1, "friction": 2 } }
+            ]
+        },
+        "v3_rom": {
+            "lines": [
+                "*He goes very still.*",
+                "...Say that one more time. Slowly. I want to remember it for a poem I will never show anyone.",
+                "You: Let me take care of you.",
+                "*He reaches for your hand. His fingers are cold and slightly fuzzy.*",
+                "Fine. Yes. Take care of me. Ruin my entire aesthetic."
+            ],
+            "fx": "hearts",
+            "goto": "v3_end"
+        },
+        "v3_friend": {
+            "lines": [
+                "Choose? Me? Do you know what happens when I choose things? I chose to grow in a BEDROOM.",
+                "*He sits up. Considers. The spores drift a little slower.*",
+                "...Okay. I choose to not hate you. Today. That's a lot for me. Don't make it weird."
+            ],
+            "goto": "v3_end"
+        },
+        "v3_harsh": {
+            "lines": [
+                "*His eyes go wide. Then flutter closed.*",
+                "Oh, that's— yes. That's the energy. I'm getting in the bucket.",
+                "You know this is extremely unhealthy, right? For both of us? I love it. I hate that I love it."
+            ],
+            "goto": "v3_end"
+        },
+        "v3_lukey": {
+            "lines": [
+                "Lukey. Of course it's Lukey. Lukey and his big, wet heart.",
+                "*He stares at the wall that backs onto the kitchen.*",
+                "Tell him... no. Don't tell him anything. Tell him his pipes are fine. Grudgingly fine."
+            ],
+            "do": { "lukey.friendship": 1 },
+            "goto": "v3_end"
+        },
+        "v3_end": {
+            "lines": [
+                "Next time... bring the scrub brush. And the primer.",
+                "And whatever this feeling is. I want it sealed in."
+            ],
+            "end": true
+        },
+
+        "v4_dry": {
+            "lines": [
+                "*Malcolm looks different. Paler. Drier. His stain has shrunk to the size of a dinner plate.*",
+                "The leak's gone. Lukey's fixed. I'm drying out, {player}. I feel... [light].",
+                "It's horrible. I think I might be okay. Get it over with before it gets worse."
+            ],
+            "topics": { "light": "v4_light" },
+            "goto": "v4_choose"
+        },
+        "v4_light": {
+            "lines": [ "Light. Like a feeling. Not the lamp. Never the lamp." ],
+            "goto": "v4_choose"
+        },
+        "v4": {
+            "lines": [
+                "*Malcolm stands before his stain, holding out a scrub brush like a sword he is surrendering.*",
+                "It's time. Remediate me."
+            ],
+            "goto": "v4_choose"
+        },
+        "v4_choose": {
+            "lines": [ "Any last words, before I become drywall?" ],
+            "choices": [
+                { "text": "I love you. Even the toxic parts.", "if": "romance >= 4 && friction < 3", "goto": "v4_rs" },
+                { "text": "I love you. But Malcolm, you're toxic.", "if": "romance >= 4 && friction >= 3", "goto": "v4_rf" },
+                { "text": "You're my friend. My gloomy, fuzzy friend.", "if": "friendship >= 3 && friction < 3", "goto": "v4_fs" },
+                { "text": "Just hold still.", "goto": "v4_auto" }
+            ]
+        },
+        "v4_rs": {
+            "lines": [
+                "*You scrub. He doesn't flinch. He watches you the whole time like you are the first sunrise he has ever agreed to look at.*",
+                "*The stain lifts. The wall is clean. And Malcolm is still here: pale, dry and blinking.*",
+                "I'm not mold anymore. I'm just a sad man in a nice coat.",
+                "Will you still want me? Without the spores?"
+            ],
+            "goto": "v4_rs2"
+        },
+        "v4_rs2": {
+            "fx": "fade",
+            "fxText": "He wanted you to take charge. You did. Thoroughly.",
+            "lines": [ "...I'm writing a new poem. It's called 'Dry.' It's one line long. It's just your name." ],
+            "ending": "romance_success"
+        },
+        "v4_rf": {
+            "lines": [
+                "*You scrub the wall. He watches with his arms crossed.*",
+                "*The stain lifts. Malcolm, dry and pale, looks at you with something very cold.*",
+                "Toxic. You'd know, wouldn't you. You've been breathing me in for weeks.",
+                "I'm leaving. I'm going to go grow somewhere that appreciates me. A cave. A basement in Portland.",
+                "*He sweeps out of the room, leaving one last poem taped to the wall. It's the word 'no' forty times.*"
+            ],
+            "ending": "romance_failure"
+        },
+        "v4_fs": {
+            "lines": [
+                "*You scrub. Malcolm hums something in a minor key under his breath. It's almost nice.*",
+                "*The stain lifts. He's still here. Pale. Dry. Marginally less gloomy.*",
+                "Friends. Yes. I'll allow it.",
+                "I'm still going to wear black. And write about death. But I'll do it on your couch, if that's alright."
+            ],
+            "ending": "friend_success"
+        },
+        "v4_auto": {
+            "lines": [
+                "*He holds still. You scrub until the wall is clean and quiet.*",
+                "*Malcolm straightens his coat, dry for the first time in a very long time.*",
+                "So. That happened."
+            ],
+            "ending": "auto"
+        },
+
+        "after_rs": {
+            "lines": [ "You're back. Good. I've written eleven poems since breakfast. Sit. Listen. That's an order. ...Please." ],
+            "end": true
+        },
+        "after_rf": {
+            "lines": [ "*Malcolm doesn't look up from his notebook.*", "I'm only here for my beret. Don't breathe on me." ],
+            "end": true
+        },
+        "after_fs": {
+            "lines": [ "Oh, it's you. My friend. I've been practicing saying that. It's getting less painful." ],
+            "end": true
+        },
+        "after_ff": {
+            "lines": [ "*A cold, dry stare.*", "The wall is clean. You won. Enjoy your eggshell." ],
+            "end": true
+        }
+    }
+}
