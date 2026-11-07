@@ -1,0 +1,115 @@
+// I Can Fix Him - AI Game Jam 2026
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Engine/DeveloperSettings.h"
+#include "FixHimSettings.generated.h"
+
+class USkeletalMesh;
+class UAnimInstance;
+class UMaterialInterface;
+class UTexture2D;
+class UStaticMesh;
+
+/**
+ * Project-wide asset references and tuning for I Can Fix Him.
+ * Edit in Project Settings > Game > I Can Fix Him (saved to Config/DefaultGame.ini).
+ * Everything is a soft reference so C++ never hard-codes content paths.
+ */
+UCLASS(Config = Game, DefaultConfig, meta = (DisplayName = "I Can Fix Him"))
+class ICANFIXHIM_API UFixHimSettings : public UDeveloperSettings
+{
+	GENERATED_BODY()
+
+public:
+	UFixHimSettings();
+
+	static const UFixHimSettings* Get() { return GetDefault<UFixHimSettings>(); }
+
+	virtual FName GetCategoryName() const override { return TEXT("Game"); }
+
+	// ---- Characters -------------------------------------------------------
+
+	/** Rosie, the player character. */
+	UPROPERTY(Config, EditAnywhere, Category = "Characters")
+	TSoftObjectPtr<USkeletalMesh> PlayerMesh;
+
+	/** The hunks (every house malady shares this base body; looks come from dialogue JSON). */
+	UPROPERTY(Config, EditAnywhere, Category = "Characters")
+	TSoftObjectPtr<USkeletalMesh> HunkMesh;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Characters")
+	TSoftClassPtr<UAnimInstance> LocomotionAnimClass;
+
+	/** Material used to tint the hunks. Needs a "BaseColor" vector parameter. */
+	UPROPERTY(Config, EditAnywhere, Category = "Characters")
+	TSoftObjectPtr<UMaterialInterface> CharacterMaterial;
+
+	// ---- World ------------------------------------------------------------
+
+	/** Simple stylized lit material. Vector params: BaseColor, Emissive. Scalar: Roughness. */
+	UPROPERTY(Config, EditAnywhere, Category = "World")
+	TSoftObjectPtr<UMaterialInterface> FlatMaterial;
+
+	/** Unlit translucent material for water / effects. Vector param: BaseColor. Scalar: Opacity. */
+	UPROPERTY(Config, EditAnywhere, Category = "World")
+	TSoftObjectPtr<UMaterialInterface> TranslucentMaterial;
+
+	/** Camera facing sparkle sprite used to make interactables glimmer from a distance. */
+	UPROPERTY(Config, EditAnywhere, Category = "World")
+	TSoftObjectPtr<UMaterialInterface> SparkleMaterial;
+
+	UPROPERTY(Config, EditAnywhere, Category = "World")
+	TSoftObjectPtr<UStaticMesh> CubeMesh;
+
+	UPROPERTY(Config, EditAnywhere, Category = "World")
+	TSoftObjectPtr<UStaticMesh> SphereMesh;
+
+	UPROPERTY(Config, EditAnywhere, Category = "World")
+	TSoftObjectPtr<UStaticMesh> CylinderMesh;
+
+	UPROPERTY(Config, EditAnywhere, Category = "World")
+	TSoftObjectPtr<UStaticMesh> PlaneMesh;
+
+	/** Custom depth stencil value used for the hover outline post process. */
+	UPROPERTY(Config, EditAnywhere, Category = "World")
+	int32 OutlineStencilValue = 1;
+
+	// ---- UI ---------------------------------------------------------------
+
+	/** UI material for dialogue portraits rendered from a scene capture. Params: Portrait (texture), Silhouette (scalar). */
+	UPROPERTY(Config, EditAnywhere, Category = "UI")
+	TSoftObjectPtr<UMaterialInterface> PortraitMaterial;
+
+	/** Reticle shown while hovering something interactable (pointing finger with painted nails). */
+	UPROPERTY(Config, EditAnywhere, Category = "UI")
+	TSoftObjectPtr<UTexture2D> PointerTexture;
+
+	/** Big heart icon used for romance meters and ending cards. */
+	UPROPERTY(Config, EditAnywhere, Category = "UI")
+	TSoftObjectPtr<UTexture2D> HeartTexture;
+
+	// ---- Data -------------------------------------------------------------
+
+	/** Folder (relative to the project Content dir) holding one dialogue JSON per hunk. Staged as non-UFS when packaging. */
+	UPROPERTY(Config, EditAnywhere, Category = "Data")
+	FString DialogueDirectory = TEXT("ICanFixHim/Data/Dialogue");
+
+	/** Player character's name, substituted for {player} in dialogue. */
+	UPROPERTY(Config, EditAnywhere, Category = "Data")
+	FString PlayerName = TEXT("Rosie");
+
+	// ---- Tuning -----------------------------------------------------------
+
+	UPROPERTY(Config, EditAnywhere, Category = "Tuning")
+	float InteractRange = 450.f;
+
+	/** Characters per second for the dialogue typewriter at text speed 1.0. */
+	UPROPERTY(Config, EditAnywhere, Category = "Tuning")
+	float TypewriterSpeed = 55.f;
+
+	/** Stat threshold used by the default ending resolver. */
+	UPROPERTY(Config, EditAnywhere, Category = "Tuning")
+	int32 EndingThreshold = 5;
+};
