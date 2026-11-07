@@ -7,11 +7,20 @@ status: draft
 ## One-Pager
 - **Title:** I Can Fix Him
 - **Genre:** Dating sim / visual novel in a small explorable 3D space
-- **Pitch:** Rosie buys a decrepit house. Every broken thing in it is a hot, trapped man. Fix the house, get to know the men, and decide who you romance, who you befriend and who ends up hating you.
+- **Pitch:** A 29-year-old house flipper buys a condemned house with **30 days** to fix it before the city tears it down. Every broken thing in it is a hot, trapped ghost who thinks he *is* the broken thing. Fix the house together, help him remember who he was, and decide whether he passes on or stays with you.
 - **Player fantasy:** "I can fix him." Literally.
 - **Platform / controls:** PC (Mac/Win), mouse + keyboard, gamepad supported. Third-person walking, visual-novel conversations.
 - **Session length:** Prototype ≈ 20-30 min to finish all four arcs once.
-- **Tone:** Flirty, warm, pun-saturated. Romance escalates from flirting → kissing → fade to black.
+- **Tone:** Starts silly, punny and bratty, then shifts gently week by week into warm, bittersweet and touching. Cutesy-sad, never dark or horror. Romance escalates from flirting → hand-holding → kissing → fade to black.
+
+## Story direction (v2, current focus)
+**Jam scope: one guy, done deeply: [[Lukey]].** His page holds the full backstory, the four-week arc, hooks and endings.
+
+- **Heroine:** 29, ambitious house flipper, a deliberate blank slate for the player.
+- **External problem:** the house is condemned. There are **30 days** to fix it for real, with **weekly Friday inspections** and a **storm** building toward week 4. We only fix things for real; there's no cosmetic flip.
+- **Each love interest** believes he is the broken object, resents being "fixed," slowly rediscovers he was human, remembers how the house killed him, and works through what's keeping him here **together with the heroine while they solve the house's problems as a team.**
+- **Weekly beats:** the *Creaky Floorboards with Bev & Trish* true-crime podcast (Wednesdays) and Inspector Dan's inspection (Fridays).
+- **Endings:** he passes on, or stays if you're in love. Final house choice: **fix for real & sell / stay / demolish.**
 
 ## Pillars
 1. **Every malady is a man.** The house's problems *are* the cast; fixing the house = finishing his arc.
