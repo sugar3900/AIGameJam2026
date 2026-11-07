@@ -30,6 +30,12 @@ It checks broken `goto`s, `[topics]` with no handler, bad conditions, unknown st
 }
 ```
 
+### kind and speakers
+- `"kind"`: `"hunk"` (default, a love interest with a malady and room) or a story script such as `"podcast"` or `"epilogue"`. Scripts use the same node format but don't count as hunks (repairs counter, floor plan).
+- `"speakers"`: extra names allowed as line prefixes, e.g. `"speakers": ["Bev", "Trish", "Mr. Giggles"]` lets you write `"Bev: Welcome back!"`. The dialogue box shows that name in the name plate.
+
+Current scripts: `podcast.json` (*Creaky Floorboards with Bev & Trish*, one ~30 s episode between each week of Lukey's arc) and `epilogue.json` (Day 30 hearing → final house choice → epilogue per ending; sets `flag.house_choice` 1 = sell, 2 = stay, 3 = demolish).
+
 ### entries
 Checked top to bottom when you click the glowing fixture; the first matching `if` picks the starting node. This is how story beats per visit work (`visits` counts finished conversations).
 
@@ -37,7 +43,7 @@ Checked top to bottom when you click the glowing fixture; the first matching `if
 
 | Field | Meaning |
 |---|---|
-| `lines` | Array of lines shown one at a time. Plain text = **him**. `You: ...` = **Rosie**. `*...*` (whole line) = narration. |
+| `lines` | Array of lines shown one at a time. Plain text = **him**. `You: ...` = **the heroine**. `Name: ...` = a declared extra speaker. `*...*` (whole line) = narration. |
 | `choices` | `[{ "text", "goto", "if"?, "do"? }]`. Shown under the **last** line. Hidden if `if` is false. |
 | `topics` | Clickable highlighted words. Write `[pipes]` or `[shown text|topicId]` in a line, then `"topics": { "pipes": "node" }` or `{ "pipes": { "goto", "if", "do" } }`. |
 | `do` | Stat/flag changes applied when the node is entered (also allowed on choices and topics). |

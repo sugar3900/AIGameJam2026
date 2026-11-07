@@ -755,7 +755,7 @@ void AFixHimPlayerController::HandleConversationEnded(const FString& HunkId, con
 		const UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this);
 		EndingWidget = CreateWidget<UFixHimEndingCardWidget>(this, UFixHimEndingCardWidget::StaticClass());
 		ShowWidget(EndingWidget, 35);
-		EndingWidget->Setup(*Def, EndingId, Save ? Save->CountFixed() : 0, Dialogue->GetAllHunks().Num());
+		EndingWidget->Setup(*Def, EndingId, Save ? Save->CountFixed() : 0, Dialogue->CountStoryHunks());
 		EnterState(EFixHimState::Ending);
 	}
 	else
@@ -770,7 +770,7 @@ void AFixHimPlayerController::RefreshRepairs()
 	const UFixHimDialogueSubsystem* Dialogue = UFixHimDialogueSubsystem::Get(this);
 	if (HUDWidget && Save && Dialogue)
 	{
-		HUDWidget->SetRepairs(Save->CountFixed(), Dialogue->GetAllHunks().Num());
+		HUDWidget->SetRepairs(Save->CountFixed(), Dialogue->CountStoryHunks());
 	}
 }
 

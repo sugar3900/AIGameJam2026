@@ -32,7 +32,7 @@ using namespace FixHimUI;
 
 namespace
 {
-	constexpr int32 MeterMax = 10;
+	constexpr int32 MeterMax = 20;
 	constexpr float FadeSeconds = 0.9f;
 	constexpr float HoldSeconds = 2.6f;
 }
@@ -206,9 +206,11 @@ void UFixHimDialogueWidget::ShowView(const FDialogueView& View)
 
 	const bool bPlayer = View.Speaker == EDialogueSpeaker::Player;
 	const bool bNarration = View.Speaker == EDialogueSpeaker::Narration;
+	const bool bNamed = View.Speaker == EDialogueSpeaker::Named;
 	NamePill->SetVisibility(bNarration ? ESlateVisibility::Hidden : ESlateVisibility::HitTestInvisible);
-	NamePill->SetBrush(Rounded(bPlayer ? Plum : HotPink, 16.f));
-	NameText->SetText(FText::FromString((bPlayer ? UFixHimSettings::Get()->PlayerName : View.HunkName).ToUpper()));
+	NamePill->SetBrush(Rounded(bPlayer ? Plum : (bNamed ? PlumSoft : HotPink), 16.f));
+	const FString Speaker = bPlayer ? UFixHimSettings::Get()->PlayerName : (bNamed ? View.SpeakerName : View.HunkName);
+	NameText->SetText(FText::FromString(Speaker.ToUpper()));
 	TypingText->SetFont(Font(24, bNarration ? TEXT("Italic") : TEXT("Regular")));
 	TypingText->SetColorAndOpacity(FSlateColor(bNarration ? PlumSoft : Plum));
 

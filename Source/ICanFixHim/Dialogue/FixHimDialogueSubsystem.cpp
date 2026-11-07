@@ -78,7 +78,7 @@ namespace
 		return Out;
 	}
 
-	FDialogueLine ParseLine(const FString& Raw)
+	FDialogueLine ParseLine(const FString& Raw, const TArray<FString>& Speakers)
 	{
 		FDialogueLine Line;
 		FString Text = Raw.TrimStartAndEnd();
@@ -86,8 +86,20 @@ namespace
 		{
 			Line.Speaker = EDialogueSpeaker::Player;
 			Text = Text.RightChop(4).TrimStart();
+			Line.Text = Text;
+			return Line;
 		}
-		else if (Text.Len() > 1 && Text.StartsWith(TEXT("*")) && Text.EndsWith(TEXT("*")))
+		for (const FString& Name : Speakers)
+		{
+			if (Text.StartsWith(Name + TEXT(":"), ESearchCase::IgnoreCase))
+			{
+				Line.Speaker = EDialogueSpeaker::Named;
+				Line.SpeakerName = Name;
+				Line.Text = Text.RightChop(Name.Len() + 1).TrimStart();
+				return Line;
+			}
+		}
+		if (Text.Len() > 1 && Text.StartsWith(TEXT("*")) && Text.EndsWith(TEXT("*")))
 		{
 			Line.Speaker = EDialogueSpeaker::Narration;
 			Text = Text.Mid(1, Text.Len() - 2);
@@ -195,6 +207,9 @@ bool UFixHimDialogueSubsystem::LoadHunkFile(const FString& Path)
 		Def.Id = FPaths::GetBaseFilename(Path).ToLower();
 	}
 	Root->TryGetStringField(TEXT("name"), Def.Name);
+	Root->TryGetStringField(TEXT("kind"), Def.Kind);
+	Def.Kind = Def.Kind.IsEmpty() ? FString(TEXT("hunk")) : Def.Kind.ToLower();
+	Root->TryGetStringArrayField(TEXT("speakers"), Def.Speakers);
 	Root->TryGetStringField(TEXT("malady"), Def.Malady);
 	Root->TryGetStringField(TEXT("room"), Def.Room);
 	Root->TryGetStringField(TEXT("tagline"), Def.Tagline);
@@ -298,13 +313,13 @@ bool UFixHimDialogueSubsystem::LoadHunkFile(const FString& Path)
 			{
 				for (const TSharedPtr<FJsonValue>& LV : *Lines)
 				{
-					Node.Lines.Add(ParseLine(LV->AsString()));
+					Node.Lines.Add(ParseLine(LV->AsString(), Def.Speakers));
 				}
 			}
 			FString Single;
 			if (NO->TryGetStringField(TEXT("say"), Single))
 			{
-				Node.Lines.Add(ParseLine(Single));
+				Node.Lines.Add(ParseLine(Single, Def.Speakers));
 			}
 
 			const TArray<TSharedPtr<FJsonValue>>* Choices = nullptr;
@@ -432,11 +447,21 @@ void UFixHimDialogueSubsystem::Validate(const FHunkDefinition& Def)
 	}
 }
 
+int32 UFixHimDialogueSubsystem::CountStoryHunks() const
+{
+	int32 N = 0;
+	for (const auto& Pair : Hunks)
+	{
+		N += Pair.Value.IsHunk() ? 1 : 0;
+	}
+	return N;
+}
+
 const FHunkDefinition* UFixHimDialogueSubsystem::FindHunkForRoom(const FString& RoomId) const
 {
 	for (const auto& Pair : Hunks)
 	{
-		if (Pair.Value.Room.Equals(RoomId, ESearchCase::IgnoreCase))
+		if (Pair.Value.IsHunk() && Pair.Value.Room.Equals(RoomId, ESearchCase::IgnoreCase))
 		{
 			return &Pair.Value;
 		}
@@ -780,6 +805,7 @@ void UFixHimDialogueSubsystem::RebuildView()
 	View.HunkId = ActiveHunkId;
 	View.HunkName = Def->Name;
 	View.Speaker = Line.Speaker;
+	View.SpeakerName = Line.SpeakerName;
 	View.Text = Substitute(Line.Text);
 	View.bIsLastLine = LineIndex == Node->Lines.Num() - 1;
 	if (LineIndex == 0)
