@@ -12,15 +12,14 @@
     ],
     "nodes": {
         "not_yet": {
-            "lines": [ "*The house isn't finished yet. Something under the kitchen sink is still dripping.*" ],
+            "lines": [ "*The house isn't finished yet. Somewhere behind the walls, something is still dripping. And humming Bon Jovi.*" ],
             "end": true
         },
-
         "intro_alone": {
             "lines": [
                 "*Day 30. City Hall. The condemnation hearing takes four minutes.*",
-                "*Inspector Dan stands up, clears his throat and tells the council that 12 Heartbreak Lane is the safest it has been since 1926.*",
-                "*The order is lifted. Somebody in the back row honks a clown horn. It's Mr. Giggles. Nobody knows why he's there.*",
+                "*Inspector Dan stands up, clears his throat and tells the council that 12 Heartbreak Lane is 'as dry as my sense of humor.' Nobody laughs. The order is lifted anyway.*",
+                "*In the back row, Mrs. Pruitt fires a celebratory crossbow bolt into the ceiling. Nobody knows why she's there.*",
                 "*That night, you stand alone in the kitchen. It's quiet. It's dry. It's fixed. For real.*"
             ],
             "goto": "decide"
@@ -28,10 +27,10 @@
         "intro_together": {
             "lines": [
                 "*Day 30. City Hall. The condemnation hearing takes four minutes.*",
-                "*Inspector Dan stands up, clears his throat and tells the council that 12 Heartbreak Lane is the safest it has been since 1926.*",
-                "*The order is lifted. Somebody in the back row honks a clown horn. It's Mr. Giggles. Nobody knows why he's there.*",
-                "*That night, you stand in the kitchen. It's quiet. It's dry. And you're not alone: Lukey is sitting on the counter, swinging his legs.*",
-                "Lukey: So, boss. What are we doing with it?"
+                "*Inspector Dan stands up, clears his throat and tells the council that 12 Heartbreak Lane is 'as dry as my sense of humor.' Nobody laughs. The order is lifted anyway.*",
+                "*In the back row, Mrs. Pruitt fires a celebratory crossbow bolt into the ceiling. Nobody knows why she's there.*",
+                "*That night, you stand in the kitchen. It's quiet. It's dry. And you're not alone: Lukey is sitting on the counter in full shoulder pads, swinging his legs.*",
+                "Lukey: So, sweetheart. What are we doing with it?"
             ],
             "goto": "decide"
         },
@@ -39,50 +38,49 @@
             "lines": [ "*The house is fixed. Now you have to decide what it's for.*" ],
             "choices": [
                 { "text": "Sell it. And take Lukey with you.", "if": "lukey.ending_romance_success", "goto": "sell_together", "do": { "flag.house_choice": 1 } },
-                { "text": "Fix it for real, and sell it to someone who'll love it.", "if": "lukey.ending_romance_failure", "goto": "sell_rf", "do": { "flag.house_choice": 1 } },
-                { "text": "Fix it for real, and sell it to someone who'll love it.", "if": "lukey.ending_friend_success", "goto": "sell_fs", "do": { "flag.house_choice": 1 } },
-                { "text": "Fix it for real, and sell it to someone who'll love it.", "if": "lukey.ending_friend_failure", "goto": "sell_ff", "do": { "flag.house_choice": 1 } },
+                { "text": "Sell it to someone who'll love it.", "if": "lukey.ending_romance_failure", "goto": "sell_rf", "do": { "flag.house_choice": 1 } },
+                { "text": "Sell it to someone who'll love it.", "if": "lukey.ending_friend_success", "goto": "sell_fs", "do": { "flag.house_choice": 1 } },
+                { "text": "Sell it to someone who'll love it.", "if": "lukey.ending_friend_failure", "goto": "sell_ff", "do": { "flag.house_choice": 1 } },
 
                 { "text": "Stay. Here. With him.", "if": "lukey.ending_romance_success", "goto": "stay_together", "do": { "flag.house_choice": 2 } },
                 { "text": "Stay. Make it a home.", "if": "lukey.ending_romance_failure", "goto": "stay_rf", "do": { "flag.house_choice": 2 } },
                 { "text": "Stay. Make it a home.", "if": "lukey.ending_friend_success", "goto": "stay_fs", "do": { "flag.house_choice": 2 } },
                 { "text": "Stay. Make it a home.", "if": "lukey.ending_friend_failure", "goto": "stay_ff", "do": { "flag.house_choice": 2 } },
 
-                { "text": "Let it go. Too much happened here.", "if": "lukey.ending_romance_success", "goto": "demolish_together", "do": { "flag.house_choice": 3 } },
-                { "text": "Let it go. Too much happened here.", "if": "lukey.ending_romance_failure", "goto": "demolish_rf", "do": { "flag.house_choice": 3 } },
-                { "text": "Let it go. Too much happened here.", "if": "lukey.ending_friend_success", "goto": "demolish_fs", "do": { "flag.house_choice": 3 } },
-                { "text": "Let it go. Too much happened here.", "if": "lukey.ending_friend_failure", "goto": "demolish_ff", "do": { "flag.house_choice": 3 } }
+                { "text": "Let it go. Some houses have had enough.", "if": "lukey.ending_romance_success", "goto": "demolish_together", "do": { "flag.house_choice": 3 } },
+                { "text": "Let it go. Some houses have had enough.", "if": "lukey.ending_romance_failure", "goto": "demolish_rf", "do": { "flag.house_choice": 3 } },
+                { "text": "Let it go. Some houses have had enough.", "if": "lukey.ending_friend_success", "goto": "demolish_fs", "do": { "flag.house_choice": 3 } },
+                { "text": "Let it go. Some houses have had enough.", "if": "lukey.ending_friend_failure", "goto": "demolish_ff", "do": { "flag.house_choice": 3 } }
             ]
         },
 
         "sell_together": {
             "lines": [
-                "*You sell 12 Heartbreak Lane to a young couple with a baby on the way. Dan signs off on it with a pun nobody gets but you.*",
-                "*Lukey cries the whole drive to your new place. Not sad crying. Just a LOT of water. You have to run the wipers on the inside of the car.*",
-                "*Three days after you move in, the kitchen faucet in your new apartment starts to drip.*",
+                "*You list the house. At the open house, a lovely woman in her seventies wanders into the kitchen, runs a finger along the sink and says, 'I had a date in a house like this once. He was very... confident.'*",
+                "*Lukey hides in the radiator for six hours.*",
+                "*You sell to a young couple with a baby on the way. Lukey cries the whole drive to your new place. Not sad crying. Just a LOT of water. You have to run the wipers on the inside of the car.*",
+                "*Three days later, the kitchen tap in your new apartment starts to drip.*",
                 "You: Lukey.",
-                "Lukey: What? New house. A guy's gotta make an entrance.",
-                "*He's already glaring at your new dishwasher.*"
+                "Lukey: What? New house. A man's gotta make an entrance."
             ],
             "end": true
         },
         "stay_together": {
             "lines": [
                 "*You stay. Obviously you stay.*",
-                "*The flipper finally has a house she isn't going to flip. It has a pink rug, a forgiven dishwasher and a ghost who cooks pasta by yelling at you.*",
-                "*Dan comes to Sunday dinner every week. He tells the same jokes his dad does. Lukey mouths along to every single one.*",
-                "Lukey: He gets the timing from me.",
-                "You: He gets the timing from his mom.",
-                "Lukey: ...Yeah, okay. He gets the timing from his mom."
+                "*The flipper finally has a house she isn't flipping. It has a dry kitchen, a dishwasher that beeps passive-aggressively and a ghost who cooks by yelling at you.*",
+                "*Every Friday, Inspector Dan pops round 'just to check the pipes.' Every Friday, his shoes get mysteriously soaked.*",
+                "Dan: One of these days I'm going to work out how that happens.",
+                "Lukey: No he isn't."
             ],
             "end": true
         },
         "demolish_together": {
             "lines": [
-                "*You let the city have the house. It held too much. Lukey agrees, on one condition: you take the sink.*",
+                "*You let the city have the house. It's had a long, damp life. Lukey agrees, on one condition: you take the sink.*",
                 "*You take the sink.*",
-                "*It sits in the kitchen of your new place, connected to nothing, perfectly dry. Lukey naps in it like a cat.*",
-                "*The old lot becomes a little park with a drinking fountain that never stops dripping.*",
+                "*It sits in the corner of your new kitchen, connected to nothing, perfectly dry. Lukey naps in it like a cat.*",
+                "*The old lot becomes a little park with a drinking fountain that never quite stops dripping.*",
                 "Lukey: That's not me.",
                 "*It's definitely him.*"
             ],
@@ -90,65 +88,65 @@
         },
 
         "sell_rf": {
-            "lines": [ "*You still keep his old swim whistle on your keyring. It's never once made a sound, but you'd swear it's warm.*" ],
+            "lines": [ "*You keep his sweatband in your bedside drawer. It's still, somehow, slightly damp.*" ],
             "goto": "sell_gone"
         },
         "sell_fs": {
-            "lines": [ "*Every time a faucet drips anywhere, you give it a little two-finger salute. People have started to notice.*" ],
+            "lines": [ "*Every time a tap drips anywhere, you do a tiny Running Man. People have started to notice.*" ],
             "goto": "sell_gone"
         },
         "sell_ff": {
-            "lines": [ "*You keep his sticky note. 'FIXED IT MYSELF. MOSTLY.' It's framed now. It's earned it.*" ],
+            "lines": [ "*The 'FIXED IT MYSELF' message still fogs up on the kitchen window every time you boil the kettle. You never wipe it off.*" ],
             "goto": "sell_gone"
         },
         "sell_gone": {
             "lines": [
-                "*You sell 12 Heartbreak Lane to a young couple with a baby on the way.*",
-                "*At the closing, Dan shakes their hands and tells them the kitchen's got a real 'drip personality.' They don't get it. You do.*",
-                "*A year later they send you a photo: the baby in the kitchen, wearing a pair of tiny swim goggles. Dan's idea.*",
-                "*The next week, you buy another broken house. You fix that one for real, too.*"
+                "*At the open house, a lovely woman in her seventies stops in the kitchen, smiles at the sink and says, 'I had a date in a house like this once. He was very confident.'*",
+                "*Then, quieter: 'I hope he's somewhere nice.'*",
+                "*You sell to a young couple with a baby on the way. Dan signs it off with a pun nobody laughs at.*",
+                "*The kitchen never leaks again. Not once. Which is honestly a little bit sad.*"
             ],
             "end": true
         },
 
         "stay_rf": {
-            "lines": [ "*Some nights, when the house is very quiet, the kitchen faucet hums a little Bon Jovi. Just a few bars. Just for you.*" ],
+            "lines": [ "*The heart-shaped drop on the kitchen floor never dries. You put a little rug around it so nobody steps on it.*" ],
             "goto": "stay_gone"
         },
         "stay_fs": {
-            "lines": [ "*You finally make peace with the dishwasher. It's what he would have wanted. Eventually.*" ],
+            "lines": [ "*You and the dishwasher reach an understanding. It's what he would have wanted. Eventually. Grudgingly.*" ],
             "goto": "stay_gone"
         },
         "stay_ff": {
-            "lines": [ "*The flashlight he was so rude about lives in the drawer by the sink. You never quite manage to throw it out.*" ],
+            "lines": [ "*The torch he was so rude about lives in the drawer by the sink. You never quite manage to throw it out.*" ],
             "goto": "stay_gone"
         },
         "stay_gone": {
             "lines": [
                 "*You don't sell. You can't. You fixed it too well to give it away.*",
-                "*Dan comes to Sunday dinner. He brings the goggles and sets them on the windowsill over the sink, where they belong.*",
-                "*The flipper has a home. It's quiet here now. A good quiet. The kind a house gets when everyone in it is finally home, or finally free.*"
+                "*Dan comes to Sunday dinner. He tells terrible puns. Nobody floods his shoes anymore, and he seems to miss it.*",
+                "*The house is quiet now. A good quiet. Except, very occasionally, very faintly, from somewhere in the walls: 'Woah-oh, we're halfway there...'*"
             ],
             "end": true
         },
 
         "demolish_rf": {
-            "lines": [ "*You love him enough to let the place he died go, too.*" ],
+            "lines": [ "*You love him enough to let his old haunt go, too.*" ],
             "goto": "demolish_gone"
         },
         "demolish_fs": {
-            "lines": [ "*You think Coach would get it. Some pools you just drain and start over.*" ],
+            "lines": [ "*You think he'd get it. Some aerobics routines you just have to end on a big finish.*" ],
             "goto": "demolish_gone"
         },
         "demolish_ff": {
-            "lines": [ "*Somewhere, someone is muttering that THEY would have done the demo better. You hold the flashlight anyway.*" ],
+            "lines": [ "*Somewhere, someone is definitely muttering that HE could have done the demolition better. You hold the torch anyway.*" ],
             "goto": "demolish_gone"
         },
         "demolish_gone": {
             "lines": [
-                "*You let the city have it. Some places hold too much.*",
-                "*The lot becomes a little park. Dan cuts the ribbon. There's a drinking fountain by the gate.*",
-                "*It never stops dripping. Nobody can fix it. Nobody tries very hard.*"
+                "*You let the city have it. It's had a long, damp life.*",
+                "*The lot becomes a little park. Dan cuts the ribbon and makes a pun about 'breaking ground.' Mrs. Pruitt fires her crossbow.*",
+                "*There's a drinking fountain by the gate. It never stops dripping. Nobody can fix it. Nobody tries very hard.*"
             ],
             "end": true
         }

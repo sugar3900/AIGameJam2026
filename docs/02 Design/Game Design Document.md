@@ -11,14 +11,14 @@ status: draft
 - **Player fantasy:** "I can fix him." Literally.
 - **Platform / controls:** PC (Mac/Win), mouse + keyboard, gamepad supported. Third-person walking, visual-novel conversations.
 - **Session length:** Prototype ≈ 20-30 min to finish all four arcs once.
-- **Tone:** Starts silly, punny and bratty, then shifts gently week by week into warm, bittersweet and touching. Cutesy-sad, never dark or horror. Romance escalates from flirting → hand-holding → kissing → fade to black.
+- **Tone:** ***Ghosts* (UK).** Petty, vain, flirty and pun-saturated, with brief sincere moments that land and go straight back to the bit. Deaths are running jokes, not tragedies. Cutesy, never dark or horror. Romance from minute one, escalating flirting → hand-holding → kissing → fade to black.
 
 ## Story direction (v2, current focus)
 **Jam scope: one guy, done deeply: [[Lukey]].** His page holds the full backstory, the four-week arc, hooks and endings.
 
 - **Heroine:** 29, ambitious house flipper, a deliberate blank slate for the player.
 - **External problem:** the house is condemned. There are **30 days** to fix it for real, with **weekly Friday inspections** and a **storm** building toward week 4. We only fix things for real; there's no cosmetic flip.
-- **Each love interest** believes he is the broken object, resents being "fixed," slowly rediscovers he was human, remembers how the house killed him, and works through what's keeping him here **together with the heroine while they solve the house's problems as a team.**
+- **Each love interest** genuinely believes he *is* the broken thing (Lukey is every leak in the house) and resents being "fixed," because each repair deletes a bit of him. He flirts with the heroine throughout, while they **solve the house's problems as a team**. The player can spot the hints, but **he only learns he was human in Act 4.** His death is played for laughs, and his unfinished business is something the heroine can help him finish (for Lukey: the first date he never got).
 - **Weekly beats:** the *Creaky Floorboards with Bev & Trish* true-crime podcast (Wednesdays) and Inspector Dan's inspection (Fridays).
 - **Endings:** he passes on, or stays if you're in love. Final house choice: **fix for real & sell / stay / demolish.**
 
@@ -32,7 +32,7 @@ See [[Core Loop]].
 Explore a room → spot a subtle sparkle/glow → hover (outline + painted-nail pointer) → click → *he* appears (first time: intro card with the malady name + silhouette) → visual-novel conversation → stats change → leave the room (he vanishes) → come back later for the next beat → on the final beat, repair the malady and get an ending.
 
 ## Relationship system
-Every hunk tracks three axes (0-10 meters in the dialogue box):
+Every hunk tracks three axes (0-20 meters in the dialogue box). Romance is generous: most kind or teasing choices count as flirting.
 
 | Axis | Raised by | Means |
 |---|---|---|
@@ -40,21 +40,27 @@ Every hunk tracks three axes (0-10 meters in the dialogue box):
 | **Friendship** | curiosity, kindness, listening | platonic track |
 | **Friction** | rudeness, dismissing him, cruelty | bad blood |
 
-**Endings** (decided at the finale, see [[Dialogue Format]]):
-- Romance success: romance ≥ 4 and friction < 3 (fade to black)
-- Romance failure: romance ≥ 4 and friction ≥ 3 (breakup, bad blood)
+**Endings** (Lukey's thresholds; the player picks from whichever options they've earned at the finale, see [[Lukey]]):
+- He stays (romance success): romance ≥ 6 and friction < 4 (fade to black)
+- He goes, loved (romance failure): romance ≥ 6, the player chooses to let him go
+- He goes, friends (friend success): friendship ≥ 5 and friction < 4
+- He goes, grumpy (friend failure): fallback
+
+*Older prototype thresholds for Malcolm/Wyatt/Tyler, still in their JSON:*
+- Romance success: romance ≥ 4 and friction < 3
+- Romance failure: romance ≥ 4 and friction ≥ 3
 - Friend success: friendship ≥ 3 and friction < 3
 - Friend failure: everything else (enemies)
 
 **Interconnections (Monster Prom-style):** global flags and cross-character effects. In the prototype:
-- Lukey's leak *feeds* Malcolm's mold. Fixing Lukey dries Malcolm out and changes his finale.
+- Lukey's leak *feeds* Malcolm's mold. Fixing Lukey dries Malcolm out and changes his finale. *(Prototype v1; revisit when Malcolm is rewritten in the v2 tone.)*
 - Wyatt has a crush on Tyler; you can play matchmaker across both arcs.
 - Characters gossip about each other, and some choices only appear if you've met someone.
 
 ## Cast (prototype = first four)
 | Hunk | Malady | Room | Personality | Status |
 |---|---|---|---|---|
-| [[Lukey]] | Leaky Plumbing | Kitchen | Grizzly, good-natured, the flirtiest; pipe & wet puns | ✅ full arc |
+| [[Lukey]] | The Leaks (every leak in the house) | Kitchen + walls | Vain, flirty 1987 aerobics instructor who thinks he's a franchise of leaks; Bon Jovi; died showing off for a date | ✅ v2 arc (Ghosts tone) |
 | [[Malcolm]] | Black Mold | Bedroom | Toxic emo poet, a sub, nothing positive | ✅ full arc |
 | [[Wyatt]] | Faulty Wiring | Living room | Confused, crossed wires, bisexual ("AC/DC") | ✅ full arc |
 | [[Tyler]] | Pink Tile | Bathroom | Obnoxious, bad taste, outdated on gender, pink is masculine | ✅ full arc |

@@ -2,9 +2,9 @@
     "id": "podcast",
     "kind": "podcast",
     "name": "Creaky Floorboards",
-    "tagline": "Two retired ladies. One microphone. Zero correct answers.",
-    "speakers": [ "Bev", "Trish", "Mr. Giggles" ],
-    "notes": "One episode plays between each week of Lukey's story (~30 seconds read aloud, ~85 words). Lines are 'Speaker: text'; *...* lines are sound cues.",
+    "tagline": "Two retired ladies. One microphone. Zero correct answers (until episode 3).",
+    "speakers": [ "Bev", "Trish" ],
+    "notes": "One episode plays between each week of Lukey's story (~30 seconds read aloud, ~80 words). Episode 3 is the reveal that sets up Lukey's Act 4. Lines are 'Speaker: text'; *...* lines are sound cues.",
     "entries": [
         { "if": "lukey.fixed", "node": "ep4" },
         { "if": "lukey.visits >= 3", "node": "ep3" },
@@ -13,65 +13,71 @@
     ],
     "nodes": {
         "ep1": {
-            "title": "Episode 1: The Heartbreak Lane Hauntings",
+            "title": "Episode 1: The Catfish of Heartbreak Lane",
             "lines": [
                 "*Theme music: a creaky door, then a kazoo.*",
                 "Bev: Welcome back to Creaky Floorboards! I'm Bev.",
-                "Trish: And I'm Trish. We investigate the mysteries the police were too busy to care about.",
-                "Bev: This week: 12 Heartbreak Lane. Condemned! Leaky! And some young flipper just bought it.",
-                "Trish: Neighbors report dripping sounds. At night. In a PATTERN.",
-                "Bev: My theory? A mermaid. Lives in the plumbing. Lures homeowners with song.",
-                "Trish: Bev, that's not a theory. That's a Disney movie.",
-                "Bev: Disney based it on SOMETHING, Trish.",
-                "Trish: Next week, we dig into the history of the house. Stay creaky!"
+                "Trish: And I'm Trish. We solve the mysteries the police were too busy to care about.",
+                "Bev: This week: 12 Heartbreak Lane. Condemned. Damp. And some young flipper's just bought it.",
+                "Trish: Neighbors report dripping. At night. Inside the walls.",
+                "Bev: My theory? A catfish. Enormous. Lives in the walls, eats the drywall, comes out at night.",
+                "Trish: Bev, I think SHE'S being catfished. Who's texting her at two in the morning?",
+                "Bev: THE CATFISH, Trish.",
+                "Trish: ...Stay creaky."
             ],
             "end": true
         },
         "ep2": {
-            "title": "Episode 2: Who Was the Man in the Short Shorts?",
+            "title": "Episode 2: Something in the Walls Is Singing",
             "lines": [
                 "*Theme music: a creaky door, then a kazoo.*",
-                "Trish: Big news, listeners. We went to the library.",
-                "Bev: On purpose!",
-                "Trish: Microfiche. 1987. A man died at 12 Heartbreak Lane. A local swim coach.",
-                "Bev: And I found his photo in the town paper. Gorgeous mullet. And the shorts, Trish. The SHORTS.",
-                "Trish: Bev. Focus.",
-                "Bev: I am focused. I am extremely focused on the shorts.",
-                "Trish: The paper just says 'household accident.' Which is exactly what they'd say if it was a mermaid.",
-                "Bev: Thank you! Next week: an exclusive interview with an eyewitness. Stay creaky!"
+                "Trish: Update, listeners. We interviewed the next-door neighbor, Mrs. Pruitt.",
+                "Bev: Lovely woman. Eighty-two. Nine cats. One crossbow.",
+                "Trish: She says someone's been singing inside the walls of number twelve. At night. Bon Jovi.",
+                "Bev: That's the catfish.",
+                "Trish: Catfish don't sing, Bev.",
+                "Bev: Not with THAT attitude.",
+                "Trish: Mrs. Pruitt describes the singer as 'very flat, but very confident.'",
+                "Bev: Classic catfish.",
+                "Trish: She also says her bathwater keeps going cold. 'Like someone's in it with me.'",
+                "Bev: Trish, that's either a catfish or a very forward plumber.",
+                "Trish: Next week we go to the library. On purpose. Stay creaky!"
             ],
             "end": true
         },
         "ep3": {
-            "title": "Episode 3: The Birthday Party Mystery",
+            "title": "Episode 3: We Went to the Library",
             "lines": [
-                "*Theme music: a creaky door, then a kazoo.*",
-                "Bev: This week, an exclusive. We tracked down a guest from that fateful party in 1987.",
-                "Trish: A professional entertainer. Please welcome... Mr. Giggles.",
-                "Mr. Giggles: *honk honk* Hi, ladies.",
-                "Bev: Mr. Giggles, what do you remember?",
-                "Mr. Giggles: Nicest dad I ever worked a party for. Terrible with a wrench. Sink starts leaking, he goes 'Two seconds, buddy!' and dives under there. And that was that.",
-                "Mr. Giggles: Kid blew out his candles anyway. Brave little guy.",
-                "Trish: That's... actually really sad, Mr. Giggles.",
-                "Mr. Giggles: Also, he owed me twenty bucks.",
-                "Bev: Next week, we SOLVE it. Stay creaky."
+                "*Theme music: a creaky door, then a kazoo. Then, unusually, silence.*",
+                "Bev: Listeners. We went to the library.",
+                "Trish: We touched MICROFICHE, Bev.",
+                "Bev: And Trish found it. The local paper, 1987.",
+                "Trish: 'Local aerobics instructor Luke Moretti, 34, died while attempting to repair a sink on a first date.'",
+                "Bev: On a first DATE.",
+                "Trish: His date, a Brenda, told police he'd said he was 'great with his hands.'",
+                "Bev: Oh, Trish. That's tragic.",
+                "Trish: It is tragic.",
+                "Bev: A man died trying to impress a woman with his DIY. That's every man I've ever dated, Trish.",
+                "Trish: Most of them lived, Bev.",
+                "Bev: ...So no catfish?",
+                "Trish: No catfish, Bev. Stay creaky."
             ],
             "end": true
         },
         "ep4": {
-            "title": "Episode 4: Solved?!",
+            "title": "Episode 4: Case Closed (Mostly)",
             "lines": [
-                "*Theme music: a creaky door, a kazoo, and this week, a dramatic gong.*",
-                "Trish: Listeners, we're LIVE from the front porch of 12 Heartbreak Lane. And we have solved the case.",
-                "Bev: It was the mob.",
-                "Trish: It was the MOB.",
-                "Bev: Think about it. A plumber's wrench? Classic mob weapon.",
-                "Trish: And Mr. Giggles? Clearly an informant. That honk was code.",
-                "Bev: The new owner just laughed and said the house 'passed inspection.' Which is EXACTLY what the mob would want us to—",
-                "*CRASH. A coffee mug slides off the porch railing and lands directly on the microphone.*",
-                "Bev: ...Trish, did you knock that over?",
-                "Trish: I didn't touch it.",
-                "Bev: ...Stay creaky, everybody."
+                "*Theme music: a creaky door, a kazoo and, this week, a celebratory gong.*",
+                "Trish: We're LIVE from the front porch of 12 Heartbreak Lane. Case closed.",
+                "Bev: Mostly closed. I still think there's a catfish.",
+                "Trish: The new owner fixed every leak in the house. It passed inspection.",
+                "Bev: We asked her about Luke Moretti. She said, and I quote, 'It's complicated.'",
+                "Trish: Which, frankly, is the most romantic thing anyone's ever said about plumbing.",
+                "Bev: Also Dan the inspector says his shoes have been dry for a whole week, and he's never been so sad.",
+                "Trish: Final thoughts, Bev?",
+                "Bev: Never trust a man who says he's great with his hands.",
+                "*SPLASH. A bucket of water tips off the porch railing and soaks Bev completely.*",
+                "Trish: ...Stay creaky, everybody."
             ],
             "end": true
         }
