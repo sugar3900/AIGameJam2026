@@ -34,6 +34,8 @@ public:
 	const FHunkDefinition* FindHunk(const FString& HunkId) const { return Hunks.Find(HunkId); }
 	const TMap<FString, FHunkDefinition>& GetAllHunks() const { return Hunks; }
 	const FHunkDefinition* FindHunkForRoom(const FString& RoomId) const;
+	/** Number of love interests (kind == "hunk"), excluding podcast / epilogue scripts. */
+	int32 CountStoryHunks() const;
 
 	// ---- Conversation -----------------------------------------------------
 

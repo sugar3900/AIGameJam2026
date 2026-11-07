@@ -103,7 +103,7 @@ def validate(path, hunk_ids):
         if nid not in seen:
             warns.append(f"{nid}: unreachable")
     missing = ENDINGS - set(d.get("endings", {}))
-    if missing:
+    if missing and d.get("kind", "hunk") == "hunk":
         warns.append(f"missing ending cards: {sorted(missing)}")
     return hid, errs, warns, len(nodes), sum(len(" ".join(n.get("lines", [])).split()) for n in nodes.values())
 
