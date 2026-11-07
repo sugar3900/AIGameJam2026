@@ -53,12 +53,14 @@ Tools/
   Editor/build_apartment.py   Builds the whole apartment level from code (run in editor)
   run_in_editor.py            Runs a Python file inside the open editor (remote execution)
   validate_dialogue.py        Lints dialogue JSON - run before committing story changes
+  StoryWriter/                Twine-style dialogue editor + previewer (Avalonia / .NET 10)
   render_svg.swift + Art/     SVG -> PNG for UI icons (macOS)
 docs/                         Obsidian vault: planning, GDD, tech notes, devlog
 ```
 
 ## Working on the game
 
+- **Story Writer:** a Twine-style graph editor + previewer for all the dialogue: `dotnet run --project Tools/StoryWriter` (see [`Tools/StoryWriter/README.md`](Tools/StoryWriter/README.md)).
 - **Writing dialogue:** see [`docs/04 Tech/Dialogue Format.md`](docs/04%20Tech/Dialogue%20Format.md). Edit the JSON, run `python3 Tools/validate_dialogue.py`, then type `FixHim.ReloadDialogue` in the game console.
 - **Changing the apartment:** edit `Tools/Editor/build_apartment.py`, then run `python3 Tools/run_in_editor.py Tools/Editor/build_apartment.py` with the editor open. The level is rebuilt from scratch, so don't hand-edit `L_Apartment`; change the script instead.
 - **Tuning / asset refs:** *Project Settings > Game > I Can Fix Him*.
