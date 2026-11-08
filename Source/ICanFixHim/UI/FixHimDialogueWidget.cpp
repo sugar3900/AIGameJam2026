@@ -96,17 +96,16 @@ void UFixHimDialogueWidget::BuildUI()
 	MalSlot->SetPadding(FMargin(12.f, 0.f));
 	MalSlot->SetSize(FSlateChildSize(ESlateSizeRule::Fill));
 
-	// Meters (right of header)
-	UVerticalBox* Meters = WidgetTree->ConstructWidget<UVerticalBox>();
+	// Meters: one horizontal row at the right end of the header, each a label then its bar.
+	UHorizontalBox* Meters = WidgetTree->ConstructWidget<UHorizontalBox>();
 	auto AddMeter = [&](const FString& Label, const FLinearColor& Color) -> UProgressBar*
 	{
 		UHorizontalBox* M = WidgetTree->ConstructWidget<UHorizontalBox>();
-		USizeBox* LB = WidgetTree->ConstructWidget<USizeBox>();
-		LB->SetWidthOverride(138.f);
-		LB->AddChild(MakeText(WidgetTree, Label, 18, PlumSoft, TEXT("Bold")));
-		M->AddChildToHorizontalBox(LB)->SetVerticalAlignment(VAlign_Center);
+		UHorizontalBoxSlot* LabelSlot = M->AddChildToHorizontalBox(MakeText(WidgetTree, Label, 18, PlumSoft, TEXT("Bold")));
+		LabelSlot->SetVerticalAlignment(VAlign_Center);
+		LabelSlot->SetPadding(FMargin(0.f, 0.f, 14.f, 0.f));
 		USizeBox* BB = WidgetTree->ConstructWidget<USizeBox>();
-		BB->SetWidthOverride(190.f);
+		BB->SetWidthOverride(150.f);
 		BB->SetHeightOverride(16.f);
 		UProgressBar* Bar = WidgetTree->ConstructWidget<UProgressBar>();
 		FProgressBarStyle Style;
@@ -118,7 +117,7 @@ void UFixHimDialogueWidget::BuildUI()
 		Bar->SetPercent(0.f);
 		BB->AddChild(Bar);
 		M->AddChildToHorizontalBox(BB)->SetVerticalAlignment(VAlign_Center);
-		Meters->AddChildToVerticalBox(M)->SetPadding(FMargin(0.f, 3.f));
+		Meters->AddChildToHorizontalBox(M)->SetPadding(FMargin(12.f, 0.f, 0.f, 0.f));
 		return Bar;
 	};
 	RomanceBar = AddMeter(TEXT("ROMANCE"), HotPink);
