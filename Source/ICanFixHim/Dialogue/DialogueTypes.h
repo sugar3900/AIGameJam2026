@@ -52,6 +52,8 @@ struct FDialogueLine
 	FString Text;
 	/** From an inline {fx:name} tag: plays when this line appears (e.g. "hearts"). */
 	FString Fx;
+	/** From inline {sfx:Name} tags (any number): SFX cues played when this line first appears. */
+	TArray<FString> Sfx;
 };
 
 struct FDialogueNode
@@ -72,6 +74,8 @@ struct FDialogueNode
 	 */
 	FString Fx;
 	FString FxText;
+	/** "sfx": "Name" (or an array of names): SFX cues played with the node's first line. */
+	TArray<FString> Sfx;
 	/** "return": true - when this node's lines run out (and it has no choices), resume the line an aside topic was clicked on. */
 	bool bReturn = false;
 };
@@ -165,6 +169,11 @@ struct FDialogueView
 	TArray<FString> ActiveTopics;
 	FString Fx;
 	FString FxText;
+	/**
+	 * SFX cues for this line (node "sfx" on line 0, then the line's {sfx:Name} tags). Played by the dialogue
+	 * subsystem when the view is broadcast; empty when bIsReturn.
+	 */
+	TArray<FString> Sfx;
 	bool bIsLastLine = false;
 	bool bWillEnd = false;
 	/**

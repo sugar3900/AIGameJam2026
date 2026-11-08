@@ -12,7 +12,7 @@ Each hunk is one JSON file in `Content/ICanFixHim/Data/Dialogue/<id>.json`. The 
 python3 Tools/validate_dialogue.py
 ```
 
-It checks broken `goto`s, `[topics]` with no handler, bad conditions, unknown stats, unknown `fx` names (node and inline), dead ends, unreachable nodes, and aside chains that can never reach a `"return": true` node.
+It checks broken `goto`s, `[topics]` with no handler, bad conditions, unknown stats, unknown `fx` names (node and inline), unknown `sfx` cues (node and inline, checked against `Art Source/Audio/SFX`), dead ends, unreachable nodes, and aside chains that can never reach a `"return": true` node.
 
 ## File shape
 
@@ -61,6 +61,7 @@ Add `"counts": false` to an entry for conversations that shouldn't advance the s
 | `ending` | `romance_success`, `romance_failure`, `friend_success`, `friend_failure` or `auto`. Ends the conversation, **repairs the malady** and shows the ending card. `auto` picks from stats. |
 | `return` | `true` marks the last node of an aside: when its lines run out (and it has no choices) the conversation resumes the line the aside was clicked on. |
 | `fx` | `"fade"` (fade to black with `fxText`) or `"hearts"`. Plays when the node is entered. Lines can also carry their own inline `{fx:name}` tag (see **Effects (`fx`)**). |
+| `sfx` | A sound cue name (or a list of names) played with the node's first line. Lines can also carry inline `{sfx:Name}` tags (see **Sound cues (`sfx`)**). |
 
 ### Asides (one-off clickable detours)
 A normal topic is a one-way divert: clicking `[pipes]` leaves the current node for good. An **aside** comes back:
@@ -94,6 +95,27 @@ Node-level `"fx": "name"` plays on the node's first line; an inline tag `{fx:nam
 |---|---|
 | `fade` | Fade to black showing the node's `fxText` (`...` if none). |
 | `hearts` | Hearts burst. |
+
+### Sound cues (`sfx`)
+Play a one-shot sound effect when a line appears. Write `{sfx:Name}` anywhere in a line (it is stripped from the text, like `{fx:...}`), as many as you like; a node-level `"sfx": "Name"` (or `"sfx": ["Name", "Other"]`) plays with the node's first line, before that line's own tags.
+
+```json
+"v3_storm": {
+  "sfx": "Thunder",
+  "lines": [
+    "*{sfx:Rain} Rain hammers the window.*",
+    "*{sfx:Zap}{sfx:PowerDown} The lights die.*",
+    "You: Malcolm?"
+  ],
+  "goto": "v3_dark"
+}
+```
+
+- Cues play once, when the line **first** appears. A line re-shown after an aside or a hypertext tangent does not replay them (same rule as `fx` and voice-over).
+- `Name` is a cue from the SFX library: cue `Foo` is any `SFX_Foo.wav` or `SFX_Foo_1.wav`, `SFX_Foo_2.wav`... in `Art Source/Audio/SFX` (numbered files are random variants). Names are case-sensitive in the validator; the list is in [[Audio Direction]] and `python3 -c "import sys; sys.path.insert(0,'Tools'); import validate_dialogue as v; print(sorted(v.SFX))"` prints it.
+- The validator reports unknown cue names (with a "did you mean" for case typos) and any other `{...}` tag it doesn't recognise. In game, `Sfx.Test <Name>` in the console plays a cue.
+- New cues: add a WAV to `Art Source/Audio/SFX` (recorded, or a recipe in `Tools/Audio/generate_sfx.py`), then run `Tools/Editor/import_sfx.py` in the editor.
+- Tags are stripped before voice-over generation, so adding or moving a tag does not change the spoken text.
 
 Text substitutions: `{player}` (the name the player typed at New Game; "Rosie" if none) and `{name}` (the hunk).
 
@@ -156,7 +178,7 @@ A line is voiced if a sound wave named `VO_<file id>_<node id>_<line index>` exi
 - **Editing a voiced line:** re-run `Tools/Audio/generate_vo.py`, then `Tools/Editor/import_vo.py`. Only changed lines regenerate.
 - **Inserting or removing lines mid-node shifts the indices,** so re-run the generator after any edit to a voiced node.
 - **Asides:** lines inside an aside node are voiced like any other. When the aside returns, the line it came from is shown again but not replayed.
-- Inline `{fx:name}` tags are stripped before the line is spoken.
+- Inline `{fx:name}` and `{sfx:Name}` tags are stripped before the line is spoken.
 
 `You:` lines and `*narration*` are never voiced. See [[Voice Casting]].
 

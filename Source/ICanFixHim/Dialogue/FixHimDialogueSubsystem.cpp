@@ -4,6 +4,7 @@
 #include "Dialogue/DialogueCondition.h"
 #include "Core/FixHimSaveSubsystem.h"
 #include "Core/FixHimSettings.h"
+#include "Audio/FixHimSfxSubsystem.h"
 #include "ICanFixHim.h"
 #include "Dom/JsonObject.h"
 #include "Serialization/JsonReader.h"
@@ -83,22 +84,29 @@ namespace
 		FDialogueLine Line;
 		FString Text = Raw.TrimStartAndEnd();
 
-		// Inline effect tags: "{fx:flicker}" anywhere in the line. Stripped from the text.
-		int32 TagStart = INDEX_NONE;
-		while ((TagStart = Text.Find(TEXT("{fx:"))) != INDEX_NONE)
+		// Inline tags anywhere in the line, stripped from the text: "{fx:flicker}" (one presentation effect, the last
+		// one wins) and "{sfx:Thunder}" (any number of SFX cues, played when the line first appears).
+		auto StripTags = [&Text](const TCHAR* Prefix, TFunctionRef<void(const FString&)> OnTag)
 		{
-			const int32 TagEnd = Text.Find(TEXT("}"), ESearchCase::CaseSensitive, ESearchDir::FromStart, TagStart);
-			if (TagEnd == INDEX_NONE)
+			const int32 PrefixLen = FCString::Strlen(Prefix);
+			int32 TagStart = INDEX_NONE;
+			while ((TagStart = Text.Find(Prefix)) != INDEX_NONE)
 			{
-				break;
+				const int32 TagEnd = Text.Find(TEXT("}"), ESearchCase::CaseSensitive, ESearchDir::FromStart, TagStart);
+				if (TagEnd == INDEX_NONE)
+				{
+					break;
+				}
+				OnTag(Text.Mid(TagStart + PrefixLen, TagEnd - TagStart - PrefixLen).TrimStartAndEnd());
+				Text = (Text.Left(TagStart) + Text.Mid(TagEnd + 1)).TrimStartAndEnd();
+				Text.ReplaceInline(TEXT("  "), TEXT(" "));
+				// "*{fx:flicker} The lights...*" -> "*The lights...*"
+				if (Text.StartsWith(TEXT("* "))) { Text = TEXT("*") + Text.RightChop(2); }
+				if (Text.EndsWith(TEXT(" *"))) { Text = Text.LeftChop(2) + TEXT("*"); }
 			}
-			Line.Fx = Text.Mid(TagStart + 4, TagEnd - TagStart - 4).TrimStartAndEnd().ToLower();
-			Text = (Text.Left(TagStart) + Text.Mid(TagEnd + 1)).TrimStartAndEnd();
-			Text.ReplaceInline(TEXT("  "), TEXT(" "));
-			// "*{fx:flicker} The lights...*" -> "*The lights...*"
-			if (Text.StartsWith(TEXT("* "))) { Text = TEXT("*") + Text.RightChop(2); }
-			if (Text.EndsWith(TEXT(" *"))) { Text = Text.LeftChop(2) + TEXT("*"); }
-		}
+		};
+		StripTags(TEXT("{fx:"), [&Line](const FString& Tag) { Line.Fx = Tag.ToLower(); });
+		StripTags(TEXT("{sfx:"), [&Line](const FString& Tag) { if (!Tag.IsEmpty()) { Line.Sfx.Add(Tag); } });
 		if (Text.StartsWith(TEXT("You:"), ESearchCase::IgnoreCase))
 		{
 			Line.Speaker = EDialogueSpeaker::Player;
@@ -388,6 +396,26 @@ bool UFixHimDialogueSubsystem::LoadHunkFile(const FString& Path)
 			NO->TryGetStringField(TEXT("ending"), Node.Ending);
 			NO->TryGetStringField(TEXT("fx"), Node.Fx);
 			NO->TryGetStringField(TEXT("fxText"), Node.FxText);
+			{
+				// "sfx": "Name" or "sfx": ["Name", "Other"]
+				FString OneSfx;
+				const TArray<TSharedPtr<FJsonValue>>* SfxArray = nullptr;
+				if (NO->TryGetStringField(TEXT("sfx"), OneSfx) && !OneSfx.TrimStartAndEnd().IsEmpty())
+				{
+					Node.Sfx.Add(OneSfx.TrimStartAndEnd());
+				}
+				else if (NO->TryGetArrayField(TEXT("sfx"), SfxArray))
+				{
+					for (const TSharedPtr<FJsonValue>& V : *SfxArray)
+					{
+						const FString Name = V.IsValid() ? V->AsString().TrimStartAndEnd() : FString();
+						if (!Name.IsEmpty())
+						{
+							Node.Sfx.Add(Name);
+						}
+					}
+				}
+			}
 			NO->TryGetBoolField(TEXT("return"), Node.bReturn);
 			if (!Node.Ending.IsEmpty())
 			{
@@ -1007,6 +1035,14 @@ void UFixHimDialogueSubsystem::RebuildView(bool bIsReturn)
 	{
 		View.Fx = Line.Fx;
 	}
+	if (!bIsReturn)
+	{
+		if (LineIndex == 0)
+		{
+			View.Sfx = Node->Sfx;
+		}
+		View.Sfx.Append(Line.Sfx);
+	}
 
 	if (!InTangent())
 	{
@@ -1025,6 +1061,15 @@ void UFixHimDialogueSubsystem::RebuildView(bool bIsReturn)
 	}
 	View.bWillEnd = View.bIsLastLine && !InTangent() && View.Choices.IsEmpty()
 		&& (Node->bReturn ? ReturnStack.IsEmpty() : (Node->bEnd || Node->Goto.IsEmpty()));
+
+	// Sound cues play once, when the line first appears (never when it's re-shown after an aside or tangent).
+	if (UFixHimSfxSubsystem* Sfx = GetGameInstance()->GetSubsystem<UFixHimSfxSubsystem>())
+	{
+		for (const FString& Cue : View.Sfx)
+		{
+			Sfx->Play2D(FName(*Cue), 1.f, 0.f);
+		}
+	}
 
 	OnView.Broadcast(View);
 }

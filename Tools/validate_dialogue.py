@@ -17,6 +17,31 @@ ENDINGS = {"romance_success", "romance_failure", "friend_success", "friend_failu
 STATS = {"romance", "friendship", "friction"}
 # Node "fx" values and inline {fx:name} tags (played by UFixHimDialogueWidget).
 FX = {"fade", "hearts"}
+# Sound cues for node "sfx" and inline {sfx:Name} tags: cue "Foo" is any Art Source/Audio/SFX/SFX_Foo[_N].wav
+# (imported to /Game/ICanFixHim/Audio/SFX by Tools/Editor/import_sfx.py).
+SFX_DIR = os.path.join(ROOT, "Art Source", "Audio", "SFX")
+
+
+def sfx_cues():
+    cues = set()
+    for f in glob.glob(os.path.join(SFX_DIR, "SFX_*.wav")):
+        m = re.match(r"SFX_(.+?)(?:_\d+)?\.wav$", os.path.basename(f))
+        if m:
+            cues.add(m.group(1))
+    return cues
+
+
+SFX = sfx_cues()
+SFX_LOWER = {c.lower(): c for c in SFX}
+
+
+def check_sfx(where, name, errs):
+    name = (name or "").strip()
+    if not name:
+        errs.append(f"{where}: empty sfx cue")
+    elif name not in SFX:
+        hint = f" (did you mean '{SFX_LOWER[name.lower()]}'?)" if name.lower() in SFX_LOWER else ""
+        errs.append(f"{where}: unknown sfx cue '{name}'{hint}; cues are SFX_<Name>[_N].wav in Art Source/Audio/SFX")
 COND_TOKEN = re.compile(r"\s*(\|\||&&|==|!=|>=|<=|[<>()!+-]|\d+|[A-Za-z_][A-Za-z0-9_.]*)")
 
 
@@ -116,6 +141,18 @@ def validate(path, hunk_ids):
             for tag in re.findall(r"\{fx:([^}]*)\}", line):
                 if tag.strip().lower() not in FX:
                     errs.append(f"{nid}: unknown inline fx '{{fx:{tag}}}' (known: {sorted(FX)})")
+            for tag in re.findall(r"\{sfx:([^}]*)\}", line):
+                check_sfx(f"{nid} inline {{sfx:{tag}}}", tag, errs)
+            for tag in re.findall(r"\{([^}]*)\}", line):
+                if not re.match(r"s?fx:", tag) and tag not in ("player", "name"):
+                    warns.append(f"{nid}: unknown tag '{{{tag}}}' (tags are {{fx:name}}, {{sfx:Name}}, {{player}}, {{name}})")
+        if "sfx" in n:
+            node_sfx = n["sfx"] if isinstance(n["sfx"], list) else [n["sfx"]]
+            for name in node_sfx:
+                if not isinstance(name, str):
+                    errs.append(f"{nid}: \"sfx\" must be a cue name or a list of cue names")
+                else:
+                    check_sfx(f"{nid}.sfx", name, errs)
         topics = {k.lower(): v for k, v in n.get("topics", {}).items()}
         for line in lines:
             for t in topics_in(line):

@@ -48,11 +48,11 @@ VOICES = {
 }
 
 
-FX_TAG = re.compile(r"\{fx:[^}]*\}")
+FX_TAG = re.compile(r"\{s?fx:[^}]*\}")  # {fx:name} and {sfx:Name}
 
 
 def strip_fx(text):
-    """Remove inline {fx:name} effect tags, like ParseLine does before it reads the speaker."""
+    """Remove inline {fx:name} / {sfx:Name} tags, like ParseLine does before it reads the speaker."""
     t = re.sub(r"\s{2,}", " ", FX_TAG.sub("", text)).strip()
     if t.startswith("* "):
         t = "*" + t[2:]
@@ -76,7 +76,7 @@ def speaker_of(raw, speakers):
 
 def speakable(text, hunk_name):
     """Turn a script line into something TTS can read. Returns None if nothing is left to say."""
-    t = FX_TAG.sub(" ", text)                                  # {fx:name} effect tags
+    t = FX_TAG.sub(" ", text)                                  # {fx:name} / {sfx:Name} tags
     t = re.sub(r"\*[^*]*\*", " ", t)                          # inline stage directions
     t = re.sub(r"\[([^\]|]+)\|[^\]]*\]", r"\1", t)            # [shown|topic]
     t = re.sub(r"\[([^\]]+)\]", r"\1", t)                     # [topic]
