@@ -68,8 +68,49 @@ void UFixHimDialogueWidget::BuildUI()
 	Frame->SetBrush(Rounded(Plum, 20.f, HotPink, 4.f));
 	Frame->SetPadding(FMargin(6.f));
 	PortraitSize->AddChild(Frame);
+	UOverlay* PortraitStack = WidgetTree->ConstructWidget<UOverlay>();
+	PortraitStack->SetClipping(EWidgetClipping::ClipToBounds);
+	Frame->SetContent(PortraitStack);
 	Portrait = WidgetTree->ConstructWidget<UImage>();
-	Frame->SetContent(Portrait);
+	{
+		// Overlay slots default to top-left at the image's own size; the avatar must fill the whole frame.
+		UOverlaySlot* PortraitFill = PortraitStack->AddChildToOverlay(Portrait);
+		PortraitFill->SetHorizontalAlignment(HAlign_Fill);
+		PortraitFill->SetVerticalAlignment(VAlign_Fill);
+	}
+
+	// Player's generic silhouette: a head and shoulders on a flat backdrop.
+	UOverlay* Sil = WidgetTree->ConstructWidget<UOverlay>();
+	UBorder* SilBack = WidgetTree->ConstructWidget<UBorder>();
+	SilBack->SetBrush(Rounded(PlumSoft, 0.f));
+	UOverlaySlot* BackFill = Sil->AddChildToOverlay(SilBack);
+	BackFill->SetHorizontalAlignment(HAlign_Fill);
+	BackFill->SetVerticalAlignment(VAlign_Fill);
+	USizeBox* Shoulders = WidgetTree->ConstructWidget<USizeBox>();
+	Shoulders->SetWidthOverride(150.f);
+	Shoulders->SetHeightOverride(120.f);
+	UBorder* ShoulderShape = WidgetTree->ConstructWidget<UBorder>();
+	ShoulderShape->SetBrush(Rounded(Plum, 60.f));
+	Shoulders->AddChild(ShoulderShape);
+	UOverlaySlot* ShoulderSlot = Sil->AddChildToOverlay(Shoulders);
+	ShoulderSlot->SetHorizontalAlignment(HAlign_Center);
+	ShoulderSlot->SetVerticalAlignment(VAlign_Bottom);
+	ShoulderSlot->SetPadding(FMargin(0.f, 0.f, 0.f, -50.f));
+	USizeBox* Head = WidgetTree->ConstructWidget<USizeBox>();
+	Head->SetWidthOverride(70.f);
+	Head->SetHeightOverride(76.f);
+	UBorder* HeadShape = WidgetTree->ConstructWidget<UBorder>();
+	HeadShape->SetBrush(Rounded(Plum, 36.f));
+	Head->AddChild(HeadShape);
+	UOverlaySlot* HeadSlot = Sil->AddChildToOverlay(Head);
+	HeadSlot->SetHorizontalAlignment(HAlign_Center);
+	HeadSlot->SetVerticalAlignment(VAlign_Center);
+	HeadSlot->SetPadding(FMargin(0.f, 0.f, 0.f, 36.f));
+	Sil->SetVisibility(ESlateVisibility::Collapsed);
+	PlayerSilhouette = Sil;
+	UOverlaySlot* SilFill = PortraitStack->AddChildToOverlay(Sil);
+	SilFill->SetHorizontalAlignment(HAlign_Fill);
+	SilFill->SetVerticalAlignment(VAlign_Fill);
 	PortraitBox = PortraitSize;
 	UHorizontalBoxSlot* PortraitSlot = Row->AddChildToHorizontalBox(PortraitSize);
 	PortraitSlot->SetVerticalAlignment(VAlign_Top);
@@ -195,6 +236,7 @@ void UFixHimDialogueWidget::BindScript(const FString& ScriptId, const FString& T
 {
 	ClearFx();
 	HunkId = ScriptId;
+	bHunkBound = false;
 	PortraitBox->SetVisibility(ESlateVisibility::Collapsed);
 	MetersBox->SetVisibility(ESlateVisibility::Collapsed);
 	MaladyText->SetText(FText::FromString(Title));
@@ -204,6 +246,7 @@ void UFixHimDialogueWidget::BindHunk(AFixHimHunk* Hunk, const FString& InHunkId)
 {
 	ClearFx();
 	HunkId = InHunkId;
+	bHunkBound = true;
 	PortraitBox->SetVisibility(ESlateVisibility::HitTestInvisible);
 	MetersBox->SetVisibility(ESlateVisibility::HitTestInvisible);
 	if (!Portrait || !Hunk)
@@ -248,6 +291,15 @@ void UFixHimDialogueWidget::ShowView(const FDialogueView& View)
 	const bool bNarration = View.Speaker == EDialogueSpeaker::Narration;
 	const bool bNamed = View.Speaker == EDialogueSpeaker::Named;
 	NamePill->SetVisibility(bNarration ? ESlateVisibility::Hidden : ESlateVisibility::HitTestInvisible);
+	// The malady is the hunk's tag line: not shown while the player or the narrator is the one talking.
+	MaladyText->SetVisibility(bPlayer || bNarration ? ESlateVisibility::Hidden : ESlateVisibility::HitTestInvisible);
+	if (bHunkBound)
+	{
+		// Narrator: no avatar box, but it keeps its space so the text does not shift left. Player: generic silhouette.
+		PortraitBox->SetVisibility(bNarration ? ESlateVisibility::Hidden : ESlateVisibility::HitTestInvisible);
+		PlayerSilhouette->SetVisibility(bPlayer ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
+		Portrait->SetVisibility(bPlayer ? ESlateVisibility::Collapsed : ESlateVisibility::HitTestInvisible);
+	}
 	NamePill->SetBrush(Rounded(bPlayer ? Plum : (bNamed ? PlumSoft : HotPink), 16.f));
 	const UFixHimSaveSubsystem* SaveSub = UFixHimSaveSubsystem::Get(this);
 	const FString PlayerName = SaveSub ? SaveSub->GetPlayerName() : UFixHimSettings::Get()->PlayerName;

@@ -36,8 +36,9 @@ AFixHimHunk::AFixHimHunk()
 	PortraitCapture = CreateDefaultSubobject<USceneCaptureComponent2D>(TEXT("PortraitCapture"));
 	PortraitCapture->SetupAttachment(GetCapsuleComponent());
 	// Close on the face, looking back at it. Mannequin head sits ~70cm above capsule centre.
-	PortraitCapture->SetRelativeLocation(FVector(86.f, 6.f, 73.f));
-	PortraitCapture->SetRelativeRotation(FRotator(-3.f, 184.f, 0.f));
+	// Slightly below eye level, tilted up at it, for a flattering heroic angle.
+	PortraitCapture->SetRelativeLocation(FVector(86.f, 6.f, 64.f));
+	PortraitCapture->SetRelativeRotation(FRotator(5.f, 184.f, 0.f));
 	PortraitCapture->FOVAngle = 26.f;
 	PortraitCapture->bCaptureEveryFrame = false;
 	PortraitCapture->bCaptureOnMovement = false;
