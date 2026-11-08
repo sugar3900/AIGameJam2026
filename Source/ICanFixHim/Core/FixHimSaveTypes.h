@@ -5,6 +5,9 @@
 #include "CoreMinimal.h"
 #include "FixHimSaveTypes.generated.h"
 
+/** Relationship stats are clamped to 0..StatMax; the dialogue meters fill at StatMax. */
+inline constexpr int32 FixHimStatMax = 20;
+
 /** The three relationship axes every hunk tracks. */
 UENUM(BlueprintType)
 enum class ERelationshipAxis : uint8
@@ -37,6 +40,9 @@ struct FHunkProgress
 	UPROPERTY(BlueprintReadOnly) FString Ending;
 
 	UPROPERTY(BlueprintReadOnly) TArray<FString> SeenNodes;
+
+	/** Week of the last story conversation (one story beat per hunk per day). */
+	UPROPERTY(BlueprintReadOnly) int32 LastTalkWeek = 0;
 };
 
 USTRUCT(BlueprintType)
@@ -45,6 +51,10 @@ struct FFixHimSaveData
 	GENERATED_BODY()
 
 	UPROPERTY() int32 Version = 1;
+	/** Each playable day is one week: 1-4. 5 = the final inspection has happened. */
+	UPROPERTY() int32 Week = 1;
+	/** The heroine's name, chosen at New Game. Fills {player} in dialogue. */
+	UPROPERTY() FString PlayerName;
 	UPROPERTY() FString SavedAt;
 	UPROPERTY() float PlaySeconds = 0.f;
 

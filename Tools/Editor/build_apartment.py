@@ -450,7 +450,9 @@ def build_bedroom():
     # Bed against the east wall
     prim("Bed_Frame", (350, 985, 18), (170, 210, 36), "WoodDark", f)
     prim("Bed_Mattress", (350, 985, 45), (160, 200, 18), "White", f)
-    prim("Bed_Blanket", (350, 955, 56), (164, 140, 6), "Plum", f, collide=False)
+    # The blanket is the clickable bed: "Go to bed (end the day)".
+    bed = interactable("Bed", (350, 955, 56), 0, "bedroom", CUBE, (0, 0, 0), (164, 140, 6), "Plum",
+                       unreal.InteractToggle.NONE, "Go to bed", "Go to bed", cls=unreal.FixHimBed)
     prim("Bed_Headboard", (350, 1086, 65), (175, 8, 130), "WoodDark", f)
     for i, dx in enumerate((-38, 38)):
         prim(f"Bed_Pillow{i}", (350 + dx, 1055, 60), (62, 30, 14), "Lilac", f, collide=False)

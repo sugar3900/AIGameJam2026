@@ -23,6 +23,7 @@
         { "if": "fixed && ending_romance_failure", "node": "after_rf" },
         { "if": "fixed && ending_friend_success", "node": "after_fs" },
         { "if": "fixed", "node": "after_ff" },
+        { "if": "talkedtoday", "node": "today", "counts": false },
         { "if": "visits == 0", "node": "v1" },
         { "if": "visits == 1", "node": "v2" },
         { "if": "visits == 2", "node": "v3" },
@@ -309,6 +310,13 @@
             "ending": "auto"
         },
 
+        "today": {
+            "lines": [
+                "Twice in one day? Darling, I'm flattered, but a tile needs time to set.",
+                "Come back next week. I'll be freshly buffed."
+            ],
+            "end": true
+        },
         "after_rs": {
             "lines": [ "Darling! You're back. I've had the grout touched up in your honor. Look at it. LOOK at it." ],
             "end": true

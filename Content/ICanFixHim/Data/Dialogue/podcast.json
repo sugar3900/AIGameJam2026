@@ -2,14 +2,34 @@
     "id": "podcast",
     "kind": "podcast",
     "name": "Creaky Floorboards",
-    "tagline": "Two retired ladies. One microphone. Zero correct answers (until episode 3).",
-    "speakers": [ "Bev", "Trish" ],
-    "notes": "One episode plays between each week of Lukey's story (~30 seconds read aloud, ~80 words). Episode 3 is the reveal that sets up Lukey's Act 4. Lines are 'Speaker: text'; *...* lines are sound cues.",
+    "tagline": "Two retired ladies. One microphone. Zero correct answers (until week four).",
+    "speakers": [
+        "Bev",
+        "Trish",
+        "Dan"
+    ],
+    "notes": "Plays automatically on the radio at the start of each day (week 1-4) while the player explores; nobody can be talked to until it ends. ep5 plays after the final inspection if the house passed. Lines are 'Speaker: text'; *...* lines are sound cues. Each episode is ~30 seconds.",
     "entries": [
-        { "if": "lukey.fixed", "node": "ep4" },
-        { "if": "lukey.visits >= 3", "node": "ep3" },
-        { "if": "lukey.visits == 2", "node": "ep2" },
-        { "if": "true", "node": "ep1" }
+        {
+            "if": "week >= 5",
+            "node": "ep5"
+        },
+        {
+            "if": "week == 4",
+            "node": "ep4"
+        },
+        {
+            "if": "week == 3",
+            "node": "ep3"
+        },
+        {
+            "if": "week == 2",
+            "node": "ep2"
+        },
+        {
+            "if": "true",
+            "node": "ep1"
+        }
     ],
     "nodes": {
         "ep1": {
@@ -46,7 +66,23 @@
             "end": true
         },
         "ep3": {
-            "title": "Episode 3: We Went to the Library",
+            "title": "Episode 3: The Inspector",
+            "lines": [
+                "*Theme music: a creaky door, then a kazoo.*",
+                "Trish: This week, an exclusive. City building inspector Dan has agreed to talk to us.",
+                "Dan: Happy to be here, ladies. Big fan. I listen while I inspect. It's very soothing.",
+                "Bev: Dan. 12 Heartbreak Lane. Haunted? Yes or no.",
+                "Dan: The only thing haunting that house is its water pressure.",
+                "Trish: Is it true you asked the new owner out for coffee?",
+                "Dan: To discuss PERMITS. ...And then my shoes filled up with water. Both of them. On a dry day.",
+                "Bev: That's the catfish, Dan.",
+                "Dan: Also, there's a big storm forecast for next weekend. Batten down the hatches.",
+                "Trish: Next week: the library. Stay creaky!"
+            ],
+            "end": true
+        },
+        "ep4": {
+            "title": "Episode 4: We Went to the Library",
             "lines": [
                 "*Theme music: a creaky door, then a kazoo. Then, unusually, silence.*",
                 "Bev: Listeners. We went to the library.",
@@ -64,8 +100,8 @@
             ],
             "end": true
         },
-        "ep4": {
-            "title": "Episode 4: Case Closed (Mostly)",
+        "ep5": {
+            "title": "Episode 5: Case Closed (Mostly)",
             "lines": [
                 "*Theme music: a creaky door, a kazoo and, this week, a celebratory gong.*",
                 "Trish: We're LIVE from the front porch of 12 Heartbreak Lane. Case closed.",

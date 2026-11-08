@@ -277,6 +277,7 @@ bool UFixHimDialogueSubsystem::LoadHunkFile(const FString& Path)
 			FDialogueEntry Entry;
 			EO->TryGetStringField(TEXT("if"), Entry.Condition);
 			EO->TryGetStringField(TEXT("node"), Entry.Node);
+			EO->TryGetBoolField(TEXT("counts"), Entry.bCounts);
 			Def.Entries.Add(Entry);
 		}
 	}
@@ -497,6 +498,10 @@ int32 UFixHimDialogueSubsystem::ResolveVariable(const FString& HunkId, const FSt
 	{
 		return Save->CountFixed();
 	}
+	if (Identifier == TEXT("week"))
+	{
+		return Save->Data().Week;
+	}
 
 	const FHunkProgress* P = Save->FindHunk(Scope);
 	if (!P)
@@ -509,6 +514,7 @@ int32 UFixHimDialogueSubsystem::ResolveVariable(const FString& HunkId, const FSt
 	if (Name == TEXT("visits")) { return P->Visits; }
 	if (Name == TEXT("met")) { return P->bMet ? 1 : 0; }
 	if (Name == TEXT("fixed")) { return P->bFixed ? 1 : 0; }
+	if (Name == TEXT("talkedtoday")) { return P->LastTalkWeek == Save->Data().Week ? 1 : 0; }
 	if (Name.StartsWith(TEXT("ending_"))) { return P->Ending == Name.RightChop(7) ? 1 : 0; }
 	return 0;
 }
@@ -516,6 +522,23 @@ int32 UFixHimDialogueSubsystem::ResolveVariable(const FString& HunkId, const FSt
 bool UFixHimDialogueSubsystem::IsTrue(const FString& Condition) const
 {
 	return FixHim::Condition::IsTrue(Condition, [this](const FString& Ident) { return ResolveVariable(ActiveHunkId, Ident); });
+}
+
+const FDialogueNode* UFixHimDialogueSubsystem::ResolveEntryNode(const FString& DefinitionId) const
+{
+	const FHunkDefinition* Def = FindHunk(DefinitionId);
+	if (!Def)
+	{
+		return nullptr;
+	}
+	for (const FDialogueEntry& Entry : Def->Entries)
+	{
+		if (FixHim::Condition::IsTrue(Entry.Condition, [this, &DefinitionId](const FString& Ident) { return ResolveVariable(DefinitionId, Ident); }))
+		{
+			return Def->FindNode(Entry.Node);
+		}
+	}
+	return nullptr;
 }
 
 FString UFixHimDialogueSubsystem::ResolveAutoEnding(const FString& HunkId) const
@@ -548,11 +571,13 @@ bool UFixHimDialogueSubsystem::StartConversation(const FString& HunkId)
 	JumpsWithoutLines = 0;
 
 	FString StartNode;
+	bCountVisit = true;
 	for (const FDialogueEntry& Entry : Def->Entries)
 	{
 		if (IsTrue(Entry.Condition))
 		{
 			StartNode = Entry.Node;
+			bCountVisit = Entry.bCounts;
 			break;
 		}
 	}
@@ -712,7 +737,11 @@ void UFixHimDialogueSubsystem::FinishConversation()
 	if (UFixHimSaveSubsystem* Save = GetGameInstance()->GetSubsystem<UFixHimSaveSubsystem>())
 	{
 		FHunkProgress& P = Save->Hunk(HunkId);
-		P.Visits++;
+		if (bCountVisit)
+		{
+			P.Visits++;
+			P.LastTalkWeek = Save->Data().Week;
+		}
 		if (!Ending.IsEmpty())
 		{
 			P.Ending = Ending;
@@ -783,7 +812,8 @@ TArray<int32> UFixHimDialogueSubsystem::GetVisibleChoiceIndices() const
 
 FString UFixHimDialogueSubsystem::Substitute(const FString& In) const
 {
-	FString Out = In.Replace(TEXT("{player}"), *UFixHimSettings::Get()->PlayerName);
+	const UFixHimSaveSubsystem* Save = GetGameInstance()->GetSubsystem<UFixHimSaveSubsystem>();
+	FString Out = In.Replace(TEXT("{player}"), *(Save ? Save->GetPlayerName() : UFixHimSettings::Get()->PlayerName));
 	if (const FHunkDefinition* Def = FindHunk(ActiveHunkId))
 	{
 		Out = Out.Replace(TEXT("{name}"), *Def->Name);

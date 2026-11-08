@@ -45,6 +45,9 @@ public:
 
 	int32 CountFixed() const;
 
+	/** The name the player chose (falls back to the default in project settings). */
+	FString GetPlayerName() const;
+
 	/** Fired before writing so gameplay can stash transient state (player transform, room). */
 	FOnFixHimPreSave OnPreSave;
 	FOnFixHimSaved OnSaved;

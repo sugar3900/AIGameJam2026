@@ -147,6 +147,29 @@ void AFixHimHunk::CapturePortraitNow()
 	}
 }
 
+void AFixHimHunk::CaptureKeepsake(UTextureRenderTarget2D* Target)
+{
+	if (!PortraitCapture || !Target)
+	{
+		return;
+	}
+	UTextureRenderTarget2D* SavedTarget = PortraitCapture->TextureTarget;
+	const FVector SavedLoc = PortraitCapture->GetRelativeLocation();
+	const FRotator SavedRot = PortraitCapture->GetRelativeRotation();
+	const float SavedFov = PortraitCapture->FOVAngle;
+
+	PortraitCapture->TextureTarget = Target;
+	PortraitCapture->SetRelativeLocation(FVector(230.f, 28.f, 52.f));
+	PortraitCapture->SetRelativeRotation(FRotator(-6.f, 187.f, 0.f));
+	PortraitCapture->FOVAngle = 44.f;
+	CapturePortraitNow();
+
+	PortraitCapture->TextureTarget = SavedTarget;
+	PortraitCapture->SetRelativeLocation(SavedLoc);
+	PortraitCapture->SetRelativeRotation(SavedRot);
+	PortraitCapture->FOVAngle = SavedFov;
+}
+
 void AFixHimHunk::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);

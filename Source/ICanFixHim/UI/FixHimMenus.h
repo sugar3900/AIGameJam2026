@@ -26,6 +26,26 @@ private:
 	float Age = 0.f;
 };
 
+/** New Game: "What's your name?" The Move In button is greyed out until something is typed. */
+UCLASS()
+class ICANFIXHIM_API UFixHimNameEntryWidget : public UFixHimWidget
+{
+	GENERATED_BODY()
+
+protected:
+	virtual void BuildUI() override;
+	virtual void NativeConstruct() override;
+
+private:
+	UFUNCTION() void HandleTextChanged(const FText& Text);
+	UFUNCTION() void HandleTextCommitted(const FText& Text, ETextCommit::Type CommitMethod);
+	void Submit();
+	FString CurrentName() const;
+
+	UPROPERTY() TObjectPtr<class UEditableTextBox> NameBox;
+	UPROPERTY() TObjectPtr<UFixHimButton> MoveInButton;
+};
+
 UCLASS()
 class ICANFIXHIM_API UFixHimPauseWidget : public UFixHimWidget
 {

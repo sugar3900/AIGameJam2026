@@ -23,6 +23,11 @@ class UFixHimCreditsWidget;
 class UFixHimFloorPlanWidget;
 class UFixHimIntroCardWidget;
 class UFixHimEndingCardWidget;
+class UFixHimRadioWidget;
+class UFixHimNameEntryWidget;
+class UFixHimTransitionWidget;
+class UFixHimKeepsakeWidget;
+class ADirectionalLight;
 class UUserWidget;
 
 UENUM(BlueprintType)
@@ -36,7 +41,13 @@ enum class EFixHimState : uint8
 	FloorPlan,
 	Paused,
 	Ending,
-	Traveling
+	Traveling,
+	/** Week transition / sleeping. */
+	Sleeping,
+	/** A scripted scene in the dialogue box with no hunk (inspection, epilogue). */
+	Cutscene,
+	/** End-of-game keepsake screen. */
+	Finale
 };
 
 /**
@@ -59,7 +70,11 @@ public:
 	EFixHimState GetState() const { return State; }
 
 	// ---- Menu API (called by widgets) -------------------------------------
+	/** Title "New Game": asks for the heroine's name first. */
 	void StartNewGame();
+	/** Name chosen: wipe progress and start week 1. */
+	void BeginNewGame(const FString& PlayerName);
+	void CancelNameEntry();
 	void ContinueGame();
 	void OpenOptions();
 	void OpenCredits();
@@ -68,6 +83,13 @@ public:
 	void ReturnToMainMenu();
 	void QuitToDesktop();
 	void CloseEndingCard();
+	/** Called by the keepsake screen: wipe the finished save and go back to the title. */
+	void FinishGame();
+
+	// ---- Days ----------------------------------------------------------------
+	/** Bed was clicked. On week 1 you must meet everyone first. On the last week this triggers the finale. */
+	void RequestEndDay();
+	bool IsPodcastPlaying() const { return bPodcastPlaying; }
 
 	// ---- World API ---------------------------------------------------------
 	void BeginEncounter(AFixHimMalady* Malady);
@@ -79,7 +101,8 @@ public:
 	const FString& GetCurrentRoomId() const { return CurrentRoomId; }
 
 	// ---- Debug / automation (console) -------------------------------------
-	UFUNCTION(Exec) void FixHimNewGame();
+	/** Skips the name prompt (automation). */
+	UFUNCTION(Exec) void FixHimNewGame(const FString& PlayerName);
 	UFUNCTION(Exec) void FixHimTalk(const FString& HunkId);
 	UFUNCTION(Exec) void FixHimAdvance(int32 Times = 1);
 	UFUNCTION(Exec) void FixHimChoose(int32 OneBasedIndex);
@@ -89,6 +112,11 @@ public:
 	UFUNCTION(Exec) void FixHimClick();
 	UFUNCTION(Exec) void FixHimPause(bool bPause);
 	UFUNCTION(Exec) void FixHimOptions();
+	UFUNCTION(Exec) void FixHimSleep();
+	UFUNCTION(Exec) void FixHimSkipTime(float Seconds);
+	UFUNCTION(Exec) void FixHimSkipPodcast();
+	UFUNCTION(Exec) void FixHimKeepsake(int32 Index);
+	UFUNCTION(Exec) void FixHimNamePrompt();
 	/** Plays the active conversation to the end, picking choices from a comma list of 1-based indices (default 1). */
 	UFUNCTION(Exec) void FixHimAuto(const FString& Choices);
 	UFUNCTION(Exec) void FixHimGoto(const FString& RoomId);
@@ -116,6 +144,17 @@ private:
 	void ShowWidget(UUserWidget* Widget, int32 ZOrder);
 	void HideWidget(UUserWidget* Widget);
 	void RunNextScriptStep();
+
+	// Days, podcast, scripted scenes, finale
+	void StartDay(bool bFromSave);
+	void StartPodcast();
+	void UpdateDaylight(float DeltaTime);
+	bool HaveMetEveryone() const;
+	void PlaySceneChain(TArray<FString> SceneIds, TFunction<void()> OnDone);
+	void PlayNextScene();
+	void RunFinale();
+	void ShowKeepsake();
+	int32 CurrentWeek() const;
 
 	// Input handlers
 	void OnMove(const FInputActionValue& Value);
@@ -147,6 +186,11 @@ private:
 	UPROPERTY(Transient) TObjectPtr<UFixHimIntroCardWidget> IntroWidget;
 	UPROPERTY(Transient) TObjectPtr<UFixHimEndingCardWidget> EndingWidget;
 	UPROPERTY(Transient) TObjectPtr<UUserWidget> SubMenu;
+	UPROPERTY(Transient) TObjectPtr<UFixHimRadioWidget> RadioWidget;
+	UPROPERTY(Transient) TObjectPtr<UFixHimNameEntryWidget> NameWidget;
+	UPROPERTY(Transient) TObjectPtr<UFixHimTransitionWidget> TransitionWidget;
+	UPROPERTY(Transient) TObjectPtr<UFixHimKeepsakeWidget> KeepsakeWidget;
+	UPROPERTY(Transient) TObjectPtr<ADirectionalLight> Sun;
 
 	UPROPERTY(Transient) TObjectPtr<AFixHimInteractable> Hovered;
 	UPROPERTY(Transient) TObjectPtr<AFixHimMalady> ActiveMalady;
@@ -164,5 +208,15 @@ private:
 	FTimerHandle TravelTimer;
 	FDelegateHandle ViewHandle, EndHandle, StatHandle, SavedHandle, PreSaveHandle;
 	float TitleTime = 0.f;
+
+	float DayElapsed = 0.f;
+	bool bLateToastShown = false;
+	bool bPodcastPlaying = false;
+	FRotator SunBaseRotation = FRotator::ZeroRotator;
+	float SunBaseIntensity = 0.f;
+	FLinearColor SunBaseColor = FLinearColor::White;
+	TArray<FString> SceneQueue;
+	FString ActiveSceneId;
+	TFunction<void()> SceneChainDone;
 	FTransform TitleCameraBase;
 };

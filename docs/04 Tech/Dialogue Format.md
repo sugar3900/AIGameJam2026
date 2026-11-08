@@ -34,10 +34,17 @@ It checks broken `goto`s, `[topics]` with no handler, bad conditions, unknown st
 - `"kind"`: `"hunk"` (default, a love interest with a malady and room) or a story script such as `"podcast"` or `"epilogue"`. Scripts use the same node format but don't count as hunks (repairs counter, floor plan).
 - `"speakers"`: extra names allowed as line prefixes, e.g. `"speakers": ["Bev", "Trish", "Mr. Giggles"]` lets you write `"Bev: Welcome back!"`. The dialogue box shows that name in the name plate.
 
-Current scripts: `podcast.json` (*Creaky Floorboards with Bev & Trish*, one ~30 s episode between each week of Lukey's arc) and `epilogue.json` (Day 30 hearing → final house choice → epilogue per ending; sets `flag.house_choice` 1 = sell, 2 = stay, 3 = demolish).
+- `"kind": "scene"`: a scripted scene played in the dialogue box with no portrait (e.g. `inspection.json`).
+
+Current scripts: `inspection.json` (Dan's final inspection at the end of week 4; `pass` if `lukey.fixed`, otherwise `fail`), `podcast.json` (*Creaky Floorboards with Bev & Trish*, one ~30 s episode between each week of Lukey's arc) and `epilogue.json` (Day 30 hearing → final house choice → epilogue per ending; sets `flag.house_choice` 1 = sell, 2 = stay, 3 = demolish).
 
 ### entries
 Checked top to bottom when you click the glowing fixture; the first matching `if` picks the starting node. This is how story beats per visit work (`visits` counts finished conversations).
+
+Add `"counts": false` to an entry for conversations that shouldn't advance the story or use up the day's beat, e.g. the "come back next week" chatter:
+```json
+{ "if": "talkedtoday", "node": "today", "counts": false }
+```
 
 ### nodes
 
@@ -52,7 +59,7 @@ Checked top to bottom when you click the glowing fixture; the first matching `if
 | `ending` | `romance_success`, `romance_failure`, `friend_success`, `friend_failure` or `auto`. Ends the conversation, **repairs the malady** and shows the ending card. `auto` picks from stats. |
 | `fx` | `"fade"` (fade to black with `fxText`) or `"hearts"`. Plays when the node is entered. |
 
-Text substitutions: `{player}` (Rosie) and `{name}` (the hunk).
+Text substitutions: `{player}` (the name the player typed at New Game; "Rosie" if none) and `{name}` (the hunk).
 
 ### Effects (`do`)
 ```json
@@ -73,6 +80,8 @@ Integer expressions: `! && || == != < <= > >= + - ( )`.
 | `seen.<nodeId>` | 1 if this hunk's node was visited |
 | `flag.<name>` | global flag |
 | `fixedcount` | number of repaired maladies |
+| `week` | current week / playable day (1–4; 5 after the final inspection) |
+| `talkedtoday` | 1 if this hunk already had his story conversation this week |
 
 Example: `"if": "romance >= 4 && friction < 3"`.
 
