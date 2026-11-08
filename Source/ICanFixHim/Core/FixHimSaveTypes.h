@@ -73,9 +73,15 @@ struct FFixHimOptions
 {
 	GENERATED_BODY()
 
+	/** Options file format. 1 (or missing) = before the mouse-sensitivity default doubled; see UFixHimSaveSubsystem::Initialize. */
+	UPROPERTY() int32 Version = CurrentVersion;
+	static constexpr int32 CurrentVersion = 2;
+	/** The default mouse sensitivity (it was 1.0 in options version 1; doubled in version 2). */
+	static constexpr float DefaultMouseSensitivity = 2.f;
+
 	UPROPERTY() float MasterVolume = 1.f;
 	UPROPERTY() float MusicVolume = 0.5f;
-	UPROPERTY() float MouseSensitivity = 1.f;
+	UPROPERTY() float MouseSensitivity = DefaultMouseSensitivity;
 	UPROPERTY() bool bInvertY = false;
 	/** Multiplier on the typewriter speed. 0 = instant. */
 	UPROPERTY() float TextSpeed = 1.f;
