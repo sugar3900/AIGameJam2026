@@ -74,6 +74,7 @@ struct FFixHimOptions
 	GENERATED_BODY()
 
 	UPROPERTY() float MasterVolume = 1.f;
+	UPROPERTY() float MusicVolume = 0.5f;
 	UPROPERTY() float MouseSensitivity = 1.f;
 	UPROPERTY() bool bInvertY = false;
 	/** Multiplier on the typewriter speed. 0 = instant. */

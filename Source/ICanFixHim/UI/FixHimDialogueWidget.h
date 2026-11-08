@@ -102,6 +102,7 @@ private:
 	TArray<FToken> Tokens;
 	FString PlainText;
 	float CharsShown = 0.f;
+	int32 LastTypeTick = 0;
 	bool bTyping = false;
 	float HintBlink = 0.f;
 	FVector2D ViewSize = FVector2D(1920.f, 1080.f);

@@ -91,6 +91,12 @@ bool UFixHimVoiceSubsystem::HasLine(const FString& ScriptId, const FString& Node
 	return Index.Contains(MakeKey(ScriptId, NodeId, LineIndex));
 }
 
+bool UFixHimVoiceSubsystem::IsPlaying() const
+{
+	const UAudioComponent* Comp = Playing.Get();
+	return Comp && Comp->IsPlaying();
+}
+
 void UFixHimVoiceSubsystem::Stop(float FadeSeconds)
 {
 	if (UAudioComponent* Comp = Playing.Get())

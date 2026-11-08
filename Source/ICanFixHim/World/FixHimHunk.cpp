@@ -2,6 +2,7 @@
 
 #include "World/FixHimHunk.h"
 #include "ICanFixHim.h"
+#include "Audio/FixHimSfxSubsystem.h"
 #include "Core/FixHimAssets.h"
 #include "Core/FixHimSettings.h"
 #include "Dialogue/DialogueTypes.h"
@@ -154,6 +155,7 @@ void AFixHimHunk::Appear()
 	}
 	bPresent = true;
 	PopTarget = 1.f;
+	FixHim::SfxAt(this, "HunkPop", GetActorLocation(), 1.f, 0.03f);
 	SetActorHiddenInGame(false);
 	SetActorEnableCollision(true);
 }
@@ -166,6 +168,7 @@ void AFixHimHunk::Disappear()
 	}
 	bPresent = false;
 	PopTarget = 0.f;
+	FixHim::SfxAt(this, "HunkLeave", GetActorLocation(), 1.f, 0.03f);
 	SetActorEnableCollision(false);
 	SetPortraitLive(false);
 }

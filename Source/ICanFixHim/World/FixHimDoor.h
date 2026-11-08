@@ -20,4 +20,5 @@ public:
 
 	virtual void Interact(AFixHimPlayerController* Player) override;
 	virtual FText GetPrompt() const override;
+	virtual FName DefaultInteractSfx(bool bNowOn) const override { return TEXT("DoorKnock"); }
 };

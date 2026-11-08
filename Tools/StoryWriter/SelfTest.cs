@@ -65,7 +65,78 @@ static class SelfTest
 				if (!h.Fixed) failures++;
 			}
 		}
+		failures += AudioChecks(docs);
 		Console.WriteLine(failures == 0 ? "SELFTEST OK" : $"SELFTEST FAILED ({failures})");
 		return failures == 0 ? 0 : 1;
+	}
+
+	/// <summary>Voice-over key rules and music matching, plus a cross-check against the clips already on disk.</summary>
+	static int AudioChecks(List<DialogueDocument> docs)
+	{
+		int failures = 0;
+		void Check(bool ok, string what)
+		{
+			if (ok) return;
+			failures++;
+			Console.WriteLine("AUDIO FAIL: " + what);
+		}
+
+		Check(AudioLibrary.VoiceKey("lukey", "today", 1) == "VO_lukey_today_1", "voice key format");
+		Check(AudioLibrary.IsVoiceable("Hey, sweetheart."), "plain line is voiced");
+		Check(!AudioLibrary.IsVoiceable("*He grins.*"), "narration is not voiced");
+		Check(!AudioLibrary.IsVoiceable("You: Hi."), "player line is not voiced");
+		Check(!AudioLibrary.IsVoiceable("*...* ..."), "line with no words is not voiced");
+
+		var tmp = Path.Combine(Path.GetTempPath(), "storywriter-audio-" + Guid.NewGuid().ToString("N"));
+		try
+		{
+			Directory.CreateDirectory(Path.Combine(tmp, "vo", "lukey"));
+			Directory.CreateDirectory(Path.Combine(tmp, "bgm"));
+			var vo = Path.Combine(tmp, "vo");
+			File.WriteAllBytes(Path.Combine(vo, "lukey", "VO_lukey_today_1.wav"), new byte[44]);
+			Check(AudioLibrary.ResolveVoice(vo, "lukey", "today", 1, "Hey.") != null, "existing clip resolves");
+			Check(AudioLibrary.ResolveVoice(vo, "lukey", "today", 0, "Hey.") == null, "missing clip is null");
+			Check(AudioLibrary.ResolveVoice(vo, "lukey", "today", 1, "*Hey.*") == null, "narration never resolves");
+			Check(AudioLibrary.ResolveVoice(vo, "lukey", "today", 1, "You: Hey.") == null, "player line never resolves");
+			Check(AudioLibrary.ResolveVoice(null, "lukey", "today", 1, "Hey.") == null, "no voice dir is null");
+			foreach (var n in new[] { "BGM_MainMenu.wav", "BGM_Lukey.wav", "BGM_Explore.WAV", "notes.txt" })
+				File.WriteAllBytes(Path.Combine(tmp, "bgm", n), new byte[1]);
+			var tracks = AudioLibrary.ScanMusic(Path.Combine(tmp, "bgm"));
+			Check(tracks.Count == 3, $"scan finds 3 tracks (got {tracks.Count})");
+			Check(AudioLibrary.MatchMusic(tracks, "lukey")?.Name == "Lukey", "BGM_Lukey matches 'lukey'");
+			Check(AudioLibrary.MatchMusic(tracks, "LUKEY")?.Name == "Lukey", "match ignores case");
+			Check(AudioLibrary.MatchMusic(tracks, "main_menu")?.Name == "MainMenu", "match ignores punctuation");
+			Check(AudioLibrary.MatchMusic(tracks, "wyatt") == null, "no track for wyatt");
+			Check(AudioLibrary.ScanMusic(Path.Combine(tmp, "missing")).Count == 0, "missing BGM folder is empty");
+		}
+		finally
+		{
+			Directory.Delete(tmp, true);
+		}
+
+		// Every clip the generator recorded must map back to a spoken line by the same key rules.
+		var voDir = ProjectPaths.VoiceDir();
+		int clips = 0;
+		if (voDir != null && Directory.Exists(voDir))
+		{
+			foreach (var doc in docs)
+			{
+				var dir = Path.Combine(voDir, doc.Id);
+				if (!Directory.Exists(dir)) continue;
+				var expected = new HashSet<string>();
+				foreach (var id in doc.NodeIds)
+				{
+					var lines = Dialogue.Lines(doc.Node(id)!);
+					for (int i = 0; i < lines.Count; i++)
+						if (AudioLibrary.ResolveVoice(voDir, doc.Id, id, i, lines[i]) != null) expected.Add(AudioLibrary.VoiceKey(doc.Id, id, i) + ".wav");
+				}
+				var onDisk = Directory.GetFiles(dir, "*.wav").Select(Path.GetFileName).ToList();
+				clips += onDisk.Count;
+				foreach (var f in onDisk.Where(f => !expected.Contains(f!)))
+					Check(false, $"clip {doc.Id}/{f} has no matching spoken line");
+			}
+		}
+		Console.WriteLine($"audio: {clips} voice clips checked, {AudioLibrary.ScanMusic(ProjectPaths.MusicDir()).Count} music tracks, backend {AudioService.BackendName}");
+		return failures;
 	}
 }

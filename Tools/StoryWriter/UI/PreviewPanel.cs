@@ -30,6 +30,17 @@ public sealed class PreviewPanel : Grid
 	readonly StackPanel _endActions = new() { Orientation = Orientation.Horizontal, Spacing = 8 };
 	readonly Border _overlay = new() { IsVisible = false, Background = new SolidColorBrush(Colors.Black, 0.92) };
 
+	// Audio: the character's loop plays while previewing; the dropdown auditions the other tracks (menu, explore, finale).
+	readonly CheckBox _voiceToggle = new() { Content = "Voice", IsChecked = true, FontSize = 12 };
+	readonly CheckBox _musicToggle = new() { Content = "Music", IsChecked = true, FontSize = 12 };
+	readonly TextBlock _track = Ui.Label("no music", 11, Palette.Muted);
+	readonly ComboBox _auditionBox = new() { FontSize = 11, MinHeight = 0, Padding = new Thickness(6, 1), MinWidth = 120 };
+	const string CharacterMusic = "(character music)";
+	readonly Dictionary<string, MusicTrack> _auditionTracks = new();
+	List<MusicTrack> _tracks = new();
+	MusicTrack? _audition;
+	bool _fillingTracks;
+
 	string? _hunkId;
 	string? _startNode;
 	PreviewState? _snapshot;
@@ -57,7 +68,7 @@ public sealed class PreviewPanel : Grid
 		{
 			Background = Palette.PanelAlt,
 			Padding = new Thickness(14, 10),
-			Child = Ui.Col(4, _title, _subtitle, _meters, _where),
+			Child = Ui.Col(4, _title, _subtitle, _meters, _where, BuildAudioBar()),
 		};
 		Children.Add(header);
 
@@ -91,13 +102,130 @@ public sealed class PreviewPanel : Grid
 		Runner.Warning += (_, n, msg) => AddNote("⚠ " + msg, Palette.Error);
 		Runner.Ended += OnEnded;
 		State.Changed += UpdateMeters;
+		AudioService.Changed += SyncAudioToggles;
+		AudioService.MusicChanged += () => Dispatcher.UIThread.Post(UpdateTrackLabel);
+		DetachedFromVisualTree += (_, _) => StopAudio();
+	}
 
+	// ------------------------------------------------------------ Audio
+
+	Control BuildAudioBar()
+	{
+		_voiceToggle.IsCheckedChanged += (_, _) => AudioService.VoiceEnabled = _voiceToggle.IsChecked == true;
+		_musicToggle.IsCheckedChanged += (_, _) =>
+		{
+			AudioService.MusicEnabled = _musicToggle.IsChecked == true;
+			ApplyMusic();
+		};
+		ToolTip.SetTip(_voiceToggle, "Play the voice-over clip of each spoken line (Art Source/Audio/VO)");
+		ToolTip.SetTip(_musicToggle, "Loop the character's background music while previewing (Art Source/Audio/BGM)");
+		ToolTip.SetTip(_auditionBox, "Audition a track that isn't tied to a character");
+		_auditionBox.SelectionChanged += (_, _) =>
+		{
+			if (_fillingTracks) return;
+			_audition = _auditionBox.SelectedItem is string n && _auditionTracks.TryGetValue(n, out var t) ? t : null;
+			if (_audition == null) AudioService.StopMusic(this);
+			ApplyMusic();
+		};
+		_auditionBox.DropDownOpened += (_, _) => RefreshTracks();
+		if (!AudioService.Available)
+		{
+			foreach (var c in new Control[] { _voiceToggle, _musicToggle, _auditionBox })
+			{
+				c.IsEnabled = false;
+				ToolTip.SetTip(c, AudioService.UnavailableReason);
+				ToolTip.SetShowOnDisabled(c, true);
+			}
+			_voiceToggle.IsChecked = _musicToggle.IsChecked = false;
+		}
+		RefreshTracks();
+		var row = new WrapPanel { Margin = new Thickness(0, 2, 0, 0) };
+		foreach (var c in new Control[] { _voiceToggle, _musicToggle, _auditionBox, _track })
+		{
+			c.Margin = new Thickness(0, 0, 10, 0);
+			row.Children.Add(c);
+		}
+		return row;
+	}
+
+	void SyncAudioToggles()
+	{
+		if (AudioService.Available)
+		{
+			_voiceToggle.IsChecked = AudioService.VoiceEnabled;
+			_musicToggle.IsChecked = AudioService.MusicEnabled;
+		}
+		UpdateTrackLabel();
+	}
+
+	void RefreshTracks()
+	{
+		_tracks = AudioLibrary.ScanMusic(ProjectPaths.MusicDir());
+		_fillingTracks = true;
+		_auditionTracks.Clear();
+		var items = new List<string> { CharacterMusic };
+		// Tracks named after a conversation play with it; the rest (MainMenu, Explore, Finale) are offered here.
+		foreach (var t in _tracks.Where(t => _find(t.Name.ToLowerInvariant()) == null))
+		{
+			items.Add(t.Name);
+			_auditionTracks[t.Name] = t;
+		}
+		_auditionBox.ItemsSource = items;
+		_auditionBox.SelectedItem = _audition != null && _auditionTracks.ContainsKey(_audition.Name) ? _audition.Name : CharacterMusic;
+		_fillingTracks = false;
+		if (_tracks.Count == 0 && AudioService.Available)
+			ToolTip.SetTip(_auditionBox, "No music found in " + ProjectPaths.MusicRelative);
+	}
+
+	/// <summary>Plays the auditioned track, else the loop of the conversation being previewed; stops ours otherwise.</summary>
+	void ApplyMusic()
+	{
+		if (!AudioService.Available || !AudioService.MusicEnabled)
+		{
+			UpdateTrackLabel();
+			return;
+		}
+		var track = _audition ?? (Runner.IsActive ? AudioLibrary.MatchMusic(_tracks, _hunkId) : null);
+		if (track != null) AudioService.PlayMusic(this, track.Path);
+		else AudioService.StopMusic(this);
+		UpdateTrackLabel();
+	}
+
+	void UpdateTrackLabel()
+	{
+		var path = AudioService.CurrentMusic;
+		var playing = path == null ? null : _tracks.FirstOrDefault(t => t.Path == path);
+		_track.Text = !AudioService.Available ? "audio unavailable" : playing != null ? "♪ " + playing.Name : _tracks.Count == 0 ? "no music" : "no music for this conversation";
+		_track.Foreground = playing != null ? Palette.Friendship : Palette.Muted;
+	}
+
+	void StopAudio()
+	{
+		AudioService.StopVoice();
+		AudioService.StopMusic(this);
+	}
+
+	/// <summary>Plays the clip for a freshly shown spoken line (if it has one), stopping whatever played before.</summary>
+	void PlayLineVoice(DialogueView v)
+	{
+		AudioService.StopVoice();
+		if (!AudioService.VoiceEnabled || !AudioService.Available) return;
+		var clip = ClipFor(v);
+		if (clip != null) AudioService.PlayVoice(clip);
+	}
+
+	static string? ClipFor(DialogueView v)
+	{
+		if (!AudioLibrary.IsSpoken(v.Speaker)) return null;
+		var p = AudioLibrary.VoicePath(ProjectPaths.VoiceDir(), v.HunkId, v.NodeId, v.LineIndex);
+		return p != null && File.Exists(p) && AudioLibrary.IsVoiceable(v.Text) ? p : null;
 	}
 
 	// ------------------------------------------------------------ Control
 
 	public void Start(string hunkId, string? nodeId = null)
 	{
+		AudioService.StopVoice();
 		_snapshot = State.Clone();
 		_hunkId = hunkId;
 		_startNode = nodeId;
@@ -117,6 +245,8 @@ public sealed class PreviewPanel : Grid
 			ShowIdle(null);
 		}
 		UpdateMeters();
+		RefreshTracks();
+		ApplyMusic();
 		Focus();
 	}
 
@@ -131,6 +261,9 @@ public sealed class PreviewPanel : Grid
 	public void Stop()
 	{
 		Runner.Abort();
+		AudioService.StopVoice();
+		if (_audition == null) AudioService.StopMusic(this);
+		UpdateTrackLabel();
 		ShowIdle("Preview stopped.");
 	}
 
@@ -160,17 +293,33 @@ public sealed class PreviewPanel : Grid
 			if (_liveLine != null) _liveLine.Opacity = 0.75;
 			var speakerName = v.Speaker switch { Speaker.You => State.PlayerName, Speaker.Narration => "", _ => v.HunkName };
 			var text = RichLine.Build(v.Text, v.Speaker, v.ActiveTopics, t => Runner.ClickTopic(t));
+			var clip = ClipFor(v);
+			Control body = text;
+			if (speakerName.Length > 0)
+			{
+				var head = new Grid { ColumnDefinitions = new ColumnDefinitions("*,Auto") };
+				head.Children.Add(Ui.Caption(speakerName.ToUpperInvariant()));
+				if (clip != null)
+				{
+					var btn = AudioUi.ClipButton(clip);
+					Grid.SetColumn(btn, 1);
+					head.Children.Add(btn);
+				}
+				body = Ui.Col(2, head, text);
+			}
 			var card = new Border
 			{
 				Background = v.Speaker == Speaker.Narration ? null : Palette.Card,
 				CornerRadius = new CornerRadius(8),
 				Padding = new Thickness(12, 8),
 				Margin = v.Speaker == Speaker.You ? new Thickness(40, 0, 0, 0) : new Thickness(0, 0, 20, 0),
-				Child = speakerName.Length > 0 ? Ui.Col(2, Ui.Caption(speakerName.ToUpperInvariant()), text) : text,
+				Child = body,
 			};
 			_transcript.Children.Add(card);
 			_liveLine = card;
+			PlayLineVoice(v);
 		}
+		else AudioService.StopVoice();
 
 		if (v.Fx == "hearts") ShowHearts();
 		else if (v.Fx == "fade") ShowFade(v.FxText);
@@ -218,6 +367,7 @@ public sealed class PreviewPanel : Grid
 
 	void Pick(ChoiceView c)
 	{
+		AudioService.StopVoice();
 		AddPick(c.Text, !c.Visible);
 		Runner.ChooseRaw(c.Index);
 	}
@@ -227,6 +377,9 @@ public sealed class PreviewPanel : Grid
 		_choices.Children.Clear();
 		_continue.IsVisible = false;
 		_where.Text = "";
+		AudioService.StopVoice();
+		if (_audition == null) AudioService.StopMusic(this);
+		UpdateTrackLabel();
 		var p = State.Hunk(hunk);
 		AddNote($"— Conversation over · visits = {p.Visits}{(p.Fixed ? " · fixed" : "")} —", Palette.Muted);
 		if (!string.IsNullOrEmpty(ending)) ShowEndingCard(hunk, ending);

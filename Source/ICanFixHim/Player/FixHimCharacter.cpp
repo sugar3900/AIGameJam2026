@@ -1,6 +1,7 @@
 // I Can Fix Him - AI Game Jam 2026
 
 #include "Player/FixHimCharacter.h"
+#include "Audio/FixHimSfxSubsystem.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
@@ -37,6 +38,27 @@ AFixHimCharacter::AFixHimCharacter()
 	FirstPersonCamera->SetRelativeLocation(FVector(0.f, 0.f, 70.f));
 	FirstPersonCamera->bUsePawnControlRotation = true;
 	FirstPersonCamera->SetFieldOfView(80.f);
+}
+
+void AFixHimCharacter::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	// Soft footsteps timed by distance walked, so they follow her speed (and stop when she does).
+	const UCharacterMovementComponent* Move = GetCharacterMovement();
+	const float Speed = GetVelocity().Size2D();
+	if (!Move->IsMovingOnGround() || Speed < 40.f)
+	{
+		StepDistance = FMath::Min(StepDistance, NextStepDistance * 0.5f);
+		return;
+	}
+	StepDistance += Speed * DeltaSeconds;
+	if (StepDistance >= NextStepDistance)
+	{
+		StepDistance = 0.f;
+		NextStepDistance = FMath::FRandRange(125.f, 155.f);
+		FixHim::Sfx(this, "Footstep", FMath::FRandRange(0.35f, 0.5f), 0.08f);
+	}
 }
 
 void AFixHimCharacter::DoMove(float Right, float Forward)

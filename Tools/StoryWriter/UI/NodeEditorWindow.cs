@@ -11,6 +11,7 @@ using AvaloniaEdit.Editing;
 using AvaloniaEdit.Rendering;
 using StoryWriter.Graph;
 using StoryWriter.Model;
+using StoryWriter.Runtime;
 
 namespace StoryWriter.UI;
 
@@ -229,6 +230,7 @@ public sealed class NodeEditorWindow : Window
 		Content = BuildLayout();
 		Load();
 		KeyDown += OnKey;
+		Closed += (_, _) => AudioService.StopVoice();
 		Opened += (_, _) => _editor.Focus();
 	}
 
@@ -593,17 +595,35 @@ public sealed class NodeEditorWindow : Window
 
 	IEnumerable<string> EditorLines() => (_editor.Text ?? "").Replace("\r", "").Split('\n').Where(l => l.Trim().Length > 0);
 
+	/// <summary>
+	/// Speaker widget for one line, keyed like the game: script id, node id as saved, index in the node's lines.
+	/// Narration and the player's lines are never voiced (nothing shown); a spoken line without a recording shows "no clip".
+	/// </summary>
+	Control LineAudio(string raw, int index)
+	{
+		if (!AudioLibrary.IsVoiceable(raw)) return new Panel();
+		var dir = ProjectPaths.VoiceDir();
+		var clip = AudioLibrary.ResolveVoice(dir, _doc.Id, _nodeId, index, raw);
+		return clip != null ? AudioUi.ClipButton(clip) : AudioUi.NoClip(AudioLibrary.VoiceKey(_doc.Id, _nodeId, index));
+	}
+
 	void RefreshPreview()
 	{
 		_preview.Children.Clear();
 		var topicKeys = _topics.Select(t => (t.Key.Text ?? "").Trim().ToLowerInvariant()).ToHashSet();
 		var missing = new List<string>();
+		int lineIndex = 0;
 		foreach (var raw in EditorLines())
 		{
 			var (sp, text) = Dialogue.ParseLine(raw);
 			var name = sp switch { Speaker.You => "ROSIE", Speaker.Narration => "", _ => _doc.Name.ToUpperInvariant() };
 			var tb = RichLine.Build(text, sp, null, null, 14, substituteHints: true);
-			_preview.Children.Add(name.Length > 0 ? Ui.Col(1, Ui.Caption(name), tb) : tb);
+			Control audio = LineAudio(raw, lineIndex++);
+			var head = new Grid { ColumnDefinitions = new ColumnDefinitions("*,Auto") };
+			head.Children.Add(Ui.Caption(name));
+			Grid.SetColumn(audio, 1);
+			head.Children.Add(audio);
+			_preview.Children.Add(name.Length > 0 ? Ui.Col(1, head, tb) : tb);
 			missing.AddRange(Dialogue.Topics(text).Select(t => t.TopicId).Where(t => !topicKeys.Contains(t)));
 		}
 		var shownChoices = _choices.Where(c => !string.IsNullOrWhiteSpace(c.Text.Text)).ToList();

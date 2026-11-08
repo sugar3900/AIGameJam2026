@@ -12,6 +12,7 @@ AFixHimBed::AFixHimBed()
 
 void AFixHimBed::Interact(AFixHimPlayerController* Player)
 {
+	PlayInteractSfx();
 	if (Player)
 	{
 		Player->OpenDoorPrompt();

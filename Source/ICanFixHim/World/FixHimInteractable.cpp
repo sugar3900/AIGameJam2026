@@ -3,6 +3,7 @@
 #include "World/FixHimInteractable.h"
 #include "Core/FixHimAssets.h"
 #include "Core/FixHimSettings.h"
+#include "Audio/FixHimSfxSubsystem.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/PointLightComponent.h"
 #include "Components/MaterialBillboardComponent.h"
@@ -208,6 +209,44 @@ void AFixHimInteractable::Interact(AFixHimPlayerController* Player)
 	{
 		SetOn(!bIsOn);
 	}
+	PlayInteractSfx();
+}
+
+FName AFixHimInteractable::GetInteractSfx(bool bNowOn) const
+{
+	const FName Explicit = bNowOn || InteractSfxOff.IsNone() ? InteractSfx : InteractSfxOff;
+	if (!Explicit.IsNone())
+	{
+		return Explicit;
+	}
+	return DefaultInteractSfx(bNowOn);
+}
+
+FName AFixHimInteractable::DefaultInteractSfx(bool bNowOn) const
+{
+	// The prompts are authored per object in Tools/Editor/build_apartment.py ("Turn on stove", "Lift the lid", ...).
+	const FString Label = (GetActorNameOrLabel() + PromptOff.ToString()).ToLower();
+	switch (Toggle)
+	{
+	case EInteractToggle::Light:
+		return bNowOn && Label.Contains(TEXT("stove")) ? FName("Sizzle") : FName(bNowOn ? "SwitchOn" : "SwitchOff");
+	case EInteractToggle::Reveal:
+		return bNowOn ? FName("WaterSplash") : FName("TapDrip");
+	case EInteractToggle::Slide:
+	case EInteractToggle::Rotate:
+		if (Label.Contains(TEXT("lid")))
+		{
+			return bNowOn ? FName("Interact") : FName("CabinetClose");
+		}
+		return bNowOn ? FName("CabinetOpen") : FName("CabinetClose");
+	default:
+		return TEXT("Interact");
+	}
+}
+
+void AFixHimInteractable::PlayInteractSfx()
+{
+	FixHim::SfxAt(this, GetInteractSfx(bIsOn), GetActorLocation());
 }
 
 void AFixHimInteractable::SetOn(bool bInOn, bool bInstant)
@@ -232,6 +271,10 @@ void AFixHimInteractable::SetHovered(bool bInHovered)
 		return;
 	}
 	bHovered = bInHovered;
+	if (bHovered)
+	{
+		FixHim::Sfx(this, "Hover", 0.7f, 0.04f);
+	}
 	for (UStaticMeshComponent* Shell : OutlineShells)
 	{
 		if (Shell)

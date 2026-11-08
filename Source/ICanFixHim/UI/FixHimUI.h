@@ -57,6 +57,9 @@ class ICANFIXHIM_API UFixHimButton : public UButton
 public:
 	void Init(TFunction<void()> InOnClick);
 
+	/** Sound played on click (see Audio/FixHimSfxSubsystem); Make() picks ButtonBack for "Back"/"Cancel"/"Close" labels. */
+	FName ClickSfx = TEXT("ButtonClick");
+
 	/** Builds a styled pill button with a centred label. */
 	static UFixHimButton* Make(UWidgetTree* Tree, const FString& Label, TFunction<void()> OnClick, int32 FontSize = 22, bool bPrimary = true);
 
@@ -65,6 +68,8 @@ public:
 private:
 	UFUNCTION()
 	void HandleClicked();
+	UFUNCTION()
+	void HandleHovered();
 
 	TFunction<void()> OnClick;
 };
@@ -82,6 +87,7 @@ private:
 	void HandleChanged(float NewValue);
 
 	TFunction<void(float)> OnChanged;
+	int32 LastTickStep = INDEX_NONE;
 };
 
 UCLASS()
@@ -111,7 +117,12 @@ public:
 protected:
 	virtual TSharedRef<SWidget> RebuildWidget() override;
 	virtual void NativeConstruct() override;
+	virtual void NativeDestruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+
+	/** Sounds for the card pop-in / dismissal (card screens only); screens with their own cues can change these. */
+	FName OpenSfx = TEXT("ModalOpen");
+	FName CloseSfx = TEXT("ModalClose");
 
 	/** Create widgets and set WidgetTree->RootWidget. */
 	virtual void BuildUI() PURE_VIRTUAL(UFixHimWidget::BuildUI, );

@@ -49,6 +49,7 @@ AFixHimDoor* AFixHimDoor::EnsureInWorld(UWorld* World)
 
 void AFixHimDoor::Interact(AFixHimPlayerController* Player)
 {
+	PlayInteractSfx();
 	if (Player)
 	{
 		Player->OpenDoorPrompt();

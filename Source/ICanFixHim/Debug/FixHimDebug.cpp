@@ -5,6 +5,7 @@
 #if FIXHIM_DEBUG
 
 #include "Debug/FixHimDebugWidget.h"
+#include "Audio/FixHimSfxSubsystem.h"
 #include "Player/FixHimPlayerController.h"
 #include "Dialogue/FixHimDialogueSubsystem.h"
 #include "UI/FixHimDialogueWidget.h"
@@ -126,6 +127,7 @@ void UFixHimDebugComponent::TogglePanel()
 		Panel->Setup(this);
 	}
 	UE_LOG(LogFixHim, Log, TEXT("Debug panel: opened"));
+	FixHim::Sfx(PC, "DebugOpen");
 	Panel->AddToViewport(100);
 	Panel->SyncAll();
 	PC->DebugSetPanelOpen(true);

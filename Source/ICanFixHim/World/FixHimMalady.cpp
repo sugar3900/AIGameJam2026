@@ -3,6 +3,7 @@
 #include "World/FixHimMalady.h"
 #include "World/FixHimHunk.h"
 #include "Player/FixHimPlayerController.h"
+#include "Audio/FixHimSfxSubsystem.h"
 #include "Core/FixHimAssets.h"
 #include "Core/FixHimSaveSubsystem.h"
 #include "Dialogue/FixHimDialogueSubsystem.h"
@@ -190,7 +191,14 @@ void AFixHimMalady::RefreshRepairState()
 {
 	const UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this);
 	const FHunkProgress* P = Save ? Save->FindHunk(HunkId) : nullptr;
+	const bool bWasRepaired = bRepaired;
 	bRepaired = P && P->bFixed;
+	// A repair that happens while playing (not just loaded from the save): celebrate a good ending, sigh at a bad one.
+	if (bRepairKnown && bRepaired && !bWasRepaired)
+	{
+		FixHim::SfxAt(this, P->Ending.EndsWith(TEXT("_success")) ? "FixComplete" : "RepairFail", GetActorLocation());
+	}
+	bRepairKnown = true;
 
 	for (UStaticMeshComponent* Fx : BrokenFx)
 	{
@@ -281,7 +289,18 @@ void AFixHimMalady::Interact(AFixHimPlayerController* Player)
 {
 	if (Player && Hunk)
 	{
+		PlayInteractSfx();
 		Player->BeginEncounter(this);
+	}
+}
+
+FName AFixHimMalady::DefaultInteractSfx(bool bNowOn) const
+{
+	switch (Style)
+	{
+	case EMaladyStyle::Leak: return TEXT("PipeClank");
+	case EMaladyStyle::Wiring: return TEXT("Zap");
+	default: return TEXT("Interact");
 	}
 }
 

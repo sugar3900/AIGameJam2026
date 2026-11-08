@@ -7,6 +7,8 @@
 #include "World/FixHimDoor.h"
 #include "World/FixHimHunk.h"
 #include "World/FixHimRoom.h"
+#include "Audio/FixHimSfxSubsystem.h"
+#include "Audio/FixHimMusicSubsystem.h"
 #include "Core/FixHimSaveSubsystem.h"
 #include "Core/FixHimSettings.h"
 #include "Dialogue/FixHimDialogueSubsystem.h"
@@ -76,6 +78,7 @@ void AFixHimPlayerController::BeginPlay()
 	if (UFixHimDialogueSubsystem* Dialogue = UFixHimDialogueSubsystem::Get(this))
 	{
 		ViewHandle = Dialogue->OnView.AddUObject(this, &AFixHimPlayerController::HandleDialogueView);
+		StartedHandle = Dialogue->OnConversationStarted.AddUObject(this, &AFixHimPlayerController::HandleConversationStarted);
 		EndHandle = Dialogue->OnConversationEnded.AddUObject(this, &AFixHimPlayerController::HandleConversationEnded);
 	}
 	if (UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this))
@@ -148,6 +151,7 @@ void AFixHimPlayerController::EndPlay(const EEndPlayReason::Type Reason)
 	if (UFixHimDialogueSubsystem* Dialogue = UFixHimDialogueSubsystem::Get(this))
 	{
 		Dialogue->OnView.Remove(ViewHandle);
+		Dialogue->OnConversationStarted.Remove(StartedHandle);
 		Dialogue->OnConversationEnded.Remove(EndHandle);
 		Dialogue->AbortConversation();
 	}
@@ -457,6 +461,59 @@ void AFixHimPlayerController::EnterState(EFixHimState NewState)
 		SetHovered(nullptr);
 	}
 	ApplyInputModeForState();
+	UpdateMusic();
+}
+
+void AFixHimPlayerController::UpdateMusic()
+{
+	UFixHimMusicSubsystem* Music = UFixHimMusicSubsystem::Get(this);
+	if (!Music)
+	{
+		return;
+	}
+	// Paused is an overlay: keep the music of whatever was underneath.
+	const EFixHimState Effective = State == EFixHimState::Paused ? StateBeforePause : State;
+	FName Track = NAME_None; // None = leave the current track alone
+	float Fade = 1.5f;
+	switch (Effective)
+	{
+	case EFixHimState::Title:
+		Track = TEXT("MainMenu");
+		break;
+	case EFixHimState::Playing:
+	case EFixHimState::FloorPlan:
+	case EFixHimState::DoorPrompt:
+		Track = TEXT("Explore");
+		break;
+	case EFixHimState::Encounter:
+	case EFixHimState::Dialogue:
+	{
+		const FString Id = ActiveMalady ? ActiveMalady->HunkId : MusicConvId;
+		Track = TEXT("Explore");
+		for (const TCHAR* Hunk : { TEXT("lukey"), TEXT("malcolm"), TEXT("tyler"), TEXT("wyatt") })
+		{
+			if (Id.Equals(Hunk, ESearchCase::IgnoreCase))
+			{
+				FString Name = Id.ToLower();
+				Name[0] = FChar::ToUpper(Name[0]);
+				Track = FName(*Name);
+			}
+		}
+		Fade = 1.0f;
+		break;
+	}
+	case EFixHimState::Cutscene: // inspection / podcast / epilogue scenes
+	case EFixHimState::Finale:
+		Track = TEXT("Finale");
+		Fade = 2.5f;
+		break;
+	default: // Ending, Traveling, Sleeping: unspecified, keep playing
+		break;
+	}
+	if (!Track.IsNone() && !Music->PlayTrack(Track, Fade) && Track != TEXT("Explore"))
+	{
+		Music->PlayTrack(TEXT("Explore"), Fade); // a missing hunk/finale track falls back to Explore
+	}
 }
 
 void AFixHimPlayerController::ApplyInputModeForState()
@@ -487,6 +544,11 @@ void AFixHimPlayerController::PlayerTick(float DeltaTime)
 	if (State != EFixHimState::Title && State != EFixHimState::Paused && State != EFixHimState::DoorPrompt && State != EFixHimState::Sleeping && State != EFixHimState::Finale)
 	{
 		UpdateDaylight(DeltaTime);
+	}
+	if (UFixHimMusicSubsystem* Music = UFixHimMusicSubsystem::Get(this))
+	{
+		// The opening podcast has its own radio audio: keep the music under it.
+		Music->SetDuck(bPodcastPlaying ? 0.4f : 1.f, 0.8f);
 	}
 	if (State == EFixHimState::Playing)
 	{
@@ -572,6 +634,7 @@ void AFixHimPlayerController::BeginPlaying(bool bFromSave)
 		It->RefreshRepairState();
 		It->DismissHunk();
 	}
+	FixHim::Sfx(this, "MenuStart");
 	EnterState(EFixHimState::Playing);
 	RefreshRepairs();
 	StartDay(bFromSave);
@@ -731,6 +794,7 @@ void AFixHimPlayerController::ConfirmEndDay()
 		return;
 	}
 	// Back to Playing first: RequestEndDay only runs from there (and may bounce with a toast on week 1).
+	FixHim::Sfx(this, "DoorLatch");
 	CloseDoorPrompt();
 	RequestEndDay();
 }
@@ -749,6 +813,7 @@ void AFixHimPlayerController::ReturnToMainMenu()
 		D->AbortConversation();
 	}
 	SetPause(false);
+	FixHim::Music(this, TEXT("MainMenu"), 1.0f); // start fading now; the reloaded title keeps it going
 	UGameplayStatics::OpenLevel(this, FName(*UGameplayStatics::GetCurrentLevelName(this, true)));
 }
 
@@ -893,6 +958,7 @@ void AFixHimPlayerController::AdvanceDialogue()
 	{
 		return;
 	}
+	FixHim::Sfx(this, "DialogueAdvance");
 	if (UFixHimDialogueSubsystem* D = UFixHimDialogueSubsystem::Get(this))
 	{
 		D->Advance();
@@ -915,8 +981,15 @@ void AFixHimPlayerController::HandleStatChanged(const FString& HunkId, ERelation
 	}
 }
 
+void AFixHimPlayerController::HandleConversationStarted(const FString& HunkId)
+{
+	MusicConvId = HunkId;
+	UpdateMusic();
+}
+
 void AFixHimPlayerController::HandleConversationEnded(const FString& HunkId, const FString& EndingId)
 {
+	MusicConvId.Reset();
 	if (!ActiveSceneId.IsEmpty() && HunkId == ActiveSceneId)
 	{
 		ActiveSceneId.Reset();
@@ -967,7 +1040,7 @@ void AFixHimPlayerController::HandleSaved()
 {
 	if (HUDWidget && State != EFixHimState::Title)
 	{
-		HUDWidget->ShowToast(TEXT("Saved"), 1.2f);
+		HUDWidget->ShowToast(TEXT("Saved"), 1.2f, false);
 	}
 }
 
@@ -1035,6 +1108,7 @@ void AFixHimPlayerController::ToggleFloorPlan()
 	if (State == EFixHimState::FloorPlan)
 	{
 		HideWidget(FloorPlanWidget);
+		FixHim::Sfx(this, "MapClose");
 		EnterState(EFixHimState::Playing);
 		return;
 	}
@@ -1047,6 +1121,7 @@ void AFixHimPlayerController::ToggleFloorPlan()
 		FloorPlanWidget = CreateWidget<UFixHimFloorPlanWidget>(this, UFixHimFloorPlanWidget::StaticClass());
 	}
 	ShowWidget(FloorPlanWidget, 25);
+	FixHim::Sfx(this, "MapOpen");
 	FloorPlanWidget->Refresh();
 	EnterState(EFixHimState::FloorPlan);
 }

@@ -38,6 +38,7 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void Interact(AFixHimPlayerController* Player) override;
 	virtual FText GetPrompt() const override;
+	virtual FName DefaultInteractSfx(bool bNowOn) const override;
 
 	/** Matches the "id" in Content/ICanFixHim/Data/Dialogue/<id>.json */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Malady")
@@ -103,5 +104,6 @@ private:
 	FLinearColor GlowColor = FLinearColor(1.f, 0.4f, 0.7f);
 	FText HunkName;
 	bool bRepaired = false;
+	bool bRepairKnown = false;
 	float FxTime = 0.f;
 };

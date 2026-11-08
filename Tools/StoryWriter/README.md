@@ -45,6 +45,12 @@ opened from and shows that node's continue / options (without printing its line 
 with clickable pink words, choices, locked choices shown with their condition (click to force), fx, and ending cards.
 The current node is highlighted in the graph. The *State* tab edits stats, visits, endings and flags.
 
+**Audio** — spoken lines play their voice-over clip (`Art Source/Audio/VO/<script>/VO_<script>_<node>_<index>.wav`, index = position
+in the node's lines; never narration or `You:` lines) with a ♪ replay button on the card, and the preview loops the character's music
+(`Art Source/Audio/BGM/BGM_<Id>.wav`, matched to the conversation id). *Voice* / *Music* toggles and a dropdown for the non-character
+tracks (MainMenu, Explore, Finale) are in the preview header. The node editor shows ♪ play / "no clip" next to spoken lines.
+Playback needs no packages: `ffplay` (or mpv/paplay/aplay) on Linux, `afplay` on macOS, winmm on Windows; without one the toggles are disabled.
+
 **Play-through tab** — the whole game's dialogue with one shared save: pick a character, play every visit through to
 his ending, then *Continue to* the next character. Cross-character flags and effects carry over.
 

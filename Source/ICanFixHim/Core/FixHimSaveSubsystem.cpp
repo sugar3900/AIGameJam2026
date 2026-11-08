@@ -11,6 +11,7 @@
 #include "Engine/World.h"
 #include "Engine/Engine.h"
 #include "AudioDevice.h"
+#include "Audio/FixHimMusicSubsystem.h"
 #include "GameFramework/GameUserSettings.h"
 
 UFixHimSaveSubsystem* UFixHimSaveSubsystem::Get(const UObject* WorldContext)
@@ -150,6 +151,13 @@ void UFixHimSaveSubsystem::SaveOptions()
 
 void UFixHimSaveSubsystem::ApplyOptions()
 {
+	if (const UGameInstance* GI = GetGameInstance())
+	{
+		if (UFixHimMusicSubsystem* Music = GI->GetSubsystem<UFixHimMusicSubsystem>())
+		{
+			Music->SetMusicVolume(OptionsData.MusicVolume);
+		}
+	}
 	if (const UWorld* World = GetWorld())
 	{
 		if (FAudioDeviceHandle Audio = World->GetAudioDevice())

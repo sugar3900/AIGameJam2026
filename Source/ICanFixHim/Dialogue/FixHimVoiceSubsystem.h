@@ -35,6 +35,8 @@ public:
 	bool HasLine(const FString& ScriptId, const FString& NodeId, int32 LineIndex) const;
 	void Stop(float FadeSeconds = 0.08f);
 	int32 NumIndexed() const { return Index.Num(); }
+	/** True while a voice line is audible (the music ducks under it). */
+	bool IsPlaying() const;
 
 	static FString MakeKey(const FString& ScriptId, const FString& NodeId, int32 LineIndex);
 

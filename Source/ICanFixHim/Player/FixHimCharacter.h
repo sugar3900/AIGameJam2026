@@ -17,6 +17,8 @@ class ICANFIXHIM_API AFixHimCharacter : public ACharacter
 public:
 	AFixHimCharacter();
 
+	virtual void Tick(float DeltaSeconds) override;
+
 	void DoMove(float Right, float Forward);
 	void DoLook(float Yaw, float Pitch);
 
@@ -24,4 +26,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UCameraComponent> FirstPersonCamera;
+
+private:
+	/** Distance walked since the last footstep sound, and how far the next one is (varies a little). */
+	float StepDistance = 0.f;
+	float NextStepDistance = 140.f;
 };

@@ -17,6 +17,7 @@ public partial class App : Application
 			var folder = d.Args?.FirstOrDefault(a => !a.StartsWith("--"));
 			var main = new MainWindow(folder);
 			d.MainWindow = main;
+			d.Exit += (_, _) => Runtime.AudioService.Shutdown();
 
 			// An editor shouldn't take unsaved work down with it: report UI errors instead of quitting.
 			bool showing = false;

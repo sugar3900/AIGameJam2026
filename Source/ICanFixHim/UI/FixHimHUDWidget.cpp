@@ -2,6 +2,7 @@
 
 #include "UI/FixHimHUDWidget.h"
 #include "Core/FixHimSettings.h"
+#include "Audio/FixHimSfxSubsystem.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/Border.h"
 #include "Components/CanvasPanel.h"
@@ -160,7 +161,7 @@ void UFixHimHUDWidget::SetRepairs(int32 Fixed, int32 Total, int32 Week, int32 Nu
 	}
 }
 
-void UFixHimHUDWidget::ShowToast(const FString& Message, float Seconds)
+void UFixHimHUDWidget::ShowToast(const FString& Message, float Seconds, bool bChime)
 {
 	if (!ToastPill)
 	{
@@ -169,6 +170,10 @@ void UFixHimHUDWidget::ShowToast(const FString& Message, float Seconds)
 	ToastText->SetText(FText::FromString(Message));
 	ToastPill->SetVisibility(ESlateVisibility::HitTestInvisible);
 	ToastTime = Seconds;
+	if (bChime)
+	{
+		FixHim::Sfx(this, "Toast");
+	}
 }
 
 void UFixHimHUDWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)

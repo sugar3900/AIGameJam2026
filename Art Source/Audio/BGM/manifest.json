@@ -1,0 +1,264 @@
+{
+  "BGM_Explore.wav": {
+    "duration": 76.8,
+    "peak_db": -3.0,
+    "rms_db": -16.95,
+    "seam_step": 0.015518,
+    "seam_ratio": 0.189,
+    "seam_level_db": -0.98,
+    "bands_db": {
+      "sub<80": -11.2,
+      "low80-250": -6.8,
+      "lomid250-500": -8.9,
+      "mid.5-2k": -2.4,
+      "hi2-6k": -22.1,
+      "air>6k": -32.5
+    },
+    "quarter_rms_db": [
+      -18.8,
+      -18.8,
+      -16.1,
+      -20.0
+    ],
+    "key": "G minor/dorian",
+    "bpm": 100,
+    "bars": 32,
+    "swing": 0.2,
+    "layers": [
+      "marimba",
+      "musicbox",
+      "bass",
+      "ep",
+      "pad",
+      "kick",
+      "wood",
+      "shaker"
+    ]
+  },
+  "BGM_Finale.wav": {
+    "duration": 76.8,
+    "peak_db": -3.0,
+    "rms_db": -15.87,
+    "seam_step": 0.006099,
+    "seam_ratio": 0.071,
+    "seam_level_db": -4.26,
+    "bands_db": {
+      "sub<80": -14.7,
+      "low80-250": -9.5,
+      "lomid250-500": -8.1,
+      "mid.5-2k": -1.7,
+      "hi2-6k": -15.8,
+      "air>6k": -33.7
+    },
+    "quarter_rms_db": [
+      -19.8,
+      -18.1,
+      -16.2,
+      -17.2
+    ],
+    "key": "B minor to D major",
+    "bpm": 100,
+    "bars": 32,
+    "swing": 0.1,
+    "layers": [
+      "celesta",
+      "vibes",
+      "strings",
+      "ooh",
+      "bass",
+      "ep",
+      "harpsi",
+      "tick",
+      "kick",
+      "brush",
+      "shaker"
+    ]
+  },
+  "BGM_Lukey.wav": {
+    "duration": 65.08,
+    "peak_db": -3.0,
+    "rms_db": -17.31,
+    "seam_step": 0.012631,
+    "seam_ratio": 0.054,
+    "seam_level_db": -4.68,
+    "bands_db": {
+      "sub<80": -8.5,
+      "low80-250": -8.4,
+      "lomid250-500": -10.5,
+      "mid.5-2k": -2.4,
+      "hi2-6k": -14.0,
+      "air>6k": -22.1
+    },
+    "quarter_rms_db": [
+      -18.1,
+      -17.8,
+      -17.4,
+      -17.6
+    ],
+    "key": "Bb major",
+    "bpm": 118,
+    "bars": 32,
+    "swing": 0.75,
+    "layers": [
+      "pizz",
+      "vibes",
+      "bass",
+      "ep",
+      "drops",
+      "pad",
+      "kick",
+      "brush",
+      "ride"
+    ]
+  },
+  "BGM_MainMenu.wav": {
+    "duration": 68.57,
+    "peak_db": -3.0,
+    "rms_db": -15.5,
+    "seam_step": 0.008075,
+    "seam_ratio": 0.071,
+    "seam_level_db": -11.51,
+    "bands_db": {
+      "sub<80": -11.9,
+      "low80-250": -9.3,
+      "lomid250-500": -10.9,
+      "mid.5-2k": -1.4,
+      "hi2-6k": -16.9,
+      "air>6k": -28.3
+    },
+    "quarter_rms_db": [
+      -15.9,
+      -16.4,
+      -15.6,
+      -16.3
+    ],
+    "key": "F major",
+    "bpm": 112,
+    "bars": 32,
+    "swing": 0.25,
+    "layers": [
+      "melody",
+      "melody8va",
+      "bass",
+      "ep",
+      "harpsi",
+      "pad",
+      "kick",
+      "brush",
+      "shaker"
+    ]
+  },
+  "BGM_Malcolm.wav": {
+    "duration": 83.48,
+    "peak_db": -3.0,
+    "rms_db": -15.46,
+    "seam_step": 0.002652,
+    "seam_ratio": 0.045,
+    "seam_level_db": -3.86,
+    "bands_db": {
+      "sub<80": -6.1,
+      "low80-250": -8.2,
+      "lomid250-500": -5.9,
+      "mid.5-2k": -4.6,
+      "hi2-6k": -27.4,
+      "air>6k": -37.7
+    },
+    "quarter_rms_db": [
+      -19.4,
+      -17.2,
+      -15.3,
+      -17.2
+    ],
+    "key": "D harmonic minor",
+    "bpm": 92,
+    "bars": 32,
+    "swing": 0.15,
+    "layers": [
+      "ep",
+      "bell",
+      "sub",
+      "pad",
+      "stab",
+      "kick",
+      "snap",
+      "hat",
+      "shaker"
+    ]
+  },
+  "BGM_Tyler.wav": {
+    "duration": 80.0,
+    "peak_db": -3.0,
+    "rms_db": -15.51,
+    "seam_step": 0.071403,
+    "seam_ratio": 0.707,
+    "seam_level_db": -3.49,
+    "bands_db": {
+      "sub<80": -14.1,
+      "low80-250": -11.7,
+      "lomid250-500": -7.9,
+      "mid.5-2k": -1.5,
+      "hi2-6k": -15.6,
+      "air>6k": -29.0
+    },
+    "quarter_rms_db": [
+      -15.5,
+      -16.8,
+      -16.5,
+      -15.7
+    ],
+    "key": "Ab major",
+    "bpm": 96,
+    "bars": 32,
+    "swing": 1.0,
+    "layers": [
+      "vibes",
+      "ghost",
+      "ooh",
+      "bass",
+      "piano",
+      "kick",
+      "brush",
+      "snap",
+      "ride"
+    ]
+  },
+  "BGM_Wyatt.wav": {
+    "duration": 59.08,
+    "peak_db": -3.0,
+    "rms_db": -18.03,
+    "seam_step": 0.011564,
+    "seam_ratio": 0.091,
+    "seam_level_db": 0.44,
+    "bands_db": {
+      "sub<80": -11.3,
+      "low80-250": -8.8,
+      "lomid250-500": -11.4,
+      "mid.5-2k": -2.1,
+      "hi2-6k": -10.2,
+      "air>6k": -21.3
+    },
+    "quarter_rms_db": [
+      -19.8,
+      -17.7,
+      -17.6,
+      -18.3
+    ],
+    "key": "A minor",
+    "bpm": 130,
+    "bars": 32,
+    "swing": 0.1,
+    "layers": [
+      "lead",
+      "arp",
+      "arp2",
+      "bass",
+      "pad",
+      "kick",
+      "clap",
+      "hat",
+      "ohat",
+      "crackle",
+      "sparks"
+    ]
+  }
+}

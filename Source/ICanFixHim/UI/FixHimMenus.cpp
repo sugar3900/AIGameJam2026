@@ -1,6 +1,7 @@
 // I Can Fix Him - AI Game Jam 2026
 
 #include "UI/FixHimMenus.h"
+#include "Audio/FixHimSfxSubsystem.h"
 #include "Player/FixHimPlayerController.h"
 #include "Core/FixHimSaveSubsystem.h"
 #include "Blueprint/WidgetTree.h"
@@ -198,6 +199,8 @@ void UFixHimNameEntryWidget::Submit()
 void UFixHimPauseWidget::BuildUI()
 {
 	UVerticalBox* Col = MakeCardScreen(TEXT("Paused"), 420.f);
+	OpenSfx = TEXT("PauseOn");
+	CloseSfx = TEXT("PauseOff");
 	TWeakObjectPtr<UFixHimPauseWidget> Self(this);
 	auto Add = [&](const FString& Label, TFunction<void()> Fn, bool bPrimary)
 	{
@@ -328,6 +331,7 @@ void UFixHimOptionsWidget::BuildUI()
 	auto Times = [](float V) { return FString::Printf(TEXT("%.1fx"), V); };
 
 	AddSlider(TEXT("Master volume"), 0.f, 1.f, Save->Options().MasterVolume, [WeakSave](float V) { if (WeakSave.IsValid()) { WeakSave->Options().MasterVolume = V; WeakSave->ApplyOptions(); } }, Percent);
+	AddSlider(TEXT("Music volume"), 0.f, 1.f, Save->Options().MusicVolume, [WeakSave](float V) { if (WeakSave.IsValid()) { WeakSave->Options().MusicVolume = V; WeakSave->ApplyOptions(); } }, Percent);
 	AddSlider(TEXT("Mouse sensitivity"), 0.2f, 3.f, Save->Options().MouseSensitivity, [WeakSave](float V) { if (WeakSave.IsValid()) { WeakSave->Options().MouseSensitivity = V; } }, Times);
 	AddSlider(TEXT("Text speed"), 0.25f, 4.f, Save->Options().TextSpeed, [WeakSave](float V) { if (WeakSave.IsValid()) { WeakSave->Options().TextSpeed = V; } },
 		[](float V) { return V >= 3.95f ? FString(TEXT("Instant")) : FString::Printf(TEXT("%.1fx"), V); });

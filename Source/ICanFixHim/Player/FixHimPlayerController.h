@@ -152,11 +152,14 @@ private:
 	void BuildInput();
 	void EnterState(EFixHimState NewState);
 	void ApplyInputModeForState();
+	/** Music director: picks the track for the current state (see FixHimMusicSubsystem). Called from EnterState. */
+	void UpdateMusic();
 	void UpdateHover();
 	void SetHovered(AFixHimInteractable* NewHovered);
 
 	void StartDialogue();
 	void HandleDialogueView(const FDialogueView& View);
+	void HandleConversationStarted(const FString& HunkId);
 	void HandleConversationEnded(const FString& HunkId, const FString& EndingId);
 	void HandleStatChanged(const FString& HunkId, ERelationshipAxis Axis, int32 Delta);
 	void HandleSaved();
@@ -238,7 +241,7 @@ private:
 	FTimerHandle ScriptTimer;
 	FTimerHandle EncounterTimer;
 	FTimerHandle TravelTimer;
-	FDelegateHandle ViewHandle, EndHandle, StatHandle, SavedHandle, PreSaveHandle;
+	FDelegateHandle ViewHandle, StartedHandle, EndHandle, StatHandle, SavedHandle, PreSaveHandle;
 	float TitleTime = 0.f;
 
 	float DayElapsed = 0.f;
@@ -249,6 +252,8 @@ private:
 	FLinearColor SunBaseColor = FLinearColor::White;
 	TArray<FString> SceneQueue;
 	FString ActiveSceneId;
+	/** Hunk id of the running conversation (from the dialogue subsystem), for choosing its music. */
+	FString MusicConvId;
 	TFunction<void()> SceneChainDone;
 	FTransform TitleCameraBase;
 };

@@ -142,7 +142,21 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
 	float LightIntensityOn = 2500.f;
 
+	/** Sound (SFX_<Name>) played when switched on/opened; empty picks a default from the toggle type and name. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Sound")
+	FName InteractSfx;
+
+	/** Sound played when switched off/closed; empty falls back to InteractSfx or the default. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Sound")
+	FName InteractSfxOff;
+
+	/** The sound for a toggle that just ended up `bNowOn`: the explicit fields above, else DefaultInteractSfx. */
+	FName GetInteractSfx(bool bNowOn) const;
+	/** Inferred from the toggle type and prompt, so actors already placed in the level need no rebuild. */
+	virtual FName DefaultInteractSfx(bool bNowOn) const;
+
 protected:
+	void PlayInteractSfx();
 	void ApplyLook();
 	void BuildOutline();
 	void BuildSparkles();
