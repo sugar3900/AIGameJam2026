@@ -13,36 +13,40 @@ status: draft
 - **Session length:** Prototype ≈ 20-30 min to finish all four arcs once.
 - **Tone:** ***Ghosts* (UK).** Petty, vain, flirty and pun-saturated, with brief sincere moments that land and go straight back to the bit. Deaths are running jokes, not tragedies. Cutesy, never dark or horror. Romance from minute one, escalating flirting → hand-holding → kissing → fade to black.
 
-## Story direction (v2, current focus)
-**Jam scope: one guy, done deeply: [[Lukey]].** His page holds the full backstory, the four-week arc, hooks and endings.
+## Story direction (v2, current)
+**Jam scope: four guys, all written in the v2 tone:** [[Lukey]], [[Malcolm]], [[Tyler]] and [[Wyatt]]. Each bible holds his backstory, four-week arc, hooks and endings.
 
-- **Heroine:** 29, ambitious house flipper, a deliberate blank slate for the player.
-- **External problem:** the house is condemned. There are **30 days** to fix it for real, with **weekly Friday inspections** and a **storm** building toward week 4. We only fix things for real; there's no cosmetic flip.
-- **Each love interest** genuinely believes he *is* the broken thing (Lukey is every leak in the house) and resents being "fixed," because each repair deletes a bit of him. He flirts with the heroine throughout, while they **solve the house's problems as a team**. The player can spot the hints, but **he only learns he was human in Act 4.** His death is played for laughs, and his unfinished business is something the heroine can help him finish (for Lukey: the first date he never got).
-- **Weekly beats:** the *Creaky Floorboards with Bev & Trish* true-crime podcast (Wednesdays) and Inspector Dan's inspection (Fridays).
-- **The mid-game conflict is a real difference in values:** she's a flipper here to profit from his home; he thinks a home is the people in it. It blows up at the end of Act 2 when he overhears her realtor call, and Act 3 opens with a compromise: fix it properly, for whoever lives here next.
-- **Endings:** he passes on, or stays if you're in love. Final house choice: **fix for real & sell / stay / demolish.**
+- **Heroine:** 29, ambitious house flipper, a deliberate blank slate for the player, named by the player (`{player}`). Unvoiced.
+- **External problem:** the house is condemned. There are **30 days** to fix it for real, with **weekly Friday inspections** by Inspector Dan and a **storm** that hits in week 4. We only fix things for real; there's no cosmetic flip.
+- **Each love interest is the broken thing** (every leak, the closet mold, the pink tile, the wiring), flirts with the heroine from minute one, and solves the house's problem with her as a team. Each has a mystery the player can spot early, but **nothing states plainly that anyone is a ghost before his own reveal**:
+  - **Lukey** (leaks): learns he was a 1987 aerobics instructor from the week-4 podcast (Act 4). Unfinished business: the first date he never got.
+  - **Malcolm** (mold): the diary on the top shelf of his closet shows he was never alive; he's a goth teenager's fan fiction (Act 3).
+  - **Tyler** (pink tile): his last video shows how he died on flip day one, in 2024 (Act 3). Unfinished business: being told no, and loved anyway.
+  - **Wyatt** (wiring): a January 2000 newspaper inside the wall (Act 3). Unfinished business: the "no" he never said on New Year's Eve, 1999.
+- **Every morning:** the *Creaky Floorboards with Bev & Trish* podcast. **Fridays:** Dan's inspection.
+- **Each guy's mid-game conflict is a real difference in values** (Lukey: profit vs. home; Malcolm: can you love a thing without fixing it; Tyler: rip it out vs. restore it; Wyatt: cheap patch vs. doing it right).
+- **Endings:** per guy, he stays (romance) or passes on / moves on (three other endings). Final house choice: **sell / stay / demolish**, then a whole-household epilogue.
 
 ## Day structure (one playable day per week)
 The 30 days are told as **4 playable days**, one per week. A week passes every time you sleep.
 
 1. **New Game → name entry.** "What's your name, homeowner?" The **Move in** button stays greyed out until a name is typed (max 16 characters). The name is saved and fills `{player}` everywhere in the dialogue.
 2. **Morning:** fade in from black on a **"Week N"** card ("Moving day" in week 1, "One week later..." after that).
-3. **The podcast starts automatically** on the radio: an "ON AIR" caption panel plays the week's *Creaky Floorboards* episode (~30 s) while you explore. **You can't talk to anyone until the episode ends** ("Shh. The podcast's still on.").
+3. **The podcast starts automatically** on the radio every morning: an "ON AIR" caption panel plays the week's *Creaky Floorboards* episode (about a minute, 100–150 words; captions auto-advance at ~1.1 s + 0.36 s per word) while you explore. **You can't talk to anyone until the episode ends** ("Shh. The podcast's still on.").
 4. **Free play.** Talk to as many of the guys as you like. Each has **one story conversation per day**; talking to him again that day gives a short "come back next week" line that doesn't advance his story.
 5. **Daylight fades over ~15 minutes** (golden hour, then dusk, then dark), and then **stays dark**; there's no time limit. When it starts getting late, a one-time tooltip says *"It's getting late. End the day whenever you like by going to bed."*
 6. **Go to bed** (click the bed in the bedroom) to end the day: fade to black → "Week N+1" → wake up in the bedroom.
    - **Week 1 only:** you must meet every guy first. Otherwise: *"You feel a presence in the house... someone you still need to meet."*
-   - **Skipping a guy for a week is fine.** His story doesn't advance, so next time you get the week you missed.
-7. **Going to bed on week 4** → "Inspection Day" card → **Inspector Dan's final inspection** (passes if the kitchen leak is fixed, otherwise the demolition goes ahead) → if it passed, Bev & Trish go live from the porch → **the epilogue** (Day 30 hearing + sell / stay / demolish) → if you got a **romantic ending**, an option to **see him** (a big portrait) → back to the title. The finished save is deleted.
+   - **Skipping a guy for a week is allowed.** His story doesn't advance, so next time you get the week you missed. But each guy needs all four acts by the end of week 4, so skipping anyone means his Act 4 can't happen before the inspection and the house fails.
+7. **Going to bed on week 4** → "Inspection Day" card → **Inspector Dan's final inspection**: it passes **only if all four maladies are fixed** (`housefixed`), with a pun per room; otherwise Dan walks to each room that's still broken and the demolition goes ahead → if it passed, Bev & Trish go live from the porch → **the epilogue** (pass: Day 30 hearing, sell / stay / demolish, a beat for each guy's ending, and a shared Sunday dinner if two or more stayed; fail: a last walk through the house and the demolition) → for each **romantic ending**, an option to **see him** (a big portrait) → back to the title. The finished save is deleted.
 
-| Week | Podcast at the start of the day |
+| Week | Podcast every morning (each also teases one of the other guys, hints only) |
 |---|---|
-| 1 | The Catfish of Heartbreak Lane |
-| 2 | Something in the Walls Is Singing (Mrs. Pruitt) |
-| 3 | The Inspector (Dan interview: "the only thing haunting that house is its water pressure"; storm warning) |
-| 4 | We Went to the Library (the 1987 newspaper reveal) |
-| Finale | Case Closed (Mostly), live from the porch, only if the house passed |
+| 1 | The Catfish of Heartbreak Lane (tease: a man in a navy blazer saluting from the bathroom window) |
+| 2 | Something in the Walls Is Singing (Mrs. Pruitt: Bon Jovi in the walls; tease: a porch light that hums about "a certain year") |
+| 3 | The Inspector (Dan interview: "the only thing haunting that house is its water pressure"; tease: poetry in a closet; BIG STORM SATURDAY) |
+| 4 | We Went to the Library (Lukey's 1987 newspaper reveal; tease: the missing January 2000 paper) |
+| Finale | Case Closed (Mostly), live from the porch, only if the whole house passed |
 
 ## Pillars
 1. **Every malady is a man.** The house's problems *are* the cast; fixing the house = finishing his arc.
@@ -62,32 +66,33 @@ Every hunk tracks three axes (0-20 meters in the dialogue box). Romance is gener
 | **Friendship** | curiosity, kindness, listening | platonic track |
 | **Friction** | rudeness, dismissing him, cruelty | bad blood |
 
-**Endings** (Lukey's thresholds; the player picks from whichever options they've earned at the finale, see [[Lukey]]):
-- He stays (romance success): romance ≥ 16 and friction < 8 (fade to black)
-- He goes, loved (romance failure): romance ≥ 16, the player chooses to let him go
-- He goes, friends (friend success): friendship ≥ 14 and friction < 8 (or "that's your call" with friction < 8)
-- He goes, grumpy (friend failure): "that's your call" with friction ≥ 8
+**Endings** (stats are clamped to 0–20; the player picks from whichever options they've earned at the finale):
 
-Stats are clamped to 0–20.
+| Ending | Lukey / Tyler / Wyatt | Malcolm |
+|---|---|---|
+| Romance success: he stays | romance ≥ 16 and friction < 8 | romance ≥ 15 and friction < 8 |
+| Romance failure: he goes, loved | romance ≥ 16, she lets him go | romance ≥ 15 |
+| Friend success | friendship ≥ 14 and friction < 8 (or "that's your call" with friction < 8) | friendship ≥ 13 and friction < 8 |
+| Friend failure | "that's your call" with friction ≥ 8 | same |
 
-*Older prototype thresholds for Malcolm/Wyatt/Tyler, still in their JSON:*
-- Romance success: romance ≥ 4 and friction < 3
-- Romance failure: romance ≥ 4 and friction ≥ 3
-- Friend success: friendship ≥ 3 and friction < 3
-- Friend failure: everything else (enemies)
+Multiple romances are allowed and coexist (nobody in the house is exclusive). Each bible has the exact options and his ending titles.
 
-**Interconnections (Monster Prom-style):** global flags and cross-character effects. In the prototype:
-- Lukey's leak *feeds* Malcolm's mold. Fixing Lukey dries Malcolm out and changes his finale. *(Prototype v1; revisit when Malcolm is rewritten in the v2 tone.)*
-- Wyatt has a crush on Tyler; you can play matchmaker across both arcs.
+**Interconnections (Monster Prom-style):** global flags and cross-character reads, all optional flavour that never locks content:
+- Shared flags: `flag.lukey_blackout` (week 3: Wyatt blacks out the house during Lukey's candlelit dinner; it was jealousy), `flag.lukey_human`, `flag.malcolm_diary`, `flag.tyler_video`, `flag.wyatt_spoke_up`. Later acts call back to whichever reveals have happened.
+- Jealousy beats read the other guys' `romance` (Lukey and Tyler are petty about it, Malcolm is thrilled, Wyatt says "fine" until he learns to say how he feels).
+- Running cast: **Dennis** the dehumidifier (everyone's nemesis or sergeant; Lukey and Malcolm sign the Damp Accord against him), Inspector Dan, Mrs. Pruitt, Bev & Trish.
+- Wyatt's crush on Tyler is subtle, unrequited and never stated; it isn't a route.
 - Characters gossip about each other, and some choices only appear if you've met someone.
 
-## Cast (prototype = first four)
+**Asides (hypertext):** clickable words in a line can be one-off detours (`"aside": true` topics ending in a `"return": true` node). The heroine makes a remark, he answers, and the conversation resumes at the exact line she clicked. Each word works once per conversation. See [[Dialogue Format]].
+
+## Cast (the first four)
 | Hunk | Malady | Room | Personality | Status |
 |---|---|---|---|---|
-| [[Lukey]] | The Leaks (every leak in the house) | Kitchen + walls | Vain, flirty 1987 aerobics instructor who thinks he's a franchise of leaks; Bon Jovi; died showing off for a date | ✅ v2 arc (Ghosts tone) |
-| [[Malcolm]] | Black Mold | Bedroom | Toxic emo poet, a sub, nothing positive | ✅ full arc |
-| [[Wyatt]] | Faulty Wiring | Living room | Confused, crossed wires, bisexual ("AC/DC") | ✅ full arc |
-| [[Tyler]] | Pink Tile | Bathroom | Obnoxious, bad taste, outdated on gender, pink is masculine | ✅ full arc |
+| [[Lukey]] | The Leaks (every leak in the house) | Kitchen + walls | Vain, flirty 1987 aerobics instructor who thinks he's a franchise of leaks; Bon Jovi; medium-length blow-dry that never dries; died showing off under Brenda's sink before their first date | ✅ v2 arc |
+| [[Malcolm]] | Black Mold | Walk-in closet in the bedroom | Velvet, theatrical "tragic poet" who was never alive (a goth teen's 2005–08 fan fiction); polyamorous colony, sweet sub, terrified of bleach | ✅ v2 arc |
+| [[Tyler]] | Pink Tile | Bathroom | Snooty old-money heir with military-school manners and rose-quartz hair; slipped on the tile he hated on flip day one (2024); has never been told no | ✅ v2 arc |
+| [[Wyatt]] | Faulty Wiring | Living room fuse box | Shy, sweet, nerdy Australian apprentice electrician (died NYE 1999); apologizes constantly; the lights tell the truth | ✅ v2 arc |
 | Az | Asbestos | (attic?) | Diva; protects against fire spreading | 📝 backlog |
 | Lance? | Lead Paint | (?) | Pure, chaste, heroic, self-righteous, chivalric | 📝 backlog |
 | Joey? | Broken Floor Joist | (?) | TBD | 📝 backlog |
@@ -106,7 +111,7 @@ Stats are clamped to 0–20.
 - **Pause (Esc):** Resume, Options, Main Menu.
 - **Options:** master volume, mouse sensitivity, text speed, invert Y, fullscreen.
 - **HUD:** centre reticle (dot → painted-nail pointer + prompt), room name, repairs counter, controls hint, "Saved" toast.
-- **Dialogue:** bottom quarter of the screen: live portrait, name plate, typewriter text, clickable highlighted words, choices (click or 1-5), relationship meters, floating "+1 Romance" pills, hearts, fade-to-black.
+- **Dialogue:** bottom quarter of the screen: live portrait, name plate, typewriter text, clickable highlighted words (one-way topics or one-off asides), choices (click or 1-5), relationship meters, floating "+1 Romance" pills, hearts, fade-to-black. There are no light effects (flicker etc. were cut); lights are described in narration.
 - **Ending card** after each arc, with ending type, title and epilogue.
 
 ## Look & Sound
@@ -115,6 +120,6 @@ Stylized pastel primitives, a different pastel per room, UE mannequins painted w
 
 ## Open Questions
 - Names for the backlog hunks (Az is set; lead paint / joist / door TBD).
-- Should repairing everyone unlock a final "housewarming party" scene where all the hunks interact?
+- Should repairing everyone unlock a bigger "housewarming party" scene? (The epilogue's shared Sunday dinner covers the romance version.)
 - Decorating / house-upgrade mechanic (stretch).
 - When to move from authored JSON to LLM-generated conversation (see [[Dialogue Format]]).

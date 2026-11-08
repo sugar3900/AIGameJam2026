@@ -1,9 +1,10 @@
 {
     "id": "wyatt",
+    "kind": "hunk",
     "name": "Wyatt",
     "malady": "Faulty Wiring",
     "room": "living",
-    "tagline": "Got his wires crossed. Both currents.",
+    "tagline": "He'll tell you it's fine. The lights will tell you otherwise.",
     "look": {
         "skin": "#D9B08C",
         "shirt": "#F28B2E",
@@ -19,6 +20,7 @@
             { "shape": "cylinder", "socket": "spine_03", "loc": [-14, 3, 112], "rot": [0, 110, 0], "scale": [3, 3, 48], "color": "#2C6FD3" }
         ]
     },
+    "notes": "Stats run 0-20 (clamped). Ending thresholds mirror Lukey: stay = romance >= 16 && friction < 8; he goes, loved = romance >= 16 (asking him to stay with friction >= 8 also gets a loving 'no'); friends = friendship >= 14 && friction < 8; 'That's up to you' gives the friends ending if friction < 8, or the polite-but-firm ending if friction >= 8. He calls you 'love' in Act 4 if romance >= 12 going in. Act 2 grudge opener if friction >= 4. 'The others' = lukey/tyler/malcolm romance >= 8 (unlocks his jealousy beats).",
     "entries": [
         { "if": "fixed && ending_romance_success", "node": "after_rs" },
         { "if": "fixed && ending_romance_failure", "node": "after_rf" },
@@ -26,328 +28,1169 @@
         { "if": "fixed", "node": "after_ff" },
         { "if": "talkedtoday", "node": "today", "counts": false },
         { "if": "visits == 0", "node": "v1" },
+        { "if": "visits == 1 && flag.wyatt_asked", "node": "v2_cb_asked" },
+        { "if": "visits == 1 && friction >= 4", "node": "v2_cb_grudge" },
         { "if": "visits == 1", "node": "v2" },
+        { "if": "visits == 2 && flag.lukey_blackout", "node": "v3_cb_blackout" },
         { "if": "visits == 2", "node": "v3" },
+        { "if": "romance >= 12", "node": "v4_love" },
         { "if": "true", "node": "v4" }
     ],
     "endings": {
         "romance_success": {
-            "title": "You Light Up My Life",
-            "text": "Wyatt is grounded, up to code and absolutely gone on you. The lights never flicker anymore, except when you walk into the room. That part, he insists, is not a wiring problem."
+            "title": "Watt a Keeper",
+            "text": "Wyatt stayed. The wiring's up to code, the lights never flicker, and he says 'no' at least once a day just to keep his hand in. He still apologizes to the toaster. Every Friday, Dan's pun gets a giggle from the fuse box. Dennis is on a very good socket."
         },
         "romance_failure": {
-            "title": "Short Circuit",
-            "text": "Wyatt left with his extension cord and his dignity. He's doing great, actually. He's a licensed electrician now. He is very, very good. He does not take your calls."
+            "title": "Yeah, Nah",
+            "text": "He loved you, and he said so first go, no 'if that's alright.' Then he said the other thing out loud too: goodbye. The wiring's perfect. The porch light still flickers twice whenever you come home. Nobody's fixing that."
         },
         "friend_success": {
             "title": "Current Besties",
-            "text": "Wyatt is your best friend and the most enthusiastic house-sitter alive. He finally told Tyler how he feels. Tyler said his outfit was 'a choice.' It's going well."
+            "text": "Wyatt passed on in a warm, steady glow and a 'no worries' he actually meant. The house passed its electrics with a tiny lightning bolt. Somewhere south of Sydney, a chicken shop has a very good day for no reason anyone can explain."
         },
         "friend_failure": {
-            "title": "Disconnected",
-            "text": "Wyatt cut the power on his way out. Nobody knows how. Your fridge has been making a sad little noise ever since."
+            "title": "No Worries (Some Worries)",
+            "text": "Wyatt passed on politely, firmly and without a single apology. The wiring's perfect. He made sure. He left a note on the fuse box, Dennis on a better socket, and the faint feeling that you should have asked him sooner."
         }
     },
     "nodes": {
+
         "v1": {
             "lines": [
-                "*The fuse box pops. Sparks rain down. A lanky guy with static-fluffed hair stumbles out, patting out a small fire on his sleeve.*",
-                "Whoa! Hi! Hello! Sorry. Is this the bathroom? I'm looking for the bathroom.",
+                "*The fuse box pops. Sparks rain down. A lanky guy in an orange work shirt tumbles out of it, patting out a small fire on his sleeve.*",
+                "Whoa! Sorry! Hi! G'day. Sorry. Is this the bathroom? I was aiming for the bathroom. Someone needs a towel.",
                 "You: This is the living room.",
-                "Right. Right right right. Crossed wires. Happens constantly. I'm Wyatt. Like 'wire it.' Like, wire it [wrong]."
+                "Right. Yep. Crossed wires. Happens heaps. I'm Wyatt. Like 'wire it.' Like, wire it [wrong]."
             ],
-            "topics": { "wrong": "v1_wrong" },
+            "topics": { "wrong": { "goto": "v1_aside_wrong", "aside": true, "do": { "friendship": 1 } } },
             "choices": [
                 { "text": "Hi, Wyatt. You're kind of... electric.", "goto": "v1_flirt", "do": { "romance": 2 } },
                 { "text": "Are you the reason my lights flicker?", "goto": "v1_lights", "do": { "friendship": 1 } },
                 { "text": "You just set my wall on fire.", "goto": "v1_fire", "do": { "friction": 1 } }
             ]
         },
-        "v1_wrong": {
+        "v1_aside_wrong": {
             "lines": [
-                "I've been installed upside down since 1974. Everything I say comes out a little backwards. Wait. Reverse that.",
-                "*A lamp across the room turns on, then off, then on, apologetically.*"
+                "You: Wrong how?",
+                "Live to neutral, upside down, back to front. Everything in this house is wired wrong. I can feel it. In my teeth.",
+                "...Have I got teeth? Hang on.",
+                "*He checks.*",
+                "Yep. Teeth. Good."
             ],
-            "do": { "friendship": 1 },
-            "goto": "v1_menu"
-        },
-        "v1_menu": {
-            "lines": [ "Anyway! What were we talking about? I forgot. Short-term memory. Short circuit. Short— I'm short-circuiting." ],
-            "choices": [
-                { "text": "You're kind of... electric.", "goto": "v1_flirt", "do": { "romance": 2 } },
-                { "text": "Are you the reason my lights flicker?", "goto": "v1_lights", "do": { "friendship": 1 } },
-                { "text": "You just set my wall on fire.", "goto": "v1_fire", "do": { "friction": 1 } }
-            ]
+            "return": true
         },
         "v1_flirt": {
             "lines": [
                 "*His hair stands straight up. Literally. Static.*",
-                "Electric? Me? Oh, you're— okay, you're making my current do a thing.",
-                "Is it hot in here? It might be me. I'm technically a fire hazard."
+                "Electric? Me? Oh. Okay. You're making my current do a thing.",
+                "Is it hot in here? Sorry. It might be me. I'm technically a fire hazard."
             ],
-            "goto": "v1_end"
+            "goto": "v1_what"
         },
         "v1_lights": {
             "lines": [
-                "Oh! Yes. Sorry. That's me thinking. When I think really hard, the bulbs go *bzzt*.",
-                "When I get a crush, the whole block browns out. Last time, three streetlights exploded. Her name was Dana.",
-                "Also his name was Marco. Different crushes. Same streetlights."
+                "Yeah. Sorry. That's me thinking. When I think hard, the bulbs go bzzt. When I'm nervous, it's the whole room.",
+                "*The whole room flickers.*",
+                "...Like that. Sorry."
             ],
-            "goto": "v1_end"
+            "goto": "v1_what"
         },
         "v1_fire": {
             "lines": [
-                "It's a small fire! It's a starter fire. Fires gotta start somewhere!",
+                "It's a small fire! It's a starter fire! Fires have gotta start somewhere!",
                 "*He stomps on it. It goes out. Mostly.*",
-                "Okay, that one's on me. Everything's always a little bit on me."
+                "Sorry. That one's on me. Most things are a bit on me."
+            ],
+            "goto": "v1_what"
+        },
+        "v1_what": {
+            "lines": [
+                "You: Okay. What ARE you, exactly?",
+                "Ah. Good question. Big question. Honestly? Not a hundred percent sure.",
+                "I've been in these walls a long time. Long enough to come up with a few [theories]. Main one: I'm a surge. Or a really committed static charge.",
+                "Sorry. You asked a small question and I've given you a big answer. I do that."
+            ],
+            "topics": { "theories": { "goto": "v1_aside_theories", "aside": true, "do": { "friendship": 1 } } },
+            "choices": [
+                { "text": "A surge with an Australian accent?", "goto": "v1_accent", "do": { "friendship": 2 } },
+                { "text": "Whatever you are, you're cute.", "goto": "v1_cute", "do": { "romance": 2 } },
+                { "text": "Can you be a surge somewhere else? I'm on a schedule.", "goto": "v1_schedule", "do": { "friction": 2 } }
+            ]
+        },
+        "v1_aside_theories": {
+            "lines": [
+                "You: How many theories?",
+                "Forty-one. Theory one: surge. Theory nine: committed static charge. Theory thirty: I'm the millennium bug, and I owe everyone an apology.",
+                "Theory forty-one is just a drawing of a sad lightbulb. I was having a week."
+            ],
+            "return": true
+        },
+        "v1_accent": {
+            "lines": [
+                "Have I got an accent? Huh. Imported components, maybe. Heaps of fittings are made overseas.",
+                "*He looks briefly worried.*",
+                "...Never met a fuse box with a passport, though."
+            ],
+            "goto": "v1_budget"
+        },
+        "v1_cute": {
+            "lines": [
+                "*Every bulb in the room goes up a notch. Then another. One pops.*",
+                "Cute. Right. Yep. Thank you. That's... thanks.",
+                "Sorry about the bulb. You'll need a new bulb. Sorry."
+            ],
+            "goto": "v1_budget"
+        },
+        "v1_schedule": {
+            "lines": [
+                "Oh! Course. Yep. Sorry. I'll just...",
+                "*He shrinks back toward the fuse box, then stops.*",
+                "...Can I ask what the schedule is? Not being nosy. They're my walls. Sort of. If that's... alright?"
+            ],
+            "goto": "v1_budget"
+        },
+        "v1_budget": {
+            "lines": [
+                "You: Thirty days. I fix this house for real, or the city knocks it down. Every Friday the [inspector|dan] comes to check.",
+                "You: And an electrician quoted me forty grand for a full rewire. I have eleven. So I'm doing the minimum to scrape past.",
+                "*The lamp browns out, long and slow, like a sigh.*",
+                "The minimum! Right! Love the minimum. Very... efficient."
+            ],
+            "topics": { "dan": { "goto": "v1_aside_dan", "aside": true, "do": { "friendship": 1 } } },
+            "choices": [
+                { "text": "You don't sound sure. What do you actually think?", "goto": "v1_ask", "do": { "romance": 1, "friendship": 1, "flag.wyatt_asked": 1 } },
+                { "text": "Great. Then you can help me cut corners.", "goto": "v1_corners", "do": { "friction": 1 } },
+                { "text": "Glad you're on board. You can be my assistant.", "goto": "v1_assistant", "do": { "romance": 2 } }
+            ]
+        },
+        "v1_aside_dan": {
+            "lines": [
+                "You: Inspector Dan. Windbreaker. Moustache.",
+                "Oh, HIM! He flicked the light switch and went, 'Watt's going on here?' Watt. Like the unit.",
+                "Nobody laughed. I laughed. I laughed so hard I tripped a breaker. He looked really stoked."
+            ],
+            "return": true
+        },
+        "v1_ask": {
+            "lines": [
+                "*He stares at you like nobody has ever asked him that. Possibly nobody has.*",
+                "What do I... oh. Um. Well. Technically, a house this old, with what's in these walls, the minimum's a bit... It's a bit of a fire...",
+                "It's fine! It's your house. Your call. Sorry. Forget I said anything.",
+                "*Wyatt will remember that you asked.*"
+            ],
+            "goto": "v1_others"
+        },
+        "v1_corners": {
+            "lines": [
+                "Corners. Yep. Love a corner. Cutting 'em.",
+                "*Somewhere inside the wall, something goes tsssss.*",
+                "...That's just a wall noise. Ignore the wall. I do."
+            ],
+            "goto": "v1_others"
+        },
+        "v1_assistant": {
+            "lines": [
+                "*He lights up. Actually lights up. There's a glow.*",
+                "Assistant! Yeah! I can assist! I'm basically an apprentice. To... someone. Somewhere.",
+                "Just tell me what to do. I'm really good at being told what to do."
+            ],
+            "goto": "v1_others"
+        },
+        "v1_others": {
+            "lines": [
+                "Met the others yet? Lukey's in the kitchen. He's like a big brother. We can't hug, though. Water and electricity. Health and safety. We do a sort of nod.",
+                "Malcolm's in the bedroom closet. He knows things. Bit spooky. Lovely, though.",
+                "And then there's [Tyler], in the bathroom. He's... yeah. He's Tyler.",
+                "*The lamp flickers. Wyatt studies the carpet with great interest.*"
+            ],
+            "topics": { "tyler": { "goto": "v1_aside_tyler", "aside": true, "do": { "friendship": 1 } } },
+            "choices": [
+                { "text": "Lukey's your big brother? Lukey the leak?", "goto": "v1_lukey", "do": { "friendship": 2 } },
+                { "text": "You're cute when you get flustered.", "goto": "v1_flustered", "do": { "romance": 2 } },
+                { "text": "Wow. It's a house full of weirdos.", "goto": "v1_weirdos", "do": { "friendship": 1, "friction": 1 } }
+            ]
+        },
+        "v1_aside_tyler": {
+            "lines": [
+                "You: What's Tyler like?",
+                "Oh! He's very... decisive. Knows exactly what he wants, all the time. Must be nice.",
+                "He calls me 'Private.' I've never been in an army. I say 'yes, sir' anyway. It's easier.",
+                "*Bzzt.*",
+                "Anyway!"
+            ],
+            "return": true
+        },
+        "v1_lukey": {
+            "lines": [
+                "Yeah! He looks out for me. Tells me to stand up straight. Tells the toaster to leave me alone. Calls me Sparky.",
+                "He says I'm too polite for a fuse box. He says it like it's a bad thing.",
+                "Don't tell him I said he's great. He'll get all damp about it."
+            ],
+            "goto": "v1_dennis"
+        },
+        "v1_flustered": {
+            "lines": [
+                "*Every bulb in the room starts blinking. It could be Morse code. It's probably spelling HELP.*",
+                "I'm not flustered! This is just my resting frequency."
+            ],
+            "goto": "v1_dennis"
+        },
+        "v1_weirdos": {
+            "lines": [
+                "Yeah. Bit.",
+                "*He looks hurt for half a second. Then he nods.*",
+                "...Fair. But they're my weirdos."
+            ],
+            "goto": "v1_dennis"
+        },
+        "v1_dennis": {
+            "lines": [
+                "*Something by the stairs hums smugly. It's your new dehumidifier. A little green light blinks.*",
+                "Sorry. Last thing. Him. That's Dennis, yeah? Lukey says he's an assassin.",
+                "He's plugged into the socket by the stairs, and that socket's a bit... Could you maybe move him? Not that it's my business. It's a bit my business."
+            ],
+            "choices": [
+                { "text": "I'll move him. Thanks for telling me.", "goto": "v1_move", "do": { "romance": 1, "friendship": 1 } },
+                { "text": "You're worried about a dehumidifier?", "goto": "v1_worry", "do": { "friendship": 1 } },
+                { "text": "Dennis stays where he is.", "goto": "v1_stay", "do": { "friction": 1 } }
+            ]
+        },
+        "v1_move": {
+            "lines": [
+                "*You move Dennis to another socket. His hum gets slightly less smug. Wyatt breathes out.*",
+                "Thanks. Honestly. Most people don't move things just cause I said."
+            ],
+            "goto": "v1_end"
+        },
+        "v1_worry": {
+            "lines": [
+                "Someone's gotta be. Lukey wants him dead, and Malcolm wants to write a poem about him dying.",
+                "He's just a little bloke doing his job. I relate to him."
+            ],
+            "goto": "v1_end"
+        },
+        "v1_stay": {
+            "lines": [
+                "No worries! Totally fine. He'll be...",
+                "*The socket by the stairs crackles faintly.*",
+                "...Fine. Probably fine."
             ],
             "goto": "v1_end"
         },
         "v1_end": {
             "lines": [
-                "This was nice. I think? My readings are all over the place.",
-                "Come back? Please come back. It gets lonely in the box."
+                "*You hold out your hand to shake. He reaches for it, hesitates, then goes for it anyway. ZAP.*",
+                "Sorry! Sorry. That's a thing my body does. When someone's nice to me.",
+                "*Your hair is standing on end. So is his. You both look like dandelions.*",
+                "It was really nice meeting you, {player}. Can I call you {player}? Is that... alright? Great. Sorry. Bye.",
+                "*He folds himself back into the fuse box. The lid shuts. Then, very quietly, it opens again.*",
+                "Bye."
             ],
             "end": true
         },
 
+        "v2_cb_asked": {
+            "lines": [
+                "You asked what I thought. Last week. About the wiring.",
+                "I've been thinking about that. A lot. A LOT a lot. Anyway! Hi."
+            ],
+            "goto": "v2"
+        },
+        "v2_cb_grudge": {
+            "lines": [
+                "Oh! {player}. Hi. Not upset about last week. I don't really get upset. I get... slightly dimmer.",
+                "*He is slightly dimmer.*"
+            ],
+            "goto": "v2"
+        },
         "v2": {
             "lines": [
-                "*Wyatt is sitting cross-legged on the floor, tangled in what appears to be his own extension cord.*",
-                "{player}! You came back! I rehearsed what to say. I forgot all of it. Hi."
+                "*Wyatt is sitting cross-legged by the fuse box, tangled in an extension cord, holding a pink towel up out of harm's way. He's humming [a song|song].*",
+                "{player}! Hi! Sorry. One sec. This is Tyler's towel. He wants it 'folded in thirds, Private. Like a flag.'",
+                "He's a tile. He doesn't technically use towels. He likes knowing it's there."
             ],
+            "topics": { "song": { "goto": "v2_aside_song", "aside": true, "do": { "friendship": 1 } } },
             "choices": [
-                { "text": "Tell me about these crushes of yours.", "goto": "v2_crush", "do": { "friendship": 1 } },
-                { "text": "Here, let me help you untangle.", "goto": "v2_untangle", "do": { "romance": 1 } },
-                { "text": "You're a mess, Wyatt.", "goto": "v2_mess", "do": { "friction": 1 } }
+                { "text": "Here, let me help you untangle.", "goto": "v2_untangle", "do": { "romance": 2 } },
+                { "text": "You fold towels for Tyler?", "goto": "v2_tyler", "do": { "friendship": 1 } },
+                { "text": "You look ridiculous.", "goto": "v2_ridiculous", "do": { "friction": 1 } }
             ]
         },
-        "v2_crush": {
+        "v2_aside_song": {
             "lines": [
-                "Oh, I'm very [AC/DC|acdc]. Both currents. Equal-opportunity sparks.",
-                "Guys, girls, enbies, one really attractive toaster. Look. It was a good toaster."
+                "You: What's the song?",
+                "Dunno! It's always in my head. Something about partying like it's a certain year.",
+                "*Every bulb in the room dips at the word 'year.'*",
+                "Big year, whatever it was. Everyone was gonna party. I reckon I missed it."
             ],
-            "topics": { "acdc": { "goto": "v2_acdc", "do": { "friendship": 1 } } },
-            "choices": [
-                { "text": "Same, honestly.", "goto": "v2_same", "do": { "friendship": 2 } },
-                { "text": "And what about me?", "goto": "v2_me", "do": { "romance": 2 } },
-                { "text": "What about the pink tile guy in the bathroom?", "if": "tyler.met", "goto": "v2_tyler", "do": { "friendship": 1 } }
-            ]
-        },
-        "v2_acdc": {
-            "lines": [
-                "Alternating current, direct current. I contain multitudes. And also about forty amps.",
-                "So yeah. That's me. What about you?"
-            ],
-            "choices": [
-                { "text": "Same, honestly.", "goto": "v2_same", "do": { "friendship": 2 } },
-                { "text": "And what about me?", "goto": "v2_me", "do": { "romance": 2 } }
-            ]
-        },
-        "v2_same": {
-            "lines": [
-                "*His whole face lights up. Like, actually. There's a glow.*",
-                "Bi-five!",
-                "*He holds up his hand. You high-five him. You both get a mild shock.*",
-                "Worth it."
-            ],
-            "goto": "v2_end"
-        },
-        "v2_me": {
-            "lines": [
-                "You? Oh. Oh no. Okay. Um.",
-                "*Every lamp in the house flickers at once.*",
-                "...Did that answer your question?"
-            ],
-            "goto": "v2_end"
-        },
-        "v2_tyler": {
-            "lines": [
-                "Tyler? Pink Tyler? Tyler with the opinions about grout?",
-                "*He goes very pink himself.*",
-                "He told me my wiring was 'tragically pre-war.' Nobody's ever insulted my wiring that confidently. I think about it constantly."
-            ],
-            "do": { "flag.wyatt_likes_tyler": 1 },
-            "goto": "v2_end"
+            "return": true
         },
         "v2_untangle": {
             "lines": [
                 "*You start unwinding the cord. Your hands brush. Somewhere, something goes bzzt.*",
-                "Sorry! Sorry. That was me. That's a thing my body does. When someone's nice to me.",
-                "You're very... [grounding]. Did you know that?"
+                "Sorry! Sorry. That was me. You're very... [grounding]. Did you know that?"
             ],
-            "topics": { "grounding": { "goto": "v2_ground", "do": { "romance": 1 } } },
+            "topics": { "grounding": { "goto": "v2_aside_grounding", "aside": true, "do": { "romance": 1 } } },
+            "goto": "v2_plan"
+        },
+        "v2_aside_grounding": {
+            "lines": [
+                "You: Grounding?",
+                "Like a third prong. Like a copper rod in wet soil.",
+                "That's the most romantic thing I know how to say. Sorry. It's a lot."
+            ],
+            "return": true
+        },
+        "v2_tyler": {
+            "lines": [
+                "*He goes quiet. The lamp flickers twice.*",
+                "He's not as bad as he seems. He's just used to people saying yes. And I'm really good at yes. So it works out.",
+                "Anyway! Towel. Thirds. Flag."
+            ],
+            "goto": "v2_plan"
+        },
+        "v2_ridiculous": {
+            "lines": [
+                "Yeah. Fair.",
+                "*He does not put the towel down.*",
+                "Tyler's having a hard time. It's a hard life, being a tile. People walk all over you.",
+                "...I'd know."
+            ],
+            "goto": "v2_plan"
+        },
+        "v2_plan": {
+            "lines": [
+                "*You show him the plan: a box of shiny new circuit breakers, thirty amps each, and a paint chart called [Greige Expectations|greige].*",
+                "You: The breakers keep tripping, so I'm swapping the fifteens for thirties. No more tripping. New faceplates, a feature wall, and Dan signs it off on Friday.",
+                "*Wyatt looks at the thirty-amp breakers. Every light in the room starts to flicker. Fast.*",
+                "Yeah! No! I mean, yeah. Great. No worries. If that's what you... yeah.",
+                "*The flickering is now very fast. It's basically a disco.*"
+            ],
+            "topics": { "greige": { "goto": "v2_aside_greige", "aside": true, "do": { "friendship": 1 } } },
+            "choices": [
+                { "text": "Wyatt. The lights. What aren't you telling me?", "goto": "v2_push", "do": { "friendship": 2, "romance": 1 } },
+                { "text": "Great! Hand me the screwdriver, assistant.", "goto": "v2_patch", "do": { "friction": 1, "flag.wyatt_patch": 1 } },
+                { "text": "You'd tell me if something was wrong, right?", "goto": "v2_wouldyou", "do": { "romance": 1 } }
+            ]
+        },
+        "v2_aside_greige": {
+            "lines": [
+                "You: It's a very popular gray.",
+                "It's gray AND beige. It's a color that's too scared to commit to being a color.",
+                "...I relate to it, actually. Lovely choice. Sorry."
+            ],
+            "return": true
+        },
+        "v2_wouldyou": {
+            "lines": [
+                "Course! Absolutely. Straight away.",
+                "*A bulb pops.*",
+                "...Mostly straight away. Eventually. Within the week."
+            ],
+            "choices": [
+                { "text": "Wyatt.", "goto": "v2_push", "do": { "friendship": 1 } },
+                { "text": "Okay. Then we're good.", "goto": "v2_patch", "do": { "flag.wyatt_patch": 1 } }
+            ]
+        },
+        "v2_push": {
+            "lines": [
+                "*He opens his mouth. Closes it. Opens it again.*",
+                "It's just... a breaker's meant to trip before the wire gets hot. That's its whole job. It's a smoke alarm for the wire.",
+                "Put a thirty on fifteen-amp wire and it never trips. The wire just gets hotter and hotter inside the wall where nobody can see, and then one night, when it's cold and every heater's on...",
+                "*He catches himself.*",
+                "Sorry! Sorry. That was a lot of words. I went fast. I do that. It's your call. Honestly. Ignore me."
+            ],
+            "choices": [
+                { "text": "Don't apologize. That's the most useful thing anyone's said to me all week.", "goto": "v2_reward", "do": { "romance": 2, "friction": -1, "flag.wyatt_pushback": 1 } },
+                { "text": "Is there a way to do it properly AND cheaply?", "goto": "v2_cheap", "do": { "friendship": 2, "flag.wyatt_pushback": 1 } },
+                { "text": "Noted. But I can't afford new wire, so the thirties go in.", "goto": "v2_patch", "do": { "friction": 1, "flag.wyatt_patch": 1 } }
+            ]
+        },
+        "v2_reward": {
+            "lines": [
+                "*Every light in the house steadies. Warm. Bright. For the first time since you moved in, nothing flickers.*",
+                "...Oh. You're not cross?",
+                "Nobody's ever not cross. Gary was always...",
+                "*He stops.*",
+                "I don't know a Gary. Who's Gary?"
+            ],
+            "goto": "v2_dan"
+        },
+        "v2_cheap": {
+            "lines": [
+                "Properly and cheaply? They don't really talk. They're like Lukey and Dennis.",
+                "But I know which circuits are the worst. We could do those first, properly, and save the rest for later. If that's... alright?",
+                "*You do the two worst circuits together. He talks you through every wire, apologizes for talking, then keeps talking.*"
+            ],
+            "goto": "v2_dan"
+        },
+        "v2_patch": {
+            "lines": [
+                "*You put the thirties in. Wyatt hands you each one like he's handing you a live grenade. Very politely.*",
+                "There you go. All in. No more tripping. Brilliant. Great job.",
+                "*The wall behind the fuse box is very slightly warm. Neither of you mentions it.*"
+            ],
+            "goto": "v2_dan"
+        },
+        "v2_dan": {
+            "lines": [
+                "*Friday. Inspector Dan flips every switch in the living room. Everything comes on. 'Well, well. Looks like you're current-ly passing. Get it? CURRENT-ly.'*",
+                "*From inside the fuse box comes a single, delighted giggle. Wyatt is the first person in the history of the city to laugh at a Dan pun.*",
+                "*Dan beams, doesn't look behind a single faceplate, and leaves happier than he came.*",
+                "He's funny! Dan's funny. Isn't he? 'Current-ly.'"
+            ],
+            "choices": [
+                { "text": "You might be the only person alive who laughs at Dan.", "goto": "v2_alive", "do": { "friendship": 1, "romance": 1 } },
+                { "text": "Your laugh is really cute.", "goto": "v2_laugh", "do": { "romance": 2 } },
+                { "text": "Please don't encourage him.", "goto": "v2_encourage", "do": { "friction": 1 } }
+            ]
+        },
+        "v2_alive": {
+            "lines": [
+                "Alive. Ha! Yeah. Who's alive. Totally.",
+                "*A long, thoughtful flicker.*",
+                "Malcolm says nobody in this house is 'strictly speaking' alive. But he says that about the fruit bowl as well."
+            ],
+            "goto": "v2_others"
+        },
+        "v2_laugh": {
+            "lines": [
+                "*He stops giggling. He goes the color of a heating element.*",
+                "My laugh? It's like a kettle. It's a kettle laugh. Thank you. Sorry. Thanks."
+            ],
+            "goto": "v2_others"
+        },
+        "v2_encourage": {
+            "lines": [
+                "Sorry. He just looked like he needed it.",
+                "Puns are heaps of work, and nobody ever claps."
+            ],
+            "goto": "v2_others"
+        },
+        "v2_others": {
+            "lines": [ "So. Um. How is everyone? The others. Not that I'm... just generally. Housemates. How is... everyone." ],
+            "choices": [
+                { "text": "Honestly? Things are getting a bit flirty with some of the others.", "if": "lukey.romance >= 8 || tyler.romance >= 8 || malcolm.romance >= 8", "goto": "v2_flirty" },
+                { "text": "Lukey says to tell Sparky to stop humming.", "goto": "v2_sparky", "do": { "friendship": 2 } },
+                { "text": "Tyler wants to know where his towel is.", "goto": "v2_towel", "do": { "friendship": 1 } },
+                { "text": "Everyone's fine. Why are you being weird?", "goto": "v2_weird", "do": { "friendship": 1 } }
+            ]
+        },
+        "v2_flirty": {
+            "lines": [
+                "Oh! Great! That's great. That's fine. Totally fine.",
+                "*The lamp browns out, long and slow, like a sigh.*",
+                "That's a lamp thing. Old lamp. It's fine."
+            ],
+            "choices": [
+                { "text": "Wyatt, the lamp doesn't think it's fine.", "goto": "v2_lamp", "do": { "romance": 2 } },
+                { "text": "Good. Glad you're cool with it.", "goto": "v2_cool", "do": { "friction": 1 } }
+            ]
+        },
+        "v2_lamp": {
+            "lines": [
+                "The lamp's very dramatic. It doesn't speak for me.",
+                "*The lamp flickers indignantly.*",
+                "...It speaks a little bit for me."
+            ],
             "goto": "v2_end"
         },
-        "v2_ground": {
+        "v2_cool": {
             "lines": [
-                "Like a third prong. Like a copper rod in wet soil. Like— that's the most romantic thing I know how to say, okay?"
+                "So cool. Coolest. I'm basically a fridge.",
+                "*From somewhere deep in the wall comes a tiny electrical whimper.*"
             ],
             "goto": "v2_end"
         },
-        "v2_mess": {
+        "v2_sparky": {
             "lines": [
-                "I KNOW. I'm a mess! I'm a HOT mess! Literally! I run at like ninety degrees!",
-                "*He deflates a little.*",
-                "...Most people just flip my breaker and walk away. At least you said it to my face."
+                "Sparky! He always calls me that.",
+                "Funny thing. Where I'm from, that's what you call an electrician. 'Get a sparky in.'",
+                "*He frowns.*",
+                "...Where am I from? Fuse boxes aren't from places. Huh."
+            ],
+            "goto": "v2_end"
+        },
+        "v2_towel": {
+            "lines": [
+                "*He shoots to his feet.*",
+                "Oh no. He's been waiting. He hates waiting. Sorry, {player}. Duty calls. Tile calls.",
+                "*He's gone, light switch by light switch, the long way round.*",
+                "*From the hall, faintly: 'Thirds, sir. Like a flag. Yes, sir. Sorry, sir.'*"
+            ],
+            "end": true
+        },
+        "v2_weird": {
+            "lines": [
+                "I'm not being weird! I'm being sociable. Lukey says I need to be more sociable.",
+                "He says I spend too much time in the walls, overthinking. Which is fair. It's where I live."
             ],
             "goto": "v2_end"
         },
         "v2_end": {
             "lines": [
-                "Okay, I have to go recharge. That's not a metaphor. I need to sit in the box for a while.",
-                "Come back soon? I'll try to remember your name. {player}. {player}. Got it. Probably."
+                "*He walks you to the living room door. Well, he flickers along the light switches beside you.*",
+                "Thanks for today, {player}. Come back next week? If that's... yeah. Come back."
             ],
             "end": true
         },
 
+        "v3_cb_blackout": {
+            "lines": [
+                "*Before you can say a word, Wyatt holds up both hands.*",
+                "Before you say anything. The blackout. During Lukey's candle dinner. Wasn't me.",
+                "*A long pause.*",
+                "...It was me. It was completely me. He was doing a lovely candle thing, and I got a... feeling, and the whole house went.",
+                "Lukey says it's fine. He said it in a very damp voice."
+            ],
+            "goto": "v3"
+        },
         "v3": {
             "lines": [
-                "*Wyatt is pacing. Little sparks follow his footsteps like nervous puppies.*",
-                "Okay, so I looked it up. If you fix me, I get rewired. Up to code. Grounded. [Boring|boring].",
-                "Will you still like me if I don't randomly shock you?"
+                "*The wall behind the fuse box is warm. Properly warm. There's a smell like [toast], and nobody is making toast.*",
+                "*Wyatt is pacing. Little sparks follow his feet like nervous puppies.*",
+                "Hi! Hi, {player}. Don't panic. Everything's fine. The wall's just having a warm week."
             ],
-            "topics": { "boring": "v3_boring" },
+            "topics": { "toast": { "goto": "v3_aside_toast", "aside": true, "do": { "friendship": 1 } } },
             "choices": [
-                { "text": "I like you for you. Not for the sparks.", "goto": "v3_rom", "do": { "romance": 2 } },
-                { "text": "You'll always be my favorite weirdo.", "goto": "v3_friend", "do": { "friendship": 2 } },
-                { "text": "Honestly? I'd prefer not getting electrocuted.", "goto": "v3_cold", "do": { "friction": 2 } },
-                { "text": "You should tell Tyler how you feel.", "if": "flag.wyatt_likes_tyler", "goto": "v3_tyler", "do": { "friendship": 2 } }
+                { "text": "It's the thirty-amp breakers, isn't it?", "if": "flag.wyatt_patch", "goto": "v3_itsthe", "do": { "friendship": 1 } },
+                { "text": "Wyatt. Is my house going to catch fire?", "goto": "v3_fire", "do": { "friendship": 1, "romance": 1 } },
+                { "text": "Dan passed it. Leave it.", "goto": "v3_leave", "do": { "friction": 2 } }
             ]
         },
-        "v3_boring": {
+        "v3_aside_toast": {
             "lines": [
-                "Boring! Like a nice beige outlet. Like a guy who reads instruction manuals for fun.",
-                "...Actually that sounds kind of nice? Is that bad? I'm confused. I'm always confused."
+                "You: Why does my wall smell like toast?",
+                "That's the old rubber on the wires. It smells like toast when it cooks. Fun fact!",
+                "...Horrible fact. Sorry. Horrible fun fact."
             ],
-            "goto": "v3_menu"
+            "return": true
         },
-        "v3_menu": {
-            "lines": [ "So? Be honest. My voltage can take it. Probably." ],
+        "v3_itsthe": {
+            "lines": [
+                "*He stops pacing.*",
+                "...Yeah. It is. Them, and the old wiring behind them.",
+                "It's not a warm week. It's a warning. Sorry. I should've said it louder. I said it a bit. I should've said it a lot."
+            ],
+            "goto": "v3_wall"
+        },
+        "v3_fire": {
+            "lines": [
+                "*He opens his mouth to say 'no worries.' Nothing comes out. He tries again.*",
+                "...Yeah. Probably. Not today. But one night, when it's cold and every heater's on.",
+                "That's the first time I've said that out loud. It felt horrible. Bit good, though?"
+            ],
+            "goto": "v3_wall"
+        },
+        "v3_leave": {
+            "lines": [
+                "Right. Yep. Leave it.",
+                "*The toast smell gets stronger.*",
+                "...Sorry. Could you just touch the wall? Just touch it. Then decide.",
+                "*You touch it. It's the temperature of a cup of tea.*",
+                "You: ...Okay. Get me a crowbar."
+            ],
+            "goto": "v3_wall"
+        },
+        "v3_wall": {
+            "lines": [
+                "*You pull the drywall off. Wyatt holds the flashlight. Well, he IS the flashlight. He glows a bit brighter, on purpose.*",
+                "*Inside: wires spliced with sticky tape, a fossilized ham sandwich, a cable that just stops, and a yellowed newspaper stuffed into a gap as insulation.*",
+                "Ha. Newspaper. That's not insulation, Gary.",
+                "*He freezes.*",
+                "...Who's Gary?"
+            ],
+            "goto": "v3_paper"
+        },
+        "v3_paper": {
+            "lines": [
+                "*You unfold it. The Heartbreak Lane Herald, January 2nd, 2000. The headline: 'Y2K: NO CASUALTIES.'*",
+                "*Underneath, in very small print: 'Australian apprentice electrician Wyatt Doyle, 26, of Wollongong, died in a New Year's Eve wiring accident on Heartbreak Lane. He was in the country on a working holiday.'*",
+                "*Every light in the house goes out. Then, very slowly, the lamp comes back on.*",
+                "No casualties. And then me. Underneath. In the little writing.",
+                "They put me under the bug."
+            ],
             "choices": [
-                { "text": "I like you for you. Not for the sparks.", "goto": "v3_rom", "do": { "romance": 2 } },
-                { "text": "You'll always be my favorite weirdo.", "goto": "v3_friend", "do": { "friendship": 2 } },
-                { "text": "Honestly? I'd prefer not getting electrocuted.", "goto": "v3_cold", "do": { "friction": 2 } }
+                { "text": "Take his hand.", "goto": "v3_hold", "do": { "romance": 2 } },
+                { "text": "Wyatt. You were a person. A whole person.", "goto": "v3_person", "do": { "friendship": 2 } },
+                { "text": "Wollongong? Is that a real place?", "goto": "v3_wollongong", "do": { "friendship": 1, "romance": 1 } },
+                { "text": "So you're a ghost. Does this affect the budget?", "goto": "v3_budget", "do": { "friction": 2 } }
             ]
         },
-        "v3_rom": {
+        "v3_hold": {
             "lines": [
-                "*He stops pacing. The sparks stop too.*",
-                "Not for the sparks. Huh.",
-                "Nobody's ever liked me *despite* the sparks before. They either liked the danger, or they called an electrician.",
-                "*He leans in and kisses you. It's soft and a little tingly, like licking a nine-volt battery, but in a good way.*"
+                "*ZAP. You don't let go. The zap turns into a hum. Warm and steady, like a fridge at night.*",
+                "...You're still holding on.",
+                "Nobody holds on. With electricity, you let go. That's the rule."
             ],
+            "goto": "v3_gary"
+        },
+        "v3_person": {
+            "lines": [
+                "A person. With a birthday. And a... and a mum.",
+                "*His voice goes very quiet.*",
+                "She rang every Sunday. Reverse charges. I'd forgotten that.",
+                "...Do you know what an international call cost in 1999? Bloody hell, Mum."
+            ],
+            "goto": "v3_gary"
+        },
+        "v3_wollongong": {
+            "lines": [
+                "It's real! It's south of Sydney! There's a beach and a lighthouse and a really good chicken shop!",
+                "*He stops.*",
+                "I remember the chicken shop. {player}. I remember the CHICKEN SHOP.",
+                "*It is the happiest you have ever seen anyone find out they're dead.*"
+            ],
+            "goto": "v3_gary"
+        },
+        "v3_budget": {
+            "lines": [
+                "*The lamp dims.*",
+                "...Probably. Sorry. I'll try to be a cheaper ghost.",
+                "*He tries to laugh. It comes out as a small fizz.*"
+            ],
+            "goto": "v3_gary"
+        },
+        "v3_gary": {
+            "lines": [
+                "It's coming back. New Year's Eve. A bloke called Mr. Kowalski lived here. Thought the millennium bug would turn his toaster against him. Four hundred tins of beans and a generator.",
+                "He paid my boss, Gary, to wire the generator straight into the house. No switch. Gary said it'd be fine. Gary said everything'd be fine. Gary once said that about a ladder.",
+                "I knew it was wrong. Knew it the way you know a song's out of tune. And I didn't say anything. Didn't want to be a [bother].",
+                "At midnight, Mr. Kowalski flicked every switch in the house to 'confuse the bug.' And I was holding the bit Gary said would be fine.",
+                "*A small, embarrassed flicker.*",
+                "So. Y2K was real. It just only happened to me."
+            ],
+            "topics": { "bother": { "goto": "v3_aside_bother", "aside": true, "do": { "romance": 1 } } },
+            "choices": [
+                { "text": "You knew it was wrong. You still know. So tell me.", "goto": "v3_tellme", "do": { "romance": 2 } },
+                { "text": "And now I'm asking you to patch it. Exactly like Gary.", "goto": "v3_likegary", "do": { "romance": 1, "friendship": 1 } },
+                { "text": "That's a great story. I still can't afford a rewire.", "goto": "v3_afford", "do": { "friction": 2 } }
+            ]
+        },
+        "v3_aside_bother": {
+            "lines": [
+                "You: You'd never be a bother.",
+                "I was twenty-six and four weeks off the plane. Everything felt like a bother. Ordering a coffee felt like a bother.",
+                "I said sorry to a vending machine once. It hadn't even given me the chips yet."
+            ],
+            "return": true
+        },
+        "v3_tellme": {
+            "lines": [ "*He takes a breath. Every light in the house takes one with him.*" ],
+            "goto": "v3_ask"
+        },
+        "v3_likegary": {
+            "lines": [
+                "*He looks at you for a long time.*",
+                "...A bit. Yeah. Sorry. I mean... no. Not sorry. Yeah."
+            ],
+            "goto": "v3_ask"
+        },
+        "v3_afford": {
+            "lines": [ "*The lamp browns out. Then it comes back on brighter, like it's decided something.*" ],
+            "goto": "v3_ask"
+        },
+        "v3_ask": {
+            "lines": [
+                "Don't patch it. Please. Rewire it. Properly. New copper, the right breakers, the lot.",
+                "I know it's forty grand. I know you've got eleven. I'll help you find every cheap way that isn't dangerous. There's heaps. I know all of them.",
+                "I just don't want it to happen to anyone else. Not to you. Especially not to you.",
+                "*He's shaking a little. Every bulb in the house is perfectly steady.*",
+                "...That's what I think. Sorry for the... no. That's what I think."
+            ],
+            "choices": [
+                { "text": "Okay. We do it properly. Thank you for telling me.", "goto": "v3_realfix", "do": { "romance": 2, "friendship": 1, "friction": -2, "flag.wyatt_realfix": 1 } },
+                { "text": "Kiss him.", "goto": "v3_kiss", "do": { "romance": 3, "flag.wyatt_realfix": 1 } },
+                { "text": "I'll think about it.", "goto": "v3_think", "do": { "friction": 1 } }
+            ]
+        },
+        "v3_realfix": {
+            "lines": [
+                "*Every light in the house comes on at once. Even the ones that aren't plugged in.*",
+                "Properly? Like, properly properly? Copper?",
+                "You: Copper.",
+                "*He makes the noise a kettle makes right before it clicks off.*"
+            ],
+            "goto": "v3_house"
+        },
+        "v3_kiss": {
             "fx": "hearts",
-            "goto": "v3_end"
-        },
-        "v3_friend": {
             "lines": [
-                "Favorite weirdo! I'm somebody's favorite weirdo!",
-                "*He hugs you. Your hair stands on end. You both look like dandelions now.*"
+                "*You kiss him. It's soft and tingly, like licking a nine-volt battery, but in a good way.*",
+                "*Somewhere down the street, three streetlights pop.*",
+                "You: That's for saying it. And yes. We'll do it properly.",
+                "...I'm going to say things way more often."
+            ],
+            "goto": "v3_house"
+        },
+        "v3_think": {
+            "lines": [
+                "Yeah. Course. No worries.",
+                "*He means it about sixty percent.*",
+                "...Think hard, though? Please?"
+            ],
+            "goto": "v3_house"
+        },
+        "v3_house": {
+            "lines": [
+                "*You spend the afternoon pulling Gary's cable out of the wall together. He talks you through every splice, fast and nerdy, then catches himself every single time.*",
+                "Sorry. I'm doing the thing. The fast thing.",
+                "Can I ask you something? It's not about cable."
+            ],
+            "choices": [
+                { "text": "Ask me anything.", "goto": "v3_question", "do": { "romance": 1 } },
+                { "text": "Is it about the others?", "goto": "v3_question", "do": { "friendship": 1 } }
+            ]
+        },
+        "v3_question": {
+            "lines": [
+                "Malcolm said something to me the other day. Malcolm [knows things|knows]. He looks at you and you feel read. Like a meter.",
+                "He said it's alright to want things you can't have. Then he said something lovely about mold that I didn't follow.",
+                "*The lamp flickers. Wyatt does not look toward the bathroom. He very carefully does not look toward the bathroom.*",
+                "That was about the cable budget. Obviously. Anyway. My question.",
+                "Who do you like? In the house. Sorry! For the wiring. I need to know which circuits to prioritize."
+            ],
+            "topics": { "knows": { "goto": "v3_aside_knows", "aside": true, "do": { "friendship": 1 } } },
+            "choices": [
+                { "text": "Honestly? I've got a bit of a thing going with some of the others.", "if": "lukey.romance >= 8 || tyler.romance >= 8 || malcolm.romance >= 8", "goto": "v3_fine" },
+                { "text": "You. Prioritize your own circuit.", "goto": "v3_you", "do": { "romance": 3 } },
+                { "text": "All of you. You're my favorite weirdos.", "goto": "v3_weirdos", "do": { "friendship": 2 } },
+                { "text": "That's none of your business, Wyatt.", "goto": "v3_business", "do": { "friction": 2 } }
+            ]
+        },
+        "v3_aside_knows": {
+            "lines": [
+                "You: What kind of things?",
+                "Where the damp is. Which poem you'll hate. What you're about to say, right before you say it.",
+                "He told Lukey something once. Lukey went very quiet, and then very loud."
+            ],
+            "return": true
+        },
+        "v3_fine": {
+            "lines": [
+                "That's fine! That's great. They're great. Fine.",
+                "*The lamp browns out. Out in the hall, a bulb quietly pops.*",
+                "...It's fine."
+            ],
+            "choices": [
+                { "text": "It's okay to not be fine, you know.", "goto": "v3_notfine", "do": { "romance": 1, "friendship": 1 } },
+                { "text": "Good.", "goto": "v3_storm", "do": { "friction": 1 } }
+            ]
+        },
+        "v3_notfine": {
+            "lines": [
+                "Is it?",
+                "*He actually thinks about it.*",
+                "...Ask me again next week. I'm working up to it. One 'no' at a time."
+            ],
+            "goto": "v3_storm"
+        },
+        "v3_you": {
+            "lines": [
+                "*Every streetlight on Heartbreak Lane brightens. Next door, all nine of Mrs. Pruitt's cats turn to look.*",
+                "Me. Right. Okay. Prioritizing... me. My circuit. First.",
+                "...I'm going to need a minute."
+            ],
+            "goto": "v3_storm"
+        },
+        "v3_weirdos": {
+            "lines": [
+                "Favorite weirdos! I'm somebody's favorite weirdo!",
+                "Lukey's going to be unbearable about this."
+            ],
+            "goto": "v3_storm"
+        },
+        "v3_business": {
+            "lines": [
+                "Yeah. No. You're right. Sorry.",
+                "*He dims. Then, slowly, he brightens again.*",
+                "Actually, no. It's a bit my business. They're my walls. I hear everything. Lukey sings to you. It's very flat."
+            ],
+            "goto": "v3_storm"
+        },
+        "v3_storm": {
+            "lines": [
+                "*Friday. Dan peers into the open wall. 'A rewire? Wire you doing this to me?' From the fuse box comes the biggest giggle yet.*",
+                "*Then the radio crackles. Bev and Trish interrupt their own podcast: 'BIG STORM SATURDAY, ladies. Heavy rain, high winds, power cuts across the county.'*",
+                "I keep that radio going for them, you know. Every morning. Don't tell Bev. She'd want a credit.",
+                "Power cuts. Right. Everyone'll get their generators out.",
+                "*He goes very still.*",
+                "People do silly things with generators."
+            ],
+            "choices": [
+                { "text": "Then we'll do it right. You'll make sure of it.", "goto": "v3_right", "do": { "romance": 1, "friendship": 1 } },
+                { "text": "Relax. Mrs. Pruitt's lending me hers.", "goto": "v3_pruitt", "do": { "friendship": 1 } },
+                { "text": "You're scared of a bit of rain?", "goto": "v3_rain", "do": { "friction": 1 } }
+            ]
+        },
+        "v3_right": {
+            "lines": [
+                "Me. Making sure.",
+                "*He tries the idea on, like a jacket.*",
+                "...Yeah. I can do that. I think. I'd like to."
             ],
             "goto": "v3_end"
         },
-        "v3_cold": {
+        "v3_pruitt": {
             "lines": [
-                "Right. No. Totally fair. Safety first.",
-                "*The sparks fizzle out.*",
-                "I'll just... dim myself. I'm good at that."
+                "Mrs. Pruitt's generator? The one with the crossbow sticker?",
+                "...How are you planning to plug it in?",
+                "You: Into the house?",
+                "*Every light in the house turns slowly to look at you.*",
+                "Let's talk about that. Please."
             ],
             "goto": "v3_end"
         },
-        "v3_tyler": {
+        "v3_rain": {
             "lines": [
-                "Tell Tyler? TYLER? He'd destroy me. He'd critique my font. I don't even HAVE a font.",
-                "...But you think I should?",
-                "*He looks toward the bathroom like it's the moon.*",
-                "Okay. After I'm fixed. When I'm grounded. I'll be brave. Maybe."
+                "Not the rain. What people do in it.",
+                "*Sulky flicker.*"
             ],
-            "do": { "flag.wyatt_confesses": 1, "tyler.romance": 1 },
             "goto": "v3_end"
         },
         "v3_end": {
             "lines": [
-                "Next time, I think I'm ready. Flip my switch.",
-                "Wait, that sounded weird. Rewire me. Professionally."
+                "*Late. The wall's still open. The newspaper is propped on the mantelpiece like a diploma.*",
+                "Twenty-seven years working out what I am. Forty-one theories. And I'm just a bloke who didn't say something.",
+                "Next time, I'm going to say something. I promise.",
+                "Night, {player}."
             ],
             "end": true
         },
 
+        "v4_love": {
+            "lines": [
+                "*Saturday. The storm hits Heartbreak Lane like it's holding a grudge. The rain is going sideways. The power's been out since breakfast.*",
+                "*The only light in the living room is Wyatt.*",
+                "{player}. Love. Sorry, that slipped out. No. It didn't slip. Love.",
+                "*It's the first time he's called you that. He has clearly been practicing on the toaster.*"
+            ],
+            "goto": "v4_storm"
+        },
         "v4": {
             "lines": [
-                "*Wyatt stands by the open fuse box, holding out a pair of wire strippers with both hands.*",
-                "Okay. Okay okay okay. I'm ready. Probably.",
-                "Red to red, black to black, and try not to look me in the eyes or I'll short out."
+                "*Saturday. The storm hits Heartbreak Lane like it's holding a grudge. The rain is going sideways. The power's been out since breakfast.*",
+                "*The only light in the living room is Wyatt.*",
+                "{player}! You're here. Good. Bad. Good that you're here. Bad everything else."
+            ],
+            "goto": "v4_storm"
+        },
+        "v4_storm": {
+            "lines": [
+                "*Water is coming in under the back door. The sump pump needs power, or the basement floods, then the kitchen. Lukey says he's 'fine with it.' He's lying.*",
+                "*Even Dennis is dark. His little green light is out for the first time ever.*",
+                "*You've borrowed [Mrs. Pruitt's|pruitt] generator. And from the junk drawer, an old orange cord with a plug on both ends. Someone has written GARY on it in marker.*",
+                "*Wyatt sees the cord. Every light that was already off somehow goes more off.*",
+                "That's... ha. That's Gary's.",
+                "*You head for the dryer socket. Plug that in, and the generator feeds straight back into the house. No switch. Exactly like New Year's Eve, 1999.*",
+                "It's... it might be... if that's what you... if that's..."
+            ],
+            "topics": { "pruitt": { "goto": "v4_aside_pruitt", "aside": true, "do": { "friendship": 1 } } },
+            "choices": [
+                { "text": "Wyatt. Say it.", "goto": "v4_sayit", "do": { "romance": 2 } },
+                { "text": "What would you do?", "goto": "v4_whatwould", "do": { "friendship": 2 } },
+                { "text": "No time! The pump needs power. I'm plugging it in.", "goto": "v4_plug", "do": { "friction": 2 } }
+            ]
+        },
+        "v4_aside_pruitt": {
+            "lines": [
+                "You: She said I can keep it as long as I bring it back full and ask no questions.",
+                "...I've got questions.",
+                "Why does a generator need a crossbow sticker?"
+            ],
+            "return": true
+        },
+        "v4_sayit": {
+            "lines": [ "*He looks at you. You look back. You wait. You don't fill the silence for him. It's the hardest thing you've done all month.*" ],
+            "goto": "v4_no"
+        },
+        "v4_whatwould": {
+            "lines": [
+                "What would I...",
+                "*For one second he looks twenty-six and four weeks off the plane.*"
+            ],
+            "goto": "v4_no"
+        },
+        "v4_plug": {
+            "lines": [ "*You reach for the socket. The plug is an inch away.*" ],
+            "goto": "v4_no"
+        },
+        "v4_no": {
+            "do": { "flag.wyatt_spoke_up": 1 },
+            "lines": [
+                "NO.",
+                "*Every light in the house blazes on at once. There's no power. There's no reason. The whole of 12 Heartbreak Lane is lit up like a stadium, and Wyatt is standing in the middle of it, very solid.*",
+                "No. Don't plug that in. Sorry. No. Not sorry. NO.",
+                "That cord backfeeds the panel. No [transfer switch|switch], Gary's old splices, the lot. It sends power out to the street, so the bloke up the pole fixing the lines gets all of it. And the house goes up like a Christmas tree. With you in it.",
+                "I didn't say it in 1999. I'm saying it now. Put Gary's cord down."
+            ],
+            "topics": { "switch": { "goto": "v4_aside_switch", "aside": true, "do": { "romance": 1 } } },
+            "choices": [
+                { "text": "Put the cord down. 'You were right. Thank you.'", "goto": "v4_down", "do": { "romance": 2, "friction": -2 } },
+                { "text": "Okay! Okay. Bossy. I like it.", "goto": "v4_bossy", "do": { "romance": 2 } },
+                { "text": "Don't you dare shout at me.", "goto": "v4_shout", "do": { "friction": 2 } }
+            ]
+        },
+        "v4_aside_switch": {
+            "lines": [
+                "You: What's a transfer switch?",
+                "It's a switch that means the house runs on the street OR the generator, never both. It takes turns. It's a very polite switch.",
+                "I love it. I'd marry it. Sorry. Not the time."
+            ],
+            "return": true
+        },
+        "v4_down": {
+            "lines": [
+                "*You put the cord down. He stares at it. Then at you.*",
+                "You listened. I said a thing, and you listened.",
+                "Okay. Okay! Then let's do it properly. Fast."
+            ],
+            "goto": "v4_fix"
+        },
+        "v4_bossy": {
+            "lines": [
+                "*He goes pink. The stadium lighting goes a bit pinker too.*",
+                "I'm not bossy. I'm... yeah, okay, I'm being a bit bossy. It's going really well, actually."
+            ],
+            "goto": "v4_fix"
+        },
+        "v4_shout": {
+            "lines": [
+                "*He flinches. Then he doesn't apologize. You can see how much that costs him.*",
+                "I'm not shouting at you. I'm shouting at the cord.",
+                "...Bit at you. Put it down. Please. But put it down."
+            ],
+            "goto": "v4_fix"
+        },
+        "v4_fix": {
+            "lines": [
+                "*So you do it his way. He talks, you work.*",
+                "*Gary's last splice comes out. The right breaker goes in. The pump gets its own lead, straight to the generator, outside, exactly like it says on the generator in very large letters.*",
+                "*The generator roars. The pump kicks in. The water stops rising. Dennis's little green light blinks back on, smug as ever.*",
+                "*For the first time in twenty-seven years, the wiring in 12 Heartbreak Lane is exactly what it should be. You'll be paying off the copper until you're forty. You find you don't mind.*",
+                "*Wyatt's stadium glow settles into something soft and steady. No buzz. No flicker.*",
+                "...Oh. It's so quiet. Is this what a normal house sounds like? It's so QUIET."
+            ],
+            "goto": "v4_house"
+        },
+        "v4_house": {
+            "lines": [ "Is everyone alright? Lukey? Malcolm? Tyler? Sorry. I can't see past the kitchen from here." ],
+            "choices": [
+                { "text": "Lukey found out who he really was.", "if": "flag.lukey_human", "goto": "v4_lukey", "do": { "friendship": 1 } },
+                { "text": "Did you see Tyler's video?", "if": "flag.tyler_video", "goto": "v4_tyler", "do": { "friendship": 1 } },
+                { "text": "Malcolm showed me his diaries.", "if": "flag.malcolm_diary", "goto": "v4_malcolm", "do": { "friendship": 1 } },
+                { "text": "Everyone's okay. Soggy, but okay.", "goto": "v4_okay" }
+            ]
+        },
+        "v4_lukey": {
+            "lines": [
+                "Yeah. He told me. Well, he told the whole street. Loudly.",
+                "I'd give him a hug if it wouldn't kill us both. Again.",
+                "We did the nod. It was a really good nod."
+            ],
+            "goto": "v4_honest"
+        },
+        "v4_tyler": {
+            "lines": [
+                "*He goes quiet.*",
+                "Yeah. He made me watch it eleven times. He says the slip was 'tactically sound.'",
+                "Don't let anyone laugh at it.",
+                "...Okay. It's a bit funny. Don't let ME laugh at it."
+            ],
+            "goto": "v4_honest"
+        },
+        "v4_malcolm": {
+            "lines": [
+                "He showed me one too. 2006. Mostly about a boy called Dylan and a very sad vampire.",
+                "I said it was lovely. He went a bit green. Greener.",
+                "He knew about me before I did, you know. He's always known heaps of things."
+            ],
+            "goto": "v4_honest"
+        },
+        "v4_okay": {
+            "lines": [ "Soggy but okay. That's the dream, really." ],
+            "goto": "v4_honest"
+        },
+        "v4_honest": {
+            "lines": [
+                "*He sits on the arm of the sofa: steady, solid, not sparking at all. He looks a bit stunned.*",
+                "I said no. To you. And you're still here. And so's the house.",
+                "Tyler ordered me to keep the bathroom fan going through the storm. Direct order. I said no to him too. He called me 'insubordinate.'",
+                "*One small flicker, for old times' sake.*",
+                "He's never called me anything but Private before.",
+                "...Can I say another thing? While I've got the hang of it?"
             ],
             "choices": [
-                { "text": "You turn me on, Wyatt. Literally and otherwise.", "if": "romance >= 4 && friction < 3", "goto": "v4_rs" },
-                { "text": "I like you. But this whole thing is a fire hazard.", "if": "romance >= 4 && friction >= 3", "goto": "v4_rf" },
-                { "text": "Let's do this, buddy. Together.", "if": "friendship >= 3 && friction < 3", "goto": "v4_fs" },
-                { "text": "Hold still and stop sparking.", "goto": "v4_auto" }
+                { "text": "Go on. Say anything.", "goto": "v4_feelings", "do": { "romance": 1 } },
+                { "text": "If this is about me and the others, say it.", "if": "lukey.romance >= 8 || tyler.romance >= 8 || malcolm.romance >= 8", "goto": "v4_jealous", "do": { "friendship": 1 } },
+                { "text": "Is this about the blackout at Lukey's dinner?", "if": "flag.lukey_blackout", "goto": "v4_blackout", "do": { "friendship": 1 } }
+            ]
+        },
+        "v4_feelings": {
+            "lines": [
+                "You've been the best thing in this house since about five minutes after I fell out of the fuse box. I'm mad about you.",
+                "You don't have to feel the same. I just didn't want to be twenty-seven years late again.",
+                "*No flicker. Not one. Just him, saying it.*"
+            ],
+            "goto": "v4_after"
+        },
+        "v4_jealous": {
+            "lines": [
+                "Yeah. It is.",
+                "It's not fine. I said it was fine. The lamp knew. The lamp's always known.",
+                "I'm a one-person bloke. Always have been. I'd want to be your one person. If that's... no. No 'if that's alright.' That's what I want.",
+                "You don't have to give it to me. But now you know."
+            ],
+            "goto": "v4_after"
+        },
+        "v4_blackout": {
+            "lines": [
+                "Yeah. That was me. Here's the bit I didn't say.",
+                "I was jealous. He was lighting candles for you, and I got a feeling, and the feeling took out the whole house.",
+                "Sorry about the dinner. Not sorry about the feeling."
+            ],
+            "goto": "v4_after"
+        },
+        "v4_after": {
+            "lines": [
+                "*The storm is easing. Rain ticks on the window. Wyatt is glowing faintly at the edges, the way people do when they're finally finished with something.*",
+                "Well. That's two things I've said. I reckon that might've been it. The thing I was stuck on."
+            ],
+            "choices": [
+                { "text": "I'm so proud of you.", "goto": "v4_proud", "do": { "friendship": 2 } },
+                { "text": "Keep going. Say all of it. To me.", "goto": "v4_more", "do": { "romance": 2 } },
+                { "text": "Only took you twenty-seven years.", "goto": "v4_took", "do": { "friendship": 1, "friction": 1 } }
+            ]
+        },
+        "v4_proud": {
+            "lines": [
+                "*He goes very pink, very steadily. Not a flicker.*",
+                "Proud. Of me. Okay. I'm keeping that one in the walls forever."
+            ],
+            "goto": "v4_choose"
+        },
+        "v4_more": {
+            "lines": [
+                "*He laughs. A real one, no fizz.*",
+                "You've got a gorgeous smile. Your drill technique's dodgy. And I'm keeping the good torch. That's three. I'm on a roll."
+            ],
+            "goto": "v4_choose"
+        },
+        "v4_took": {
+            "lines": [
+                "Twenty-seven years and one bloody good flipper.",
+                "*He grins.*",
+                "Yeah, nah. Fair."
+            ],
+            "goto": "v4_choose"
+        },
+        "v4_choose": {
+            "lines": [
+                "*Monday. The storm has passed. Inspector Dan flips every switch in the house. Nothing flickers. 'Shockingly good,' he says, and waits.*",
+                "*From the fuse box comes the biggest giggle of all. Dan signs off the electrics with a tiny lightning bolt.*",
+                "So. The wiring's right. I said the thing. I reckon I get to choose now. Stay, or go wherever surges go. Probably Wollongong.",
+                "I know what I want. I'd just like to hear what you want first. That's not me asking permission. That's manners."
+            ],
+            "choices": [
+                { "text": "Stay. With me. I love you, Wyatt.", "if": "romance >= 16 && friction < 8", "goto": "v4_rs" },
+                { "text": "Stay. With me.", "if": "romance >= 16 && friction >= 8", "goto": "v4_rf_no" },
+                { "text": "I love you. Go home. Go find your chicken shop.", "if": "romance >= 16", "goto": "v4_rf_go" },
+                { "text": "Go. You've earned it.", "if": "friendship >= 14 && friction < 8", "goto": "v4_fs" },
+                { "text": "That's up to you, Wyatt.", "if": "friction < 8", "goto": "v4_call_kind" },
+                { "text": "That's up to you, Wyatt.", "if": "friction >= 8", "goto": "v4_call_grumpy" }
             ]
         },
         "v4_rs": {
+            "fx": "hearts",
             "lines": [
-                "*You work carefully. He holds very, very still, which is the hardest thing he has ever done.*",
-                "*Click. Hum. Every light in the house comes on at once, warm and steady.*",
-                "I'm... grounded. I'm GROUNDED. I can THINK! I know where the bathroom is!",
-                "And I know exactly where I want to be. Which is here. With you. Steadily. At a reasonable voltage."
+                "*He kisses you. No zap. Just warm.*",
+                "I'm staying. I want to. That's me wanting something, out loud.",
+                "Also I've got forty-one theories to cross off, and I'd like to do it with you."
             ],
             "goto": "v4_rs2"
         },
         "v4_rs2": {
             "fx": "fade",
             "fxText": "The lights went out. On purpose, this time.",
-            "lines": [ "...Best power outage of my life." ],
+            "lines": [ "*Much later.*", "...Best power cut of my life." ],
             "ending": "romance_success"
         },
-        "v4_rf": {
+        "v4_rf_no": {
             "lines": [
-                "*You rewire him in silence. Click. Hum. The lights steady.*",
-                "...Fire hazard. Yeah. I heard that.",
-                "Funny. Now that I'm grounded I can actually see things clearly. And clearly, you liked the idea of me more than me.",
-                "*He unplugs himself from the wall, coils up his cord with great dignity and walks out the front door.*"
+                "*He takes your hands. Warm. Steady. No zap.*",
+                "I love you. I do. And I've only just learned how to say no, so I'm going to use it on the hardest one first.",
+                "No. I'm not staying. You'd have me patching things for you forever, and I'd let you. I'd say yes every time.",
+                "*He kisses your forehead.*",
+                "Yeah, nah. Look after the wiring, {player}. I'll know if you don't.",
+                "*The lights glow gold, then soft, and then he's gone. The porch light flickers twice.*"
+            ],
+            "ending": "romance_failure"
+        },
+        "v4_rf_go": {
+            "lines": [
+                "*He searches your face. Then he nods, slowly.*",
+                "Yeah. You're right. You always know what the wiring needs.",
+                "I love you too. Said it first go. Did you notice? No 'if that's alright.'",
+                "*He kisses you once, warm, no zap. The lights glow gold, then soft, and then he's gone. The porch light flickers twice.*"
             ],
             "ending": "romance_failure"
         },
         "v4_fs": {
             "lines": [
-                "*Click. Hum. The lights steady. Wyatt blinks like he's waking up.*",
-                "Whoa. Whoa! I remember things! I remember your birthday!",
-                "I don't know when your birthday is. But I'll remember it once you tell me!",
-                "Buddies. Best buddies. Grounded, up-to-code best buddies."
+                "*He grins and gives you a very Australian thumbs up.*",
+                "Best mate I've ever had, alive or... whatever this was.",
+                "Tell Lukey I'll miss the nod. Tell Dennis he's on a good socket now. Tell Dan his puns are great. Lie if you have to.",
+                "*He goes out in a warm, steady glow. No spark. No flicker. Gone, the way a light goes when someone switches it off properly.*"
             ],
             "ending": "friend_success"
         },
-        "v4_auto": {
+        "v4_call_kind": {
             "lines": [
-                "*Click. Hum. The lights steady. Wyatt flexes his fingers. No sparks.*",
-                "Huh. Quiet in here now."
+                "Up to me.",
+                "*He sits with that for a long moment.*",
+                "Nobody's ever... yeah. Thanks.",
+                "Then I'll go. Not because I want to leave. Because I can. Because I said the thing.",
+                "No worries, {player}. And for once I actually mean it.",
+                "*A soft, steady glow. Then nothing. The porch light flickers twice, just to say bye.*"
             ],
-            "ending": "auto"
+            "ending": "friend_success"
+        },
+        "v4_call_grumpy": {
+            "lines": [
+                "Up to me? Okay. Then I'll go.",
+                "I'm not staying for someone who only asks what I think when the house is on fire.",
+                "*He says it gently. He doesn't say sorry. He has never been prouder of himself.*",
+                "*He's gone before you can answer. Taped to the fuse box is a note in very neat capitals: NO WORRIES. (SOME WORRIES.) -W*"
+            ],
+            "ending": "friend_failure"
         },
 
         "today": {
             "lines": [
-                "Oh! Hi! Again! I'm still processing the last conversation. My circuits are full.",
-                "Come back next week? I'll try to remember what we talked about. No promises."
+                "We've had our chat today, {player}. I'm a fuse box, not talkback radio.",
+                "Come back next week? If that's... yeah. Please. I'll be here. I'm always here. That's sort of the problem."
             ],
             "end": true
         },
         "after_rs": {
-            "lines": [ "Hey you. The lights are steady, my head is clear, and I still can't stop thinking about you. Diagnosis: not a wiring problem." ],
+            "lines": [
+                "Hey, love. Tyler wanted his towel folded in quarters today. I said thirds. He said, 'Fine, Private.'",
+                "*He looks thrilled and terrified in exactly equal measure.*",
+                "I said no to Tyler, AND it was about towels. Big day."
+            ],
             "end": true
         },
         "after_rf": {
-            "lines": [ "*Wyatt is packing spare fuses into a box. He doesn't look up.*", "Just grabbing my stuff. Your wiring's fine. It's up to code. Like I said: you liked the idea of me." ],
+            "lines": [ "*The porch light flickers twice when you come home. Then it holds steady, like it's being brave about it.*" ],
             "end": true
         },
         "after_fs": {
-            "lines": [ "Buddy! I told Tyler. He said my jacket was 'a choice.' I think that means yes?!" ],
+            "lines": [ "*The lights are steady and quiet. In the bathroom, a pink towel sits folded in thirds, like a flag. Tyler hasn't noticed it. Malcolm says nobody is to move it, and nobody does.*" ],
             "end": true
         },
         "after_ff": {
-            "lines": [ "*Wyatt stares at you, perfectly grounded and perfectly cold.*", "Power's on. That's all you wanted, right?" ],
+            "lines": [ "*The note's still taped to the fuse box: NO WORRIES. (SOME WORRIES.) -W. Underneath, in smaller capitals: THE STAIRS SOCKET IS STILL DODGY. You move Dennis anyway.*" ],
             "end": true
         }
     }

@@ -6,10 +6,10 @@
     "speakers": [
         "Dan"
     ],
-    "notes": "Plays when the player goes to bed on the last week. The house passes if Lukey's arc is finished (the kitchen leak is fixed).",
+    "notes": "Plays when the player goes to bed on the last week. The house passes only if all four maladies are fixed (housefixed, i.e. fixedcount == storycount); the game uses the same rule to decide whether the finale podcast plays. On a fail, Dan walks to each room that is still broken (kitchen, bedroom closet, bathroom, living room, in that order) via single conditional choices, so the scene names exactly what's unfinished.",
     "entries": [
         {
-            "if": "lukey.fixed",
+            "if": "housefixed",
             "node": "pass"
         },
         {
@@ -22,22 +22,80 @@
             "lines": [
                 "*Friday morning. Inspector Dan arrives with his clipboard, his windbreaker and, for once, completely dry shoes.*",
                 "Dan: Final inspection. Let's see what we've got.",
-                "*He checks every pipe in the house. He knocks on the walls. He sniffs the bathroom ceiling, for reasons he doesn't explain.*",
+                "*The kitchen. He checks every pipe, knocks on the walls and peers under the sink for a long time.*",
                 "Dan: Not a single leak. You've really turned the tide on this place.",
-                "*He waits for a laugh. Somewhere in the walls, a pipe gurgles, possibly in disgust.*",
-                "Dan: That pink tile in the bathroom is a crime against taste, but taste isn't in the building code. Yet.",
-                "Dan: Congratulations. 12 Heartbreak Lane passes. I'll tell the council on Monday it's the safest house on the street."
+                "*The bedroom closet. Bare studs, fresh drywall, no smell at all. He sniffs anyway.*",
+                "Dan: No more fungus among us. I'll be honest, I'll miss the moldy oldie. Spore-adically.",
+                "*The living room. He flips every switch in the house. Nothing flickers. Nothing sparks. Nothing apologizes.*",
+                "Dan: Rewired, up to code. A real watt-ershed moment.",
+                "*The bathroom. He runs a thumb along the grout of the old pink tile and smiles.*",
+                "Dan: Restored, regrouted, sealed. I said it on Monday and I'll tile it again: she's a keeper.",
+                "*He waits for a laugh. The whole house holds its breath, very politely.*",
+                "Dan: Congratulations. 12 Heartbreak Lane passes. Every room. I'll tell the council it's the safest house on the street."
             ],
             "end": true
         },
         "fail": {
             "lines": [
-                "*Friday morning. Inspector Dan arrives with his clipboard. He goes straight to the kitchen sink.*",
+                "*Friday morning. Inspector Dan arrives with his clipboard. He isn't smiling.*",
+                "Dan: Final inspection. Every room, top to bottom. I promised the council."
+            ],
+            "choices": [
+                { "text": "Follow him to the kitchen.", "if": "!lukey.fixed", "goto": "fail_kitchen" },
+                { "text": "Follow him to the bedroom.", "if": "lukey.fixed && !malcolm.fixed", "goto": "fail_closet" },
+                { "text": "Follow him to the bathroom.", "if": "lukey.fixed && malcolm.fixed && !tyler.fixed", "goto": "fail_bathroom" },
+                { "text": "Follow him to the living room.", "if": "lukey.fixed && malcolm.fixed && tyler.fixed && !wyatt.fixed", "goto": "fail_wiring" }
+            ]
+        },
+        "fail_kitchen": {
+            "lines": [
+                "*He goes straight to the kitchen sink.*",
                 "*Drip. Drip. Drip.*",
-                "Dan: Ah.",
-                "Dan: That's a leak. That's an active leak. In the house I promised the council would be bone dry.",
-                "Dan: I'm sorry. I really am. I'll have to recommend the demolition goes ahead.",
+                "Dan: Ah. That's an active leak. In the house I promised would be bone dry.",
                 "*Behind him, the tap drips once more. It sounds almost apologetic.*"
+            ],
+            "choices": [
+                { "text": "Follow him to the bedroom.", "if": "!malcolm.fixed", "goto": "fail_closet" },
+                { "text": "Follow him to the bathroom.", "if": "malcolm.fixed && !tyler.fixed", "goto": "fail_bathroom" },
+                { "text": "Follow him to the living room.", "if": "malcolm.fixed && tyler.fixed && !wyatt.fixed", "goto": "fail_wiring" },
+                { "text": "Wait for the verdict.", "if": "malcolm.fixed && tyler.fixed && wyatt.fixed", "goto": "fail_verdict" }
+            ]
+        },
+        "fail_closet": {
+            "lines": [
+                "*He opens the bedroom closet. The back wall is velvet black, and it seems to be sulking.*",
+                "Dan: Black mold. Still here. A fungus among us. ...It's less funny the second time.",
+                "*Something in the closet sighs, at length.*"
+            ],
+            "choices": [
+                { "text": "Follow him to the bathroom.", "if": "!tyler.fixed", "goto": "fail_bathroom" },
+                { "text": "Follow him to the living room.", "if": "tyler.fixed && !wyatt.fixed", "goto": "fail_wiring" },
+                { "text": "Wait for the verdict.", "if": "tyler.fixed && wyatt.fixed", "goto": "fail_verdict" }
+            ]
+        },
+        "fail_bathroom": {
+            "lines": [
+                "*He taps the pink tile by the tub. It's still cracked. Water's been getting in behind it, and two tiles come away in his hand.*",
+                "Dan: Loose, cracked, and the wall behind it's soft. I wanted to call it a keeper. I can't keep it like this.",
+                "*He puts the tiles back very gently, like he's apologizing to them.*"
+            ],
+            "choices": [
+                { "text": "Follow him to the living room.", "if": "!wyatt.fixed", "goto": "fail_wiring" },
+                { "text": "Wait for the verdict.", "if": "wyatt.fixed", "goto": "fail_verdict" }
+            ]
+        },
+        "fail_wiring": {
+            "lines": [
+                "*He flips the living-room switch. The lamp flickers, nervously. Somewhere in the wall, something sparks and then goes very quiet.*",
+                "Dan: That's a fire waiting for a cold night. I don't have a pun for that one. I looked."
+            ],
+            "goto": "fail_verdict"
+        },
+        "fail_verdict": {
+            "lines": [
+                "*Dan stands in the hall and writes for a long time.*",
+                "Dan: I'm sorry. I really am. It's so close. But I can only sign off a house that's fixed for real, every room of it.",
+                "Dan: I'll have to recommend the demolition goes ahead."
             ],
             "end": true
         }
