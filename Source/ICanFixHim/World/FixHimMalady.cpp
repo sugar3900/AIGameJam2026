@@ -137,7 +137,7 @@ void AFixHimMalady::BuildBrokenFx()
 		BrokenFx.Add(Drop);
 		const float FloorZ = -GetActorLocation().Z + 0.6f;
 		UStaticMeshComponent* Puddle = FixHim::Assets::AddShape(this, Root, TEXT("cylinder"), FVector(O.X + 25.f, O.Y, FloorZ), FVector(120.f, 90.f, 0.6f), FLinearColor(0.4f, 0.65f, 0.9f));
-		if (UMaterialInstanceDynamic* MID = FixHim::Assets::MakeTranslucent(Puddle, FLinearColor(0.35f, 0.6f, 0.95f), 0.55f))
+		if (UMaterialInstanceDynamic* MID = FixHim::Assets::MakeTranslucent(Puddle, FLinearColor(1.6f, 2.8f, 4.0f), 0.28f))
 		{
 			Puddle->SetMaterial(0, MID);
 		}
@@ -146,6 +146,13 @@ void AFixHimMalady::BuildBrokenFx()
 	}
 	case EMaladyStyle::Mold:
 	{
+		TArray<AActor*> AttachedActors;
+		GetAttachedActors(AttachedActors);
+		if (AttachedActors.ContainsByPredicate([](const AActor* Actor)
+			{ return Actor && Actor->ActorHasTag(TEXT("AuthoredMoldDamage")); }))
+		{
+			break;
+		}
 		FRandomStream Rng(GetTypeHash(HunkId) + 7);
 		for (int32 i = 0; i < 14; ++i)
 		{
@@ -196,6 +203,16 @@ void AFixHimMalady::RefreshRepairState()
 	if (FxLight)
 	{
 		FxLight->SetVisibility(!bRepaired);
+	}
+	// Level-authored nonblocking damage follows the same repair state as FX.
+	TArray<AActor*> AttachedActors;
+	GetAttachedActors(AttachedActors);
+	for (AActor* Attached : AttachedActors)
+	{
+		if (Attached && Attached->ActorHasTag(TEXT("RepairDamage")))
+		{
+			Attached->SetActorHiddenInGame(bRepaired);
+		}
 	}
 }
 

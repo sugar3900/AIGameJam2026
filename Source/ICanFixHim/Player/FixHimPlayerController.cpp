@@ -16,6 +16,9 @@
 #include "UI/FixHimCards.h"
 #include "UI/FixHimDayWidgets.h"
 #include "Engine/DirectionalLight.h"
+#include "Engine/StaticMeshActor.h"
+#include "Components/StaticMeshComponent.h"
+#include "Materials/MaterialInstanceDynamic.h"
 #include "Components/DirectionalLightComponent.h"
 #include "Components/LightComponent.h"
 #include "ICanFixHim.h"
@@ -94,6 +97,17 @@ void AFixHimPlayerController::BeginPlay()
 		{
 			SunBaseIntensity = LC->Intensity;
 			SunBaseColor = LC->GetLightColor();
+		}
+	}
+
+	for (TActorIterator<AStaticMeshActor> It(GetWorld()); It; ++It)
+	{
+		if (It->ActorHasTag(TEXT("WindowView")))
+		{
+			if (UMaterialInstanceDynamic* View = It->GetStaticMeshComponent()->CreateDynamicMaterialInstance(0))
+			{
+				WindowViews.Add(View);
+			}
 		}
 	}
 
@@ -1070,6 +1084,12 @@ void AFixHimPlayerController::UpdateDaylight(float DeltaTime)
 			const FLinearColor Dusk(0.45f, 0.4f, 0.8f);
 			LC->SetLightColor(T < 0.6f ? FMath::Lerp(SunBaseColor, Golden, T / 0.6f) : FMath::Lerp(Golden, Dusk, (T - 0.6f) / 0.4f));
 		}
+	}
+
+	const float WindowBrightness = FMath::Lerp(12.f, 0.35f, FMath::Pow(T, 1.4f));
+	for (UMaterialInstanceDynamic* View : WindowViews)
+	{
+		if (View) View->SetScalarParameterValue(TEXT("WindowBrightness"), WindowBrightness);
 	}
 
 	if (!bLateToastShown && T >= S->LateWarningFraction && State == EFixHimState::Playing && HUDWidget)

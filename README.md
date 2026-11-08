@@ -61,6 +61,7 @@ docs/                         Obsidian vault: planning, GDD, tech notes, devlog
 
 - **Writing dialogue:** see [`docs/04 Tech/Dialogue Format.md`](docs/04%20Tech/Dialogue%20Format.md). Edit the JSON, run `python3 Tools/validate_dialogue.py`, then type `FixHim.ReloadDialogue` in the game console.
 - **Changing the apartment:** edit `Tools/Editor/build_apartment.py`, then run `python3 Tools/run_in_editor.py Tools/Editor/build_apartment.py` with the editor open. The level is rebuilt from scratch, so don't hand-edit `L_Apartment`; change the script instead.
+- **Rebuilding environment art:** With this project open in the editor, run `Tools/Editor/create_painterly_material.py`, `Tools/Editor/import_environment_textures.py`, `Tools/Editor/import_window_view.py`, and `Tools/Editor/import_environment.py`, in that order, then rebuild `Tools/Editor/build_apartment.py`. Source models and generators are under `Art Source/Environment Models` and `Tools/Art/Environment`. Run `Tools/Editor/validate_environment.py` to check the saved level's interaction traces, doorway clearances, and repair-damage attachments; run `Tools/Editor/validate_environment_pie.py` during PIE to check hunk placement, dialogue sightlines, and moving prop materials. `Tools/run_in_editor.py` selects only an editor open on this exact checkout.
 - **Tuning / asset refs:** *Project Settings > Game > I Can Fix Him*.
 - **AI tooling:** the editor runs the Unreal MCP server on `localhost:8001` (see `.mcp.json`), and Python remote execution is enabled for `Tools/run_in_editor.py`.
 

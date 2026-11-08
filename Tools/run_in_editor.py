@@ -38,16 +38,18 @@ def main():
     remote = rex.RemoteExecution(cfg)
     remote.start()
     try:
-        deadline = time.time() + 15
-        while not remote.remote_nodes and time.time() < deadline:
-            time.sleep(0.2)
-        if not remote.remote_nodes:
-            print("No editor found (is it running with remote execution enabled?)", file=sys.stderr)
-            return 2
-        # Prefer the editor that has *this* project open (others may be running).
+        # Wait specifically for this checkout; never fall back to another project.
         here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        nodes = remote.remote_nodes
-        node = next((n for n in nodes if os.path.realpath(n.get("project_root", "")) == os.path.realpath(here)), nodes[0])
+        deadline = time.time() + 20
+        node = None
+        while time.time() < deadline:
+            node = next((n for n in remote.remote_nodes if os.path.realpath(n.get("project_root", "")) == os.path.realpath(here)), None)
+            if node:
+                break
+            time.sleep(0.2)
+        if not node:
+            print("No editor found for this worktree", file=sys.stderr)
+            return 2
         remote.open_command_connection(node["node_id"])
         result = remote.run_command(command, unattended=True, exec_mode=mode, raise_on_failure=False)
         for entry in result.get("output", []):
