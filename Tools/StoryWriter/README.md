@@ -5,6 +5,31 @@ Built with Avalonia 12 / .NET 10, so it runs on macOS and Windows.
 
 ## Run
 
+### No .NET needed: prebuilt executables
+
+Download the zip for your platform from the repo's **Releases** page (`storywriter-latest`, rebuilt by CI whenever
+`Tools/StoryWriter` changes on `main`), unzip it anywhere inside your checkout (or anywhere, see below) and run it:
+
+| Platform | Zip | Run |
+| --- | --- | --- |
+| Windows | `StoryWriter-win-x64.zip` | `StoryWriter.exe` |
+| Linux | `StoryWriter-linux-x64.zip` | `./StoryWriter` |
+| macOS | `StoryWriter-osx-arm64.zip` (Apple Silicon) / `-osx-x64.zip` (Intel) | `./StoryWriter` |
+
+The tool walks up from its own folder to find the `.uproject`, so unzipped inside the repo it opens the project's
+Dialogue folder, voice-over and music automatically. Elsewhere, pass a folder: `StoryWriter <dir>`. On macOS the builds
+are unsigned: right-click > Open the first time.
+
+To build the executables locally (needs the .NET 10 SDK; cross-compiles from any OS), output goes to the git-ignored
+`Tools/StoryWriter/dist/<rid>/`:
+
+```bash
+Tools/StoryWriter/publish.sh            # all platforms; or: publish.sh win-x64
+# Windows: Tools/StoryWriter/publish.ps1
+```
+
+### From source
+
 ```bash
 # once: install the .NET 10 SDK (https://dot.net), or user-locally:
 #   curl -sSL https://dot.net/v1/dotnet-install.sh | bash -s -- --channel LTS

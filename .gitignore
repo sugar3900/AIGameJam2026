@@ -72,3 +72,4 @@ Art Source/**/*.zip
 # .NET build output (Tools/StoryWriter)
 Tools/**/bin/
 Tools/**/obj/
+Tools/StoryWriter/dist/
