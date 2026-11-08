@@ -7,6 +7,7 @@ using Avalonia.Layout;
 using Avalonia.Media;
 using AvaloniaEdit;
 using AvaloniaEdit.Document;
+using AvaloniaEdit.Editing;
 using AvaloniaEdit.Rendering;
 using StoryWriter.Graph;
 using StoryWriter.Model;
@@ -38,7 +39,15 @@ sealed class LineColorizer : DocumentColorizingTransformer
 			});
 		}
 		foreach (Match m in Regex.Matches(text, @"\{(player|name)\}"))
-			ChangeLinePart(o + m.Index, o + m.Index + m.Length, e => e.TextRunProperties.SetForegroundBrush(Palette.Substitution));
+		{
+			var color = m.Groups[1].Value == "player" ? Palette.You : Palette.Start;
+			var fill = new SolidColorBrush(((ISolidColorBrush)color).Color, 0.28);
+			ChangeLinePart(o + m.Index, o + m.Index + m.Length, e =>
+			{
+				e.TextRunProperties.SetForegroundBrush(color);
+				e.TextRunProperties.SetBackgroundBrush(fill);
+			});
+		}
 		foreach (var t in Dialogue.Topics(text))
 		{
 			ChangeLinePart(o + t.Start, o + t.Start + t.Length, e =>
@@ -48,6 +57,101 @@ sealed class LineColorizer : DocumentColorizingTransformer
 				e.TextRunProperties.SetTextDecorations(TextDecorations.Underline);
 			});
 		}
+	}
+}
+
+/// <summary>Where the [shown|key] hyperlink markup lives in the text: its words are editable, the delimiters are not.</summary>
+static class LinkMarkup
+{
+	public static readonly Regex Rx = new(@"\[([^\[\]|\n]*)(\|[^\[\]\n]*)?\]", RegexOptions.Compiled);
+
+	/// <summary>The hidden pieces: the opening "[" and the closing "|key]" (or just "]").</summary>
+	public static IEnumerable<(int start, int length)> Delimiters(string text, int baseOffset = 0)
+	{
+		foreach (Match m in Rx.Matches(text))
+		{
+			yield return (baseOffset + m.Index, 1);
+			int suffix = m.Index + 1 + m.Groups[1].Length;
+			yield return (baseOffset + suffix, m.Length - 1 - m.Groups[1].Length);
+		}
+	}
+}
+
+/// <summary>Hides the hyperlink delimiters so a link reads as plain, editable words (coloured by <see cref="LineColorizer"/>).</summary>
+sealed class LinkDelimiterGenerator : VisualLineElementGenerator
+{
+	IEnumerable<(int start, int length)> Pieces()
+	{
+		int from = CurrentContext.VisualLine.FirstDocumentLine.Offset, to = CurrentContext.VisualLine.LastDocumentLine.EndOffset;
+		return LinkMarkup.Delimiters(CurrentContext.Document.GetText(from, to - from), from);
+	}
+
+	public override int GetFirstInterestedOffset(int startOffset)
+	{
+		foreach (var (start, _) in Pieces())
+			if (start >= startOffset) return start;
+		return -1;
+	}
+
+	public override VisualLineElement? ConstructElement(int offset)
+	{
+		foreach (var (start, length) in Pieces())
+			if (start == offset) return new FormattedTextElement("\u200B", length);
+		return null;
+	}
+}
+
+/// <summary>{player} / {name} as single, uneditable inline objects: "Player Name" (blue) and the character's name (green).</summary>
+sealed class PlaceholderGenerator : VisualLineElementGenerator
+{
+	static readonly Regex Rx = new(@"\{(player|name)\}", RegexOptions.Compiled);
+	readonly Func<string> _name;
+
+	public PlaceholderGenerator(Func<string> name) => _name = name;
+
+	public override int GetFirstInterestedOffset(int startOffset)
+	{
+		int to = CurrentContext.VisualLine.LastDocumentLine.EndOffset;
+		var m = Rx.Match(CurrentContext.Document.GetText(startOffset, to - startOffset));
+		return m.Success ? startOffset + m.Index : -1;
+	}
+
+	public override VisualLineElement? ConstructElement(int offset)
+	{
+		int to = CurrentContext.VisualLine.LastDocumentLine.EndOffset;
+		var m = Rx.Match(CurrentContext.Document.GetText(offset, to - offset));
+		if (!m.Success || m.Index != 0) return null;
+		return new FormattedTextElement(m.Groups[1].Value == "player" ? " Player Name " : " " + _name() + " ", m.Length);
+	}
+}
+
+/// <summary>Keeps the hidden hyperlink delimiters from being typed into or deleted by hand.</summary>
+sealed class LinkProtector : IReadOnlySectionProvider
+{
+	readonly TextEditor _editor;
+
+	public LinkProtector(TextEditor editor) => _editor = editor;
+
+	List<(int s, int e)> Protected() =>
+		LinkMarkup.Delimiters(_editor.Document.Text).Select(d => (d.start, d.start + d.length)).ToList();
+
+	public bool CanInsert(int offset) => !Protected().Any(p => offset > p.s && offset < p.e);
+
+	public IEnumerable<ISegment> GetDeletableSegments(ISegment segment)
+	{
+		int pos = segment.Offset, end = segment.EndOffset;
+		if (segment.Length == 0)
+		{
+			yield return segment;
+			yield break;
+		}
+		foreach (var (s, e) in Protected())
+		{
+			if (e <= pos || s >= end) continue;
+			if (s > pos) yield return new TextSegment { StartOffset = pos, EndOffset = s };
+			pos = Math.Max(pos, e);
+		}
+		if (pos < end) yield return new TextSegment { StartOffset = pos, EndOffset = end };
 	}
 }
 
@@ -113,7 +217,14 @@ public sealed class NodeEditorWindow : Window
 		_editor.Options.EnableHyperlinks = false;
 		_editor.Options.EnableEmailHyperlinks = false;
 		_editor.TextArea.TextView.LineTransformers.Add(new LineColorizer());
-		_editor.TextChanged += (_, _) => RefreshPreview();
+		_editor.TextArea.TextView.ElementGenerators.Add(new LinkDelimiterGenerator());
+		_editor.TextArea.TextView.ElementGenerators.Add(new PlaceholderGenerator(() => _doc.Name));
+		_editor.TextArea.ReadOnlySectionProvider = new LinkProtector(_editor);
+		_editor.TextChanged += (_, _) =>
+		{
+			SyncTopics();
+			RefreshPreview();
+		};
 
 		Content = BuildLayout();
 		Load();
@@ -122,18 +233,19 @@ public sealed class NodeEditorWindow : Window
 	}
 
 	/// <summary>Next-node dropdown: every other node except hypertext link nodes.</summary>
-	ComboBox GotoBox(string current)
+	ComboBox GotoBox(string current, bool forLink = false)
 	{
 		var cb = new ComboBox { MinWidth = 160, HorizontalAlignment = HorizontalAlignment.Stretch };
-		FillGoto(cb, current);
+		FillGoto(cb, current, forLink);
 		return cb;
 	}
 
-	void FillGoto(ComboBox cb, string current)
+	/// <param name="forLink">Hyperlink targets: hypertext nodes are the point, so they are listed.</param>
+	void FillGoto(ComboBox cb, string current, bool forLink = false)
 	{
 		var kinds = _doc.NodeKinds();
 		var items = new List<string> { NoneLabel };
-		items.AddRange(_doc.NodeIds.Where(id => id != _nodeId && kinds.GetValueOrDefault(id) != NodeKind.Hypertext));
+		items.AddRange(_doc.NodeIds.Where(id => id != _nodeId && (forLink || kinds.GetValueOrDefault(id) != NodeKind.Hypertext)));
 		// Keep whatever is already set (a self-loop, a link node, a node that doesn't exist yet) so it isn't lost silently.
 		if (current.Length > 0 && !items.Contains(current)) items.Add(current);
 		cb.ItemsSource = items;
@@ -144,15 +256,20 @@ public sealed class NodeEditorWindow : Window
 
 	IEnumerable<string> ConditionVars() => Vars.Conditions(_doc, _allDocs());
 
-	AutoCompleteBox NodePicker(string text) => new()
+	/// <summary>A toolbar button that looks like the inline token it inserts (same colour and background).</summary>
+	static Button TokenButton(string label, IBrush color, string tip, Action click)
 	{
-		ItemsSource = _nodeIds,
-		Text = text,
-		FilterMode = AutoCompleteFilterMode.Contains,
-		MinimumPrefixLength = 0,
-		PlaceholderText = "(none)",
-		MinWidth = 160,
-	};
+		var fill = new SolidColorBrush(((ISolidColorBrush)color).Color, 0.28);
+		var b = Ui.Btn(label, click, tip);
+		b.Foreground = color;
+		b.Background = fill;
+		b.Padding = new Thickness(4, 4);
+		b.Resources["ButtonForegroundPointerOver"] = color;
+		b.Resources["ButtonForegroundPressed"] = color;
+		b.Resources["ButtonBackgroundPointerOver"] = new SolidColorBrush(((ISolidColorBrush)color).Color, 0.45);
+		b.Resources["ButtonBackgroundPressed"] = new SolidColorBrush(((ISolidColorBrush)color).Color, 0.6);
+		return b;
+	}
 
 	// ------------------------------------------------------------ Layout
 
@@ -172,8 +289,8 @@ public sealed class NodeEditorWindow : Window
 			Tool("Narration", "\"*...*\" — narration (italic)", () => SetSpeaker(Speaker.Narration)),
 			new Border { Width = 16 },
 			Tool("⛓ Hypertext link", "Turn the selected word(s) into a clickable [topic] that leads to its own node", MakeLink),
-			Tool("{player}", "Insert the player's name", () => Insert("{player}")),
-			Tool("{name}", "Insert this hunk's name", () => Insert("{name}")),
+			TokenButton(" Player Name ", Palette.You, "Insert the player's name", () => Insert("{player}")),
+			TokenButton(" " + _doc.Name + " ", Palette.Start, "Insert this character's name", () => Insert("{name}")),
 		})
 		{
 			c.Margin = new Thickness(0, 0, 6, 4);
@@ -194,7 +311,7 @@ public sealed class NodeEditorWindow : Window
 		left.Children.Add(previewScroll);
 
 		_tabs.Items.Add(new TabItem { Header = "Choices", Content = Section(_choiceRows, "+ Add choice", () => AddChoiceRow(null), "Shown under the last line. Hidden in game when \"if\" is false. Empty goto = end conversation.") });
-		_tabs.Items.Add(new TabItem { Header = "Hypertext links", Content = Section(_topicRows, "+ Add link", () => AddTopicRow(null, null), "Clickable [words] in the lines. For now each opens a full node (shown as a pink LINK node in the graph).") });
+		_tabs.Items.Add(new TabItem { Header = "Hypertext links", Content = Section(_topicRows, null, null, "Select words in the lines and press ⛓ Hypertext link to make one. Each link opens its own node, then returns here. Delete a link from the text by deleting it like a single character.") });
 		_tabs.Items.Add(new TabItem { Header = "Flow & effects", Content = new ScrollViewer { Content = FlowSection() } });
 		var right = new Border { Margin = new Thickness(8, 0, 16, 0), Child = _tabs };
 
@@ -228,10 +345,10 @@ public sealed class NodeEditorWindow : Window
 		return root;
 	}
 
-	static Control Section(StackPanel rows, string addLabel, Action add, string help) =>
+	static Control Section(StackPanel rows, string? addLabel, Action? add, string help) =>
 		new ScrollViewer
 		{
-			Content = Ui.Col(10, Ui.Label(help, 11, Palette.Muted), rows, Ui.Btn(addLabel, add)),
+			Content = addLabel == null ? Ui.Col(10, Ui.Label(help, 11, Palette.Muted), rows) : Ui.Col(10, Ui.Label(help, 11, Palette.Muted), rows, Ui.Btn(addLabel, add!)),
 			Padding = new Thickness(4, 8, 10, 8),
 		};
 
@@ -260,10 +377,11 @@ public sealed class NodeEditorWindow : Window
 	sealed class TopicRow
 	{
 		public JsonNode? Original;
-		public TextBox Key = null!;
+		/// <summary>Internal id (hidden); <see cref="Shown"/> is the wording in the text.</summary>
+		public TextBox Key = null!, Shown = null!;
 		public ConditionEditor If = null!;
 		public EffectsEditor Do = null!;
-		public AutoCompleteBox Goto = null!;
+		public ComboBox Goto = null!;
 		public Control View = null!;
 	}
 
@@ -281,7 +399,7 @@ public sealed class NodeEditorWindow : Window
 			Ui.Btn("↑", () => MoveRow(_choices, _choiceRows, row, -1, r => r.View), "Move up"),
 			Ui.Btn("↓", () => MoveRow(_choices, _choiceRows, row, 1, r => r.View), "Move down"),
 			Ui.Btn("✕", () => { _choices.Remove(row); _choiceRows.Children.Remove(row.View); RefreshPreview(); }, "Remove choice"));
-		var fields = Ui.Col(6,
+		var fields = Ui.Col(4,
 			Ui.Field("go to", row.Goto, "Next node. (none) ends the conversation."),
 			Ui.Field("if", row.If),
 			Ui.Field("do", row.Do));
@@ -302,20 +420,22 @@ public sealed class NodeEditorWindow : Window
 		_choiceRows.Children.Add(row.View);
 	}
 
-	void AddTopicRow(string? key, JsonNode? t)
+	void AddTopicRow(string? key, JsonNode? t, string? shown = null)
 	{
 		var row = new TopicRow { Original = t };
 		var to = t as JsonObject;
-		row.Key = new TextBox { Text = key ?? "", PlaceholderText = "topic id (the [word])", Width = 150 };
-		row.Goto = NodePicker(to != null ? Dialogue.Str(to["goto"]) ?? "" : Dialogue.Str(t) ?? "");
+		row.Key = new TextBox { Text = key ?? "" };
+		row.Shown = new TextBox { Text = shown ?? key ?? "", PlaceholderText = "link text" };
+		row.Goto = GotoBox(to != null ? Dialogue.Str(to["goto"]) ?? "" : Dialogue.Str(t) ?? "", forLink: true);
 		row.If = new ConditionEditor(ConditionVars(), Dialogue.Str(to?["if"]), "always clickable");
 		row.Do = new EffectsEditor(Vars.Effects(_doc, _allDocs()), to?["do"] as JsonObject);
-		var del = Ui.Btn("✕", () => { _topics.Remove(row); _topicRows.Children.Remove(row.View); RefreshPreview(); }, "Remove link (the [word] in the text stays)");
+		var del = Ui.Btn("✕", () => RemoveLinkFromText(row), "Remove this link (its words stay in the text as plain text)");
 		var top = new DockPanel();
 		DockPanel.SetDock(del, Dock.Right);
 		top.Children.Add(del);
-		top.Children.Add(Ui.Row(8, Ui.Label("[", 15, Palette.Hypertext, FontWeight.Bold), row.Key, Ui.Label("]  →", 15, Palette.Hypertext, FontWeight.Bold), row.Goto));
-		var grid = Ui.Col(6, Ui.Field("if", row.If), Ui.Field("do", row.Do));
+		top.Children.Add(Ui.Row(6, Ui.Label("⛓", 14, Palette.Hypertext, FontWeight.Bold), row.Shown));
+		row.Shown.MinWidth = 220;
+		var grid = Ui.Col(4, Ui.Field("goes to", row.Goto), Ui.Field("if", row.If), Ui.Field("do", row.Do));
 		row.View = new Border
 		{
 			Background = Palette.Card,
@@ -323,12 +443,101 @@ public sealed class NodeEditorWindow : Window
 			BorderThickness = new Thickness(1),
 			CornerRadius = new CornerRadius(14),
 			Padding = new Thickness(10, 8),
-			Child = Ui.Col(6, top, grid),
+			Child = Ui.Col(4, top, grid),
 		};
-		row.Key.TextChanged += (_, _) => RefreshPreview();
+		row.Shown.TextChanged += (_, _) =>
+		{
+			// Only the user's typing rewrites the text; the box being filled in or refreshed must not.
+			if (!_syncing && row.Shown.IsKeyboardFocusWithin) RewriteLink(row);
+		};
 		row.If.Changed += RefreshPreview;
 		_topics.Add(row);
 		_topicRows.Children.Add(row.View);
+	}
+
+	// ------------------------------------------------------------ Link <-> text sync
+
+	bool _syncing, _loading;
+	HashSet<string> _knownKeys = new();
+
+	static string KeyOf(TopicRow r) => (r.Key.Text ?? "").Trim().ToLowerInvariant();
+
+	/// <summary>Keeps the Hypertext links tab in step with the [links] in the text: new ones get a row, deleted ones lose theirs.</summary>
+	void SyncTopics()
+	{
+		if (_loading || _syncing) return;
+		_syncing = true;
+		try
+		{
+			CleanupEmptyLinks();
+			var inText = Dialogue.Topics(_editor.Text ?? "");
+			var keys = inText.Select(t => t.TopicId).ToHashSet();
+			foreach (var row in _topics.ToList())
+				if (_knownKeys.Contains(KeyOf(row)) && !keys.Contains(KeyOf(row)))
+				{
+					_topics.Remove(row);
+					_topicRows.Children.Remove(row.View);
+				}
+			foreach (var t in inText)
+			{
+				var row = _topics.FirstOrDefault(x => KeyOf(x) == t.TopicId);
+				if (row == null)
+					AddTopicRow(t.TopicId, JsonValue.Create(SuggestNewNodeId((_id.Text ?? _nodeId).Trim() + "_" + Regex.Replace(t.TopicId, @"[^a-z0-9_]+", "_"))), t.Shown);
+				else if (row.Shown.Text != t.Shown && inText.First(x => x.TopicId == t.TopicId) == t)
+					row.Shown.Text = t.Shown;
+			}
+			_knownKeys = keys;
+		}
+		finally
+		{
+			_syncing = false;
+		}
+	}
+
+	/// <summary>A link whose words were all deleted (or are just whitespace) stops being a link.</summary>
+	void CleanupEmptyLinks()
+	{
+		var text = _editor.Text ?? "";
+		var empty = LinkMarkup.Rx.Matches(text).Where(m => m.Groups[1].Value.Trim().Length == 0).Reverse().ToList();
+		if (empty.Count == 0) return;
+		foreach (var m in empty) _editor.Document.Replace(m.Index, m.Length, m.Groups[1].Value);
+	}
+
+	/// <summary>The link's wording was edited in the tab: rewrite its markup in the text.</summary>
+	void RewriteLink(TopicRow row)
+	{
+		var shown = row.Shown.Text ?? "";
+		if (shown.Length == 0 || shown.IndexOfAny(new[] { '[', ']', '|', '\n' }) >= 0)
+		{
+			_problems.Foreground = Palette.Warn;
+			_problems.Text = "Link text can't be empty or contain [ ] |";
+			return;
+		}
+		var key = KeyOf(row);
+		var t = Dialogue.Topics(_editor.Text ?? "").FirstOrDefault(x => x.TopicId == key);
+		if (t == null) return;
+		var markup = shown.Trim().ToLowerInvariant() == key ? $"[{shown}]" : $"[{shown}|{key}]";
+		if (_editor.Document.GetText(t.Start, t.Length) == markup) return;
+		_syncing = true;
+		try { _editor.Document.Replace(t.Start, t.Length, markup); }
+		finally { _syncing = false; }
+		_problems.Text = "";
+	}
+
+	void RemoveLinkFromText(TopicRow row)
+	{
+		var key = KeyOf(row);
+		_syncing = true;
+		try
+		{
+			foreach (var t in Dialogue.Topics(_editor.Text ?? "").Where(x => x.TopicId == key).Reverse().ToList())
+				_editor.Document.Replace(t.Start, t.Length, t.Shown);
+			_topics.Remove(row);
+			_topicRows.Children.Remove(row.View);
+			_knownKeys.Remove(key);
+		}
+		finally { _syncing = false; }
+		RefreshPreview();
 	}
 
 	static void MoveRow<T>(List<T> list, StackPanel panel, T row, int dir, Func<T, Control> view)
@@ -344,6 +553,7 @@ public sealed class NodeEditorWindow : Window
 
 	void Load()
 	{
+		_loading = true;
 		var node = _doc.Node(_nodeId) ?? new JsonObject();
 		_id.Text = _nodeId;
 		var kind = _doc.NodeKinds().GetValueOrDefault(_nodeId);
@@ -358,7 +568,7 @@ public sealed class NodeEditorWindow : Window
 		if (node["choices"] is JsonArray cs)
 			foreach (var c in cs.OfType<JsonObject>()) AddChoiceRow(c);
 		if (node["topics"] is JsonObject ts)
-			foreach (var (k, v) in ts) AddTopicRow(k, v);
+			foreach (var (k, v) in ts) AddTopicRow(k, v, Dialogue.TopicLabel(node, k));
 		FillGoto(_goto, Dialogue.Str(node["goto"]) ?? "");
 		_end.IsChecked = Dialogue.Bool(node["end"]);
 		var ending = Dialogue.Str(node["ending"]);
@@ -371,13 +581,15 @@ public sealed class NodeEditorWindow : Window
 		if (_choices.Count == 0 && _topics.Count > 0) _tabs.SelectedIndex = 1;
 		else if (_choices.Count == 0) _tabs.SelectedIndex = 2;
 		else _tabs.SelectedIndex = 0;
+		_loading = false;
+		_knownKeys = Dialogue.Topics(_editor.Text ?? "").Select(t => t.TopicId).ToHashSet();
 		RefreshPreview();
 		_initialSnapshot = Snapshot();
 	}
 
 	string Snapshot() => string.Join("\u0001", new[] { _id.Text, _editor.Text, GotoValue(_goto), _end.IsChecked?.ToString(), _ending.SelectedItem as string, _fx.SelectedItem as string, _fxText.Text, _do.Snapshot }
 		.Concat(_choices.SelectMany(c => new[] { c.Text.Text, GotoValue(c.Goto), c.If.Value, c.Do.Snapshot }))
-		.Concat(_topics.SelectMany(t => new[] { t.Key.Text, t.Goto.Text, t.If.Value, t.Do.Snapshot })));
+		.Concat(_topics.SelectMany(t => new[] { t.Key.Text, GotoValue(t.Goto), t.If.Value, t.Do.Snapshot })));
 
 	IEnumerable<string> EditorLines() => (_editor.Text ?? "").Replace("\r", "").Split('\n').Where(l => l.Trim().Length > 0);
 
@@ -410,7 +622,7 @@ public sealed class NodeEditorWindow : Window
 		}
 		_problems.Foreground = Palette.Muted;
 		_problems.Text = missing.Count > 0
-			? $"New link(s) {string.Join(", ", missing.Distinct().Select(m => "[" + m + "]"))} will get their own node on Apply."
+			? $"New link(s) {string.Join(", ", missing.Distinct().Select(m => "\"" + (Dialogue.Topics(_editor.Text ?? "").FirstOrDefault(t => t.TopicId == m)?.Shown.Trim() ?? m) + "\""))} will get their own node on Apply."
 			: "";
 	}
 
@@ -446,15 +658,14 @@ public sealed class NodeEditorWindow : Window
 		for (int i = 2; existing.Contains(k); i++) k = key + i;
 		var markup = sel.Trim().ToLowerInvariant() == k ? $"[{sel}]" : $"[{sel}|{k}]";
 		_editor.Document.Replace(_editor.SelectionStart, _editor.SelectionLength, markup);
-		var target = SuggestNewNodeId((_id.Text ?? _nodeId).Trim() + "_" + k);
-		AddTopicRow(k, JsonValue.Create(target));
+		// The text change adds the link's row (see SyncTopics).
 		_tabs.SelectedIndex = 1;
 		RefreshPreview();
 	}
 
 	string SuggestNewNodeId(string b)
 	{
-		var pending = _choices.Select(c => GotoValue(c.Goto)).Concat(_topics.Select(t => t.Goto.Text)).ToHashSet();
+		var pending = _choices.Select(c => GotoValue(c.Goto)).Concat(_topics.Select(t => GotoValue(t.Goto))).ToHashSet();
 		var id = _doc.UniqueNodeId(b);
 		for (int i = 2; pending.Contains(id); i++) id = _doc.UniqueNodeId($"{b}_{i}");
 		return id;
@@ -508,11 +719,11 @@ public sealed class NodeEditorWindow : Window
 		{
 			var key = (row.Key.Text ?? "").Trim().ToLowerInvariant();
 			if (key.Length == 0) continue;
-			if (topics.ContainsKey(key)) { errors.Add($"Link [{key}] is listed twice."); continue; }
-			var target = Target(row.Goto.Text);
+			if (topics.ContainsKey(key)) { errors.Add($"Link \"{row.Shown.Text}\" is listed twice."); continue; }
+			var target = Target(GotoValue(row.Goto));
 			var cond = row.If.Value;
-			Cond($"[{key}]", row.If);
-			var fx = Fx($"[{key}] do", row.Do);
+			Cond($"Link \"{row.Shown.Text}\"", row.If);
+			var fx = Fx($"Link \"{row.Shown.Text}\" do", row.Do);
 			if (string.IsNullOrEmpty(cond) && fx == null && row.Original is not JsonObject)
 			{
 				topics[key] = target;
@@ -592,6 +803,7 @@ public sealed class NodeEditorWindow : Window
 			_nodeIds.Clear();
 			_nodeIds.AddRange(_doc.NodeIds);
 			foreach (var c in _choices) FillGoto(c.Goto, GotoValue(c.Goto));
+			foreach (var tr in _topics) FillGoto(tr.Goto, GotoValue(tr.Goto), forLink: true);
 			FillGoto(_goto, GotoValue(_goto));
 		}
 		_initialSnapshot = Snapshot();
@@ -614,7 +826,7 @@ public sealed class NodeEditorWindow : Window
 		var known = _topics.Select(t => (t.Key.Text ?? "").Trim().ToLowerInvariant()).ToHashSet();
 		if (node["topics"] is JsonObject ts2)
 			foreach (var (k, v) in ts2.Where(kv => !known.Contains(kv.Key)).ToList())
-				AddTopicRow(k, v);
+				AddTopicRow(k, v, Dialogue.TopicLabel(node, k));
 	}
 
 	/// <summary>Set a key, inserting new keys in the house order so files stay tidy.</summary>

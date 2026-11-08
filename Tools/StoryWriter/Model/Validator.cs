@@ -46,13 +46,14 @@ public static class Validator
 			Cond(Dialogue.Str(e["node"]), "entry", Dialogue.Str(e["if"]));
 		}
 
+		var kinds = d.NodeKinds();
 		foreach (var (nid, n) in d.Nodes)
 		{
 			if (n is not JsonObject node) { Err(nid, "not an object"); continue; }
 			var lines = Dialogue.Lines(node);
 			if (lines.Count == 0) Err(nid, "no lines");
 			var choices = node["choices"] as JsonArray;
-			if ((choices == null || choices.Count == 0) && string.IsNullOrEmpty(Dialogue.Str(node["goto"])) && !Dialogue.Bool(node["end"]) && string.IsNullOrEmpty(Dialogue.Str(node["ending"])))
+			if (kinds.GetValueOrDefault(nid) != NodeKind.Hypertext && (choices == null || choices.Count == 0) && string.IsNullOrEmpty(Dialogue.Str(node["goto"])) && !Dialogue.Bool(node["end"]) && string.IsNullOrEmpty(Dialogue.Str(node["ending"])))
 				Err(nid, "dead end (no choices, goto, end or ending)");
 			Ref(nid, "goto", Dialogue.Str(node["goto"]));
 			Effects(nid, "do", node["do"]);
@@ -67,7 +68,7 @@ public static class Validator
 				foreach (var (k, v) in to) topics[k.ToLowerInvariant()] = v;
 			foreach (var line in lines)
 				foreach (var t in Dialogue.Topics(line))
-					if (!topics.ContainsKey(t.TopicId)) Err(nid, $"[{t.TopicId}] has no topic entry");
+					if (!topics.ContainsKey(t.TopicId)) Err(nid, $"link \"{t.Shown.Trim()}\" has no topic entry");
 			foreach (var (k, v) in topics)
 			{
 				var target = v is JsonObject vo ? Dialogue.Str(vo["goto"]) : Dialogue.Str(v);

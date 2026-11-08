@@ -95,6 +95,7 @@ public sealed class EffectsEditor : StackPanel
 		Spacing = 4;
 		if (initial != null)
 			foreach (var (k, v) in initial) AddRow(k, Dialogue.Num(v));
+		_rows.IsVisible = _list.Count > 0;
 		Children.Add(_rows);
 		var add = Ui.Btn("+ Add effect", () =>
 		{
@@ -103,6 +104,7 @@ public sealed class EffectsEditor : StackPanel
 			Changed?.Invoke();
 		}, "Add something to change when this happens");
 		add.HorizontalAlignment = HorizontalAlignment.Left;
+		add.Padding = new Thickness(8, 2);
 		Children.Add(add);
 	}
 
@@ -115,6 +117,7 @@ public sealed class EffectsEditor : StackPanel
 		{
 			_list.RemoveAll(r => r.view == grid);
 			_rows.Children.Remove(grid);
+			_rows.IsVisible = _list.Count > 0;
 			Changed?.Invoke();
 		}, "Remove effect");
 		Grid.SetColumn(num, 1);
@@ -127,6 +130,7 @@ public sealed class EffectsEditor : StackPanel
 		num.ValueChanged += (_, _) => Changed?.Invoke();
 		_list.Add((cb, num, grid));
 		_rows.Children.Add(grid);
+		_rows.IsVisible = true;
 	}
 
 	/// <summary>Null when there are no effects. Sets <paramref name="error"/> for blank or repeated variables.</summary>
@@ -160,7 +164,7 @@ public sealed class ConditionEditor : StackPanel
 	readonly ComboBox _join = new() { ItemsSource = new[] { "all of these (AND)", "any of these (OR)" }, SelectedIndex = 0, FontSize = 12, VerticalAlignment = VerticalAlignment.Center };
 	readonly TextBox _text = new() { FontSize = 12, IsVisible = false };
 	readonly TextBlock _always = Ui.Label("always", 12, Palette.Muted);
-	readonly TextBlock _error = Ui.Label("", 11, Palette.Error);
+	readonly TextBlock _error = new() { FontSize = 11, Foreground = Palette.Error, TextWrapping = TextWrapping.Wrap, IsVisible = false };
 	readonly Button _toggle;
 	readonly Button _add;
 	bool _asText;
@@ -175,6 +179,8 @@ public sealed class ConditionEditor : StackPanel
 		_toggle = Ui.Btn("edit as text", ToggleText, "Type the expression by hand (supports &&, ||, !, parentheses)");
 		_join.SelectionChanged += (_, _) => { Refresh(); Changed?.Invoke(); };
 		_text.TextChanged += (_, _) => { Validate(); Changed?.Invoke(); };
+		_add.Padding = new Thickness(8, 2);
+		_toggle.Padding = new Thickness(8, 2);
 		var bar = Ui.Row(6, _add, _join, _toggle);
 		Children.Add(_always);
 		Children.Add(_rows);
@@ -268,7 +274,7 @@ public sealed class ConditionEditor : StackPanel
 
 	void Refresh()
 	{
-		_rows.IsVisible = !_asText;
+		_rows.IsVisible = !_asText && _list.Count > 0;
 		_text.IsVisible = _asText;
 		_add.IsVisible = !_asText;
 		_join.IsVisible = !_asText && _list.Count > 1;
@@ -291,6 +297,7 @@ public sealed class ConditionEditor : StackPanel
 		else
 		{
 			_error.Text = "That expression is too complex for the builder; keep editing it as text.";
+			_error.IsVisible = true;
 			return;
 		}
 		Refresh();
@@ -315,6 +322,7 @@ public sealed class ConditionEditor : StackPanel
 	void Validate()
 	{
 		_error.Text = Error ?? "";
+		_error.IsVisible = _error.Text.Length > 0;
 	}
 
 	/// <summary>The expression, or "" for "always".</summary>

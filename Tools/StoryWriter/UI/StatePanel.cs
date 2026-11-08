@@ -8,23 +8,30 @@ using StoryWriter.Runtime;
 namespace StoryWriter.UI;
 
 /// <summary>Edit the simulated save game: per-character stats, visits, endings, and global flags.</summary>
-public sealed class StatePanel : ScrollViewer
+public sealed class StatePanel : Border
 {
 	readonly PreviewState _state;
 	readonly Func<IEnumerable<DialogueDocument>> _docs;
 	readonly StackPanel _root = new() { Spacing = 10, Margin = new Thickness(12, 12, 6, 12) };
 	bool _editing;
 	public Func<string?>? FocusHunk { get; set; }
+	/// <summary>When set, a "Hide panel" button is shown in line with Reset.</summary>
+	public Action? OnHide { get; set; }
 
 	public StatePanel(PreviewState state, Func<IEnumerable<DialogueDocument>> docs)
 	{
 		_state = state;
 		_docs = docs;
-		Content = _root;
 		Background = Palette.Panel;
-		HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled;
-		VerticalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Visible;
-		ScrollViewer.SetAllowAutoHide(this, false);
+		// A plain ScrollViewer (not a subclass, which wouldn't pick up the theme's template and so has no scrollbar).
+		var scroll = new ScrollViewer
+		{
+			Content = _root,
+			HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled,
+			VerticalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Visible,
+		};
+		ScrollViewer.SetAllowAutoHide(scroll, false);
+		Child = scroll;
 		_state.Changed += () =>
 		{
 			if (!_editing) Rebuild();
@@ -35,10 +42,16 @@ public sealed class StatePanel : ScrollViewer
 	public void Rebuild()
 	{
 		_root.Children.Clear();
-		var header = Ui.Row(8, Ui.Label("Game state", 14, Palette.Text, FontWeight.Bold),
-			Ui.Btn("Reset", () => _state.Reset(), "Forget all stats, visits, endings and flags"));
+		var header = new DockPanel();
+		if (OnHide != null)
+		{
+			var hide = Ui.Btn("◨ Hide panel", OnHide, "Hide the game state panel");
+			DockPanel.SetDock(hide, Dock.Right);
+			header.Children.Add(hide);
+		}
+		header.Children.Add(Ui.Row(8, Ui.Label("Game state", 14, Palette.Text, FontWeight.Bold),
+			Ui.Btn("Reset", () => _state.Reset(), "Forget all stats, visits, endings and flags")));
 		_root.Children.Add(header);
-		_root.Children.Add(Ui.Label("Conditions and \"entries\" read this. Change values to test branches.", 11, Palette.Muted));
 
 		var focus = FocusHunk?.Invoke();
 		foreach (var doc in _docs().OrderBy(d => d.Id == focus ? 0 : 1))

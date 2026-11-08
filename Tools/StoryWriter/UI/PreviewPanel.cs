@@ -29,7 +29,6 @@ public sealed class PreviewPanel : Grid
 	readonly Button _continue;
 	readonly StackPanel _endActions = new() { Orientation = Orientation.Horizontal, Spacing = 8 };
 	readonly Border _overlay = new() { IsVisible = false, Background = new SolidColorBrush(Colors.Black, 0.92) };
-	readonly CheckBox _showLocked = new() { Content = "Show locked choices", IsChecked = true, FontSize = 12 };
 
 	string? _hunkId;
 	string? _startNode;
@@ -58,13 +57,13 @@ public sealed class PreviewPanel : Grid
 		{
 			Background = Palette.PanelAlt,
 			Padding = new Thickness(14, 10),
-			Child = Ui.Col(4, _title, _subtitle, _meters, Ui.Row(10, _where, _showLocked)),
+			Child = Ui.Col(4, _title, _subtitle, _meters, _where),
 		};
-		_showLocked.IsCheckedChanged += (_, _) => Runner.Refresh();
 		Children.Add(header);
 
 		_scroll = new ScrollViewer { Content = _transcript, HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled };
 		ScrollViewer.SetAllowAutoHide(_scroll, false);
+		_scroll.VerticalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Visible;
 		SetRow(_scroll, 1);
 		Children.Add(_scroll);
 
@@ -93,7 +92,6 @@ public sealed class PreviewPanel : Grid
 		Runner.Ended += OnEnded;
 		State.Changed += UpdateMeters;
 
-		ShowIdle("Pick a character or node and press ► to preview.");
 	}
 
 	// ------------------------------------------------------------ Control
@@ -108,7 +106,8 @@ public sealed class PreviewPanel : Grid
 		_overlay.IsVisible = false;
 		var doc = _find(hunkId);
 		_title.Text = doc?.Name ?? hunkId;
-		_subtitle.Text = doc == null ? "" : $"{Dialogue.Str(doc.Root["malady"])} · {Dialogue.Str(doc.Root["room"])}";
+		_subtitle.Text = doc == null ? "" : string.Join(" · ", new[] { Dialogue.Str(doc.Root["malady"]), Dialogue.Str(doc.Root["room"]) }.Where(x => !string.IsNullOrWhiteSpace(x)));
+		_subtitle.IsVisible = _subtitle.Text.Length > 0;
 		var visits = State.Hunk(hunkId).Visits;
 		AddNote(nodeId == null ? $"Visit {visits + 1} — starting from entries" : $"Starting at node '{nodeId}' (visit {visits + 1})", Palette.Faint);
 		ConversationStarted?.Invoke();
@@ -177,11 +176,9 @@ public sealed class PreviewPanel : Grid
 		else if (v.Fx == "fade") ShowFade(v.FxText);
 
 		_choices.Children.Clear();
-		bool showLocked = _showLocked.IsChecked == true;
 		int n = 0;
 		foreach (var c in v.Choices)
 		{
-			if (!c.Visible && !showLocked) continue;
 			var label = c.Visible ? $"{++n}.  {c.Text}" : $"⊘  {c.Text}";
 			var content = new StackPanel { Spacing = 3 };
 			content.Children.Add(new TextBlock { Text = label, TextWrapping = TextWrapping.Wrap, FontSize = 13.5, Foreground = c.Visible ? Palette.Text : Palette.LockedText });
@@ -199,8 +196,15 @@ public sealed class PreviewPanel : Grid
 				HorizontalContentAlignment = HorizontalAlignment.Left,
 				Padding = new Thickness(10, 6),
 			};
-			if (!c.Visible) b.Background = Palette.LockedFill;
-			if (!c.Visible) ToolTip.SetTip(b, "Locked: the condition is false right now. Click to force it anyway.");
+			if (!c.Visible)
+			{
+				// Locked: shown, grayed out and not clickable.
+				b.Background = Palette.LockedFill;
+				b.IsEnabled = false;
+				b.Opacity = 0.7;
+				ToolTip.SetTip(b, "Locked: the condition is false right now.");
+				ToolTip.SetShowOnDisabled(b, true);
+			}
 			var choice = c;
 			b.Click += (_, _) => Pick(choice);
 			_choices.Children.Add(b);

@@ -12,7 +12,7 @@ public static class GraphLayout
 {
 	public const double ColumnPitch = 640;
 	public const double RowPitch = 150;
-	public const double FirstColumnX = 420;
+	public const double FirstColumnX = 560;
 
 	public static Dictionary<string, Point> Compute(DialogueDocument doc)
 	{

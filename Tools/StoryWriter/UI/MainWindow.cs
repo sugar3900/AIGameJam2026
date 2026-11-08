@@ -27,7 +27,8 @@ public sealed class MainWindow : Window
 	const string AppName = "I Can Fix Him - Story Writer";
 	const double SideWidth = 430;
 	Grid _graphGrid = null!;
-	Button _sideToggle = null!;
+	Button _sideToggle = null!, _sideHide = null!;
+	Control _sidePane = null!;
 	bool _sideVisible;
 	readonly Dictionary<string, int> _issueCursor = new();
 	readonly List<DialogueDocument> _pendingConflicts = new();
@@ -162,16 +163,7 @@ _undo, _redo, _save,
 			if (_docList.SelectedItem is ListBoxItem { Tag: DialogueDocument d } && d != _current) ShowDoc(d);
 		};
 
-		// Overlays on the graph: legend chips (lower left), zoom (lower right), panel toggle (upper right).
-		var legend = Ui.Col(4,
-			Ui.Chip("story", Palette.Story), Ui.Chip("LINK = hypertext", Palette.Hypertext), Ui.Chip("ending", Palette.Ending),
-			Ui.Chip("IF condition", Palette.Condition), Ui.Chip("entry", Palette.Start));
-		legend.HorizontalAlignment = HorizontalAlignment.Left;
-		legend.VerticalAlignment = VerticalAlignment.Bottom;
-		legend.Margin = new Thickness(12, 0, 0, 12);
-		legend.IsHitTestVisible = false;
-		foreach (var c in legend.Children) c.HorizontalAlignment = HorizontalAlignment.Left;
-
+		// Overlays on the graph: zoom (lower right), panel toggle (upper right).
 		_zoomLabel.HorizontalAlignment = HorizontalAlignment.Center;
 		_zoomLabel.TextAlignment = TextAlignment.Center;
 		var zoomBox = Ui.Col(4,
@@ -201,7 +193,6 @@ _undo, _redo, _save,
 		var canvas = new Grid();
 		canvas.Children.Add(_graph);
 		canvas.Children.Add(_docTitle);
-		canvas.Children.Add(legend);
 		canvas.Children.Add(zoomBox);
 		canvas.Children.Add(_sideToggle);
 
@@ -223,9 +214,17 @@ _undo, _redo, _save,
 		var split = new GridSplitter { Background = Palette.PanelAlt, ResizeDirection = GridResizeDirection.Columns, IsVisible = false };
 		Grid.SetColumn(split, 2);
 		_graphGrid.Children.Add(split);
-		_sideTabs.IsVisible = false;
-		Grid.SetColumn(_sideTabs, 3);
-		_graphGrid.Children.Add(_sideTabs);
+		_sideHide = Ui.Btn("◨ Hide panel", () => ShowSidePanel(false), "Hide the Preview / State panel");
+		_sideHide.HorizontalAlignment = HorizontalAlignment.Right;
+		_sideHide.VerticalAlignment = VerticalAlignment.Top;
+		_sideHide.Margin = new Thickness(0, 4, 8, 0);
+		var sidePane = new Grid();
+		sidePane.Children.Add(_sideTabs);
+		sidePane.Children.Add(_sideHide);
+		sidePane.IsVisible = false;
+		_sidePane = sidePane;
+		Grid.SetColumn(sidePane, 3);
+		_graphGrid.Children.Add(sidePane);
 		return _graphGrid;
 	}
 
@@ -239,33 +238,61 @@ _undo, _redo, _save,
 		cols[3].Width = new GridLength(show ? _sideWidth : 0);
 		cols[3].MinWidth = show ? 280 : 0;
 		_graphGrid.Children[2].IsVisible = show;
-		_sideTabs.IsVisible = show;
-		_sideToggle.Content = show ? "◨ Hide panel" : "◧ Preview";
+		_sidePane.IsVisible = show;
+		_sideToggle.IsVisible = !show;
 	}
 
 	double _sideWidth = SideWidth;
 
 	Control PlayTab()
 	{
-		var castHeader = Ui.Col(8,
-			Ui.Label("Play-through", 16, Palette.Text, FontWeight.Bold),
-			Ui.Label("Plays every conversation with one shared save, like the game: pick a character and play all of his visits through to his ending, then move on to the next.", 11, Palette.Muted),
-			Ui.Btn("► Play everything (fresh save)", PlayEverything, accent: true),
-			Ui.Btn("Reset save", () => { _playState.Reset(); _playPanel.Stop(); }));
+		var castHeader = Ui.Btn("Reset save", () => { _playState.Reset(); _playPanel.Stop(); }, "Forget all stats, visits, endings and flags, and stop the current conversation");
 		var left = new ScrollViewer { Content = Ui.Col(14, castHeader, _playCast), Padding = new Thickness(14), Background = Palette.Panel };
 
-		var grid = new Grid { ColumnDefinitions = new ColumnDefinitions("280,*,4,340") };
-		grid.Children.Add(left);
-		var center = new Border { Child = _playPanel, BorderBrush = Palette.PanelAlt, BorderThickness = new Thickness(1, 0) };
+		_playGrid = new Grid { ColumnDefinitions = new ColumnDefinitions("280,*,0,0") };
+		_playGrid.Children.Add(left);
+		_playToggle = Ui.Btn("◧ State", () => ShowPlayState(!_playStateVisible), "Show or hide the game state panel");
+		_playToggle.HorizontalAlignment = HorizontalAlignment.Right;
+		_playToggle.VerticalAlignment = VerticalAlignment.Top;
+		_playToggle.Margin = new Thickness(0, 8, 12, 0);
+		var centerGrid = new Grid();
+		centerGrid.Children.Add(_playPanel);
+		centerGrid.Children.Add(_playToggle);
+		var center = new Border { Child = centerGrid, BorderBrush = Palette.PanelAlt, BorderThickness = new Thickness(1, 0) };
 		Grid.SetColumn(center, 1);
-		grid.Children.Add(center);
-		var split = new GridSplitter { Background = Palette.PanelAlt };
+		_playGrid.Children.Add(center);
+		var split = new GridSplitter { Background = Palette.PanelAlt, IsVisible = false };
 		Grid.SetColumn(split, 2);
-		grid.Children.Add(split);
-		Grid.SetColumn(_playStatePanel, 3);
-		grid.Children.Add(_playStatePanel);
-		return grid;
+		_playGrid.Children.Add(split);
+		_playStatePanel.OnHide = () => ShowPlayState(false);
+		_playStatePanel.Rebuild();
+		var statePane = new Grid { IsVisible = false };
+		statePane.Children.Add(_playStatePanel);
+		_playStatePane = statePane;
+		Grid.SetColumn(statePane, 3);
+		_playGrid.Children.Add(statePane);
+		return _playGrid;
 	}
+
+	void ShowPlayState(bool show)
+	{
+		if (show == _playStateVisible) return;
+		var cols = _playGrid.ColumnDefinitions;
+		if (!show) _playSideWidth = Math.Max(280, cols[3].ActualWidth);
+		_playStateVisible = show;
+		cols[2].Width = new GridLength(show ? 4 : 0);
+		cols[3].Width = new GridLength(show ? _playSideWidth : 0);
+		cols[3].MinWidth = show ? 260 : 0;
+		_playGrid.Children[2].IsVisible = show;
+		_playStatePane.IsVisible = show;
+		_playToggle.IsVisible = !show;
+	}
+
+	Grid _playGrid = null!;
+	Button _playToggle = null!;
+	Control _playStatePane = null!;
+	bool _playStateVisible;
+	double _playSideWidth = 340;
 
 	// ------------------------------------------------------------------ Workspace
 
@@ -337,7 +364,7 @@ _undo, _redo, _save,
 	/// <summary>Hover the badge for what's wrong; click to step through the problem nodes.</summary>
 	void WireBadge(Border badge, DialogueDocument d, bool errors)
 	{
-		var mine = _issues.Where(i => i.DocId == d.Id && i.IsError == errors).ToList();
+		var mine = _issues.Where(i => i.DocId == d.Id).OrderByDescending(i => i.IsError).ToList(); // errors first, then warnings
 		var text = string.Join("\n", mine.Take(12).Select(i => (i.NodeId != null ? i.NodeId + ": " : "") + i.Message));
 		if (mine.Count > 12) text += $"\n… and {mine.Count - 12} more";
 		ToolTip.SetTip(badge, text + (mine.Any(i => i.NodeId != null) ? "\n(click to jump to each problem)" : ""));
@@ -546,6 +573,9 @@ _undo, _redo, _save,
 		_playPanel.SetEndActions();
 	}
 
+	static string Subtitle(DialogueDocument d) =>
+		string.Join(" · ", new[] { Dialogue.Str(d.Root["malady"]), Dialogue.Str(d.Root["room"]) }.Where(x => !string.IsNullOrWhiteSpace(x)));
+
 	DialogueDocument? NextUnfixed(string after)
 	{
 		var docs = Docs().ToList();
@@ -556,17 +586,6 @@ _undo, _redo, _save,
 			if (!_playState.Hunk(d.Id).Fixed) return d;
 		}
 		return null;
-	}
-
-	void PlayEverything()
-	{
-		_playState.Reset();
-		var first = Docs().FirstOrDefault();
-		if (first != null)
-		{
-			_playPanel.SetEndActions();
-			_playPanel.Start(first.Id);
-		}
 	}
 
 	void RefreshPlayCast()
@@ -595,7 +614,7 @@ _undo, _redo, _save,
 				CornerRadius = new CornerRadius(8),
 				Padding = new Thickness(10, 8),
 				Child = Ui.Col(4, head,
-					Ui.Label($"{Dialogue.Str(d.Root["malady"])} · {Dialogue.Str(d.Root["room"])}", 11, Palette.Muted),
+					Ui.Label(Subtitle(d), 11, Palette.Muted),
 					Ui.Label(status, 12, p?.Fixed == true ? Palette.Ending : Palette.Text),
 					stats),
 			});

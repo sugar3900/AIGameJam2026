@@ -16,7 +16,7 @@ public sealed class ConversationWindow : Window
 	readonly Func<IEnumerable<DialogueDocument>> _allDocs;
 	readonly Dictionary<string, TextBox> _meta = new();
 	readonly StackPanel _entryRows = new() { Spacing = 6 };
-	readonly List<(JsonObject? original, ConditionEditor cond, AutoCompleteBox node, Control view)> _entries = new();
+	readonly List<(JsonObject? original, ConditionEditor cond, ComboBox node, Control view)> _entries = new();
 	readonly Dictionary<string, (TextBox title, TextBox text)> _endings = new();
 	readonly TextBlock _problems = Ui.Label("", 12, Palette.Error);
 
@@ -95,8 +95,12 @@ public sealed class ConversationWindow : Window
 	void AddEntry(JsonObject? e)
 	{
 		var cond = new ConditionEditor(Vars.Conditions(_doc, _allDocs()), Dialogue.Str(e?["if"]) ?? "true", "always (true)");
-		var node = new AutoCompleteBox { ItemsSource = _doc.NodeIds.ToList(), Text = Dialogue.Str(e?["node"]) ?? "", FilterMode = AutoCompleteFilterMode.Contains, MinimumPrefixLength = 0, MinWidth = 180 };
-		(JsonObject?, ConditionEditor, AutoCompleteBox, Control) row = default;
+		var kinds = _doc.NodeKinds();
+		var current = Dialogue.Str(e?["node"]) ?? "";
+		var items = _doc.NodeIds.Where(id => kinds.GetValueOrDefault(id) != NodeKind.Hypertext).ToList();
+		if (current.Length > 0 && !items.Contains(current)) items.Add(current);
+		var node = new ComboBox { ItemsSource = items, SelectedItem = current.Length > 0 ? current : null, PlaceholderText = "pick a node", MinWidth = 180 };
+		(JsonObject?, ConditionEditor, ComboBox, Control) row = default;
 		var tools = Ui.Row(2,
 			Ui.Btn("↑", () => Move(row, -1)),
 			Ui.Btn("↓", () => Move(row, 1)),
@@ -121,7 +125,7 @@ public sealed class ConversationWindow : Window
 		_entryRows.Children.Add(grid);
 	}
 
-	void Move((JsonObject?, ConditionEditor, AutoCompleteBox, Control) row, int dir)
+	void Move((JsonObject?, ConditionEditor, ComboBox, Control) row, int dir)
 	{
 		int i = _entries.IndexOf(row), j = i + dir;
 		if (i < 0 || j < 0 || j >= _entries.Count) return;
@@ -137,7 +141,7 @@ public sealed class ConversationWindow : Window
 		foreach (var (original, condBox, nodeBox, _) in _entries)
 		{
 			var cond = condBox.Value;
-			var node = nodeBox.Text?.Trim() ?? "";
+			var node = nodeBox.SelectedItem as string ?? "";
 			if (node.Length == 0) continue;
 			if (condBox.Error is { } err) errors.Add($"Entry '{node}': {err}");
 			if (_doc.Node(node) == null) errors.Add($"Entry → '{node}': no such node");

@@ -116,6 +116,10 @@ public static class Dialogue
 	public static string? Str(JsonNode? n) => n is JsonValue v && v.TryGetValue<string>(out var s) ? s : null;
 	public static bool Bool(JsonNode? n) => n is JsonValue v && v.TryGetValue<bool>(out var b) && b;
 
+	/// <summary>The words a link shows in the text (never its internal key); falls back to the key if it isn't in the text.</summary>
+	public static string TopicLabel(JsonObject node, string key) =>
+		Lines(node).SelectMany(Topics).FirstOrDefault(t => t.TopicId.Equals(key, StringComparison.OrdinalIgnoreCase))?.Shown.Trim() is { Length: > 0 } s ? s : key;
+
 	public static List<string> Lines(JsonObject node)
 	{
 		var list = new List<string>();
@@ -318,7 +322,7 @@ public sealed class DialogueDocument
 						fx = to["do"] as JsonObject;
 					}
 					if (!string.IsNullOrEmpty(target))
-						list.Add(new DialogueLink(LinkKind.Topic, id, target, cond, "[" + key + "]", fx, 0, key));
+						list.Add(new DialogueLink(LinkKind.Topic, id, target, cond, "[" + Dialogue.TopicLabel(node, key) + "]", fx, 0, key));
 				}
 			}
 			if (node["choices"] is JsonArray choices)

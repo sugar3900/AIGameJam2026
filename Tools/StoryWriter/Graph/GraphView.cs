@@ -16,7 +16,7 @@ namespace StoryWriter.Graph;
 /// </summary>
 public sealed class GraphView : Control
 {
-	public const double NodeW = 240, MinNodeH = 84, HeaderH = 26, PreviewH = 34, RowH = 20, FooterH = 18;
+	public const double NodeW = 240, MinNodeH = 84, HeaderH = 26, PreviewH = 44, RowH = 20, FooterH = 18;
 	public const double CondW = 180, CondH = 50, CondGap = 26;
 	const double PortR = 6;
 
@@ -116,6 +116,8 @@ bool _moved;
 	}
 
 	bool _fitPending;
+	/// <summary>True while the opening view is untouched, so it follows the window settling into its final size.</summary>
+	bool _autoCenter;
 
 	void OnDocChanged()
 	{
@@ -160,15 +162,16 @@ bool _moved;
 					Link = link,
 				};
 			}
-			if (node["choices"] is JsonArray cs)
+			if (node["topics"] is JsonObject ts)
+				foreach (var (key, t) in ts)
+					rows.Add(Row(LinkKind.Topic, 0, key, "[" + Dialogue.TopicLabel(node, key) + "]", (t as JsonObject)?["do"] as JsonObject, t is JsonObject to ? Dialogue.Str(to["goto"]) : Dialogue.Str(t)));
+			bool tangent = _kinds.GetValueOrDefault(id) == NodeKind.Hypertext; // hyperlink nodes never flow or branch
+			if (!tangent && node["choices"] is JsonArray cs)
 				for (int i = 0; i < cs.Count; i++)
 					if (cs[i] is JsonObject c)
 						rows.Add(Row(LinkKind.Choice, i, null, $"{i + 1}. {Dialogue.Str(c["text"]) ?? ""}", c["do"] as JsonObject, Dialogue.Str(c["goto"])));
-			if (!string.IsNullOrEmpty(Dialogue.Str(node["goto"])))
+			if (!tangent && !string.IsNullOrEmpty(Dialogue.Str(node["goto"])))
 				rows.Add(Row(LinkKind.Goto, 0, null, "→ next", null, Dialogue.Str(node["goto"])));
-			if (node["topics"] is JsonObject ts)
-				foreach (var (key, t) in ts)
-					rows.Add(Row(LinkKind.Topic, 0, key, "[" + key + "]", (t as JsonObject)?["do"] as JsonObject, t is JsonObject to ? Dialogue.Str(to["goto"]) : Dialogue.Str(t)));
 
 			var p = _doc.Layout[id];
 			double h = Math.Max(MinNodeH, HeaderH + PreviewH + rows.Count * RowH + 6 + (FooterBits(node).text.Length > 0 ? FooterH : 0));
@@ -213,8 +216,6 @@ bool _moved;
 		else if (Dialogue.Bool(node["end"])) bits.Add("■ end");
 		if (Dialogue.Str(node["fx"]) is { Length: > 0 } fx) bits.Add("fx " + fx);
 		if (node["do"] is JsonObject d) bits.Add(Dialogue.FormatEffectsShort(d));
-		int lines = Dialogue.Lines(node).Count;
-		if (lines > 2) bits.Add($"{lines} lines");
 		return (string.Join("  ·  ", bits), !string.IsNullOrEmpty(ending));
 	}
 
@@ -230,6 +231,7 @@ bool _moved;
 
 	public void FitToView()
 	{
+		_autoCenter = false;
 		if (Bounds.Width < 10) { _fitPending = true; return; }
 		var b = ContentBounds().Inflate(40);
 		_zoom = Math.Clamp(Math.Min(Bounds.Width / b.Width, Bounds.Height / b.Height), 0.15, 1.1);
@@ -238,24 +240,20 @@ bool _moved;
 		ZoomChanged?.Invoke(_zoom);
 	}
 
-	/// <summary>Opening view: the whole graph if it's readable, otherwise the node a fresh save would start at.</summary>
+	/// <summary>Opening view: centred on the START box.</summary>
 	public void InitialView()
 	{
 		if (_doc == null || Bounds.Width < 10) { _fitPending = true; return; }
-		var b = ContentBounds().Inflate(40);
-		if (Math.Min(Bounds.Width / b.Width, Bounds.Height / b.Height) >= 0.5) { FitToView(); return; }
-		var fresh = new Runtime.DialogueRunner(new Runtime.PreviewState(), _ => _doc).PickEntry(_doc.Id);
-		_zoom = 0.75;
-		if (fresh != null && _nodeRects.TryGetValue(fresh, out var r))
-			_pan = new Vector(60 - (r.Left - CondGap - CondW) * _zoom, Bounds.Height / 2 - r.Center.Y * _zoom);
-		else
-			_pan = new Vector(40 - b.Left * _zoom, 40 - b.Top * _zoom);
+		_autoCenter = true;
+		_zoom = 0.8;
+		_pan = new Vector(Bounds.Width / 2 - _startRect.Center.X * _zoom, Bounds.Height / 2 - _startRect.Center.Y * _zoom);
 		InvalidateVisual();
 		ZoomChanged?.Invoke(_zoom);
 	}
 
 	public void SetZoom(double z, Point? anchorScreen = null)
 	{
+		_autoCenter = false;
 		var anchor = anchorScreen ?? new Point(Bounds.Width / 2, Bounds.Height / 2);
 		var world = ToWorld(anchor);
 		_zoom = Math.Clamp(z, 0.12, 2.5);
@@ -270,6 +268,7 @@ bool _moved;
 	public void Reveal(string id, bool force = false)
 	{
 		if (!_nodeRects.TryGetValue(id, out var r)) return;
+		if (force) { _fitPending = false; _autoCenter = false; } // an explicit jump beats the pending opening view
 		var tl = ToScreen(r.TopLeft);
 		var br = ToScreen(r.BottomRight);
 		var view = new Rect(Bounds.Size).Deflate(30);
@@ -321,6 +320,11 @@ bool _moved;
 	protected override void OnSizeChanged(SizeChangedEventArgs e)
 	{
 		base.OnSizeChanged(e);
+		if (_autoCenter && _doc != null && e.NewSize.Width > 10)
+		{
+			InitialView();
+			return;
+		}
 		if (_fitPending && e.NewSize.Width > 10)
 			Dispatcher.UIThread.Post(ApplyPendingView, DispatcherPriority.Loaded);
 	}
@@ -477,7 +481,7 @@ if (_drag == Drag.Connect && _dragNode != null && _nodeRects.TryGetValue(_dragNo
 		// Header strip
 		using (ctx.PushClip(new RoundedRect(r, radius)))
 			ctx.FillRectangle(new SolidColorBrush(((ISolidColorBrush)accent).Color, 0.22), new Rect(r.X, r.Y, r.Width, HeaderH));
-		string tag = kind switch { NodeKind.Hypertext => "LINK", NodeKind.Ending => "ENDING", _ => "" };
+		string tag = kind switch { NodeKind.Ending => "ENDING", _ => "" };
 		if (_entryTargets.Contains(id)) tag = tag.Length > 0 ? "ENTRY · " + tag : "ENTRY";
 		var tagFt = Text(tag, 9, accent, Bold, 90);
 		ctx.DrawText(tagFt, new Point(r.Right - tagFt.Width - 10, r.Y + 8));
@@ -523,7 +527,7 @@ if (_drag == Drag.Connect && _dragNode != null && _nodeRects.TryGetValue(_dragNo
 			ctx.DrawEllipse(Palette.PreviewHere, null, new Point(r.Right - 4, r.Bottom - 4), 3.5, 3.5);
 
 		// Link handle
-		if (selected || id == _hoverNode || _drag == Drag.Connect)
+		if (kind != NodeKind.Hypertext && (selected || id == _hoverNode || _drag == Drag.Connect))
 		{
 			var c = new Point(r.Right, r.Top + HeaderH / 2);
 			ctx.DrawEllipse(Palette.Card, new Pen(Palette.Selection, 1.5), c, PortR, PortR);
@@ -546,6 +550,7 @@ if (_drag == Drag.Connect && _dragNode != null && _nodeRects.TryGetValue(_dragNo
 	string? NodeAt(Point world) => _nodeRects.LastOrDefault(kv => kv.Value.Contains(world)).Key;
 
 	bool OnHandle(string id, Point world) =>
+		_kinds.GetValueOrDefault(id) != NodeKind.Hypertext && // hyperlink nodes never flow or branch
 		_nodeRects.TryGetValue(id, out var r) && Distance(world, new Point(r.Right, r.Top + HeaderH / 2)) <= PortR + 5;
 
 	string? HandleAt(Point world) => _nodeRects.Keys.FirstOrDefault(id => (id == SelectedId || id == _hoverNode) && OnHandle(id, world));
@@ -569,6 +574,7 @@ if (_drag == Drag.Connect && _dragNode != null && _nodeRects.TryGetValue(_dragNo
 		base.OnPointerPressed(e);
 		Focus();
 		if (_doc == null) return;
+		_autoCenter = false;
 		var screen = e.GetPosition(this);
 		var world = ToWorld(screen);
 		var props = e.GetCurrentPoint(this).Properties;
@@ -846,8 +852,11 @@ if (_drag == Drag.Connect && _dragNode != null && _nodeRects.TryGetValue(_dragNo
 			items.Add(Item("Edit…", () => EditNodeRequested?.Invoke(node), "Enter"));
 			items.Add(Item("► Preview from here", () => PreviewRequested?.Invoke(node), "P"));
 			items.Add(new Separator());
-			items.Add(Item("Add choice → new node", () => AddLinked(node, false)));
-			items.Add(Item("Add hypertext link → new node", () => AddLinked(node, true)));
+			if (_kinds.GetValueOrDefault(node) != NodeKind.Hypertext)
+			{
+				items.Add(Item("Add choice → new node", () => AddLinked(node, false)));
+				items.Add(Item("Add hypertext link → new node", () => AddLinked(node, true)));
+			}
 			items.Add(Item("Rename…", () => _ = RenameNode(node)));
 			items.Add(new Separator());
 			items.Add(Item("Delete", () => _ = DeleteNode(node), "Delete"));
