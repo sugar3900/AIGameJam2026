@@ -122,7 +122,11 @@ public:
 	UFUNCTION(Exec) void FixHimMap();
 	/** Simulates a click: interacts with whatever is under the reticle, or dismisses the ending card. */
 	UFUNCTION(Exec) void FixHimClick();
+	/** Clicks the topmost screen at a viewport position (0..1 fractions) via UFixHimWidget::SimulateClickAt: tests UI hit areas. */
+	UFUNCTION(Exec) void FixHimClickAt(float X, float Y);
 	UFUNCTION(Exec) void FixHimPause(bool bPause);
+	/** Same as Pause > Save & Exit: saves and reloads the map to the title screen. */
+	UFUNCTION(Exec) void FixHimReturnToTitle();
 	UFUNCTION(Exec) void FixHimOptions();
 	UFUNCTION(Exec) void FixHimSleep();
 	UFUNCTION(Exec) void FixHimSkipTime(float Seconds);

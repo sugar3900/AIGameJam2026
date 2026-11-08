@@ -72,6 +72,6 @@ docs/                         Obsidian vault: planning, GDD, tech notes, devlog
 - **AI tooling:** the editor runs the Unreal MCP server on `localhost:8001` (see `.mcp.json`), and Python remote execution is enabled for `Tools/run_in_editor.py`.
 
 ### Debug console commands (in game)
-`FixHimNewGame`, `FixHimTalk <id>`, `FixHimAuto 1,2,1` (auto-play a conversation with those choices), `FixHimChoose <n>`, `FixHimTopic <word>`, `FixHimMap`, `FixHimGoto <room>`, `FixHimDump`, `FixHimShot <name>`, `FixHimScript "cmd;wait 1;cmd"`, `FixHim.ReloadDialogue`.
+`FixHimNewGame`, `FixHimTalk <id>`, `FixHimAuto 1,2,1` (auto-play a conversation with those choices; also dismisses the first-meeting card), `FixHimChoose <n>`, `FixHimTopic <word>`, `FixHimMap`, `FixHimGoto <room>`, `FixHimDump`, `FixHimShot <name>`, `FixHimScript "cmd;wait 1;cmd"` (waits use game time, so they stall while paused), `FixHimClickAt <x> <y>` (click the topmost screen at a 0..1 viewport position: sliders, buttons, click-outside-to-close), `FixHimReturnToTitle`, `FixHim.ReloadDialogue`, `Sfx.Test <Cue>`, `Music.Play <Track>`, `Music.Status`.
 
 Saves live in `Saved/SaveGames/ICanFixHim_Save.json` (human-readable).

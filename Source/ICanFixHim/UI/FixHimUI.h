@@ -82,6 +82,14 @@ class ICANFIXHIM_API UFixHimSlider : public USlider
 public:
 	void Init(TFunction<void(float)> InOnChanged);
 
+	/**
+	 * Big, easy-to-grab look for menus: a thick rounded track and a large round handle. Wrap the slider in a box at
+	 * least BigHitHeight tall (and fill it vertically) so the whole row height is clickable; a click anywhere on the
+	 * track jumps the value there and keeps dragging (SSlider behaviour).
+	 */
+	void ApplyBigStyle(const FLinearColor& Track, const FLinearColor& Handle);
+	static constexpr float BigHitHeight = 48.f;
+
 private:
 	UFUNCTION()
 	void HandleChanged(float NewValue);
@@ -114,6 +122,14 @@ class ICANFIXHIM_API UFixHimWidget : public UUserWidget
 public:
 	AFixHimPlayerController* GetFixHimPC() const;
 
+	/**
+	 * Automation (FixHimClickAt): acts as a left click at an absolute (Slate desktop) position, hit-testing this screen's
+	 * own widgets by their cached geometry. A slider / button / check box under the point gets the real Slate mouse
+	 * down + up (so the hit box and click-to-jump are the shipped behaviour); otherwise it is a click on the screen
+	 * itself (click outside the card closes it, etc.). Returns what happened, for the log.
+	 */
+	virtual FString SimulateClickAt(const FVector2D& ScreenPos);
+
 protected:
 	virtual TSharedRef<SWidget> RebuildWidget() override;
 	virtual void NativeConstruct() override;
@@ -126,6 +142,20 @@ protected:
 
 	/** Create widgets and set WidgetTree->RootWidget. */
 	virtual void BuildUI() PURE_VIRTUAL(UFixHimWidget::BuildUI, );
+
+	/**
+	 * Click-outside-to-close for popups: a left click that lands outside GetOutsideClickCard() (the MakeCardScreen card
+	 * by default) calls this. Do what the popup's Back / Close / Cancel button does and return true; the default does
+	 * nothing (screens that need a decision, the dialogue box, the HUD). Ignored for OutsideClickMinAge seconds after the
+	 * screen appears, so the click that opened it (or a double click) can't close it straight away.
+	 */
+	virtual bool HandleClickOutside() { return false; }
+	virtual UWidget* GetOutsideClickCard() const { return PopCard; }
+	float OutsideClickMinAge = 0.3f;
+	/** Seconds since the widget was last added to the screen. */
+	float ShownAge = 0.f;
+
+	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 
 	/** A centred rounded card with a title, returned content box for children. */
 	UVerticalBox* MakeCardScreen(const FString& Title, float Width = 520.f);

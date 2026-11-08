@@ -289,6 +289,7 @@ void UFixHimKeepsakeWidget::ShowChooser()
 {
 	Content->ClearChildren();
 	Age = 0.f;
+	bShowingPortrait = false;
 	TWeakObjectPtr<UFixHimKeepsakeWidget> Self(this);
 
 	UTextBlock* Title = MakeText(WidgetTree, TEXT("You fixed him."), 44, HotPink, TEXT("Bold"));
@@ -333,6 +334,7 @@ void UFixHimKeepsakeWidget::ShowPortrait(int32 Index)
 	const FFixHimKeepsakeEntry& E = Entries[Index];
 	Content->ClearChildren();
 	Age = 0.f;
+	bShowingPortrait = true;
 	TWeakObjectPtr<UFixHimKeepsakeWidget> Self(this);
 
 	UTextBlock* Name = MakeText(WidgetTree, E.Name.ToUpper(), 40, HotPink, TEXT("Bold"));
@@ -395,6 +397,21 @@ void UFixHimKeepsakeWidget::ShowPortrait(int32 Index)
 		Add(TEXT("Back"), [Self]() { if (Self.IsValid()) { Self->ShowChooser(); } }, false);
 	}
 	Add(TEXT("Return to title"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->FinishGame(); } }, true);
+}
+
+UWidget* UFixHimKeepsakeWidget::GetOutsideClickCard() const
+{
+	return Card;
+}
+
+bool UFixHimKeepsakeWidget::HandleClickOutside()
+{
+	if (bShowingPortrait && Entries.Num() > 1 && Age > 0.4f)
+	{
+		ShowChooser();
+		return true;
+	}
+	return false;
 }
 
 void UFixHimKeepsakeWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)

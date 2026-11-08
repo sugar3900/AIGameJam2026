@@ -14,6 +14,7 @@
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
 #include "Styling/CoreStyle.h"
+#include "Framework/Application/SlateApplication.h"
 
 namespace FixHimUI
 {
@@ -105,6 +106,36 @@ void UFixHimSlider::Init(TFunction<void(float)> InOnChanged)
 	OnValueChanged.AddUniqueDynamic(this, &UFixHimSlider::HandleChanged);
 }
 
+void UFixHimSlider::ApplyBigStyle(const FLinearColor& Track, const FLinearColor& Handle)
+{
+	using namespace FixHimUI;
+	constexpr float Thumb = 30.f;
+	constexpr float ThumbHovered = 34.f;
+	constexpr float Bar = 12.f;
+
+	FSliderStyle Style = GetWidgetStyle();
+	// White images, tinted by the bar / handle colours below.
+	FSlateBrush BarBrush = Rounded(FLinearColor::White, Bar * 0.5f);
+	BarBrush.ImageSize = FVector2D(Bar, Bar);
+	Style.SetNormalBarImage(BarBrush);
+	Style.SetHoveredBarImage(BarBrush);
+	Style.SetDisabledBarImage(BarBrush);
+	FSlateBrush ThumbBrush = Rounded(FLinearColor::White, Thumb * 0.5f, FLinearColor(1.f, 1.f, 1.f, 0.9f), 3.f);
+	ThumbBrush.ImageSize = FVector2D(Thumb, Thumb);
+	Style.SetNormalThumbImage(ThumbBrush);
+	Style.SetDisabledThumbImage(ThumbBrush);
+	FSlateBrush HoverBrush = Rounded(FLinearColor::White, ThumbHovered * 0.5f, FLinearColor::White, 4.f);
+	HoverBrush.ImageSize = FVector2D(ThumbHovered, ThumbHovered);
+	Style.SetHoveredThumbImage(HoverBrush);
+	Style.SetBarThickness(Bar);
+	SetWidgetStyle(Style);
+	SetIndentHandle(true);
+	SetSliderBarColor(Track);
+	SetSliderHandleColor(Handle);
+	// Grab the cursor's hand so it reads as draggable.
+	SetCursor(EMouseCursor::GrabHand);
+}
+
 void UFixHimSlider::HandleChanged(float NewValue)
 {
 	// A soft tick every 5% of travel rather than on every pixel of the drag.
@@ -155,6 +186,7 @@ void UFixHimWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 	PopAge = 0.f;
+	ShownAge = 0.f;
 	if (PopCard)
 	{
 		PopCard->SetRenderScale(FVector2D(0.01f, 0.01f));
@@ -171,9 +203,72 @@ void UFixHimWidget::NativeDestruct()
 	Super::NativeDestruct();
 }
 
+FString UFixHimWidget::SimulateClickAt(const FVector2D& ScreenPos)
+{
+	// Deepest interactive control under the point (ForEachWidget visits parents before children).
+	UWidget* Hit = nullptr;
+	WidgetTree->ForEachWidget([&Hit, &ScreenPos](UWidget* W)
+	{
+		if ((W->IsA<USlider>() || W->IsA<UButton>() || W->IsA<UCheckBox>()) && W->IsVisible() && W->GetIsEnabled()
+			&& W->GetCachedWidget().IsValid() && W->GetCachedGeometry().IsUnderLocation(ScreenPos))
+		{
+			Hit = W;
+		}
+	});
+	TSet<FKey> Pressed;
+	Pressed.Add(EKeys::LeftMouseButton);
+	const FPointerEvent Down(0, 0, ScreenPos, ScreenPos, Pressed, EKeys::LeftMouseButton, 0.f, FModifierKeysState());
+	const FPointerEvent Up(0, 0, ScreenPos, ScreenPos, TSet<FKey>(), EKeys::LeftMouseButton, 0.f, FModifierKeysState());
+	if (Hit)
+	{
+		const TSharedPtr<SWidget> Slate = Hit->GetCachedWidget();
+		const FGeometry Geo = Hit->GetCachedGeometry();
+		if (UButton* Button = Cast<UButton>(Hit))
+		{
+			// SButton only clicks when Slate itself marked it hovered, which a simulated event can't do.
+			Button->OnClicked.Broadcast();
+		}
+		else
+		{
+			Slate->OnMouseButtonDown(Geo, Down);
+			Slate->OnMouseButtonUp(Geo, Up);
+		}
+		if (FSlateApplication::IsInitialized())
+		{
+			FSlateApplication::Get().ReleaseAllPointerCapture();
+		}
+		return FString::Printf(TEXT("control %s (%s, %.0fx%.0f)"), *Hit->GetName(), *Hit->GetClass()->GetName(), Geo.GetLocalSize().X, Geo.GetLocalSize().Y);
+	}
+	const UWidget* Card = GetOutsideClickCard();
+	if (Card && Card->GetCachedGeometry().IsUnderLocation(ScreenPos))
+	{
+		return TEXT("inside the card, nothing clickable");
+	}
+	const FReply Reply = NativeOnMouseButtonDown(GetCachedGeometry(), Down);
+	return Reply.IsEventHandled() ? TEXT("screen handled the click (outside the card)") : TEXT("screen ignored the click");
+}
+
+FReply UFixHimWidget::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	if (InMouseEvent.GetEffectingButton() == EKeys::LeftMouseButton && ShownAge >= OutsideClickMinAge)
+	{
+		const UWidget* Card = GetOutsideClickCard();
+		if (Card && Card->IsVisible() && !Card->GetCachedGeometry().IsUnderLocation(InMouseEvent.GetScreenSpacePosition()))
+		{
+			if (HandleClickOutside())
+			{
+				FixHim::Sfx(this, "ButtonBack");
+				return FReply::Handled();
+			}
+		}
+	}
+	return Super::NativeOnMouseButtonDown(InGeometry, InMouseEvent);
+}
+
 void UFixHimWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
+	ShownAge += InDeltaTime;
 	constexpr float PopSeconds = 0.22f;
 	if (PopCard && PopAge < PopSeconds)
 	{

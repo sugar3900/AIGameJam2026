@@ -111,6 +111,9 @@ public:
 protected:
 	virtual void BuildUI() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+	/** Click outside the portrait = Back to the chooser (only when there is one); the chooser itself needs a decision. */
+	virtual bool HandleClickOutside() override;
+	virtual UWidget* GetOutsideClickCard() const override;
 
 private:
 
@@ -120,4 +123,5 @@ private:
 
 	TArray<FFixHimKeepsakeEntry> Entries;
 	float Age = 0.f;
+	bool bShowingPortrait = false;
 };

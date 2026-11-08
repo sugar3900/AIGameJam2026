@@ -45,6 +45,8 @@
 #include "Misc/CommandLine.h"
 #include "UnrealClient.h"
 #include "TimerManager.h"
+#include "Engine/GameViewportClient.h"
+#include "Widgets/SViewport.h"
 
 namespace
 {
@@ -632,7 +634,7 @@ void AFixHimPlayerController::BeginPlaying(bool bFromSave)
 	for (TActorIterator<AFixHimMalady> It(GetWorld()); It; ++It)
 	{
 		It->RefreshRepairState();
-		It->DismissHunk();
+		It->DismissHunk(false);
 	}
 	FixHim::Sfx(this, "MenuStart");
 	EnterState(EFixHimState::Playing);
@@ -883,8 +885,11 @@ void AFixHimPlayerController::BeginEncounter(AFixHimMalady* Malady)
 		C->SetActorLocationAndRotation(TalkLoc, ToHunk.Rotation(), false, nullptr, ETeleportType::TeleportPhysics);
 		SetControlRotation(FRotator(-12.f, ToHunk.Rotation().Yaw, 0.f));
 	}
+	// He grows gently out of the fixture (a short sparkly beat first) while the camera eases over: no jump scare.
 	Malady->SummonHunk();
-	SetViewTargetWithBlend(Malady, 0.8f, VTBlend_EaseInOut, 2.f);
+	SetViewTargetWithBlend(Malady, 1.25f, VTBlend_EaseInOut, 2.6f);
+	// Talk (or show the intro card) once he has finished growing in.
+	const float Arrived = AFixHimHunk::AppearDelay + AFixHimHunk::AppearGrowSeconds + 0.1f;
 
 	const UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this);
 	const FHunkProgress* P = Save ? Save->FindHunk(Malady->HunkId) : nullptr;
@@ -910,11 +915,11 @@ void AFixHimPlayerController::BeginEncounter(AFixHimMalady* Malady)
 					Self->StartDialogue();
 				}
 			});
-		}, 0.55f, false);
+		}, Arrived, false);
 	}
 	else
 	{
-		GetWorldTimerManager().SetTimer(EncounterTimer, [this]() { StartDialogue(); }, 0.85f, false);
+		GetWorldTimerManager().SetTimer(EncounterTimer, [this]() { StartDialogue(); }, Arrived, false);
 	}
 }
 
@@ -1009,6 +1014,20 @@ void AFixHimPlayerController::HandleConversationEnded(const FString& HunkId, con
 	}
 	SetViewTargetWithBlend(GetPawn(), 0.7f, VTBlend_EaseInOut, 2.f);
 	RefreshRepairs();
+	if (Malady)
+	{
+		// He says goodbye with a bubble pop once the dialogue box is gone (unless you've already clicked him again).
+		TWeakObjectPtr<AFixHimPlayerController> WeakSelf(this);
+		TWeakObjectPtr<AFixHimMalady> WeakMalady(Malady);
+		FTimerHandle PopTimer;
+		GetWorldTimerManager().SetTimer(PopTimer, [WeakSelf, WeakMalady]()
+		{
+			if (WeakSelf.IsValid() && WeakMalady.IsValid() && WeakSelf->ActiveMalady != WeakMalady.Get())
+			{
+				WeakMalady->DismissHunk(true);
+			}
+		}, 0.35f, false);
+	}
 
 	const UFixHimDialogueSubsystem* Dialogue = UFixHimDialogueSubsystem::Get(this);
 	const FHunkDefinition* Def = Dialogue ? Dialogue->FindHunk(HunkId) : nullptr;
@@ -1329,7 +1348,7 @@ void AFixHimPlayerController::RequestEndDay()
 	if (Week >= NumWeeks)
 	{
 		// Last night: the inspector comes in the morning.
-		TransitionWidget->Play(TEXT("Inspection Day"), TEXT("Friday. Week four. Dan is on his way."), false, true, [Self, Save]()
+		TransitionWidget->Play(TEXT("Inspection Day"), TEXT("Day 30. Inspector Dan is on his way."), false, true, [Self, Save]()
 		{
 			if (Save)
 			{
@@ -1364,7 +1383,7 @@ void AFixHimPlayerController::RequestEndDay()
 		// Every morning starts at the front door, with every hunk back in his fixture.
 		for (TActorIterator<AFixHimMalady> It(Self->GetWorld()); It; ++It)
 		{
-			It->DismissHunk();
+			It->DismissHunk(false);
 			It->RefreshRepairState();
 		}
 		Self->PlacePlayerAtDoor();
@@ -1433,7 +1452,7 @@ void AFixHimPlayerController::RunFinale()
 	// Inspector Dan, then (if the house passed) Bev & Trish live from the porch, then the epilogue.
 	for (TActorIterator<AFixHimMalady> It(GetWorld()); It; ++It)
 	{
-		It->DismissHunk();
+		It->DismissHunk(false);
 	}
 	const UFixHimDialogueSubsystem* Dialogue = UFixHimDialogueSubsystem::Get(this);
 	// The house passes inspection only when every story hunk is fixed.
@@ -1522,6 +1541,11 @@ void AFixHimPlayerController::FixHimTalk(const FString& HunkId)
 
 void AFixHimPlayerController::FixHimAdvance(int32 Times)
 {
+	if (State == EFixHimState::Encounter && IntroWidget && IntroWidget->IsWaitingForClick())
+	{
+		IntroWidget->ForceSkip(); // the first-meeting card waits for a click
+		return;
+	}
 	for (int32 i = 0; i < FMath::Max(1, Times); ++i)
 	{
 		if (DialogueWidget)
@@ -1562,6 +1586,19 @@ void AFixHimPlayerController::FixHimAuto(const FString& Choices)
 	{
 		return;
 	}
+	if (State == EFixHimState::Encounter && !D->IsActive())
+	{
+		// Still arriving (he's growing in, or the first-meeting card waits for a click): dismiss the card, then try
+		// again until the conversation has started.
+		if (IntroWidget && IntroWidget->IsWaitingForClick())
+		{
+			IntroWidget->ForceSkip();
+		}
+		FTimerHandle Retry;
+		TWeakObjectPtr<AFixHimPlayerController> WeakSelf(this);
+		GetWorldTimerManager().SetTimer(Retry, [WeakSelf, Choices]() { if (WeakSelf.IsValid()) { WeakSelf->FixHimAuto(Choices); } }, 0.25f, false);
+		return;
+	}
 	TArray<FString> Picks;
 	Choices.ParseIntoArray(Picks, TEXT(","), true);
 	int32 PickIndex = 0;
@@ -1595,6 +1632,36 @@ void AFixHimPlayerController::FixHimClick()
 	}
 	UpdateHover();
 	OnInteract();
+}
+
+void AFixHimPlayerController::FixHimClickAt(float X, float Y)
+{
+	UGameViewportClient* GVC = GetWorld() ? GetWorld()->GetGameViewport() : nullptr;
+	TSharedPtr<SViewport> Viewport = GVC ? GVC->GetGameViewportWidget() : nullptr;
+	if (!Viewport.IsValid())
+	{
+		return;
+	}
+	const FGeometry& Geo = Viewport->GetCachedGeometry();
+	const FVector2D Screen = Geo.LocalToAbsolute(Geo.GetLocalSize() * FVector2D(X, Y));
+	// The topmost popup gets the click (same stacking as the Z orders used by ShowWidget).
+	UFixHimWidget* Target = nullptr;
+	for (UUserWidget* W : TArray<UUserWidget*>{ SubMenu.Get(), NameWidget.Get(), DoorWidget.Get(), EndingWidget.Get(), KeepsakeWidget.Get(),
+		IntroWidget.Get(), PauseWidget.Get(), FloorPlanWidget.Get(), DialogueWidget.Get(), TitleWidget.Get() })
+	{
+		if (W && W->IsInViewport())
+		{
+			Target = Cast<UFixHimWidget>(W);
+			break;
+		}
+	}
+	const FString Result = Target ? Target->SimulateClickAt(Screen) : FString(TEXT("no screen to click"));
+	UE_LOG(LogFixHim, Log, TEXT("ClickAt %.3f,%.3f on %s: %s"), X, Y, Target ? *Target->GetClass()->GetName() : TEXT("-"), *Result);
+}
+
+void AFixHimPlayerController::FixHimReturnToTitle()
+{
+	ReturnToMainMenu();
 }
 
 void AFixHimPlayerController::FixHimPause(bool bPause)

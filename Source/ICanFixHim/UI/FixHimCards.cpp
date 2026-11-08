@@ -29,7 +29,9 @@ using namespace FixHimUI;
 void UFixHimIntroCardWidget::BuildUI()
 {
 	UOverlay* Root = WidgetTree->ConstructWidget<UOverlay>();
-	Root->SetVisibility(ESlateVisibility::HitTestInvisible);
+	// Visible (not hit-test invisible) so a click anywhere on the card reaches NativeOnMouseButtonDown; the
+	// children don't take clicks.
+	Root->SetVisibility(ESlateVisibility::Visible);
 	RootWidget = Root;
 	WidgetTree->RootWidget = Root;
 
@@ -82,6 +84,46 @@ void UFixHimIntroCardWidget::BuildUI()
 	Col->AddChildToVerticalBox(MaladyName)->SetPadding(FMargin(0.f, -10.f, 0.f, 0.f));
 	Tagline = MakeText(WidgetTree, TEXT(""), 26, Plum, TEXT("BoldItalic"));
 	Col->AddChildToVerticalBox(Tagline);
+
+	// "Click to continue" pill near the bottom, fading in once the card has landed.
+	UBorder* HintPill = WidgetTree->ConstructWidget<UBorder>();
+	HintPill->SetBrush(Rounded(FLinearColor(Plum.R, Plum.G, Plum.B, 0.72f), 18.f));
+	HintPill->SetPadding(FMargin(22.f, 8.f));
+	Hint = MakeText(WidgetTree, TEXT("click to continue"), 20, Cream, TEXT("Bold"));
+	HintPill->SetContent(Hint);
+	HintPill->SetVisibility(ESlateVisibility::HitTestInvisible);
+	HintPill->SetRenderOpacity(0.f);
+	UOverlaySlot* HintSlot = Root->AddChildToOverlay(HintPill);
+	HintSlot->SetHorizontalAlignment(HAlign_Center);
+	HintSlot->SetVerticalAlignment(VAlign_Bottom);
+	HintSlot->SetPadding(FMargin(0.f, 0.f, 0.f, 90.f));
+	for (UWidget* W : { static_cast<UWidget*>(Dim), static_cast<UWidget*>(Row) })
+	{
+		W->SetVisibility(ESlateVisibility::HitTestInvisible);
+	}
+}
+
+void UFixHimIntroCardWidget::Skip()
+{
+	if (Age < MinShowSeconds || bLeaving || bDone)
+	{
+		return;
+	}
+	bLeaving = true;
+	LeaveAge = Age;
+	FixHim::Sfx(this, "DialogueAdvance");
+}
+
+void UFixHimIntroCardWidget::ForceSkip()
+{
+	Age = FMath::Max(Age, MinShowSeconds);
+	Skip();
+}
+
+FReply UFixHimIntroCardWidget::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	Skip();
+	return FReply::Handled();
 }
 
 void UFixHimIntroCardWidget::Setup(const FHunkDefinition& Def, AFixHimHunk* Hunk, TFunction<void()> InOnFinished)
@@ -110,6 +152,8 @@ void UFixHimIntroCardWidget::Setup(const FHunkDefinition& Def, AFixHimHunk* Hunk
 		}
 	}
 	Age = 0.f;
+	LeaveAge = 0.f;
+	bLeaving = false;
 	bDone = false;
 }
 
@@ -119,7 +163,8 @@ void UFixHimIntroCardWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 	Age += InDeltaTime;
 
 	const float In = EaseOutBack(Age / 0.45f);
-	const float Out = FMath::Clamp((Age - (Duration - 0.4f)) / 0.4f, 0.f, 1.f);
+	// Holds until clicked, then swoops out.
+	const float Out = bLeaving ? FMath::Clamp((Age - LeaveAge) / OutSeconds, 0.f, 1.f) : 0.f;
 	const float W = MyGeometry.GetLocalSize().X;
 
 	if (Band)
@@ -151,12 +196,22 @@ void UFixHimIntroCardWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 	{
 		Tagline->SetRenderOpacity(FMath::Clamp((Age - 0.9f) / 0.4f, 0.f, 1.f) * (1.f - Out));
 	}
+	if (Hint)
+	{
+		// Fade in, then a slow gentle pulse while waiting.
+		const float HintIn = FMath::Clamp((Age - HintSeconds) / 0.4f, 0.f, 1.f);
+		const float Pulse = 0.75f + 0.25f * FMath::Sin((Age - HintSeconds) * 3.f);
+		if (UWidget* Pill = Hint->GetParent())
+		{
+			Pill->SetRenderOpacity(HintIn * Pulse * (1.f - Out));
+		}
+	}
 	if (RootWidget)
 	{
 		RootWidget->SetRenderOpacity(1.f - Out * 0.8f);
 	}
 
-	if (!bDone && Age >= Duration)
+	if (!bDone && bLeaving && Out >= 1.f)
 	{
 		bDone = true;
 		if (OnFinished)
@@ -173,6 +228,7 @@ void UFixHimEndingCardWidget::BuildUI()
 {
 	UVerticalBox* Col = MakeCardScreen(TEXT(""), 760.f);
 	OpenSfx = NAME_None; // the ending jingle covers it
+	OutsideClickMinAge = 0.8f;
 	if (UBorder* CardBorder = Cast<UBorder>(Col->GetParent()))
 	{
 		Card = CardBorder;
@@ -227,6 +283,16 @@ void UFixHimEndingCardWidget::Setup(const FHunkDefinition& Def, const FString& E
 	const FString Fixed = FString::Printf(TEXT("%s repaired.  The house is %d / %d fixed."), *Def.Malady, FixedCount, TotalCount);
 	Progress->SetText(FText::FromString(FixedCount >= TotalCount ? Fixed + TEXT("\nEvery man in this house has been fixed. Or at least seen. Home sweet home.") : Fixed));
 	Age = 0.f;
+}
+
+bool UFixHimEndingCardWidget::HandleClickOutside()
+{
+	if (AFixHimPlayerController* PC = GetFixHimPC())
+	{
+		PC->CloseEndingCard();
+		return true;
+	}
+	return false;
 }
 
 void UFixHimEndingCardWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
