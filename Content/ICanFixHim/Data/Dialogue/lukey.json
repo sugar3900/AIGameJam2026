@@ -8,6 +8,7 @@
     "look": {
         "mesh": "/Game/ICanFixHim/Characters/LeakyPipes/SK_LeakyPipes",
         "idle": "/Game/ICanFixHim/Characters/LeakyPipes/A_LeakyPipes_Idle",
+        "entrance": "bubble",
         "skin": "#D69A78",
         "shirt": "#EDEDE6",
         "pants": "#6F8FB5",

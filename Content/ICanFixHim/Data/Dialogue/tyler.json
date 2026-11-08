@@ -8,6 +8,7 @@
     "look": {
         "mesh": "/Game/ICanFixHim/Characters/PinkTile/SK_PinkTile",
         "idle": "/Game/ICanFixHim/Characters/PinkTile/A_PinkTile_Idle",
+        "entrance": "bubble",
         "skin": "#E8B4A0",
         "shirt": "#FF5FA2",
         "pants": "#FF4F9A",

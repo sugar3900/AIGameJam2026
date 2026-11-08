@@ -1017,7 +1017,13 @@ void AFixHimPlayerController::HandleConversationEnded(const FString& HunkId, con
 	RefreshRepairs();
 	if (Malady)
 	{
-		// He says goodbye with a bubble pop once the dialogue box is gone (unless you've already clicked him again).
+		// Neither he nor his fixture can be clicked while he says goodbye (the pause, the transition and a beat more).
+		Malady->LockInteraction(2.4f);
+		if (AFixHimHunk* Leaving = Malady->GetHunk())
+		{
+			Leaving->SetActorEnableCollision(false);
+		}
+		// He says goodbye once the dialogue box is gone.
 		TWeakObjectPtr<AFixHimPlayerController> WeakSelf(this);
 		TWeakObjectPtr<AFixHimMalady> WeakMalady(Malady);
 		FTimerHandle PopTimer;

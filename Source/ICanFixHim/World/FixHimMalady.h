@@ -68,6 +68,9 @@ public:
 	bool bAutoFrameCamera = true;
 
 	AFixHimHunk* GetHunk() const { return Hunk; }
+	/** Not clickable while his goodbye plays (and for a moment after), so he can't be re-summoned mid-dissolve. */
+	virtual bool CanInteract() const override;
+	void LockInteraction(float Seconds);
 	FLinearColor GetGlowColor() const { return GlowColor; }
 
 	/** He grows gently out of the fixture (see AFixHimHunk::Appear). */
@@ -90,6 +93,7 @@ private:
 	FVector FindStandLocation(const FVector& Around, float Scale) const;
 
 	FVector HunkStandLocation = FVector::ZeroVector;
+	float InteractLockedUntil = 0.f;
 
 	UPROPERTY(Transient)
 	TObjectPtr<AFixHimHunk> Hunk;

@@ -7,6 +7,7 @@
 #include "FixHimHunk.generated.h"
 
 class USceneCaptureComponent2D;
+class UMaterialInstanceDynamic;
 class UTextureRenderTarget2D;
 struct FHunkDefinition;
 
@@ -43,7 +44,12 @@ public:
 	/** Seconds from Appear() until he's fully grown in. */
 	static constexpr float AppearDelay = 0.3f;
 	static constexpr float AppearGrowSeconds = 0.95f;
+	/** How long each style's transition takes. Arrivals must stay within AppearGrowSeconds; the bubble "pop" out is quick. */
+	static float InSeconds(int32 Style) { static const float V[] = { 0.8f, 0.8f, 0.95f, 0.7f }; return V[Style]; }
+	static float OutSeconds(int32 Style) { static const float V[] = { 0.22f, 0.6f, 0.85f, 0.5f }; return V[Style]; }
 	bool IsPresent() const { return bPresent; }
+	/** True while he is forming or being taken apart (the fixture can't be used until it is over). */
+	bool IsTransitioning() const { return PopAnim != EPopAnim::None; }
 
 	/** The dialogue portrait is a still taken when the hunk first appears; this makes sure one exists (capturing now if not). */
 	void SetPortraitLive(bool bLive);
@@ -67,13 +73,34 @@ private:
 	TObjectPtr<UTextureRenderTarget2D> PortraitTarget;
 
 	enum class EPopAnim : uint8 { None, Appear, Pop };
+	/**
+	 * How he arrives or leaves, set per character in the dialogue JSON (look.entrance / look.exit):
+	 *   Bubble  forms in a shimmer of transparent bubbles / pops out like a soap bubble (the default)
+	 *   Sparkle forms on a spiral of glitter / vanishes in a burst of it
+	 *   Spores  materialises out of a cloud of black spores / dissolves into one
+	 *   Surge   forms from an electrical surge / is torn apart by one
+	 * Nothing ever grows or shrinks: every style runs the M_Hunk dissolve shader (Tools/Editor/add_hunk_dissolve.py)
+	 * with its own edge look.
+	 */
+	enum class EEntrance : uint8 { Bubble, Sparkle, Spores, Surge };
+	static EEntrance ParseEntrance(const FString& Name);
+	/** Spawn the burst and sound for a transition at a world location. bIn: arriving, otherwise leaving. */
+	void PlayEntranceFx(const FVector& At, bool bIn);
+	/** Drive the dissolve shader for the given transition (0 = nothing of him exists, 1 = fully formed). */
+	void SetForm(float Alpha, EEntrance Style);
+	EEntrance Enter = EEntrance::Bubble;
+	EEntrance Leave = EEntrance::Bubble;
+	float FormAlpha = 1.f;
+	float LeaveStartForm = 1.f;
+	bool bLeaveFxPlayed = false;
+	UPROPERTY(Transient)
+	TArray<TObjectPtr<UMaterialInstanceDynamic>> FormMIDs;
 
 	float BaseScale = 1.f;
 	/** The hunk's glow colour (look.glow), tints his sparkles and bubbles. */
 	FLinearColor GlowColor = FLinearColor(1.f, 0.4f, 0.7f);
 	EPopAnim PopAnim = EPopAnim::None;
 	float PopTime = 0.f;
-	FVector AppearFrom = FVector::ZeroVector;
 	FVector AppearTo = FVector::ZeroVector;
 	bool bPresent = false;
 	bool bHasStill = false;

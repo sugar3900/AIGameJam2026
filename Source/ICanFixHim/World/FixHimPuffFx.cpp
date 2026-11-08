@@ -5,6 +5,7 @@
 #include "Core/FixHimSettings.h"
 #include "Components/MaterialBillboardComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/PointLightComponent.h"
 #include "Engine/World.h"
 #include "Materials/MaterialInstanceDynamic.h"
 
@@ -36,7 +37,19 @@ AFixHimPuffFx* AFixHimPuffFx::Spawn(UWorld* World, const FVector& Location, cons
 void AFixHimPuffFx::Build(const FLinearColor& Color, EFixHimPuffStyle InStyle, float Size)
 {
 	Style = InStyle;
-	const bool bPop = Style == EFixHimPuffStyle::BubblePop;
+	if (Style == EFixHimPuffStyle::SurgeIn || Style == EFixHimPuffStyle::SurgeOut)
+	{
+		BuildSurge(Color, Size);
+		return;
+	}
+	if (Style == EFixHimPuffStyle::SporesIn || Style == EFixHimPuffStyle::SporesOut)
+	{
+		BuildSpores(Style == EFixHimPuffStyle::SporesIn, Size);
+		return;
+	}
+	// Burst (ring flying outward) when leaving, spiral (rising out of the fixture) when arriving.
+	const bool bPop = Style == EFixHimPuffStyle::BubblePop || Style == EFixHimPuffStyle::SparkleOut;
+	const bool bGlitterOnly = Style == EFixHimPuffStyle::SparkleIn || Style == EFixHimPuffStyle::SparkleOut;
 	Lifetime = bPop ? 1.4f : 1.9f;
 	FRandomStream Rng(FMath::Rand());
 
@@ -44,7 +57,7 @@ void AFixHimPuffFx::Build(const FLinearColor& Color, EFixHimPuffStyle InStyle, f
 	const FLinearColor SparkleColor = FMath::Lerp(Color, FLinearColor::White, 0.45f);
 
 	// Sparkles: additive twinkle sprites. Each gets its own instance so it can fade on its own.
-	const int32 NumSparkles = bPop ? 20 : 18;
+	const int32 NumSparkles = bGlitterOnly ? (bPop ? 36 : 34) : (bPop ? 20 : 18);
 	for (int32 i = 0; SparkleMat && i < NumSparkles; ++i)
 	{
 		UMaterialInstanceDynamic* MID = UMaterialInstanceDynamic::Create(SparkleMat, this);
@@ -89,10 +102,11 @@ void AFixHimPuffFx::Build(const FLinearColor& Color, EFixHimPuffStyle InStyle, f
 	// exposure and painterly post-process), each with a bright white glint.
 	// His glow colour, softened towards bubblegum pink so every hunk's bubbles stay cute.
 	const FLinearColor BubbleColor = FMath::Lerp(FMath::Lerp(Color, FLinearColor::White, 0.45f), FLinearColor(1.f, 0.62f, 0.82f), 0.5f);
-	BubbleMID = FixHim::Assets::MakeFlat(this, BubbleColor, BubbleColor * 0.6f, 0.12f);
+	// Transparent, like soap film: a bright tint at low opacity (the glint below carries the highlight).
+	BubbleMID = FixHim::Assets::MakeTranslucent(this, BubbleColor * 2.4f, 0.26f);
 	UMaterialInstanceDynamic* GlintMID = FixHim::Assets::MakeFlat(this, FLinearColor::White, FLinearColor::White * 3.f, 0.1f);
 	UStaticMesh* Sphere = FixHim::Assets::ShapeMesh(TEXT("sphere"));
-	const int32 NumBubbles = bPop ? 9 : 5;
+	const int32 NumBubbles = bGlitterOnly ? 0 : (bPop ? 9 : 5);
 	for (int32 i = 0; Sphere && i < NumBubbles; ++i)
 	{
 		UStaticMeshComponent* Bubble = NewObject<UStaticMeshComponent>(this);
@@ -130,11 +144,120 @@ void AFixHimPuffFx::Build(const FLinearColor& Color, EFixHimPuffStyle InStyle, f
 	}
 }
 
+void AFixHimPuffFx::BuildSurge(const FLinearColor& Color, float Size)
+{
+	Lifetime = 1.0f;
+	SurgeSize = Size;
+	FRandomStream Rng(FMath::Rand());
+	UStaticMesh* Cube = FixHim::Assets::ShapeMesh(TEXT("cube"));
+	// Bright blue-white bolts with the odd one in the character's own colour (yellow for wiring).
+	const FLinearColor Electric(0.55f, 0.8f, 1.f);
+	UMaterialInstanceDynamic* BlueMID = FixHim::Assets::MakeFlat(this, Electric, Electric * 40.f, 0.2f);
+	UMaterialInstanceDynamic* WarmMID = FixHim::Assets::MakeFlat(this, FMath::Lerp(Color, FLinearColor::White, 0.5f), FMath::Lerp(Color, FLinearColor::White, 0.5f) * 40.f, 0.2f);
+	const int32 NumBolts = 34;
+	for (int32 i = 0; Cube && i < NumBolts; ++i)
+	{
+		UStaticMeshComponent* Bolt = NewObject<UStaticMeshComponent>(this);
+		Bolt->SetupAttachment(GetRootComponent());
+		Bolt->SetStaticMesh(Cube);
+		Bolt->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		Bolt->SetCastShadow(false);
+		Bolt->SetMaterial(0, i % 4 == 0 ? WarmMID : BlueMID);
+		Bolt->RegisterComponent();
+		FParticle P;
+		P.Comp = Bolt;
+		P.bSurge = true;
+		P.Delay = Rng.FRandRange(0.f, 0.35f);
+		P.Life = Lifetime - P.Delay - 0.05f;
+		P.NextStrike = 0.f;
+		Bolt->SetRelativeScale3D(FVector(0.001f));
+		Parts.Add(Bolt);
+		Particles.Add(P);
+	}
+	SurgeLight = NewObject<UPointLightComponent>(this);
+	SurgeLight->SetupAttachment(GetRootComponent());
+	SurgeLight->SetLightColor(Electric);
+	SurgeLight->SetAttenuationRadius(420.f * Size);
+	SurgeLight->SetCastShadows(false);
+	SurgeLight->SetIntensity(0.f);
+	SurgeLight->RegisterComponent();
+	Parts.Add(SurgeLight);
+}
+
+void AFixHimPuffFx::BuildSpores(bool bIn, float Size)
+{
+	Lifetime = bIn ? 2.9f : 2.5f;
+	FRandomStream Rng(FMath::Rand());
+	UStaticMesh* Sphere = FixHim::Assets::ShapeMesh(TEXT("sphere"));
+	if (!Sphere)
+	{
+		return;
+	}
+	// Near-black with a sickly green cast, matte so lighting can't make it glossy or pretty.
+	UMaterialInstanceDynamic* SporeMID = FixHim::Assets::MakeFlat(this, FLinearColor(0.012f, 0.018f, 0.012f), FLinearColor::Black, 1.f);
+	UMaterialInstanceDynamic* SmokeMID = FixHim::Assets::MakeTranslucent(this, FLinearColor(0.004f, 0.007f, 0.004f), 0.55f);
+
+	// Soft smoky blobs that swell, giving the cloud its body.
+	const int32 NumBlobs = bIn ? 26 : 22;
+	for (int32 i = 0; SmokeMID && i < NumBlobs; ++i)
+	{
+		UStaticMeshComponent* Blob = NewObject<UStaticMeshComponent>(this);
+		Blob->SetupAttachment(GetRootComponent());
+		Blob->SetStaticMesh(Sphere);
+		Blob->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		Blob->SetCastShadow(false);
+		Blob->SetMaterial(0, SmokeMID);
+		Blob->RegisterComponent();
+		FParticle P;
+		P.Comp = Blob;
+		P.bSpore = P.bBlob = true;
+		P.BaseSize = Rng.FRandRange(24.f, 52.f) * Size;
+		const FVector Dir = FVector(Rng.FRandRange(-1.f, 1.f), Rng.FRandRange(-1.f, 1.f), Rng.FRandRange(-0.3f, 0.6f)).GetSafeNormal();
+		// Spread up and down his whole body so he is wrapped in cloud, not just puffed at the middle.
+		Blob->SetRelativeLocation(FVector(Dir.X * 20.f, Dir.Y * 20.f, Rng.FRandRange(-85.f, 100.f)) * Size);
+		P.Velocity = Dir * Rng.FRandRange(30.f, 80.f) * Size;
+		P.Rise = Rng.FRandRange(8.f, 22.f) * Size;
+		P.Delay = Rng.FRandRange(0.f, bIn ? 0.5f : 0.25f);
+		P.Life = Rng.FRandRange(1.5f, 2.2f);
+		P.Phase = Rng.FRandRange(0.f, 2.f * PI);
+		Blob->SetRelativeScale3D(FVector(0.001f));
+		Parts.Add(Blob);
+		Particles.Add(P);
+	}
+
+	// The spores themselves: lots of small dark specks flung out and left hanging in the air.
+	const int32 NumSpores = bIn ? 110 : 120;
+	for (int32 i = 0; SporeMID && i < NumSpores; ++i)
+	{
+		UStaticMeshComponent* Spore = NewObject<UStaticMeshComponent>(this);
+		Spore->SetupAttachment(GetRootComponent());
+		Spore->SetStaticMesh(Sphere);
+		Spore->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		Spore->SetCastShadow(false);
+		Spore->SetMaterial(0, SporeMID);
+		Spore->RegisterComponent();
+		FParticle P;
+		P.Comp = Spore;
+		P.bSpore = true;
+		P.BaseSize = Rng.FRandRange(1.6f, 5.5f) * Size;
+		const FVector Dir = FVector(Rng.FRandRange(-1.f, 1.f), Rng.FRandRange(-1.f, 1.f), Rng.FRandRange(-0.6f, 1.f)).GetSafeNormal();
+		Spore->SetRelativeLocation(FVector(Dir.X * 14.f, Dir.Y * 14.f, Rng.FRandRange(-85.f, 100.f)) * Size);
+		P.Velocity = Dir * Rng.FRandRange(60.f, 190.f) * Size;
+		P.Rise = Rng.FRandRange(6.f, 26.f) * Size;
+		P.Delay = Rng.FRandRange(0.f, bIn ? 0.6f : 0.15f);
+		P.Life = Rng.FRandRange(1.1f, 2.0f);
+		P.Phase = Rng.FRandRange(0.f, 2.f * PI);
+		Spore->SetRelativeScale3D(FVector(0.001f));
+		Parts.Add(Spore);
+		Particles.Add(P);
+	}
+}
+
 void AFixHimPuffFx::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 	Age += DeltaSeconds;
-	const bool bPop = Style == EFixHimPuffStyle::BubblePop;
+	const bool bPop = Style == EFixHimPuffStyle::BubblePop || Style == EFixHimPuffStyle::SparkleOut;
 
 	for (FParticle& P : Particles)
 	{
@@ -157,12 +280,40 @@ void AFixHimPuffFx::Tick(float DeltaSeconds)
 			}
 			continue;
 		}
-		if (!C->IsVisible())
+		if (!P.bSurge && !C->IsVisible())
 		{
 			C->SetVisibility(true, true);
 		}
 
 		FVector Loc = C->GetRelativeLocation();
+		if (P.bSurge)
+		{
+			// A bolt that keeps re-striking somewhere new, flickering, and is gone as the surge ends.
+			if (T >= P.NextStrike)
+			{
+				P.NextStrike = T + FMath::FRandRange(0.03f, 0.09f);
+				const float S = SurgeSize;
+				C->SetRelativeLocation(FVector(FMath::FRandRange(-42.f, 42.f), FMath::FRandRange(-42.f, 42.f), FMath::FRandRange(-88.f, 95.f)) * S);
+				C->SetRelativeRotation(FRotator(FMath::FRandRange(0.f, 360.f), FMath::FRandRange(0.f, 360.f), FMath::FRandRange(0.f, 360.f)));
+				const float Len = FMath::FRandRange(0.25f, 1.1f) * S;
+				C->SetRelativeScale3D(FVector(0.012f, 0.012f, Len));
+				C->SetVisibility(FMath::FRand() < 0.78f, true);
+			}
+			continue;
+		}
+		if (P.bSpore)
+		{
+			// Billow out, slow right down, then hang and drift up while shrinking away.
+			P.Velocity *= FMath::Exp(-1.9f * DeltaSeconds);
+			P.Velocity.Z += P.Rise * DeltaSeconds;
+			Loc += P.Velocity * DeltaSeconds + FVector(FMath::Sin(T * 3.1f + P.Phase), FMath::Cos(T * 2.7f + P.Phase), 0.f) * 9.f * DeltaSeconds;
+			C->SetRelativeLocation(Loc);
+			const float Grow = FMath::Sin(FMath::Clamp(T / 0.22f, 0.f, 1.f) * HALF_PI);
+			const float Fade = 1.f - FMath::Clamp((U - 0.45f) / 0.55f, 0.f, 1.f);
+			const float Swell = P.bBlob ? 1.f + 0.9f * U : 1.f;
+			C->SetRelativeScale3D(FVector(FMath::Max(0.001f, P.BaseSize / 100.f * Grow * Fade * Swell)));
+			continue;
+		}
 		if (P.bBubble)
 		{
 			// Rise with a lazy side-to-side wobble, slowing down.
@@ -208,6 +359,11 @@ void AFixHimPuffFx::Tick(float DeltaSeconds)
 		}
 	}
 
+	if (SurgeLight)
+	{
+		const float Fade = 1.f - FMath::Clamp((Age - 0.55f) / 0.45f, 0.f, 1.f);
+		SurgeLight->SetIntensity(FMath::FRand() < 0.7f ? FMath::FRandRange(2500.f, 9000.f) * Fade : 0.f);
+	}
 	if (Age >= Lifetime)
 	{
 		Destroy();

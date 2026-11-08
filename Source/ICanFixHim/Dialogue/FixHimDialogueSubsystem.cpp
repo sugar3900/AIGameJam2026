@@ -244,6 +244,8 @@ bool UFixHimDialogueSubsystem::LoadHunkFile(const FString& Path)
 	{
 		(*Look)->TryGetStringField(TEXT("mesh"), Def.Mesh);
 		(*Look)->TryGetStringField(TEXT("idle"), Def.Idle);
+		(*Look)->TryGetStringField(TEXT("entrance"), Def.Entrance);
+		(*Look)->TryGetStringField(TEXT("exit"), Def.Exit);
 		Def.Shirt = ParseColor((*Look)->TryGetField(TEXT("shirt")), Def.Shirt);
 		Def.Skin = ParseColor((*Look)->TryGetField(TEXT("skin")), Def.Skin);
 		Def.Pants = ParseColor((*Look)->TryGetField(TEXT("pants")), Def.Pants);
