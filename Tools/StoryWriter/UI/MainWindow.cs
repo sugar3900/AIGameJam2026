@@ -196,12 +196,7 @@ _undo, _redo, _save,
 		canvas.Children.Add(zoomBox);
 		canvas.Children.Add(_sideToggle);
 
-		var hint = Ui.Label("Double-click a node to edit · drag a ● port to link, relink or (dropped on empty space) unlink an option · Alt-drag the header ● for a hypertext link · right-click for more · scroll to zoom", 11, Palette.Faint);
-		var hintBar = new Border { Background = Palette.PanelAlt, Padding = new Thickness(12, 5), Child = hint };
-
 		var graphArea = new DockPanel();
-		DockPanel.SetDock(hintBar, Dock.Bottom);
-		graphArea.Children.Add(hintBar);
 		graphArea.Children.Add(canvas);
 
 		_sideTabs.Items.Add(new TabItem { Header = "Preview", Content = _graphPreview });

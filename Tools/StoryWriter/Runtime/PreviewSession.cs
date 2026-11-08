@@ -6,6 +6,8 @@ namespace StoryWriter.Runtime;
 /// <summary>Mirror of FHunkProgress in the save game.</summary>
 public sealed class HunkProgress
 {
+	/// <summary>Relationship stats are clamped to 0..StatMax, like FixHimStatMax in the game.</summary>
+	public const int StatMax = 20;
 	public int Romance, Friendship, Friction, Visits;
 	public bool Met, Fixed;
 	public string Ending = "";
@@ -99,9 +101,9 @@ public sealed class PreviewState
 				var p = Hunk(scope);
 				switch (name)
 				{
-					case "romance": p.Romance += val; break;
-					case "friendship": p.Friendship += val; break;
-					case "friction": p.Friction += val; break;
+					case "romance": p.Romance = Math.Clamp(p.Romance + val, 0, HunkProgress.StatMax); break;
+					case "friendship": p.Friendship = Math.Clamp(p.Friendship + val, 0, HunkProgress.StatMax); break;
+					case "friction": p.Friction = Math.Clamp(p.Friction + val, 0, HunkProgress.StatMax); break;
 					default: applied.Add($"unknown effect '{key}'"); continue;
 				}
 			}

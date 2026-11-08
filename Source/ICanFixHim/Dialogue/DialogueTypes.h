@@ -138,4 +138,8 @@ struct FDialogueView
 	FString FxText;
 	bool bIsLastLine = false;
 	bool bWillEnd = false;
+	/** Re-presenting a node already shown (back from a hypertext tangent): the line is not new, only its options. */
+	bool bIsReturn = false;
+	/** Reading a hypertext node: a dead end that returns to the node it was opened from. */
+	bool bInTangent = false;
 };

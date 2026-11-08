@@ -98,9 +98,9 @@ public sealed class StatePanel : Border
 			grid.Children.Add(c);
 			row++;
 		}
-		Add("romance", Number(p.Romance, v => p.Romance = v));
-		Add("friendship", Number(p.Friendship, v => p.Friendship = v));
-		Add("friction", Number(p.Friction, v => p.Friction = v));
+		Add("romance", Number(p.Romance, v => p.Romance = v, 0, HunkProgress.StatMax));
+		Add("friendship", Number(p.Friendship, v => p.Friendship = v, 0, HunkProgress.StatMax));
+		Add("friction", Number(p.Friction, v => p.Friction = v, 0, HunkProgress.StatMax));
 		Add("visits", Number(p.Visits, v => p.Visits = v));
 		Add("met", Check(p.Met, v => p.Met = v));
 		Add("fixed", Check(p.Fixed, v => p.Fixed = v));
@@ -128,9 +128,9 @@ public sealed class StatePanel : Border
 		_editing = false;
 	}
 
-	NumericUpDown Number(int value, Action<int> set)
+	NumericUpDown Number(int value, Action<int> set, int min = -99, int max = 999)
 	{
-		var n = new NumericUpDown { Value = value, Increment = 1, FormatString = "0", Width = 120, FontSize = 12, Minimum = -99, Maximum = 999 };
+		var n = new NumericUpDown { Value = value, Increment = 1, FormatString = "0", Width = 120, FontSize = 12, Minimum = min, Maximum = max };
 		n.ValueChanged += (_, e) => Edit(() => set((int)(e.NewValue ?? 0)));
 		return n;
 	}

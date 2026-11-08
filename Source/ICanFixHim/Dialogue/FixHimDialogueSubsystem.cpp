@@ -569,6 +569,7 @@ bool UFixHimDialogueSubsystem::StartConversation(const FString& HunkId)
 	ActiveHunkId = HunkId;
 	PendingEnding.Reset();
 	JumpsWithoutLines = 0;
+	Tangents.Reset();
 
 	FString StartNode;
 	bCountVisit = true;
@@ -625,7 +626,12 @@ void UFixHimDialogueSubsystem::EnterNode(const FString& NodeId)
 
 	if (Node->Lines.IsEmpty())
 	{
-		// Pure routing node.
+		// Pure routing node (a hypertext node with no text just rewinds).
+		if (InTangent())
+		{
+			ReturnFromTangent();
+			return;
+		}
 		if (++JumpsWithoutLines > 32)
 		{
 			UE_LOG(LogFixHim, Error, TEXT("%s: goto loop near '%s'"), *ActiveHunkId, *NodeId);
@@ -663,6 +669,11 @@ void UFixHimDialogueSubsystem::Advance()
 		++LineIndex;
 		View.Fx.Reset(); // fx only plays on node entry
 		RebuildView();
+		return;
+	}
+	if (InTangent())
+	{
+		ReturnFromTangent();
 		return;
 	}
 	if (!GetVisibleChoiceIndices().IsEmpty())
@@ -714,7 +725,57 @@ void UFixHimDialogueSubsystem::ClickTopic(const FString& TopicId)
 		return;
 	}
 	ApplyEffects(Topic->Effects);
+	const FHunkDefinition* Def = FindHunk(ActiveHunkId);
+	if (Def && Def->FindNode(Topic->Goto) && (InTangent() || IsHypertextNode(*Def, Topic->Goto)))
+	{
+		Tangents.Emplace(ActiveNodeId, LineIndex);
+	}
 	EnterNode(Topic->Goto);
+}
+
+bool UFixHimDialogueSubsystem::IsHypertextNode(const FHunkDefinition& Def, const FString& NodeId) const
+{
+	const FDialogueNode* Target = Def.FindNode(NodeId);
+	if (!Target || !Target->Ending.IsEmpty())
+	{
+		return false;
+	}
+	bool bViaTopic = false;
+	for (const FDialogueEntry& Entry : Def.Entries)
+	{
+		if (Entry.Node == NodeId)
+		{
+			return false;
+		}
+	}
+	for (const auto& Pair : Def.Nodes)
+	{
+		const FDialogueNode& N = Pair.Value;
+		if (N.Goto == NodeId)
+		{
+			return false;
+		}
+		for (const FDialogueChoice& Choice : N.Choices)
+		{
+			if (Choice.Goto == NodeId)
+			{
+				return false;
+			}
+		}
+		for (const auto& TP : N.Topics)
+		{
+			bViaTopic |= TP.Value.Goto == NodeId;
+		}
+	}
+	return bViaTopic;
+}
+
+void UFixHimDialogueSubsystem::ReturnFromTangent()
+{
+	const TPair<FString, int32> Back = Tangents.Pop();
+	ActiveNodeId = Back.Key;
+	LineIndex = Back.Value;
+	RebuildView(true);
 }
 
 void UFixHimDialogueSubsystem::AbortConversation()
@@ -722,6 +783,7 @@ void UFixHimDialogueSubsystem::AbortConversation()
 	ActiveHunkId.Reset();
 	ActiveNodeId.Reset();
 	PendingEnding.Reset();
+	Tangents.Reset();
 	View = FDialogueView();
 }
 
@@ -820,7 +882,7 @@ FString UFixHimDialogueSubsystem::Substitute(const FString& In) const
 	return Out;
 }
 
-void UFixHimDialogueSubsystem::RebuildView()
+void UFixHimDialogueSubsystem::RebuildView(bool bIsReturn)
 {
 	const FHunkDefinition* Def = FindHunk(ActiveHunkId);
 	const FDialogueNode* Node = Def ? Def->FindNode(ActiveNodeId) : nullptr;
@@ -837,15 +899,20 @@ void UFixHimDialogueSubsystem::RebuildView()
 	View.SpeakerName = Line.SpeakerName;
 	View.Text = Substitute(Line.Text);
 	View.bIsLastLine = LineIndex == Node->Lines.Num() - 1;
-	if (LineIndex == 0)
+	View.bIsReturn = bIsReturn;
+	View.bInTangent = InTangent();
+	if (LineIndex == 0 && !bIsReturn)
 	{
 		View.Fx = Node->Fx;
 		View.FxText = Substitute(Node->FxText);
 	}
 
-	for (const int32 Index : GetVisibleChoiceIndices())
+	if (!InTangent())
 	{
-		View.Choices.Add(Substitute(Node->Choices[Index].Text));
+		for (const int32 Index : GetVisibleChoiceIndices())
+		{
+			View.Choices.Add(Substitute(Node->Choices[Index].Text));
+		}
 	}
 	for (const auto& TP : Node->Topics)
 	{
@@ -854,7 +921,7 @@ void UFixHimDialogueSubsystem::RebuildView()
 			View.ActiveTopics.Add(TP.Key);
 		}
 	}
-	View.bWillEnd = View.bIsLastLine && View.Choices.IsEmpty() && (Node->bEnd || Node->Goto.IsEmpty());
+	View.bWillEnd = View.bIsLastLine && !InTangent() && View.Choices.IsEmpty() && (Node->bEnd || Node->Goto.IsEmpty());
 
 	OnView.Broadcast(View);
 }
