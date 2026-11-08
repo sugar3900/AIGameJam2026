@@ -17,7 +17,8 @@
 AFixHimMalady::AFixHimMalady()
 {
 	Toggle = EInteractToggle::None;
-	SparkleColor = FLinearColor(1.f, 0.6f, 0.9f);
+	// The host breathes a soft glow (Tick) instead of the occasional shine wipe.
+	bShine = false;
 
 	HunkSpawn = CreateDefaultSubobject<UArrowComponent>(TEXT("HunkSpawn"));
 	HunkSpawn->SetupAttachment(Root);
@@ -69,9 +70,9 @@ void AFixHimMalady::BeginPlay()
 
 	GlowLight->SetLightColor(GlowColor);
 	OutlineColor = GlowColor;
-	if (SparkleMID)
+	if (ShineMID)
 	{
-		SparkleMID->SetVectorParameterValue(TEXT("Color"), FMath::Lerp(GlowColor, FLinearColor::White, 0.4f));
+		ShineMID->SetVectorParameterValue(TEXT("Color"), FMath::Lerp(GlowColor, FLinearColor::White, 0.25f));
 	}
 
 	BuildBrokenFx();
@@ -228,14 +229,18 @@ void AFixHimMalady::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 	FxTime += DeltaSeconds;
 
-	// Breathing glow: strong while broken, a soft heartbeat once repaired.
-	const float Pulse = 0.5f + 0.5f * FMath::Sin(FxTime * (bRepaired ? 1.6f : 2.6f));
-	const float Strength = bRepaired ? 0.4f + 0.4f * Pulse : 1.5f + 4.5f * Pulse;
+	// Subtle breathing glow: a little stronger while broken, slower and softer once repaired.
+	const float Pulse = 0.5f + 0.5f * FMath::Sin(FxTime * (bRepaired ? 1.2f : 1.8f));
+	const float Strength = bRepaired ? 0.15f + 0.2f * Pulse : 0.4f + 0.7f * Pulse;
 	if (BodyMID)
 	{
 		BodyMID->SetVectorParameterValue(TEXT("Emissive"), GlowColor * Strength);
 	}
-	GlowLight->SetIntensity((bRepaired ? 300.f : 1400.f) * (0.5f + Pulse));
+	if (ShineMID)
+	{
+		ShineMID->SetScalarParameterValue(TEXT("Glow"), bRepaired ? 0.12f + 0.12f * Pulse : 0.25f + 0.3f * Pulse);
+	}
+	GlowLight->SetIntensity((bRepaired ? 150.f : 450.f) * (0.6f + 0.8f * Pulse));
 
 	if (!bRepaired)
 	{

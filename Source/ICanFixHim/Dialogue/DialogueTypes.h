@@ -148,13 +148,10 @@ struct FHunkDefinition
 struct FDialogueView
 {
 	FString HunkId;
-	/** Node and line being shown (lets listeners tell a new line from a re-broadcast). */
+	/** Node and 0-based line index being shown (voice-over lookup key; lets listeners tell a new line from a re-broadcast). */
 	FString NodeId;
 	int32 LineIndex = 0;
 	FString HunkName;
-	/** Node and 0-based line index this view shows (voice-over lookup key). */
-	FString NodeId;
-	int32 LineIndex = 0;
 	EDialogueSpeaker Speaker = EDialogueSpeaker::Hunk;
 	/** Set when Speaker == Named. */
 	FString SpeakerName;

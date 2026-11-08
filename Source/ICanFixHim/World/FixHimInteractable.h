@@ -29,7 +29,7 @@ enum class EInteractToggle : uint8
 
 /**
  * Anything in the apartment you can point at and click.
- * Glimmers subtly from a distance (sparkles), gets an outline on hover,
+ * Occasionally shimmers with a shine that wipes across it, gets an outline on hover,
  * and toggles between two states when clicked.
  *
  * Hierarchy: Root -> Pivot -> Body (+ outline shells), Root -> RevealPart, Root -> Light
@@ -80,10 +80,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UPointLightComponent> Light;
 
-	/** Parent of the sparkle sprites; slowly spins so they orbit the object. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	TObjectPtr<USceneComponent> Sparkles;
-
 	// ---- Look -------------------------------------------------------------
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
@@ -109,11 +105,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
 	float OutlineThickness = 2.2f;
 
+	/** An occasional shine wipes across the object (ShineMaterial overlay on its meshes). */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
-	bool bSparkle = true;
+	bool bShine = true;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
-	FLinearColor SparkleColor = FLinearColor(1.f, 0.85f, 0.95f);
+	FLinearColor ShineColor = FLinearColor(1.f, 0.9f, 0.95f);
+
+	/** Seconds between shines (a random value in this range is drawn each time). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
+	FVector2D ShineInterval = FVector2D(5.f, 11.f);
 
 	// ---- Behaviour --------------------------------------------------------
 
@@ -159,7 +160,7 @@ protected:
 	void PlayInteractSfx();
 	void ApplyLook();
 	void BuildOutline();
-	void BuildSparkles();
+	void BuildShine();
 	void ApplyToggleAlpha(float Alpha);
 
 	UPROPERTY(Transient)
@@ -168,10 +169,12 @@ protected:
 	UPROPERTY(Transient)
 	TObjectPtr<UMaterialInstanceDynamic> BodyMID;
 
+	/** Overlay material instance shared by every mesh of this actor; the maladies drive its Glow. */
 	UPROPERTY(Transient)
-	TObjectPtr<UMaterialInstanceDynamic> SparkleMID;
+	TObjectPtr<UMaterialInstanceDynamic> ShineMID;
 
 	bool bHovered = false;
 	float ToggleAlpha = 0.f;
 	float Age = 0.f;
+	float NextShineAt = 0.f;
 };

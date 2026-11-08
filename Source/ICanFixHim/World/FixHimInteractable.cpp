@@ -6,7 +6,6 @@
 #include "Audio/FixHimSfxSubsystem.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/PointLightComponent.h"
-#include "Components/MaterialBillboardComponent.h"
 #include "Engine/StaticMesh.h"
 #include "Materials/MaterialInstanceDynamic.h"
 
@@ -37,9 +36,6 @@ AFixHimInteractable::AFixHimInteractable()
 	Light->SetLightColor(FLinearColor(1.f, 0.82f, 0.62f));
 	Light->SetCastShadows(false);
 	Light->SetVisibility(false);
-
-	Sparkles = CreateDefaultSubobject<USceneComponent>(TEXT("Sparkles"));
-	Sparkles->SetupAttachment(Root);
 }
 
 void AFixHimInteractable::OnConstruction(const FTransform& Transform)
@@ -51,12 +47,12 @@ void AFixHimInteractable::OnConstruction(const FTransform& Transform)
 void AFixHimInteractable::BeginPlay()
 {
 	Super::BeginPlay();
+	Age = FMath::FRand() * 10.f;
 	ApplyLook();
 	BuildOutline();
-	BuildSparkles();
+	BuildShine();
 	ToggleAlpha = bIsOn ? 1.f : 0.f;
 	ApplyToggleAlpha(ToggleAlpha);
-	Age = FMath::FRand() * 10.f;
 }
 
 void AFixHimInteractable::ApplyLook()
@@ -126,33 +122,48 @@ void AFixHimInteractable::BuildOutline()
 	}
 }
 
-void AFixHimInteractable::BuildSparkles()
+void AFixHimInteractable::BuildShine()
 {
-	UMaterialInterface* SparkleMat = UFixHimSettings::Get()->SparkleMaterial.LoadSynchronous();
-	if (!bSparkle || !SparkleMat || !Body || !Body->GetStaticMesh())
+	UMaterialInterface* ShineMat = UFixHimSettings::Get()->ShineMaterial.LoadSynchronous();
+	if (!ShineMat)
 	{
 		return;
 	}
-	SparkleMID = UMaterialInstanceDynamic::Create(SparkleMat, this);
-	SparkleMID->SetVectorParameterValue(TEXT("Color"), SparkleColor);
+	ShineMID = UMaterialInstanceDynamic::Create(ShineMat, this);
+	ShineMID->SetVectorParameterValue(TEXT("Color"), ShineColor);
+	ShineMID->SetScalarParameterValue(TEXT("Sweep"), -1.f);
+	ShineMID->SetScalarParameterValue(TEXT("Glow"), 0.f);
 
-	const FBoxSphereBounds B = Body->CalcBounds(Body->GetComponentTransform());
-	Sparkles->SetWorldLocation(B.Origin);
-	const float Radius = FMath::Clamp(FMath::Max(B.BoxExtent.X, B.BoxExtent.Y) * 0.9f, 15.f, 70.f);
-	const float Size = FMath::Clamp(B.SphereRadius * 0.35f, 14.f, 26.f);
-
-	// Three twinkling sprites at different heights around the object.
-	for (int32 i = 0; i < 3; ++i)
+	// One overlay for every visible mesh that moves with the body, with bounds covering all of them so a single
+	// shine band crosses the whole object (a cabinet and its door, a lamp and its shade) in one sweep.
+	TArray<UStaticMeshComponent*> Meshes;
+	GetComponents<UStaticMeshComponent>(Meshes);
+	FBox Box(ForceInit);
+	TArray<UStaticMeshComponent*> Targets;
+	for (UStaticMeshComponent* Mesh : Meshes)
 	{
-		UMaterialBillboardComponent* Sprite = NewObject<UMaterialBillboardComponent>(this);
-		Sprite->SetupAttachment(Sparkles);
-		const float Angle = (i / 3.f) * 2.f * PI;
-		Sprite->SetRelativeLocation(FVector(FMath::Cos(Angle) * Radius, FMath::Sin(Angle) * Radius, (i - 1) * B.BoxExtent.Z * 0.6f));
-		Sprite->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		Sprite->SetCastShadow(false);
-		Sprite->AddElement(SparkleMID, nullptr, false, Size * (1.f - 0.15f * i), Size * (1.f - 0.15f * i), nullptr);
-		Sprite->RegisterComponent();
+		if (!Mesh || !Mesh->GetStaticMesh() || Mesh == RevealPart || OutlineShells.Contains(Mesh) || !Mesh->IsVisible())
+		{
+			continue;
+		}
+		if (Mesh != Body && !Mesh->IsAttachedTo(Pivot))
+		{
+			continue;
+		}
+		Box += Mesh->Bounds.GetBox();
+		Targets.Add(Mesh);
 	}
+	if (Targets.IsEmpty())
+	{
+		return;
+	}
+	const FBoxSphereBounds Bounds(Box);
+	ShineMID->SetVectorParameterValue(TEXT("Bounds"), FLinearColor(Bounds.Origin.X, Bounds.Origin.Y, Bounds.Origin.Z, Bounds.SphereRadius));
+	for (UStaticMeshComponent* Mesh : Targets)
+	{
+		Mesh->SetOverlayMaterial(ShineMID);
+	}
+	NextShineAt = Age + FMath::FRandRange(0.5f, ShineInterval.Y);
 }
 
 void AFixHimInteractable::Tick(float DeltaSeconds)
@@ -167,10 +178,20 @@ void AFixHimInteractable::Tick(float DeltaSeconds)
 		ApplyToggleAlpha(ToggleAlpha);
 	}
 
-	if (Sparkles)
+	if (ShineMID && bShine && bEnabled)
 	{
-		// Slow orbit; the material twinkles each sprite on its own phase.
-		Sparkles->SetRelativeRotation(FRotator(0.f, Age * 40.f, 0.f));
+		// A shine takes ShineDuration to cross the object, then the next one is a few seconds away.
+		constexpr float ShineDuration = 1.1f;
+		const float Progress = (Age - NextShineAt) / ShineDuration;
+		if (Progress >= 0.f && Progress <= 1.f)
+		{
+			ShineMID->SetScalarParameterValue(TEXT("Sweep"), Progress);
+		}
+		else if (Progress > 1.f)
+		{
+			ShineMID->SetScalarParameterValue(TEXT("Sweep"), -1.f);
+			NextShineAt = Age + FMath::FRandRange(ShineInterval.X, ShineInterval.Y);
+		}
 	}
 }
 

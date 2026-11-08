@@ -52,9 +52,9 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = "World")
 	TSoftObjectPtr<UMaterialInterface> TranslucentMaterial;
 
-	/** Camera facing sparkle sprite used to make interactables glimmer from a distance. */
+	/** Overlay material that sweeps an occasional shine across interactables and softly glows the maladies' hosts. Params: Color, Bounds, Sweep, ShineStrength, Glow. */
 	UPROPERTY(Config, EditAnywhere, Category = "World")
-	TSoftObjectPtr<UMaterialInterface> SparkleMaterial;
+	TSoftObjectPtr<UMaterialInterface> ShineMaterial;
 
 	UPROPERTY(Config, EditAnywhere, Category = "World")
 	TSoftObjectPtr<UStaticMesh> CubeMesh;

@@ -6,7 +6,7 @@
 AFixHimBed::AFixHimBed()
 {
 	Toggle = EInteractToggle::None;
-	SparkleColor = FLinearColor(0.75f, 0.7f, 1.f);
+	ShineColor = FLinearColor(0.75f, 0.7f, 1.f);
 	OutlineColor = FLinearColor(0.7f, 0.55f, 1.f);
 }
 

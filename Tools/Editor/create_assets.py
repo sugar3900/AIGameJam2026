@@ -3,7 +3,7 @@ Creates / refreshes the procedural assets the game code expects (see Config/Defa
 
   /Game/ICanFixHim/Materials/M_FlatColor     lit, BaseColor / Emissive / Roughness params
   /Game/ICanFixHim/Materials/M_Translucent   unlit translucent, BaseColor / Opacity params
-  /Game/ICanFixHim/Materials/M_Sparkle       unlit additive twinkle sprite, Color param
+  /Game/ICanFixHim/Materials/M_Shine         additive overlay material: a shine band that wipes across a mesh + a soft rim glow
   /Game/ICanFixHim/Materials/M_UI_Portrait   UI material for scene-capture portraits
   /Game/ICanFixHim/UI/T_Pointer, T_Heart     imported from SourceArt/Generated (Tools/Art/*.svg)
 
@@ -143,47 +143,50 @@ def build_translucent():
     finish(mat)
 
 
-SPARKLE_HLSL = """
-float2 p = UV - 0.5;
-float d = length(p);
-float core = saturate(1.0 - d * 5.0);
-core = core * core * core;
-float rx = saturate(1.0 - abs(p.x) * 22.0) * saturate(1.0 - abs(p.y) * 2.1);
-float ry = saturate(1.0 - abs(p.y) * 22.0) * saturate(1.0 - abs(p.x) * 2.1);
-float seed = frac(dot(Pos, float3(0.0123, 0.0171, 0.0137)));
-float tw = saturate(0.35 + 0.65 * sin(Time * 2.7 + seed * 6.2831));
-return (core * 1.4 + (rx + ry) * 0.9) * tw;
+SHINE_HLSL = """
+// Overlay drawn on top of an interactable's own material (UMeshComponent::SetOverlayMaterial).
+// Bounds = (centre.xyz, radius); Sweep runs 0..1 while a shine crosses the object (negative = no shine).
+float3 rel = (WorldPos - Bounds.xyz) / max(Bounds.w, 1.0);
+float t = dot(rel, normalize(float3(0.75, 0.55, 0.35)));
+float centre = lerp(-1.5, 1.5, saturate(Sweep));
+float d = (t - centre) / 0.16;
+float band = exp(-d * d) * step(0.0, Sweep);
+float rim = pow(1.0 - saturate(dot(normalize(Normal), normalize(CamVec))), 2.2);
+return band * ShineStrength + Glow * (0.22 + rim);
 """
 
 
-def build_sparkle():
-    mat = fresh_material("M_Sparkle")
+def build_shine():
+    mat = fresh_material("M_Shine")
     mat.set_editor_property("blend_mode", unreal.BlendMode.BLEND_ADDITIVE)
     mat.set_editor_property("shading_model", unreal.MaterialShadingModel.MSM_UNLIT)
-    mat.set_editor_property("two_sided", True)
-    uv = expr(mat, unreal.MaterialExpressionTextureCoordinate, -700, 0)
-    time = expr(mat, unreal.MaterialExpressionTime, -700, 150)
-    pos = expr(mat, unreal.MaterialExpressionObjectPositionWS, -700, 300)
-    custom = expr(mat, unreal.MaterialExpressionCustom, -400, 100,
-                  code=SPARKLE_HLSL, output_type=unreal.CustomMaterialOutputType.CMOT_FLOAT1, description="Sparkle")
+    wpos = expr(mat, unreal.MaterialExpressionWorldPosition, -800, 0)
+    normal = expr(mat, unreal.MaterialExpressionVertexNormalWS, -800, 120)
+    cam = expr(mat, unreal.MaterialExpressionCameraVectorWS, -800, 240)
+    bounds = vec_param(mat, "Bounds", (0, 0, 0, 100), -800, 360)
+    sweep = scalar_param(mat, "Sweep", -1.0, -800, 500)
+    strength = scalar_param(mat, "ShineStrength", 0.5, -800, 580)
+    glow = scalar_param(mat, "Glow", 0.0, -800, 660)
+    custom = expr(mat, unreal.MaterialExpressionCustom, -450, 200,
+                  code=SHINE_HLSL, output_type=unreal.CustomMaterialOutputType.CMOT_FLOAT1, description="Shine")
     inputs = []
-    for n in ("UV", "Time", "Pos"):
+    for n in ("WorldPos", "Normal", "CamVec", "Bounds", "Sweep", "ShineStrength", "Glow"):
         ci = unreal.CustomInput()
         ci.set_editor_property("input_name", n)
         inputs.append(ci)
     custom.set_editor_property("inputs", inputs)
-    MEL.connect_material_expressions(uv, "", custom, "UV")
-    MEL.connect_material_expressions(time, "", custom, "Time")
-    MEL.connect_material_expressions(pos, "", custom, "Pos")
-    color = vec_param(mat, "Color", (1.0, 0.8, 0.95, 1), -400, 350)
-    intensity = scalar_param(mat, "Intensity", 7.0, -400, 500)
-    m1 = expr(mat, unreal.MaterialExpressionMultiply, -150, 200)
-    MEL.connect_material_expressions(custom, "", m1, "A")
-    MEL.connect_material_expressions(color, "RGB", m1, "B")
-    m2 = expr(mat, unreal.MaterialExpressionMultiply, 0, 250)
-    MEL.connect_material_expressions(m1, "", m2, "A")
-    MEL.connect_material_expressions(intensity, "", m2, "B")
-    MEL.connect_material_property(m2, "", unreal.MaterialProperty.MP_EMISSIVE_COLOR)
+    MEL.connect_material_expressions(wpos, "", custom, "WorldPos")
+    MEL.connect_material_expressions(normal, "", custom, "Normal")
+    MEL.connect_material_expressions(cam, "", custom, "CamVec")
+    MEL.connect_material_expressions(bounds, "RGBA", custom, "Bounds")
+    MEL.connect_material_expressions(sweep, "", custom, "Sweep")
+    MEL.connect_material_expressions(strength, "", custom, "ShineStrength")
+    MEL.connect_material_expressions(glow, "", custom, "Glow")
+    color = vec_param(mat, "Color", (1.0, 0.85, 0.95, 1), -450, 450)
+    out = expr(mat, unreal.MaterialExpressionMultiply, -150, 300)
+    MEL.connect_material_expressions(custom, "", out, "A")
+    MEL.connect_material_expressions(color, "RGB", out, "B")
+    MEL.connect_material_property(out, "", unreal.MaterialProperty.MP_EMISSIVE_COLOR)
     finish(mat)
 
 
@@ -275,7 +278,7 @@ def main():
     build_flat()
     build_character()
     build_translucent()
-    build_sparkle()
+    build_shine()
     build_portrait()
     import_textures()
     unreal.log("[FixHim] create_assets done")
