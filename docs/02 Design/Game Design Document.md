@@ -20,7 +20,29 @@ status: draft
 - **External problem:** the house is condemned. There are **30 days** to fix it for real, with **weekly Friday inspections** and a **storm** building toward week 4. We only fix things for real; there's no cosmetic flip.
 - **Each love interest** genuinely believes he *is* the broken thing (Lukey is every leak in the house) and resents being "fixed," because each repair deletes a bit of him. He flirts with the heroine throughout, while they **solve the house's problems as a team**. The player can spot the hints, but **he only learns he was human in Act 4.** His death is played for laughs, and his unfinished business is something the heroine can help him finish (for Lukey: the first date he never got).
 - **Weekly beats:** the *Creaky Floorboards with Bev & Trish* true-crime podcast (Wednesdays) and Inspector Dan's inspection (Fridays).
+- **The mid-game conflict is a real difference in values:** she's a flipper here to profit from his home; he thinks a home is the people in it. It blows up at the end of Act 2 when he overhears her realtor call, and Act 3 opens with a compromise: fix it properly, for whoever lives here next.
 - **Endings:** he passes on, or stays if you're in love. Final house choice: **fix for real & sell / stay / demolish.**
+
+## Day structure (one playable day per week)
+The 30 days are told as **4 playable days**, one per week. A week passes every time you sleep.
+
+1. **New Game → name entry.** "What's your name, homeowner?" The **Move in** button stays greyed out until a name is typed (max 16 characters). The name is saved and fills `{player}` everywhere in the dialogue.
+2. **Morning:** fade in from black on a **"Week N"** card ("Moving day" in week 1, "One week later..." after that).
+3. **The podcast starts automatically** on the radio: an "ON AIR" caption panel plays the week's *Creaky Floorboards* episode (~30 s) while you explore. **You can't talk to anyone until the episode ends** ("Shh. The podcast's still on.").
+4. **Free play.** Talk to as many of the guys as you like. Each has **one story conversation per day**; talking to him again that day gives a short "come back next week" line that doesn't advance his story.
+5. **Daylight fades over ~15 minutes** (golden hour, then dusk, then dark), and then **stays dark**; there's no time limit. When it starts getting late, a one-time tooltip says *"It's getting late. End the day whenever you like by going to bed."*
+6. **Go to bed** (click the bed in the bedroom) to end the day: fade to black → "Week N+1" → wake up in the bedroom.
+   - **Week 1 only:** you must meet every guy first. Otherwise: *"You feel a presence in the house... someone you still need to meet."*
+   - **Skipping a guy for a week is fine.** His story doesn't advance, so next time you get the week you missed.
+7. **Going to bed on week 4** → "Inspection Day" card → **Inspector Dan's final inspection** (passes if the kitchen leak is fixed, otherwise the demolition goes ahead) → if it passed, Bev & Trish go live from the porch → **the epilogue** (Day 30 hearing + sell / stay / demolish) → if you got a **romantic ending**, an option to **see him** (a big portrait) → back to the title. The finished save is deleted.
+
+| Week | Podcast at the start of the day |
+|---|---|
+| 1 | The Catfish of Heartbreak Lane |
+| 2 | Something in the Walls Is Singing (Mrs. Pruitt) |
+| 3 | The Inspector (Dan interview: "the only thing haunting that house is its water pressure"; storm warning) |
+| 4 | We Went to the Library (the 1987 newspaper reveal) |
+| Finale | Case Closed (Mostly), live from the porch, only if the house passed |
 
 ## Pillars
 1. **Every malady is a man.** The house's problems *are* the cast; fixing the house = finishing his arc.
@@ -41,10 +63,12 @@ Every hunk tracks three axes (0-20 meters in the dialogue box). Romance is gener
 | **Friction** | rudeness, dismissing him, cruelty | bad blood |
 
 **Endings** (Lukey's thresholds; the player picks from whichever options they've earned at the finale, see [[Lukey]]):
-- He stays (romance success): romance ≥ 6 and friction < 4 (fade to black)
-- He goes, loved (romance failure): romance ≥ 6, the player chooses to let him go
-- He goes, friends (friend success): friendship ≥ 5 and friction < 4
-- He goes, grumpy (friend failure): fallback
+- He stays (romance success): romance ≥ 16 and friction < 8 (fade to black)
+- He goes, loved (romance failure): romance ≥ 16, the player chooses to let him go
+- He goes, friends (friend success): friendship ≥ 14 and friction < 8 (or "that's your call" with friction < 8)
+- He goes, grumpy (friend failure): "that's your call" with friction ≥ 8
+
+Stats are clamped to 0–20.
 
 *Older prototype thresholds for Malcolm/Wyatt/Tyler, still in their JSON:*
 - Romance success: romance ≥ 4 and friction < 3

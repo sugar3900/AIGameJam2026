@@ -12,7 +12,12 @@
     ],
     "nodes": {
         "not_yet": {
-            "lines": [ "*The house isn't finished yet. Somewhere behind the walls, something is still dripping. And humming Bon Jovi.*" ],
+            "lines": [
+                "*Day 30. City Hall. The hearing takes four minutes. Dan stands up, looks at his shoes and quietly recommends demolition.*",
+                "*On demolition day, a damp patch appears on the front wall, shaped exactly like a frowning face. The bulldozer driver says it's the saddest wall he's ever seen.*",
+                "*The lot becomes a little park. There's a drinking fountain by the gate. It drips constantly. Sometimes, if you stand very close, it hums Bon Jovi.*",
+                "*You think about him every time you walk past. You should have finished the job.*"
+            ],
             "end": true
         },
         "intro_alone": {
@@ -68,7 +73,7 @@
         "stay_together": {
             "lines": [
                 "*You stay. Obviously you stay.*",
-                "*The flipper finally has a house she isn't flipping. It has a dry kitchen, a dishwasher that beeps passive-aggressively and a ghost who cooks by yelling at you.*",
+                "*The flipper finally has a house she isn't flipping. It has a dry kitchen, a dehumidifier called Dennis who now lives in the cupboard, and a ghost who cooks by yelling at you.*",
                 "*Every Friday, Inspector Dan pops round 'just to check the pipes.' Every Friday, his shoes get mysteriously soaked.*",
                 "Dan: One of these days I'm going to work out how that happens.",
                 "Lukey: No he isn't."
@@ -103,7 +108,7 @@
             "lines": [
                 "*At the open house, a lovely woman in her seventies stops in the kitchen, smiles at the sink and says, 'I had a date in a house like this once. He was very confident.'*",
                 "*Then, quieter: 'I hope he's somewhere nice.'*",
-                "*You sell to a young couple with a baby on the way. Dan signs it off with a pun nobody laughs at.*",
+                "*You sell to a young couple with a baby on the way. You check their names: not Jasper and Pip. Dan signs it off with a pun nobody laughs at.*",
                 "*The kitchen never leaks again. Not once. Which is honestly a little bit sad.*"
             ],
             "end": true
@@ -114,7 +119,7 @@
             "goto": "stay_gone"
         },
         "stay_fs": {
-            "lines": [ "*You and the dishwasher reach an understanding. It's what he would have wanted. Eventually. Grudgingly.*" ],
+            "lines": [ "*You keep Dennis plugged in, in the kitchen. He left Dennis the kitchen, after all. Every time the little light goes green, you say 'Night, Lukey.'*" ],
             "goto": "stay_gone"
         },
         "stay_ff": {

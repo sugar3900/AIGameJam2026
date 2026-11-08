@@ -31,6 +31,8 @@ class ICANFIXHIM_API UFixHimDialogueWidget : public UFixHimWidget
 
 public:
 	void BindHunk(AFixHimHunk* Hunk, const FString& HunkId);
+	/** Scenes with no hunk (inspection, epilogue): hide the portrait and meters. */
+	void BindScript(const FString& ScriptId, const FString& Title);
 	void ShowView(const FDialogueView& View);
 
 	/** True while a full-screen effect is playing; input should wait. */
@@ -39,6 +41,8 @@ public:
 	bool TryCompleteTyping();
 
 	void OnStatChanged(const FString& HunkId, ERelationshipAxis Axis, int32 Delta);
+	/** Remove floating hearts / stat pills left over from the previous conversation. */
+	void ClearFx();
 
 protected:
 	virtual void BuildUI() override;
@@ -61,6 +65,8 @@ private:
 
 	UPROPERTY() TObjectPtr<USizeBox> PanelSize;
 	UPROPERTY() TObjectPtr<UImage> Portrait;
+	UPROPERTY() TObjectPtr<UWidget> PortraitBox;
+	UPROPERTY() TObjectPtr<UWidget> MetersBox;
 	UPROPERTY() TObjectPtr<UMaterialInstanceDynamic> PortraitMID;
 	UPROPERTY() TObjectPtr<UBorder> NamePill;
 	UPROPERTY() TObjectPtr<UTextBlock> NameText;

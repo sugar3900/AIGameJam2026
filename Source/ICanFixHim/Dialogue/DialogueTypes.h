@@ -67,6 +67,8 @@ struct FDialogueEntry
 {
 	FString Condition;
 	FString Node;
+	/** false for "come back next week" chatter that shouldn't advance his story. */
+	bool bCounts = true;
 };
 
 /** A primitive glued onto the hunk's skeleton to make him read as "his" malady. */

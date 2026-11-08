@@ -4,7 +4,8 @@ tags: [planning]
 # Task Board
 
 ## Todo
-- [ ] Week flow: 30-day calendar, play the podcast between weeks, trigger the epilogue + house choice at the end
+- [x] Week flow: 4 playable days (bed ends the day), radio podcast each morning, daylight → dusk, week 1 must-meet rule, final inspection → epilogue → keepsake → title
+- [x] Name entry at New Game (fills {player})
 - [ ] Check Lukey's new look in-engine (teal Lycra, mullet, headband, wrench)
 - [ ] Rewrite Malcolm / Wyatt / Tyler in the v2 tone (after the Lukey slice is playable)
 - [ ] Audio: music bed per room + SFX (drip, sparks, toggles, UI clicks, kiss "mwah")

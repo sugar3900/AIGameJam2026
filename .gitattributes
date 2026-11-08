@@ -3,9 +3,9 @@
 *.bat   text eol=crlf
 *.cmd   text eol=crlf
 
-# Unreal binary assets -> Git LFS (lockable so two people don't edit the same .uasset)
-*.uasset filter=lfs diff=lfs merge=lfs -text lockable
-*.umap   filter=lfs diff=lfs merge=lfs -text lockable
+# Unreal binary assets -> Git LFS (not lockable: lockable files check out read-only and block editor saves)
+*.uasset filter=lfs diff=lfs merge=lfs -text
+*.umap   filter=lfs diff=lfs merge=lfs -text
 
 # Source art / media -> Git LFS
 *.png  filter=lfs diff=lfs merge=lfs -text

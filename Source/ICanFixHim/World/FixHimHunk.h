@@ -38,6 +38,9 @@ public:
 	UTextureRenderTarget2D* GetPortrait() const { return PortraitTarget; }
 	void CapturePortraitNow();
 
+	/** One-off head-to-waist capture into Target (used for the end-of-game keepsake). */
+	void CaptureKeepsake(UTextureRenderTarget2D* Target);
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Hunk")
 	FString HunkId;
 

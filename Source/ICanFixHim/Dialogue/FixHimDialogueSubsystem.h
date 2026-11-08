@@ -54,6 +54,9 @@ public:
 	/** Resolve a condition identifier for a given hunk context. Public for debugging / tests. */
 	int32 ResolveVariable(const FString& HunkId, const FString& Identifier) const;
 
+	/** First entry node whose condition is true (used for non-interactive scripts like the radio). */
+	const FDialogueNode* ResolveEntryNode(const FString& DefinitionId) const;
+
 	/** Ending the default resolver would pick from current stats. */
 	FString ResolveAutoEnding(const FString& HunkId) const;
 
@@ -83,6 +86,7 @@ private:
 	FString ActiveNodeId;
 	int32 LineIndex = 0;
 	FString PendingEnding;
+	bool bCountVisit = true;
 	FDialogueView View;
 	/** Guards against goto loops that never show a line. */
 	int32 JumpsWithoutLines = 0;

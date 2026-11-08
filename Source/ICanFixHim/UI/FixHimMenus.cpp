@@ -5,6 +5,7 @@
 #include "Core/FixHimSaveSubsystem.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/Border.h"
+#include "Components/EditableTextBox.h"
 #include "Components/HorizontalBox.h"
 #include "Components/HorizontalBoxSlot.h"
 #include "Components/Overlay.h"
@@ -100,6 +101,94 @@ void UFixHimTitleWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTi
 		T.Angle = FMath::Sin(Age * 1.3f) * 1.2f;
 		T.Scale = FVector2D(1.f + 0.015f * FMath::Sin(Age * 2.1f));
 		TitleBlock->SetRenderTransform(T);
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Name entry
+
+void UFixHimNameEntryWidget::BuildUI()
+{
+	UVerticalBox* Col = MakeCardScreen(TEXT("Welcome home"), 520.f);
+	TWeakObjectPtr<UFixHimNameEntryWidget> Self(this);
+
+	UTextBlock* Prompt = MakeText(WidgetTree, TEXT("You just bought a condemned house on Heartbreak Lane. What's your name, homeowner?"), 20, Plum);
+	Prompt->SetJustification(ETextJustify::Center);
+	Prompt->SetAutoWrapText(true);
+	Col->AddChildToVerticalBox(Prompt)->SetPadding(FMargin(0.f, 0.f, 0.f, 18.f));
+
+	NameBox = WidgetTree->ConstructWidget<UEditableTextBox>();
+	NameBox->SetHintText(FText::FromString(TEXT("Your name")));
+	FEditableTextBoxStyle Style = NameBox->WidgetStyle;
+	Style.SetBackgroundImageNormal(Rounded(FLinearColor::White, 14.f, Pink, 2.f));
+	Style.SetBackgroundImageHovered(Rounded(FLinearColor::White, 14.f, HotPink, 2.f));
+	Style.SetBackgroundImageFocused(Rounded(FLinearColor::White, 14.f, HotPink, 3.f));
+	Style.SetPadding(FMargin(16.f, 12.f));
+	Style.SetFont(Font(24, TEXT("Bold")));
+	Style.SetForegroundColor(FSlateColor(Plum));
+	NameBox->WidgetStyle = Style;
+	NameBox->SetJustification(ETextJustify::Center);
+	NameBox->OnTextChanged.AddUniqueDynamic(this, &UFixHimNameEntryWidget::HandleTextChanged);
+	NameBox->OnTextCommitted.AddUniqueDynamic(this, &UFixHimNameEntryWidget::HandleTextCommitted);
+	Col->AddChildToVerticalBox(NameBox)->SetPadding(FMargin(0.f, 0.f, 0.f, 18.f));
+
+	USizeBox* Box = WidgetTree->ConstructWidget<USizeBox>();
+	Box->SetHeightOverride(58.f);
+	MoveInButton = UFixHimButton::Make(WidgetTree, TEXT("Move in"), [Self]() { if (Self.IsValid()) { Self->Submit(); } }, 22, true);
+	// Greyed out (not just faded pink) while the name is empty.
+	FButtonStyle BStyle = MoveInButton->GetStyle();
+	BStyle.SetDisabled(Rounded(FLinearColor(0.72f, 0.7f, 0.72f), 22.f));
+	MoveInButton->SetStyle(BStyle);
+	MoveInButton->SetIsEnabled(false);
+	Box->AddChild(MoveInButton);
+	Col->AddChildToVerticalBox(Box)->SetPadding(FMargin(0.f, 0.f, 0.f, 10.f));
+
+	USizeBox* BackBox = WidgetTree->ConstructWidget<USizeBox>();
+	BackBox->SetHeightOverride(46.f);
+	BackBox->AddChild(UFixHimButton::Make(WidgetTree, TEXT("Back"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->CancelNameEntry(); } }, 18, false));
+	Col->AddChildToVerticalBox(BackBox);
+}
+
+void UFixHimNameEntryWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+	if (NameBox)
+	{
+		NameBox->SetKeyboardFocus();
+	}
+}
+
+FString UFixHimNameEntryWidget::CurrentName() const
+{
+	return NameBox ? NameBox->GetText().ToString().TrimStartAndEnd() : FString();
+}
+
+void UFixHimNameEntryWidget::HandleTextChanged(const FText& Text)
+{
+	// Keep it to a name that fits in the name plate.
+	FString S = Text.ToString();
+	if (S.Len() > 16)
+	{
+		S.LeftInline(16);
+		NameBox->SetText(FText::FromString(S));
+	}
+	MoveInButton->SetIsEnabled(!CurrentName().IsEmpty());
+}
+
+void UFixHimNameEntryWidget::HandleTextCommitted(const FText& Text, ETextCommit::Type CommitMethod)
+{
+	if (CommitMethod == ETextCommit::OnEnter)
+	{
+		Submit();
+	}
+}
+
+void UFixHimNameEntryWidget::Submit()
+{
+	const FString Name = CurrentName();
+	if (!Name.IsEmpty() && GetFixHimPC())
+	{
+		GetFixHimPC()->BeginNewGame(Name);
 	}
 }
 
@@ -232,8 +321,8 @@ void UFixHimCreditsWidget::BuildUI()
 	};
 	Line(TEXT("I CAN FIX HIM"), 26, Plum, TEXT("Bold"), 4.f);
 	Line(TEXT("Made for AI Game Jam 2026"), 18, PlumSoft, TEXT("Italic"), 18.f);
-	Line(TEXT("Game design & direction"), 16, Pink, TEXT("Bold"), 0.f);
-	Line(TEXT("David Wallin"), 20, Plum, TEXT("Regular"), 12.f);
+	Line(TEXT("Created by"), 16, Pink, TEXT("Bold"), 0.f);
+	Line(TEXT("Kirsten Sugar and David Wallin"), 22, Plum, TEXT("Bold"), 12.f);
 	Line(TEXT("Code, dialogue & puns (sorry)"), 16, Pink, TEXT("Bold"), 0.f);
 	Line(TEXT("Claude (Anthropic), directed by David"), 20, Plum, TEXT("Regular"), 12.f);
 	Line(TEXT("Built with"), 16, Pink, TEXT("Bold"), 0.f);

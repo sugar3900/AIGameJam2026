@@ -14,6 +14,10 @@
 #include "UI/FixHimDialogueWidget.h"
 #include "UI/FixHimFloorPlanWidget.h"
 #include "UI/FixHimCards.h"
+#include "UI/FixHimDayWidgets.h"
+#include "Engine/DirectionalLight.h"
+#include "Components/DirectionalLightComponent.h"
+#include "Components/LightComponent.h"
 #include "ICanFixHim.h"
 #include "Blueprint/UserWidget.h"
 #include "Camera/CameraActor.h"
@@ -78,6 +82,18 @@ void AFixHimPlayerController::BeginPlay()
 			TitleCamera = *It;
 			TitleCameraBase = It->GetActorTransform();
 			break;
+		}
+	}
+
+	TActorIterator<ADirectionalLight> SunIt(GetWorld());
+	if (SunIt)
+	{
+		Sun = *SunIt;
+		SunBaseRotation = Sun->GetActorRotation();
+		if (ULightComponent* LC = Sun->GetLightComponent())
+		{
+			SunBaseIntensity = LC->Intensity;
+			SunBaseColor = LC->GetLightColor();
 		}
 	}
 
@@ -262,6 +278,7 @@ void AFixHimPlayerController::OnInteract()
 		}
 		break;
 	case EFixHimState::Dialogue:
+	case EFixHimState::Cutscene:
 		AdvanceDialogue();
 		break;
 	default:
@@ -271,7 +288,7 @@ void AFixHimPlayerController::OnInteract()
 
 void AFixHimPlayerController::OnAdvance()
 {
-	if (State == EFixHimState::Dialogue)
+	if (State == EFixHimState::Dialogue || State == EFixHimState::Cutscene)
 	{
 		AdvanceDialogue();
 	}
@@ -286,6 +303,11 @@ void AFixHimPlayerController::OnPausePressed()
 	if (SubMenu)
 	{
 		CloseSubMenu();
+		return;
+	}
+	if (NameWidget)
+	{
+		CancelNameEntry();
 		return;
 	}
 	switch (State)
@@ -315,7 +337,7 @@ void AFixHimPlayerController::OnMapPressed()
 
 void AFixHimPlayerController::OnChoice(int32 Index)
 {
-	if (State == EFixHimState::Dialogue && DialogueWidget && !DialogueWidget->IsBusy())
+	if ((State == EFixHimState::Dialogue || State == EFixHimState::Cutscene) && DialogueWidget && !DialogueWidget->IsBusy())
 	{
 		if (UFixHimDialogueSubsystem* D = UFixHimDialogueSubsystem::Get(this))
 		{
@@ -400,6 +422,10 @@ void AFixHimPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
 
+	if (State != EFixHimState::Title && State != EFixHimState::Paused && State != EFixHimState::Sleeping && State != EFixHimState::Finale)
+	{
+		UpdateDaylight(DeltaTime);
+	}
 	if (State == EFixHimState::Playing)
 	{
 		UpdateHover();
@@ -472,10 +498,7 @@ void AFixHimPlayerController::BeginPlaying(bool bFromSave)
 	}
 	EnterState(EFixHimState::Playing);
 	RefreshRepairs();
-	if (HUDWidget)
-	{
-		HUDWidget->ShowToast(bFromSave ? TEXT("Welcome back, homeowner") : TEXT("Find what's broken. Fix him."), 3.f);
-	}
+	StartDay(bFromSave);
 	// Rooms only fire overlap events on change, so resolve the starting room explicitly.
 	if (const APawn* P = GetPawn())
 	{
@@ -496,9 +519,33 @@ void AFixHimPlayerController::StartNewGame()
 	{
 		return;
 	}
+	HideWidget(TitleWidget);
+	NameWidget = CreateWidget<UFixHimNameEntryWidget>(this, UFixHimNameEntryWidget::StaticClass());
+	ShowWidget(NameWidget, 50);
+}
+
+void AFixHimPlayerController::CancelNameEntry()
+{
+	HideWidget(NameWidget);
+	NameWidget = nullptr;
+	if (State == EFixHimState::Title)
+	{
+		ShowWidget(TitleWidget, 10);
+	}
+}
+
+void AFixHimPlayerController::BeginNewGame(const FString& PlayerName)
+{
+	if (State != EFixHimState::Title)
+	{
+		return;
+	}
+	HideWidget(NameWidget);
+	NameWidget = nullptr;
 	if (UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this))
 	{
 		Save->NewGame();
+		Save->Data().PlayerName = PlayerName.TrimStartAndEnd().Left(16);
 		Save->SaveGame();
 	}
 	BeginPlaying(false);
@@ -590,6 +637,19 @@ void AFixHimPlayerController::ReturnToMainMenu()
 	UGameplayStatics::OpenLevel(this, FName(*UGameplayStatics::GetCurrentLevelName(this, true)));
 }
 
+void AFixHimPlayerController::FinishGame()
+{
+	if (UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this))
+	{
+		Save->DeleteSave();
+	}
+	if (UFixHimDialogueSubsystem* D = UFixHimDialogueSubsystem::Get(this))
+	{
+		D->AbortConversation();
+	}
+	UGameplayStatics::OpenLevel(this, FName(*UGameplayStatics::GetCurrentLevelName(this, true)));
+}
+
 void AFixHimPlayerController::QuitToDesktop()
 {
 	UKismetSystemLibrary::QuitGame(this, this, EQuitPreference::Quit, false);
@@ -612,6 +672,14 @@ void AFixHimPlayerController::BeginEncounter(AFixHimMalady* Malady)
 {
 	if (State != EFixHimState::Playing || !Malady || !Malady->GetHunk())
 	{
+		return;
+	}
+	if (bPodcastPlaying)
+	{
+		if (HUDWidget)
+		{
+			HUDWidget->ShowToast(TEXT("Shh. The podcast's still on. Let the episode finish first."), 2.5f);
+		}
 		return;
 	}
 	UFixHimDialogueSubsystem* Dialogue = UFixHimDialogueSubsystem::Get(this);
@@ -702,7 +770,7 @@ void AFixHimPlayerController::StartDialogue()
 
 void AFixHimPlayerController::AdvanceDialogue()
 {
-	if (State != EFixHimState::Dialogue || !DialogueWidget)
+	if ((State != EFixHimState::Dialogue && State != EFixHimState::Cutscene) || !DialogueWidget)
 	{
 		return;
 	}
@@ -734,6 +802,12 @@ void AFixHimPlayerController::HandleStatChanged(const FString& HunkId, ERelation
 
 void AFixHimPlayerController::HandleConversationEnded(const FString& HunkId, const FString& EndingId)
 {
+	if (!ActiveSceneId.IsEmpty() && HunkId == ActiveSceneId)
+	{
+		ActiveSceneId.Reset();
+		PlayNextScene();
+		return;
+	}
 	HideWidget(DialogueWidget);
 	AFixHimMalady* Malady = ActiveMalady;
 	ActiveMalady = nullptr;
@@ -770,7 +844,7 @@ void AFixHimPlayerController::RefreshRepairs()
 	const UFixHimDialogueSubsystem* Dialogue = UFixHimDialogueSubsystem::Get(this);
 	if (HUDWidget && Save && Dialogue)
 	{
-		HUDWidget->SetRepairs(Save->CountFixed(), Dialogue->CountStoryHunks());
+		HUDWidget->SetRepairs(Save->CountFixed(), Dialogue->CountStoryHunks(), Save->Data().Week, UFixHimSettings::Get()->NumWeeks);
 	}
 }
 
@@ -903,11 +977,346 @@ void AFixHimPlayerController::TravelToRoom(AFixHimRoom* Room)
 }
 
 // ---------------------------------------------------------------------------
+// Days: one playable day per week, a podcast each morning, bed to end the day
+
+int32 AFixHimPlayerController::CurrentWeek() const
+{
+	const UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this);
+	return Save ? Save->Data().Week : 1;
+}
+
+void AFixHimPlayerController::StartDay(bool bFromSave)
+{
+	if (CurrentWeek() > UFixHimSettings::Get()->NumWeeks)
+	{
+		// Quit during the finale last time: pick it back up.
+		RunFinale();
+		return;
+	}
+	DayElapsed = 0.f;
+	bLateToastShown = false;
+	UpdateDaylight(0.f);
+	RefreshRepairs();
+
+	if (!TransitionWidget)
+	{
+		TransitionWidget = CreateWidget<UFixHimTransitionWidget>(this, UFixHimTransitionWidget::StaticClass());
+	}
+	ShowWidget(TransitionWidget, 60);
+	const int32 Week = CurrentWeek();
+	const FString Sub = Week == 1 ? (bFromSave ? TEXT("Welcome back, homeowner.") : TEXT("Moving day. Thirty days until the hearing."))
+		: (bFromSave ? TEXT("Welcome back, homeowner.") : TEXT("One week later..."));
+	EnterState(EFixHimState::Sleeping);
+	TWeakObjectPtr<AFixHimPlayerController> Self(this);
+	TransitionWidget->Play(FString::Printf(TEXT("Week %d"), Week), Sub, true, true, nullptr, [Self]()
+	{
+		if (Self.IsValid())
+		{
+			Self->EnterState(EFixHimState::Playing);
+			Self->StartPodcast();
+		}
+	});
+}
+
+void AFixHimPlayerController::StartPodcast()
+{
+	UFixHimDialogueSubsystem* Dialogue = UFixHimDialogueSubsystem::Get(this);
+	const FDialogueNode* Episode = Dialogue ? Dialogue->ResolveEntryNode(TEXT("podcast")) : nullptr;
+	const FHunkDefinition* Show = Dialogue ? Dialogue->FindHunk(TEXT("podcast")) : nullptr;
+	if (!Episode || !Show)
+	{
+		bPodcastPlaying = false;
+		return;
+	}
+	if (!RadioWidget)
+	{
+		RadioWidget = CreateWidget<UFixHimRadioWidget>(this, UFixHimRadioWidget::StaticClass());
+	}
+	ShowWidget(RadioWidget, 5);
+	bPodcastPlaying = true;
+	if (HUDWidget)
+	{
+		HUDWidget->ShowToast(TEXT("The radio's on. You can explore, but nobody's talking until the episode ends."), 4.f);
+	}
+	TWeakObjectPtr<AFixHimPlayerController> Self(this);
+	RadioWidget->Play(Show->Name + TEXT("  -  ") + Episode->Id.ToUpper().Replace(TEXT("EP"), TEXT("Episode ")), *Episode, [Self]()
+	{
+		if (Self.IsValid())
+		{
+			Self->bPodcastPlaying = false;
+			if (Self->HUDWidget)
+			{
+				Self->HUDWidget->ShowToast(TEXT("That's the episode. Go say hi."), 3.f);
+			}
+		}
+	});
+}
+
+void AFixHimPlayerController::UpdateDaylight(float DeltaTime)
+{
+	const UFixHimSettings* S = UFixHimSettings::Get();
+	DayElapsed += DeltaTime;
+	const float T = FMath::Clamp(DayElapsed / FMath::Max(1.f, S->DayLengthSeconds), 0.f, 1.f);
+
+	if (Sun)
+	{
+		// Afternoon -> golden hour -> below the horizon. Interior lamps stay on, so the house gets cosy.
+		const float Pitch = FMath::Lerp(SunBaseRotation.Pitch, 8.f, FMath::SmoothStep(0.f, 1.f, T));
+		Sun->SetActorRotation(FRotator(Pitch, SunBaseRotation.Yaw + 25.f * T, SunBaseRotation.Roll));
+		if (ULightComponent* LC = Sun->GetLightComponent())
+		{
+			LC->SetIntensity(SunBaseIntensity * FMath::Lerp(1.f, 0.02f, FMath::Pow(T, 1.4f)));
+			const FLinearColor Golden(1.f, 0.62f, 0.35f);
+			const FLinearColor Dusk(0.45f, 0.4f, 0.8f);
+			LC->SetLightColor(T < 0.6f ? FMath::Lerp(SunBaseColor, Golden, T / 0.6f) : FMath::Lerp(Golden, Dusk, (T - 0.6f) / 0.4f));
+		}
+	}
+
+	if (!bLateToastShown && T >= S->LateWarningFraction && State == EFixHimState::Playing && HUDWidget)
+	{
+		bLateToastShown = true;
+		HUDWidget->ShowToast(TEXT("It's getting late. End the day whenever you like by going to bed."), 6.f);
+	}
+}
+
+bool AFixHimPlayerController::HaveMetEveryone() const
+{
+	const UFixHimDialogueSubsystem* Dialogue = UFixHimDialogueSubsystem::Get(this);
+	const UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this);
+	if (!Dialogue || !Save)
+	{
+		return true;
+	}
+	for (const auto& Pair : Dialogue->GetAllHunks())
+	{
+		if (!Pair.Value.IsHunk())
+		{
+			continue;
+		}
+		const FHunkProgress* P = Save->FindHunk(Pair.Key);
+		if (!P || P->Visits < 1)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+void AFixHimPlayerController::RequestEndDay()
+{
+	if (State != EFixHimState::Playing)
+	{
+		return;
+	}
+	const int32 Week = CurrentWeek();
+	if (Week == 1 && !HaveMetEveryone())
+	{
+		if (HUDWidget)
+		{
+			HUDWidget->ShowToast(TEXT("You feel a presence in the house... someone you still need to meet."), 3.5f);
+		}
+		return;
+	}
+
+	if (RadioWidget)
+	{
+		RadioWidget->Stop();
+	}
+	bPodcastPlaying = false;
+	UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this);
+	const int32 NumWeeks = UFixHimSettings::Get()->NumWeeks;
+	if (!TransitionWidget)
+	{
+		TransitionWidget = CreateWidget<UFixHimTransitionWidget>(this, UFixHimTransitionWidget::StaticClass());
+	}
+	ShowWidget(TransitionWidget, 60);
+	EnterState(EFixHimState::Sleeping);
+	TWeakObjectPtr<AFixHimPlayerController> Self(this);
+
+	if (Week >= NumWeeks)
+	{
+		// Last night: the inspector comes in the morning.
+		TransitionWidget->Play(TEXT("Inspection Day"), TEXT("Friday. Week four. Dan is on his way."), false, true, [Self, Save]()
+		{
+			if (Save)
+			{
+				Save->Data().Week = UFixHimSettings::Get()->NumWeeks + 1;
+				Save->SaveGame();
+			}
+			if (Self.IsValid())
+			{
+				Self->DayElapsed = 0.f;
+				Self->UpdateDaylight(0.f);
+			}
+		}, [Self]()
+		{
+			if (Self.IsValid())
+			{
+				Self->RunFinale();
+			}
+		});
+		return;
+	}
+
+	TransitionWidget->Play(FString::Printf(TEXT("Week %d"), Week + 1), TEXT("One week later..."), false, true, [Self, Save]()
+	{
+		if (!Self.IsValid())
+		{
+			return;
+		}
+		if (Save)
+		{
+			Save->Data().Week++;
+		}
+		// Wake up next to the bed with every hunk back in his fixture.
+		for (TActorIterator<AFixHimMalady> It(Self->GetWorld()); It; ++It)
+		{
+			It->DismissHunk();
+			It->RefreshRepairState();
+		}
+		for (TActorIterator<AFixHimRoom> It(Self->GetWorld()); It; ++It)
+		{
+			if (It->RoomId == TEXT("bedroom"))
+			{
+				if (APawn* P = Self->GetPawn())
+				{
+					const FTransform T = It->GetEntryTransform();
+					P->SetActorLocation(T.GetLocation(), false, nullptr, ETeleportType::TeleportPhysics);
+					Self->SetControlRotation(FRotator(-10.f, T.Rotator().Yaw, 0.f));
+				}
+			}
+		}
+		Self->DayElapsed = 0.f;
+		Self->bLateToastShown = false;
+		Self->UpdateDaylight(0.f);
+		Self->RefreshRepairs();
+		if (Save)
+		{
+			Save->SaveGame();
+		}
+	}, [Self]()
+	{
+		if (Self.IsValid())
+		{
+			Self->EnterState(EFixHimState::Playing);
+			Self->StartPodcast();
+		}
+	});
+}
+
+void AFixHimPlayerController::PlaySceneChain(TArray<FString> SceneIds, TFunction<void()> OnDone)
+{
+	SceneQueue = MoveTemp(SceneIds);
+	SceneChainDone = MoveTemp(OnDone);
+	PlayNextScene();
+}
+
+void AFixHimPlayerController::PlayNextScene()
+{
+	UFixHimDialogueSubsystem* Dialogue = UFixHimDialogueSubsystem::Get(this);
+	while (SceneQueue.Num() > 0 && Dialogue)
+	{
+		const FString Id = SceneQueue[0];
+		SceneQueue.RemoveAt(0);
+		const FHunkDefinition* Def = Dialogue->FindHunk(Id);
+		if (!Def)
+		{
+			continue;
+		}
+		if (!DialogueWidget)
+		{
+			DialogueWidget = CreateWidget<UFixHimDialogueWidget>(this, UFixHimDialogueWidget::StaticClass());
+		}
+		ShowWidget(DialogueWidget, 20);
+		DialogueWidget->BindScript(Id, Def->Name);
+		EnterState(EFixHimState::Cutscene);
+		ActiveSceneId = Id;
+		if (Dialogue->StartConversation(Id))
+		{
+			return;
+		}
+		ActiveSceneId.Reset();
+	}
+	HideWidget(DialogueWidget);
+	TFunction<void()> Done = MoveTemp(SceneChainDone);
+	SceneChainDone = nullptr;
+	if (Done)
+	{
+		Done();
+	}
+}
+
+void AFixHimPlayerController::RunFinale()
+{
+	// Inspector Dan, then (if the house passed) Bev & Trish live from the porch, then the epilogue.
+	for (TActorIterator<AFixHimMalady> It(GetWorld()); It; ++It)
+	{
+		It->DismissHunk();
+	}
+	const UFixHimDialogueSubsystem* Dialogue = UFixHimDialogueSubsystem::Get(this);
+	const bool bPassed = Dialogue && Dialogue->ResolveVariable(TEXT("epilogue"), TEXT("lukey.fixed")) != 0;
+	TArray<FString> Scenes = { TEXT("inspection") };
+	if (bPassed)
+	{
+		Scenes.Add(TEXT("podcast"));
+	}
+	Scenes.Add(TEXT("epilogue"));
+	TWeakObjectPtr<AFixHimPlayerController> Self(this);
+	PlaySceneChain(Scenes, [Self]()
+	{
+		if (Self.IsValid())
+		{
+			Self->ShowKeepsake();
+		}
+	});
+}
+
+void AFixHimPlayerController::ShowKeepsake()
+{
+	const UFixHimDialogueSubsystem* Dialogue = UFixHimDialogueSubsystem::Get(this);
+	const UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this);
+	TArray<FFixHimKeepsakeEntry> Entries;
+	if (Dialogue && Save)
+	{
+		for (const auto& Pair : Dialogue->GetAllHunks())
+		{
+			const FHunkProgress* P = Save->FindHunk(Pair.Key);
+			if (!Pair.Value.IsHunk() || !P || !(P->Ending == TEXT("romance_success") || P->Ending == TEXT("romance_failure")))
+			{
+				continue;
+			}
+			FFixHimKeepsakeEntry E;
+			E.HunkId = Pair.Key;
+			E.Name = Pair.Value.Name;
+			const FHunkEnding* Ending = Pair.Value.Endings.Find(P->Ending);
+			E.EndingTitle = Ending ? Ending->Title : FString();
+			for (TActorIterator<AFixHimMalady> It(GetWorld()); It; ++It)
+			{
+				if (It->HunkId == Pair.Key)
+				{
+					E.Hunk = It->GetHunk();
+				}
+			}
+			Entries.Add(E);
+		}
+	}
+	if (Entries.IsEmpty())
+	{
+		FinishGame();
+		return;
+	}
+	KeepsakeWidget = CreateWidget<UFixHimKeepsakeWidget>(this, UFixHimKeepsakeWidget::StaticClass());
+	ShowWidget(KeepsakeWidget, 70);
+	KeepsakeWidget->Setup(Entries);
+	EnterState(EFixHimState::Finale);
+}
+
+// ---------------------------------------------------------------------------
 // Debug & automation
 
-void AFixHimPlayerController::FixHimNewGame()
+void AFixHimPlayerController::FixHimNewGame(const FString& PlayerName)
 {
-	StartNewGame();
+	BeginNewGame(PlayerName.IsEmpty() ? FString(TEXT("Rosie")) : PlayerName);
 }
 
 void AFixHimPlayerController::FixHimTalk(const FString& HunkId)
@@ -1011,6 +1420,38 @@ void AFixHimPlayerController::FixHimPause(bool bPause)
 void AFixHimPlayerController::FixHimOptions()
 {
 	OpenOptions();
+}
+
+void AFixHimPlayerController::FixHimSleep()
+{
+	RequestEndDay();
+}
+
+void AFixHimPlayerController::FixHimSkipTime(float Seconds)
+{
+	UpdateDaylight(Seconds);
+}
+
+void AFixHimPlayerController::FixHimSkipPodcast()
+{
+	if (RadioWidget)
+	{
+		RadioWidget->Stop();
+	}
+	bPodcastPlaying = false;
+}
+
+void AFixHimPlayerController::FixHimNamePrompt()
+{
+	StartNewGame();
+}
+
+void AFixHimPlayerController::FixHimKeepsake(int32 Index)
+{
+	if (KeepsakeWidget)
+	{
+		KeepsakeWidget->ShowPortrait(Index);
+	}
 }
 
 void AFixHimPlayerController::FixHimMap()
