@@ -21,6 +21,14 @@ class AFixHimPlayerController;
 
 namespace FixHimUI
 {
+	inline float EaseOutBack(float T)
+	{
+		const float C1 = 1.70158f;
+		const float C3 = C1 + 1.f;
+		T = FMath::Clamp(T, 0.f, 1.f);
+		return 1.f + C3 * FMath::Pow(T - 1.f, 3.f) + C1 * FMath::Pow(T - 1.f, 2.f);
+	}
+
 	// Palette: flirty pink renovation chic.
 	inline const FLinearColor Pink = FLinearColor::FromSRGBColor(FColor(0xFF, 0x5C, 0xA8));
 	inline const FLinearColor HotPink = FLinearColor::FromSRGBColor(FColor(0xFF, 0x2E, 0x88));
