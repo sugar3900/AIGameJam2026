@@ -8,6 +8,7 @@
     "look": {
         "mesh": "/Game/ICanFixHim/Characters/BlackMold/SK_BlackMold",
         "idle": "/Game/ICanFixHim/Characters/BlackMold/A_BlackMold_Idle",
+        "portrait": "/Game/ICanFixHim/UI/Portraits/T_Portrait_Malcolm",
         "skin": "#E9E1CF",
         "shirt": "#26331F",
         "pants": "#1E2619",

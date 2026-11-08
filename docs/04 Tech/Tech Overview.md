@@ -26,6 +26,7 @@ Content/ICanFixHim/
   Maps/L_Apartment       generated level
   Materials/             generated: M_FlatColor, M_Character, M_Translucent, M_Shine, M_Sparkle, M_UI_Portrait, Palette/MI_*
   UI/                    T_Heart, T_PlayerSilhouette (from Tools/Art/*.svg)
+  UI/Portraits/          T_Portrait_<Name> dialogue portraits (Tools/Art/Portraits -> Tools/Editor/import_portraits.py)
 Tools/                   editor/build scripts (see README)
 ```
 

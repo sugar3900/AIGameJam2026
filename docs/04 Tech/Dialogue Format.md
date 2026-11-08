@@ -150,6 +150,7 @@ Example: `"if": "romance >= 4 && friction < 3"`.
 "look": {
   "mesh": "/Game/ICanFixHim/Characters/LeakyPipes/SK_LeakyPipes",   // optional: real character model
   "idle": "/Game/ICanFixHim/Characters/LeakyPipes/A_LeakyPipes_Idle", // its looping idle
+  "portrait": "/Game/ICanFixHim/UI/Portraits/T_Portrait_Lukey",      // optional: dialogue portrait texture
   "skin": "#C98A6B", "shirt": "#B3282D", "pants": "#3A4F78", "shoes": "#5A3A22",
   "pattern": 1,                 // 1 = plaid shirt
   "glow": "#4FA8FF",            // fixture glow, outline and intro card colour
@@ -159,7 +160,7 @@ Example: `"if": "romance >= 4 && friction < 3"`.
 ```
 Props are engine primitives (`cube`, `sphere`, `cylinder`, `plane`) in **character space**: X forward, Y right, Z up from the feet, centimetres (mannequin is ~181 cm, head bone at 162). They're glued to `socket` (a bone name: `head`, `neck_01`, `spine_03`, `spine_05`, `pelvis`, `hand_r`...) so they follow the idle animation.
 
-When `mesh` is set the hunk uses that rigged model instead of the painted mannequin, and `skin`/`shirt`/`pants`/`shoes`/`pattern`/`props` are ignored (keep them as a fallback in case the model is missing). `glow` and `scale` still apply. Models are imported by `Tools/Editor/import_characters.py` (see the README); each gets its own skeleton, so `idle` must be the animation retargeted onto that model (`A_<Folder>_Idle`), not a mannequin animation.
+When `mesh` is set the hunk uses that rigged model instead of the painted mannequin, and `skin`/`shirt`/`pants`/`shoes`/`pattern`/`props` are ignored (keep them as a fallback in case the model is missing). `glow` and `scale` still apply. `portrait` is the painted dialogue portrait (made by `Tools/Art/Portraits/render_portraits.py` from the front turnaround art, imported by `Tools/Editor/import_portraits.py`); without it the dialogue shows a scene-capture still of the model. Models are imported by `Tools/Editor/import_characters.py` (see the README); each gets its own skeleton, so `idle` must be the animation retargeted onto that model (`A_<Folder>_Idle`), not a mannequin animation.
 
 ## Arc structure used by the four prototype hunks
 1. **v1, intro.** Meet, malady explained, first impression (+romance / +friendship / +friction choices).

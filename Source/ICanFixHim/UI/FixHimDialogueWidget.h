@@ -64,7 +64,7 @@ private:
 	void RefreshMeters();
 	void SpawnHearts(int32 Count);
 	void SpawnFloater(const FString& Text, const FLinearColor& Color);
-	/** Portrait frame per speaker: the hunk's live capture, the heroine's silhouette for "You:", hidden for narration. */
+	/** Portrait frame per speaker: the hunk's portrait (or his capture), the heroine's silhouette for "You:", hidden for narration. */
 	void ApplySpeakerPortrait(EDialogueSpeaker Speaker);
 
 	UPROPERTY() TObjectPtr<USizeBox> PanelSize;
@@ -74,6 +74,8 @@ private:
 	UPROPERTY() TObjectPtr<UMaterialInstanceDynamic> PortraitMID;
 	/** The bound hunk's portrait render target (used when the portrait material is missing). */
 	UPROPERTY() TObjectPtr<UTextureRenderTarget2D> HunkPortraitRT;
+	/** The bound hunk's painted portrait (look.portrait); preferred over the scene capture when set. */
+	UPROPERTY() TObjectPtr<UTexture2D> HunkPortraitTexture;
 	UPROPERTY() TObjectPtr<UTexture2D> PlayerPortraitTexture;
 	UPROPERTY() TObjectPtr<UBorder> NamePill;
 	UPROPERTY() TObjectPtr<UTextBlock> NameText;
