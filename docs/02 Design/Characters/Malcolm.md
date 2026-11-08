@@ -21,4 +21,7 @@ Love interest (toxic). Nothing positive about him, and he knows it.
 3. **v3:** "Tell me what to do." Tender order (romance), give him choice (friendship), harsh order (toxic romance), or Lukey option.
 4. **v4:** The scrub brush. If Lukey is fixed he's already drying out (`v4_dry`). Endings: *Fungus Among Us* / *Spore Loser* / *Mildew Friends Forever* / *Rot in Peace*.
 
+## Voice
+**Silky, theatrical, velvet-menace British baritone**, in the spirit of Loki: refined RP, unhurried, savouring every word, with a private chuckle and sudden flashes of venom or glee. The menace cracks into neediness when you give him an order. ElevenLabs fallback: **Callum**. Full brief and Voice Design prompt: [[Voice Casting]]. Not voiced in the game yet.
+
 Back to [[Game Design Document]]

@@ -1,0 +1,732 @@
+{
+ "epilogue/VO_epilogue_demolish_together_4.wav": {
+  "hash": "597dc8b13316",
+  "voice": "lukey",
+  "text": "That's not me."
+ },
+ "epilogue/VO_epilogue_intro_together_4.wav": {
+  "hash": "b9ea9a4bb3f1",
+  "voice": "lukey",
+  "text": "So, sweetheart. What are we doing with it?"
+ },
+ "epilogue/VO_epilogue_sell_together_5.wav": {
+  "hash": "333cd612ef60",
+  "voice": "lukey",
+  "text": "What? New house. A man's gotta make an entrance."
+ },
+ "epilogue/VO_epilogue_stay_together_4.wav": {
+  "hash": "0fa660c3f1ef",
+  "voice": "lukey",
+  "text": "No he isn't."
+ },
+ "lukey/VO_lukey_after_rs_0.wav": {
+  "hash": "96c3533dc350",
+  "voice": "lukey",
+  "text": "Evening, gorgeous. Dennis and I have reached a truce. He hums, I glare. It's very mature."
+ },
+ "lukey/VO_lukey_today_0.wav": {
+  "hash": "dc92fe12c04c",
+  "voice": "lukey",
+  "text": "We've done our chat for today. I'm a leak, not a talk show."
+ },
+ "lukey/VO_lukey_today_1.wav": {
+  "hash": "e7f4b8147fce",
+  "voice": "lukey",
+  "text": "Go flip something. ...Come back next week. Not that I'll be counting the days. I will be."
+ },
+ "lukey/VO_lukey_v1_1.wav": {
+  "hash": "1148f4d1c0a6",
+  "voice": "lukey",
+  "text": "Oh, brilliant. Another one."
+ },
+ "lukey/VO_lukey_v1_2.wav": {
+  "hash": "1c7aa8e8d5d8",
+  "voice": "lukey",
+  "text": "Let me guess. Flipper. Grey paint, 'open plan,' a little wooden sign that says live laugh love. You're going to gut my house and sell it to a couple called Jasper and Pip."
+ },
+ "lukey/VO_lukey_v1_3.wav": {
+  "hash": "c37e6015dcb8",
+  "voice": "lukey",
+  "text": "Name's Lukey. I'm the leaks around here. Not A leak. the leaks. Plural. I'm a franchise. And you're trespassing."
+ },
+ "lukey/VO_lukey_v1_both_0.wav": {
+  "hash": "7d1ac475f378",
+  "voice": "lukey",
+  "text": "Both of us? Ha. Adorable. That's what the last flipper said, right before she painted the bathroom 'Mushroom.'"
+ },
+ "lukey/VO_lukey_v1_both_1.wav": {
+  "hash": "f04646c282dc",
+  "voice": "lukey",
+  "text": "...mushroom, landlady."
+ },
+ "lukey/VO_lukey_v1_charming_0.wav": {
+  "hash": "3239bce2528f",
+  "voice": "lukey",
+  "text": "Charming? His pun was 'sounds like you've got a leak-ing problem.' That's not a pun. That's barely a word."
+ },
+ "lukey/VO_lukey_v1_charming_1.wav": {
+  "hash": "d658fee9f7dd",
+  "voice": "lukey",
+  "text": "I'm going to pun that man into the ground. Friday. It's on."
+ },
+ "lukey/VO_lukey_v1_cute_1.wav": {
+  "hash": "a903a51df688",
+  "voice": "lukey",
+  "text": "Don't. Don't do that. Don't make it weird. I am being hostile."
+ },
+ "lukey/VO_lukey_v1_cute_2.wav": {
+  "hash": "83e36f92b2e6",
+  "voice": "lukey",
+  "text": "...Your hair's nice. Get out of my house."
+ },
+ "lukey/VO_lukey_v1_dan_0.wav": {
+  "hash": "35d47c92a342",
+  "voice": "lukey",
+  "text": "And who was the windbreaker this morning? Clipboard. Moustache. Said your foundation had 'great bones.'"
+ },
+ "lukey/VO_lukey_v1_dan_1.wav": {
+  "hash": "a51f8e1885ca",
+  "voice": "lukey",
+  "text": "Great bones. That's flirting, that is. Building-code flirting. In my house."
+ },
+ "lukey/VO_lukey_v1_dennis_1.wav": {
+  "hash": "de6b87053f8e",
+  "voice": "lukey",
+  "text": "What. Is. that."
+ },
+ "lukey/VO_lukey_v1_dn_dry_0.wav": {
+  "hash": "643f9c05abe9",
+  "voice": "lukey",
+  "text": "Dry out the, those are my walls. That's my summer home. You've bought an assassin. A little white plastic assassin. And you've named it."
+ },
+ "lukey/VO_lukey_v1_dn_dry_2.wav": {
+  "hash": "78afec76aba8",
+  "voice": "lukey",
+  "text": "He's drinking me. I can feel him drinking me."
+ },
+ "lukey/VO_lukey_v1_dn_relax_0.wav": {
+  "hash": "a2208975a40a",
+  "voice": "lukey",
+  "text": "'Help with the damp.' I am the damp! That's like bringing a hoover to a dust bunny's birthday party!"
+ },
+ "lukey/VO_lukey_v1_dn_tease_0.wav": {
+  "hash": "e8aee602939e",
+  "voice": "lukey",
+  "text": "Low maintenance? He's got a water tank, landlady. He's high maintenance with a carry handle."
+ },
+ "lukey/VO_lukey_v1_end_1.wav": {
+  "hash": "adcc4776482f",
+  "voice": "lukey",
+  "text": "Ha. Can't even touch me. Good. Keep it that way."
+ },
+ "lukey/VO_lukey_v1_end_3.wav": {
+  "hash": "762c2931d576",
+  "voice": "lukey",
+  "text": "...You've got a bit of drywall in your hair. Not that I'm looking. Get out of my kitchen."
+ },
+ "lukey/VO_lukey_v1_fixing_0.wav": {
+  "hash": "82f0c8082164",
+  "voice": "lukey",
+  "text": "'Fixing what's broken.' That's what they all say. Then it's grey paint and a feature wall."
+ },
+ "lukey/VO_lukey_v1_fixing_1.wav": {
+  "hash": "e56b4e0deef8",
+  "voice": "lukey",
+  "text": "I've seen your type, landlady. You don't love houses. You love the receipt."
+ },
+ "lukey/VO_lukey_v1_franchise_0.wav": {
+  "hash": "32ce870efceb",
+  "voice": "lukey",
+  "text": "Kitchen sink? Headquarters. Bathroom ceiling? Penthouse. East wall? Summer home. Hall radiator? Holiday home. I share it with a dead moth called Gerald. He's very quiet. Better company than you."
+ },
+ "lukey/VO_lukey_v1_franchise_1.wav": {
+  "hash": "27e02a3027e8",
+  "voice": "lukey",
+  "text": "And you're about to evict every single one of us. For profit."
+ },
+ "lukey/VO_lukey_v1_gameon_0.wav": {
+  "hash": "b4d7e9497065",
+  "voice": "lukey",
+  "text": "Game on. Ooh. Okay. I like a bit of competition. Fair warning: I'm extremely petty and I have nothing else to do."
+ },
+ "lukey/VO_lukey_v1_grumpy_0.wav": {
+  "hash": "58afd62ba057",
+  "voice": "lukey",
+  "text": "I'm not grumpy. I'm damp. And yes, it's the damp. It's always the damp."
+ },
+ "lukey/VO_lukey_v1_grumpy_1.wav": {
+  "hash": "2f9f17bade36",
+  "voice": "lukey",
+  "text": "Also, every leak you fix is a bit of me gone. So forgive me if I'm not throwing you a housewarming."
+ },
+ "lukey/VO_lukey_v1_honest_1.wav": {
+  "hash": "64432b63db8e",
+  "voice": "lukey",
+  "text": "'And then some.' Lovely. Fab. Thirty-nine years of my life, and I'm a line item."
+ },
+ "lukey/VO_lukey_v1_honest_2.wav": {
+  "hash": "e4d42b59dc83",
+  "voice": "lukey",
+  "text": "Well, here's a line item for you, landlady. Every leak you fix is a bit of me gone. You're not just flipping a house. You're flipping me."
+ },
+ "lukey/VO_lukey_v1_inspector_0.wav": {
+  "hash": "9ba0d6665026",
+  "voice": "lukey",
+  "text": "Bulldozed? He can decide that from the pavement, then."
+ },
+ "lukey/VO_lukey_v1_jealous_0.wav": {
+  "hash": "faa490d5c5ce",
+  "voice": "lukey",
+  "text": "Jealous? Of a man who owns a windbreaker on purpose?"
+ },
+ "lukey/VO_lukey_v1_jealous_2.wav": {
+  "hash": "8bdbf3c82dde",
+  "voice": "lukey",
+  "text": "...Is it working? The windbreaker? Not that I care. I'm asking for the house."
+ },
+ "lukey/VO_lukey_v1_mine_0.wav": {
+  "hash": "cf91e99c1d8c",
+  "voice": "lukey",
+  "text": "Bought it. With money. Like that means anything. I've lived here thirty-nine years, Barbie. What've you got? A drill and a business card?"
+ },
+ "lukey/VO_lukey_v1_money_0.wav": {
+  "hash": "92b504e0d834",
+  "voice": "lukey",
+  "text": "Go on, then. How much are you flipping it for? What's my home worth to you?"
+ },
+ "lukey/VO_lukey_v1_plumber_0.wav": {
+  "hash": "afd7d1dfd59d",
+  "voice": "lukey",
+  "text": "A plumber? You'd bring a plumber into this house?"
+ },
+ "lukey/VO_lukey_v1_plumber_2.wav": {
+  "hash": "6290397d0707",
+  "voice": "lukey",
+  "text": "That's for even saying it."
+ },
+ "lukey/VO_lukey_v1_savings_1.wav": {
+  "hash": "72fe25f491ff",
+  "voice": "lukey",
+  "text": "...All of it? That's stupid. That's a really stupid thing to do with savings."
+ },
+ "lukey/VO_lukey_v1_savings_2.wav": {
+  "hash": "66c9483513ca",
+  "voice": "lukey",
+  "text": "Still doesn't make it yours. And here's the catch, landlady: every leak you fix is a bit of me gone."
+ },
+ "lukey/VO_lukey_v1_threat_0.wav": {
+  "hash": "dc18a9a77730",
+  "voice": "lukey",
+  "text": "So here's how this goes. You fix something, I break something. You patch a wall, I flood your shoes. It's called a working relationship."
+ },
+ "lukey/VO_lukey_v2_1.wav": {
+  "hash": "768b72e02c90",
+  "voice": "lukey",
+  "text": "You patched the bathroom. I can't feel my left side. Thanks for that, boss."
+ },
+ "lukey/VO_lukey_v2_1986_0.wav": {
+  "hash": "4fb57e02e0d0",
+  "voice": "lukey",
+  "text": "Is it? Big year for leaks. Excellent vintage. Shoulder pads were huge. For pipes. Pipe shoulder pads. Leave it."
+ },
+ "lukey/VO_lukey_v2_3.wav": {
+  "hash": "09c9f8f201c6",
+  "voice": "lukey",
+  "text": "Also, Dennis drank half my summer home this week. He empties a bucket of me every morning. And those podcast ladies think I'm a catfish."
+ },
+ "lukey/VO_lukey_v2_admit_1.wav": {
+  "hash": "085486395b28",
+  "voice": "lukey",
+  "text": "...Don't do that. Don't be reasonable when I'm angry. It's very confusing."
+ },
+ "lukey/VO_lukey_v2_admit_2.wav": {
+  "hash": "4d96dd4c2d46",
+  "voice": "lukey",
+  "text": "I still need a few days to be a sulky leak about it."
+ },
+ "lukey/VO_lukey_v2_bonjovi_0.wav": {
+  "hash": "186cf82cc535",
+  "voice": "lukey",
+  "text": "Everyone knows Bon Jovi. It's in the water. Literally. I'm the water."
+ },
+ "lukey/VO_lukey_v2_call_4.wav": {
+  "hash": "6bca5113b3bb",
+  "voice": "lukey",
+  "text": "Rip it out. Grey floors. Whoever pays most."
+ },
+ "lukey/VO_lukey_v2_call_5.wav": {
+  "hash": "f9ef1d21f85b",
+  "voice": "lukey",
+  "text": "This is a home, boss. People laughed in this kitchen. People had dates in this kitchen. Something happened in this kitchen. I don't know what. But it mattered."
+ },
+ "lukey/VO_lukey_v2_call_6.wav": {
+  "hash": "8ec707fc4fa2",
+  "voice": "lukey",
+  "text": "And you want to turn it into a showroom for Jasper and Pip."
+ },
+ "lukey/VO_lukey_v2_catfish_0.wav": {
+  "hash": "50728f58f3d7",
+  "voice": "lukey",
+  "text": "I'm not a catfish. ...Am I a catfish?"
+ },
+ "lukey/VO_lukey_v2_catfish_1.wav": {
+  "hash": "fd88077f4ed8",
+  "voice": "lukey",
+  "text": "I'm not wet in a fish way. I'm wet in a sexy way."
+ },
+ "lukey/VO_lukey_v2_cb_both_0.wav": {
+  "hash": "59c999f2cec9",
+  "voice": "lukey",
+  "text": "You said 'both of us.' Last week. I thought about it."
+ },
+ "lukey/VO_lukey_v2_cb_both_1.wav": {
+  "hash": "a9a0fc8c754e",
+  "voice": "lukey",
+  "text": "It's still stupid. ...I thought about it a lot. Moving on."
+ },
+ "lukey/VO_lukey_v2_cb_grudge_0.wav": {
+  "hash": "17671005fc3f",
+  "voice": "lukey",
+  "text": "Oh. It's you. Barbie. I flooded your shoes twice this week. You're welcome."
+ },
+ "lukey/VO_lukey_v2_cb_grudge_1.wav": {
+  "hash": "c6aec4872a3c",
+  "voice": "lukey",
+  "text": "...Fine. Truce. For today. Only because Dennis is unbearable and I need someone to complain to."
+ },
+ "lukey/VO_lukey_v2_conc_1.wav": {
+  "hash": "e3c710d86e0e",
+  "voice": "lukey",
+  "text": "I do look good. Has this jawline been here the whole time?"
+ },
+ "lukey/VO_lukey_v2_count_0.wav": {
+  "hash": "d0fc07fd7f2a",
+  "voice": "lukey",
+  "text": "Counting down. Like New Year's Eve. Except at midnight I'm gone and you get drywall."
+ },
+ "lukey/VO_lukey_v2_cutejealous_0.wav": {
+  "hash": "c69e1b686822",
+  "voice": "lukey",
+  "text": "Jealous? Of a man who wears a windbreaker indoors?"
+ },
+ "lukey/VO_lukey_v2_cutejealous_2.wav": {
+  "hash": "ef0f06c02f6a",
+  "voice": "lukey",
+  "text": "...Okay. Maybe a bit. You're not supposed to fancy the leaks, you know. It's against code."
+ },
+ "lukey/VO_lukey_v2_dennis_1.wav": {
+  "hash": "0e09ceffa388",
+  "voice": "lukey",
+  "text": "He's a murderer with a carry handle, boss. One day it'll be just you, him and an empty bucket, and you'll miss me."
+ },
+ "lukey/VO_lukey_v2_fish_0.wav": {
+  "hash": "7fafe04a3d85",
+  "voice": "lukey",
+  "text": "Thank you. No scales. I've got abs. I think. Hard to tell, I'm mostly drip."
+ },
+ "lukey/VO_lukey_v2_heart_0.wav": {
+  "hash": "d72ec0c5ea0c",
+  "voice": "lukey",
+  "text": "What heart? That's a stain. A very romantic stain. Walls do that. Shut up."
+ },
+ "lukey/VO_lukey_v2_help_0.wav": {
+  "hash": "abc774792585",
+  "voice": "lukey",
+  "text": "Oh, now she wants my help. When it's my summer home on the line."
+ },
+ "lukey/VO_lukey_v2_help_1.wav": {
+  "hash": "c02b6999ab19",
+  "voice": "lukey",
+  "text": "...Second stud from the left. Mind the wire. And the wasp nest. That's Kevin. Kevin's harmless."
+ },
+ "lukey/VO_lukey_v2_hurt_0.wav": {
+  "hash": "6e366d912aea",
+  "voice": "lukey",
+  "text": "Nah. It tickles. Like losing a sock. Except the sock is your summer home."
+ },
+ "lukey/VO_lukey_v2_hurt_1.wav": {
+  "hash": "52c154d2d61b",
+  "voice": "lukey",
+  "text": "...Thanks for asking, though. Nobody ever asks the leaks how they're doing."
+ },
+ "lukey/VO_lukey_v2_investment_0.wav": {
+  "hash": "cc8aa3a7e597",
+  "voice": "lukey",
+  "text": "An investment."
+ },
+ "lukey/VO_lukey_v2_investment_2.wav": {
+  "hash": "7effc89eacec",
+  "voice": "lukey",
+  "text": "Thirty-nine years, and I'm an investment. Get out of my kitchen, landlady."
+ },
+ "lukey/VO_lukey_v2_permits_0.wav": {
+  "hash": "89eebbde1ce8",
+  "voice": "lukey",
+  "text": "'Permits.' Sure. In my day we called it 'grabbing a milkshake.'"
+ },
+ "lukey/VO_lukey_v2_permits_2.wav": {
+  "hash": "e6376996ee6e",
+  "voice": "lukey",
+  "text": "In my day? What day? Leaks don't have days. Forget I said that."
+ },
+ "lukey/VO_lukey_v2_shoes_0.wav": {
+  "hash": "5702a2f16652",
+  "voice": "lukey",
+  "text": "'Flood' is a strong word. I'd say 'refreshed.' His feet looked hot."
+ },
+ "lukey/VO_lukey_v2_shoes_1.wav": {
+  "hash": "9e789f34e957",
+  "voice": "lukey",
+  "text": "He said 'water-tight, like my alibi,' boss. That's a crime against puns. I was punishing a crime."
+ },
+ "lukey/VO_lukey_v2_stakes_0.wav": {
+  "hash": "7af89a34dbfa",
+  "voice": "lukey",
+  "text": "Everything? So it's your home on the line, or mine. Brilliant. Great. Love that for us."
+ },
+ "lukey/VO_lukey_v2_stakes_2.wav": {
+  "hash": "3081cacf851c",
+  "voice": "lukey",
+  "text": "I get it. I do. Doesn't mean I have to like you right now."
+ },
+ "lukey/VO_lukey_v2_wall_3.wav": {
+  "hash": "d6ae063ac5b8",
+  "voice": "lukey",
+  "text": "Huh. Fewer leaks, less of me spread around. I'm... concentrated. Like an orange juice."
+ },
+ "lukey/VO_lukey_v2_work_0.wav": {
+  "hash": "37cc536dc624",
+  "voice": "lukey",
+  "text": "Anyway. East wall's next, isn't it? My summer home. I object."
+ },
+ "lukey/VO_lukey_v2_work_1.wav": {
+  "hash": "70d993f1c6c6",
+  "voice": "lukey",
+  "text": "...But if you're going in, you need me. I know every drip in that wall. Been there since 1986. Er, since forever. Since installation."
+ },
+ "lukey/VO_lukey_v3_2.wav": {
+  "hash": "476c62931197",
+  "voice": "lukey",
+  "text": "...You did my holiday home without me. Gerald's gone. I'm down to one sink. Just me and the U-bend."
+ },
+ "lukey/VO_lukey_v3_3.wav": {
+  "hash": "389e425c8930",
+  "voice": "lukey",
+  "text": "I've been thinking. A leak's got loads of time to think. Turns out you're not wrong. Houses cost money. Somebody has to fix them, and you're good at it. Annoyingly good."
+ },
+ "lukey/VO_lukey_v3_4.wav": {
+  "hash": "b62859062e36",
+  "voice": "lukey",
+  "text": "But a house isn't just walls and grout, boss. It's whoever's in it. Right now that's me. And, unfortunately, you."
+ },
+ "lukey/VO_lukey_v3_bonjovi_1.wav": {
+  "hash": "28f6551731f8",
+  "voice": "lukey",
+  "text": "Okay. I resonate a lot."
+ },
+ "lukey/VO_lukey_v3_clammy_0.wav": {
+  "hash": "e5babf5356df",
+  "voice": "lukey",
+  "text": "I'm a leak. What did you expect, a hand cream advert?"
+ },
+ "lukey/VO_lukey_v3_dinner_1.wav": {
+  "hash": "fffa04b01ed4",
+  "voice": "lukey",
+  "text": "This isn't a date, by the way. Two adults. Candles. Spaghetti. Purely coincidental."
+ },
+ "lukey/VO_lukey_v3_dinner_2.wav": {
+  "hash": "092024b213d5",
+  "voice": "lukey",
+  "text": "Did you hear the podcast? Mrs. Pruitt next door says someone's been singing Bon Jovi in the walls. Ridiculous. I don't sing. I resonate."
+ },
+ "lukey/VO_lukey_v3_end_1.wav": {
+  "hash": "64f29366066f",
+  "voice": "lukey",
+  "text": "Sweetheart... I don't really know what I am. A leak. A bunch of leaks. One leak now. Whatever."
+ },
+ "lukey/VO_lukey_v3_end_2.wav": {
+  "hash": "047e37a0c906",
+  "voice": "lukey",
+  "text": "But I like who I am when you're here."
+ },
+ "lukey/VO_lukey_v3_end_4.wav": {
+  "hash": "8a79dd51b6cd",
+  "voice": "lukey",
+  "text": "That's the only soppy thing I'm saying this month. Goodnight. Don't let Dennis near me in my sleep."
+ },
+ "lukey/VO_lukey_v3_fishjoke_0.wav": {
+  "hash": "a37c04468eb7",
+  "voice": "lukey",
+  "text": "Don't bring fish into this. Bev's already got me down as a catfish."
+ },
+ "lukey/VO_lukey_v3_fishjoke_1.wav": {
+  "hash": "261367276782",
+  "voice": "lukey",
+  "text": "...But yeah. Weird, right? Something about it makes my mullet stand up."
+ },
+ "lukey/VO_lukey_v3_hand_2.wav": {
+  "hash": "e29d1a747839",
+  "voice": "lukey",
+  "text": "...Oh. Hello."
+ },
+ "lukey/VO_lukey_v3_holdon_1.wav": {
+  "hash": "acb21d0bc2cc",
+  "voice": "lukey",
+  "text": "First thing I've held in years that wasn't a U-bend. Bit of an upgrade, sweetheart."
+ },
+ "lukey/VO_lukey_v3_missed_1.wav": {
+  "hash": "ce5cbbadc2e3",
+  "voice": "lukey",
+  "text": "You missed me? The leak? The one who flooded your shoes?"
+ },
+ "lukey/VO_lukey_v3_missed_2.wav": {
+  "hash": "855d1cafc664",
+  "voice": "lukey",
+  "text": "...I missed you too. Don't tell Dennis. Sweetheart."
+ },
+ "lukey/VO_lukey_v3_punoff_2.wav": {
+  "hash": "5246f317141e",
+  "voice": "lukey",
+  "text": "I won. Did you see that? Sweetheart, I won the Friday."
+ },
+ "lukey/VO_lukey_v3_rain_0.wav": {
+  "hash": "47319f770573",
+  "voice": "lukey",
+  "text": "I am together. I'm the most together I've been in years. Literally. I'm down to one sink."
+ },
+ "lukey/VO_lukey_v3_realfix_0.wav": {
+  "hash": "ddbe42ab0e62",
+  "voice": "lukey",
+  "text": "Properly. No grey floors?"
+ },
+ "lukey/VO_lukey_v3_realfix_3.wav": {
+  "hash": "f83769c193b1",
+  "voice": "lukey",
+  "text": "...Okay. Deal. Sweetheart. Whatever. I'm calling you sweetheart now. It's happening."
+ },
+ "lukey/VO_lukey_v3_solid_0.wav": {
+  "hash": "c5e684be4f47",
+  "voice": "lukey",
+  "text": "Mostly solid! Like a jelly! A handsome jelly!"
+ },
+ "lukey/VO_lukey_v3_stillsell_0.wav": {
+  "hash": "e300923415bd",
+  "voice": "lukey",
+  "text": "Yeah. I know."
+ },
+ "lukey/VO_lukey_v3_stillsell_2.wav": {
+  "hash": "ae64685a05f9",
+  "voice": "lukey",
+  "text": "Then sell it to someone who'll love it. Not Jasper and Pip. Promise me that, and we're square, sweetheart."
+ },
+ "lukey/VO_lukey_v3_storm_2.wav": {
+  "hash": "781c541a0a3c",
+  "voice": "lukey",
+  "text": "Flooding. I don't like flooding. For leak reasons. Very normal leak reasons."
+ },
+ "lukey/VO_lukey_v3_terrible_0.wav": {
+  "hash": "aa15e563f3a7",
+  "voice": "lukey",
+  "text": "Terrible? I'm a soprano, sweetheart. You just can't hear it over the dripping."
+ },
+ "lukey/VO_lukey_v3_together_0.wav": {
+  "hash": "cdaf0816eba5",
+  "voice": "lukey",
+  "text": "Together. Yeah. Leak and Flipper. Season finale. Big storm episode."
+ },
+ "lukey/VO_lukey_v3_windows_0.wav": {
+  "hash": "fc43f4596d65",
+  "voice": "lukey",
+  "text": "It's not writing, it's communication. The window's basically my phone."
+ },
+ "lukey/VO_lukey_v3_wonder_0.wav": {
+  "hash": "c4fdb1f45e9a",
+  "voice": "lukey",
+  "text": "Wonder? Leaks absorb culture. Through the walls. Like a sponge. A very cultured sponge."
+ },
+ "lukey/VO_lukey_v3_wonder_2.wav": {
+  "hash": "b085c0bc5f8f",
+  "voice": "lukey",
+  "text": "...Sometimes I dream about leg warmers. Is that normal for plumbing?"
+ },
+ "lukey/VO_lukey_v4_1.wav": {
+  "hash": "cee29793dc88",
+  "voice": "lukey",
+  "text": "Sweetheart. Did you listen to the podcast?"
+ },
+ "lukey/VO_lukey_v4_alone_1.wav": {
+  "hash": "afd0b1226c14",
+  "voice": "lukey",
+  "text": "...You held the wrench right. I'll give you that."
+ },
+ "lukey/VO_lukey_v4_brenda_0.wav": {
+  "hash": "029f75d83604",
+  "voice": "lukey",
+  "text": "And the worst part? I never got the date. Brenda came back with the wine, and I was... busy. Being dead."
+ },
+ "lukey/VO_lukey_v4_brenda_1.wav": {
+  "hash": "15000555410f",
+  "voice": "lukey",
+  "text": "No wonder I hated you on sight. You were going to rip out this kitchen. The one place I nearly had a date."
+ },
+ "lukey/VO_lukey_v4_brenda_2.wav": {
+  "hash": "955960e17956",
+  "voice": "lukey",
+  "text": "Thirty-nine years of dripping, and I think that's it. That's why I'm still here. I never got my date."
+ },
+ "lukey/VO_lukey_v4_call_grumpy_1.wav": {
+  "hash": "bef104677b8e",
+  "voice": "lukey",
+  "text": "My call? Fine. I'm off. Thirty-nine years waiting for a date, and I got one with a woman who still calls my home an 'asset.'"
+ },
+ "lukey/VO_lukey_v4_call_kind_1.wav": {
+  "hash": "90d39504ada2",
+  "voice": "lukey",
+  "text": "Then I'll go. Not because I want to leave. Because I finally can."
+ },
+ "lukey/VO_lukey_v4_call_kind_2.wav": {
+  "hash": "764e5f673ec6",
+  "voice": "lukey",
+  "text": "Thanks for the date, landlady. Best one I ever didn't die on."
+ },
+ "lukey/VO_lukey_v4_choose_1.wav": {
+  "hash": "9f5668a9e18b",
+  "voice": "lukey",
+  "text": "So. Date's done. Unfinished business... finished. I think I get to choose now. Stay, or go wherever it is leaks go."
+ },
+ "lukey/VO_lukey_v4_choose_2.wav": {
+  "hash": "81baa00c424f",
+  "voice": "lukey",
+  "text": "What do you reckon, sweetheart?"
+ },
+ "lukey/VO_lukey_v4_dance_1.wav": {
+  "hash": "85be38b2661d",
+  "voice": "lukey",
+  "text": "Halfway there, sweetheart. ...Actually, I think we're all the way there."
+ },
+ "lukey/VO_lukey_v4_date_2.wav": {
+  "hash": "a5dd9cb7e14b",
+  "voice": "lukey",
+  "text": "So. This is it. The date. Thirty-nine years in the making."
+ },
+ "lukey/VO_lukey_v4_fixed_3.wav": {
+  "hash": "ddde38773901",
+  "voice": "lukey",
+  "text": "...Oh my god. The volume. Sweetheart, look at the volume."
+ },
+ "lukey/VO_lukey_v4_focus_0.wav": {
+  "hash": "9833a72ad1dd",
+  "voice": "lukey",
+  "text": "Right. Sink. Storm. The exact thing that killed me. No pressure."
+ },
+ "lukey/VO_lukey_v4_friends_0.wav": {
+  "hash": "7ac41757de27",
+  "voice": "lukey",
+  "text": "A friend date. A frate. Yeah. I'd like that. No pressure. Some pressure. I'm water, everything's pressure."
+ },
+ "lukey/VO_lukey_v4_fs_1.wav": {
+  "hash": "11aeee24ffc6",
+  "voice": "lukey",
+  "text": "Best frate of my afterlife. Tell Dennis he can have the kitchen. He's earned it. Smug little hum."
+ },
+ "lukey/VO_lukey_v4_instructor_0.wav": {
+  "hash": "c64540eb6aec",
+  "voice": "lukey",
+  "text": "Instructor. Okay! Quarter turn! And reach! And twist! Feel the burn! Engage your core!"
+ },
+ "lukey/VO_lukey_v4_instructor_1.wav": {
+  "hash": "80d46d1a8c63",
+  "voice": "lukey",
+  "text": "That last bit's aerobics. Ignore it. Actually don't, your core looks great."
+ },
+ "lukey/VO_lukey_v4_laugh_0.wav": {
+  "hash": "936834fa0d71",
+  "voice": "lukey",
+  "text": "Oh, laugh it up. It is hilarious. 'Man dies trying to impress woman with plumbing.' It's a Darwin Award with a mullet."
+ },
+ "lukey/VO_lukey_v4_lycra_1.wav": {
+  "hash": "28a966328e89",
+  "voice": "lukey",
+  "text": "...I did look great. Legs like a racehorse. Shiny. Teal."
+ },
+ "lukey/VO_lukey_v4_name_3.wav": {
+  "hash": "2013d1597a57",
+  "voice": "lukey",
+  "text": "Did you listen to the podcast?"
+ },
+ "lukey/VO_lukey_v4_person_0.wav": {
+  "hash": "dc84aab483d4",
+  "voice": "lukey",
+  "text": "I know. I know. I have a birthday! I have a star sign! I'm probably a Leo. I'm definitely a Leo."
+ },
+ "lukey/VO_lukey_v4_phone_1.wav": {
+  "hash": "4f7fff7bf42c",
+  "voice": "lukey",
+  "text": "Wow. Thirty-nine years I waited for this date and you're checking the group chat."
+ },
+ "lukey/VO_lukey_v4_promise_1.wav": {
+  "hash": "9a4f8c50003d",
+  "voice": "lukey",
+  "text": "A date. With you. Okay. yes. Brenda who? I mean, bless Brenda. Lovely woman. Anyway. yes."
+ },
+ "lukey/VO_lukey_v4_reveal_0.wav": {
+  "hash": "060fe26bd2e6",
+  "voice": "lukey",
+  "text": "'Local aerobics instructor Luke Moretti, 34, died in 1987 while attempting to repair a sink on a first date.'"
+ },
+ "lukey/VO_lukey_v4_reveal_1.wav": {
+  "hash": "637767c2a019",
+  "voice": "lukey",
+  "text": "That's me. I'm not a leak. I'm a guy. I'm a guy who died showing off."
+ },
+ "lukey/VO_lukey_v4_reveal_2.wav": {
+  "hash": "f669b4c9a801",
+  "voice": "lukey",
+  "text": "I told her I was great with my hands. Her name was Brenda. She went to get the wine, I went under the sink, I slipped on the puddle and I bonked my head on the U-bend."
+ },
+ "lukey/VO_lukey_v4_reveal_4.wav": {
+  "hash": "e378590bf955",
+  "voice": "lukey",
+  "text": "I died in lycra, sweetheart. In front of brenda."
+ },
+ "lukey/VO_lukey_v4_rf_1.wav": {
+  "hash": "dd7b26140fdb",
+  "voice": "lukey",
+  "text": "Yeah. I love you too. That's how I know. You deserve a fella with a pulse. And a dry floor."
+ },
+ "lukey/VO_lukey_v4_rs2_1.wav": {
+  "hash": "bc1a83195170",
+  "voice": "lukey",
+  "text": "Best. Date. Ever. Sorry, Brenda."
+ },
+ "lukey/VO_lukey_v4_rs_1.wav": {
+  "hash": "f433128a8af7",
+  "voice": "lukey",
+  "text": "Turns out my unfinished business was you, sweetheart. Now it's finished."
+ },
+ "lukey/VO_lukey_v4_rs_2.wav": {
+  "hash": "032214aba004",
+  "voice": "lukey",
+  "text": "...I'm not leaving, though. Obviously. Have you seen this hair?"
+ },
+ "lukey/VO_lukey_v4_storm_2.wav": {
+  "hash": "df6c82c7eae5",
+  "voice": "lukey",
+  "text": "Okay! This is it! Righty-tighty! Lefty-loosey is how I died!"
+ },
+ "lukey/VO_lukey_v4_toast_0.wav": {
+  "hash": "efb297b430df",
+  "voice": "lukey",
+  "text": "To Brenda. Who never got her sink fixed, never got her date and never knew she was the best thing that ever happened to a leak."
+ },
+ "lukey/VO_lukey_v4_toast_2.wav": {
+  "hash": "f0664cdcd9f5",
+  "voice": "lukey",
+  "text": "And to you. Second best. ...First best. Don't tell Brenda."
+ },
+ "lukey/VO_lukey_v4_trust_1.wav": {
+  "hash": "df13dcc12e8e",
+  "voice": "lukey",
+  "text": "There. Feel that? That's the last one. You did it, sweetheart."
+ }
+}

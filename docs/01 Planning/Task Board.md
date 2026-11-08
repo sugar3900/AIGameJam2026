@@ -8,6 +8,8 @@ tags: [planning]
 - [x] Name entry at New Game (fills {player})
 - [ ] Check Lukey's new look in-engine (teal Lycra, mullet, headband, wrench)
 - [ ] Rewrite Malcolm / Wyatt / Tyler in the v2 tone (after the Lukey slice is playable)
+- [x] Voice casting for all hunks ([[Voice Casting]]) + placeholder VO for Lukey that plays in game
+- [ ] Record final VO in ElevenLabs (Lukey first); Americanise Lukey's Britishisms first
 - [ ] Audio: music bed per room + SFX (drip, sparks, toggles, UI clicks, kiss "mwah")
 - [ ] Remaining hunks: Az (asbestos), lead paint, broken floor joist, broken door (+ their rooms)
 - [ ] Playtest pass on dialogue pacing + stat thresholds (are endings reachable without metagaming?)

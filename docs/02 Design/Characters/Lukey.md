@@ -160,8 +160,17 @@ After the Day 30 hearing (Dan: "as dry as my sense of humor"; Mrs. Pruitt fires 
 
 ---
 
+## Voice
+**All-American, big, warm and grinning**, in the spirit of Emmett Cullen: a booming laugh, a chesty baritone, fast and bouncy when showing off, and soft, almost whispered when he's sincere. Full brief, Voice Design prompt and ElevenLabs fallback (**Liam**) in [[Voice Casting]].
+
+Every one of his lines has a placeholder voice in the game now (free Kokoro TTS). It plays automatically when the line appears. Lines that say your name are recorded without it.
+
+> **Accent vs script:** his lines were written in the *Ghosts* (UK) voice, and a few Britishisms will sound odd in an American mouth: "hoover", "advert", "pavement", "fancy", "soppy", "fella", "reckon", "That's flirting, that is". Worth Americanising before the final ElevenLabs record (then re-run the VO generator).
+
+---
+
 ## Open questions
-1. What's the heroine's default name, and does the player rename her?
+1. ~~What's the heroine's default name, and does the player rename her?~~ The player types her name at New Game.
 2. Does Brenda ever meet ghost-Lukey properly, maybe as a bonus scene?
 3. Do Dan and Mrs. Pruitt get their own scenes, or stay in narration?
 
