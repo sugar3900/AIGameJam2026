@@ -123,6 +123,10 @@ public:
 	UFUNCTION(Exec) void FixHimLook(float Yaw, float Pitch);
 	UFUNCTION(Exec) void FixHimShot(const FString& Name);
 	UFUNCTION(Exec) void FixHimDump();
+	/** Plays dialogue scripts (comma-separated ids, e.g. "inspection,epilogue") in the dialogue box, then back to playing. */
+	UFUNCTION(Exec) void FixHimScene(const FString& SceneIds);
+	/** Marks a story hunk (or "all") fixed (1) or not (0) and logs whether the house would pass inspection. */
+	UFUNCTION(Exec) void FixHimSetFixed(const FString& HunkId, int32 Fixed = 1);
 	/** Runs a ';'-separated list of console commands. "wait <seconds>" pauses the script. */
 	UFUNCTION(Exec) void FixHimScript(const FString& Script);
 

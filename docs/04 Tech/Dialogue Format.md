@@ -12,7 +12,7 @@ Each hunk is one JSON file in `Content/ICanFixHim/Data/Dialogue/<id>.json`. The 
 python3 Tools/validate_dialogue.py
 ```
 
-It checks broken `goto`s, `[topics]` with no handler, bad conditions, unknown stats, dead ends and unreachable nodes.
+It checks broken `goto`s, `[topics]` with no handler, bad conditions, unknown stats, unknown `fx` names (node and inline), dead ends, unreachable nodes, and aside chains that can never reach a `"return": true` node.
 
 ## File shape
 
@@ -36,7 +36,9 @@ It checks broken `goto`s, `[topics]` with no handler, bad conditions, unknown st
 
 - `"kind": "scene"`: a scripted scene played in the dialogue box with no portrait (e.g. `inspection.json`).
 
-Current scripts: `inspection.json` (Dan's final inspection at the end of week 4; `pass` if `lukey.fixed`, otherwise `fail`), `podcast.json` (*Creaky Floorboards with Bev & Trish*, one ~30 s episode between each week of Lukey's arc) and `epilogue.json` (Day 30 hearing → final house choice → epilogue per ending; sets `flag.house_choice` 1 = sell, 2 = stay, 3 = demolish).
+Current scripts: `inspection.json` (Dan's final inspection at the end of week 4; the house passes only when **every** story hunk is fixed, i.e. `fixedcount == storycount` / `housefixed`; the game's finale uses the same rule to decide whether the podcast plays), `podcast.json` (*Creaky Floorboards with Bev & Trish*, one short episode every morning per week, ~100–150 words; the finale episode needs `housefixed`) and `epilogue.json` (pass: Day 30 hearing → house choice, which sets `flag.house_choice` 1 = sell, 2 = stay, 3 = demolish → a beat per guy per ending → shared dinner if 2+ romances; fail: demolition walk-through).
+
+**Branching without a click-free conditional goto:** a node whose choices have mutually exclusive, exhaustive `if`s shows exactly one choice, which works as a conditional "continue" (used by `inspection.json` and `epilogue.json`, e.g. `"if": "malcolm.ending_romance_success"`). The validator warns "every choice is conditional" on those nodes; make sure the conditions cover every case.
 
 ### entries
 Checked top to bottom when you click the glowing fixture; the first matching `if` picks the starting node. This is how story beats per visit work (`visits` counts finished conversations).
@@ -52,12 +54,45 @@ Add `"counts": false` to an entry for conversations that shouldn't advance the s
 |---|---|
 | `lines` | Array of lines shown one at a time. Plain text = **him**. `You: ...` = **the heroine**. `Name: ...` = a declared extra speaker. `*...*` (whole line) = narration. |
 | `choices` | `[{ "text", "goto", "if"?, "do"? }]`. Shown under the **last** line. Hidden if `if` is false. |
-| `topics` | Clickable highlighted words. Write `[pipes]` or `[shown text|topicId]` in a line, then `"topics": { "pipes": "node" }` or `{ "pipes": { "goto", "if", "do" } }`. |
+| `topics` | Clickable highlighted words. Write `[pipes]` or `[shown text|topicId]` in a line, then `"topics": { "pipes": "node" }` (one-way divert) or `{ "pipes": { "goto", "if", "do", "aside" } }`. With `"aside": true` the topic is a one-off detour that comes back to the line it was clicked on (see **Asides**). |
 | `do` | Stat/flag changes applied when the node is entered (also allowed on choices and topics). |
 | `goto` | Next node when the lines run out and there are no choices. |
 | `end` | `true` ends the conversation (counts as a visit, auto-saves). |
 | `ending` | `romance_success`, `romance_failure`, `friend_success`, `friend_failure` or `auto`. Ends the conversation, **repairs the malady** and shows the ending card. `auto` picks from stats. |
-| `fx` | `"fade"` (fade to black with `fxText`) or `"hearts"`. Plays when the node is entered. |
+| `return` | `true` marks the last node of an aside: when its lines run out (and it has no choices) the conversation resumes the line the aside was clicked on. |
+| `fx` | `"fade"` (fade to black with `fxText`) or `"hearts"`. Plays when the node is entered. Lines can also carry their own inline `{fx:name}` tag (see **Effects (`fx`)**). |
+
+### Asides (one-off clickable detours)
+A normal topic is a one-way divert: clicking `[pipes]` leaves the current node for good. An **aside** comes back:
+
+```json
+"v2": {
+  "lines": [
+    "I got these [pipes] in 1987.",
+    "Anyway. Where was I?"
+  ],
+  "topics": { "pipes": { "goto": "v2_pipes", "aside": true, "do": { "friendship": 1 } } },
+  "choices": [ { "text": "Tell me more.", "goto": "v2_more" } ]
+},
+"v2_pipes": {
+  "lines": [ "Copper. Original. Don't let anyone tell you otherwise." ],
+  "return": true
+}
+```
+
+- Clicking an aside topic remembers the current node and line, applies the topic's `do`, and enters its `goto`.
+- The chain can be several nodes long and can have its own choices; **every branch must end in a node with `"return": true`**. That node's lines play, then the conversation goes back to the exact line the word was clicked on and continues from there (its remaining lines, then its choices or `goto`). The original node's `do` and `fx` are **not** applied again.
+- Asides nest: a line inside an aside can have its own aside topic.
+- An aside is **spent** after one click: for the rest of that conversation the word renders as plain text. String-shorthand topics and topics without `"aside": true` behave as before.
+- A `return` node reached with no open aside ends the conversation (logged as a warning).
+
+### Effects (`fx`)
+Node-level `"fx": "name"` plays on the node's first line; an inline tag `{fx:name}` anywhere in a line plays when that line appears and is stripped from the text (`"*{fx:hearts} He blushes.*"` shows as `*He blushes.*`). A line tag wins over a node fx on the same line. Effects do not replay when a line is re-shown after an aside.
+
+| Name | Effect |
+|---|---|
+| `fade` | Fade to black showing the node's `fxText` (`...` if none). |
+| `hearts` | Hearts burst. |
 
 Text substitutions: `{player}` (the name the player typed at New Game; "Rosie" if none) and `{name}` (the hunk).
 
@@ -79,7 +114,9 @@ Integer expressions: `! && || == != < <= > >= + - ( )`.
 | `ending_romance_success` (etc.) | 1 if this hunk got that ending |
 | `seen.<nodeId>` | 1 if this hunk's node was visited |
 | `flag.<name>` | global flag |
-| `fixedcount` | number of repaired maladies |
+| `fixedcount` | number of story hunks whose malady is repaired (scripts never count) |
+| `storycount` | number of story hunks (`kind: hunk`) |
+| `housefixed` | 1 if every story hunk is fixed (`fixedcount == storycount`) |
 | `week` | current week / playable day (1–4; 5 after the final inspection) |
 | `talkedtoday` | 1 if this hunk already had his story conversation this week |
 
