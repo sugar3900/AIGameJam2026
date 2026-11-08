@@ -46,7 +46,7 @@ The player should work it out long before he does:
 
 ## Who he actually was (revealed in Act 4)
 **Luke "Lukey" Moretti, aerobics instructor, died 1987, aged 34.**
-- **In 1987:** teal Lycra, a headband, a perfect feathered blow-dry, a big personality, *not* a plumber. That's what he **died in**. It is not what he looks like now (see "His look" below).
+- **In 1987:** teal Lycra, a big personality, *not* a plumber. That's what he **died in**. It is not what he looks like now (see "His look" below).
 - **This was never his house. It was BRENDA'S.** He showed up early to pick her up for their first date (with a mixtape). Her sink was dripping. He told her, "Relax, babe. I'm great with my hands." She went upstairs to finish her hair; he dove under the sink, gave the pipe one big manly lefty-loosey, and about ninety pounds of cast-iron pipe came loose and fell on his head. Bonk.
 - It's the pipe, and only the pipe: one big bonk. (The tile is Tyler's death, not his.)
 - The newspaper: *"Local aerobics instructor Luke Moretti, 34, died in 1987 when a cast-iron pipe fell on his head as he attempted to repair a woman's sink before their first date."*
@@ -215,7 +215,7 @@ After Lukey's beat, the epilogue checks in on Malcolm, Tyler and Wyatt (one beat
 
 ### Revision 2026-11-08 (designer feedback)
 - Week 1 has no housemate mentions; Acts 2–4 have at most two each (see the table under "The housemates").
-- "Dennis" is gone: the dehumidifier is an unnamed, non-sentient appliance.
+- The dehumidifier has no name: it is an unnamed, non-sentient appliance.
 - No weekly inspector: Dan's Act 1–4 visits (great bones, coffee invite, flooded shoes, window pun-off, Monday sign-off) are cut. Replaced with the day-30 deadline beat (Act 1), coffee on the kitchen floor (Act 2), the "L +" window (Act 3) and the mixtape (Act 4).
 - No handshake: the Act 1 touch is the slip in his puddle.
 - Sound cues: `{sfx:...}` tags on drips, splashes, the blackout, the radio, the storm, the bonk, the clink, the kisses and his exits.

@@ -70,6 +70,44 @@ static class SelfTest
 		return failures == 0 ? 0 : 1;
 	}
 
+	/// <summary>
+	/// `--audioloop [file.wav] [seconds]`: loops a music file through the real audio backend (default: a generated
+	/// 1.5 s tone) and reports every (re)start, so a loop that stops or leaves gaps shows up. Audible.
+	/// </summary>
+	public static int AudioLoop(string? file, double seconds)
+	{
+		if (!AudioService.Available) { Console.WriteLine("audio unavailable: " + AudioService.UnavailableReason); return 1; }
+		if (string.IsNullOrEmpty(file) || file == "-")
+		{
+			file = Path.Combine(Path.GetTempPath(), "storywriter_loop_test.wav");
+			const int rate = 44100;
+			var n = (int)(rate * 1.5);
+			using var w = new BinaryWriter(File.Create(file));
+			w.Write("RIFF"u8); w.Write(36 + n * 2); w.Write("WAVE"u8); w.Write("fmt "u8); w.Write(16); w.Write((short)1); w.Write((short)1);
+			w.Write(rate); w.Write(rate * 2); w.Write((short)2); w.Write((short)16); w.Write("data"u8); w.Write(n * 2);
+			for (int i = 0; i < n; i++) w.Write((short)(Math.Sin(2 * Math.PI * 440 * i / rate) * 3000));
+		}
+		var starts = new List<double>();
+		var clock = System.Diagnostics.Stopwatch.StartNew();
+		AudioDiagnostics.Spawned += () => { lock (starts) starts.Add(clock.Elapsed.TotalSeconds); };
+		var owner = new object();
+		AudioService.PlayMusic(owner, file);
+		Thread.Sleep(TimeSpan.FromSeconds(seconds));
+		var stillPlaying = AudioService.CurrentMusic != null;
+		AudioService.StopMusic(owner);
+		var d = AudioLibrary.WavDuration(file) ?? 0;
+		lock (starts)
+		{
+			Console.WriteLine($"audioloop: backend {AudioService.BackendName}, clip {d:0.00} s, {starts.Count} starts in {seconds:0.#} s, still playing: {stillPlaying}");
+			for (int i = 0; i < starts.Count; i++)
+				Console.WriteLine($"  start {i}: {starts[i]:0.000} s" + (i > 0 ? $"  (+{starts[i] - starts[i - 1]:0.000})" : ""));
+			var expected = d > 0 ? (int)Math.Floor(seconds / d) : 1;
+			var ok = stillPlaying && starts.Count >= Math.Max(1, expected);
+			Console.WriteLine(ok ? "AUDIOLOOP OK" : "AUDIOLOOP FAILED");
+			return ok ? 0 : 1;
+		}
+	}
+
 	/// <summary>Voice-over key rules and music matching, plus a cross-check against the clips already on disk.</summary>
 	static int AudioChecks(List<DialogueDocument> docs)
 	{
@@ -82,6 +120,8 @@ static class SelfTest
 		}
 
 		Check(AudioLibrary.VoiceKey("lukey", "today", 1) == "VO_lukey_today_1", "voice key format");
+		Check(Dialogue.StripInlineTags("*{sfx:Spark}The fuse box pops.*", out var fx1, out var sfx1) == "*The fuse box pops.*" && fx1 == null && sfx1.SequenceEqual(new[] { "Spark" }), "sfx tag stripped from narration");
+		Check(Dialogue.StripInlineTags("{sfx:Thunder} You: Hi. {fx:hearts}{sfx:Rain}", out var fx2, out var sfx2) == "You: Hi." && fx2 == "hearts" && sfx2.SequenceEqual(new[] { "Thunder", "Rain" }), "several tags, speaker kept");
 		Check(AudioLibrary.IsVoiceable("Hey, sweetheart."), "plain line is voiced");
 		Check(!AudioLibrary.IsVoiceable("*He grins.*"), "narration is not voiced");
 		Check(!AudioLibrary.IsVoiceable("You: Hi."), "player line is not voiced");

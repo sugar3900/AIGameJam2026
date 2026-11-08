@@ -34,6 +34,8 @@ class ICANFIXHIM_API UFixHimNameEntryWidget : public UFixHimWidget
 
 protected:
 	virtual void BuildUI() override;
+	/** Click outside = Back, but only while the name is still empty (never throws away a typed name). */
+	virtual bool HandleClickOutside() override;
 	virtual void NativeConstruct() override;
 
 private:
@@ -53,6 +55,8 @@ class ICANFIXHIM_API UFixHimPauseWidget : public UFixHimWidget
 
 protected:
 	virtual void BuildUI() override;
+	/** Click outside = Resume. */
+	virtual bool HandleClickOutside() override;
 };
 
 /** Popup from clicking the front door: End Day or Cancel. */
@@ -67,6 +71,8 @@ public:
 
 protected:
 	virtual void BuildUI() override;
+	/** Click outside = Cancel. */
+	virtual bool HandleClickOutside() override;
 
 private:
 	UPROPERTY() TObjectPtr<UFixHimButton> EndDayButton;
@@ -80,6 +86,8 @@ class ICANFIXHIM_API UFixHimOptionsWidget : public UFixHimWidget
 
 protected:
 	virtual void BuildUI() override;
+	/** Click outside = Back (saves the options). */
+	virtual bool HandleClickOutside() override;
 };
 
 UCLASS()
@@ -89,4 +97,6 @@ class ICANFIXHIM_API UFixHimCreditsWidget : public UFixHimWidget
 
 protected:
 	virtual void BuildUI() override;
+	/** Click outside = Back. */
+	virtual bool HandleClickOutside() override;
 };

@@ -66,6 +66,15 @@ public static class AudioLibrary
 		return n.Length == 0 ? null : tracks.FirstOrDefault(t => Norm(t.Name) == n);
 	}
 
+	/// <summary>A random variant of SFX cue <paramref name="cue"/>: SFX_Cue.wav or SFX_Cue_N.wav in <paramref name="sfxDir"/>, or null.</summary>
+	public static string? SfxPath(string? sfxDir, string cue)
+	{
+		if (sfxDir == null || !Directory.Exists(sfxDir) || cue.Length == 0) return null;
+		var rx = new System.Text.RegularExpressions.Regex("^SFX_" + System.Text.RegularExpressions.Regex.Escape(cue) + @"(_\d+)?\.wav$");
+		var files = Directory.GetFiles(sfxDir, "SFX_*.wav").Where(f => rx.IsMatch(Path.GetFileName(f))).ToList();
+		return files.Count == 0 ? null : files[Random.Shared.Next(files.Count)];
+	}
+
 	/// <summary>Length of a PCM/float WAV in seconds, or null if it can't be read.</summary>
 	public static double? WavDuration(string path)
 	{

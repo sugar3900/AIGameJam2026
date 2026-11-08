@@ -1,17 +1,29 @@
 #!/usr/bin/env python3
 """
-Synthesize placeholder sound effects (python3 + numpy + stdlib wave only; no downloads, fully deterministic).
+Synthesize the procedural sound effects (python3 + numpy + stdlib wave only; no downloads, fully deterministic) and
+write the import manifest.
 
-    python3 Tools/Audio/generate_sfx.py            # writes every sound
-    python3 Tools/Audio/generate_sfx.py --only Footstep
+    python3 Tools/Audio/generate_sfx.py            # writes every synthesized sound + manifest.json
+    python3 Tools/Audio/generate_sfx.py --only Hunk
 
 Then import into Unreal (editor must be running):
 
     python3 Tools/run_in_editor.py Tools/Editor/import_sfx.py
 
-Output: "Art Source/Audio/SFX/SFX_<Name>[_<n>].wav" (44.1 kHz, 16-bit, mono) plus manifest.json. The game
-(Audio/FixHimSfxSubsystem) plays "SFX_<Name>" and picks randomly among the numbered variants. Tones are soft and
-bubbly to suit the pink renovation-chic UI; swap any file for a real recording of the same name to replace it.
+Output: "Art Source/Audio/SFX/SFX_<Name>[_<n>].wav" (44.1 kHz, 16-bit, mono). The game (Audio/FixHimSfxSubsystem) plays
+cue "<Name>" and picks randomly among the numbered variants.
+
+Recorded sounds win. "Art Source/Audio/SFX/recorded.json" lists the WAVs built from real CC0 recordings (source, author,
+licence and edit recipe for each; rebuild them with Tools/Audio/process_recorded_sfx.py). Any cue with a file in
+recorded.json is never synthesized here, even if SOUNDS still has a recipe for it (those recipes are fallbacks: drop the
+cue from recorded.json and its synthesized version comes back). Synthesized files that a run no longer produces (a cue
+that became recorded, or fewer variants) are deleted if they were listed in the previous manifest.json and are not in
+recorded.json; nothing else in the folder is touched. manifest.json is the union of synthesized + recorded files, and
+Tools/Editor/import_sfx.py imports exactly that list.
+
+To add a cue: write a recipe below and add it to SOUNDS (synthesized), or drop recordings into the folder as
+SFX_<Name>[_N].wav and register them in recorded.json (recorded). Tones are soft and bubbly to suit the pink
+renovation-chic UI.
 """
 import argparse
 import json
@@ -393,6 +405,29 @@ def hunk_leave(rng, v):
     return mix((poof, 0, 0.7), (sweep(1500, 350, 0.2, rate=9), 0, 0.4), (bell(note(7), 0.3, 12), 0.12, 0.3)), 0.4
 
 
+def celesta(freq, dur, rate=4.0):
+    """Soft celesta/music-box note: round fundamental, a quickly fading octave partial, a gentle mallet attack."""
+    x = t(dur)
+    y = np.sin(2 * np.pi * freq * x) + 0.35 * np.sin(2 * np.pi * freq * 2 * x) * np.exp(-x * rate * 2.5) \
+        + 0.08 * np.sin(2 * np.pi * freq * 3.01 * x) * np.exp(-x * rate * 4)
+    return y * np.exp(-x * rate) * np.minimum(1, x / 0.006)
+
+
+def hunk_appear(rng, v):
+    """Gentle magical arrival: an airy filtered-noise swell under a rising celesta arpeggio and a few soft glints."""
+    dur = 1.15
+    n = int(dur * SR)
+    x = t(dur)
+    swell_env = np.sin(0.5 * np.pi * np.minimum(1, x / 0.4)) ** 2 * np.exp(-np.maximum(0, x - 0.4) * 2.5)
+    air = lowpass(bandpass(noise(dur, rng), 700, np.linspace(1800, 5000, n)), 6000) * swell_env
+    pad = (np.sin(2 * np.pi * note(-5) * x) + 0.6 * np.sin(2 * np.pi * note(-1) * x)) * swell_env * np.exp(-x * 1.2)
+    arp = [(celesta(note(s) * j(rng, 0.002), 0.9, 4.2), i * 0.075, 0.55 + 0.09 * i)
+           for i, s in enumerate((7, 11, 14, 19, 23, 26))]
+    glints = [(bell(note(s), 0.35, 11), st, 0.12) for s, st in ((24, 0.45), (28, 0.56), (31, 0.67))]
+    y = mix((air, 0, 0.3), (pad, 0, 0.12), *arp, *glints, length=n)
+    return y * env(n, 0.004, 0.25, 1.5), 0.45
+
+
 def react_happy(rng, v):
     return mix(*[(bell(note(s), 0.7, 5.5), i * 0.09, 1.0) for i, s in enumerate((0, 4, 7, 12))],
                (highpass(noise(0.6, rng), 6500) * decay(0.6, 6) * (rng.random(int(0.6 * SR)) > 0.7), 0.15, 0.12)), 0.5
@@ -462,7 +497,7 @@ SOUNDS = [
     ("Spark", spark, 2), ("Zap", zap, 2), ("ToiletFlush", toilet_flush, 1), ("Sizzle", sizzle, 1), ("Hum", hum, 1),
     ("FixComplete", fix_complete, 1), ("RepairFail", repair_fail, 1), ("ErrorBuzz", error_buzz, 1),
     ("Footstep", footstep, 4), ("DayEnd", day_end, 1), ("DayStart", day_start, 1),
-    ("HunkPop", hunk_pop, 1), ("HunkLeave", hunk_leave, 1),
+    ("HunkPop", hunk_pop, 1), ("HunkLeave", hunk_leave, 1), ("HunkAppear", hunk_appear, 1),
     ("ReactHappy", react_happy, 1), ("ReactHearts", react_hearts, 1), ("ReactAngry", react_angry, 1),
     ("ReactSad", react_sad, 1), ("ReactSurprise", react_surprise, 1),
     ("EndingRomance", ending_romance, 1), ("EndingFriend", ending_friend, 1), ("EndingFail", ending_fail, 1),
@@ -479,17 +514,36 @@ def write_wav(path, y):
         w.writeframes(pcm.tobytes())
 
 
+def load_recorded():
+    """{filename: cue} for every recorded WAV listed in recorded.json (missing file -> nothing is recorded)."""
+    path = os.path.join(OUT, "recorded.json")
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as f:
+        return {name: entry["cue"] for name, entry in json.load(f)["files"].items()}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--only", help="only sounds whose name contains this")
     args = ap.parse_args()
 
     os.makedirs(OUT, exist_ok=True)
-    manifest = []
+    recorded = load_recorded()
+    recorded_cues = set(recorded.values())
+    manifest_path = os.path.join(OUT, "manifest.json")
+    previous = []
+    if os.path.exists(manifest_path):
+        with open(manifest_path, encoding="utf-8") as f:
+            previous = json.load(f)
+
+    synthesized = []
     for name, fn, variants in SOUNDS:
+        if name in recorded_cues:
+            continue
         for v in range(variants):
             fname = f"SFX_{name}_{v + 1}" if variants > 1 else f"SFX_{name}"
-            manifest.append(fname + ".wav")
+            synthesized.append(fname + ".wav")
             if args.only and args.only.lower() not in name.lower():
                 continue
             # crc32 (not hash()) so output is identical across runs and machines.
@@ -499,9 +553,21 @@ def main():
             assert len(y) / SR <= 3.2, f"{fname} is too long ({len(y) / SR:.2f}s)"
             write_wav(os.path.join(OUT, fname + ".wav"), y)
             print(f"{fname}.wav  {len(y) / SR:.2f}s")
-    with open(os.path.join(OUT, "manifest.json"), "w") as f:
-        json.dump(sorted(manifest), f, indent=2)
+
+    missing = sorted(f for f in recorded if not os.path.exists(os.path.join(OUT, f)))
+    if missing:
+        print("warning: recorded.json lists files that are missing (run Tools/Audio/process_recorded_sfx.py):", ", ".join(missing))
+    wanted = set(synthesized) | set(recorded)
+    for stale in sorted(set(previous) - wanted):
+        path = os.path.join(OUT, stale)
+        if os.path.exists(path):
+            os.remove(path)
+            print(f"removed stale synthesized {stale}")
+
+    with open(manifest_path, "w") as f:
+        json.dump(sorted(f_ for f_ in wanted if os.path.exists(os.path.join(OUT, f_))), f, indent=2)
         f.write("\n")
+    print(f"manifest.json: {len(synthesized)} synthesized + {len(recorded)} recorded")
 
 
 if __name__ == "__main__":

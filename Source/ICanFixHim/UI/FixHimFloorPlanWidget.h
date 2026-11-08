@@ -22,11 +22,15 @@ public:
 protected:
 	virtual void BuildUI() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+	/** Click outside the blueprint sheet = close the map (same as M / Tab). */
+	virtual bool HandleClickOutside() override;
+	virtual UWidget* GetOutsideClickCard() const override;
 
 private:
 	FVector2D WorldToMap(const FVector2D& World) const;
 
 	UPROPERTY() TObjectPtr<UCanvasPanel> Canvas;
+	UPROPERTY() TObjectPtr<UBorder> Sheet;
 	UPROPERTY() TObjectPtr<UBorder> PlayerMarker;
 
 	FBox2D WorldBounds = FBox2D(ForceInit);

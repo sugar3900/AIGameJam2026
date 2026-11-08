@@ -25,7 +25,7 @@ tags: [planning]
 ## Doing
 - [ ] Prototype polish
 - [ ] Designer feedback pass (2026-11-08), all four writers + integration + engine; mark done when every agent has finished:
-  - [ ] The dehumidifier is an unnamed, non-sentient appliance (no "Dennis") in every script and doc
+  - [ ] The dehumidifier is an unnamed, non-sentient appliance (no name) in every script and doc
   - [ ] Inspector Dan comes once, on day 30, for the final inspection only (no weekly / Friday visits; the ep3 podcast interview is a radio guest spot)
   - [ ] Every appearance line matches the 3D models (no blazer/crest/loafers/phone for Tyler; no Lycra except as what Lukey died in, no headband, sweatband, blow-dry or wrench)
   - [ ] Cross-character references: at most 0–2 per act, none in week 1; epilogue codas stay about their own guy

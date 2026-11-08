@@ -159,7 +159,7 @@ sealed class LinkProtector : IReadOnlySectionProvider
 /// <summary>Double-click a node: edit its lines as rich text plus choices, hypertext links and flow.</summary>
 public sealed class NodeEditorWindow : Window
 {
-	static readonly string[] NodeOrder = { "lines", "say", "do", "topics", "choices", "goto", "end", "ending", "fx", "fxText" };
+	static readonly string[] NodeOrder = { "lines", "say", "do", "topics", "choices", "goto", "end", "ending", "fx", "fxText", "sfx" };
 	static readonly string[] ChoiceOrder = { "text", "if", "goto", "do" };
 	static readonly string[] TopicOrder = { "goto", "if", "do" };
 

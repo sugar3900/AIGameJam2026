@@ -32,7 +32,7 @@ void UFixHimFloorPlanWidget::BuildUI()
 	DimSlot->SetHorizontalAlignment(HAlign_Fill);
 	DimSlot->SetVerticalAlignment(VAlign_Fill);
 
-	UBorder* Sheet = WidgetTree->ConstructWidget<UBorder>();
+	Sheet = WidgetTree->ConstructWidget<UBorder>();
 	Sheet->SetBrush(Rounded(Blueprint, 18.f, FLinearColor(0.75f, 0.85f, 1.f, 0.9f), 3.f));
 	Sheet->SetPadding(FMargin(30.f, 22.f));
 	UOverlaySlot* SheetSlot = Root->AddChildToOverlay(Sheet);
@@ -44,7 +44,7 @@ void UFixHimFloorPlanWidget::BuildUI()
 
 	UTextBlock* Title = MakeText(WidgetTree, TEXT("FLOOR PLAN  -  12 HEARTBREAK LANE"), 26, FLinearColor(0.85f, 0.92f, 1.f), TEXT("Bold"));
 	Col->AddChildToVerticalBox(Title)->SetPadding(FMargin(0.f, 0.f, 0.f, 4.f));
-	UTextBlock* Sub = MakeText(WidgetTree, TEXT("Click a room to go there.  [M] close"), 16, FLinearColor(0.7f, 0.8f, 1.f, 0.85f), TEXT("Italic"));
+	UTextBlock* Sub = MakeText(WidgetTree, TEXT("Click a room to go there.  [M] or click outside to close"), 16, FLinearColor(0.7f, 0.8f, 1.f, 0.85f), TEXT("Italic"));
 	Col->AddChildToVerticalBox(Sub)->SetPadding(FMargin(0.f, 0.f, 0.f, 14.f));
 
 	USizeBox* MapBox = WidgetTree->ConstructWidget<USizeBox>();
@@ -53,6 +53,22 @@ void UFixHimFloorPlanWidget::BuildUI()
 	Canvas = WidgetTree->ConstructWidget<UCanvasPanel>();
 	MapBox->AddChild(Canvas);
 	Col->AddChildToVerticalBox(MapBox);
+}
+
+UWidget* UFixHimFloorPlanWidget::GetOutsideClickCard() const
+{
+	return Sheet;
+}
+
+bool UFixHimFloorPlanWidget::HandleClickOutside()
+{
+	AFixHimPlayerController* PC = GetFixHimPC();
+	if (PC && PC->GetState() == EFixHimState::FloorPlan)
+	{
+		PC->ToggleFloorPlan();
+		return true;
+	}
+	return false;
 }
 
 FVector2D UFixHimFloorPlanWidget::WorldToMap(const FVector2D& World) const

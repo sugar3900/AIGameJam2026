@@ -70,8 +70,10 @@ public:
 	AFixHimHunk* GetHunk() const { return Hunk; }
 	FLinearColor GetGlowColor() const { return GlowColor; }
 
+	/** He grows gently out of the fixture (see AFixHimHunk::Appear). */
 	void SummonHunk();
-	void DismissHunk();
+	/** bBubblePop: he pops like a bubble (end of a conversation, leaving the room); false hides him silently. */
+	void DismissHunk(bool bBubblePop = true);
 	bool IsHunkPresent() const;
 
 	/** Where Rosie should stand (capsule centre) to talk. */

@@ -9,6 +9,8 @@
 #include "FixHimDialogueWidget.generated.h"
 
 class UBorder;
+class UTexture2D;
+class UTextureRenderTarget2D;
 class UCanvasPanel;
 class UImage;
 class UProgressBar;
@@ -62,6 +64,8 @@ private:
 	void RefreshMeters();
 	void SpawnHearts(int32 Count);
 	void SpawnFloater(const FString& Text, const FLinearColor& Color);
+	/** Portrait frame per speaker: the hunk's live capture, the heroine's silhouette for "You:", hidden for narration. */
+	void ApplySpeakerPortrait(EDialogueSpeaker Speaker);
 
 	UPROPERTY() TObjectPtr<USizeBox> PanelSize;
 	UPROPERTY() TObjectPtr<UImage> Portrait;
@@ -70,6 +74,9 @@ private:
 	UPROPERTY() TObjectPtr<UWidget> PortraitBox;
 	UPROPERTY() TObjectPtr<UWidget> MetersBox;
 	UPROPERTY() TObjectPtr<UMaterialInstanceDynamic> PortraitMID;
+	/** The bound hunk's portrait render target (used when the portrait material is missing). */
+	UPROPERTY() TObjectPtr<UTextureRenderTarget2D> HunkPortraitRT;
+	UPROPERTY() TObjectPtr<UTexture2D> PlayerPortraitTexture;
 	UPROPERTY() TObjectPtr<UBorder> NamePill;
 	UPROPERTY() TObjectPtr<UTextBlock> NameText;
 	UPROPERTY() TObjectPtr<UTextBlock> MaladyText;
@@ -111,4 +118,6 @@ private:
 	float HintBlink = 0.f;
 	FVector2D ViewSize = FVector2D(1920.f, 1080.f);
 	FString HunkId;
+	/** Bound to a scripted scene (no portrait at all) rather than a hunk. */
+	bool bScriptScene = false;
 };

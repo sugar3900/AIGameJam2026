@@ -246,8 +246,38 @@ FName AFixHimInteractable::GetInteractSfx(bool bNowOn) const
 
 FName AFixHimInteractable::DefaultInteractSfx(bool bNowOn) const
 {
-	// The prompts are authored per object in Tools/Editor/build_apartment.py ("Turn on stove", "Lift the lid", ...).
-	const FString Label = (GetActorNameOrLabel() + PromptOff.ToString()).ToLower();
+	// Recorded household cues picked from the actor label and its prompts (authored per object in
+	// Tools/Editor/build_apartment.py: "Turn on lamp", "Open fridge", "Lift the lid"...). Prompts are matched too because
+	// actor labels don't exist in cooked builds. A cue that isn't imported falls back to the generic sound below.
+	const FString Label = (GetActorNameOrLabel() + TEXT(" | ") + PromptOff.ToString() + TEXT(" | ") + PromptOn.ToString()).ToLower();
+	struct FCue { const TCHAR* Keys[3]; const TCHAR* On; const TCHAR* Off; };
+	static const FCue Cues[] =
+	{
+		{ { TEXT("lamp"), nullptr, nullptr }, TEXT("LampOn"), TEXT("LampOff") },
+		{ { TEXT("turn on tv"), TEXT("tv |"), nullptr }, TEXT("TvOn"), TEXT("TvOff") },
+		{ { TEXT("stove"), nullptr, nullptr }, TEXT("StoveIgnite"), TEXT("StoveOff") },
+		{ { TEXT("fridge"), nullptr, nullptr }, TEXT("FridgeOpen"), TEXT("FridgeClose") },
+		{ { TEXT("drawer"), nullptr, nullptr }, TEXT("DrawerOpen"), TEXT("DrawerClose") },
+		{ { TEXT("wardrobe"), nullptr, nullptr }, TEXT("WardrobeOpen"), TEXT("WardrobeClose") },
+		{ { TEXT("faucet"), TEXT("bath"), TEXT("water") }, TEXT("FaucetOn"), TEXT("FaucetOff") },
+		{ { TEXT("toilet"), TEXT("lid"), nullptr }, TEXT("ToiletLidUp"), TEXT("ToiletLidDown") },
+		{ { TEXT("go to bed"), nullptr, nullptr }, TEXT("BedRustle"), TEXT("BedRustle") },
+	};
+	const UFixHimSfxSubsystem* Sfx = UFixHimSfxSubsystem::Get(this);
+	for (const FCue& Cue : Cues)
+	{
+		bool bMatch = false;
+		for (const TCHAR* Key : Cue.Keys)
+		{
+			bMatch |= Key && Label.Contains(Key);
+		}
+		const FName Name(bNowOn ? Cue.On : Cue.Off);
+		if (bMatch && (!Sfx || Sfx->Has(Name)))
+		{
+			return Name;
+		}
+	}
+
 	switch (Toggle)
 	{
 	case EInteractToggle::Light:

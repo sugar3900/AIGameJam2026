@@ -12,6 +12,7 @@
 #include "Components/Overlay.h"
 #include "Components/OverlaySlot.h"
 #include "Components/SizeBox.h"
+#include "Components/SizeBoxSlot.h"
 #include "Components/Spacer.h"
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
@@ -159,6 +160,17 @@ void UFixHimNameEntryWidget::NativeConstruct()
 	}
 }
 
+bool UFixHimNameEntryWidget::HandleClickOutside()
+{
+	AFixHimPlayerController* PC = GetFixHimPC();
+	if (PC && CurrentName().IsEmpty())
+	{
+		PC->CancelNameEntry();
+		return true;
+	}
+	return false;
+}
+
 FString UFixHimNameEntryWidget::CurrentName() const
 {
 	return NameBox ? NameBox->GetText().ToString().TrimStartAndEnd() : FString();
@@ -215,11 +227,32 @@ void UFixHimPauseWidget::BuildUI()
 
 	UTextBlock* Hint = MakeText(WidgetTree, TEXT("Progress saves when you leave through the front door or Save & Exit."), 14, PlumSoft, TEXT("Italic"));
 	Hint->SetJustification(ETextJustify::Center);
+	Hint->SetAutoWrapText(true);
 	Col->AddChildToVerticalBox(Hint)->SetPadding(FMargin(0.f, 6.f, 0.f, 0.f));
+}
+
+bool UFixHimPauseWidget::HandleClickOutside()
+{
+	if (AFixHimPlayerController* PC = GetFixHimPC())
+	{
+		PC->SetPaused(false);
+		return true;
+	}
+	return false;
 }
 
 // ---------------------------------------------------------------------------
 // Door prompt
+
+bool UFixHimDoorPromptWidget::HandleClickOutside()
+{
+	if (AFixHimPlayerController* PC = GetFixHimPC())
+	{
+		PC->CloseDoorPrompt();
+		return true;
+	}
+	return false;
+}
 
 void UFixHimDoorPromptWidget::BuildUI()
 {
@@ -266,9 +299,23 @@ void UFixHimDoorPromptWidget::Refresh()
 // ---------------------------------------------------------------------------
 // Options
 
+bool UFixHimOptionsWidget::HandleClickOutside()
+{
+	if (UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this))
+	{
+		Save->SaveOptions();
+	}
+	if (AFixHimPlayerController* PC = GetFixHimPC())
+	{
+		PC->CloseSubMenu();
+		return true;
+	}
+	return false;
+}
+
 void UFixHimOptionsWidget::BuildUI()
 {
-	UVerticalBox* Col = MakeCardScreen(TEXT("Options"), 560.f);
+	UVerticalBox* Col = MakeCardScreen(TEXT("Options"), 760.f);
 	UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this);
 	if (!Save)
 	{
@@ -304,8 +351,7 @@ void UFixHimOptionsWidget::BuildUI()
 		S->SetMinValue(Min);
 		S->SetMaxValue(Max);
 		S->SetValue(Value);
-		S->SetSliderBarColor(Blush);
-		S->SetSliderHandleColor(HotPink);
+		S->ApplyBigStyle(FLinearColor::LerpUsingHSV(Blush, Pink, 0.35f), HotPink);
 		UTextBlock* V = MakeText(WidgetTree, Format(Value), 18, PlumSoft);
 		TWeakObjectPtr<UTextBlock> WeakV(V);
 		S->Init([Apply, Format, WeakV](float NewValue)
@@ -316,7 +362,16 @@ void UFixHimOptionsWidget::BuildUI()
 				WeakV->SetText(FText::FromString(Format(NewValue)));
 			}
 		});
-		AddRow(Label, S, V);
+		// The whole row height is the hit area, not just the thin bar.
+		USizeBox* Hit = WidgetTree->ConstructWidget<USizeBox>();
+		Hit->SetHeightOverride(UFixHimSlider::BigHitHeight);
+		Hit->AddChild(S);
+		if (USizeBoxSlot* HitSlot = Cast<USizeBoxSlot>(S->Slot))
+		{
+			HitSlot->SetVerticalAlignment(VAlign_Fill);
+			HitSlot->SetHorizontalAlignment(HAlign_Fill);
+		}
+		AddRow(Label, Hit, V);
 	};
 
 	auto AddCheck = [&](const FString& Label, bool bValue, TFunction<void(bool)> Apply)
@@ -332,7 +387,7 @@ void UFixHimOptionsWidget::BuildUI()
 
 	AddSlider(TEXT("Master volume"), 0.f, 1.f, Save->Options().MasterVolume, [WeakSave](float V) { if (WeakSave.IsValid()) { WeakSave->Options().MasterVolume = V; WeakSave->ApplyOptions(); } }, Percent);
 	AddSlider(TEXT("Music volume"), 0.f, 1.f, Save->Options().MusicVolume, [WeakSave](float V) { if (WeakSave.IsValid()) { WeakSave->Options().MusicVolume = V; WeakSave->ApplyOptions(); } }, Percent);
-	AddSlider(TEXT("Mouse sensitivity"), 0.2f, 3.f, Save->Options().MouseSensitivity, [WeakSave](float V) { if (WeakSave.IsValid()) { WeakSave->Options().MouseSensitivity = V; } }, Times);
+	AddSlider(TEXT("Mouse sensitivity"), 0.25f, 6.f, Save->Options().MouseSensitivity, [WeakSave](float V) { if (WeakSave.IsValid()) { WeakSave->Options().MouseSensitivity = V; } }, Times);
 	AddSlider(TEXT("Text speed"), 0.25f, 4.f, Save->Options().TextSpeed, [WeakSave](float V) { if (WeakSave.IsValid()) { WeakSave->Options().TextSpeed = V; } },
 		[](float V) { return V >= 3.95f ? FString(TEXT("Instant")) : FString::Printf(TEXT("%.1fx"), V); });
 	AddCheck(TEXT("Invert look Y"), Save->Options().bInvertY, [WeakSave](bool b) { if (WeakSave.IsValid()) { WeakSave->Options().bInvertY = b; } });
@@ -358,6 +413,16 @@ void UFixHimOptionsWidget::BuildUI()
 // ---------------------------------------------------------------------------
 // Credits
 
+bool UFixHimCreditsWidget::HandleClickOutside()
+{
+	if (AFixHimPlayerController* PC = GetFixHimPC())
+	{
+		PC->CloseSubMenu();
+		return true;
+	}
+	return false;
+}
+
 void UFixHimCreditsWidget::BuildUI()
 {
 	UVerticalBox* Col = MakeCardScreen(TEXT("Credits"), 600.f);
@@ -373,7 +438,7 @@ void UFixHimCreditsWidget::BuildUI()
 	Line(TEXT("Created by"), 16, Pink, TEXT("Bold"), 0.f);
 	Line(TEXT("Kirsten Sugar, David Wallin and Michael Consoli"), 22, Plum, TEXT("Bold"), 12.f);
 	Line(TEXT("Code, dialogue & puns (sorry)"), 16, Pink, TEXT("Bold"), 0.f);
-	Line(TEXT("Claude (Anthropic), directed by David"), 20, Plum, TEXT("Regular"), 12.f);
+	Line(TEXT("Made with Claude by Anthropic"), 20, Plum, TEXT("Regular"), 12.f);
 	Line(TEXT("Built with"), 16, Pink, TEXT("Bold"), 0.f);
 	Line(TEXT("Unreal Engine 5.8  -  Mannequins from the UE templates"), 18, Plum, TEXT("Regular"), 22.f);
 	Line(TEXT("No houses were harmed. Several were flirted with."), 14, PlumSoft, TEXT("Italic"), 0.f);

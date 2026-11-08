@@ -49,7 +49,7 @@
         },
         "friend_success": {
             "title": "Bread Poets Society",
-            "text": "Malcolm lives in a jar on the kitchen counter as a sourdough starter: a fungus with a JOB. He critiques your proofing, gives every loaf a tragic name and is, against all odds, rising. Emotionally, this time. Raven's diaries sit on your bookshelf in an acid-free box with a gel-pen label. Friday is bread night. Dan brings butter."
+            "text": "Malcolm lives in a jar on the kitchen counter as a sourdough starter: a fungus with a JOB. He critiques your proofing, gives every loaf a tragic name and is, against all odds, rising. Emotionally, this time. Raven's diaries sit on your bookshelf in an acid-free box with a gel-pen label. Thursday is bread night. Dan brings butter."
         },
         "friend_failure": {
             "title": "Rot in Peace",
@@ -236,7 +236,7 @@
         },
         "v1_end": {
             "lines": [
-                "*You hold out a hand to shake on it. He recoils a full three feet, into the coat hangers.*",
+                "*You reach out to brush a fleck of plaster off his lapel. He recoils a full three feet, into the coat hangers.*",
                 "Don't touch the art. I'm toxic, madam. Literally. I'm on a government list.",
                 "*He offers you a deep, sweeping bow instead, from a very safe distance, overcoat pooling on the floor.*",
                 "Perhaps one day. When I'm less... airborne.",

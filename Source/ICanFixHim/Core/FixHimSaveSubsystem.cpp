@@ -29,7 +29,23 @@ void UFixHimSaveSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	FString Json;
 	if (FFileHelper::LoadFileToString(Json, *GetOptionsPath()))
 	{
+		// A file without "Version" predates versioning (version 1).
+		OptionsData.Version = 1;
 		FJsonObjectConverter::JsonObjectStringToUStruct(Json, &OptionsData);
+		if (OptionsData.Version < 2)
+		{
+			// Version 2 doubled the default mouse sensitivity. Players still on the old default (1.0) move to the new
+			// one; anyone who picked their own value keeps it.
+			if (FMath::IsNearlyEqual(OptionsData.MouseSensitivity, 1.f, 0.01f))
+			{
+				OptionsData.MouseSensitivity = FFixHimOptions::DefaultMouseSensitivity;
+			}
+		}
+		if (OptionsData.Version != FFixHimOptions::CurrentVersion)
+		{
+			OptionsData.Version = FFixHimOptions::CurrentVersion;
+			SaveOptions();
+		}
 	}
 }
 

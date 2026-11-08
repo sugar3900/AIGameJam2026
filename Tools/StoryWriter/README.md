@@ -36,7 +36,9 @@ Tools/StoryWriter/publish.sh            # all platforms; or: publish.sh win-x64
 dotnet run --project Tools/StoryWriter            # opens the project's Dialogue folder
 dotnet run --project Tools/StoryWriter -- <dir>   # or any folder of dialogue JSON
 dotnet run --project Tools/StoryWriter -- --selftest   # headless: round-trip, lint, auto-play every arc
+dotnet run --project Tools/StoryWriter -- --audioloop [file.wav] [seconds]   # audible: checks music looping (restarts listed)
 ```
+No .NET SDK installed? The Unreal Engine ships one: `export DOTNET_ROOT="/Users/Shared/Epic Games/UE_5.8/Engine/Binaries/ThirdParty/DotNet/10.0/mac-arm64"` and use `"$DOTNET_ROOT/dotnet"`.
 
 ## What's in it
 
@@ -74,6 +76,10 @@ The current node is highlighted in the graph. The *State* tab edits stats, visit
 in the node's lines; never narration or `You:` lines) with a ♪ replay button on the card, and the preview loops the character's music
 (`Art Source/Audio/BGM/BGM_<Id>.wav`, matched to the conversation id). *Voice* / *Music* toggles and a dropdown for the non-character
 tracks (MainMenu, Explore, Finale) are in the preview header. The node editor shows ♪ play / "no clip" next to spoken lines.
+Inline `{sfx:Name}` tags and node `"sfx"` cues play `Art Source/Audio/SFX/SFX_<Name>[_N].wav` when the line first appears (*SFX* toggle);
+like the game, `{fx:...}` / `{sfx:...}` tags are stripped from the previewed text, and a missing cue is flagged in the transcript.
+Music loops seamlessly on every backend: players without a loop option (afplay) are restarted from the track's length, not when the
+process exits (afplay lingers about a second after the audio ends, which used to leave a gap at every loop).
 Playback needs no packages: `ffplay` (or mpv/paplay/aplay) on Linux, `afplay` on macOS, winmm on Windows; without one the toggles are disabled.
 
 **Play-through tab** — the whole game's dialogue with one shared save: pick a character, play every visit through to

@@ -37,6 +37,31 @@ public static class Dialogue
 	public static bool IsTrivialCondition(string? c) =>
 		string.IsNullOrWhiteSpace(c) || c.Trim().Equals("true", StringComparison.OrdinalIgnoreCase);
 
+	static readonly Regex InlineTagRx = new(@"\{(s?fx):([^}]*)\}", RegexOptions.Compiled);
+
+	/// <summary>
+	/// Removes inline {fx:name} and {sfx:Name} tags like the game's ParseLine does (before it reads the speaker), and
+	/// returns them: the last fx tag wins, sfx tags are all kept in order.
+	/// </summary>
+	public static string StripInlineTags(string raw, out string? fx, out List<string> sfx)
+	{
+		string? lastFx = null;
+		var cues = new List<string>();
+		var t = InlineTagRx.Replace(raw, m =>
+		{
+			var value = m.Groups[2].Value.Trim();
+			if (m.Groups[1].Value == "fx") lastFx = value.ToLowerInvariant();
+			else if (value.Length > 0) cues.Add(value);
+			return "";
+		}).Trim();
+		while (t.Contains("  ")) t = t.Replace("  ", " ");
+		if (t.StartsWith("* ")) t = "*" + t[2..];
+		if (t.EndsWith(" *")) t = t[..^2] + "*";
+		fx = lastFx;
+		sfx = cues;
+		return t;
+	}
+
 	public static (Speaker speaker, string text) ParseLine(string raw)
 	{
 		var t = raw.Trim();

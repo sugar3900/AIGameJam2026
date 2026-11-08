@@ -301,12 +301,17 @@ void AFixHimMalady::Interact(AFixHimPlayerController* Player)
 
 FName AFixHimMalady::DefaultInteractSfx(bool bNowOn) const
 {
+	FName Cue = TEXT("Interact");
 	switch (Style)
 	{
-	case EMaladyStyle::Leak: return TEXT("PipeClank");
-	case EMaladyStyle::Wiring: return TEXT("Zap");
-	default: return TEXT("Interact");
+	case EMaladyStyle::Leak: Cue = TEXT("PipeClank"); break;
+	case EMaladyStyle::Wiring: Cue = TEXT("Zap"); break;
+	case EMaladyStyle::Mold: Cue = TEXT("Squelch"); break;
+	case EMaladyStyle::Tile: Cue = TEXT("TileTap"); break;
+	default: break;
 	}
+	const UFixHimSfxSubsystem* Sfx = UFixHimSfxSubsystem::Get(this);
+	return !Sfx || Sfx->Has(Cue) ? Cue : FName(TEXT("Interact"));
 }
 
 FText AFixHimMalady::GetPrompt() const
@@ -325,15 +330,17 @@ void AFixHimMalady::SummonHunk()
 	if (Hunk)
 	{
 		Hunk->SetActorLocationAndRotation(HunkStandLocation, HunkSpawn->GetComponentRotation());
-		Hunk->Appear();
+		// Grow out of the glowing fixture itself.
+		const FVector From = Body && Body->GetStaticMesh() ? Body->Bounds.Origin : GetActorLocation();
+		Hunk->Appear(From);
 	}
 }
 
-void AFixHimMalady::DismissHunk()
+void AFixHimMalady::DismissHunk(bool bBubblePop)
 {
 	if (Hunk)
 	{
-		Hunk->Disappear();
+		Hunk->Disappear(bBubblePop);
 	}
 }
 

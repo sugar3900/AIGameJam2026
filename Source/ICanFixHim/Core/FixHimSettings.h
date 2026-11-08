@@ -86,6 +86,10 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = "UI")
 	TSoftObjectPtr<UTexture2D> HeartTexture;
 
+	/** The heroine's dialogue portrait for "You:" lines (a bust silhouette, Tools/Art/player_silhouette.svg). */
+	UPROPERTY(Config, EditAnywhere, Category = "UI")
+	TSoftObjectPtr<UTexture2D> PlayerPortraitTexture;
+
 	// ---- Data -------------------------------------------------------------
 
 	/** Folder (relative to the project Content dir) holding one dialogue JSON per hunk. Staged as non-UFS when packaging. */
