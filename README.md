@@ -56,12 +56,14 @@ Tools/
   Art/prepare_characters.py   Blender: fixes Tripo FBX units/scale -> SourceArt/Generated/Characters
   run_in_editor.py            Runs a Python file inside the open editor (remote execution)
   validate_dialogue.py        Lints dialogue JSON - run before committing story changes
+  StoryWriter/                Twine-style dialogue editor + previewer (Avalonia / .NET 10)
   render_svg.swift + Art/     SVG -> PNG for UI icons (macOS)
 docs/                         Obsidian vault: planning, GDD, tech notes, devlog
 ```
 
 ## Working on the game
 
+- **Story Writer:** a Twine-style graph editor + previewer for all the dialogue: `dotnet run --project Tools/StoryWriter` (see [`Tools/StoryWriter/README.md`](Tools/StoryWriter/README.md)).
 - **Writing dialogue:** see [`docs/04 Tech/Dialogue Format.md`](docs/04%20Tech/Dialogue%20Format.md). Edit the JSON, run `python3 Tools/validate_dialogue.py`, then type `FixHim.ReloadDialogue` in the game console.
 - **Changing the apartment:** edit `Tools/Editor/build_apartment.py`, then run `python3 Tools/run_in_editor.py Tools/Editor/build_apartment.py` with the editor open. The level is rebuilt from scratch, so don't hand-edit `L_Apartment`; change the script instead.
 - **Rebuilding environment art:** With this project open in the editor, run `Tools/Editor/create_painterly_material.py`, `Tools/Editor/import_environment_textures.py`, `Tools/Editor/import_window_view.py`, and `Tools/Editor/import_environment.py`, in that order, then rebuild `Tools/Editor/build_apartment.py`. Source models and generators are under `Art Source/Environment Models` and `Tools/Art/Environment`. Run `Tools/Editor/validate_environment.py` to check the saved level's interaction traces, doorway clearances, and repair-damage attachments; run `Tools/Editor/validate_environment_pie.py` during PIE to check hunk placement, dialogue sightlines, and moving prop materials. `Tools/run_in_editor.py` selects only an editor open on this exact checkout.

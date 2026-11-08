@@ -18,6 +18,7 @@ class UFixHimTitleWidget;
 class UFixHimHUDWidget;
 class UFixHimDialogueWidget;
 class UFixHimPauseWidget;
+class UFixHimDoorPromptWidget;
 class UFixHimOptionsWidget;
 class UFixHimCreditsWidget;
 class UFixHimFloorPlanWidget;
@@ -41,6 +42,8 @@ enum class EFixHimState : uint8
 	Dialogue,
 	FloorPlan,
 	Paused,
+	/** "End the day?" popup from the front door; gameplay is paused underneath. */
+	DoorPrompt,
 	Ending,
 	Traveling,
 	/** Week transition / sleeping. */
@@ -88,8 +91,16 @@ public:
 	void FinishGame();
 
 	// ---- Days ----------------------------------------------------------------
-	/** Bed was clicked. On week 1 you must meet everyone first. On the last week this triggers the finale. */
+	/** Bed or door popup confirmed. On week 1 you must meet everyone first. On the last week this triggers the finale. */
 	void RequestEndDay();
+	/** False on week 1 until everyone has been met. */
+	bool CanEndDay() const;
+	/** Door was clicked: pops up End Day / Cancel. */
+	void OpenDoorPrompt();
+	/** Cancel (or Escape): closes the popup and gives control back. Nothing is consumed. */
+	void CloseDoorPrompt();
+	/** "End Day" pressed in the popup. */
+	void ConfirmEndDay();
 	bool IsPodcastPlaying() const { return bPodcastPlaying; }
 
 	// ---- World API ---------------------------------------------------------
@@ -181,6 +192,7 @@ private:
 	UPROPERTY(Transient) TObjectPtr<UFixHimHUDWidget> HUDWidget;
 	UPROPERTY(Transient) TObjectPtr<UFixHimDialogueWidget> DialogueWidget;
 	UPROPERTY(Transient) TObjectPtr<UFixHimPauseWidget> PauseWidget;
+	UPROPERTY(Transient) TObjectPtr<UFixHimDoorPromptWidget> DoorWidget;
 	UPROPERTY(Transient) TObjectPtr<UFixHimOptionsWidget> OptionsWidget;
 	UPROPERTY(Transient) TObjectPtr<UFixHimCreditsWidget> CreditsWidget;
 	UPROPERTY(Transient) TObjectPtr<UFixHimFloorPlanWidget> FloorPlanWidget;

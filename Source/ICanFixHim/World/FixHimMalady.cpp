@@ -100,14 +100,13 @@ FVector AFixHimMalady::GetTalkLocation(float CapsuleHalfHeight) const
 
 void AFixHimMalady::FrameCamera()
 {
-	// Over-the-shoulder two-shot: behind Rosie at the talk spot, looking at his face.
+	// First-person framing: Rosie's eye height at the talk spot (a touch back so he fits), looking at his face.
 	const FVector Head = HunkStandLocation + FVector(0.f, 0.f, 62.f);
 	const FVector Talk = TalkSpot->GetComponentLocation();
 	FVector Dir = Head - Talk;
 	Dir.Z = 0.f;
 	Dir = Dir.GetSafeNormal();
-	const FVector Right = FVector::CrossProduct(FVector::UpVector, Dir);
-	FVector CamLoc = Talk - Dir * 175.f + Right * 62.f + FVector(0.f, 0.f, 70.f);
+	FVector CamLoc = FVector(Talk.X, Talk.Y, HunkStandLocation.Z - 92.f + 160.f) - Dir * 40.f;
 
 	// Small rooms: if a wall is between his face and the ideal spot, slide the camera in front of the wall.
 	FHitResult Hit;

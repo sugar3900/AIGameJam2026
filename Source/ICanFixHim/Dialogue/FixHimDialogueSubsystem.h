@@ -74,7 +74,11 @@ private:
 	void EnterNode(const FString& NodeId);
 	void FinishConversation();
 	void ApplyEffects(const TArray<FDialogueEffect>& Effects);
-	void RebuildView();
+	void RebuildView(bool bIsReturn = false);
+	/** Hypertext nodes (only reached through a [word] link) are dead ends that rewind to the node they were opened from. */
+	bool IsHypertextNode(const FHunkDefinition& Def, const FString& NodeId) const;
+	void ReturnFromTangent();
+	bool InTangent() const { return !Tangents.IsEmpty(); }
 	FString Substitute(const FString& In) const;
 	TArray<int32> GetVisibleChoiceIndices() const;
 	bool IsTrue(const FString& Condition) const;
@@ -88,6 +92,8 @@ private:
 	FString PendingEnding;
 	bool bCountVisit = true;
 	FDialogueView View;
+	/** Nodes (and the line) we left to read a hypertext node; the top is where the rewind returns to. */
+	TArray<TPair<FString, int32>> Tangents;
 	/** Guards against goto loops that never show a line. */
 	int32 JumpsWithoutLines = 0;
 };

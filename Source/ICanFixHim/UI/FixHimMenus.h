@@ -55,6 +55,24 @@ protected:
 	virtual void BuildUI() override;
 };
 
+/** Popup from clicking the front door: End Day or Cancel. */
+UCLASS()
+class ICANFIXHIM_API UFixHimDoorPromptWidget : public UFixHimWidget
+{
+	GENERATED_BODY()
+
+public:
+	/** Enables or disables End Day (and explains why) from the controller's current state. */
+	void Refresh();
+
+protected:
+	virtual void BuildUI() override;
+
+private:
+	UPROPERTY() TObjectPtr<UFixHimButton> EndDayButton;
+	UPROPERTY() TObjectPtr<UTextBlock> BodyText;
+};
+
 UCLASS()
 class ICANFIXHIM_API UFixHimOptionsWidget : public UFixHimWidget
 {
