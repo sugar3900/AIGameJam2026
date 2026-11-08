@@ -29,8 +29,20 @@ public:
 	/** Apply body tint, scale and props from the dialogue JSON. */
 	void ApplyDefinition(const FHunkDefinition& Def);
 
-	void Appear();
-	void Disappear();
+	/**
+	 * Gentle entrance: after a short beat he grows out of the fixture at From (world location, usually the malady's
+	 * centre) to his stand location with a soft ease, while sparkles spiral up and a soft chime plays. Total ~1.25 s.
+	 */
+	void Appear(const FVector& From);
+	void Appear() { Appear(GetActorLocation()); }
+	/**
+	 * bBubblePop: he swells slightly and pops like a soap bubble (sparkles, bubbles, BubblePop sound). Otherwise he
+	 * is hidden at once with no sound (day transitions, finale, debug).
+	 */
+	void Disappear(bool bBubblePop = true);
+	/** Seconds from Appear() until he's fully grown in. */
+	static constexpr float AppearDelay = 0.3f;
+	static constexpr float AppearGrowSeconds = 0.95f;
 	bool IsPresent() const { return bPresent; }
 
 	/** Live portrait while true (captures every frame). */
@@ -53,9 +65,15 @@ private:
 	UPROPERTY(Transient)
 	TObjectPtr<UTextureRenderTarget2D> PortraitTarget;
 
+	enum class EPopAnim : uint8 { None, Appear, Pop };
+
 	float BaseScale = 1.f;
-	float PopAlpha = 0.f;
-	float PopTarget = 0.f;
+	/** The hunk's glow colour (look.glow), tints his sparkles and bubbles. */
+	FLinearColor GlowColor = FLinearColor(1.f, 0.4f, 0.7f);
+	EPopAnim PopAnim = EPopAnim::None;
+	float PopTime = 0.f;
+	FVector AppearFrom = FVector::ZeroVector;
+	FVector AppearTo = FVector::ZeroVector;
 	bool bPresent = false;
 	bool bPortraitLive = false;
 	float Age = 0.f;

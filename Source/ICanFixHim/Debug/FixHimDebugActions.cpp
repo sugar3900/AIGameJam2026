@@ -110,7 +110,7 @@ void AFixHimPlayerController::DebugSetWeek(int32 NewWeek)
 	}
 	for (TActorIterator<AFixHimMalady> It(GetWorld()); It; ++It)
 	{
-		It->DismissHunk();
+		It->DismissHunk(false);
 	}
 	SetViewTargetWithBlend(GetPawn(), 0.f);
 

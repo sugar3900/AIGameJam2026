@@ -3,6 +3,7 @@
 #include "World/FixHimHunk.h"
 #include "ICanFixHim.h"
 #include "Audio/FixHimSfxSubsystem.h"
+#include "World/FixHimPuffFx.h"
 #include "Core/FixHimAssets.h"
 #include "Core/FixHimSettings.h"
 #include "Dialogue/DialogueTypes.h"
@@ -92,6 +93,7 @@ void AFixHimHunk::ApplyDefinition(const FHunkDefinition& Def)
 {
 	HunkId = Def.Id;
 	BaseScale = Def.Scale;
+	GlowColor = Def.GlowColor;
 
 	if (!Def.Mesh.IsEmpty())
 	{
@@ -141,36 +143,54 @@ void AFixHimHunk::ApplyDefinition(const FHunkDefinition& Def)
 void AFixHimHunk::SetPresentImmediate(bool bVisible)
 {
 	bPresent = bVisible;
-	PopAlpha = PopTarget = bVisible ? 1.f : 0.f;
+	PopAnim = EPopAnim::None;
 	SetActorHiddenInGame(!bVisible);
 	SetActorEnableCollision(bVisible);
 	SetActorScale3D(FVector(BaseScale * (bVisible ? 1.f : 0.01f)));
 }
 
-void AFixHimHunk::Appear()
+void AFixHimHunk::Appear(const FVector& From)
 {
-	if (bPresent)
+	if (bPresent && PopAnim != EPopAnim::Pop)
 	{
 		return;
 	}
 	bPresent = true;
-	PopTarget = 1.f;
-	FixHim::SfxAt(this, "HunkPop", GetActorLocation(), 1.f, 0.03f);
-	SetActorHiddenInGame(false);
+	PopAnim = EPopAnim::Appear;
+	PopTime = 0.f;
+	AppearTo = GetActorLocation();
+	AppearFrom = From;
+	// Hidden for the first short beat (the fixture sparkles first), then he grows out of it.
+	SetActorHiddenInGame(true);
+	SetActorScale3D(FVector(BaseScale * 0.01f));
+	SetActorLocation(AppearFrom);
 	SetActorEnableCollision(true);
+	const FLinearColor Glow = GlowColor;
+	AFixHimPuffFx::Spawn(GetWorld(), From, Glow, EFixHimPuffStyle::Appear, 1.f);
+	FixHim::SfxAt(this, UFixHimSfxSubsystem::Get(this) && UFixHimSfxSubsystem::Get(this)->Has("HunkAppear") ? FName("HunkAppear") : FName("HunkPop"), From, 0.9f, 0.02f);
 }
 
-void AFixHimHunk::Disappear()
+void AFixHimHunk::Disappear(bool bBubblePop)
 {
 	if (!bPresent)
 	{
 		return;
 	}
 	bPresent = false;
-	PopTarget = 0.f;
-	FixHim::SfxAt(this, "HunkLeave", GetActorLocation(), 1.f, 0.03f);
 	SetActorEnableCollision(false);
 	SetPortraitLive(false);
+	if (!bBubblePop || IsHidden())
+	{
+		SetPresentImmediate(false);
+		return;
+	}
+	if (PopAnim == EPopAnim::Appear)
+	{
+		// Still growing in: finish at his spot so the pop happens where he stands.
+		SetActorLocation(AppearTo);
+	}
+	PopAnim = EPopAnim::Pop;
+	PopTime = 0.f;
 }
 
 void AFixHimHunk::SetPortraitLive(bool bLive)
@@ -226,18 +246,46 @@ void AFixHimHunk::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 	Age += DeltaSeconds;
 
-	if (!FMath::IsNearlyEqual(PopAlpha, PopTarget))
+	if (PopAnim == EPopAnim::Appear)
 	{
-		PopAlpha = FMath::FInterpConstantTo(PopAlpha, PopTarget, DeltaSeconds, 3.f);
-		// Ease-out-back for a springy "poof" entrance.
-		const float T = PopAlpha;
-		const float C1 = 1.70158f;
-		const float C3 = C1 + 1.f;
-		const float Eased = PopTarget > 0.5f ? 1.f + C3 * FMath::Pow(T - 1.f, 3.f) + C1 * FMath::Pow(T - 1.f, 2.f) : T * T;
-		SetActorScale3D(FVector(BaseScale * FMath::Max(0.01f, Eased)));
-		if (PopAlpha <= 0.f && PopTarget <= 0.f)
+		PopTime += DeltaSeconds;
+		const float T = (PopTime - AppearDelay) / AppearGrowSeconds;
+		if (T > 0.f && IsHidden())
 		{
-			SetActorHiddenInGame(true);
+			SetActorHiddenInGame(false);
+		}
+		const float U = FMath::Clamp(T, 0.f, 1.f);
+		// Soft ease-out with a barely-there overshoot (much gentler than ease-out-back's 10%).
+		const float Ease = 1.f - FMath::Pow(1.f - U, 3.f);
+		const float Settle = 1.f + 0.035f * FMath::Sin(U * PI) * U;
+		SetActorScale3D(FVector(BaseScale * FMath::Max(0.01f, Ease * Settle)));
+		// Drift from the fixture to his spot, slightly ahead of the growth so he never clips through it.
+		const float Move = 1.f - FMath::Pow(1.f - FMath::Clamp(T * 1.25f, 0.f, 1.f), 2.f);
+		SetActorLocation(FMath::Lerp(AppearFrom, AppearTo, Move));
+		if (T >= 1.f)
+		{
+			PopAnim = EPopAnim::None;
+			SetActorScale3D(FVector(BaseScale));
+			SetActorLocation(AppearTo);
 		}
 	}
+	else if (PopAnim == EPopAnim::Pop)
+	{
+		// A quick swell (like a bubble stretching), then gone with a burst.
+		constexpr float Swell = 0.16f;
+		PopTime += DeltaSeconds;
+		if (PopTime < Swell)
+		{
+			const float U = PopTime / Swell;
+			SetActorScale3D(FVector(BaseScale * (1.f + 0.14f * FMath::Sin(U * HALF_PI))));
+		}
+		else
+		{
+			const FVector Center = GetActorLocation() + FVector(0.f, 0.f, 40.f * BaseScale);
+			AFixHimPuffFx::Spawn(GetWorld(), Center, GlowColor, EFixHimPuffStyle::BubblePop, BaseScale);
+			FixHim::SfxAt(this, UFixHimSfxSubsystem::Get(this) && UFixHimSfxSubsystem::Get(this)->Has("BubblePop") ? FName("BubblePop") : FName("HunkLeave"), Center, 1.f, 0.04f);
+			SetPresentImmediate(false);
+		}
+	}
+
 }
