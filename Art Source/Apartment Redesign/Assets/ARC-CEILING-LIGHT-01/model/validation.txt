@@ -1,0 +1,8 @@
+FBX version: 7400
+ARC_CeilingLight_Hardware.fbx ARC_CeilingLight_Hardware verts 8232 faces 8048 dimensions (0.3389, 0.335, 0.18) origin (0.0, 0.0, 0.0)
+FBX version: 7400
+ARC_CeilingLight_Glass.fbx ARC_CeilingLight_Glass verts 2016 faces 1920 dimensions (0.329, 0.329, 0.0801) origin (0.0, 0.0, 0.0)
+PASS finite geometry, nonzero faces, UVs, and bounds
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:31:22)
+
+Blender quit

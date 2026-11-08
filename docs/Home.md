@@ -20,6 +20,7 @@ Central hub for planning and design docs. Start here.
 
 ## Art & Audio
 - [[Art Direction]]
+- [[Room build guide]] — selected apartment plan, room details and engine handoff
 - [[Audio Direction]]
 
 ## Tech

@@ -1,0 +1,9 @@
+# LV-TABLE-LAMP-01 — living-room table lamp
+
+A separate table lamp for the living-room end table, not the 1.56 m `LV-LAMP-01` floor lamp. `concepts/table-lamp-multiview-on-off.png` shows the concept in multiple views and on/off states; Blender source and measured proportions take precedence over inconsistent generated views.
+
+The assembled lamp is approximately 0.287 m shade diameter × 0.523 m high, with a 0.150 m weighted base. The turned aged-brass body, pleated linen shade with continuous piping, and bulb export independently as `LV_TableLampBody.fbx`, `LV_TableLampShade.fbx` and `LV_TableLampBulb.fbx`. All share a tabletop-level origin. The pull chain is static and part of the body. Position the common origin on the table, not the room floor. The textures reuse the muted brass from `OF-DESK-LAMP-01` and linen from `LV-LAMP-01` to harmonize across the apartment.
+
+`model/build_lamp.py` builds the mesh, exports the FBXs, renders the on/off previews, and saves the editable Blender file. Run with `/Applications/Blender.app/Contents/MacOS/Blender -b --python <script>`. `model/validate_fbx.py` reimports all three FBXs and checks finite vertices, normals and UVs, nonzero triangle area, and UV presence; all passed in Blender 5.2.3. Body bounds: 0.150 × 0.150 × 0.523 m; shade: 0.287 × 0.287 × 0.177 m; bulb: 0.036 × 0.036 × 0.056 m.
+
+Recreate brass and linen materials in Unreal; FBX does not transfer Blender shader nodes. For a switchable lamp, use dynamic shade/bulb emission and a warm point light near z=0.390 m relative to the tabletop origin. The studio preview uses a subdued warm light and pleat-aware shade emission. On/off difference is subtle and needs tuning under actual game exposure. Unreal import, materials, light, shade visibility, table clearance, interaction and collision remain untested.

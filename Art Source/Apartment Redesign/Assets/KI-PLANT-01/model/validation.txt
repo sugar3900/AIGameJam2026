@@ -1,0 +1,5 @@
+FBX version: 7400
+mesh_count 7 vertices 9739 triangles 17032 bounds_m [0.17287, 0.17553, 0.37796] min_z 0.0 bad 0
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:31:22)
+
+Blender quit

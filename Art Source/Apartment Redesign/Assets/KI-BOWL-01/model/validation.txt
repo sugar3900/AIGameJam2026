@@ -1,0 +1,16 @@
+FBX version: 7400
+KI_Bowl.fbx meshes 1 vertices 1920 triangles 3836
+FBX version: 7400
+Apple_A.fbx meshes 1 vertices 946 triangles 1884
+FBX version: 7400
+Apple_B.fbx meshes 1 vertices 946 triangles 1884
+FBX version: 7400
+Pear.fbx meshes 1 vertices 946 triangles 1884
+FBX version: 7400
+Lemon_A.fbx meshes 1 vertices 922 triangles 1840
+FBX version: 7400
+Lemon_B.fbx meshes 1 vertices 922 triangles 1840
+PASS finite geometry/UV, UV presence and nonzero triangle area
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:31:22)
+
+Blender quit

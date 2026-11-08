@@ -1,0 +1,6 @@
+addon_utils.disable: bl_ext.lab_blender_org.mcp not enabled
+FBX version: 7400
+PASS meshes=1 vertices=3744 triangles=7484 size_m=[0.23999999463558197, 0.18000000715255737, 0.25799999735318124] zero_area=0 zero_uv=0 nonfinite=0 cavity_bottom_z=0.02799999713897705
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:31:22)
+
+Blender quit

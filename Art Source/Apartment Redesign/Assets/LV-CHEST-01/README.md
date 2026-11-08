@@ -1,0 +1,9 @@
+# LV-CHEST-01 living-room storage chest
+
+A shallow vintage walnut chest for the living-room south wall. `concepts/chest-multiview-open-closed.png` is the generated reference and shows closed and open perspective, front, back, both sides and approximate scale. The model has hollow storage space, paneled front, brass latch and hinges, four feet and a separate lid. Closed assembly dimensions are approximately 0.90 m wide × 0.388 m deep including latch × 0.393 m high. The inventory target is 0.90 × 0.38 × 0.40 m.
+
+The revised wood compares two independent new candidates, `walnut-light-a.png` and `walnut-muted-b.png`; B was selected for its quieter grain and less orange color, then given saturation 0.68 and value 1.35 in Blender to match the muted warm palette. The original hall-console candidate is also retained. Localized rubbed corner and edge meshes use a separate material. Brass uses a simple material. The Blender source packs the texture; Unreal FBX import does not automatically reproduce Blender's materials, so set up the wood and brass material slots in Unreal and evaluate them under in-room lighting.
+
+`model/LV-CHEST-01.blend` and `model/build_chest.py` are the editable source and procedural builder. `LV_CHEST_BODY.fbx` has a floor origin at (0,0,0). `LV_CHEST_LID.fbx` has its origin at the rear hinge (0,0.175,0.35) metres in the closed assembly. The preview opens the lid by -100° about its local X axis. The imported lid origin and body/lid bounds were verified in Blender, but coordinate conversion, placement, collision, animation and rotation in Unreal still require testing.
+
+`model/validate_fbx.py` reimports the two exports and checks finite geometry/normals/UVs, UV presence and nonzero polygon/triangle areas. `model/check_pivots.py` checks the reimported hinge location. Both passed in Blender 5.2.3. `previews/chest-closed.png` and `previews/chest-open.png` are studio renders, not game screenshots.

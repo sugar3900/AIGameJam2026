@@ -1,0 +1,15 @@
+# LV-LAMP-01 — vintage floor lamp
+
+A 1.56 m floor lamp with a 0.28 m weighted brass base, 0.50 m pleated linen shade, bulb, and pull chain. The multiview reference is `references/multiview-approved.png`; `previews/lamp-off.png` and `lamp-on.png` show the two proposed states. The first brass candidate was too orange; `brass.png` is a separately generated, more muted olive-brass candidate. The linen and brass are color textures with painted variation rather than physical impasto.
+
+Run `/Applications/Blender.app/Contents/MacOS/Blender --background --python 'Art Source/Apartment Redesign/Assets/LV-LAMP-01/model/build_lamp.py'` from the repository root. The `.blend` includes a preview ground, camera and lights; only the three selected mesh FBXs are exports. All three parts share the floor origin so they can be assembled without offset. The bulb center is approximately 1.31 m above the floor. Textures in the `.blend` use relative paths.
+
+`model/validate_fbx.py` reimports the three FBXs in clean scenes and verifies finite positions, normals and UVs, nonzero triangle area, and the presence of UVs. Run it with Blender `--background --python`. The body, shade and bulb all passed on Blender 5.2.3.
+
+For Unreal, import the three parts as separate meshes and recreate the linen/brass materials. A dynamic material on the shade and bulb plus a warm point light must provide the on/off behavior; Blender's preview light and emissive node settings are not exported as gameplay behavior. In-engine material appearance, UV seam visibility, bulb intensity, collision, and readability against the final room lighting are not yet validated. The standalone on/off previews are a direction reference, and their emission strength will require adjustment in the finished apartment.
+
+## Glow and candidate comparison
+
+The revision retains three independently generated brass candidates (`brass-candidate-a.png`, `brass-candidate-b.png`, and selected `brass.png`): the selected version has a warmer muted gold with subtle teal patina. `linen-candidate-a.png` is the earlier nearly uniform fabric; the selected `linen.png` adds broader warm/cool brush variation. The visible paint marks are base color, not bump or displacement.
+
+For the Blender on preview, shade emission color is the selected linen base color multiplied by linear RGB `(1.0, 0.70, 0.08)`; emission strength uses a 24-cycle pleat-aligned sine varying from `1.50` to `2.82` (master `LampGlow = 3.0`, multiplier range `0.50–0.94`). The bulb preview uses warm linear RGB `(1.0, 0.47, 0.12)`, strength `3.0`, and a warm point light at 1.31 m with `30 W` energy and 0.08 m radius. The off state sets shade and bulb emission and the point light to zero. These Blender values are references, not calibrated Unreal photometric settings; build an emissive material instance with an on/off scalar and tune the warm point light in context. The pleat geometry itself should continue to carry the shade contrast. Standalone previews are rendered under fixed subdued studio lighting; the on shade is warmer while preserving pleats, but final intensity, exposure, and perceived gold need in-room review.

@@ -1,0 +1,13 @@
+FBX version: 7400
+PASS HA_ShoeTray vertices 1288 triangles 2508 bounds (0.378, 0.248, 0.052501) origin (0.0, 0.0, 0.0)
+FBX version: 7400
+PASS HA_Oxford_1 vertices 4501 triangles 8806 bounds (0.08, 0.222, 0.083411) origin (-0.135, 0.0, 0.008)
+FBX version: 7400
+PASS HA_Oxford_2 vertices 4501 triangles 8806 bounds (0.08, 0.222, 0.083411) origin (-0.045, 0.0, 0.008)
+FBX version: 7400
+PASS HA_SlipOn_1 vertices 2901 triangles 5734 bounds (0.08, 0.222, 0.076) origin (0.045, 0.0, 0.008)
+FBX version: 7400
+PASS HA_SlipOn_2 vertices 2901 triangles 5734 bounds (0.08, 0.222, 0.076) origin (0.135, 0.0, 0.008)
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:31:22)
+
+Blender quit

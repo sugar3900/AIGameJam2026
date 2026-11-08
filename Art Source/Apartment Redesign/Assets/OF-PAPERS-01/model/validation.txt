@@ -1,0 +1,5 @@
+FBX version: 7400
+Objects: 5 vertices: 1950 triangles: 3880 zero geometry: 0 zero UV triangles: 0 nonfinite: 0 bounds meters: [0.26846, 0.27808, 0.00705]
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:31:22)
+
+Blender quit

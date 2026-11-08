@@ -1,0 +1,9 @@
+FBX version: 7400
+Bin_body.fbx meshes 1 triangles 4588 bounds [0.224, 0.2475, 0.286] origin (0.0, 0.0, 0.0)
+FBX version: 7400
+Bin_lid.fbx meshes 1 triangles 2620 bounds [0.224, 0.2335, 0.02] origin (0.0, 0.119, 0.292)
+FBX version: 7400
+Bin_pedal.fbx meshes 1 triangles 1128 bounds [0.052, 0.054, 0.01375] origin (0.0, -0.112, 0.028)
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:31:22)
+
+Blender quit
