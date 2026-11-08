@@ -313,8 +313,10 @@ def build_structure():
     wall("Wall_Mid_Y650_West", "x", 650, 10, 790, "WallCream", [(560, 680, 0, 225)])
     wall("Wall_Mid_Y650_East", "x", 650, 810, 1390, "WallCream", [(1040, 1150, 0, 225)])
 
-    # The decorative front door, firmly closed: nobody leaves until he's fixed.
-    box_minmax("FrontDoor", (132, 2, 0), (248, 14, 218), "Velvet", "Structure")
+    # The front door: click it for the "End Day" / "Cancel" popup (the door still never opens).
+    interactable("FrontDoor", (190, 0, 0), 0, "living", CUBE, (0, 8, 109), (116, 12, 218), "Velvet",
+                 unreal.InteractToggle.NONE, "Leave the apartment", "Leave the apartment",
+                 cls=unreal.FixHimDoor, folder="Structure")
     prim("FrontDoorKnob", (230, 18, 100), (6, 6, 6), "Brass", "Structure", mesh=SPHERE, collide=False)
 
 

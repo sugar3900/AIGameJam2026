@@ -24,6 +24,9 @@ public:
 
 	static constexpr float Duration = 3.4f;
 
+	/** Click-to-skip: jumps to the end so the card finishes on the next tick. */
+	void Skip() { Age = FMath::Max(Age, Duration); }
+
 protected:
 	virtual void BuildUI() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;

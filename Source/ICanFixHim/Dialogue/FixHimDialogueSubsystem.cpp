@@ -747,7 +747,6 @@ void UFixHimDialogueSubsystem::FinishConversation()
 			P.Ending = Ending;
 			P.bFixed = true;
 		}
-		Save->SaveGame();
 	}
 
 	AbortConversation();

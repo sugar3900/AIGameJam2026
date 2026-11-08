@@ -208,11 +208,56 @@ void UFixHimPauseWidget::BuildUI()
 	};
 	Add(TEXT("Resume"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->SetPaused(false); } }, true);
 	Add(TEXT("Options"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->OpenOptions(); } }, false);
-	Add(TEXT("Main Menu"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->ReturnToMainMenu(); } }, false);
+	Add(TEXT("Save & Exit"),[Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->ReturnToMainMenu(); } }, false);
 
-	UTextBlock* Hint = MakeText(WidgetTree, TEXT("Progress auto-saves after every conversation."), 14, PlumSoft, TEXT("Italic"));
+	UTextBlock* Hint = MakeText(WidgetTree, TEXT("Progress saves when you leave through the front door or Save & Exit."), 14, PlumSoft, TEXT("Italic"));
 	Hint->SetJustification(ETextJustify::Center);
 	Col->AddChildToVerticalBox(Hint)->SetPadding(FMargin(0.f, 6.f, 0.f, 0.f));
+}
+
+// ---------------------------------------------------------------------------
+// Door prompt
+
+void UFixHimDoorPromptWidget::BuildUI()
+{
+	UVerticalBox* Col = MakeCardScreen(TEXT("Leave the apartment?"), 460.f);
+	TWeakObjectPtr<UFixHimDoorPromptWidget> Self(this);
+
+	BodyText = MakeText(WidgetTree, TEXT("Heading out ends the day. A week will pass."), 18, PlumSoft);
+	BodyText->SetJustification(ETextJustify::Center);
+	BodyText->SetAutoWrapText(true);
+	Col->AddChildToVerticalBox(BodyText)->SetPadding(FMargin(0.f, 0.f, 0.f, 18.f));
+
+	auto Add = [&](const FString& Label, TFunction<void()> Fn, bool bPrimary)
+	{
+		USizeBox* Box = WidgetTree->ConstructWidget<USizeBox>();
+		Box->SetHeightOverride(58.f);
+		UFixHimButton* Button = UFixHimButton::Make(WidgetTree, Label, MoveTemp(Fn), 22, bPrimary);
+		if (bPrimary)
+		{
+			EndDayButton = Button;
+		}
+		Box->AddChild(Button);
+		Col->AddChildToVerticalBox(Box)->SetPadding(FMargin(0.f, 0.f, 0.f, 12.f));
+	};
+	Add(TEXT("End Day"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->ConfirmEndDay(); } }, true);
+	Add(TEXT("Cancel"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->CloseDoorPrompt(); } }, false);
+}
+
+void UFixHimDoorPromptWidget::Refresh()
+{
+	const AFixHimPlayerController* PC = GetFixHimPC();
+	const bool bAllowed = !PC || PC->CanEndDay();
+	if (EndDayButton)
+	{
+		EndDayButton->SetIsEnabled(bAllowed);
+	}
+	if (BodyText)
+	{
+		BodyText->SetText(FText::FromString(bAllowed
+			? TEXT("Heading out ends the day. A week will pass.")
+			: TEXT("You feel a presence in the house... someone you still need to meet.")));
+	}
 }
 
 // ---------------------------------------------------------------------------

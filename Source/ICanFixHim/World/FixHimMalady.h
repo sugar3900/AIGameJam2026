@@ -62,7 +62,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UPointLightComponent> GlowLight;
 
-	/** Place the dialogue camera over Rosie's shoulder at BeginPlay. */
+	/** Place the dialogue camera at Rosie's eye line at the talk spot at BeginPlay. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Malady")
 	bool bAutoFrameCamera = true;
 
