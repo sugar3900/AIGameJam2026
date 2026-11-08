@@ -3,6 +3,7 @@ Creates / refreshes the procedural assets the game code expects (see Config/Defa
 
   /Game/ICanFixHim/Materials/M_FlatColor     lit, BaseColor / Emissive / Roughness params
   /Game/ICanFixHim/Materials/M_Translucent   unlit translucent, BaseColor / Opacity params
+  /Game/ICanFixHim/Materials/M_Sparkle       unlit additive twinkle sprite for the hunks' appear / pop puffs, Color param
   /Game/ICanFixHim/Materials/M_Shine         additive overlay material: a shine band that wipes across a mesh + a soft rim glow
   /Game/ICanFixHim/Materials/M_UI_Portrait   UI material for scene-capture portraits
   /Game/ICanFixHim/UI/T_Pointer, T_Heart, T_PlayerSilhouette   imported from SourceArt/Generated (Tools/Art/*.svg)
@@ -140,6 +141,50 @@ def build_translucent():
     opacity = scalar_param(mat, "Opacity", 0.5, -500, 200)
     MEL.connect_material_property(base, "RGB", unreal.MaterialProperty.MP_EMISSIVE_COLOR)
     MEL.connect_material_property(opacity, "", unreal.MaterialProperty.MP_OPACITY)
+    finish(mat)
+
+
+SPARKLE_HLSL = """
+float2 p = UV - 0.5;
+float d = length(p);
+float core = saturate(1.0 - d * 5.0);
+core = core * core * core;
+float rx = saturate(1.0 - abs(p.x) * 22.0) * saturate(1.0 - abs(p.y) * 2.1);
+float ry = saturate(1.0 - abs(p.y) * 22.0) * saturate(1.0 - abs(p.x) * 2.1);
+float seed = frac(dot(Pos, float3(0.0123, 0.0171, 0.0137)));
+float tw = saturate(0.35 + 0.65 * sin(Time * 2.7 + seed * 6.2831));
+return (core * 1.4 + (rx + ry) * 0.9) * tw;
+"""
+
+
+def build_sparkle():
+    mat = fresh_material("M_Sparkle")
+    mat.set_editor_property("blend_mode", unreal.BlendMode.BLEND_ADDITIVE)
+    mat.set_editor_property("shading_model", unreal.MaterialShadingModel.MSM_UNLIT)
+    mat.set_editor_property("two_sided", True)
+    uv = expr(mat, unreal.MaterialExpressionTextureCoordinate, -700, 0)
+    time = expr(mat, unreal.MaterialExpressionTime, -700, 150)
+    pos = expr(mat, unreal.MaterialExpressionObjectPositionWS, -700, 300)
+    custom = expr(mat, unreal.MaterialExpressionCustom, -400, 100,
+                  code=SPARKLE_HLSL, output_type=unreal.CustomMaterialOutputType.CMOT_FLOAT1, description="Sparkle")
+    inputs = []
+    for n in ("UV", "Time", "Pos"):
+        ci = unreal.CustomInput()
+        ci.set_editor_property("input_name", n)
+        inputs.append(ci)
+    custom.set_editor_property("inputs", inputs)
+    MEL.connect_material_expressions(uv, "", custom, "UV")
+    MEL.connect_material_expressions(time, "", custom, "Time")
+    MEL.connect_material_expressions(pos, "", custom, "Pos")
+    color = vec_param(mat, "Color", (1.0, 0.8, 0.95, 1), -400, 350)
+    intensity = scalar_param(mat, "Intensity", 7.0, -400, 500)
+    m1 = expr(mat, unreal.MaterialExpressionMultiply, -150, 200)
+    MEL.connect_material_expressions(custom, "", m1, "A")
+    MEL.connect_material_expressions(color, "RGB", m1, "B")
+    m2 = expr(mat, unreal.MaterialExpressionMultiply, 0, 250)
+    MEL.connect_material_expressions(m1, "", m2, "A")
+    MEL.connect_material_expressions(intensity, "", m2, "B")
+    MEL.connect_material_property(m2, "", unreal.MaterialProperty.MP_EMISSIVE_COLOR)
     finish(mat)
 
 
@@ -320,6 +365,7 @@ def main():
     build_flat()
     build_character()
     build_translucent()
+    build_sparkle()
     build_shine()
     build_portrait()
     import_textures()

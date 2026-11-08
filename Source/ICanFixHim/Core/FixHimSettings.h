@@ -52,6 +52,10 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = "World")
 	TSoftObjectPtr<UMaterialInterface> TranslucentMaterial;
 
+	/** Camera facing twinkle sprite used by the hunks' appear / pop effects (World/FixHimPuffFx). Param: Color. */
+	UPROPERTY(Config, EditAnywhere, Category = "World")
+	TSoftObjectPtr<UMaterialInterface> SparkleMaterial;
+
 	/** Overlay material that sweeps an occasional shine across interactables and softly glows the maladies' hosts. Params: Color, Bounds, Sweep, ShineStrength, Glow. */
 	UPROPERTY(Config, EditAnywhere, Category = "World")
 	TSoftObjectPtr<UMaterialInterface> ShineMaterial;

@@ -18,6 +18,7 @@
 #include "Animation/AnimInstance.h"
 #include "Animation/AnimSequenceBase.h"
 #include "Misc/PackageName.h"
+#include "TimerManager.h"
 
 AFixHimHunk::AFixHimHunk()
 {
@@ -35,10 +36,10 @@ AFixHimHunk::AFixHimHunk()
 
 	PortraitCapture = CreateDefaultSubobject<USceneCaptureComponent2D>(TEXT("PortraitCapture"));
 	PortraitCapture->SetupAttachment(GetCapsuleComponent());
-	// In front of the face, looking back at it. Mannequin head sits ~70cm above capsule centre.
-	PortraitCapture->SetRelativeLocation(FVector(118.f, 10.f, 74.f));
-	PortraitCapture->SetRelativeRotation(FRotator(-4.f, 185.f, 0.f));
-	PortraitCapture->FOVAngle = 30.f;
+	// Close on the face, slightly below eye level and tilted up at it. Mannequin head sits ~70cm above capsule centre.
+	PortraitCapture->SetRelativeLocation(FVector(86.f, 6.f, 64.f));
+	PortraitCapture->SetRelativeRotation(FRotator(5.f, 184.f, 0.f));
+	PortraitCapture->FOVAngle = 26.f;
 	PortraitCapture->bCaptureEveryFrame = false;
 	PortraitCapture->bCaptureOnMovement = false;
 	PortraitCapture->PrimitiveRenderMode = ESceneCapturePrimitiveRenderMode::PRM_UseShowOnlyList;
@@ -168,6 +169,18 @@ void AFixHimHunk::Appear(const FVector& From)
 	const FLinearColor Glow = GlowColor;
 	AFixHimPuffFx::Spawn(GetWorld(), From, Glow, EFixHimPuffStyle::Appear, 1.f);
 	FixHim::SfxAt(this, UFixHimSfxSubsystem::Get(this) && UFixHimSfxSubsystem::Get(this)->Has("HunkAppear") ? FName("HunkAppear") : FName("HunkPop"), From, 0.9f, 0.02f);
+
+	if (!bHasStill)
+	{
+		// The dialogue avatar is a still of this first appearance: once he has grown in and settled, capture it once.
+		GetWorldTimerManager().SetTimer(StillTimer, FTimerDelegate::CreateWeakLambda(this, [this]()
+			{
+				if (!bHasStill)
+				{
+					CapturePortraitNow(true);
+				}
+			}), AppearDelay + AppearGrowSeconds + 0.1f, false);
+	}
 }
 
 void AFixHimHunk::Disappear(bool bBubblePop)
@@ -195,23 +208,24 @@ void AFixHimHunk::Disappear(bool bBubblePop)
 
 void AFixHimHunk::SetPortraitLive(bool bLive)
 {
-	bPortraitLive = bLive;
-	PortraitCapture->bCaptureEveryFrame = bLive;
-	if (bLive)
+	// Not live any more: the avatar is a single still. Only capture here if he never got his first-appearance shot.
+	if (bLive && !bHasStill)
 	{
-		CapturePortraitNow();
+		CapturePortraitNow(true);
 	}
 }
 
-void AFixHimHunk::CapturePortraitNow()
+void AFixHimHunk::CapturePortraitNow(bool bAsStill)
 {
 	if (PortraitCapture && PortraitTarget)
 	{
+		bHasStill |= bAsStill;
 		// Capture at full size even mid-pop so silhouettes are never tiny.
 		const FVector Saved = GetActorScale3D();
 		SetActorScale3D(FVector(BaseScale));
 		const bool bWasHidden = IsHidden();
 		SetActorHiddenInGame(false);
+		GetMesh()->RefreshBoneTransforms();
 		PortraitCapture->CaptureScene();
 		SetActorHiddenInGame(bWasHidden);
 		SetActorScale3D(Saved);

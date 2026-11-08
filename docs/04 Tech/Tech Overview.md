@@ -24,7 +24,7 @@ Source/ICanFixHim/
 Content/ICanFixHim/
   Data/Dialogue/*.json   story (staged as non-UFS so it can be edited after packaging)
   Maps/L_Apartment       generated level
-  Materials/             generated: M_FlatColor, M_Character, M_Translucent, M_Shine, M_UI_Portrait, Palette/MI_*
+  Materials/             generated: M_FlatColor, M_Character, M_Translucent, M_Shine, M_Sparkle, M_UI_Portrait, Palette/MI_*
   UI/                    T_Pointer, T_Heart (from Tools/Art/*.svg)
 Tools/                   editor/build scripts (see README)
 ```

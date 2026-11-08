@@ -102,23 +102,23 @@ void UFixHimDialogueWidget::BuildUI()
 	{
 		UHorizontalBox* M = WidgetTree->ConstructWidget<UHorizontalBox>();
 		USizeBox* LB = WidgetTree->ConstructWidget<USizeBox>();
-		LB->SetWidthOverride(86.f);
-		LB->AddChild(MakeText(WidgetTree, Label, 12, PlumSoft, TEXT("Bold")));
+		LB->SetWidthOverride(138.f);
+		LB->AddChild(MakeText(WidgetTree, Label, 18, PlumSoft, TEXT("Bold")));
 		M->AddChildToHorizontalBox(LB)->SetVerticalAlignment(VAlign_Center);
 		USizeBox* BB = WidgetTree->ConstructWidget<USizeBox>();
-		BB->SetWidthOverride(120.f);
-		BB->SetHeightOverride(9.f);
+		BB->SetWidthOverride(190.f);
+		BB->SetHeightOverride(16.f);
 		UProgressBar* Bar = WidgetTree->ConstructWidget<UProgressBar>();
 		FProgressBarStyle Style;
-		Style.SetBackgroundImage(Rounded(Blush, 4.f));
-		Style.SetFillImage(Rounded(FLinearColor::White, 4.f));
-		Style.SetMarqueeImage(Rounded(FLinearColor::White, 4.f));
+		Style.SetBackgroundImage(Rounded(Blush, 8.f));
+		Style.SetFillImage(Rounded(FLinearColor::White, 8.f));
+		Style.SetMarqueeImage(Rounded(FLinearColor::White, 8.f));
 		Bar->SetWidgetStyle(Style);
 		Bar->SetFillColorAndOpacity(Color);
 		Bar->SetPercent(0.f);
 		BB->AddChild(Bar);
 		M->AddChildToHorizontalBox(BB)->SetVerticalAlignment(VAlign_Center);
-		Meters->AddChildToVerticalBox(M)->SetPadding(FMargin(0.f, 1.f));
+		Meters->AddChildToVerticalBox(M)->SetPadding(FMargin(0.f, 3.f));
 		return Bar;
 	};
 	RomanceBar = AddMeter(TEXT("ROMANCE"), HotPink);
@@ -152,7 +152,7 @@ void UFixHimDialogueWidget::BuildUI()
 	UOverlaySlot* FloatSlot = Root->AddChildToOverlay(FloaterBox);
 	FloatSlot->SetHorizontalAlignment(HAlign_Right);
 	FloatSlot->SetVerticalAlignment(VAlign_Bottom);
-	FloatSlot->SetPadding(FMargin(0.f, 0.f, 70.f, 330.f));
+	FloatSlot->SetPadding(FMargin(0.f, 0.f, 70.f, 400.f));
 
 	// Full-screen fx layers.
 	FxCanvas = WidgetTree->ConstructWidget<UCanvasPanel>();
@@ -224,6 +224,14 @@ void UFixHimDialogueWidget::BindHunk(AFixHimHunk* Hunk, const FString& InHunkId)
 		PortraitMID = UMaterialInstanceDynamic::Create(Mat, this);
 		PortraitMID->SetTextureParameterValue(TEXT("Portrait"), HunkPortraitRT);
 		PortraitMID->SetScalarParameterValue(TEXT("Silhouette"), 0.f);
+		// Solid backdrop in the character's theme colour.
+		if (const UFixHimDialogueSubsystem* D = UFixHimDialogueSubsystem::Get(this))
+		{
+			if (const FHunkDefinition* Def = D->FindHunk(HunkId))
+			{
+				PortraitMID->SetVectorParameterValue(TEXT("Background"), Def->GlowColor * 0.85f);
+			}
+		}
 	}
 	ApplySpeakerPortrait(EDialogueSpeaker::Hunk);
 	if (const UFixHimDialogueSubsystem* D = UFixHimDialogueSubsystem::Get(this))
@@ -282,6 +290,11 @@ void UFixHimDialogueWidget::ShowView(const FDialogueView& View)
 	const bool bNarration = View.Speaker == EDialogueSpeaker::Narration;
 	const bool bNamed = View.Speaker == EDialogueSpeaker::Named;
 	NamePill->SetVisibility(bNarration ? ESlateVisibility::Hidden : ESlateVisibility::HitTestInvisible);
+	// The malady is the hunk's tag line: not shown while the player or the narrator is the one talking.
+	if (!bScriptScene)
+	{
+		MaladyText->SetVisibility(bPlayer || bNarration ? ESlateVisibility::Hidden : ESlateVisibility::HitTestInvisible);
+	}
 	NamePill->SetBrush(Rounded(bPlayer ? Plum : (bNamed ? PlumSoft : HotPink), 16.f));
 	const UFixHimSaveSubsystem* SaveSub = UFixHimSaveSubsystem::Get(this);
 	const FString PlayerName = SaveSub ? SaveSub->GetPlayerName() : UFixHimSettings::Get()->PlayerName;
@@ -518,10 +531,10 @@ void UFixHimDialogueWidget::OnStatChanged(const FString& InHunkId, ERelationship
 void UFixHimDialogueWidget::SpawnFloater(const FString& Text, const FLinearColor& Color)
 {
 	UBorder* Pill = WidgetTree->ConstructWidget<UBorder>();
-	Pill->SetBrush(Rounded(Color, 14.f));
-	Pill->SetPadding(FMargin(14.f, 4.f));
-	Pill->SetContent(MakeText(WidgetTree, Text, 20, FLinearColor::White, TEXT("Bold")));
-	FloaterBox->AddChildToVerticalBox(Pill)->SetPadding(FMargin(0.f, 3.f));
+	Pill->SetBrush(Rounded(Color, 20.f));
+	Pill->SetPadding(FMargin(20.f, 7.f));
+	Pill->SetContent(MakeText(WidgetTree, Text, 30, FLinearColor::White, TEXT("Bold")));
+	FloaterBox->AddChildToVerticalBox(Pill)->SetPadding(FMargin(0.f, 4.f));
 	FFloater F;
 	F.Widget = Pill;
 	F.Life = 1.8f;
@@ -534,7 +547,7 @@ void UFixHimDialogueWidget::SpawnHearts(int32 Count)
 	for (int32 i = 0; i < Count; ++i)
 	{
 		UWidget* W = nullptr;
-		const float Size = FMath::FRandRange(28.f, 64.f);
+		const float Size = FMath::FRandRange(40.f, 88.f);
 		if (HeartTex)
 		{
 			UImage* Img = WidgetTree->ConstructWidget<UImage>();
@@ -568,7 +581,8 @@ void UFixHimDialogueWidget::NativeTick(const FGeometry& MyGeometry, float InDelt
 	ViewSize = MyGeometry.GetLocalSize();
 	if (PanelSize)
 	{
-		PanelSize->SetMinDesiredHeight(ViewSize.Y * 0.25f);
+		// A quarter of the screen plus room for two more lines of text (24pt, ~32px each).
+		PanelSize->SetMinDesiredHeight(ViewSize.Y * 0.25f + 64.f);
 	}
 
 	if (bTyping && FxPhase == EFxPhase::None)

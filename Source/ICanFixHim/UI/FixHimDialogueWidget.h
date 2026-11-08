@@ -69,8 +69,6 @@ private:
 
 	UPROPERTY() TObjectPtr<USizeBox> PanelSize;
 	UPROPERTY() TObjectPtr<UImage> Portrait;
-	/** Generic head-and-shoulders shown in the portrait box while the player speaks. */
-	UPROPERTY() TObjectPtr<UWidget> PlayerSilhouette;
 	UPROPERTY() TObjectPtr<UWidget> PortraitBox;
 	UPROPERTY() TObjectPtr<UWidget> MetersBox;
 	UPROPERTY() TObjectPtr<UMaterialInstanceDynamic> PortraitMID;
@@ -108,8 +106,6 @@ private:
 	float FxTimer = 0.f;
 
 	FDialogueView Current;
-	/** True while bound to a hunk's conversation (script scenes have no portrait box at all). */
-	bool bHunkBound = false;
 	TArray<FToken> Tokens;
 	FString PlainText;
 	float CharsShown = 0.f;
