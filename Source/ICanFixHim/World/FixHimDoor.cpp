@@ -3,6 +3,7 @@
 #include "World/FixHimDoor.h"
 #include "Player/FixHimPlayerController.h"
 #include "Core/FixHimSettings.h"
+#include "Audio/FixHimSfxSubsystem.h"
 #include "Components/StaticMeshComponent.h"
 #include "Engine/StaticMesh.h"
 #include "Engine/World.h"
@@ -14,6 +15,12 @@ AFixHimDoor::AFixHimDoor()
 	InteractRangeOverride = 220.f;
 	SparkleColor = FLinearColor(1.f, 0.85f, 0.6f);
 	OutlineColor = FLinearColor(1.f, 0.75f, 0.4f);
+}
+
+FName AFixHimDoor::DefaultInteractSfx(bool bNowOn) const
+{
+	const UFixHimSfxSubsystem* Sfx = UFixHimSfxSubsystem::Get(this);
+	return !Sfx || Sfx->Has(TEXT("DoorHandle")) ? FName(TEXT("DoorHandle")) : FName(TEXT("DoorKnock"));
 }
 
 AFixHimDoor* AFixHimDoor::EnsureInWorld(UWorld* World)

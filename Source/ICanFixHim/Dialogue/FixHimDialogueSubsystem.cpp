@@ -1067,7 +1067,8 @@ void UFixHimDialogueSubsystem::RebuildView(bool bIsReturn)
 	{
 		for (const FString& Cue : View.Sfx)
 		{
-			Sfx->Play2D(FName(*Cue), 1.f, 0.f);
+			const bool bPlayed = Sfx->Play2D(FName(*Cue), 1.f, 0.f);
+			UE_LOG(LogFixHim, Log, TEXT("Dialogue sfx '%s' (%s/%s line %d)%s"), *Cue, *ActiveHunkId, *ActiveNodeId, LineIndex, bPlayed ? TEXT("") : TEXT(" - missing or rate limited"));
 		}
 	}
 

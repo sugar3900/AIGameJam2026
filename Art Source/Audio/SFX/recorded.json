@@ -1,0 +1,2609 @@
+{
+  "_about": "Recorded (not synthesized) sound effects. Every WAV listed under 'files' is built from real recordings by Tools/Audio/process_recorded_sfx.py using its 'edit' recipe; Tools/Audio/generate_sfx.py never overwrites these cues. All sources are CC0. Edits common to every file: mono mixdown, resample to 44.1 kHz, 40 Hz high-pass/DC removal, trim to the first transient (onset_db) and the end of the tail (tail_db), short fades, peak-normalise to 'peak', 16-bit.",
+  "sources": {
+    "bsb:0015": {
+      "title": "Door",
+      "page": "https://bigsoundbank.com/door-s0015.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0015.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/0015/sound.wav"
+    },
+    "bsb:0046": {
+      "title": "Cupboard",
+      "page": "https://bigsoundbank.com/cupboard-s0046.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0046.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/0046/sound.wav"
+    },
+    "bsb:0057": {
+      "title": "Gas stove #1",
+      "page": "https://bigsoundbank.com/gas-stove-1-s0057.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0057.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/0057/sound.wav"
+    },
+    "bsb:0058": {
+      "title": "Gas stove #2",
+      "page": "https://bigsoundbank.com/gas-stove-2-s0058.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0058.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/0058/sound.wav"
+    },
+    "bsb:0145": {
+      "title": "Frying pan #3",
+      "page": "https://bigsoundbank.com/frying-pan-3-s0145.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0145.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/0145/sound.wav"
+    },
+    "bsb:0178": {
+      "title": "Kisses #1",
+      "page": "https://bigsoundbank.com/kisses-s0178.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0178.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/0178/sound.wav"
+    },
+    "bsb:0322": {
+      "title": "Small metal grinding #1",
+      "page": "https://bigsoundbank.com/petit-grincement-metal-1-s0322.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0322.wav",
+      "author": "DavidGreck (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/0322/sound.wav"
+    },
+    "bsb:0373": {
+      "title": "feet (slipper on floor)",
+      "page": "https://bigsoundbank.com/feet-slipper-on-floor-s0373.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0373.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/0373/sound.wav"
+    },
+    "bsb:0401": {
+      "title": "Knock-knock on a tiled wall",
+      "page": "https://bigsoundbank.com/knock-knock-on-a-tiled-wall-s0401.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0401.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/0401/sound.wav"
+    },
+    "bsb:1074": {
+      "title": "Bubbles Burst",
+      "page": "https://bigsoundbank.com/bubbles-burst-s1074.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1074.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/1074/sound.wav"
+    },
+    "bsb:1267": {
+      "title": "Wooden drawer #1",
+      "page": "https://bigsoundbank.com/wooden-drawer-1-s1267.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1267.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/1267/sound.wav"
+    },
+    "bsb:1295": {
+      "title": "Rain on car windshield",
+      "page": "https://bigsoundbank.com/rain-on-car-windshield-s1295.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1295.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/1295/sound.wav"
+    },
+    "bsb:1325": {
+      "title": "Cheers, small wineglass #1",
+      "page": "https://bigsoundbank.com/cheers-small-wineglass-1-s1325.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1325.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/1325/sound.wav"
+    },
+    "bsb:1329": {
+      "title": "Cheers, red wine glass #2",
+      "page": "https://bigsoundbank.com/cheers-red-wine-glass-2-s1329.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1329.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/1329/sound.wav"
+    },
+    "bsb:1384": {
+      "title": "Drops of water #1",
+      "page": "https://bigsoundbank.com/drops-of-water-1-s1384.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1384.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/1384/sound.wav"
+    },
+    "bsb:1394": {
+      "title": "Bottles of beer, shocks #2",
+      "page": "https://bigsoundbank.com/bottles-of-beer-shocks-2-s1394.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1394.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/1394/sound.wav"
+    },
+    "bsb:1499": {
+      "title": "Wooden drawer, opening",
+      "page": "https://bigsoundbank.com/wooden-drawer-opening-s1499.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1499.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/1499/sound.wav"
+    },
+    "bsb:1500": {
+      "title": "Wooden drawer, closing",
+      "page": "https://bigsoundbank.com/wooden-drawer-closing-s1500.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1500.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/1500/sound.wav"
+    },
+    "bsb:1529": {
+      "title": "Splash, Small #1",
+      "page": "https://bigsoundbank.com/splash-small-1-s1529.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1529.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/1529/sound.wav"
+    },
+    "bsb:1531": {
+      "title": "Splash, small #3",
+      "page": "https://bigsoundbank.com/splash-small-3-s1531.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1531.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/1531/sound.wav"
+    },
+    "bsb:1702": {
+      "title": "Apartment Door, Opening #1",
+      "page": "https://bigsoundbank.com/apartment-door-opening-1-s1702.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1702.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/1702/sound.wav"
+    },
+    "bsb:1704": {
+      "title": "Apartment Door, Closing #1",
+      "page": "https://bigsoundbank.com/apartment-door-closing-1-s1704.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1704.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/1704/sound.wav"
+    },
+    "bsb:1795": {
+      "title": "Whoosh #3",
+      "page": "https://bigsoundbank.com/whoosh-3-s1795.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1795.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/1795/sound.wav"
+    },
+    "bsb:1796": {
+      "title": "Whoosh #4",
+      "page": "https://bigsoundbank.com/whoosh-4-s1796.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1796.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/1796/sound.wav"
+    },
+    "bsb:2087": {
+      "title": "Chimes \"butterfly\" #1",
+      "page": "https://bigsoundbank.com/chimes-butterfly-1-s2087.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/2087.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/2087/sound.wav"
+    },
+    "bsb:2118": {
+      "title": "Neon or transformer #1",
+      "page": "https://bigsoundbank.com/neon-or-transformer-1-s2118.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/2118.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/2118/sound.wav"
+    },
+    "bsb:2617": {
+      "title": "Radio, frequency sweep #1",
+      "page": "https://bigsoundbank.com/radio-frequency-sweep-1-s2617.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/2617.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/2617/sound.wav"
+    },
+    "bsb:2821": {
+      "title": "Instamatic, Triggering #1",
+      "page": "https://bigsoundbank.com/instamatic-triggering-1-s2821.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/2821.wav",
+      "author": "Joseph SARDIN (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/2821/sound.wav"
+    },
+    "bsb:3113": {
+      "title": "Thunder #2",
+      "page": "https://bigsoundbank.com/thunder-2-s3113.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/3113.wav",
+      "author": "Joseph SARDIN & Axeline T. (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/3113/sound.wav"
+    },
+    "bsb:3205": {
+      "title": "Creaking Door #2",
+      "page": "https://bigsoundbank.com/creaking-door-2-s3205.html",
+      "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/3205.wav",
+      "author": "Joseph SARDIN & Axeline T. (BigSoundBank.com)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html",
+      "local": "bigsoundbank/3205/sound.wav"
+    },
+    "fs:130153": {
+      "title": "Circuit Breaker 2 DP.wav",
+      "page": "https://freesound.org/people/sribubba/sounds/130153/",
+      "file_url": "https://cdn.freesound.org/previews/130/130153_15663-hq.mp3",
+      "author": "sribubba (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/130153/preview.mp3"
+    },
+    "fs:130154": {
+      "title": "Circuit Breaker 3 DP.wav",
+      "page": "https://freesound.org/people/sribubba/sounds/130154/",
+      "file_url": "https://cdn.freesound.org/previews/130/130154_15663-hq.mp3",
+      "author": "sribubba (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/130154/preview.mp3"
+    },
+    "fs:183531": {
+      "title": "refrigerator door open",
+      "page": "https://freesound.org/people/Yoyodaman234/sounds/183531/",
+      "file_url": "https://cdn.freesound.org/previews/183/183531_2792951-hq.mp3",
+      "author": "Yoyodaman234 (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/183531/preview.mp3"
+    },
+    "fs:183537": {
+      "title": "refrigerator door close",
+      "page": "https://freesound.org/people/Yoyodaman234/sounds/183537/",
+      "file_url": "https://cdn.freesound.org/previews/183/183537_2792951-hq.mp3",
+      "author": "Yoyodaman234 (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/183537/preview.mp3"
+    },
+    "fs:189630": {
+      "title": "Spark",
+      "page": "https://freesound.org/people/elliott.klein/sounds/189630/",
+      "file_url": "https://cdn.freesound.org/previews/189/189630_2816253-hq.mp3",
+      "author": "elliott.klein (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/189630/preview.mp3"
+    },
+    "fs:201285": {
+      "title": "Rubber duck toy squeaking.wav",
+      "page": "https://freesound.org/people/panmaterac/sounds/201285/",
+      "file_url": "https://cdn.freesound.org/previews/201/201285_3740507-hq.mp3",
+      "author": "panmaterac (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/201285/preview.mp3"
+    },
+    "fs:26767": {
+      "title": "bath tap on.wav",
+      "page": "https://freesound.org/people/Walter_Odington/sounds/26767/",
+      "file_url": "https://cdn.freesound.org/previews/26/26767_48671-hq.mp3",
+      "author": "Walter_Odington (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/26767/preview.mp3"
+    },
+    "fs:271170": {
+      "title": "Hollow Metal Pipe Hits",
+      "page": "https://freesound.org/people/Zott820/sounds/271170/",
+      "file_url": "https://cdn.freesound.org/previews/271/271170_2558531-hq.mp3",
+      "author": "Zott820 (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/271170/preview.mp3"
+    },
+    "fs:280240": {
+      "title": "Open-Wardrobe-2.wav",
+      "page": "https://freesound.org/people/toefur/sounds/280240/",
+      "file_url": "https://cdn.freesound.org/previews/280/280240_34567-hq.mp3",
+      "author": "toefur (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/280240/preview.mp3"
+    },
+    "fs:320144": {
+      "title": "Blanket Movement 6",
+      "page": "https://freesound.org/people/OwlStorm/sounds/320144/",
+      "file_url": "https://cdn.freesound.org/previews/320/320144_140737-hq.mp3",
+      "author": "OwlStorm (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/320144/preview.mp3"
+    },
+    "fs:321087": {
+      "title": "Door Locked",
+      "page": "https://freesound.org/people/BenjaminNelan/sounds/321087/",
+      "file_url": "https://cdn.freesound.org/previews/321/321087_1196020-hq.mp3",
+      "author": "BenjaminNelan (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/321087/preview.mp3"
+    },
+    "fs:343164": {
+      "title": "Wood Crash.mp3",
+      "page": "https://freesound.org/people/benjaminpotter/sounds/343164/",
+      "file_url": "https://cdn.freesound.org/previews/343/343164_6001460-hq.mp3",
+      "author": "benjaminpotter (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/343164/preview.mp3"
+    },
+    "fs:383720": {
+      "title": "Breaking Ceramic Tile",
+      "page": "https://freesound.org/people/deleted_user_7146007/sounds/383720/",
+      "file_url": "https://cdn.freesound.org/previews/383/383720_7146007-hq.mp3",
+      "author": "deleted_user_7146007 (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/383720/preview.mp3"
+    },
+    "fs:396470": {
+      "title": "Electric Sparks.wav",
+      "page": "https://freesound.org/people/kev_durr/sounds/396470/",
+      "file_url": "https://cdn.freesound.org/previews/396/396470_5415774-hq.mp3",
+      "author": "kev_durr (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/396470/preview.mp3"
+    },
+    "fs:411462": {
+      "title": "Bubble Pop",
+      "page": "https://freesound.org/people/TheBuilder15/sounds/411462/",
+      "file_url": "https://cdn.freesound.org/previews/411/411462_6090639-hq.mp3",
+      "author": "TheBuilder15 (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/411462/preview.mp3"
+    },
+    "fs:442772": {
+      "title": "Slime Squish",
+      "page": "https://freesound.org/people/qubodup/sounds/442772/",
+      "file_url": "https://cdn.freesound.org/previews/442/442772_71257-hq.mp3",
+      "author": "qubodup (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/442772/preview.mp3"
+    },
+    "fs:444389": {
+      "title": "Bed creak.wav",
+      "page": "https://freesound.org/people/MootMcnoodles/sounds/444389/",
+      "file_url": "https://cdn.freesound.org/previews/444/444389_7231443-hq.mp3",
+      "author": "MootMcnoodles (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/444389/preview.mp3"
+    },
+    "fs:444405": {
+      "title": "Sheets Rustling.wav",
+      "page": "https://freesound.org/people/MootMcnoodles/sounds/444405/",
+      "file_url": "https://cdn.freesound.org/previews/444/444405_7231443-hq.mp3",
+      "author": "MootMcnoodles (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/444405/preview.mp3"
+    },
+    "fs:444494": {
+      "title": "Cartoon - Smoochy Squeak + Plop",
+      "page": "https://freesound.org/people/Breviceps/sounds/444494/",
+      "file_url": "https://cdn.freesound.org/previews/444/444494_9159316-hq.mp3",
+      "author": "Breviceps (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/444494/preview.mp3"
+    },
+    "fs:458572": {
+      "title": "Bonk.wav",
+      "page": "https://freesound.org/people/facklere/sounds/458572/",
+      "file_url": "https://cdn.freesound.org/previews/458/458572_9571654-hq.mp3",
+      "author": "facklere (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/458572/preview.mp3"
+    },
+    "fs:475488": {
+      "title": "Door_wood_wardrobe_1.WAV",
+      "page": "https://freesound.org/people/o_ciz/sounds/475488/",
+      "file_url": "https://cdn.freesound.org/previews/475/475488_7009965-hq.mp3",
+      "author": "o_ciz (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/475488/preview.mp3"
+    },
+    "fs:541762": {
+      "title": "Desk Lamp - Chain Pull (Fast).wav",
+      "page": "https://freesound.org/people/PhillipArthurSimmons/sounds/541762/",
+      "file_url": "https://cdn.freesound.org/previews/541/541762_8871827-hq.mp3",
+      "author": "PhillipArthurSimmons (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/541762/preview.mp3"
+    },
+    "fs:547446": {
+      "title": "squelching.mp3",
+      "page": "https://freesound.org/people/tiddles451/sounds/547446/",
+      "file_url": "https://cdn.freesound.org/previews/547/547446_9912277-hq.mp3",
+      "author": "tiddles451 (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/547446/preview.mp3"
+    },
+    "fs:552131": {
+      "title": "Bathtub Faucet Running",
+      "page": "https://freesound.org/people/quantumriver/sounds/552131/",
+      "file_url": "https://cdn.freesound.org/previews/552/552131_716433-hq.mp3",
+      "author": "quantumriver (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/552131/preview.mp3"
+    },
+    "fs:67171": {
+      "title": "toilet seat down.wav",
+      "page": "https://freesound.org/people/jrssandoval/sounds/67171/",
+      "file_url": "https://cdn.freesound.org/previews/67/67171_908488-hq.mp3",
+      "author": "jrssandoval (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/67171/preview.mp3"
+    },
+    "fs:67172": {
+      "title": "toilet seat up.wav",
+      "page": "https://freesound.org/people/jrssandoval/sounds/67172/",
+      "file_url": "https://cdn.freesound.org/previews/67/67172_908488-hq.mp3",
+      "author": "jrssandoval (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/67172/preview.mp3"
+    },
+    "fs:693859": {
+      "title": "On/Off Button",
+      "page": "https://freesound.org/people/Fission9/sounds/693859/",
+      "file_url": "https://cdn.freesound.org/previews/693/693859_9395330-hq.mp3",
+      "author": "Fission9 (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/693859/preview.mp3"
+    },
+    "fs:693860": {
+      "title": "CRT TV Switches On",
+      "page": "https://freesound.org/people/Fission9/sounds/693860/",
+      "file_url": "https://cdn.freesound.org/previews/693/693860_9395330-hq.mp3",
+      "author": "Fission9 (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/693860/preview.mp3"
+    },
+    "fs:693861": {
+      "title": "CRT TV Switches Off",
+      "page": "https://freesound.org/people/Fission9/sounds/693861/",
+      "file_url": "https://cdn.freesound.org/previews/693/693861_9395330-hq.mp3",
+      "author": "Fission9 (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/693861/preview.mp3"
+    },
+    "fs:94132": {
+      "title": "Spark.wav",
+      "page": "https://freesound.org/people/BMacZero/sounds/94132/",
+      "file_url": "https://cdn.freesound.org/previews/94/94132_1554918-hq.mp3",
+      "author": "BMacZero (freesound.org)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "note": "Freesound HQ preview (128 kbps MP3) of the CC0 original; the full-quality download needs a login.",
+      "local": "freesound/94132/preview.mp3"
+    },
+    "ken:impact-sounds/impactPunch_medium_000": {
+      "title": "Impact Sounds: impactPunch_medium_000.ogg",
+      "page": "https://kenney.nl/assets/impact-sounds",
+      "archive": "https://kenney.nl/assets/impact-sounds (the zip from the page's Download button)",
+      "member": "Audio/impactPunch_medium_000.ogg",
+      "author": "Kenney (kenney.nl)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "local": "kenney-impact-sounds/x/Audio/impactPunch_medium_000.ogg"
+    },
+    "ken:impact-sounds/impactSoft_heavy_000": {
+      "title": "Impact Sounds: impactSoft_heavy_000.ogg",
+      "page": "https://kenney.nl/assets/impact-sounds",
+      "archive": "https://kenney.nl/assets/impact-sounds (the zip from the page's Download button)",
+      "member": "Audio/impactSoft_heavy_000.ogg",
+      "author": "Kenney (kenney.nl)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "local": "kenney-impact-sounds/x/Audio/impactSoft_heavy_000.ogg"
+    },
+    "ken:impact-sounds/impactSoft_heavy_002": {
+      "title": "Impact Sounds: impactSoft_heavy_002.ogg",
+      "page": "https://kenney.nl/assets/impact-sounds",
+      "archive": "https://kenney.nl/assets/impact-sounds (the zip from the page's Download button)",
+      "member": "Audio/impactSoft_heavy_002.ogg",
+      "author": "Kenney (kenney.nl)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "local": "kenney-impact-sounds/x/Audio/impactSoft_heavy_002.ogg"
+    },
+    "ken:impact-sounds/impactWood_heavy_000": {
+      "title": "Impact Sounds: impactWood_heavy_000.ogg",
+      "page": "https://kenney.nl/assets/impact-sounds",
+      "archive": "https://kenney.nl/assets/impact-sounds (the zip from the page's Download button)",
+      "member": "Audio/impactWood_heavy_000.ogg",
+      "author": "Kenney (kenney.nl)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "local": "kenney-impact-sounds/x/Audio/impactWood_heavy_000.ogg"
+    },
+    "ken:impact-sounds/impactWood_heavy_002": {
+      "title": "Impact Sounds: impactWood_heavy_002.ogg",
+      "page": "https://kenney.nl/assets/impact-sounds",
+      "archive": "https://kenney.nl/assets/impact-sounds (the zip from the page's Download button)",
+      "member": "Audio/impactWood_heavy_002.ogg",
+      "author": "Kenney (kenney.nl)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "local": "kenney-impact-sounds/x/Audio/impactWood_heavy_002.ogg"
+    },
+    "ken:rpg-audio/metalLatch": {
+      "title": "RPG Audio: metalLatch.ogg",
+      "page": "https://kenney.nl/assets/rpg-audio",
+      "archive": "https://kenney.nl/assets/rpg-audio (the zip from the page's Download button)",
+      "member": "Audio/metalLatch.ogg",
+      "author": "Kenney (kenney.nl)",
+      "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)",
+      "local": "kenney-rpg-audio/x/Audio/metalLatch.ogg"
+    }
+  },
+  "files": {
+    "SFX_BedRustle_1.wav": {
+      "cue": "BedRustle",
+      "sources": [
+        {
+          "title": "Blanket Movement 6",
+          "page": "https://freesound.org/people/OwlStorm/sounds/320144/",
+          "file_url": "https://cdn.freesound.org/previews/320/320144_140737-hq.mp3",
+          "author": "OwlStorm (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        },
+        {
+          "title": "Bed creak.wav",
+          "page": "https://freesound.org/people/MootMcnoodles/sounds/444389/",
+          "file_url": "https://cdn.freesound.org/previews/444/444389_7231443-hq.mp3",
+          "author": "MootMcnoodles (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Duvet being rustled, with a little bed-frame creak underneath.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:320144",
+            "start": 0.04,
+            "end": 1.05
+          },
+          {
+            "src": "fs:444389",
+            "start": 0.3,
+            "end": 1.1,
+            "at": 0.12,
+            "gain_db": -8,
+            "fade_in": 0.08,
+            "fade_out": 0.2
+          }
+        ],
+        "peak": 0.4
+      }
+    },
+    "SFX_BedRustle_2.wav": {
+      "cue": "BedRustle",
+      "sources": [
+        {
+          "title": "Sheets Rustling.wav",
+          "page": "https://freesound.org/people/MootMcnoodles/sounds/444405/",
+          "file_url": "https://cdn.freesound.org/previews/444/444405_7231443-hq.mp3",
+          "author": "MootMcnoodles (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        },
+        {
+          "title": "Bed creak.wav",
+          "page": "https://freesound.org/people/MootMcnoodles/sounds/444389/",
+          "file_url": "https://cdn.freesound.org/previews/444/444389_7231443-hq.mp3",
+          "author": "MootMcnoodles (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Bed sheets rustling, with a bed creak underneath.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:444405",
+            "start": 2.6,
+            "end": 3.6,
+            "fade_in": 0.01,
+            "fade_out": 0.25
+          },
+          {
+            "src": "fs:444389",
+            "start": 1.0,
+            "end": 1.75,
+            "at": 0.05,
+            "gain_db": -7,
+            "fade_in": 0.06,
+            "fade_out": 0.2
+          }
+        ],
+        "peak": 0.4
+      }
+    },
+    "SFX_Bonk.wav": {
+      "cue": "Bonk",
+      "sources": [
+        {
+          "title": "Bonk.wav",
+          "page": "https://freesound.org/people/facklere/sounds/458572/",
+          "file_url": "https://cdn.freesound.org/previews/458/458572_9571654-hq.mp3",
+          "author": "facklere (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        },
+        {
+          "title": "Impact Sounds: impactPunch_medium_000.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/assets/impact-sounds (the zip from the page's Download button)",
+          "member": "Audio/impactPunch_medium_000.ogg",
+          "author": "Kenney (kenney.nl)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Low tonal 'bonk' drum hit layered with a punch thud: cartoony but physical.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:458572",
+            "start": 0.0,
+            "end": 0.62
+          },
+          {
+            "src": "ken:impact-sounds/impactPunch_medium_000",
+            "at": 0.0,
+            "gain_db": -5
+          }
+        ],
+        "peak": 0.55
+      }
+    },
+    "SFX_BubblePop_1.wav": {
+      "cue": "BubblePop",
+      "sources": [
+        {
+          "title": "Bubble Pop",
+          "page": "https://freesound.org/people/TheBuilder15/sounds/411462/",
+          "file_url": "https://cdn.freesound.org/previews/411/411462_6090639-hq.mp3",
+          "author": "TheBuilder15 (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        },
+        {
+          "title": "Chimes \"butterfly\" #1",
+          "page": "https://bigsoundbank.com/chimes-butterfly-1-s2087.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/2087.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Mouth bubble pop with a quiet, high-passed chime cluster as a sparkle tail.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:411462",
+            "start": 0.14,
+            "end": 0.62
+          },
+          {
+            "src": "bsb:2087",
+            "start": 1.38,
+            "end": 1.95,
+            "at": 0.05,
+            "gain_db": -17,
+            "highpass": 4000,
+            "fade_in": 0.02,
+            "fade_out": 0.2
+          }
+        ],
+        "peak": 0.6
+      }
+    },
+    "SFX_BubblePop_2.wav": {
+      "cue": "BubblePop",
+      "sources": [
+        {
+          "title": "Bubbles Burst",
+          "page": "https://bigsoundbank.com/bubbles-burst-s1074.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1074.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        },
+        {
+          "title": "Chimes \"butterfly\" #1",
+          "page": "https://bigsoundbank.com/chimes-butterfly-1-s2087.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/2087.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Another mouth bubble pop with the same sparkle tail.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:1074",
+            "start": 18.98,
+            "end": 19.4
+          },
+          {
+            "src": "bsb:2087",
+            "start": 1.38,
+            "end": 1.95,
+            "at": 0.05,
+            "gain_db": -17,
+            "highpass": 4000,
+            "fade_in": 0.02,
+            "fade_out": 0.2
+          }
+        ],
+        "peak": 0.6
+      }
+    },
+    "SFX_CabinetClose.wav": {
+      "cue": "CabinetClose",
+      "sources": [
+        {
+          "title": "Cupboard",
+          "page": "https://bigsoundbank.com/cupboard-s0046.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0046.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Cupboard door shutting, take 1.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:0046",
+            "start": 1.28,
+            "end": 2.3
+          }
+        ],
+        "peak": 0.5,
+        "onset_db": -30
+      }
+    },
+    "SFX_CabinetOpen.wav": {
+      "cue": "CabinetOpen",
+      "sources": [
+        {
+          "title": "Cupboard",
+          "page": "https://bigsoundbank.com/cupboard-s0046.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0046.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Cupboard door opening (latch + squeak), take 1.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:0046",
+            "start": 0.28,
+            "end": 1.2
+          }
+        ],
+        "peak": 0.45,
+        "onset_db": -30
+      }
+    },
+    "SFX_CameraShutter.wav": {
+      "cue": "CameraShutter",
+      "sources": [
+        {
+          "title": "Instamatic, Triggering #1",
+          "page": "https://bigsoundbank.com/instamatic-triggering-1-s2821.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/2821.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Kodak Instamatic 133-X film camera shutter.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:2821",
+            "start": 0.05,
+            "end": 0.45
+          }
+        ],
+        "peak": 0.75
+      }
+    },
+    "SFX_DoorClose.wav": {
+      "cue": "DoorClose",
+      "sources": [
+        {
+          "title": "Apartment Door, Closing #1",
+          "page": "https://bigsoundbank.com/apartment-door-closing-1-s1704.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1704.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "End of the closing swing and the door shutting into its frame.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:1704",
+            "start": 2.3,
+            "end": 3.7
+          }
+        ],
+        "peak": 0.55
+      }
+    },
+    "SFX_DoorCreak.wav": {
+      "cue": "DoorCreak",
+      "sources": [
+        {
+          "title": "Creaking Door #2",
+          "page": "https://bigsoundbank.com/creaking-door-2-s3205.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/3205.wav",
+          "author": "Joseph SARDIN & Axeline T. (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Creak of a wooden door being opened.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:3205",
+            "start": 0.12,
+            "end": 1.6,
+            "fade_out": 0.25
+          }
+        ],
+        "peak": 0.35
+      }
+    },
+    "SFX_DoorHandle.wav": {
+      "cue": "DoorHandle",
+      "sources": [
+        {
+          "title": "Door Locked",
+          "page": "https://freesound.org/people/BenjaminNelan/sounds/321087/",
+          "file_url": "https://cdn.freesound.org/previews/321/321087_1196020-hq.mp3",
+          "author": "BenjaminNelan (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Trying the handle of a locked door (rattle, no give). 22 kHz original, resampled.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:321087",
+            "start": 0.0,
+            "end": 0.62
+          }
+        ],
+        "peak": 0.5
+      }
+    },
+    "SFX_DoorKnock_1.wav": {
+      "cue": "DoorKnock",
+      "sources": [
+        {
+          "title": "Door",
+          "page": "https://bigsoundbank.com/door-s0015.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0015.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Knock knock knock on a light wooden door (knuckles).",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:0015",
+            "start": 3.33,
+            "end": 4.2
+          }
+        ],
+        "peak": 0.6
+      }
+    },
+    "SFX_DoorKnock_2.wav": {
+      "cue": "DoorKnock",
+      "sources": [
+        {
+          "title": "Door",
+          "page": "https://bigsoundbank.com/door-s0015.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0015.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Three single knocks from the same recording re-spaced into a triple knock.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:0015",
+            "start": 0.11,
+            "end": 0.4
+          },
+          {
+            "src": "bsb:0015",
+            "start": 0.86,
+            "end": 1.15,
+            "at": 0.21,
+            "gain_db": 1
+          },
+          {
+            "src": "bsb:0015",
+            "start": 2.82,
+            "end": 3.15,
+            "at": 0.43,
+            "gain_db": -1
+          }
+        ],
+        "peak": 0.6
+      }
+    },
+    "SFX_DoorLatch_1.wav": {
+      "cue": "DoorLatch",
+      "sources": [
+        {
+          "title": "RPG Audio: metalLatch.ogg",
+          "page": "https://kenney.nl/assets/rpg-audio",
+          "archive": "https://kenney.nl/assets/rpg-audio (the zip from the page's Download button)",
+          "member": "Audio/metalLatch.ogg",
+          "author": "Kenney (kenney.nl)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Metal latch click.",
+      "edit": {
+        "layers": [
+          {
+            "src": "ken:rpg-audio/metalLatch"
+          }
+        ],
+        "peak": 0.5
+      }
+    },
+    "SFX_DoorLatch_2.wav": {
+      "cue": "DoorLatch",
+      "sources": [
+        {
+          "title": "Apartment Door, Opening #1",
+          "page": "https://bigsoundbank.com/apartment-door-opening-1-s1702.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1702.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "The latch clack from the apartment-door opening take.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:1702",
+            "start": 0.52,
+            "end": 0.95
+          }
+        ],
+        "peak": 0.5
+      }
+    },
+    "SFX_DoorOpen.wav": {
+      "cue": "DoorOpen",
+      "sources": [
+        {
+          "title": "Apartment Door, Opening #1",
+          "page": "https://bigsoundbank.com/apartment-door-opening-1-s1702.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1702.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Parisian apartment front door: handle, latch, and the start of the opening grind.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:1702",
+            "start": 0.05,
+            "end": 1.95,
+            "fade_out": 0.4
+          }
+        ],
+        "peak": 0.55,
+        "fade_out": 0.2
+      }
+    },
+    "SFX_DrawerClose_1.wav": {
+      "cue": "DrawerClose",
+      "sources": [
+        {
+          "title": "Wooden drawer, closing",
+          "page": "https://bigsoundbank.com/wooden-drawer-closing-s1500.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1500.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Wooden drawer sliding shut with a knock at the end.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:1500",
+            "start": 0.1,
+            "end": 1.25
+          }
+        ],
+        "peak": 0.5
+      }
+    },
+    "SFX_DrawerClose_2.wav": {
+      "cue": "DrawerClose",
+      "sources": [
+        {
+          "title": "Wooden drawer #1",
+          "page": "https://bigsoundbank.com/wooden-drawer-1-s1267.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1267.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Second closure in the same recording.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:1267",
+            "start": 6.3,
+            "end": 7.24
+          }
+        ],
+        "peak": 0.5
+      }
+    },
+    "SFX_DrawerOpen_1.wav": {
+      "cue": "DrawerOpen",
+      "sources": [
+        {
+          "title": "Wooden drawer, opening",
+          "page": "https://bigsoundbank.com/wooden-drawer-opening-s1499.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1499.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Wooden drawer sliding open on wooden runners.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:1499",
+            "start": 0.06,
+            "end": 1.0
+          }
+        ],
+        "peak": 0.55
+      }
+    },
+    "SFX_DrawerOpen_2.wav": {
+      "cue": "DrawerOpen",
+      "sources": [
+        {
+          "title": "Wooden drawer #1",
+          "page": "https://bigsoundbank.com/wooden-drawer-1-s1267.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1267.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Second opening in 'two openings and closures of a wooden drawer'.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:1267",
+            "start": 4.3,
+            "end": 5.25
+          }
+        ],
+        "peak": 0.42
+      }
+    },
+    "SFX_FaucetOff.wav": {
+      "cue": "FaucetOff",
+      "sources": [
+        {
+          "title": "Bathtub Faucet Running",
+          "page": "https://freesound.org/people/quantumriver/sounds/552131/",
+          "file_url": "https://cdn.freesound.org/previews/552/552131_716433-hq.mp3",
+          "author": "quantumriver (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        },
+        {
+          "title": "Small metal grinding #1",
+          "page": "https://bigsoundbank.com/petit-grincement-metal-1-s0322.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0322.wav",
+          "author": "DavidGreck (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Bathtub faucet being shut off (flow dwindles, last drips), with a small metal squeak layered on the handle turn.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:552131",
+            "start": 13.9,
+            "end": 16.9,
+            "fade_out": 0.3
+          },
+          {
+            "src": "bsb:0322",
+            "start": 0.12,
+            "end": 0.55,
+            "at": 0.05,
+            "gain_db": -9,
+            "highpass": 600
+          }
+        ],
+        "peak": 0.5
+      }
+    },
+    "SFX_FaucetOn.wav": {
+      "cue": "FaucetOn",
+      "sources": [
+        {
+          "title": "bath tap on.wav",
+          "page": "https://freesound.org/people/Walter_Odington/sounds/26767/",
+          "file_url": "https://cdn.freesound.org/previews/26/26767_48671-hq.mp3",
+          "author": "Walter_Odington (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Bath tap squeaking open and the water starting to run; faded out after ~2.9 s.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:26767",
+            "start": 0.0,
+            "end": 2.9,
+            "fade_out": 0.9
+          }
+        ],
+        "peak": 0.45,
+        "fade_out": 0.05
+      }
+    },
+    "SFX_Footstep_1.wav": {
+      "cue": "Footstep",
+      "sources": [
+        {
+          "title": "feet (slipper on floor)",
+          "page": "https://bigsoundbank.com/feet-slipper-on-floor-s0373.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0373.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "One slipper step on an old wooden floor (of 13 in the take).",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:0373",
+            "start": 0.01,
+            "end": 0.46,
+            "fade_out": 0.1
+          }
+        ],
+        "peak": 0.3,
+        "onset_db": -30
+      }
+    },
+    "SFX_Footstep_2.wav": {
+      "cue": "Footstep",
+      "sources": [
+        {
+          "title": "feet (slipper on floor)",
+          "page": "https://bigsoundbank.com/feet-slipper-on-floor-s0373.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0373.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "One slipper step on an old wooden floor (of 13 in the take).",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:0373",
+            "start": 0.83,
+            "end": 1.28,
+            "fade_out": 0.1
+          }
+        ],
+        "peak": 0.33,
+        "onset_db": -30
+      }
+    },
+    "SFX_Footstep_3.wav": {
+      "cue": "Footstep",
+      "sources": [
+        {
+          "title": "feet (slipper on floor)",
+          "page": "https://bigsoundbank.com/feet-slipper-on-floor-s0373.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0373.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "One slipper step on an old wooden floor (of 13 in the take).",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:0373",
+            "start": 1.53,
+            "end": 1.98,
+            "fade_out": 0.1
+          }
+        ],
+        "peak": 0.3,
+        "onset_db": -30
+      }
+    },
+    "SFX_Footstep_4.wav": {
+      "cue": "Footstep",
+      "sources": [
+        {
+          "title": "feet (slipper on floor)",
+          "page": "https://bigsoundbank.com/feet-slipper-on-floor-s0373.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0373.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "One slipper step on an old wooden floor (of 13 in the take).",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:0373",
+            "start": 2.23,
+            "end": 2.68,
+            "fade_out": 0.1
+          }
+        ],
+        "peak": 0.3,
+        "onset_db": -30
+      }
+    },
+    "SFX_Footstep_5.wav": {
+      "cue": "Footstep",
+      "sources": [
+        {
+          "title": "feet (slipper on floor)",
+          "page": "https://bigsoundbank.com/feet-slipper-on-floor-s0373.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0373.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "One slipper step on an old wooden floor (of 13 in the take).",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:0373",
+            "start": 3.64,
+            "end": 4.09,
+            "fade_out": 0.1
+          }
+        ],
+        "peak": 0.33,
+        "onset_db": -30
+      }
+    },
+    "SFX_Footstep_6.wav": {
+      "cue": "Footstep",
+      "sources": [
+        {
+          "title": "feet (slipper on floor)",
+          "page": "https://bigsoundbank.com/feet-slipper-on-floor-s0373.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0373.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "One slipper step on an old wooden floor (of 13 in the take).",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:0373",
+            "start": 4.38,
+            "end": 4.83,
+            "fade_out": 0.1
+          }
+        ],
+        "peak": 0.3,
+        "onset_db": -30
+      }
+    },
+    "SFX_FridgeClose.wav": {
+      "cue": "FridgeClose",
+      "sources": [
+        {
+          "title": "refrigerator door close",
+          "page": "https://freesound.org/people/Yoyodaman234/sounds/183537/",
+          "file_url": "https://cdn.freesound.org/previews/183/183537_2792951-hq.mp3",
+          "author": "Yoyodaman234 (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Fridge door thudding shut (exterior take).",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:183537",
+            "start": 0.06,
+            "end": 0.95
+          }
+        ],
+        "peak": 0.55,
+        "onset_db": -30
+      }
+    },
+    "SFX_FridgeOpen.wav": {
+      "cue": "FridgeOpen",
+      "sources": [
+        {
+          "title": "refrigerator door open",
+          "page": "https://freesound.org/people/Yoyodaman234/sounds/183531/",
+          "file_url": "https://cdn.freesound.org/previews/183/183531_2792951-hq.mp3",
+          "author": "Yoyodaman234 (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        },
+        {
+          "title": "Bottles of beer, shocks #2",
+          "page": "https://bigsoundbank.com/bottles-of-beer-shocks-2-s1394.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1394.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Door seal unsticking and swinging open, with a quiet clink of two beer bottles mixed in at 0.3 s.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:183531",
+            "start": 0.05,
+            "end": 1.25
+          },
+          {
+            "src": "bsb:1394",
+            "start": 0.08,
+            "end": 0.4,
+            "at": 0.3,
+            "gain_db": -14,
+            "fade_out": 0.08
+          }
+        ],
+        "peak": 0.5,
+        "onset_db": -30
+      }
+    },
+    "SFX_GlassClink_1.wav": {
+      "cue": "GlassClink",
+      "sources": [
+        {
+          "title": "Cheers, red wine glass #2",
+          "page": "https://bigsoundbank.com/cheers-red-wine-glass-2-s1329.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1329.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Two red-wine glasses clinking.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:1329"
+          }
+        ],
+        "peak": 0.6
+      }
+    },
+    "SFX_GlassClink_2.wav": {
+      "cue": "GlassClink",
+      "sources": [
+        {
+          "title": "Cheers, small wineglass #1",
+          "page": "https://bigsoundbank.com/cheers-small-wineglass-1-s1325.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1325.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Two small wine glasses clinking.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:1325"
+          }
+        ],
+        "peak": 0.45
+      }
+    },
+    "SFX_Hum.wav": {
+      "cue": "Hum",
+      "sources": [
+        {
+          "title": "Neon or transformer #1",
+          "page": "https://bigsoundbank.com/neon-or-transformer-1-s2118.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/2118.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "50 Hz mains buzz from a neon tube / transformer.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:2118",
+            "start": 1.0,
+            "end": 2.5,
+            "fade_in": 0.15,
+            "fade_out": 0.4
+          }
+        ],
+        "peak": 0.28,
+        "fade_out": 0.05
+      }
+    },
+    "SFX_Kiss_1.wav": {
+      "cue": "Kiss",
+      "sources": [
+        {
+          "title": "Cartoon - Smoochy Squeak + Plop",
+          "page": "https://freesound.org/people/Breviceps/sounds/444494/",
+          "file_url": "https://cdn.freesound.org/previews/444/444494_9159316-hq.mp3",
+          "author": "Breviceps (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Cartoon smoochy squeak with its little plop moved up right behind it: a cute 'mwah'.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:444494",
+            "start": 0.0,
+            "end": 0.25,
+            "fade_out": 0.03
+          },
+          {
+            "src": "fs:444494",
+            "start": 0.52,
+            "end": 0.66,
+            "at": 0.19,
+            "gain_db": -4
+          }
+        ],
+        "peak": 0.5
+      }
+    },
+    "SFX_Kiss_2.wav": {
+      "cue": "Kiss",
+      "sources": [
+        {
+          "title": "Kisses #1",
+          "page": "https://bigsoundbank.com/kisses-s0178.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0178.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "One small dry kiss (the longest of 7 in the take).",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:0178",
+            "start": 6.46,
+            "end": 6.78
+          }
+        ],
+        "peak": 0.6
+      }
+    },
+    "SFX_LampOff.wav": {
+      "cue": "LampOff",
+      "sources": [
+        {
+          "title": "Desk Lamp - Chain Pull (Fast).wav",
+          "page": "https://freesound.org/people/PhillipArthurSimmons/sounds/541762/",
+          "file_url": "https://cdn.freesound.org/previews/541/541762_8871827-hq.mp3",
+          "author": "PhillipArthurSimmons (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Second click (release) of the same pull-chain, pitched down 1 semitone so on/off differ.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:541762",
+            "start": 0.53,
+            "end": 0.95,
+            "pitch": -1
+          }
+        ],
+        "peak": 0.48
+      }
+    },
+    "SFX_LampOn.wav": {
+      "cue": "LampOn",
+      "sources": [
+        {
+          "title": "Desk Lamp - Chain Pull (Fast).wav",
+          "page": "https://freesound.org/people/PhillipArthurSimmons/sounds/541762/",
+          "file_url": "https://cdn.freesound.org/previews/541/541762_8871827-hq.mp3",
+          "author": "PhillipArthurSimmons (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "First click (pull) of a desk-lamp pull-chain.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:541762",
+            "start": 0.22,
+            "end": 0.53
+          }
+        ],
+        "peak": 0.5
+      }
+    },
+    "SFX_PipeClank_1.wav": {
+      "cue": "PipeClank",
+      "sources": [
+        {
+          "title": "Hollow Metal Pipe Hits",
+          "page": "https://freesound.org/people/Zott820/sounds/271170/",
+          "file_url": "https://cdn.freesound.org/previews/271/271170_2558531-hq.mp3",
+          "author": "Zott820 (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Two hollow 1/2\" metal pipes hit together, pitched down 3 semitones for a heavier plumbing clank.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:271170",
+            "start": 0.0,
+            "end": 0.62,
+            "pitch": -3
+          }
+        ],
+        "peak": 0.5
+      }
+    },
+    "SFX_PipeClank_2.wav": {
+      "cue": "PipeClank",
+      "sources": [
+        {
+          "title": "Hollow Metal Pipe Hits",
+          "page": "https://freesound.org/people/Zott820/sounds/271170/",
+          "file_url": "https://cdn.freesound.org/previews/271/271170_2558531-hq.mp3",
+          "author": "Zott820 (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Another hit from the same take, pitched down 4 semitones.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:271170",
+            "start": 12.88,
+            "end": 13.55,
+            "pitch": -4
+          }
+        ],
+        "peak": 0.5
+      }
+    },
+    "SFX_PowerDown.wav": {
+      "cue": "PowerDown",
+      "sources": [
+        {
+          "title": "Neon or transformer #1",
+          "page": "https://bigsoundbank.com/neon-or-transformer-1-s2118.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/2118.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        },
+        {
+          "title": "Circuit Breaker 3 DP.wav",
+          "page": "https://freesound.org/people/sribubba/sounds/130154/",
+          "file_url": "https://cdn.freesound.org/previews/130/130154_15663-hq.mp3",
+          "author": "sribubba (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Mains buzz sliding down ~14 semitones and fading (wind-down), then a circuit-breaker clunk.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:2118",
+            "start": 2.0,
+            "end": 3.1,
+            "pitch": 0,
+            "pitch_end": -14,
+            "fade_in": 0.01,
+            "fade_out": 0.45
+          },
+          {
+            "src": "fs:130154",
+            "start": 0.03,
+            "end": 0.42,
+            "at": 0.78,
+            "gain_db": -2
+          }
+        ],
+        "peak": 0.5,
+        "max_len": 1.4
+      }
+    },
+    "SFX_PowerUp.wav": {
+      "cue": "PowerUp",
+      "sources": [
+        {
+          "title": "Circuit Breaker 2 DP.wav",
+          "page": "https://freesound.org/people/sribubba/sounds/130153/",
+          "file_url": "https://cdn.freesound.org/previews/130/130153_15663-hq.mp3",
+          "author": "sribubba (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        },
+        {
+          "title": "Neon or transformer #1",
+          "page": "https://bigsoundbank.com/neon-or-transformer-1-s2118.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/2118.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Circuit-breaker clunk, then mains buzz rising ~14 semitones up to pitch (wind-up).",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:130153",
+            "start": 0.0,
+            "end": 0.4
+          },
+          {
+            "src": "bsb:2118",
+            "start": 3.0,
+            "end": 4.0,
+            "at": 0.1,
+            "pitch": -14,
+            "pitch_end": 0,
+            "fade_in": 0.35,
+            "fade_out": 0.25,
+            "gain_db": -3
+          }
+        ],
+        "peak": 0.5,
+        "max_len": 1.3
+      }
+    },
+    "SFX_RadioStatic.wav": {
+      "cue": "RadioStatic",
+      "sources": [
+        {
+          "title": "Radio, frequency sweep #1",
+          "page": "https://bigsoundbank.com/radio-frequency-sweep-1-s2617.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/2617.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Manual radio-tuner scan: static with faint tuning whistles (section with no station audio).",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:2617",
+            "start": 1.62,
+            "end": 2.9,
+            "fade_in": 0.03,
+            "fade_out": 0.2
+          }
+        ],
+        "peak": 0.3
+      }
+    },
+    "SFX_Rain.wav": {
+      "cue": "Rain",
+      "sources": [
+        {
+          "title": "Rain on car windshield",
+          "page": "https://bigsoundbank.com/rain-on-car-windshield-s1295.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1295.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Big raindrops on a car windscreen, recorded inside (reads as rain on a window); 0.5 s fade in, 0.9 s fade out.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:1295",
+            "start": 20.0,
+            "end": 23.8,
+            "fade_in": 0.5,
+            "fade_out": 0.9
+          }
+        ],
+        "peak": 0.3,
+        "onset_db": -60,
+        "fade_out": 0.05
+      }
+    },
+    "SFX_RubberDuck_1.wav": {
+      "cue": "RubberDuck",
+      "sources": [
+        {
+          "title": "Rubber duck toy squeaking.wav",
+          "page": "https://freesound.org/people/panmaterac/sounds/201285/",
+          "file_url": "https://cdn.freesound.org/previews/201/201285_3740507-hq.mp3",
+          "author": "panmaterac (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Small yellow rubber duck squeezed once.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:201285",
+            "start": 1.74,
+            "end": 2.32
+          }
+        ],
+        "peak": 0.45
+      }
+    },
+    "SFX_RubberDuck_2.wav": {
+      "cue": "RubberDuck",
+      "sources": [
+        {
+          "title": "Rubber duck toy squeaking.wav",
+          "page": "https://freesound.org/people/panmaterac/sounds/201285/",
+          "file_url": "https://cdn.freesound.org/previews/201/201285_3740507-hq.mp3",
+          "author": "panmaterac (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Another squeeze from the same take.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:201285",
+            "start": 6.8,
+            "end": 7.3
+          }
+        ],
+        "peak": 0.45
+      }
+    },
+    "SFX_ShelfCrash.wav": {
+      "cue": "ShelfCrash",
+      "sources": [
+        {
+          "title": "Impact Sounds: impactWood_heavy_000.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/assets/impact-sounds (the zip from the page's Download button)",
+          "member": "Audio/impactWood_heavy_000.ogg",
+          "author": "Kenney (kenney.nl)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        },
+        {
+          "title": "Wood Crash.mp3",
+          "page": "https://freesound.org/people/benjaminpotter/sounds/343164/",
+          "file_url": "https://cdn.freesound.org/previews/343/343164_6001460-hq.mp3",
+          "author": "benjaminpotter (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        },
+        {
+          "title": "Impact Sounds: impactSoft_heavy_002.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/assets/impact-sounds (the zip from the page's Download button)",
+          "member": "Audio/impactSoft_heavy_002.ogg",
+          "author": "Kenney (kenney.nl)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Heavy wooden thump, then blocks of wood crashing off a plank, then a soft box-like thud as it settles.",
+      "edit": {
+        "layers": [
+          {
+            "src": "ken:impact-sounds/impactWood_heavy_000"
+          },
+          {
+            "src": "fs:343164",
+            "start": 0.6,
+            "end": 2.75,
+            "at": 0.02,
+            "fade_out": 0.3
+          },
+          {
+            "src": "ken:impact-sounds/impactSoft_heavy_002",
+            "at": 1.05,
+            "gain_db": -6
+          }
+        ],
+        "peak": 0.6,
+        "max_len": 2.0,
+        "fade_out": 0.25
+      }
+    },
+    "SFX_Sizzle.wav": {
+      "cue": "Sizzle",
+      "sources": [
+        {
+          "title": "Frying pan #3",
+          "page": "https://bigsoundbank.com/frying-pan-3-s0145.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0145.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Hot-oil sizzle (steak in a pan), 1.3 s with soft edges.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:0145",
+            "start": 0.5,
+            "end": 1.8,
+            "fade_in": 0.08,
+            "fade_out": 0.4
+          }
+        ],
+        "peak": 0.6,
+        "fade_out": 0.05
+      }
+    },
+    "SFX_Spark_1.wav": {
+      "cue": "Spark",
+      "sources": [
+        {
+          "title": "Spark",
+          "page": "https://freesound.org/people/elliott.klein/sounds/189630/",
+          "file_url": "https://cdn.freesound.org/previews/189/189630_2816253-hq.mp3",
+          "author": "elliott.klein (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Single spark from a bug-zapper racket.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:189630"
+          }
+        ],
+        "peak": 0.6
+      }
+    },
+    "SFX_Spark_2.wav": {
+      "cue": "Spark",
+      "sources": [
+        {
+          "title": "Spark.wav",
+          "page": "https://freesound.org/people/BMacZero/sounds/94132/",
+          "file_url": "https://cdn.freesound.org/previews/94/94132_1554918-hq.mp3",
+          "author": "BMacZero (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Single spark from a Tesla generator.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:94132",
+            "start": 0.1,
+            "end": 0.34
+          }
+        ],
+        "peak": 0.75
+      }
+    },
+    "SFX_Squelch_1.wav": {
+      "cue": "Squelch",
+      "sources": [
+        {
+          "title": "Slime Squish",
+          "page": "https://freesound.org/people/qubodup/sounds/442772/",
+          "file_url": "https://cdn.freesound.org/previews/442/442772_71257-hq.mp3",
+          "author": "qubodup (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Slime squish (game SFX made from a real squelch recording).",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:442772"
+          }
+        ],
+        "peak": 0.5
+      }
+    },
+    "SFX_Squelch_2.wav": {
+      "cue": "Squelch",
+      "sources": [
+        {
+          "title": "squelching.mp3",
+          "page": "https://freesound.org/people/tiddles451/sounds/547446/",
+          "file_url": "https://cdn.freesound.org/previews/547/547446_9912277-hq.mp3",
+          "author": "tiddles451 (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "A sodden wet sponge squelched into a glass.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:547446",
+            "start": 3.45,
+            "end": 4.05,
+            "fade_out": 0.1
+          }
+        ],
+        "peak": 0.5
+      }
+    },
+    "SFX_StoveIgnite.wav": {
+      "cue": "StoveIgnite",
+      "sources": [
+        {
+          "title": "Gas stove #2",
+          "page": "https://bigsoundbank.com/gas-stove-2-s0058.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0058.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        },
+        {
+          "title": "Gas stove #1",
+          "page": "https://bigsoundbank.com/gas-stove-1-s0057.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0057.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Two piezo-igniter ticks from take 2, then take 1's tick + flame catching + gas hiss; hiss faded out.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:0058",
+            "start": 1.395,
+            "end": 1.43,
+            "fade_out": 0.005
+          },
+          {
+            "src": "bsb:0058",
+            "start": 1.395,
+            "end": 1.43,
+            "at": 0.16,
+            "gain_db": -2,
+            "fade_out": 0.005
+          },
+          {
+            "src": "bsb:0057",
+            "start": 2.2,
+            "end": 3.7,
+            "at": 0.32,
+            "fade_out": 0.5
+          }
+        ],
+        "peak": 0.6,
+        "fade_out": 0.4
+      }
+    },
+    "SFX_StoveOff.wav": {
+      "cue": "StoveOff",
+      "sources": [
+        {
+          "title": "Gas stove #1",
+          "page": "https://bigsoundbank.com/gas-stove-1-s0057.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0057.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "End of take 1: last of the gas hiss and the knob clicking off.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:0057",
+            "start": 21.05,
+            "end": 21.75
+          }
+        ],
+        "peak": 0.4
+      }
+    },
+    "SFX_TapDrip_1.wav": {
+      "cue": "TapDrip",
+      "sources": [
+        {
+          "title": "Drops of water #1",
+          "page": "https://bigsoundbank.com/drops-of-water-1-s1384.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1384.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Single drop of water.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:1384",
+            "start": 0.13,
+            "end": 0.42
+          }
+        ],
+        "peak": 0.4
+      }
+    },
+    "SFX_TapDrip_2.wav": {
+      "cue": "TapDrip",
+      "sources": [
+        {
+          "title": "Drops of water #1",
+          "page": "https://bigsoundbank.com/drops-of-water-1-s1384.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1384.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Single drop of water.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:1384",
+            "start": 4.42,
+            "end": 4.7
+          }
+        ],
+        "peak": 0.4
+      }
+    },
+    "SFX_TapDrip_3.wav": {
+      "cue": "TapDrip",
+      "sources": [
+        {
+          "title": "Drops of water #1",
+          "page": "https://bigsoundbank.com/drops-of-water-1-s1384.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1384.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Single drop of water.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:1384",
+            "start": 11.6,
+            "end": 11.88
+          }
+        ],
+        "peak": 0.4
+      }
+    },
+    "SFX_Thud_1.wav": {
+      "cue": "Thud",
+      "sources": [
+        {
+          "title": "Impact Sounds: impactSoft_heavy_000.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/assets/impact-sounds (the zip from the page's Download button)",
+          "member": "Audio/impactSoft_heavy_000.ogg",
+          "author": "Kenney (kenney.nl)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        },
+        {
+          "title": "Impact Sounds: impactWood_heavy_002.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/assets/impact-sounds (the zip from the page's Download button)",
+          "member": "Audio/impactWood_heavy_002.ogg",
+          "author": "Kenney (kenney.nl)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Soft heavy body impact layered with a heavy wood impact: a body on a wooden floor.",
+      "edit": {
+        "layers": [
+          {
+            "src": "ken:impact-sounds/impactSoft_heavy_000"
+          },
+          {
+            "src": "ken:impact-sounds/impactWood_heavy_002",
+            "gain_db": -3
+          }
+        ],
+        "peak": 0.6
+      }
+    },
+    "SFX_Thud_2.wav": {
+      "cue": "Thud",
+      "sources": [
+        {
+          "title": "Impact Sounds: impactSoft_heavy_002.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/assets/impact-sounds (the zip from the page's Download button)",
+          "member": "Audio/impactSoft_heavy_002.ogg",
+          "author": "Kenney (kenney.nl)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        },
+        {
+          "title": "Impact Sounds: impactWood_heavy_000.ogg",
+          "page": "https://kenney.nl/assets/impact-sounds",
+          "archive": "https://kenney.nl/assets/impact-sounds (the zip from the page's Download button)",
+          "member": "Audio/impactWood_heavy_000.ogg",
+          "author": "Kenney (kenney.nl)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Same recipe with the other takes.",
+      "edit": {
+        "layers": [
+          {
+            "src": "ken:impact-sounds/impactSoft_heavy_002"
+          },
+          {
+            "src": "ken:impact-sounds/impactWood_heavy_000",
+            "gain_db": -3
+          }
+        ],
+        "peak": 0.6
+      }
+    },
+    "SFX_Thunder.wav": {
+      "cue": "Thunder",
+      "sources": [
+        {
+          "title": "Thunder #2",
+          "page": "https://bigsoundbank.com/thunder-2-s3113.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/3113.wav",
+          "author": "Joseph SARDIN & Axeline T. (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "A single short thunderclap and rumble, no rain.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:3113",
+            "start": 0.6,
+            "end": 4.7,
+            "fade_out": 0.6
+          }
+        ],
+        "peak": 0.6,
+        "max_len": 4.0,
+        "fade_out": 0.3
+      }
+    },
+    "SFX_TileCrack.wav": {
+      "cue": "TileCrack",
+      "sources": [
+        {
+          "title": "Breaking Ceramic Tile",
+          "page": "https://freesound.org/people/deleted_user_7146007/sounds/383720/",
+          "file_url": "https://cdn.freesound.org/previews/383/383720_7146007-hq.mp3",
+          "author": "deleted_user_7146007 (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "A ceramic tile breaking.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:383720",
+            "start": 0.85,
+            "end": 1.75
+          }
+        ],
+        "peak": 0.5
+      }
+    },
+    "SFX_TileTap_1.wav": {
+      "cue": "TileTap",
+      "sources": [
+        {
+          "title": "Knock-knock on a tiled wall",
+          "page": "https://bigsoundbank.com/knock-knock-on-a-tiled-wall-s0401.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0401.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Single knuckle knock on a tiled bathroom wall.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:0401",
+            "start": 7.44,
+            "end": 7.85
+          }
+        ],
+        "peak": 0.55
+      }
+    },
+    "SFX_TileTap_2.wav": {
+      "cue": "TileTap",
+      "sources": [
+        {
+          "title": "Knock-knock on a tiled wall",
+          "page": "https://bigsoundbank.com/knock-knock-on-a-tiled-wall-s0401.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0401.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Another knock from the same take.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:0401",
+            "start": 8.69,
+            "end": 9.1
+          }
+        ],
+        "peak": 0.55
+      }
+    },
+    "SFX_TileTap_3.wav": {
+      "cue": "TileTap",
+      "sources": [
+        {
+          "title": "Knock-knock on a tiled wall",
+          "page": "https://bigsoundbank.com/knock-knock-on-a-tiled-wall-s0401.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/0401.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Another knock from the same take.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:0401",
+            "start": 4.27,
+            "end": 4.68
+          }
+        ],
+        "peak": 0.45
+      }
+    },
+    "SFX_ToiletLidDown.wav": {
+      "cue": "ToiletLidDown",
+      "sources": [
+        {
+          "title": "toilet seat down.wav",
+          "page": "https://freesound.org/people/jrssandoval/sounds/67171/",
+          "file_url": "https://cdn.freesound.org/previews/67/67171_908488-hq.mp3",
+          "author": "jrssandoval (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Toilet seat dropped down onto the bowl.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:67171",
+            "start": 0.66,
+            "end": 1.65
+          }
+        ],
+        "peak": 0.5,
+        "onset_db": -30
+      }
+    },
+    "SFX_ToiletLidUp.wav": {
+      "cue": "ToiletLidUp",
+      "sources": [
+        {
+          "title": "toilet seat up.wav",
+          "page": "https://freesound.org/people/jrssandoval/sounds/67172/",
+          "file_url": "https://cdn.freesound.org/previews/67/67172_908488-hq.mp3",
+          "author": "jrssandoval (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Toilet seat lifted up, clacking against the tank.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:67172",
+            "start": 0.86,
+            "end": 1.75
+          }
+        ],
+        "peak": 0.5,
+        "onset_db": -30
+      }
+    },
+    "SFX_TvOff.wav": {
+      "cue": "TvOff",
+      "sources": [
+        {
+          "title": "On/Off Button",
+          "page": "https://freesound.org/people/Fission9/sounds/693859/",
+          "file_url": "https://cdn.freesound.org/previews/693/693859_9395330-hq.mp3",
+          "author": "Fission9 (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        },
+        {
+          "title": "CRT TV Switches Off",
+          "page": "https://freesound.org/people/Fission9/sounds/693861/",
+          "file_url": "https://cdn.freesound.org/previews/693/693861_9395330-hq.mp3",
+          "author": "Fission9 (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Power-button press layered with the CRT switch-off zip (take 1).",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:693859",
+            "start": 1.06,
+            "end": 1.4,
+            "gain_db": -5
+          },
+          {
+            "src": "fs:693861",
+            "start": 0.0,
+            "end": 0.55,
+            "at": 0.02
+          }
+        ],
+        "peak": 0.5
+      }
+    },
+    "SFX_TvOn.wav": {
+      "cue": "TvOn",
+      "sources": [
+        {
+          "title": "CRT TV Switches On",
+          "page": "https://freesound.org/people/Fission9/sounds/693860/",
+          "file_url": "https://cdn.freesound.org/previews/693/693860_9395330-hq.mp3",
+          "author": "Fission9 (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Power-button thunk, the start of the CRT whine, then the degauss 'bvoom' (all from take 1), overlapped to ~1.4 s.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:693860",
+            "start": 0.18,
+            "end": 0.72,
+            "fade_out": 0.08
+          },
+          {
+            "src": "fs:693860",
+            "start": 1.2,
+            "end": 2.3,
+            "at": 0.4,
+            "fade_in": 0.05,
+            "gain_db": -2,
+            "fade_out": 0.3
+          },
+          {
+            "src": "fs:693860",
+            "start": 3.06,
+            "end": 3.95,
+            "at": 0.55,
+            "gain_db": -4,
+            "fade_out": 0.35
+          }
+        ],
+        "peak": 0.5,
+        "fade_out": 0.25,
+        "max_len": 1.5
+      }
+    },
+    "SFX_WardrobeClose.wav": {
+      "cue": "WardrobeClose",
+      "sources": [
+        {
+          "title": "Door_wood_wardrobe_1.WAV",
+          "page": "https://freesound.org/people/o_ciz/sounds/475488/",
+          "file_url": "https://cdn.freesound.org/previews/475/475488_7009965-hq.mp3",
+          "author": "o_ciz (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Closing a wooden wardrobe door.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:475488",
+            "start": 4.7,
+            "end": 5.85
+          }
+        ],
+        "peak": 0.5,
+        "onset_db": -30
+      }
+    },
+    "SFX_WardrobeOpen.wav": {
+      "cue": "WardrobeOpen",
+      "sources": [
+        {
+          "title": "Open-Wardrobe-2.wav",
+          "page": "https://freesound.org/people/toefur/sounds/280240/",
+          "file_url": "https://cdn.freesound.org/previews/280/280240_34567-hq.mp3",
+          "author": "toefur (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Wooden wardrobe door opening: knob rattle and a small wobble/creak of the wood.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:280240",
+            "start": 0.15,
+            "end": 1.95
+          }
+        ],
+        "peak": 0.55,
+        "fade_out": 0.15
+      }
+    },
+    "SFX_WaterSplash_1.wav": {
+      "cue": "WaterSplash",
+      "sources": [
+        {
+          "title": "Splash, Small #1",
+          "page": "https://bigsoundbank.com/splash-small-1-s1529.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1529.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Small splash (a pebble into a pond).",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:1529",
+            "start": 0.04,
+            "end": 0.95
+          }
+        ],
+        "peak": 0.5
+      }
+    },
+    "SFX_WaterSplash_2.wav": {
+      "cue": "WaterSplash",
+      "sources": [
+        {
+          "title": "Splash, small #3",
+          "page": "https://bigsoundbank.com/splash-small-3-s1531.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1531.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Small splash (a pebble into a pond).",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:1531",
+            "start": 0.0,
+            "end": 0.55
+          }
+        ],
+        "peak": 0.55
+      }
+    },
+    "SFX_Whoosh_1.wav": {
+      "cue": "Whoosh",
+      "sources": [
+        {
+          "title": "Whoosh #4",
+          "page": "https://bigsoundbank.com/whoosh-4-s1796.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1796.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Whoosh of a long rope swung through the air.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:1796"
+          }
+        ],
+        "peak": 0.45
+      }
+    },
+    "SFX_Whoosh_2.wav": {
+      "cue": "Whoosh",
+      "sources": [
+        {
+          "title": "Whoosh #3",
+          "page": "https://bigsoundbank.com/whoosh-3-s1795.html",
+          "file_url": "https://bigsoundbank.com/UPLOAD/bwf-en/1795.wav",
+          "author": "Joseph SARDIN (BigSoundBank.com)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/); BigSoundBank licence page: https://bigsoundbank.com/licenses.html"
+        }
+      ],
+      "notes": "Whoosh of a long rope swung through the air.",
+      "edit": {
+        "layers": [
+          {
+            "src": "bsb:1795"
+          }
+        ],
+        "peak": 0.45
+      }
+    },
+    "SFX_Zap_1.wav": {
+      "cue": "Zap",
+      "sources": [
+        {
+          "title": "Electric Sparks.wav",
+          "page": "https://freesound.org/people/kev_durr/sounds/396470/",
+          "file_url": "https://cdn.freesound.org/previews/396/396470_5415774-hq.mp3",
+          "author": "kev_durr (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Burst of sparks from a 35 kV supply.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:396470",
+            "start": 3.56,
+            "end": 4.2,
+            "fade_out": 0.06
+          }
+        ],
+        "peak": 0.75
+      }
+    },
+    "SFX_Zap_2.wav": {
+      "cue": "Zap",
+      "sources": [
+        {
+          "title": "Electric Sparks.wav",
+          "page": "https://freesound.org/people/kev_durr/sounds/396470/",
+          "file_url": "https://cdn.freesound.org/previews/396/396470_5415774-hq.mp3",
+          "author": "kev_durr (freesound.org)",
+          "license": "CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)"
+        }
+      ],
+      "notes": "Another burst from the same take.",
+      "edit": {
+        "layers": [
+          {
+            "src": "fs:396470",
+            "start": 4.43,
+            "end": 5.08,
+            "fade_out": 0.06
+          }
+        ],
+        "peak": 0.75
+      }
+    }
+  }
+}
