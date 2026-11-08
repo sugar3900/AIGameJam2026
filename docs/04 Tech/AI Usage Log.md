@@ -21,6 +21,7 @@ Track where AI tools were used. Useful for jam disclosure rules and the [[Postmo
 | 2026-11-08 | QA | Claude Code | Validator run plus a throwaway script that walks the inspection and epilogue for all 625 outcome combinations × house choices (every node reachable, no stuck choices) | Script kept out of the repo |
 | 2026-11-08 | design | Claude Code | Updated the GDD (cast, interconnections, asides, inspection rule), Task Board and devlog for the v2 cast | |
 | 2026-11-08 | code / audio | Claude Code + Kokoro-82M TTS | Merged `voices` (and `feature/character-models`) into the v2 dialogue branch: voice-over vs asides, one shared `EaseOutBack`, Voice Casting updated to v2 canon (Tyler American); regenerated Lukey's placeholder VO for his v2 lines (100 new or changed, 5 orphans removed) and re-imported | `generate_vo.py`, `import_vo.py`, [[Voice Casting]] |
+| 2026-11-08 | text / design | Claude Code (integration writer) | Designer feedback pass on the integration scripts and docs: removed the named, sentient dehumidifier; made the day-30 inspection Dan's first and only visit (podcast ep3 is a radio guest spot); matched every appearance line to the 3D models; added `{sfx:Name}` cue tags; updated GDD, Task Board and devlog; re-ran the validator and the 1,137-playthrough finale simulation | `inspection.json`, `podcast.json`, `epilogue.json` |
 
 ## Prompts worth keeping
 - "Pull an update and read the documents I wrote. We will be building this out using Unreal... work independently until you've completed the prototype."

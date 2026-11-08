@@ -2,11 +2,11 @@
     "id": "inspection",
     "kind": "scene",
     "name": "Final Inspection",
-    "tagline": "Friday. Week four. The clipboard cometh.",
+    "tagline": "Day 30. One inspector. One clipboard. One visit.",
     "speakers": [
         "Dan"
     ],
-    "notes": "Plays when the player goes to bed on the last week. The house passes only if all four maladies are fixed (housefixed, i.e. fixedcount == storycount); the game uses the same rule to decide whether the finale podcast plays. On a fail, Dan walks to each room that is still broken (kitchen, bedroom closet, bathroom, living room, in that order) via single conditional choices, so the scene names exactly what's unfinished.",
+    "notes": "Plays when the player goes to bed on the last week (day 30). This is Inspector Dan's first and only visit to the house: inspectors don't drop by weekly, so nothing here may call back to an earlier visit (the player has only heard him on the week-3 podcast). The house passes only if all four maladies are fixed (housefixed, i.e. fixedcount == storycount); the game uses the same rule to decide whether the finale podcast plays. On a fail, Dan walks to each room that is still broken (kitchen, bedroom closet, bathroom, living room, in that order) via single conditional choices, so the scene names exactly what's unfinished.",
     "entries": [
         {
             "if": "housefixed",
@@ -20,25 +20,25 @@
     "nodes": {
         "pass": {
             "lines": [
-                "*Friday morning. Inspector Dan arrives with his clipboard, his windbreaker and, for once, completely dry shoes.*",
-                "Dan: Final inspection. Let's see what we've got.",
-                "*The kitchen. He checks every pipe, knocks on the walls and peers under the sink for a long time.*",
+                "*{sfx:DoorKnock} Day 30. Inspection day. Inspector Dan is on the porch with a clipboard, a windbreaker and a brand-new pair of waterproof shoes.*",
+                "Dan: First time inside. I've read the file, I've heard the podcast, and I've dressed for it. Final inspection. Let's see what we've got.",
+                "*{sfx:PipeClank} The kitchen. He checks every pipe, knocks on the walls and peers under the sink for a long time.*",
                 "Dan: Not a single leak. You've really turned the tide on this place.",
                 "*The bedroom closet. Bare studs, fresh drywall, no smell at all. He sniffs anyway.*",
-                "Dan: No more fungus among us. I'll be honest, I'll miss the moldy oldie. Spore-adically.",
-                "*The living room. He flips every switch in the house. Nothing flickers. Nothing sparks. Nothing apologizes.*",
+                "Dan: No fungus among us. I had a whole moldy-oldie bit ready from the radio. I'll use it spore-adically.",
+                "*{sfx:SwitchOn} The living room. He flips every switch in the house. Nothing flickers. Nothing sparks. Nothing apologizes.*",
                 "Dan: Rewired, up to code. A real watt-ershed moment.",
                 "*The bathroom. He runs a thumb along the grout of the old pink tile and smiles.*",
-                "Dan: Restored, regrouted, sealed. I said it on Monday and I'll tile it again: she's a keeper.",
+                "Dan: Restored, regrouted, sealed. Seventy years old and not a crack in her. I'll say it once and I'll tile it again: she's a keeper.",
                 "*He waits for a laugh. The whole house holds its breath, very politely.*",
-                "Dan: Congratulations. 12 Heartbreak Lane passes. Every room. I'll tell the council it's the safest house on the street."
+                "Dan: {sfx:FixComplete}Congratulations. 12 Heartbreak Lane passes. Every room. I'll tell the council this afternoon it's the safest house on the street. And my shoes are dry. I almost feel cheated."
             ],
             "end": true
         },
         "fail": {
             "lines": [
-                "*Friday morning. Inspector Dan arrives with his clipboard. He isn't smiling.*",
-                "Dan: Final inspection. Every room, top to bottom. I promised the council."
+                "*{sfx:DoorKnock} Day 30. Inspection day. Inspector Dan is on the porch with a clipboard and a brand-new pair of waterproof shoes. He looks up at the gutters and stops smiling.*",
+                "Dan: First time inside, final inspection. Every room, top to bottom. The council wants my report this afternoon."
             ],
             "choices": [
                 { "text": "Follow him to the kitchen.", "if": "!lukey.fixed", "goto": "fail_kitchen" },
@@ -50,8 +50,9 @@
         "fail_kitchen": {
             "lines": [
                 "*He goes straight to the kitchen sink.*",
-                "*Drip. Drip. Drip.*",
-                "Dan: Ah. That's an active leak. In the house I promised would be bone dry.",
+                "*{sfx:TapDrip} Drip. Drip. Drip.*",
+                "*{sfx:WaterSplash} Something under the sink lets go, and both of his brand-new waterproof shoes fill up with water.*",
+                "Dan: Ah. That's an active leak. Waterproof, they said. These shoes are a pipe dream.",
                 "*Behind him, the tap drips once more. It sounds almost apologetic.*"
             ],
             "choices": [
@@ -64,8 +65,8 @@
         "fail_closet": {
             "lines": [
                 "*He opens the bedroom closet. The back wall is velvet black, and it seems to be sulking.*",
-                "Dan: Black mold. Still here. A fungus among us. ...It's less funny the second time.",
-                "*Something in the closet sighs, at length.*"
+                "Dan: Black mold. A fungus among us. ...I said that on the radio. It was funnier on the radio.",
+                "*{sfx:Squelch} Something in the closet sighs, at length.*"
             ],
             "choices": [
                 { "text": "Follow him to the bathroom.", "if": "!tyler.fixed", "goto": "fail_bathroom" },
@@ -75,8 +76,8 @@
         },
         "fail_bathroom": {
             "lines": [
-                "*He taps the pink tile by the tub. It's still cracked. Water's been getting in behind it, and two tiles come away in his hand.*",
-                "Dan: Loose, cracked, and the wall behind it's soft. I wanted to call it a keeper. I can't keep it like this.",
+                "*{sfx:TileCrack} He taps the pink tile by the tub. It's cracked. Water's been getting in behind it, and two tiles come away in his hand.*",
+                "Dan: Loose, cracked, and the wall behind it's soft. I'd love to call it a keeper. Tile be honest with you, I can't.",
                 "*He puts the tiles back very gently, like he's apologizing to them.*"
             ],
             "choices": [
@@ -86,7 +87,7 @@
         },
         "fail_wiring": {
             "lines": [
-                "*He flips the living-room switch. The lamp flickers, nervously. Somewhere in the wall, something sparks and then goes very quiet.*",
+                "*He flips the living-room switch. The lamp flickers, nervously. {sfx:Spark}Somewhere in the wall, something sparks and then goes very quiet.*",
                 "Dan: That's a fire waiting for a cold night. I don't have a pun for that one. I looked."
             ],
             "goto": "fail_verdict"

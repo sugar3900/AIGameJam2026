@@ -6,8 +6,8 @@ tags: [planning]
 ## Todo
 - [x] Week flow: 4 playable days (bed ends the day), radio podcast each morning, daylight → dusk, week 1 must-meet rule, final inspection → epilogue → keepsake → title
 - [x] Name entry at New Game (fills {player})
-- [ ] Check Lukey's look in-engine (teal Lycra, headband, wrench); the second head prop must read as a medium-length, feathered blow-dry
-- [ ] Update Tyler's `look` block in `tyler.json`: rose-quartz hair, clean-shaven (remove the mustache prop), navy blazer with a crest, mirror-shined loafers (he now uses the rigged `SK_PinkTile` model, so check that against the canon too; the JSON colours/props are only the fallback)
+- [ ] Update the fallback `look` blocks (colours + props, used only if a model is missing) in all four scripts to match the 3D models: **Lukey** big bearded redhead, wet chin-length copper curls, copper-pipe limbs with duct tape, soaked white tank top with a red valve wheel, denim cut-offs, work boots; **Tyler** huge shirtless bodybuilder tiled hot pink with white grout, hot-pink pompadour, pink gym shorts, white socks, pink high-tops; **Malcolm** gaunt, pale ivory with black mold blotches, long black wavy hair, open moss-black coat over a bare chest, cropped trousers, ankle boots; **Wyatt** slight, ginger, round copper-rimmed glasses, singed open tan coat over a cream shirt, brown shorts, braided red/copper wire limbs
+- [ ] Regenerate Lukey's placeholder VO (`Tools/Audio/generate_vo.py`, then `Tools/Editor/import_vo.py`) once his feedback-pass text changes settle
 - [ ] Bed tooltip warning when a guy hasn't had his story conversation this week (skipping a week means his Act 4 can't happen before the inspection, so the house fails)
 - [x] Free up disk space (31 GB free on 2026-11-08)
 - [ ] Play the full finale in-engine: inspection pass/fail, ep5, every epilogue branch (simulated in text, not yet seen in the dialogue box)
@@ -24,6 +24,14 @@ tags: [planning]
 
 ## Doing
 - [ ] Prototype polish
+- [ ] Designer feedback pass (2026-11-08), all four writers + integration + engine; mark done when every agent has finished:
+  - [ ] The dehumidifier is an unnamed, non-sentient appliance (no "Dennis") in every script and doc
+  - [ ] Inspector Dan comes once, on day 30, for the final inspection only (no weekly / Friday visits; the ep3 podcast interview is a radio guest spot)
+  - [ ] Every appearance line matches the 3D models (no blazer/crest/loafers/phone for Tyler; no Lycra except as what Lukey died in, no headband, sweatband, blow-dry or wrench)
+  - [ ] Cross-character references: at most 0–2 per act, none in week 1; epilogue codas stay about their own guy
+  - [ ] Day-1 touches vary (no handshakes; Malcolm isn't touched on day 1)
+  - [ ] `{sfx:Name}` tags in the scripts where they add comedy (the podcast's radio panel doesn't play line cues yet)
+  - [x] Integration files: `inspection.json`, `podcast.json`, `epilogue.json`, GDD, Task Board, devlog
 
 ## Done
 - [x] Set up docs vault

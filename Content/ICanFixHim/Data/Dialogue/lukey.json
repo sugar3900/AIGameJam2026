@@ -9,20 +9,18 @@
         "mesh": "/Game/ICanFixHim/Characters/LeakyPipes/SK_LeakyPipes",
         "idle": "/Game/ICanFixHim/Characters/LeakyPipes/A_LeakyPipes_Idle",
         "skin": "#D69A78",
-        "shirt": "#1FB5A8",
-        "pants": "#1FB5A8",
-        "shoes": "#F2F2F2",
+        "shirt": "#EDEDE6",
+        "pants": "#6F8FB5",
+        "shoes": "#6B4A2E",
         "pattern": 0,
         "glow": "#4FA8FF",
         "scale": 1.06,
         "props": [
-            { "shape": "sphere", "socket": "head", "loc": [-1, 0, 176], "scale": [23, 22, 11], "color": "#6B3E1E" },
-            { "shape": "sphere", "socket": "head", "loc": [-7, 0, 162], "scale": [14, 19, 22], "color": "#6B3E1E" },
-            { "shape": "cylinder", "socket": "head", "loc": [0, 0, 173], "scale": [21.5, 21.5, 3], "color": "#FF5CA8" },
-            { "shape": "cube", "socket": "hand_r", "loc": [14, 48, 101], "rot": [0, 0, 10], "scale": [3, 3, 22], "color": "#9EA3AB" }
+            { "shape": "sphere", "socket": "head", "loc": [-1, 0, 176], "scale": [23, 22, 11], "color": "#8A3B1E" },
+            { "shape": "sphere", "socket": "head", "loc": [-7, 0, 162], "scale": [14, 19, 22], "color": "#8A3B1E" }
         ]
     },
-    "notes": "Stats run 0-20 (clamped). Ending thresholds: stay = romance >= 16 && friction < 8; let him go (loved) = romance >= 16; friends = friendship >= 14 && friction < 8; he uses your real name in Act 4 if romance >= 12 going in; otherwise 'That's your call' gives the friends ending if friction < 8, or the grumpy ending if friction >= 8. Housemate jealousy choices read malcolm/tyler/wyatt.romance (>= 3 in Act 1, >= 5 in Act 2, >= 7 in Act 3). Sets flag.lukey_blackout (v3, Wyatt's blackout) and flag.lukey_human (v4_reveal).",
+    "notes": "Stats run 0-20 (clamped). Ending thresholds: stay = romance >= 16 && friction < 8; let him go (loved) = romance >= 16; friends = friendship >= 14 && friction < 8; he uses your real name in Act 4 if romance >= 12 going in; otherwise 'That's your call' gives the friends ending if friction < 8, or the grumpy ending if friction >= 8. Week 1 never mentions the other guys; from week 2 each act has at most two housemate references. Optional jealousy choices read malcolm/tyler/wyatt.romance (>= 5 in Act 2, >= 7 in Act 3). The dehumidifier is just an appliance (no name). Inspector Dan never visits during the weekly acts (he only comes on day 30, in inspection.json). Sets flag.lukey_both (v1), flag.lukey_realfix (v3), flag.lukey_blackout (v3, Wyatt's blackout) and flag.lukey_human (v4_reveal).",
     "entries": [
         { "if": "fixed && ending_romance_success", "node": "after_rs" },
         { "if": "fixed && ending_romance_failure", "node": "after_rf" },
@@ -40,29 +38,29 @@
     "endings": {
         "romance_success": {
             "title": "Head Over Heels Over Pipes",
-            "text": "Lukey stayed. He's dry, he's solid, his hair is ENORMOUS and he is absolutely gone on you. He still floods Dan's shoes every Friday. Out of love. Dennis lives in the cupboard now. Out of fear."
+            "text": "Lukey stayed. He's dry, he's solid, his curls are ENORMOUS and he is absolutely gone on you. He still fills your coffee pot from across the room every morning. Out of love. He also moved the dehumidifier to the garage. Out of spite."
         },
         "romance_failure": {
             "title": "Love You to the Last Drop",
-            "text": "He loved you enough to go. All that's left is a heart-shaped drop on the kitchen floor that never quite dries. You'd never mop it anyway. Dennis won't go near it."
+            "text": "He loved you enough to go. All that's left is a heart-shaped drop on the kitchen floor that never quite dries. You'd never mop it anyway. You keep the dehumidifier on the other side of the room, just in case."
         },
         "friend_success": {
             "title": "Pipe Dreams Come True",
-            "text": "Lukey finally got his date (a 'frate,' technically), finished his business and passed on in a cloud of hairspray. He left Dennis the kitchen. Brenda would be proud. Probably."
+            "text": "Lukey finally got his date (a 'frate,' technically), finished his business and passed on in a puff of warm steam that smelled faintly of copper. He left the kitchen spotless. Brenda would be proud. Probably."
         },
         "friend_failure": {
             "title": "Fixed It Myself (Mostly)",
-            "text": "Lukey passed on a little grumpy, a lot proud and fully convinced he did all the work. ('You held the flashlight.') The house is dry. Dan's shoes are dry. Everyone's dry. Nobody's thrilled."
+            "text": "Lukey passed on a little grumpy, a lot proud and fully convinced he did all the work. ('You held the flashlight.') The house is dry. The windows are dry. Everyone's dry. Nobody's thrilled."
         }
     },
     "nodes": {
 
         "v1": {
             "lines": [
-                "*A gush of water bursts from under the sink. A very damp man slides out on a wave, flicks back a perfect feathered blow-dry that is somehow still dripping, and looks you up and down with deep disappointment.*",
+                "*{sfx:WaterSplash} A gush of water bursts from under the sink, and a big, broad man slides out on the wave. Wet copper curls. A short auburn beard. A soaked white tank top with a red valve wheel where his heart should be. His arms and legs are copper pipe, green at the joints, patched here and there with silver duct tape. He looks you up and down with deep disappointment.*",
                 "Oh, great. Another one.",
                 "Let me guess. Flipper. Gray paint, 'open plan,' a little wooden sign that says LIVE LAUGH LOVE. You're going to gut my house and sell it to a couple called Jasper and Pip.",
-                "Last flipper wanted everything white. White walls, white floors, white EVERYTHING. Lasted one day. Now he won't come out of the bathroom.",
+                "Last flipper wanted everything white. White walls, white floors, white EVERYTHING. Lasted one day.",
                 "Name's Lukey. I'm the leaks around here. Not A leak. THE leaks. Plural. I'm a [franchise]. And you're trespassing."
             ],
             "topics": { "franchise": { "goto": "v1_franchise", "do": { "friendship": 1 } } },
@@ -74,7 +72,7 @@
         },
         "v1_franchise": {
             "lines": [
-                "Kitchen sink? Headquarters. Bathroom ceiling? Penthouse. I drip on Tyler. He HATES it. East wall? Summer home. Hall radiator? Vacation home. I share it with a dead moth called [Gerald]. He's very quiet. Better company than you.",
+                "Kitchen sink? Headquarters. Bathroom ceiling? Penthouse. Great acoustics. East wall? Summer home. Hall radiator? Vacation home. I share it with a dead moth called [Gerald]. He's very quiet. Better company than you.",
                 "And you're about to evict every single one of us. For PROFIT."
             ],
             "topics": { "gerald": { "goto": "v1_aside_gerald", "aside": true } },
@@ -94,13 +92,13 @@
         "v1_mine": {
             "lines": [
                 "Bought it. With MONEY. Like that means anything. I've lived here thirty-nine years, Barbie. What've you got? A drill and a business card?",
-                "*He drips, very pointedly, onto your business card.*"
+                "*{sfx:TapDrip} He drips, very pointedly, onto your business card.*"
             ],
             "goto": "v1_money"
         },
         "v1_cute": {
             "lines": [
-                "*Drip-drip-drip-drip.*",
+                "*{sfx:TapDrip} Drip-drip-drip-drip.*",
                 "Don't. Don't do that. Don't make it weird. I am being HOSTILE.",
                 "...Your hair's nice. Get out of my house."
             ],
@@ -123,7 +121,7 @@
         },
         "v1_honest": {
             "lines": [
-                "*Every tap in the kitchen turns on at once.*",
+                "*{sfx:WaterSplash} Every tap in the kitchen turns on at once.*",
                 "'And then some.' Great. Super. Thirty-nine years of my life, and I'm a line item.",
                 "Well, here's a line item for you, landlady. Every leak you fix is a piece of ME gone. You're not just flipping a house. You're flipping ME."
             ],
@@ -157,109 +155,79 @@
                 "Game on. Ooh. Okay. I love a little competition. Fair warning: I'm extremely petty and I have NOTHING else to do.",
                 "*Lukey will remember that.*"
             ],
-            "goto": "v1_dan"
+            "goto": "v1_deadline"
         },
         "v1_both": {
             "lines": [
-                "Both of us? Ha. Adorable. That's what the last flipper said. Tyler. Right before he picked out a paint called 'Swiss Coffee.' For the WHOLE HOUSE.",
-                "...It's WHITE, landlady. They named a white after COFFEE. He lasted one day.",
+                "Both of us? Ha. Adorable. That's what they all say, landlady. Right before they paint the whole house a color called 'Swiss Coffee.'",
+                "...It's WHITE, landlady. They named a white after COFFEE.",
                 "*But the drip slows down. Just a little.*",
                 "*Lukey will remember that.*"
             ],
-            "goto": "v1_dan"
+            "goto": "v1_deadline"
         },
         "v1_plumber": {
             "lines": [
                 "A PLUMBER? You'd bring a PLUMBER into this house?",
-                "*A jet of water hits you square in the face.*",
+                "*{sfx:WaterSplash} A jet of water hits you square in the face.*",
                 "That's for even saying it."
             ],
-            "goto": "v1_dan"
+            "goto": "v1_deadline"
         },
-        "v1_dan": {
+        "v1_deadline": {
             "lines": [
-                "And who was the [windbreaker|dan] this morning? Clipboard. Mustache. Said your foundation had 'great bones.'",
-                "GREAT BONES. That's flirting. That's textbook flirting. Building-code flirting. In MY house."
+                "And what's the RUSH? You've been banging around since dawn like the place is on fire. It's not on fire. I'd know. I'd put it out.",
+                "You: The city inspects this house on day thirty. If it doesn't pass, they bulldoze it.",
+                "*The dripping stops dead.*",
+                "...Bulldoze. As in BULLDOZER. As in my headquarters, my penthouse, my summer home and my vacation home in one big wet pile.",
+                "Thirty days? Nobody fixes this place in thirty days. I've been leaking for thirty-nine YEARS."
             ],
-            "topics": { "dan": { "goto": "v1_aside_dan", "aside": true } },
             "choices": [
-                { "text": "That's Inspector Dan. He decides whether this house gets bulldozed.", "goto": "v1_inspector", "do": { "friendship": 1 } },
-                { "text": "Are you jealous of a building inspector?", "goto": "v1_jealous", "do": { "romance": 1 } },
-                { "text": "He's actually kind of charming.", "goto": "v1_charming", "do": { "friction": 1 } },
-                { "text": "Dan? Please. Tyler's been flirting with me all morning.", "if": "tyler.romance >= 3", "goto": "v1_rival_tyler", "do": { "romance": 1 } },
-                { "text": "Malcolm already wrote me a poem, you know.", "if": "malcolm.romance >= 3", "goto": "v1_rival_malcolm", "do": { "romance": 1 } },
-                { "text": "Wyatt was very sweet to me, actually.", "if": "wyatt.romance >= 3", "goto": "v1_rival_wyatt", "do": { "romance": 1 } }
+                { "text": "Watch me.", "goto": "v1_watchme", "do": { "romance": 1 } },
+                { "text": "Then help me. If the house passes, you get to keep it.", "goto": "v1_help", "do": { "friendship": 1 } },
+                { "text": "Relax. Thirty days is plenty. I'm good with my hands.", "goto": "v1_cocky", "do": { "friction": 1 } }
             ]
         },
-        "v1_aside_dan": {
+        "v1_watchme": {
             "lines": [
-                "You: His name is Dan.",
-                "I know his name. I'm choosing not to use it. It's a power move."
-            ],
-            "return": true
-        },
-        "v1_rival_tyler": {
-            "lines": [
-                "TYLER? The last flipper? He lasted ONE DAY, landlady. I've lasted thirty-nine YEARS.",
-                "He calls you 'ma'am,' doesn't he. He calls the microwave 'ma'am.'",
-                "Fine. Rival franchises. May the best one win. It's me. I've got four locations."
-            ],
-            "goto": "v1_dennis"
-        },
-        "v1_rival_malcolm": {
-            "lines": [
-                "He writes EVERYONE a poem. He wrote the light switch a sonnet. Fourteen lines of grief.",
-                "*Drip. Suspicious drip.*",
-                "...Did it rhyme anything with 'moist'? Because 'moist' is MINE. That's my BRAND."
-            ],
-            "goto": "v1_dennis"
-        },
-        "v1_rival_wyatt": {
-            "lines": [
-                "Of course he was. He's Wyatt. He's sweet to the WEATHER.",
-                "*The drip goes conflicted. Drip... drip.*",
-                "I can't even be mad. That's his whole move. ...Just know he can't be in a room with a glass of water. Think about your FUTURE, landlady."
-            ],
-            "goto": "v1_dennis"
-        },
-        "v1_inspector": {
-            "lines": [
-                "Bulldozed? He can decide that from the SIDEWALK, then.",
-                "*Somewhere in the walls, something gurgles nervously.*"
-            ],
-            "goto": "v1_dennis"
-        },
-        "v1_jealous": {
-            "lines": [
-                "Jealous? Of a man who owns a windbreaker ON PURPOSE?",
+                "Ooh. 'Watch me.' Okay, landlady. I'll watch. From INSIDE THE WALLS.",
                 "*Drip. Drip. Dripdripdripdrip.*",
-                "...Is it working? The windbreaker? Not that I care. I'm asking for the house."
+                "...That came out creepier than I meant. I meant it supportively. No I didn't. I don't know what I meant."
             ],
-            "goto": "v1_dennis"
+            "goto": "v1_dehum"
         },
-        "v1_charming": {
+        "v1_help": {
             "lines": [
-                "CHARMING? His pun was 'sounds like you've got a leak-ing problem.' That's not a pun. That's barely a WORD.",
-                "I'm going to pun that man into the ground. Friday. It's on."
+                "Help you. Help you DELETE me, one leak at a time. Great deal. Love it.",
+                "*{sfx:PipeClank} Somewhere in the walls, something gurgles nervously.*",
+                "...I don't love bulldozers either, though. I'll think about it. Thinking's free. I've got nothing BUT time."
             ],
-            "goto": "v1_dennis"
+            "goto": "v1_dehum"
         },
-        "v1_dennis": {
+        "v1_cocky": {
             "lines": [
-                "*He glares at the box you've just unpacked: a brand-new dehumidifier. It hums. A smug little green light blinks on.*",
+                "'Good with my hands.' Oh, EVERYBODY says that in this kitchen, landlady. Right before something goes horribly—",
+                "*He stops. He frowns at the pipe under the sink like it owes him money. Then he shrugs it off.*",
+                "Anyway. You'll fail. Bulldozer. Big wet pile. I'll be in it."
+            ],
+            "goto": "v1_dehum"
+        },
+        "v1_dehum": {
+            "lines": [
+                "*He glares at the box you've just unpacked: a brand-new dehumidifier. You plug it in. {sfx:Hum} It hums. A little green light comes on.*",
                 "What. Is. THAT."
             ],
             "choices": [
-                { "text": "That's Dennis. The dehumidifier. He's going to dry out your walls.", "goto": "v1_dn_dry", "do": { "friction": 1 } },
-                { "text": "Relax. He's just here to help with the damp.", "goto": "v1_dn_relax", "do": { "friendship": 1 } },
-                { "text": "Jealous? He's very quiet. Very low maintenance. Unlike some people.", "goto": "v1_dn_tease", "do": { "romance": 1, "friction": 1 } }
+                { "text": "A dehumidifier. It's going to dry out your walls.", "goto": "v1_dn_dry", "do": { "friction": 1 } },
+                { "text": "Relax. It's just here to help with the damp.", "goto": "v1_dn_relax", "do": { "friendship": 1 } },
+                { "text": "Jealous? It's very quiet. Very low maintenance. Unlike some people.", "goto": "v1_dn_tease", "do": { "romance": 1, "friction": 1 } }
             ]
         },
         "v1_dn_dry": {
             "lines": [
-                "Dry out the— those are MY WALLS. That's my SUMMER HOME. You've bought an assassin. A little white plastic assassin. And you've NAMED it.",
-                "*Dennis hums. His bucket gurgles. Lukey shudders.*",
-                "He's drinking me. I can FEEL him drinking me."
+                "Dry out the— those are MY WALLS. That's my SUMMER HOME. You've bought an assassin. A little white plastic assassin with a carry handle.",
+                "*The bucket gurgles. Lukey shudders.*",
+                "It's drinking me. I can FEEL it drinking me."
             ],
             "goto": "v1_end"
         },
@@ -269,40 +237,20 @@
         },
         "v1_dn_tease": {
             "lines": [
-                "Low MAINTENANCE? He's got a WATER TANK, landlady. He's high maintenance with a carry handle.",
-                "*Dennis's light turns green. Lukey takes this personally.*"
+                "Low MAINTENANCE? It's got a WATER TANK, landlady. It's high maintenance with a carry handle.",
+                "*He glares at the little green light like it said something. It didn't. It's a dehumidifier.*"
             ],
             "goto": "v1_end"
         },
         "v1_end": {
             "lines": [
-                "*You hold out a hand, half joking, to shake on a truce. It goes straight through him. It's like shaking hands with a sprinkler.*",
-                "Ha. Can't even touch me. Good. Keep it that way. Nobody touches the leaks. I can't even hug [Wyatt|wyatt], and he's my guy.",
-                "*He sinks back toward the sink, then stops and narrows his eyes at Dennis.*",
-                "And keep that thing away from [Malcolm|malcolm]. He's damp too. He'll take it personally. In iambic pentameter.",
+                "*He turns to slide back under the sink and leaves a big puddle on the tiles. You reach past him to shut off the tap, step right in it, and your foot goes out from under you. {sfx:Squelch} He lunges to catch you. For one second there's a cold, wet arm around your waist. Then it's just water, and you sit down hard in the puddle. {sfx:WaterSplash}*",
+                "Ha. Can't even catch you. Can't even touch me. Good. Keep it that way. Nobody touches the leaks.",
+                "*He stares at his own copper arm like it did something without asking.*",
+                "...You okay? Not that I care. That's MY puddle. You dented it.",
                 "...You've got a little drywall in your hair. Not that I'm looking. Get out of my kitchen."
             ],
-            "topics": {
-                "wyatt": { "goto": "v1_aside_wyatt", "aside": true },
-                "malcolm": { "goto": "v1_aside_malcolm", "aside": true }
-            },
             "end": true
-        },
-        "v1_aside_wyatt": {
-            "lines": [
-                "You: Who's Wyatt?",
-                "Fuse box. Living room. Sweet kid. Apologizes to the toaster.",
-                "Water and electricity, so we're not allowed to hug. It's an OSHA thing. I'd die for that kid. Figure of speech."
-            ],
-            "return": true
-        },
-        "v1_aside_malcolm": {
-            "lines": [
-                "You: Who's Malcolm?",
-                "Bedroom closet. Black, velvety, talks like a funeral. Kind of a mold situation. Thinks he's a tragic poet.",
-                "My leaks keep him going. He calls me his 'sweet aqueduct.' I call him my mold-in-law. It's complicated. It works."
-            ],
-            "return": true
         },
 
         "v2_cb_both": {
@@ -315,7 +263,7 @@
         "v2_cb_grudge": {
             "lines": [
                 "Oh. It's you. Barbie. I flooded your shoes twice this week. You're welcome.",
-                "...Fine. Truce. For today. Only because Dennis is unbearable and I need someone to complain to."
+                "...Fine. Truce. For today. Only because that dehumidifier hums all night and I need someone to complain to."
             ],
             "goto": "v2"
         },
@@ -324,27 +272,18 @@
                 "*There's a new damp patch on the kitchen wall. It looks suspiciously like a heart. When you walk in, it gets bigger. When you look at it, it gets smaller, fast.*",
                 "You patched the bathroom. I can't feel my left side. Thanks for that, boss.",
                 "*He meant 'boss' to sound sarcastic. It didn't quite.*",
-                "And now Tyler's got a dry ceiling and he [saluted|tyler] me. Like I'd been DISMISSED.",
-                "Also, Dennis drank half my summer home this week. He empties a bucket of me every MORNING. Now he's parked outside Malcolm's closet, humming at him. Malcolm's written three elegies.",
+                "I had a VIEW up there. Best seat in the house. Now it's just ceiling. Dry, boring, beige ceiling.",
+                "Also, your dehumidifier drank half my summer home. You empty a bucket of me into the yard every MORNING, boss. I'm in the HYDRANGEAS now. I'm MULCH.",
                 "And those podcast ladies think I'm a [catfish]."
             ],
             "topics": {
-                "tyler": { "goto": "v2_aside_tyler", "aside": true },
                 "catfish": { "goto": "v2_catfish", "aside": true, "do": { "romance": 1 } }
             },
             "choices": [
                 { "text": "Is that damp patch... a heart?", "goto": "v2_heart", "do": { "romance": 2 } },
                 { "text": "For the record, you're the least fish-like thing I've ever met.", "goto": "v2_fish", "do": { "romance": 1, "friendship": 1 } },
-                { "text": "Dennis is doing a great job, actually.", "goto": "v2_dennis", "do": { "friction": 1 } }
+                { "text": "The dehumidifier is doing a great job, actually.", "goto": "v2_dehum", "do": { "friction": 1 } }
             ]
-        },
-        "v2_aside_tyler": {
-            "lines": [
-                "You: Tyler saluted you?",
-                "He salutes everything. He saluted the mailman. He saluted a SQUIRREL. Military school. Thinks 'please' is a sign of weakness.",
-                "Last flipper. Lasted one day. Still acts like he owns the place."
-            ],
-            "return": true
         },
         "v2_catfish": {
             "lines": [
@@ -365,33 +304,24 @@
             "lines": [ "THANK you. No scales. I've got ABS. I think. Hard to tell, I'm mostly drip." ],
             "goto": "v2_work"
         },
-        "v2_dennis": {
+        "v2_dehum": {
             "lines": [
-                "*Dennis's light goes green. Smug little light.*",
-                "He's a MURDERER with a carry handle, boss. One day it'll be just you, him and an empty bucket, and you'll miss me."
+                "*{sfx:Hum} The dehumidifier hums. Lukey glares at it like it hummed at him personally.*",
+                "It's a BUCKET that drinks ME, boss. One day it'll be just you, a dehumidifier and an empty bucket, and you'll miss me."
             ],
             "goto": "v2_work"
         },
         "v2_work": {
             "lines": [
-                "Anyway. East wall's next, isn't it? My SUMMER HOME. I object. So does my [mold-in-law|malcolm]. That wall's his water supply.",
+                "Anyway. East wall's next, isn't it? My SUMMER HOME. I object. I'd put it in writing, but you keep wiping the windows.",
                 "...But if you're going in, you need me. I know every drip in that wall. Been there since 1986. Er— since forever. Since INSTALLATION.",
                 "*He's humming 'Livin' on a Prayer' while he says it.*"
             ],
-            "topics": { "malcolm": { "goto": "v2_aside_malcolm", "aside": true } },
             "choices": [
                 { "text": "Lukey, how does a leak know Bon Jovi?", "goto": "v2_bonjovi", "do": { "friendship": 1, "romance": 1 } },
                 { "text": "Since 1986? That's weirdly specific.", "goto": "v2_1986", "do": { "friendship": 1 } },
                 { "text": "Show me where. I'll take the help.", "goto": "v2_help", "do": { "romance": 1, "friendship": 1 } }
             ]
-        },
-        "v2_aside_malcolm": {
-            "lines": [
-                "You: Your mold-in-law?",
-                "Malcolm. My leaks feed his... situation. His situation keeps me company. We're codependent. It's healthy. Don't look it up.",
-                "Last week he told me, 'Thou art a dead man's tears, Lukey.' I'm a LEAK, Malcolm. That's just Malcolm being Malcolm."
-            ],
-            "return": true
         },
         "v2_bonjovi": {
             "lines": [
@@ -407,7 +337,7 @@
         "v2_help": {
             "lines": [
                 "Oh, NOW she wants my help. When it's my summer home on the line.",
-                "...Second stud from the left. Watch the wire, that's Wyatt's. And the wasp nest. That's Kevin. Kevin's harmless."
+                "...Second stud from the left. Watch the wire. And the wasp nest. That's Kevin. Kevin's harmless."
             ],
             "goto": "v2_wall"
         },
@@ -429,64 +359,63 @@
                 "*He checks his reflection in the toaster. He likes what he sees.*",
                 "I DO look good. Has this jawline been here the whole time?"
             ],
-            "goto": "v2_dan"
+            "goto": "v2_coffee"
         },
         "v2_hurt": {
             "lines": [
                 "Nah. It tickles. Like losing a sock. Except the sock is your summer home.",
                 "...Thanks for asking, though. Nobody ever asks the leaks how they're doing."
             ],
-            "goto": "v2_dan"
+            "goto": "v2_coffee"
         },
         "v2_count": {
             "lines": [
                 "Counting down. Like New Year's Eve. Except at midnight I'm gone and you get drywall.",
                 "*A slow, sarcastic drip.*"
             ],
-            "goto": "v2_dan"
+            "goto": "v2_coffee"
         },
-        "v2_dan": {
+        "v2_coffee": {
             "lines": [
-                "*Friday. Inspector Dan admires the east wall. 'Water-tight. Much like my alibi.' He chuckles at his own joke, then invites you for coffee to 'discuss permits.'*",
-                "*From inside the wall, a small but furious gurgle.*",
-                "*When Dan leaves, both of his shoes are full of water. Somehow.*"
+                "*Afterward you sit on the kitchen floor together. You're covered in drywall dust. On him it's turned to paste, and his curls are full of it.*",
+                "*{sfx:TapDrip} Across the room, the coffee pot fills itself. One cup. Not a drop spilled. The mug slides along the counter on a little wave and stops right by your hand.*",
+                "Don't read into it. You looked thirsty. Leaks are very hospitable.",
+                "So. Boss. When this place is done, then what? Where does a flipper go when she runs out of house?"
             ],
             "choices": [
-                { "text": "Lukey! Did you flood Dan's shoes?", "goto": "v2_shoes", "do": { "friendship": 1, "friction": 1 } },
-                { "text": "You're cute when you're jealous.", "goto": "v2_cutejealous", "do": { "romance": 2 } },
-                { "text": "It's just coffee. About permits.", "goto": "v2_permits", "do": { "friendship": 1, "romance": 1 } },
-                { "text": "If Dan bugs you, wait till you hear about the rest of the house.", "if": "malcolm.romance >= 5 || tyler.romance >= 5 || wyatt.romance >= 5", "goto": "v2_rivals", "do": { "romance": 1, "friendship": 1 } }
+                { "text": "Lukey. Is this a coffee date?", "goto": "v2_permits", "do": { "romance": 2 } },
+                { "text": "Somewhere with a kitchen I don't have to fix.", "goto": "v2_nofix", "do": { "friendship": 1, "romance": 1 } },
+                { "text": "Honestly? Onto the next one. That's the job.", "goto": "v2_next", "do": { "friendship": 1, "friction": 1 } },
+                { "text": "You're not the only guy in this house who's been sweet to me, you know.", "if": "malcolm.romance >= 5 || tyler.romance >= 5 || wyatt.romance >= 5", "goto": "v2_rivals", "do": { "romance": 1, "friendship": 1 } }
             ]
-        },
-        "v2_rivals": {
-            "lines": [
-                "The rest of the— boss. I live IN the walls. I hear EVERYTHING.",
-                "Tyler stands up straighter every time you walk past the bathroom. Malcolm's 'blooming,' which is gross, but somehow romantic when he says it. Wyatt flickers every time somebody says your name.",
-                "It's fine. It's a free market. We're rival franchises.",
-                "...But I've been here longest, I've got the most locations, and I'm the only one who can fill your coffee pot from across the room. Just saying."
-            ],
-            "goto": "v2_call"
-        },
-        "v2_shoes": {
-            "lines": [
-                "'Flood' is a strong word. I'd say 'refreshed.' His feet looked hot.",
-                "He said 'water-tight, like my alibi,' boss. That's a crime against puns. I was punishing a crime."
-            ],
-            "goto": "v2_call"
-        },
-        "v2_cutejealous": {
-            "lines": [
-                "Jealous? Of a man who wears a windbreaker INDOORS?",
-                "*The heart-shaped damp patch is now the size of a door.*",
-                "...Okay. Maybe a little. You're not supposed to have a crush on the leaks, you know. It's against code."
-            ],
-            "goto": "v2_call"
         },
         "v2_permits": {
             "lines": [
-                "'Permits.' Sure. In my day we called it 'grabbing a milkshake.'",
+                "A DATE? Please. It's coffee. In my day we called this 'grabbing a milkshake.'",
                 "*He freezes.*",
                 "In my day? What day? Leaks don't have days. Forget I said that."
+            ],
+            "goto": "v2_call"
+        },
+        "v2_nofix": {
+            "lines": [
+                "Ha! Good luck. Every kitchen needs fixing, boss. That's the beauty of kitchens.",
+                "...This one, for example. Very fixable. Great light. Original sink. Not an offer. It's a sales pitch. I'm being a realtor."
+            ],
+            "goto": "v2_call"
+        },
+        "v2_next": {
+            "lines": [
+                "*The coffee goes cold. Instantly. He did that.*",
+                "The next one. Sure. Must be nice, having a next one."
+            ],
+            "goto": "v2_call"
+        },
+        "v2_rivals": {
+            "lines": [
+                "Sweet to— boss. I live IN the walls. I hear EVERYTHING.",
+                "It's fine. It's a free market. We're rival franchises.",
+                "...But I've been here longest, I've got the most locations, and I'm the only one who can fill your coffee pot from across the room. Just saying."
             ],
             "goto": "v2_call"
         },
@@ -495,9 +424,9 @@
                 "*Your phone rings. Your realtor. You step into the hall, but the pipes run through every wall in this house.*",
                 "You: East wall's done. Kitchen's last. Then we rip the whole thing out. Open plan, white cabinets, gray floors. Nobody wants a 1987 kitchen.",
                 "You: List it the day it passes, sell to whoever pays most, and I'm onto the next one. That's the job.",
-                "*When you come back, every tap in the house is running. Lukey is standing in the middle of the kitchen, very solid and very still.*",
+                "*{sfx:WaterSplash} When you come back, every tap in the house is running. Lukey is standing in the middle of the kitchen, very solid and very still.*",
                 "Rip it out. Gray floors. Whoever pays most.",
-                "WHITE CABINETS? You sound like Tyler. And we all know how THAT went.",
+                "WHITE CABINETS? Why don't you paint the whole place Swiss Coffee while you're at it!",
                 "This is a HOME, boss. People laughed in this kitchen. People had dates in this kitchen. Something happened in this kitchen. I don't know what. But it MATTERED.",
                 "And you want to turn it into a showroom for Jasper and Pip."
             ],
@@ -532,24 +461,23 @@
             "goto": "v2_end"
         },
         "v2_end": {
-            "lines": [ "*He sinks into the walls. For the next few days the house is silent. No drips. No puns. Even Dennis seems uneasy. From the bedroom closet, Malcolm sighs at full volume. Wyatt keeps the lights low, out of respect.*" ],
+            "lines": [ "*He sinks into the walls. For the next few days the house is silent. No drips. No puns. The dehumidifier's bucket stays bone dry. It's the quietest this house has been in thirty-nine years, and you hate it.*" ],
             "end": true
         },
 
         "v3": {
             "do": { "flag.lukey_blackout": 1 },
             "lines": [
-                "*The power's out. Just this house; the rest of Heartbreak Lane is lit up like Christmas. From the fuse box in the living room comes a muffled, very apologetic voice: 'That wasn't me!' It was him.*",
+                "*{sfx:PowerDown} The power's out. Just this house; the rest of Heartbreak Lane is lit up like Christmas. From the fuse box in the living room comes a muffled, very apologetic voice: 'That wasn't me!' It was him.*",
                 "*You light candles in the kitchen. The house has been silent for three days, and you fixed the hall radiator alone.*",
-                "*Then, very quietly, the tap drips once.*",
-                "Wyatt says it wasn't him. It was [him|wyatt]. It's always him.",
+                "*{sfx:TapDrip} Then, very quietly, the tap drips once.*",
+                "Hi. Boss. Hi. I wasn't sulking, by the way. I was RESTING. In the walls. For three days. Leaks rest.",
                 "...You did my vacation home without me. [Gerald]'s gone. I'm down to one sink. Just me and the P-trap.",
-                "Tyler sent his condolences. Through Wyatt. He makes Wyatt deliver EVERYTHING. Somebody should tell that guy 'no' one day. Might be the making of him.",
+                "It's no fun dripping when nobody's around to be annoyed by it. I dripped on the dehumidifier. It didn't even notice. It's a DEHUMIDIFIER.",
                 "Anyway. I've been thinking. A leak's got a lot of time to think. Turns out you're not wrong. Houses cost money. Somebody has to fix them, and you're good at it. Annoyingly good.",
-                "But a house isn't just walls and grout, boss. It's whoever's in it. Right now that's me, Malcolm, Tyler and Wyatt. And, unfortunately, you."
+                "But a house isn't just walls and grout, boss. It's whoever's in it. Right now that's me, a wasp called Kevin and, unfortunately, you."
             ],
             "topics": {
-                "wyatt": { "goto": "v3_aside_wyatt", "aside": true },
                 "gerald": { "goto": "v3_aside_gerald", "aside": true }
             },
             "choices": [
@@ -557,14 +485,6 @@
                 { "text": "I missed you. The house was too quiet.", "goto": "v3_missed", "do": { "romance": 2, "friction": -1 } },
                 { "text": "I still have to sell it, Lukey.", "goto": "v3_stillsell", "do": { "friendship": 1, "friction": 1 } }
             ]
-        },
-        "v3_aside_wyatt": {
-            "lines": [
-                "You: Should we check on him?",
-                "Nah. Give Sparky ten minutes. He's in there apologizing to each fuse individually.",
-                "Good kid. Knows exactly what he's doing with a wire. Then he goes quiet and lets somebody else decide. Drives me nuts."
-            ],
-            "return": true
         },
         "v3_aside_gerald": {
             "lines": [
@@ -587,7 +507,7 @@
             "lines": [
                 "*The drip stops. Then it goes drip-drip-drip-drip-drip.*",
                 "You missed ME? The leak? The one who flooded your shoes?",
-                "...I missed you too. Don't tell Dennis. Sweetheart."
+                "...I missed you too. Don't make it a thing. Sweetheart."
             ],
             "goto": "v3_dinner"
         },
@@ -603,11 +523,11 @@
             "lines": [
                 "*Candles. A box of pasta. He 'cooks' by filling the pot from across the room with surgical precision and giving you terrible advice about salt.*",
                 "This isn't a date, by the way. Two adults. Candles. Spaghetti. Purely coincidental.",
-                "Also, Malcolm and I signed a [treaty|accord] against Dennis. Very official. He wrote it in what I'm choosing to believe is ink.",
+                "I did the water glasses. Filled them to the exact same line. Took me an hour. I don't know why a leak cares about [table settings|glasses].",
                 "Did you hear the podcast? Mrs. Pruitt next door says someone's been singing [Bon Jovi|bonjovi] in the walls. Ridiculous. I don't sing. I RESONATE."
             ],
             "topics": {
-                "accord": { "goto": "v3_aside_accord", "aside": true },
+                "glasses": { "goto": "v3_aside_glasses", "aside": true },
                 "bonjovi": { "goto": "v3_bonjovi", "do": { "romance": 1 } }
             },
             "choices": [
@@ -617,11 +537,12 @@
                 { "text": "You know I'm seeing other people in this house too, right?", "if": "malcolm.romance >= 7 || tyler.romance >= 7 || wyatt.romance >= 7", "goto": "v3_others", "do": { "romance": 1, "friendship": 1 } }
             ]
         },
-        "v3_aside_accord": {
+        "v3_aside_glasses": {
             "lines": [
-                "You: A treaty?",
-                "The Damp Accord. Article one: Dennis is the enemy. Article two: Dennis is the enemy, but sadder. Malcolm wrote that one.",
-                "He also snuck in a clause that says 'we are all already dust.' Malcolm being Malcolm. I initialed it. I'm not reading the fine print on a mold."
+                "You: Since when does a leak care about table settings?",
+                "Since always? Since... some dinner I never got to?",
+                "*He frowns. Something almost comes back to him. Then he shakes his head, and his wet curls spray the tablecloth.*",
+                "Nope. Weird thought. Gone. Eat your pasta."
             ],
             "return": true
         },
@@ -629,7 +550,7 @@
             "lines": [
                 "Sweetheart. I know. The walls are VERY thin and I am IN them.",
                 "*He refills your glass from across the room without spilling a drop. He's stalling.*",
-                "And it's fine. Really. I'm a grown man. Probably. Nobody in this house is exclusive. Malcolm's thrilled about it, frankly. He wants to throw you a 'consort's ball.'",
+                "And it's fine. Really. I'm a grown man. Probably. Nobody in this house is exclusive. It's a free market.",
                 "...But I'm your favorite. Don't answer that. The patch on the wall already knows."
             ],
             "goto": "v3_hand"
@@ -666,7 +587,7 @@
         "v3_hand": {
             "lines": [
                 "*He's reaching for you across the counter. There's only one leak left in the house, so there's finally enough of him in one place.*",
-                "*His hand doesn't pass through yours. It's cool, a little damp and very definitely a hand.*",
+                "*His hand doesn't pass through yours. It's cool and a little damp, the brass rivets on his fingers are cold, and it is very definitely a hand.*",
                 "...Oh. Hello."
             ],
             "choices": [
@@ -699,7 +620,7 @@
         },
         "v3_storm": {
             "lines": [
-                "*The lights stutter back on, sheepishly. From the living room, a small voice: 'Sorry! Sorry.' The radio crackles back to life: 'BIG STORM SATURDAY. Heavy rain and flooding expected.'*",
+                "*{sfx:PowerUp} The lights stutter back on. {sfx:RadioStatic} The radio crackles to life: 'BIG STORM SATURDAY. Heavy rain and flooding expected.'*",
                 "*Every candle flame in the room shivers. So does Lukey.*",
                 "Flooding. I don't like flooding. For leak reasons. Very normal leak reasons."
             ],
@@ -714,50 +635,51 @@
                 "Together. Yeah. Leak and Flipper. Season finale. Big storm episode.",
                 "*He squeezes your hand. He's still holding it. He forgot to let go. He's not going to.*"
             ],
-            "goto": "v3_dan"
+            "goto": "v3_window"
         },
         "v3_fishjoke": {
             "lines": [
                 "Don't bring fish into this. Bev's already got me down as a catfish.",
-                "...But yeah. Weird, right? Something about it makes my blow-dry go limp."
+                "...But yeah. Weird, right? Something about it makes my curls go flat. My curls NEVER go flat."
             ],
-            "goto": "v3_dan"
+            "goto": "v3_window"
         },
         "v3_rain": {
             "lines": [
                 "I AM together. I'm the most together I've been in years. Literally. I'm down to one sink.",
                 "*Drip. Sulky drip.*"
             ],
-            "goto": "v3_dan"
+            "goto": "v3_window"
         },
-        "v3_dan": {
+        "v3_window": {
             "lines": [
-                "*Friday. Dan peers under the sink. 'Last leak in the house? You're really draining the competition.' He waits for a laugh.*",
-                "*Behind him, letters appear in the condensation on the kitchen window: 'DRAIN-ING? WEAK. -L'*"
+                "*Steam from the pasta pot fogs up the kitchen window. Letters start to appear in it, one at a time: 'L +'*",
+                "*They stop. Then someone rubs them out, very fast.*",
+                "That wasn't me. That was condensation. Condensation does that. It's science."
             ],
             "choices": [
+                { "text": "Finish what you were writing.", "goto": "v3_finish", "do": { "romance": 1, "friendship": 1 } },
                 { "text": "Lukey, stop writing on my windows.", "goto": "v3_windows", "do": { "friendship": 1 } },
-                { "text": "Hit him with a better one.", "goto": "v3_punoff", "do": { "romance": 1, "friendship": 1 } },
-                { "text": "Honestly, Dan's pun was better.", "goto": "v3_danbetter", "do": { "friction": 1 } }
+                { "text": "Please don't draw on the glass. I'm staging this place.", "goto": "v3_staging", "do": { "friction": 1 } }
             ]
         },
         "v3_windows": {
             "lines": [
                 "It's not writing, it's COMMUNICATION. The window's basically my phone.",
                 "*The window fogs up again: 'sorry x'*",
-                "*Dennis hums. The window un-fogs. Lukey glares at him across the room.*"
+                "*{sfx:Hum} The dehumidifier kicks on and the glass clears. Lukey glares at it across the room.*"
             ],
             "goto": "v3_end"
         },
-        "v3_punoff": {
+        "v3_finish": {
             "lines": [
-                "*The window fogs up: 'DAN. YOUR PUNS ARE A PIPE DREAM. YOU'RE ALL WASHED UP. GO WITH THE FLOW, BUDDY.'*",
-                "*Dan reads it, looks at you, slowly lowers his clipboard and leaves without a word.*",
-                "I WON. Did you see that? Sweetheart, I won the Friday."
+                "*The window fogs up again. In very neat letters: 'L + THE KITCHEN SINK.' Then, smaller, underneath: '+ U (MAYBE)'*",
+                "*He stares at the pasta like it's the most interesting pasta in the world.*",
+                "Don't look at it. I'm drying it. Look at the spaghetti, sweetheart. Look at the spaghetti."
             ],
             "goto": "v3_end"
         },
-        "v3_danbetter": {
+        "v3_staging": {
             "lines": [
                 "*The window fogs up with a single, devastated word: 'WOW.'*",
                 "*A drip runs down the glass like a tear. It's a little much. It's working, though.*"
@@ -766,18 +688,18 @@
         },
         "v3_end": {
             "lines": [
-                "*Late. The candles are stubs. He's sitting on the counter, swinging his very solid legs.*",
+                "*Late. The candles are stubs. He's sitting on the counter, swinging his copper-pipe legs, his work boots thumping the cabinet door.*",
                 "Sweetheart... I don't really know what I am. A leak. A bunch of leaks. One leak now. Whatever.",
                 "But I like who I am when you're here.",
                 "*A beat.*",
-                "That's the only sappy thing I'm saying this month. Goodnight. Don't let Dennis near me in my sleep."
+                "That's the only sappy thing I'm saying this month. Goodnight. And unplug that dehumidifier. It drinks me in my sleep."
             ],
             "end": true
         },
 
         "v4_name": {
             "lines": [
-                "*Saturday morning. Storm clouds over Heartbreak Lane. Lukey is sitting on the kitchen floor, very still, very solid and very pale.*",
+                "*Saturday morning. Storm clouds over Heartbreak Lane. Lukey is sitting on the kitchen floor, very still and very solid. For once, he isn't grinning.*",
                 "{player}.",
                 "*It's the first time he's ever used your real name. It sounds good in his mouth. He looks like he's been practicing.*",
                 "{player}, did you listen to the podcast?"
@@ -786,7 +708,7 @@
         },
         "v4": {
             "lines": [
-                "*Saturday morning. Storm clouds over Heartbreak Lane. Lukey is sitting on the kitchen floor, very still, very solid and very pale.*",
+                "*Saturday morning. Storm clouds over Heartbreak Lane. Lukey is sitting on the kitchen floor, very still and very solid. For once, he isn't grinning.*",
                 "Sweetheart. Did you listen to the podcast?"
             ],
             "goto": "v4_reveal"
@@ -797,9 +719,11 @@
                 "'Local aerobics instructor Luke Moretti, 34, died in 1987 when a cast-iron pipe fell on his head as he attempted to repair a woman's sink before their first date.'",
                 "That's me. I'm not a leak. I'm a GUY. I'm a guy who died SHOWING OFF.",
                 "Her name was Brenda. This was HER house. Not mine. I showed up early with a mixtape, her sink was dripping, and I said, 'Relax, babe. I'm great with my hands.'",
-                "She went upstairs to finish her hair. I dove under the sink, gave the pipe one big, manly lefty-loosey, and about ninety pounds of cast iron came down on my head. Bonk.",
+                "She went upstairs to finish her hair. I dove under the sink, gave the pipe one big, manly lefty-loosey, and about ninety pounds of cast iron came down on my head. {sfx:Bonk} Bonk.",
                 "*He puts his face in his hands. They're very solid hands now.*",
-                "I died in LYCRA, sweetheart. Under BRENDA'S SINK. I told you I'd lived here thirty-nine years. I was here for TWENTY MINUTES."
+                "I died in LYCRA, sweetheart. Under BRENDA'S SINK. I told you I'd lived here thirty-nine years. I was here for TWENTY MINUTES.",
+                "*He looks down at himself: the soaked tank top, the denim cut-offs, copper pipe where his arms and legs used to be. Not a scrap of Lycra. Somewhere along the way, the house rebuilt him out of plumbing.*",
+                "Thirty-nine years dressed as a SINK. And somehow that's the LESS embarrassing outfit."
             ],
             "choices": [
                 { "text": "For what it's worth, I bet you looked great in Lycra.", "goto": "v4_lycra", "do": { "romance": 2 } },
@@ -820,7 +744,7 @@
         },
         "v4_laugh": {
             "lines": [
-                "Oh, laugh it up. It IS hilarious. 'Man dies trying to impress woman with plumbing.' It's a Darwin Award with a perfect blow-dry.",
+                "Oh, laugh it up. It IS hilarious. 'Man dies trying to impress woman with plumbing.' It's a Darwin Award with great hair.",
                 "*He's laughing too. A little. Despite himself.*"
             ],
             "goto": "v4_brenda"
@@ -864,8 +788,8 @@
         },
         "v4_storm": {
             "lines": [
-                "*The storm hits. Rain hammers the windows. All over the house, things creak, crack, flicker and drip at once. The kitchen sink, the last leak, the one that started it all, groans, shudders and sprays.*",
-                "*Dennis's bucket fills in seconds. His little light turns red. For the first time, Lukey looks at him with something like respect.*",
+                "*{sfx:Thunder} The storm hits. {sfx:Rain} Rain hammers the windows. All over the house, things creak, crack, flicker and drip at once. {sfx:PipeClank} The kitchen sink, the last leak, the one that started it all, groans, shudders and sprays.*",
+                "*The dehumidifier's bucket fills in seconds, and its little light goes red: FULL. For the first time, Lukey looks at the thing with something like respect.*",
                 "WYATT! If you're anywhere near here, STAY OUT OF THE KITCHEN! Water! Electricity! We've TALKED about this! Love you, buddy!",
                 "Okay! This is it! Righty-tighty! Lefty-loosey is how I DIED! And watch the [cast iron|pipe] over your head!",
                 "*You get under the sink together. He can't hold the wrench, but he knows every inch of that pipe. You're his hands. He's your eyes. Nobody is getting bonked today.*"
@@ -908,18 +832,18 @@
         },
         "v4_fixed": {
             "lines": [
-                "*Thunk. Squeak. Silence.*",
-                "*Outside, the storm rages. Inside, for the first time in thirty-nine years, there isn't a single leak in the house. Dennis's light turns green and stays green.*",
-                "*Lukey looks down at himself. Not one drop. And his blow-dry, for the first time since 1987, is actually DRY. It's enormous.*",
+                "*{sfx:PipeClank} Thunk. Squeak. Silence.*",
+                "*Outside, the storm rages. Inside, for the first time in thirty-nine years, there isn't a single leak in the house. {sfx:SwitchOff} The dehumidifier clicks off. Nothing left to drink.*",
+                "*Lukey looks down at himself. Not one drop. His tank top is dry. His beard is dry. And his curls, for the first time since 1987, are DRY. They are ENORMOUS.*",
                 "...Oh my god. The VOLUME. Sweetheart, look at the volume."
             ],
             "goto": "v4_date"
         },
         "v4_date": {
             "lines": [
-                "*Monday. The storm has passed. Inspector Dan signs off on every pipe in the house and leaves, deeply confused about why his shoes are dry for once.*",
-                "*That night you set the table. Candles. Wine. Bon Jovi on the stereo. Lukey is wearing a [blazer] he has somehow summoned from 1987. Its shoulder pads could land a plane.*",
-                "*The housemates chipped in, in their way. Malcolm left a black candle with a note in very curly handwriting: 'For the lovers. Burn slowly, as all things burn.' Wyatt offered to do the lighting, and everyone said NO at the same time.*",
+                "*By nightfall the storm has blown itself out. The house is quiet and dry, and every tap in it is minding its own business.*",
+                "*You set the table. Candles. Wine. Bon Jovi on the stereo. Lukey has made an effort: fresh duct tape, brass couplings polished to a shine, boots double-knotted, and his see-through tank top has been [ironed|blazer].*",
+                "*He's even made a mixtape. Nobody knows how. The label says FOR BRENDA, with BRENDA crossed out and your name written over it in big loopy letters.*",
                 "So. This is it. The date. Thirty-nine years in the making."
             ],
             "topics": { "blazer": { "goto": "v4_aside_blazer", "aside": true } },
@@ -931,9 +855,9 @@
         },
         "v4_aside_blazer": {
             "lines": [
-                "You: Where did you even GET that blazer?",
+                "You: Did you IRON your tank top?",
                 "I thought about it really hard. Turns out that works now.",
-                "I asked Tyler for a second opinion. He said 'Negative, soldier.' So I knew I'd nailed it."
+                "Still see-through, though. That part's a choice."
             ],
             "return": true
         },
@@ -947,7 +871,7 @@
         "v4_toast": {
             "lines": [
                 "To Brenda. Who never got her sink fixed, never got her date and never knew she was the best thing that ever happened to a leak.",
-                "*He clinks your glass. It actually clinks.*",
+                "*{sfx:GlassClink} He clinks your glass. It actually clinks.*",
                 "And to you. Second best. ...First best. Don't tell Brenda."
             ],
             "goto": "v4_choose"
@@ -976,7 +900,7 @@
         },
         "v4_rs": {
             "lines": [
-                "*He kisses you. Properly. It's warm and solid and only very slightly damp, for old times' sake.*",
+                "*{sfx:Kiss} He kisses you. Properly. It's warm and solid and only very slightly damp, for old times' sake.*",
                 "Turns out my unfinished business was you, sweetheart. Now it's finished.",
                 "...I'm not leaving, though. Obviously. Have you SEEN this hair?"
             ],
@@ -990,17 +914,17 @@
         },
         "v4_rf": {
             "lines": [
-                "*He kisses your forehead. Soft. Final.*",
+                "*{sfx:Kiss} He kisses your forehead. Soft. Final.*",
                 "Yeah. I love you too. That's how I know. You deserve a guy with a pulse. And a dry floor.",
-                "*He gives you one last ridiculous spin, and on the turn he's gone. All that's left is a single drop of water on the floor, shaped exactly like a heart.*"
+                "*He gives you one last ridiculous spin, and on the turn he's gone. {sfx:TapDrip} All that's left is a single drop of water on the floor, shaped exactly like a heart.*"
             ],
             "ending": "romance_failure"
         },
         "v4_fs": {
             "lines": [
-                "*He gives you a sweaty-headband salute.*",
-                "Best frate of my afterlife. Tell Dennis he can have the kitchen. He's earned it. Smug little hum.",
-                "*And then he's gone, in a little burst of sparkle and a strong whiff of hairspray.*"
+                "*He gives you a big two-finger salute off the duct tape on his forehead.*",
+                "Best frate of my afterlife. Leave the dehumidifier the kitchen. Kidding. Unplug it. Put it in a lake.",
+                "*{sfx:Whoosh} And then he's gone, in a little burst of sparkle and a puff of warm steam that smells faintly of copper.*"
             ],
             "ending": "friend_success"
         },
@@ -1009,7 +933,7 @@
                 "*He looks at you for a long time.*",
                 "Then I'll go. Not because I want to leave. Because I finally CAN.",
                 "Thanks for the date, landlady. Best one I ever didn't die on.",
-                "*He winks, does one last Running Man, and is gone in a puff of hairspray.*"
+                "*{sfx:Whoosh} He winks, does one last Running Man, boots squeaking on the dry tiles, and is gone in a puff of warm steam.*"
             ],
             "ending": "friend_success"
         },
@@ -1030,19 +954,19 @@
             "end": true
         },
         "after_rs": {
-            "lines": [ "Evening, gorgeous. Dennis and I have reached a truce. He hums, I glare. It's very mature." ],
+            "lines": [ "Evening, gorgeous. I moved the dehumidifier to the garage. Facing the wall. It's very mature." ],
             "end": true
         },
         "after_rf": {
-            "lines": [ "*There's a dry, heart-shaped mark on the kitchen floor that no amount of mopping will shift. You've stopped trying. Dennis won't go near it.*" ],
+            "lines": [ "*There's a dry, heart-shaped mark on the kitchen floor that no amount of mopping will shift. You've stopped trying. You keep the dehumidifier on the other side of the room.*" ],
             "end": true
         },
         "after_fs": {
-            "lines": [ "*The kitchen smells faintly of hairspray. Dennis's light is green. Somewhere, very quietly, someone is doing the Running Man.*" ],
+            "lines": [ "*The kitchen smells faintly of warm copper. The dehumidifier runs all day, and its bucket stays empty. Somewhere, very quietly, someone is doing the Running Man.*" ],
             "end": true
         },
         "after_ff": {
-            "lines": [ "*Written in the condensation on the kitchen window: 'FIXED IT MYSELF. MOSTLY. YOU HELD THE FLASHLIGHT. -L x' Dennis is very slowly drying it off. You unplug him.*" ],
+            "lines": [ "*Written in the condensation on the kitchen window: 'FIXED IT MYSELF. MOSTLY. YOU HELD THE FLASHLIGHT. -L x' The dehumidifier is very slowly drying it off. You unplug it.*" ],
             "end": true
         }
     }
