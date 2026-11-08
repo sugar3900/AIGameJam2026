@@ -67,6 +67,8 @@ public:
 	FOnDialogueView OnView;
 	FOnConversationStarted OnConversationStarted;
 	FOnConversationEnded OnConversationEnded;
+	/** AbortConversation() closed a conversation early (no visit, no ending). */
+	FSimpleMulticastDelegate OnConversationAborted;
 
 	/** Validation messages from the last load (broken gotos, bad conditions...). */
 	const TArray<FString>& GetLoadErrors() const { return LoadErrors; }

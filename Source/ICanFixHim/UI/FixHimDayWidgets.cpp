@@ -20,17 +20,6 @@
 
 using namespace FixHimUI;
 
-namespace
-{
-	float DayEaseOutBack(float T)
-	{
-		const float C1 = 1.70158f;
-		const float C3 = C1 + 1.f;
-		T = FMath::Clamp(T, 0.f, 1.f);
-		return 1.f + C3 * FMath::Pow(T - 1.f, 3.f) + C1 * FMath::Pow(T - 1.f, 2.f);
-	}
-}
-
 // ---------------------------------------------------------------------------
 // Radio
 
@@ -232,7 +221,7 @@ void UFixHimTransitionWidget::NativeTick(const FGeometry& MyGeometry, float InDe
 		const float In = FMath::Clamp(Timer / 0.6f, 0.f, 1.f);
 		const float Out = FMath::Clamp((CardTime - Timer) / 0.5f, 0.f, 1.f);
 		TitleText->SetRenderOpacity(In * Out);
-		TitleText->SetRenderScale(FVector2D(FMath::Lerp(1.25f, 1.f, DayEaseOutBack(Timer / 0.6f))));
+		TitleText->SetRenderScale(FVector2D(FMath::Lerp(1.25f, 1.f, EaseOutBack(Timer / 0.6f))));
 		SubtitleText->SetRenderOpacity(FMath::Clamp((Timer - 0.4f) / 0.6f, 0.f, 1.f) * Out);
 		if (Timer >= CardTime)
 		{
@@ -412,6 +401,6 @@ void UFixHimKeepsakeWidget::NativeTick(const FGeometry& MyGeometry, float InDelt
 	Age += InDeltaTime;
 	if (Card)
 	{
-		Card->SetRenderScale(FVector2D(FMath::Max(0.01f, DayEaseOutBack(Age / 0.5f))));
+		Card->SetRenderScale(FVector2D(FMath::Max(0.01f, EaseOutBack(Age / 0.5f))));
 	}
 }

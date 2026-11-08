@@ -125,6 +125,8 @@ Example: `"if": "romance >= 4 && friction < 3"`.
 ### look
 ```json
 "look": {
+  "mesh": "/Game/ICanFixHim/Characters/LeakyPipes/SK_LeakyPipes",   // optional: real character model
+  "idle": "/Game/ICanFixHim/Characters/LeakyPipes/A_LeakyPipes_Idle", // its looping idle
   "skin": "#C98A6B", "shirt": "#B3282D", "pants": "#3A4F78", "shoes": "#5A3A22",
   "pattern": 1,                 // 1 = plaid shirt
   "glow": "#4FA8FF",            // fixture glow, outline and intro card colour
@@ -133,6 +135,8 @@ Example: `"if": "romance >= 4 && friction < 3"`.
 }
 ```
 Props are engine primitives (`cube`, `sphere`, `cylinder`, `plane`) in **character space**: X forward, Y right, Z up from the feet, centimetres (mannequin is ~181 cm, head bone at 162). They're glued to `socket` (a bone name: `head`, `neck_01`, `spine_03`, `spine_05`, `pelvis`, `hand_r`...) so they follow the idle animation.
+
+When `mesh` is set the hunk uses that rigged model instead of the painted mannequin, and `skin`/`shirt`/`pants`/`shoes`/`pattern`/`props` are ignored (keep them as a fallback in case the model is missing). `glow` and `scale` still apply. Models are imported by `Tools/Editor/import_characters.py` (see the README); each gets its own skeleton, so `idle` must be the animation retargeted onto that model (`A_<Folder>_Idle`), not a mannequin animation.
 
 ## Arc structure used by the four prototype hunks
 1. **v1, intro.** Meet, malady explained, first impression (+romance / +friendship / +friction choices).
@@ -144,6 +148,16 @@ Props are engine primitives (`cube`, `sphere`, `cylinder`, `plane`) in **charact
    - friendship ≥ 3 & friction < 3 → **friend success**
    - fallback → `auto` (resolver picks by stats; usually friend failure if you've been rude)
 5. **after_\*.** Short post-ending chats per ending.
+
+## Voice-over
+A line is voiced if a sound wave named `VO_<file id>_<node id>_<line index>` exists under `/Game/ICanFixHim/Audio/VO/` (the line index is 0-based within that node's `lines`). It plays when the line appears, and stops when the player clicks on.
+
+- **Editing a voiced line:** re-run `Tools/Audio/generate_vo.py`, then `Tools/Editor/import_vo.py`. Only changed lines regenerate.
+- **Inserting or removing lines mid-node shifts the indices,** so re-run the generator after any edit to a voiced node.
+- **Asides:** lines inside an aside node are voiced like any other. When the aside returns, the line it came from is shown again but not replayed.
+- Inline `{fx:name}` tags are stripped before the line is spoken.
+
+`You:` lines and `*narration*` are never voiced. See [[Voice Casting]].
 
 ## Moving to an LLM later
 `UFixHimDialogueSubsystem` exposes a UI-agnostic `FDialogueView` and `Advance / Choose / ClickTopic`. An AI-driven provider can produce the same view (text, choices, topics) and apply the same `do` effects, so the UI and the save format don't change. The JSON character sheets (`name`, `malady`, `tagline`, endings, existing lines) double as the prompt context.

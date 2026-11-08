@@ -19,7 +19,8 @@ public class ICanFixHim : ModuleRules
 			"Slate",
 			"SlateCore",
 			"Json",
-			"JsonUtilities"
+			"JsonUtilities",
+			"AssetRegistry"
 		});
 
 		// Feature folders are include roots, e.g. #include "Dialogue/DialogueTypes.h"

@@ -101,6 +101,9 @@ Callbacks: the Act 2 opener changes if she ordered him out in Act 1 (`seen.v1_bo
 - **Sets:** `flag.malcolm_diary` (v3_free).
 - **Reads (optional flavour only):** `lukey.met` / `tyler.met` / `wyatt.met` (Act 1 gossip), `lukey.romance` / `tyler.romance` / `wyatt.romance` ≥ 4 (Act 2 colony poems), `flag.lukey_blackout` (Act 3 opener), `flag.lukey_human`, `flag.tyler_video`, `flag.wyatt_spoke_up` (Act 4 vindication). Cross-effect: `lukey.friendship +1` when you tell him Lukey knows.
 
+## Voice
+**Silky, theatrical, velvet-menace British baritone**, in the spirit of Loki: refined RP, unhurried, savouring every word, with a private chuckle and sudden flashes of venom or glee. It's a goth teen's idea of a Victorian poet (all Mr. Darcy), so the accent is part of the costume. The menace cracks into neediness when you give him an order. ElevenLabs fallback: **Callum**. Full brief and Voice Design prompt: [[Voice Casting]]. Not voiced in the game yet.
+
 ## Open questions
 1. Does Raven (Kayleigh, now about 35) ever turn up, e.g. at the sell epilogue's open house, like Brenda?
 2. ~~The epilogue could nod to him.~~ Done: `epilogue.json` gives him a beat per ending (the terrarium goes wherever your nightstand goes and gets the cake stand at the shared dinner; the cheese wheel arrives on Valentine's Day; sourdough bread night with Dan's butter; sonnets called 'Bleach' delivered by Mrs. Pruitt's cats), plus a demolition beat.

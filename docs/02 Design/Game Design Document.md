@@ -93,10 +93,12 @@ Multiple romances are allowed and coexist (nobody in the house is exclusive). Ea
 | [[Malcolm]] | Black Mold | Walk-in closet in the bedroom | Velvet, theatrical "tragic poet" who was never alive (a goth teen's 2005–08 fan fiction); polyamorous colony, sweet sub, terrified of bleach | ✅ v2 arc |
 | [[Tyler]] | Pink Tile | Bathroom | Snooty old-money heir with military-school manners and rose-quartz hair; slipped on the tile he hated on flip day one (2024); has never been told no | ✅ v2 arc |
 | [[Wyatt]] | Faulty Wiring | Living room fuse box | Shy, sweet, nerdy Australian apprentice electrician (died NYE 1999); apologizes constantly; the lights tell the truth | ✅ v2 arc |
-| Az | Asbestos | (attic?) | Diva; protects against fire spreading | 📝 backlog |
+| [[Az]] | Asbestos | (attic?) | K-pop idol diva; protects against fire spreading | 📝 backlog (voice cast) |
 | Lance? | Lead Paint | (?) | Pure, chaste, heroic, self-righteous, chivalric | 📝 backlog |
 | Joey? | Broken Floor Joist | (?) | TBD | 📝 backlog |
 | Dorian? | Broken Door | (?) | TBD | 📝 backlog |
+
+Voices for every hunk: [[Voice Casting]]. The player is never voiced.
 
 ## Mechanics
 - **Interactables:** everything clickable sparkles faintly from a distance; on hover it gets an outline and the reticle becomes a pointing finger with painted nails. Ordinary objects toggle (lamp, TV, stove, fridge, drawers, wardrobe, faucet, toilet lid); clicking again reverts.

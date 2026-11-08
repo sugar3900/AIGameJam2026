@@ -6,6 +6,8 @@
     "room": "bedroom",
     "tagline": "A tortured poet. A toxic presence. Slowly, steadily growing on you.",
     "look": {
+        "mesh": "/Game/ICanFixHim/Characters/BlackMold/SK_BlackMold",
+        "idle": "/Game/ICanFixHim/Characters/BlackMold/A_BlackMold_Idle",
         "skin": "#A3AD9C",
         "shirt": "#1C1C21",
         "pants": "#121216",

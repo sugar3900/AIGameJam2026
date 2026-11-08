@@ -6,6 +6,8 @@
     "room": "living",
     "tagline": "He'll tell you it's fine. The lights will tell you otherwise.",
     "look": {
+        "mesh": "/Game/ICanFixHim/Characters/FaultyWiring/SK_FaultyWiring",
+        "idle": "/Game/ICanFixHim/Characters/FaultyWiring/A_FaultyWiring_Idle",
         "skin": "#D9B08C",
         "shirt": "#F28B2E",
         "pants": "#6E6450",

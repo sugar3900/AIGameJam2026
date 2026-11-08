@@ -6,6 +6,8 @@
     "room": "kitchen",
     "tagline": "Not a leak. THE leaks. Plural. He's a franchise. And you're trespassing.",
     "look": {
+        "mesh": "/Game/ICanFixHim/Characters/LeakyPipes/SK_LeakyPipes",
+        "idle": "/Game/ICanFixHim/Characters/LeakyPipes/A_LeakyPipes_Idle",
         "skin": "#D69A78",
         "shirt": "#1FB5A8",
         "pants": "#1FB5A8",

@@ -19,7 +19,7 @@ Source/ICanFixHim/
   Dialogue/  UFixHimDialogueSubsystem (loads JSON, runs conversations), FixHim::Condition (expression evaluator)
   Player/    AFixHimCharacter (Rosie), AFixHimPlayerController (state machine, input, menus, encounters)
   World/     AFixHimInteractable (sparkle, outline, toggles), AFixHimMalady (fixture + hunk + broken fx),
-             AFixHimHunk (the man: outfit, props, portrait capture, pop-in), AFixHimRoom (volume + floor-plan rect)
+             AFixHimHunk (the man: rigged model + idle, or painted mannequin with props; portrait capture, pop-in), AFixHimRoom (volume + floor-plan rect)
   UI/        UFixHimWidget base + code-built UMG screens (title, HUD, dialogue, floor plan, intro/ending cards, menus)
 Content/ICanFixHim/
   Data/Dialogue/*.json   story (staged as non-UFS so it can be edited after packaging)

@@ -108,8 +108,11 @@ Every ending restores the tile: the house is only fixed for real if it's restore
 - **Reads (optional flavour):** `flag.lukey_blackout`, `flag.lukey_human`, `flag.malcolm_diary`, `flag.wyatt_spoke_up`, `lukey.romance >= 8` (the "Pinky" choice), `lukey/malcolm.romance` and `lukey/malcolm/wyatt.talkedtoday` (jealousy).
 - **Cross-stat effect:** `wyatt.friendship +1` when she brings up Wyatt speaking up.
 
+## Voice
+**Old-money American heir with military-school diction** (see the voice note at the top): a crisp, commanding, parade-ground baritone, snooty and composed, every sentence ending like an order. He gets *more* formal when flustered, and splutters when complimented. He's no longer British. ElevenLabs fallback: **Roger** (alt: **Eric**). Full brief and Voice Design prompt: [[Voice Casting]]. Not voiced in the game yet.
+
 ## Open questions
-1. His `look` in the JSON is still the v1 prototype (brown pompadour, push-broom mustache, pink sweater vest). It should become rose-quartz hair, clean-shaven, a navy blazer with a crest and mirror-shined loafers.
+1. His `look` should read as rose-quartz hair, clean-shaven, a navy blazer with a crest and mirror-shined loafers. In game he's now the rigged model `SK_PinkTile` (from `feature/character-models`); the colours and props in the JSON `look` block are only the fallback mannequin, and they're still the v1 prototype (brown pompadour, push-broom mustache, pink sweater vest). Check the model against this canon.
 2. Does Wyatt's script ever show Tyler's reaction to Wyatt's crush? (Canon: no. Tyler never knows.)
 3. ~~Should Tyler's video appear in a podcast episode?~~ No (it's his Act 3 reveal). The podcast only teases him: in ep1 a listener sees a man in a navy blazer saluting from the bathroom window, then nobody's there.
 

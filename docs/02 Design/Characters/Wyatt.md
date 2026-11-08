@@ -132,7 +132,7 @@ Other thresholds: "love" in Act 4 at romance ≥ 12; Act 2 grudge opener at fric
 | `lukey/tyler/malcolm.romance >= 8` | read | Jealousy beats in Acts 2, 3, 4 |
 
 ## Voice
-**A smart, deep, gentle Australian baritone.** Warm and unhurried, natural Australian phrasing ("reckon," "no worries," "yeah, nah," "heaps," "bloke") without tipping into caricature: no "crikey," no shrimp on the barbie. He speeds up and goes up in pitch when he explains electrics, then drops back down when he catches himself. The placeholder voice may be non-Australian for now, **but the final voice must be Australian.**
+**A smart, deep, gentle Australian baritone.** Warm and unhurried, natural Australian phrasing ("reckon," "no worries," "yeah, nah," "heaps," "bloke") without tipping into caricature: no "crikey," no shrimp on the barbie. He speeds up and goes up in pitch when he explains electrics, then drops back down when he catches himself. The placeholder voice may be non-Australian for now, **but the final voice must be Australian.** ElevenLabs fallback: **Charlie** (Australian). Full brief and Voice Design prompt: [[Voice Casting]]. Not voiced in the game yet.
 
 ## Open questions
 1. ~~Lukey's script doesn't say "Sparky" yet.~~ Done: Lukey calls him Sparky in Act 3 (`v3_aside_wyatt`).

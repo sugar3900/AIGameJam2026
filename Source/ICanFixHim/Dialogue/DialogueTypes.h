@@ -115,7 +115,17 @@ struct FHunkDefinition
 	FString Room;
 	FString Tagline;
 
-	/** Outfit painted onto the mannequin by M_Character. */
+	/**
+	 * Object path of a rigged character model (look.mesh in JSON), e.g.
+	 * "/Game/ICanFixHim/Characters/BlackMold/SK_BlackMold". When set it replaces the painted
+	 * mannequin: outfit colours, eyes and props are ignored. Assets under /Game/ICanFixHim/Characters
+	 * are always cooked (Config/DefaultGame.ini) since only this JSON string references them.
+	 */
+	FString Mesh;
+	/** Looping idle animation for Mesh (look.idle), retargeted onto its skeleton by Tools/Editor/import_characters.py. */
+	FString Idle;
+
+	/** Outfit painted onto the mannequin by M_Character (fallback when Mesh is empty). */
 	FLinearColor Skin = FLinearColor(0.8f, 0.58f, 0.47f);
 	FLinearColor Shirt = FLinearColor(0.8f, 0.6f, 0.5f);
 	FLinearColor Pants = FLinearColor(0.15f, 0.18f, 0.28f);
@@ -138,7 +148,10 @@ struct FHunkDefinition
 struct FDialogueView
 {
 	FString HunkId;
-	/** Node and line being shown (lets listeners tell a new line from a re-broadcast). */
+	/**
+	 * Node and 0-based line index this view shows. Lets listeners tell a new line from a
+	 * re-broadcast, and is the voice-over lookup key (VO_<script>_<node>_<line>).
+	 */
 	FString NodeId;
 	int32 LineIndex = 0;
 	FString HunkName;

@@ -6,6 +6,8 @@
     "room": "bathroom",
     "tagline": "Heir. Flipper. Rose quartz. Currently, and against his express wishes, the bathroom.",
     "look": {
+        "mesh": "/Game/ICanFixHim/Characters/PinkTile/SK_PinkTile",
+        "idle": "/Game/ICanFixHim/Characters/PinkTile/A_PinkTile_Idle",
         "skin": "#E8B4A0",
         "shirt": "#F7C6D6",
         "pants": "#EADCC4",

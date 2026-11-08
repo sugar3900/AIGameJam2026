@@ -217,9 +217,19 @@ After Lukey's beat, the epilogue checks in on Malcolm, Tyler and Wyatt (one beat
 
 ---
 
+## Voice
+**All-American, big, warm and grinning**, in the spirit of Emmett Cullen: a booming laugh, a chesty baritone, fast and bouncy when showing off, and soft, almost whispered when he's sincere. Full brief, Voice Design prompt and ElevenLabs fallback (**Liam**) in [[Voice Casting]].
+
+Every one of his lines has a placeholder voice in the game (free Kokoro TTS). It plays automatically when the line appears. Lines that say your name are recorded without it.
+
+> **Accent vs script:** the v2 script is written in American English, so the Britishisms flagged in the v1 placeholder pass ("hoover", "advert", "pavement", "fella", "reckon"...) are gone. The placeholder VO was regenerated for the v2 lines on 2026-11-08.
+
+---
+
 ## Open questions
-1. Does Brenda ever meet ghost-Lukey properly, maybe as a bonus scene?
-2. Do Dan and Mrs. Pruitt get their own scenes, or stay in narration?
-3. Should Lukey react to the other guys' shared flags (`flag.malcolm_diary`, `flag.tyler_video`, `flag.wyatt_spoke_up`) once their arcs are final?
+1. ~~What's the heroine's default name, and does the player rename her?~~ The player types her name at New Game.
+2. Does Brenda ever meet ghost-Lukey properly, maybe as a bonus scene?
+3. Do Dan and Mrs. Pruitt get their own scenes, or stay in narration?
+4. Should Lukey react to the other guys' shared flags (`flag.malcolm_diary`, `flag.tyler_video`, `flag.wyatt_spoke_up`) once their arcs are final?
 
 Back to [[Game Design Document]] · Format: [[Dialogue Format]]

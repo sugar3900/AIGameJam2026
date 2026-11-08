@@ -7,10 +7,13 @@ tags: [planning]
 - [x] Week flow: 4 playable days (bed ends the day), radio podcast each morning, daylight → dusk, week 1 must-meet rule, final inspection → epilogue → keepsake → title
 - [x] Name entry at New Game (fills {player})
 - [ ] Check Lukey's look in-engine (teal Lycra, headband, wrench); the second head prop must read as a medium-length, feathered blow-dry
-- [ ] Update Tyler's `look` block in `tyler.json`: rose-quartz hair, clean-shaven (remove the mustache prop), navy blazer with a crest, mirror-shined loafers
+- [ ] Update Tyler's `look` block in `tyler.json`: rose-quartz hair, clean-shaven (remove the mustache prop), navy blazer with a crest, mirror-shined loafers (he now uses the rigged `SK_PinkTile` model, so check that against the canon too; the JSON colours/props are only the fallback)
 - [ ] Bed tooltip warning when a guy hasn't had his story conversation this week (skipping a week means his Act 4 can't happen before the inspection, so the house fails)
-- [ ] Free up disk space (under 1 GB free; blocks building and launching the editor)
+- [x] Free up disk space (31 GB free on 2026-11-08)
 - [ ] Play the full finale in-engine: inspection pass/fail, ep5, every epilogue branch (simulated in text, not yet seen in the dialogue box)
+- [x] Voice casting for all hunks ([[Voice Casting]]) + placeholder VO for Lukey that plays in game
+- [ ] Placeholder VO for Malcolm, Tyler and Wyatt (hold until their v2 scripts settle; add them to `VOICES` in `Tools/Audio/generate_vo.py`)
+- [ ] Record final VO in ElevenLabs (Lukey first; his v2 script is already in American English)
 - [ ] Audio: music bed per room + SFX (drip, sparks, toggles, UI clicks, kiss "mwah")
 - [ ] Remaining hunks: Az (asbestos), lead paint, broken floor joist, broken door (+ their rooms)
 - [ ] Playtest pass on dialogue pacing + stat thresholds (are endings reachable without metagaming?)
