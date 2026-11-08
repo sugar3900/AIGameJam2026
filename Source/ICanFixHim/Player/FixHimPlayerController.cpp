@@ -16,6 +16,7 @@
 #include "UI/FixHimFloorPlanWidget.h"
 #include "UI/FixHimCards.h"
 #include "UI/FixHimDayWidgets.h"
+#include "Debug/FixHimDebug.h"
 #include "Engine/DirectionalLight.h"
 #include "Engine/StaticMeshActor.h"
 #include "Components/StaticMeshComponent.h"
@@ -68,6 +69,9 @@ void AFixHimPlayerController::BeginPlay()
 	}
 
 	BuildInput();
+#if WITH_EDITOR || !UE_BUILD_SHIPPING
+	UFixHimDebugComponent::Install(this);
+#endif
 
 	if (UFixHimDialogueSubsystem* Dialogue = UFixHimDialogueSubsystem::Get(this))
 	{
@@ -274,6 +278,12 @@ void AFixHimPlayerController::OnMouseLook(const FInputActionValue& Value)
 	{
 		return;
 	}
+#if WITH_EDITOR || !UE_BUILD_SHIPPING
+	if (bDebugPanelOpen)
+	{
+		return; // the mouse drives the debug panel's cursor
+	}
+#endif
 	const UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this);
 	const float Sens = MouseLookScale * (Save ? Save->Options().MouseSensitivity : 1.f);
 	const bool bInvert = Save && Save->Options().bInvertY;
@@ -451,7 +461,11 @@ void AFixHimPlayerController::EnterState(EFixHimState NewState)
 
 void AFixHimPlayerController::ApplyInputModeForState()
 {
-	if (State == EFixHimState::Playing)
+	bool bGameOnly = State == EFixHimState::Playing;
+#if WITH_EDITOR || !UE_BUILD_SHIPPING
+	bGameOnly = bGameOnly && !bDebugPanelOpen;
+#endif
+	if (bGameOnly)
 	{
 		bShowMouseCursor = false;
 		SetInputMode(FInputModeGameOnly());
@@ -536,16 +550,21 @@ void AFixHimPlayerController::SetHovered(AFixHimInteractable* NewHovered)
 // ---------------------------------------------------------------------------
 // Menus
 
+void AFixHimPlayerController::PlacePlayerAtDoor()
+{
+	// Just inside the front door (living room's south wall), looking into the apartment.
+	if (APawn* P = GetPawn())
+	{
+		P->TeleportTo(FVector(190.f, 120.f, P->GetActorLocation().Z), FRotator(0.f, 75.f, 0.f));
+		SetControlRotation(FRotator(0.f, 75.f, 0.f));
+	}
+}
+
 void AFixHimPlayerController::BeginPlaying(bool bFromSave)
 {
 	if (!bFromSave)
 	{
-		// A new game starts just inside the front door (living room's south wall), looking into the apartment.
-		if (APawn* P = GetPawn())
-		{
-			P->TeleportTo(FVector(190.f, 120.f, P->GetActorLocation().Z), FRotator(0.f, 75.f, 0.f));
-			SetControlRotation(FRotator(0.f, 75.f, 0.f));
-		}
+		PlacePlayerAtDoor();
 	}
 	SetViewTargetWithBlend(GetPawn(), bFromSave ? 0.6f : 1.4f, VTBlend_EaseInOut, 2.f);
 	for (TActorIterator<AFixHimMalady> It(GetWorld()); It; ++It)
@@ -1268,24 +1287,13 @@ void AFixHimPlayerController::RequestEndDay()
 		{
 			Save->Data().Week++;
 		}
-		// Wake up next to the bed with every hunk back in his fixture.
+		// Every morning starts at the front door, with every hunk back in his fixture.
 		for (TActorIterator<AFixHimMalady> It(Self->GetWorld()); It; ++It)
 		{
 			It->DismissHunk();
 			It->RefreshRepairState();
 		}
-		for (TActorIterator<AFixHimRoom> It(Self->GetWorld()); It; ++It)
-		{
-			if (It->RoomId == TEXT("bedroom"))
-			{
-				if (APawn* P = Self->GetPawn())
-				{
-					const FTransform T = It->GetEntryTransform();
-					P->SetActorLocation(T.GetLocation(), false, nullptr, ETeleportType::TeleportPhysics);
-					Self->SetControlRotation(FRotator(-10.f, T.Rotator().Yaw, 0.f));
-				}
-			}
-		}
+		Self->PlacePlayerAtDoor();
 		Self->DayElapsed = 0.f;
 		Self->bLateToastShown = false;
 		Self->UpdateDaylight(0.f);

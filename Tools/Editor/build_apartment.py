@@ -767,7 +767,7 @@ def build_gameplay():
     room("bedroom", "Bedroom", 0, 800, 650, 1100, "Lilac", (520, 820), 90)
     room("bathroom", "Bathroom", 800, 1400, 650, 1100, "WallSky", (1000, 790), 90)
 
-    start = EAS.spawn_actor_from_class(unreal.PlayerStart, unreal.Vector(420, 420, 100), rot(yaw=0))
+    start = EAS.spawn_actor_from_class(unreal.PlayerStart, unreal.Vector(190, 120, 100), rot(yaw=75))
     start.set_actor_label("PlayerStart")
     start.set_folder_path("Gameplay")
 

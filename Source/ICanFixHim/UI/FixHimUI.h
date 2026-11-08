@@ -110,10 +110,17 @@ public:
 
 protected:
 	virtual TSharedRef<SWidget> RebuildWidget() override;
+	virtual void NativeConstruct() override;
+	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
 	/** Create widgets and set WidgetTree->RootWidget. */
 	virtual void BuildUI() PURE_VIRTUAL(UFixHimWidget::BuildUI, );
 
 	/** A centred rounded card with a title, returned content box for children. */
 	UVerticalBox* MakeCardScreen(const FString& Title, float Width = 520.f);
+
+private:
+	/** The card from MakeCardScreen; it grows in with a small overshoot every time the widget is shown. */
+	UPROPERTY() TObjectPtr<UWidget> PopCard;
+	float PopAge = 0.f;
 };

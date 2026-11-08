@@ -127,6 +127,28 @@ TSharedRef<SWidget> UFixHimWidget::RebuildWidget()
 	return Super::RebuildWidget();
 }
 
+void UFixHimWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+	PopAge = 0.f;
+	if (PopCard)
+	{
+		PopCard->SetRenderScale(FVector2D(0.01f, 0.01f));
+	}
+}
+
+void UFixHimWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+{
+	Super::NativeTick(MyGeometry, InDeltaTime);
+	constexpr float PopSeconds = 0.22f;
+	if (PopCard && PopAge < PopSeconds)
+	{
+		PopAge += InDeltaTime;
+		const float S = FMath::Max(0.01f, FixHimUI::EaseOutBack(PopAge / PopSeconds));
+		PopCard->SetRenderScale(FVector2D(S, S));
+	}
+}
+
 UVerticalBox* UFixHimWidget::MakeCardScreen(const FString& Title, float Width)
 {
 	using namespace FixHimUI;
@@ -150,6 +172,8 @@ UVerticalBox* UFixHimWidget::MakeCardScreen(const FString& Title, float Width)
 	Card->SetBrush(Rounded(Cream, 28.f, Pink, 4.f));
 	Card->SetPadding(FMargin(36.f, 28.f));
 	Size->AddChild(Card);
+	Size->SetRenderTransformPivot(FVector2D(0.5f, 0.5f));
+	PopCard = Size;
 
 	UVerticalBox* Col = WidgetTree->ConstructWidget<UVerticalBox>();
 	Card->SetContent(Col);

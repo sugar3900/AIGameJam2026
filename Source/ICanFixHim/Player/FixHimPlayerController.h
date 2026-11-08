@@ -138,6 +138,16 @@ public:
 	/** Runs a ';'-separated list of console commands. "wait <seconds>" pauses the script. */
 	UFUNCTION(Exec) void FixHimScript(const FString& Script);
 
+#if WITH_EDITOR || !UE_BUILD_SHIPPING
+	/** Debug panel open/closed: keeps the cursor visible with game input still running, and restores the state's own mode on close. */
+	void DebugSetPanelOpen(bool bOpen);
+	/** Jumps to a week (1..NumWeeks+1 = finale) as a clean day rollover, ignoring the week-1 "meet everyone" rule. */
+	void DebugSetWeek(int32 NewWeek);
+	/** Re-applies the save data to the world (repair state of maladies, HUD counters). */
+	void DebugRefreshWorld();
+	void DebugTeleportToDoor();
+#endif
+
 private:
 	void BuildInput();
 	void EnterState(EFixHimState NewState);
@@ -152,10 +162,18 @@ private:
 	void HandleSaved();
 	void HandlePreSave();
 	void BeginPlaying(bool bFromSave);
+	/** Puts the player just inside the front door facing the apartment (start of every day). */
+	void PlacePlayerAtDoor();
 	void RefreshRepairs();
 	void ShowWidget(UUserWidget* Widget, int32 ZOrder);
 	void HideWidget(UUserWidget* Widget);
 	void RunNextScriptStep();
+
+#if WITH_EDITOR || !UE_BUILD_SHIPPING
+	// In-game debug panel (Debug/FixHimDebug*.cpp); not compiled into shipping builds.
+	friend class UFixHimDebugComponent;
+	bool bDebugPanelOpen = false;
+#endif
 
 	// Days, podcast, scripted scenes, finale
 	void StartDay(bool bFromSave);
