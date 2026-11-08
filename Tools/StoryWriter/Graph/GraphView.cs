@@ -16,7 +16,7 @@ namespace StoryWriter.Graph;
 /// </summary>
 public sealed class GraphView : Control
 {
-	public const double NodeW = 240, MinNodeH = 112, HeaderH = 26;
+	public const double NodeW = 240, MinNodeH = 84, HeaderH = 26, PreviewH = 34, RowH = 20, FooterH = 18;
 	public const double CondW = 180, CondH = 50, CondGap = 26;
 	const double PortR = 6;
 
@@ -26,7 +26,23 @@ public sealed class GraphView : Control
 	HashSet<string> _entryTargets = new();
 	readonly Dictionary<string, Rect> _nodeRects = new();
 	readonly List<(Rect rect, DialogueLink link)> _condBoxes = new();
-	readonly Dictionary<DialogueLink, Point> _ports = new();
+	readonly Dictionary<DialogueLink, Point> _ports = new(ReferenceEqualityComparer.Instance);
+	readonly Dictionary<string, List<PortRow>> _rows = new();
+	static readonly IBrush RowFill = new SolidColorBrush(Color.Parse("#3A3244"));
+
+	/// <summary>One outgoing option drawn inside a node (choice, "next" goto, or hypertext link) with its own link port.</summary>
+	sealed class PortRow
+	{
+		public string NodeId = "";
+		public LinkKind Kind;
+		public int Index;
+		public string? TopicKey;
+		public string Text = "";
+		public string? Target;
+		public DialogueLink? Link;
+		public Rect Rect;
+		public Point Port;
+	}
 	Rect _startRect;
 
 	// View transform: screen = world * zoom + pan
@@ -45,14 +61,18 @@ public sealed class GraphView : Control
 	public event Action? EditConversationRequested;
 	public event Action<string?>? PreviewRequested; // null = from start
 	public event Action<string?>? SelectionChanged;
+	/// <summary>Source of the variable names offered when editing a condition.</summary>
+	public Func<IEnumerable<DialogueDocument>>? AllDocs { get; set; }
 
 	// Interaction state
-	enum Drag { None, Pan, Move, Connect }
+	enum Drag { None, Pan, Move, Connect, Reconnect }
 	Drag _drag;
 	Point _dragStartScreen, _lastScreen;
 	Point _moveOffset;
 	string? _dragNode;
-	bool _moved;
+	PortRow? _dragRow;
+	PortRow? _hoverRow;
+bool _moved;
 	Point _connectEnd;
 	string? _hoverNode;
 	bool _connectAsTopic;
@@ -113,32 +133,63 @@ public sealed class GraphView : Control
 		_nodeRects.Clear();
 		_condBoxes.Clear();
 		_ports.Clear();
+		_rows.Clear();
 		if (_doc == null) return;
 		GraphLayout.FillMissing(_doc);
 		_links = _doc.Links();
 		_kinds = _doc.NodeKinds(_links);
 		_entryTargets = _links.Where(l => l.Kind == LinkKind.Entry).Select(l => l.Target).ToHashSet();
 
-		var outgoing = _links.ToLookup(l => l.Source ?? DialogueDocument.StartKey);
+		var byKey = new Dictionary<(string, LinkKind, string), DialogueLink>();
+		foreach (var l in _links.Where(l => l.Source != null))
+			byKey.TryAdd((l.Source!, l.Kind, l.Kind == LinkKind.Topic ? l.TopicKey ?? "" : l.Index.ToString()), l);
+
 		foreach (var id in _doc.NodeIds)
 		{
-			var p = _doc.Layout[id];
-			int outs = outgoing[id].Count();
-			_nodeRects[id] = new Rect(p.X, p.Y, NodeW, Math.Max(MinNodeH, HeaderH + 14 + outs * 20));
-		}
-		int entryCount = outgoing[DialogueDocument.StartKey].Count();
-		var sp = _doc.Layout.GetValueOrDefault(DialogueDocument.StartKey);
-		_startRect = new Rect(sp.X, sp.Y, 170, Math.Max(64, 34 + entryCount * 20));
+			var node = _doc.Node(id)!;
+			var rows = new List<PortRow>();
+			PortRow Row(LinkKind kind, int index, string? topicKey, string text, JsonObject? fx, string? target)
+			{
+				var link = byKey.GetValueOrDefault((id, kind, kind == LinkKind.Topic ? topicKey ?? "" : index.ToString()));
+				var f = Dialogue.FormatEffectsShort(fx);
+				return new PortRow
+				{
+					NodeId = id, Kind = kind, Index = index, TopicKey = topicKey,
+					Text = f.Length > 0 ? text + "  " + f : text,
+					Target = string.IsNullOrEmpty(target) ? null : target,
+					Link = link,
+				};
+			}
+			if (node["choices"] is JsonArray cs)
+				for (int i = 0; i < cs.Count; i++)
+					if (cs[i] is JsonObject c)
+						rows.Add(Row(LinkKind.Choice, i, null, $"{i + 1}. {Dialogue.Str(c["text"]) ?? ""}", c["do"] as JsonObject, Dialogue.Str(c["goto"])));
+			if (!string.IsNullOrEmpty(Dialogue.Str(node["goto"])))
+				rows.Add(Row(LinkKind.Goto, 0, null, "→ next", null, Dialogue.Str(node["goto"])));
+			if (node["topics"] is JsonObject ts)
+				foreach (var (key, t) in ts)
+					rows.Add(Row(LinkKind.Topic, 0, key, "[" + key + "]", (t as JsonObject)?["do"] as JsonObject, t is JsonObject to ? Dialogue.Str(to["goto"]) : Dialogue.Str(t)));
 
-		// Out ports, spread down the right edge in the order the links are written.
-		foreach (var g in outgoing)
-		{
-			var r = g.Key == DialogueDocument.StartKey ? _startRect : _nodeRects.GetValueOrDefault(g.Key);
-			var list = g.ToList();
-			double top = r.Top + HeaderH + 4, span = r.Height - HeaderH - 8;
-			for (int i = 0; i < list.Count; i++)
-				_ports[list[i]] = new Point(r.Right, top + span * (i + 0.5) / list.Count);
+			var p = _doc.Layout[id];
+			double h = Math.Max(MinNodeH, HeaderH + PreviewH + rows.Count * RowH + 6 + (FooterBits(node).text.Length > 0 ? FooterH : 0));
+			var rect = new Rect(p.X, p.Y, NodeW, h);
+			_nodeRects[id] = rect;
+			for (int i = 0; i < rows.Count; i++)
+			{
+				rows[i].Rect = new Rect(rect.X + 8, rect.Y + HeaderH + PreviewH + i * RowH, NodeW - 16, RowH - 3);
+				rows[i].Port = new Point(rect.Right, rows[i].Rect.Center.Y);
+				if (rows[i].Link != null) _ports[rows[i].Link!] = rows[i].Port;
+			}
+			_rows[id] = rows;
 		}
+
+		// START box: one out port per entry, spread down the right edge.
+		var entries = _links.Where(l => l.Source == null).ToList();
+		var sp = _doc.Layout.GetValueOrDefault(DialogueDocument.StartKey);
+		_startRect = new Rect(sp.X, sp.Y, 170, Math.Max(64, 34 + entries.Count * 20));
+		double top = _startRect.Top + HeaderH + 4, span = _startRect.Height - HeaderH - 8;
+		for (int i = 0; i < entries.Count; i++)
+			_ports[entries[i]] = new Point(_startRect.Right, top + span * (i + 0.5) / entries.Count);
 
 		// Condition boxes: stacked to the left of the node the link flows into.
 		foreach (var g in _links.Where(l => l.IsConditional && _nodeRects.ContainsKey(l.Target)).GroupBy(l => l.Target))
@@ -151,6 +202,20 @@ public sealed class GraphView : Control
 			foreach (var l in list)
 				_condBoxes.Add((new Rect(r.Left - CondGap - CondW, y0 + i++ * (CondH + 8), CondW, CondH), l));
 		}
+	}
+
+	/// <summary>What happens at the end of the node, shown in its footer.</summary>
+	static (string text, bool isEnding) FooterBits(JsonObject node)
+	{
+		var bits = new List<string>();
+		var ending = Dialogue.Str(node["ending"]);
+		if (!string.IsNullOrEmpty(ending)) bits.Add("ending: " + ending);
+		else if (Dialogue.Bool(node["end"])) bits.Add("■ end");
+		if (Dialogue.Str(node["fx"]) is { Length: > 0 } fx) bits.Add("fx " + fx);
+		if (node["do"] is JsonObject d) bits.Add(Dialogue.FormatEffectsShort(d));
+		int lines = Dialogue.Lines(node).Count;
+		if (lines > 2) bits.Add($"{lines} lines");
+		return (string.Join("  ·  ", bits), !string.IsNullOrEmpty(ending));
 	}
 
 	Point ToWorld(Point screen) => new((screen.X - _pan.X) / _zoom, (screen.Y - _pan.Y) / _zoom);
@@ -276,11 +341,18 @@ public sealed class GraphView : Control
 			foreach (var (rect, link) in _condBoxes) DrawCondition(ctx, rect, link);
 			DrawStart(ctx);
 			foreach (var (id, r) in _nodeRects) DrawNode(ctx, id, r);
-			if (_zoom > 0.45)
-				foreach (var l in _links) DrawLinkLabel(ctx, l);
-			if (_drag == Drag.Connect && _dragNode != null && _nodeRects.TryGetValue(_dragNode, out var from))
-			{
-				var p0 = new Point(from.Right, from.Center.Y);
+if (_drag == Drag.Reconnect && _dragRow != null)
+{
+	// Dropping on empty canvas clears an existing link, so draw that case in red.
+	bool drops = _hoverNode == null && _dragRow.Target != null;
+	var rpen = new Pen(drops ? Palette.Error : Palette.Selection, 2, drops || _dragRow.Kind == LinkKind.Topic ? new DashStyle(new double[] { 4, 3 }, 0) : null);
+	ctx.DrawGeometry(null, rpen, Curve(_dragRow.Port, _connectEnd));
+	if (_hoverNode != null && _nodeRects.TryGetValue(_hoverNode, out var rhr))
+		ctx.DrawRectangle(null, new Pen(Palette.Selection, 2.5), rhr.Inflate(4), 10, 10);
+}
+if (_drag == Drag.Connect && _dragNode != null && _nodeRects.TryGetValue(_dragNode, out var from))
+{
+	var p0 = new Point(from.Right, from.Top + HeaderH / 2);
 				var pen = new Pen(_connectAsTopic ? Palette.EdgeTopic : Palette.Selection, 2, _connectAsTopic ? new DashStyle(new double[] { 4, 3 }, 0) : null);
 				ctx.DrawGeometry(null, pen, Curve(p0, _connectEnd));
 				if (_hoverNode != null && _nodeRects.TryGetValue(_hoverNode, out var hr))
@@ -366,24 +438,6 @@ public sealed class GraphView : Control
 		ctx.DrawEllipse(brush, null, p0, 3.5, 3.5);
 	}
 
-	void DrawLinkLabel(DrawingContext ctx, DialogueLink l)
-	{
-		if (!_ports.TryGetValue(l, out var p0)) return;
-		string text = l.Kind switch
-		{
-			LinkKind.Choice => $"{l.Index + 1}. {l.Label}",
-			LinkKind.Topic => l.Label,
-			_ => "",
-		};
-		if (text.Length == 0) return;
-		var fx = Dialogue.FormatEffectsShort(l.Effects);
-		if (fx.Length > 0) text += "  " + fx;
-		var ft = Text(text, 10.5, l.Kind == LinkKind.Topic ? Palette.EdgeTopic : Palette.Muted, l.Kind == LinkKind.Topic ? Bold : Regular, 170);
-		var r = new Rect(p0.X + 8, p0.Y - ft.Height / 2 - 1, ft.Width + 8, ft.Height + 2);
-		ctx.DrawRectangle(Palette.Canvas, null, r, 4, 4);
-		ctx.DrawText(ft, new Point(r.X + 4, r.Y + 1));
-	}
-
 	void DrawCondition(DrawingContext ctx, Rect r, DialogueLink l)
 	{
 		bool? result = EvaluateCondition?.Invoke(l.Condition);
@@ -429,27 +483,38 @@ public sealed class GraphView : Control
 		ctx.DrawText(tagFt, new Point(r.Right - tagFt.Width - 10, r.Y + 8));
 		DrawText(ctx, id, new Point(r.X + 10, r.Y + 5), 12.5, Palette.Text, Bold, r.Width - tagFt.Width - 26);
 
-		// Body: first lines with speaker colours
+		// Body: a 1-2 line preview of the dialogue
 		var lines = Dialogue.Lines(node);
-		double y = r.Y + HeaderH + 6;
-		foreach (var raw in lines.Take(3))
+		double y = r.Y + HeaderH + 5;
+		if (lines.Count > 0)
 		{
-			var (sp, text) = Dialogue.ParseLine(raw);
-			var display = sp == Speaker.You ? "You: " + text : text;
-			DrawText(ctx, display, new Point(r.X + 10, y), 11, Palette.ForSpeaker(sp), sp == Speaker.Narration ? Italic : Regular, r.Width - 20);
-			y += 16;
+			var (sp, text) = Dialogue.ParseLine(lines[0]);
+			var ft = Text(sp == Speaker.You ? "You: " + text : text, 11, Palette.ForSpeaker(sp), sp == Speaker.Narration ? Italic : Regular, r.Width - 20, 2);
+			ctx.DrawText(ft, new Point(r.X + 10, y));
+			if (ft.Height < 22 && lines.Count > 1)
+			{
+				var (sp2, text2) = Dialogue.ParseLine(lines[1]);
+				DrawText(ctx, sp2 == Speaker.You ? "You: " + text2 : text2, new Point(r.X + 10, y + 16), 11, Palette.ForSpeaker(sp2), sp2 == Speaker.Narration ? Italic : Regular, r.Width - 20);
+			}
 		}
-		if (lines.Count > 3) DrawText(ctx, $"+{lines.Count - 3} more lines", new Point(r.X + 10, y), 10, Palette.Faint, Regular, r.Width - 20);
+
+		// Options, each inside the node with a link port on the right edge
+		foreach (var row in _rows.GetValueOrDefault(id) ?? new())
+		{
+			ctx.DrawRectangle(RowFill, null, row.Rect, 4, 4);
+			var color = row.Kind == LinkKind.Topic ? Palette.Hypertext : row.Kind == LinkKind.Goto ? Palette.Muted : Palette.You;
+			var rft = Text(row.Text, 10.5, color, row.Kind == LinkKind.Topic ? Bold : Regular, row.Rect.Width - 16);
+			ctx.DrawText(rft, new Point(row.Rect.X + 6, row.Rect.Center.Y - rft.Height / 2));
+			bool broken = row.Target != null && !_nodeRects.ContainsKey(row.Target);
+			var brush = broken ? Palette.Error : row.Link != null ? LinkBrush(row.Link) : Palette.Faint;
+			bool hot = row == _hoverRow || row == _dragRow;
+			ctx.DrawEllipse(row.Target != null ? brush : Palette.Card, new Pen(hot ? Palette.Selection : brush, hot ? 2.5 : 1.5), row.Port, PortR - 1, PortR - 1);
+		}
 
 		// Footer: what happens at the end of the node
-		var bits = new List<string>();
-		var ending = Dialogue.Str(node["ending"]);
-		if (!string.IsNullOrEmpty(ending)) bits.Add("ending: " + ending);
-		else if (Dialogue.Bool(node["end"])) bits.Add("■ end");
-		if (Dialogue.Str(node["fx"]) is { Length: > 0 } fx) bits.Add("fx " + fx);
-		if (node["do"] is JsonObject d) bits.Add(Dialogue.FormatEffectsShort(d));
-		if (bits.Count > 0)
-			DrawText(ctx, string.Join("  ·  ", bits), new Point(r.X + 10, r.Bottom - 18), 10, string.IsNullOrEmpty(ending) ? Palette.Muted : Palette.Ending, Bold, r.Width - 20);
+		var (footer, isEnding) = FooterBits(node);
+		if (footer.Length > 0)
+			DrawText(ctx, footer, new Point(r.X + 10, r.Bottom - FooterH), 10, isEnding ? Palette.Ending : Palette.Muted, Bold, r.Width - 20);
 
 		// Issue dot / preview trail dot
 		if (NodeIssues.TryGetValue(id, out var iss) && (iss.errors > 0 || iss.warnings > 0))
@@ -485,6 +550,14 @@ public sealed class GraphView : Control
 
 	string? HandleAt(Point world) => _nodeRects.Keys.FirstOrDefault(id => (id == SelectedId || id == _hoverNode) && OnHandle(id, world));
 
+	PortRow? PortAt(Point world)
+	{
+		foreach (var rows in _rows.Values)
+			foreach (var row in rows)
+				if (Distance(world, row.Port) <= PortR + 4) return row;
+		return null;
+	}
+
 	DialogueLink? ConditionAt(Point world) => _condBoxes.LastOrDefault(c => c.rect.Contains(world)).link;
 
 	static double Distance(Point a, Point b) => Math.Sqrt((a.X - b.X) * (a.X - b.X) + (a.Y - b.Y) * (a.Y - b.Y));
@@ -509,8 +582,9 @@ public sealed class GraphView : Control
 			return;
 		}
 
-		var handle = HandleAt(world);
-		var node = handle ?? NodeAt(world);
+		var port = props.IsLeftButtonPressed ? PortAt(world) : null;
+		var handle = port == null ? HandleAt(world) : null;
+		var node = port != null ? null : handle ?? NodeAt(world);
 		var cond = node == null ? ConditionAt(world) : null;
 		bool onStart = node == null && cond == null && _startRect.Contains(world);
 
@@ -533,7 +607,14 @@ public sealed class GraphView : Control
 			return;
 		}
 
-		if (handle != null)
+		if (port != null)
+		{
+			_drag = Drag.Reconnect;
+			_dragRow = port;
+			_connectEnd = world;
+			e.Pointer.Capture(this);
+		}
+		else if (handle != null)
 		{
 			_drag = Drag.Connect;
 			_dragNode = handle;
@@ -588,7 +669,7 @@ public sealed class GraphView : Control
 				Rebuild();
 				InvalidateVisual();
 				break;
-			case Drag.Connect:
+			case Drag.Connect or Drag.Reconnect:
 				_connectEnd = world;
 				_hoverNode = NodeAt(world);
 				InvalidateVisual();
@@ -596,12 +677,14 @@ public sealed class GraphView : Control
 			default:
 				var hover = NodeAt(world);
 				if (hover == null && SelectedId != null && OnHandle(SelectedId, world)) hover = SelectedId;
-				if (hover != _hoverNode)
+				var hoverRow = PortAt(world);
+				if (hover != _hoverNode || hoverRow != _hoverRow)
 				{
 					_hoverNode = hover;
+					_hoverRow = hoverRow;
 					InvalidateVisual();
 				}
-				Cursor = HandleAt(world) != null ? new Cursor(StandardCursorType.Cross)
+				Cursor = hoverRow != null || HandleAt(world) != null ? new Cursor(StandardCursorType.Cross)
 					: hover != null ? new Cursor(StandardCursorType.Hand) : Cursor.Default;
 				UpdateTooltip(world);
 				break;
@@ -648,8 +731,16 @@ public sealed class GraphView : Control
 				Select(id);
 			}
 		}
+		if (_drag == Drag.Reconnect && _dragRow is { } row && Distance(e.GetPosition(this), _dragStartScreen) > 6)
+		{
+			// Drop on a node = make / change the link; drop on nothing = drop the link.
+			var to = NodeAt(world);
+			if (to != row.Target)
+				_doc.Edit(to == null ? "Drop link" : "Relink", () => _doc.SetTarget(row.NodeId, row.Kind, row.Index, row.TopicKey, to));
+		}
 		_drag = Drag.None;
 		_dragNode = null;
+		_dragRow = null;
 		_hoverNode = null;
 		e.Pointer.Capture(null);
 		InvalidateVisual();
@@ -658,13 +749,11 @@ public sealed class GraphView : Control
 	protected override void OnPointerWheelChanged(PointerWheelEventArgs e)
 	{
 		base.OnPointerWheelChanged(e);
-		if (Ui.IsCommand(e.KeyModifiers))
+		if (e.Delta.Y != 0)
 			SetZoom(_zoom * Math.Pow(1.1, e.Delta.Y), e.GetPosition(this));
-		else
+		else if (e.Delta.X != 0)
 		{
-			// Trackpads scroll in both axes; a plain mouse wheel pans vertically (shift = horizontal).
-			var d = e.KeyModifiers.HasFlag(KeyModifiers.Shift) && e.Delta.X == 0 ? new Vector(e.Delta.Y, 0) : e.Delta;
-			_pan += d * 40;
+			_pan += new Vector(e.Delta.X * 40, 0);
 			InvalidateVisual();
 		}
 		e.Handled = true;
@@ -723,7 +812,7 @@ public sealed class GraphView : Control
 		if (_doc == null || Owner == null) return;
 		int refs = _doc.CountReferences(id);
 		var msg = refs > 0
-			? $"Delete node '{id}'? {refs} link(s) point to it and will show as broken until you fix them."
+			? $"Delete node '{id}'? {refs} link(s) point to it and will be cleared."
 			: $"Delete node '{id}'?";
 		if (await Ui.Ask(Owner, "Delete node", msg, "Delete", "Cancel") != 0) return;
 		_doc.Edit("Delete node", () => _doc.DeleteNode(id));
@@ -777,6 +866,7 @@ public sealed class GraphView : Control
 		else
 		{
 			items.Add(Item("New node here", () => NewNodeAt(world)));
+			items.Add(Item("Conversation settings…", () => EditConversationRequested?.Invoke()));
 			items.Add(Item("► Preview from start", () => PreviewRequested?.Invoke(null)));
 			items.Add(new Separator());
 			items.Add(Item("Fit to view", FitToView, "F"));
@@ -805,8 +895,8 @@ public sealed class GraphView : Control
 	async Task EditCondition(DialogueLink l)
 	{
 		if (Owner == null || _doc == null) return;
-		var v = await Ui.Prompt(Owner, "Edit condition", $"Condition for the link into '{l.Target}':", l.Condition ?? "",
-			s => Runtime.Condition.Check(s) is { } err ? err : null);
+		var v = await Ui.EditCondition(Owner, "Edit condition", $"Condition for the link into '{l.Target}':",
+			Vars.Conditions(_doc, AllDocs?.Invoke() ?? new[] { _doc }), l.Condition);
 		if (v == null) return;
 		_doc.Edit("Edit condition", () => SetCondition(l, v));
 	}

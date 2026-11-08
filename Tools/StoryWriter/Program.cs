@@ -35,7 +35,7 @@ static class Program
 			try { err = CVDisplayLinkCreateWithActiveCGDisplays(out var link); if (err == 0) CVDisplayLinkRelease(link); }
 			catch { return; } // can't probe; let Avalonia try
 			if (err == 0) return;
-			if (attempt == 0) Console.Error.WriteLine("Story Writer: waiting for a display to wake up…");
+			if (attempt == 0) Console.Error.WriteLine("I Can Fix Him - Story Writer: waiting for a display to wake up…");
 			Thread.Sleep(1000);
 		}
 	}

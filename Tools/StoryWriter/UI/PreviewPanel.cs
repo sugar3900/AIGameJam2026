@@ -64,6 +64,7 @@ public sealed class PreviewPanel : Grid
 		Children.Add(header);
 
 		_scroll = new ScrollViewer { Content = _transcript, HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled };
+		ScrollViewer.SetAllowAutoHide(_scroll, false);
 		SetRow(_scroll, 1);
 		Children.Add(_scroll);
 
@@ -153,21 +154,24 @@ public sealed class PreviewPanel : Grid
 
 	void OnView(DialogueView v)
 	{
-		_where.Text = $"node {v.NodeId} · line {v.LineIndex + 1}/{v.LineCount}";
-		if (_liveLine != null) _liveLine.Opacity = 0.75;
-
-		var speakerName = v.Speaker switch { Speaker.You => State.PlayerName, Speaker.Narration => "", _ => v.HunkName };
-		var text = RichLine.Build(v.Text, v.Speaker, v.ActiveTopics, t => Runner.ClickTopic(t));
-		var card = new Border
+		_where.Text = $"node {v.NodeId} · line {v.LineIndex + 1}/{v.LineCount}{(v.InTangent ? " · link" : "")}";
+		// Coming back from a hypertext link (or a refresh) re-presents the node's options without printing its text again.
+		if (!v.IsReturn)
 		{
-			Background = v.Speaker == Speaker.Narration ? null : Palette.Card,
-			CornerRadius = new CornerRadius(8),
-			Padding = new Thickness(12, 8),
-			Margin = v.Speaker == Speaker.You ? new Thickness(40, 0, 0, 0) : new Thickness(0, 0, 20, 0),
-			Child = speakerName.Length > 0 ? Ui.Col(2, Ui.Caption(speakerName.ToUpperInvariant()), text) : text,
-		};
-		_transcript.Children.Add(card);
-		_liveLine = card;
+			if (_liveLine != null) _liveLine.Opacity = 0.75;
+			var speakerName = v.Speaker switch { Speaker.You => State.PlayerName, Speaker.Narration => "", _ => v.HunkName };
+			var text = RichLine.Build(v.Text, v.Speaker, v.ActiveTopics, t => Runner.ClickTopic(t));
+			var card = new Border
+			{
+				Background = v.Speaker == Speaker.Narration ? null : Palette.Card,
+				CornerRadius = new CornerRadius(8),
+				Padding = new Thickness(12, 8),
+				Margin = v.Speaker == Speaker.You ? new Thickness(40, 0, 0, 0) : new Thickness(0, 0, 20, 0),
+				Child = speakerName.Length > 0 ? Ui.Col(2, Ui.Caption(speakerName.ToUpperInvariant()), text) : text,
+			};
+			_transcript.Children.Add(card);
+			_liveLine = card;
+		}
 
 		if (v.Fx == "hearts") ShowHearts();
 		else if (v.Fx == "fade") ShowFade(v.FxText);
@@ -180,7 +184,7 @@ public sealed class PreviewPanel : Grid
 			if (!c.Visible && !showLocked) continue;
 			var label = c.Visible ? $"{++n}.  {c.Text}" : $"⊘  {c.Text}";
 			var content = new StackPanel { Spacing = 3 };
-			content.Children.Add(new TextBlock { Text = label, TextWrapping = TextWrapping.Wrap, FontSize = 13.5, Foreground = c.Visible ? Palette.Text : Palette.Faint });
+			content.Children.Add(new TextBlock { Text = label, TextWrapping = TextWrapping.Wrap, FontSize = 13.5, Foreground = c.Visible ? Palette.Text : Palette.LockedText });
 			var chips = new WrapPanel();
 			if (!c.Visible) chips.Children.Add(Ui.Chip("if " + c.Condition, Palette.Error));
 			else if (!Dialogue.IsTrivialCondition(c.Condition)) chips.Children.Add(Ui.Chip("if " + c.Condition, Palette.Condition));
@@ -194,8 +198,8 @@ public sealed class PreviewPanel : Grid
 				HorizontalAlignment = HorizontalAlignment.Stretch,
 				HorizontalContentAlignment = HorizontalAlignment.Left,
 				Padding = new Thickness(10, 6),
-				Opacity = c.Visible ? 1 : 0.6,
 			};
+			if (!c.Visible) b.Background = Palette.LockedFill;
 			if (!c.Visible) ToolTip.SetTip(b, "Locked: the condition is false right now. Click to force it anyway.");
 			var choice = c;
 			b.Click += (_, _) => Pick(choice);
@@ -203,7 +207,7 @@ public sealed class PreviewPanel : Grid
 		}
 		bool waitingOnChoice = v.VisibleChoices.Any();
 		_continue.IsVisible = !waitingOnChoice;
-		_continue.Content = v.WillEnd ? "End conversation ■" : v.IsLastLine ? "Continue ▸ (next node)" : "Continue ▸";
+		_continue.Content = v.WillEnd ? "End conversation ■" : v.IsLastLine ? (v.InTangent ? "Back ▸" : "Continue ▸ (next node)") : "Continue ▸";
 		ScrollToEnd();
 		if (!IsKeyboardFocusWithin) Focus();
 	}
@@ -224,6 +228,8 @@ public sealed class PreviewPanel : Grid
 		if (!string.IsNullOrEmpty(ending)) ShowEndingCard(hunk, ending);
 		ConversationEnded?.Invoke(hunk, ending);
 		ScrollToEnd();
+		// The choice button that was just clicked is gone; take the keyboard back so Enter / Space reach the end actions.
+		Dispatcher.UIThread.Post(() => Focus(), DispatcherPriority.Background);
 	}
 
 	// ------------------------------------------------------------ Transcript pieces
@@ -379,7 +385,16 @@ public sealed class PreviewPanel : Grid
 			e.Handled = true;
 			return;
 		}
-		if (!Runner.IsActive) return;
+		if (!Runner.IsActive)
+		{
+			// Conversation over: Enter / Space press the primary end action ("Next visit", "Continue to …").
+			if (e.Key is Key.Space or Key.Enter && _endActions.Children.OfType<Button>().FirstOrDefault(b => b.IsVisible && b.IsEnabled) is { } next)
+			{
+				next.RaiseEvent(new Avalonia.Interactivity.RoutedEventArgs(Button.ClickEvent));
+				e.Handled = true;
+			}
+			return;
+		}
 		if (e.Key is Key.Space or Key.Enter or Key.Right)
 		{
 			Runner.Advance();

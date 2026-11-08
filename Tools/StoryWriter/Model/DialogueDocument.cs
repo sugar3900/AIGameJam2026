@@ -134,6 +134,8 @@ public sealed class DialogueDocument
 	HouseJson.StyleHints _style = new();
 	public bool Dirty { get; private set; }
 	public DateTime LoadedWriteTime { get; private set; }
+	/// <summary>Disk version the user chose to keep their own edits over; not asked about again.</summary>
+	public DateTime IgnoredDiskTime { get; set; }
 
 	/// <summary>Raised after any edit, undo, redo or reload.</summary>
 	public event Action? Changed;
@@ -180,6 +182,13 @@ public sealed class DialogueDocument
 		return d;
 	}
 
+	/// <summary>A new file that only exists in memory until the user saves it.</summary>
+	public static DialogueDocument CreateUnsaved(string path, JsonObject root)
+	{
+		var d = new DialogueDocument(path) { Root = root, Dirty = true };
+		return d;
+	}
+
 	public void Reload()
 	{
 		var text = File.ReadAllText(FilePath);
@@ -203,7 +212,7 @@ public sealed class DialogueDocument
 		}
 		_undo.Clear();
 		_redo.Clear();
-		Dirty = false;
+		Dirty = ClearBrokenLinks() > 0;
 		Changed?.Invoke();
 	}
 
@@ -243,6 +252,7 @@ public sealed class DialogueDocument
 		if (_undo.Count > 200) TrimUndo();
 		_redo.Clear();
 		change();
+		ClearBrokenLinks();
 		Dirty = true;
 		Changed?.Invoke();
 	}
@@ -467,6 +477,84 @@ public sealed class DialogueDocument
 		var k = b;
 		for (int i = 2; topics.ContainsKey(k); i++) k = b + i;
 		return k;
+	}
+
+	/// <summary>Drops every link whose target node doesn't exist. Returns how many were cleared.</summary>
+	public int ClearBrokenLinks()
+	{
+		int cleared = 0;
+		bool Missing(string? t) => !string.IsNullOrEmpty(t) && Node(t) == null;
+		if (Root["entries"] is JsonArray entries)
+		{
+			for (int i = entries.Count - 1; i >= 0; i--)
+			{
+				if (entries[i] is JsonObject e && Missing(Dialogue.Str(e["node"])))
+				{
+					entries.RemoveAt(i);
+					cleared++;
+				}
+			}
+		}
+		if (Root["nodes"] is not JsonObject nodes) return cleared;
+		foreach (var (_, n) in nodes)
+		{
+			if (n is not JsonObject node) continue;
+			if (Missing(Dialogue.Str(node["goto"])))
+			{
+				node.Remove("goto");
+				if (node["choices"] is not JsonArray { Count: > 0 } && string.IsNullOrEmpty(Dialogue.Str(node["ending"]))) node["end"] = true;
+				cleared++;
+			}
+			if (node["choices"] is JsonArray cs)
+				foreach (var c in cs.OfType<JsonObject>())
+					if (Missing(Dialogue.Str(c["goto"])))
+					{
+						c.Remove("goto");
+						cleared++;
+					}
+			if (node["topics"] is JsonObject ts)
+			{
+				foreach (var (k, t) in ts.ToList())
+				{
+					if (t is JsonObject to)
+					{
+						if (Missing(Dialogue.Str(to["goto"]))) { to["goto"] = ""; cleared++; }
+					}
+					else if (Missing(Dialogue.Str(t))) { ts[k] = ""; cleared++; }
+				}
+			}
+		}
+		return cleared;
+	}
+
+	/// <summary>Points an existing choice / goto / topic at another node, or clears it (target null). Callers wrap in Edit().</summary>
+	public void SetTarget(string nodeId, LinkKind kind, int index, string? topicKey, string? target)
+	{
+		var node = Node(nodeId);
+		if (node == null) return;
+		switch (kind)
+		{
+			case LinkKind.Choice when node["choices"] is JsonArray cs && index < cs.Count && cs[index] is JsonObject c:
+				if (target == null) c.Remove("goto");
+				else c["goto"] = target;
+				break;
+			case LinkKind.Goto:
+				if (target == null)
+				{
+					node.Remove("goto");
+					if (node["choices"] is not JsonArray { Count: > 0 } && string.IsNullOrEmpty(Dialogue.Str(node["ending"]))) node["end"] = true;
+				}
+				else
+				{
+					node["goto"] = target;
+					node.Remove("end");
+				}
+				break;
+			case LinkKind.Topic when node["topics"] is JsonObject ts && topicKey != null:
+				if (ts[topicKey] is JsonObject to) to["goto"] = target ?? "";
+				else ts[topicKey] = target ?? "";
+				break;
+		}
 	}
 
 	/// <summary>Removes one link (the arrow, not the target node).</summary>

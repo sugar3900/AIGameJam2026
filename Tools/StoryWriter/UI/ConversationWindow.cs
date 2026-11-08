@@ -13,15 +13,17 @@ public sealed class ConversationWindow : Window
 	static readonly string[] RootOrder = { "id", "name", "malady", "room", "tagline", "look", "entries", "endings", "nodes" };
 
 	readonly DialogueDocument _doc;
+	readonly Func<IEnumerable<DialogueDocument>> _allDocs;
 	readonly Dictionary<string, TextBox> _meta = new();
 	readonly StackPanel _entryRows = new() { Spacing = 6 };
-	readonly List<(JsonObject? original, TextBox cond, AutoCompleteBox node, Control view)> _entries = new();
+	readonly List<(JsonObject? original, ConditionEditor cond, AutoCompleteBox node, Control view)> _entries = new();
 	readonly Dictionary<string, (TextBox title, TextBox text)> _endings = new();
 	readonly TextBlock _problems = Ui.Label("", 12, Palette.Error);
 
-	public ConversationWindow(DialogueDocument doc)
+	public ConversationWindow(DialogueDocument doc, Func<IEnumerable<DialogueDocument>> allDocs)
 	{
 		_doc = doc;
+		_allDocs = allDocs;
 		Title = $"{doc.Name} · conversation settings";
 		Width = 860;
 		Height = 760;
@@ -92,9 +94,9 @@ public sealed class ConversationWindow : Window
 
 	void AddEntry(JsonObject? e)
 	{
-		var cond = new TextBox { Text = Dialogue.Str(e?["if"]) ?? "true", FontSize = 13 };
+		var cond = new ConditionEditor(Vars.Conditions(_doc, _allDocs()), Dialogue.Str(e?["if"]) ?? "true", "always (true)");
 		var node = new AutoCompleteBox { ItemsSource = _doc.NodeIds.ToList(), Text = Dialogue.Str(e?["node"]) ?? "", FilterMode = AutoCompleteFilterMode.Contains, MinimumPrefixLength = 0, MinWidth = 180 };
-		(JsonObject?, TextBox, AutoCompleteBox, Control) row = default;
+		(JsonObject?, ConditionEditor, AutoCompleteBox, Control) row = default;
 		var tools = Ui.Row(2,
 			Ui.Btn("↑", () => Move(row, -1)),
 			Ui.Btn("↓", () => Move(row, 1)),
@@ -102,6 +104,9 @@ public sealed class ConversationWindow : Window
 		var grid = new Grid { ColumnDefinitions = new ColumnDefinitions("Auto,2*,Auto,*,Auto"), ColumnSpacing = 8 };
 		var ifl = Ui.Label("if", 12, Palette.Condition, FontWeight.Bold);
 		var arrow = Ui.Label("→", 14, Palette.Start);
+		foreach (var c in new Control[] { ifl, arrow, node, tools }) c.VerticalAlignment = VerticalAlignment.Top;
+		ifl.Margin = new Thickness(0, 6, 0, 0);
+		arrow.Margin = new Thickness(0, 4, 0, 0);
 		Grid.SetColumn(cond, 1);
 		Grid.SetColumn(arrow, 2);
 		Grid.SetColumn(node, 3);
@@ -116,7 +121,7 @@ public sealed class ConversationWindow : Window
 		_entryRows.Children.Add(grid);
 	}
 
-	void Move((JsonObject?, TextBox, AutoCompleteBox, Control) row, int dir)
+	void Move((JsonObject?, ConditionEditor, AutoCompleteBox, Control) row, int dir)
 	{
 		int i = _entries.IndexOf(row), j = i + dir;
 		if (i < 0 || j < 0 || j >= _entries.Count) return;
@@ -131,10 +136,10 @@ public sealed class ConversationWindow : Window
 		var entries = new JsonArray();
 		foreach (var (original, condBox, nodeBox, _) in _entries)
 		{
-			var cond = condBox.Text?.Trim();
+			var cond = condBox.Value;
 			var node = nodeBox.Text?.Trim() ?? "";
 			if (node.Length == 0) continue;
-			if (Runtime.Condition.Check(cond) is { } err) errors.Add($"Entry '{node}': {err}");
+			if (condBox.Error is { } err) errors.Add($"Entry '{node}': {err}");
 			if (_doc.Node(node) == null) errors.Add($"Entry → '{node}': no such node");
 			var o = original != null ? (JsonObject)original.DeepClone() : new JsonObject();
 			o["if"] = string.IsNullOrEmpty(cond) ? "true" : cond;

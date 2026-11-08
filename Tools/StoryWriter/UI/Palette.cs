@@ -16,6 +16,9 @@ public static class Palette
 	public static readonly IBrush Text = B("#EEE7F2");
 	public static readonly IBrush Muted = B("#A396AE");
 	public static readonly IBrush Faint = B("#6F6479");
+	/// <summary>Locked (condition false) choices: readable, but clearly not the live ones.</summary>
+	public static readonly IBrush LockedText = B("#D6C9DE");
+	public static readonly IBrush LockedFill = B("#3A2F3C");
 
 	public static readonly IBrush Story = B("#6E8FE0");
 	public static readonly IBrush Hypertext = B("#FF5FA8");

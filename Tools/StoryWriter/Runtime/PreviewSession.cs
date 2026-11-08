@@ -143,6 +143,10 @@ public sealed class DialogueView
 	public HashSet<string> ActiveTopics = new();
 	public string Fx = "", FxText = "";
 	public bool IsLastLine, WillEnd;
+	/// <summary>Re-presenting a node already printed (back from a hypertext tangent, or a refresh): don't print its line again.</summary>
+	public bool IsReturn;
+	/// <summary>Reading a hypertext node: it is a dead end that returns to the node it was opened from.</summary>
+	public bool InTangent;
 	public IEnumerable<ChoiceView> VisibleChoices => Choices.Where(c => c.Visible);
 }
 
@@ -158,6 +162,9 @@ public sealed class DialogueRunner
 	public bool IsActive => ActiveHunkId != null;
 	string _pendingEnding = "";
 	int _lineIndex, _jumpsWithoutLines;
+	/// <summary>Nodes (and the line) we left to read a hypertext node; the top is where "Back" returns to.</summary>
+	readonly Stack<(string node, int line)> _tangents = new();
+	bool InTangent => _tangents.Count > 0;
 
 	public event Action<DialogueView>? ViewChanged;
 	public event Action<string, string>? NodeEntered;              // hunk, node
@@ -199,6 +206,7 @@ public sealed class DialogueRunner
 		ActiveHunkId = hunkId;
 		_pendingEnding = "";
 		_jumpsWithoutLines = 0;
+		_tangents.Clear();
 		State.Hunk(hunkId).Met = true;
 		EnterNode(nodeId);
 		return true;
@@ -226,6 +234,11 @@ public sealed class DialogueRunner
 
 		if (Dialogue.Lines(node).Count == 0)
 		{
+			if (InTangent)
+			{
+				ReturnFromTangent();
+				return;
+			}
 			if (++_jumpsWithoutLines > 32)
 			{
 				Warning?.Invoke(ActiveHunkId!, nodeId, "goto loop");
@@ -257,6 +270,11 @@ public sealed class DialogueRunner
 			Rebuild();
 			return;
 		}
+		if (InTangent)
+		{
+			ReturnFromTangent();
+			return;
+		}
 		if (VisibleChoiceIndices(node).Count > 0) return;
 		var g = Dialogue.Str(node["goto"]);
 		if (!string.IsNullOrEmpty(g) && !IsEnd(node))
@@ -265,6 +283,16 @@ public sealed class DialogueRunner
 			return;
 		}
 		Finish();
+	}
+
+	/// <summary>Hypertext nodes are dead ends: after their text, go back to the node they were opened from.</summary>
+	void ReturnFromTangent()
+	{
+		var (node, line) = _tangents.Pop();
+		ActiveNodeId = node;
+		_lineIndex = line;
+		NodeEntered?.Invoke(ActiveHunkId!, node);
+		Rebuild(isReturn: true);
 	}
 
 	static bool IsEnd(JsonObject node) => Dialogue.Bool(node["end"]) || !string.IsNullOrEmpty(Dialogue.Str(node["ending"]));
@@ -298,7 +326,10 @@ public sealed class DialogueRunner
 		if (!State.IsTrue(ActiveHunkId!, cond)) return;
 		var fx = State.Apply(ActiveHunkId!, effects);
 		if (fx.Count > 0) EffectsApplied?.Invoke(ActiveHunkId!, fx);
-		EnterNode(target ?? "");
+		target ??= "";
+		if (Doc is { } doc && doc.Node(target) != null && (InTangent || doc.NodeKinds().GetValueOrDefault(target) == NodeKind.Hypertext))
+			_tangents.Push((ActiveNodeId!, _lineIndex));
+		EnterNode(target);
 	}
 
 	public void Abort()
@@ -306,6 +337,7 @@ public sealed class DialogueRunner
 		ActiveHunkId = null;
 		ActiveNodeId = null;
 		_pendingEnding = "";
+		_tangents.Clear();
 		View = null;
 	}
 
@@ -329,7 +361,7 @@ public sealed class DialogueRunner
 	List<int> VisibleChoiceIndices(JsonObject node)
 	{
 		var list = new List<int>();
-		if (_lineIndex < Dialogue.Lines(node).Count - 1 || node["choices"] is not JsonArray cs) return list;
+		if (InTangent || _lineIndex < Dialogue.Lines(node).Count - 1 || node["choices"] is not JsonArray cs) return list;
 		for (int i = 0; i < cs.Count; i++)
 			if (cs[i] is JsonObject c && State.IsTrue(ActiveHunkId!, Dialogue.Str(c["if"]))) list.Add(i);
 		return list;
@@ -345,10 +377,10 @@ public sealed class DialogueRunner
 	/// <summary>Re-reads the current node (e.g. after it was edited mid-preview).</summary>
 	public void Refresh()
 	{
-		if (IsActive && CurrentNode != null) Rebuild();
+		if (IsActive && CurrentNode != null) Rebuild(isReturn: true);
 	}
 
-	void Rebuild()
+	void Rebuild(bool isReturn = false)
 	{
 		var node = CurrentNode;
 		var doc = Doc;
@@ -367,14 +399,16 @@ public sealed class DialogueRunner
 			Speaker = speaker,
 			Text = Substitute(text),
 			IsLastLine = _lineIndex == lines.Count - 1,
+			IsReturn = isReturn,
+			InTangent = InTangent,
 		};
-		if (_lineIndex == 0)
+		if (_lineIndex == 0 && !isReturn)
 		{
 			v.Fx = Dialogue.Str(node["fx"]) ?? "";
 			v.FxText = Substitute(Dialogue.Str(node["fxText"]) ?? "");
 		}
 		var visible = VisibleChoiceIndices(node);
-		if (v.IsLastLine && node["choices"] is JsonArray cs)
+		if (v.IsLastLine && !InTangent && node["choices"] is JsonArray cs)
 		{
 			for (int i = 0; i < cs.Count; i++)
 			{
@@ -391,7 +425,7 @@ public sealed class DialogueRunner
 				if (State.IsTrue(ActiveHunkId!, cond)) v.ActiveTopics.Add(k.ToLowerInvariant());
 			}
 		}
-		v.WillEnd = v.IsLastLine && visible.Count == 0 && (IsEnd(node) || string.IsNullOrEmpty(Dialogue.Str(node["goto"])));
+		v.WillEnd = v.IsLastLine && !InTangent && visible.Count == 0 && (IsEnd(node) || string.IsNullOrEmpty(Dialogue.Str(node["goto"])));
 		View = v;
 		ViewChanged?.Invoke(v);
 	}

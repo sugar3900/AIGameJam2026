@@ -49,10 +49,12 @@ public static class RichLine
 		{
 			TopicSpan? Hit(PointerEventArgs e)
 			{
-				var r = tb.TextLayout.HitTestPoint(e.GetPosition(tb));
-				if (!r.IsInside) return null;
-				int i = r.TextPosition;
-				return spans.FirstOrDefault(s => s.Active && i >= s.Start && i < s.Start + s.Length);
+				// Test against the rectangles the link's characters occupy rather than a caret position, which
+				// lands one past the last character when the pointer is on its right half.
+				var pt = e.GetPosition(tb);
+				foreach (var s in spans)
+					if (s.Active && tb.TextLayout.HitTestTextRange(s.Start, s.Length).Any(rc => rc.Inflate(1).Contains(pt))) return s;
+				return null;
 			}
 			tb.PointerMoved += (_, e) => tb.Cursor = Hit(e) != null ? new Cursor(StandardCursorType.Hand) : Cursor.Default;
 			tb.PointerPressed += (_, e) =>

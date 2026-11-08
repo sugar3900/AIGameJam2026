@@ -121,4 +121,24 @@ public static class Ui
 		await w.ShowDialog(owner);
 		return result;
 	}
+
+	/// <summary>Guided condition dialog. Returns null if cancelled, "" for "no condition".</summary>
+	public static async Task<string?> EditCondition(Window owner, string title, string message, IEnumerable<string> vars, string? initial)
+	{
+		string? result = null;
+		Window? w = null;
+		var editor = new ConditionEditor(vars, initial);
+		var err = Label("", 12, Palette.Error);
+		void Ok()
+		{
+			if (editor.Error is { } e) { err.Text = e; return; }
+			result = editor.Value;
+			w!.Close();
+		}
+		var row = Row(8, Btn("OK", Ok, accent: true), Btn("Cancel", () => w!.Close()));
+		row.HorizontalAlignment = HorizontalAlignment.Right;
+		w = DialogShell(title, Col(10, Label(message), editor, err, row), 560);
+		await w.ShowDialog(owner);
+		return result;
+	}
 }

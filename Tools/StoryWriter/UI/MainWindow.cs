@@ -24,6 +24,15 @@ public sealed class MainWindow : Window
 	readonly ListBox _docList = new() { Background = Palette.Panel };
 	readonly TextBlock _docTitle = Ui.Label("", 16, Palette.Text, FontWeight.Bold);
 	readonly TextBlock _zoomLabel = Ui.Label("", 11, Palette.Muted);
+	const string AppName = "I Can Fix Him - Story Writer";
+	const double SideWidth = 430;
+	Grid _graphGrid = null!;
+	Button _sideToggle = null!;
+	bool _sideVisible;
+	readonly Dictionary<string, int> _issueCursor = new();
+	readonly List<DialogueDocument> _pendingConflicts = new();
+	readonly DispatcherTimer _conflictTimer = new() { Interval = TimeSpan.FromMilliseconds(400) };
+	bool _conflictDialogOpen;
 	readonly PreviewState _graphState = new();
 	readonly PreviewPanel _graphPreview;
 	readonly StatePanel _graphStatePanel;
@@ -47,7 +56,7 @@ public sealed class MainWindow : Window
 
 	public MainWindow(string? folder)
 	{
-		Title = "Story Writer";
+		Title = AppName;
 		Width = 1500;
 		Height = 920;
 		MinWidth = 900;
@@ -66,6 +75,11 @@ public sealed class MainWindow : Window
 		Content = BuildLayout();
 		WireGraph();
 		WirePlay();
+		_conflictTimer.Tick += (_, _) =>
+		{
+			_conflictTimer.Stop();
+			_ = ResolveConflicts();
+		};
 		_validateTimer.Tick += (_, _) =>
 		{
 			_validateTimer.Stop();
@@ -87,12 +101,17 @@ public sealed class MainWindow : Window
 	{
 		// Top bar
 		var top = new DockPanel { Background = Palette.PanelAlt, Margin = new Thickness(0) };
-		var brand = Ui.Row(8, Ui.Label("✎ Story Writer", 15, Palette.Hypertext, FontWeight.Bold), _folderLabel);
-		brand.Margin = new Thickness(14, 8);
+		_folderLabel.TextWrapping = TextWrapping.NoWrap;
+		_folderLabel.TextTrimming = TextTrimming.CharacterEllipsis;
+		var title = Ui.Label("✎ " + AppName, 15, Palette.Hypertext, FontWeight.Bold);
+		title.TextWrapping = TextWrapping.NoWrap;
+		var brand = new Grid { ColumnDefinitions = new ColumnDefinitions("Auto,*"), ColumnSpacing = 8, Margin = new Thickness(14, 8) };
+		Grid.SetColumn(_folderLabel, 1);
+		brand.Children.Add(title);
+		brand.Children.Add(_folderLabel);
 		var actions = Ui.Row(6,
 			Ui.Btn("Open Folder…", () => _ = PickFolder(), "Open a folder of dialogue JSON (⌘/Ctrl+O)"),
-			Ui.Btn("+ Conversation", () => _ = NewConversation(), "Create a new character dialogue file"),
-			_undo, _redo, _save,
+_undo, _redo, _save,
 			Ui.Btn("Save All", SaveAll, "⌘/Ctrl+Shift+S"),
 			Ui.Btn("Reload", () => _ = ReloadCurrent(), "Re-read the current file from disk"));
 		actions.Margin = new Thickness(8, 6, 14, 6);
@@ -131,58 +150,100 @@ public sealed class MainWindow : Window
 		sideHeader.Margin = new Thickness(12, 10, 12, 6);
 		DockPanel.SetDock(sideHeader, Dock.Top);
 		sidebar.Children.Add(sideHeader);
+		var newConv = Ui.Btn("+ Conversation", () => _ = NewConversation(), "Create a new character dialogue file");
+		newConv.HorizontalAlignment = HorizontalAlignment.Stretch;
+		newConv.HorizontalContentAlignment = HorizontalAlignment.Center;
+		var newConvBar = new Border { Background = Palette.PanelAlt, Padding = new Thickness(10, 8), Child = newConv };
+		DockPanel.SetDock(newConvBar, Dock.Bottom);
+		sidebar.Children.Add(newConvBar);
 		sidebar.Children.Add(_docList);
 		_docList.SelectionChanged += (_, _) =>
 		{
 			if (_docList.SelectedItem is ListBoxItem { Tag: DialogueDocument d } && d != _current) ShowDoc(d);
 		};
 
-		var toolbar = new WrapPanel { Margin = new Thickness(10, 6) };
-		foreach (var c in new Control[]
-		{
-			_docTitle,
-			new Border { Width = 14 },
-			Ui.Btn("► Preview from start", () => PreviewFrom(null), "Play this conversation from its entries using the preview state", accent: true),
-			Ui.Btn("► From selected", () => { if (_graph.SelectedId != null) PreviewFrom(_graph.SelectedId); }, "Play from the selected node (P)"),
-			Ui.Btn("+ Node", () => _graph.NewNodeInView(), "New node in the middle of the view"),
-			Ui.Btn("Conversation…", () => EditConversation(), "Name, entries (start conditions) and ending cards"),
-			Ui.Btn("Fit", _graph.FitToView, "F"),
-			Ui.Btn("Auto-arrange", _graph.AutoArrange, "Lay the nodes out again by visit lane"),
-			Ui.Btn("−", () => _graph.SetZoom(_graph.Zoom / 1.2)),
-			_zoomLabel,
-			Ui.Btn("+", () => _graph.SetZoom(_graph.Zoom * 1.2)),
-		})
-		{
-			c.Margin = new Thickness(0, 0, 6, 0);
-			toolbar.Children.Add(c);
-		}
-		var legend = Ui.Row(4,
+		// Overlays on the graph: legend chips (lower left), zoom (lower right), panel toggle (upper right).
+		var legend = Ui.Col(4,
 			Ui.Chip("story", Palette.Story), Ui.Chip("LINK = hypertext", Palette.Hypertext), Ui.Chip("ending", Palette.Ending),
-			Ui.Chip("IF condition", Palette.Condition), Ui.Chip("entry", Palette.Start),
-			Ui.Label("Double-click a node to edit · drag ● to link (Alt = hypertext link) · right-click for more · ⌘-scroll to zoom", 11, Palette.Faint));
-		legend.Margin = new Thickness(10, 0, 10, 6);
+			Ui.Chip("IF condition", Palette.Condition), Ui.Chip("entry", Palette.Start));
+		legend.HorizontalAlignment = HorizontalAlignment.Left;
+		legend.VerticalAlignment = VerticalAlignment.Bottom;
+		legend.Margin = new Thickness(12, 0, 0, 12);
+		legend.IsHitTestVisible = false;
+		foreach (var c in legend.Children) c.HorizontalAlignment = HorizontalAlignment.Left;
+
+		_zoomLabel.HorizontalAlignment = HorizontalAlignment.Center;
+		_zoomLabel.TextAlignment = TextAlignment.Center;
+		var zoomBox = Ui.Col(4,
+			Ui.Btn("+", () => _graph.SetZoom(_graph.Zoom * 1.2), "Zoom in"),
+			_zoomLabel,
+			Ui.Btn("−", () => _graph.SetZoom(_graph.Zoom / 1.2), "Zoom out"));
+		foreach (var c in zoomBox.Children.OfType<Button>())
+		{
+			c.HorizontalAlignment = HorizontalAlignment.Stretch;
+			c.HorizontalContentAlignment = HorizontalAlignment.Center;
+			c.MinWidth = 44;
+		}
+		zoomBox.HorizontalAlignment = HorizontalAlignment.Right;
+		zoomBox.VerticalAlignment = VerticalAlignment.Bottom;
+		zoomBox.Margin = new Thickness(0, 0, 12, 12);
+
+		_sideToggle = Ui.Btn("◧ Preview", () => ShowSidePanel(!_sideVisible), "Show or hide the Preview / State panel");
+		_sideToggle.HorizontalAlignment = HorizontalAlignment.Right;
+		_sideToggle.VerticalAlignment = VerticalAlignment.Top;
+		_sideToggle.Margin = new Thickness(0, 10, 12, 0);
+
+		_docTitle.HorizontalAlignment = HorizontalAlignment.Left;
+		_docTitle.VerticalAlignment = VerticalAlignment.Top;
+		_docTitle.Margin = new Thickness(14, 12, 0, 0);
+		_docTitle.IsHitTestVisible = false;
+
+		var canvas = new Grid();
+		canvas.Children.Add(_graph);
+		canvas.Children.Add(_docTitle);
+		canvas.Children.Add(legend);
+		canvas.Children.Add(zoomBox);
+		canvas.Children.Add(_sideToggle);
+
+		var hint = Ui.Label("Double-click a node to edit · drag a ● port to link, relink or (dropped on empty space) unlink an option · Alt-drag the header ● for a hypertext link · right-click for more · scroll to zoom", 11, Palette.Faint);
+		var hintBar = new Border { Background = Palette.PanelAlt, Padding = new Thickness(12, 5), Child = hint };
 
 		var graphArea = new DockPanel();
-		DockPanel.SetDock(toolbar, Dock.Top);
-		DockPanel.SetDock(legend, Dock.Top);
-		graphArea.Children.Add(toolbar);
-		graphArea.Children.Add(legend);
-		graphArea.Children.Add(_graph);
+		DockPanel.SetDock(hintBar, Dock.Bottom);
+		graphArea.Children.Add(hintBar);
+		graphArea.Children.Add(canvas);
 
 		_sideTabs.Items.Add(new TabItem { Header = "Preview", Content = _graphPreview });
 		_sideTabs.Items.Add(new TabItem { Header = "State", Content = _graphStatePanel });
 
-		var grid = new Grid { ColumnDefinitions = new ColumnDefinitions("210,*,4,430") };
-		grid.Children.Add(sidebar);
+		_graphGrid = new Grid { ColumnDefinitions = new ColumnDefinitions("210,*,0,0") };
+		_graphGrid.Children.Add(sidebar);
 		Grid.SetColumn(graphArea, 1);
-		grid.Children.Add(graphArea);
-		var split = new GridSplitter { Background = Palette.PanelAlt, ResizeDirection = GridResizeDirection.Columns };
+		_graphGrid.Children.Add(graphArea);
+		var split = new GridSplitter { Background = Palette.PanelAlt, ResizeDirection = GridResizeDirection.Columns, IsVisible = false };
 		Grid.SetColumn(split, 2);
-		grid.Children.Add(split);
+		_graphGrid.Children.Add(split);
+		_sideTabs.IsVisible = false;
 		Grid.SetColumn(_sideTabs, 3);
-		grid.Children.Add(_sideTabs);
-		return grid;
+		_graphGrid.Children.Add(_sideTabs);
+		return _graphGrid;
 	}
+
+	void ShowSidePanel(bool show)
+	{
+		if (show == _sideVisible) return;
+		var cols = _graphGrid.ColumnDefinitions;
+		if (!show) _sideWidth = Math.Max(300, cols[3].ActualWidth);
+		_sideVisible = show;
+		cols[2].Width = new GridLength(show ? 4 : 0);
+		cols[3].Width = new GridLength(show ? _sideWidth : 0);
+		cols[3].MinWidth = show ? 280 : 0;
+		_graphGrid.Children[2].IsVisible = show;
+		_sideTabs.IsVisible = show;
+		_sideToggle.Content = show ? "◨ Hide panel" : "◧ Preview";
+	}
+
+	double _sideWidth = SideWidth;
 
 	Control PlayTab()
 	{
@@ -214,9 +275,10 @@ public sealed class MainWindow : Window
 		foreach (var w in _editors.Values.ToList()) w.Close();
 		_ws = new Workspace(folder);
 		_ws.DocsChanged += OnDocsChanged;
-		_ws.ExternalConflict += d => _ = OnConflict(d);
+		_ws.ExternalConflict += OnConflict;
 		AppSettings.LastFolder = folder;
 		_folderLabel.Text = folder;
+		ToolTip.SetTip(_folderLabel, folder);
 		_graphState.Reset();
 		_playState.Reset();
 		_graphPreview.Stop();
@@ -254,6 +316,7 @@ public sealed class MainWindow : Window
 		{
 			int errs = _issues.Count(i => i.DocId == d.Id && i.IsError), warns = _issues.Count(i => i.DocId == d.Id && !i.IsError);
 			var badge = errs > 0 ? Ui.Chip($"{errs}", Palette.Error) : warns > 0 ? Ui.Chip($"{warns}", Palette.Warn) : null;
+			if (badge != null) WireBadge(badge, d, errs > 0);
 			var nameRow = Ui.Row(6, Ui.Label(d.Name + (d.Dirty ? "  •" : ""), 14, Palette.Text, FontWeight.SemiBold));
 			if (badge != null) nameRow.Children.Add(badge);
 			var item = new ListBoxItem
@@ -269,6 +332,29 @@ public sealed class MainWindow : Window
 		}
 		_docList.ItemsSource = items;
 		_docList.SelectedItem = selected;
+	}
+
+	/// <summary>Hover the badge for what's wrong; click to step through the problem nodes.</summary>
+	void WireBadge(Border badge, DialogueDocument d, bool errors)
+	{
+		var mine = _issues.Where(i => i.DocId == d.Id && i.IsError == errors).ToList();
+		var text = string.Join("\n", mine.Take(12).Select(i => (i.NodeId != null ? i.NodeId + ": " : "") + i.Message));
+		if (mine.Count > 12) text += $"\n… and {mine.Count - 12} more";
+		ToolTip.SetTip(badge, text + (mine.Any(i => i.NodeId != null) ? "\n(click to jump to each problem)" : ""));
+		badge.Cursor = new Cursor(StandardCursorType.Hand);
+		badge.PointerPressed += (_, e) =>
+		{
+			e.Handled = true;
+			var nodes = mine.Where(i => i.NodeId != null && d.Node(i.NodeId) != null).Select(i => i.NodeId!).Distinct().ToList();
+			if (nodes.Count == 0)
+			{
+				JumpTo(d.Id, null);
+				return;
+			}
+			int next = _issueCursor.TryGetValue(d.Id, out var cur) ? (cur + 1) % nodes.Count : 0;
+			_issueCursor[d.Id] = next;
+			JumpTo(d.Id, nodes[next]);
+		};
 	}
 
 	void ShowDoc(DialogueDocument? d)
@@ -303,7 +389,7 @@ public sealed class MainWindow : Window
 		_redo.IsEnabled = _current?.CanRedo == true;
 		ToolTip.SetTip(_undo, _current?.UndoLabel is { } l ? $"Undo {l} (⌘/Ctrl+Z)" : "Undo");
 		_save.IsEnabled = _current?.Dirty == true;
-		Title = _current == null ? "Story Writer" : $"Story Writer — {_current.FileName}{(_current.Dirty ? " •" : "")}";
+		Title = _current == null ? AppName : $"{AppName} — {_current.FileName}{(_current.Dirty ? " •" : "")}";
 		_zoomLabel.Text = $"{_graph.Zoom * 100:0}%";
 		var dirty = Docs().Count(d => d.Dirty);
 		_status.Text = _current == null ? "" :
@@ -349,6 +435,7 @@ public sealed class MainWindow : Window
 
 	void WireGraph()
 	{
+		_graph.AllDocs = Docs;
 		_graph.EditNodeRequested += OpenEditor;
 		_graph.EditConversationRequested += EditConversation;
 		_graph.PreviewRequested += PreviewFrom;
@@ -380,6 +467,7 @@ public sealed class MainWindow : Window
 		_graphPreview.SetEndActions(Ui.Btn("■ Stop", () => { _graphPreview.Stop(); _graph.ClearPreview(); }), Ui.Btn("↻ Restart", () => _graphPreview.Restart()));
 		_graph.ClearPreview();
 		if (hunk == _current?.Id) _graph.EvaluateCondition = c => _graphState.IsTrue(hunk, c);
+		ShowSidePanel(true);
 		_sideTabs.SelectedIndex = 0;
 		_graphPreview.Start(hunk, nodeId);
 		_graphStatePanel.Rebuild();
@@ -394,7 +482,7 @@ public sealed class MainWindow : Window
 			existing.Activate();
 			return;
 		}
-		var w = new NodeEditorWindow(_current, nodeId);
+		var w = new NodeEditorWindow(_current, nodeId, Docs);
 		var doc = _current;
 		_editors[key] = w;
 		w.PreviewRequested += id =>
@@ -424,7 +512,7 @@ public sealed class MainWindow : Window
 	void EditConversation()
 	{
 		if (_current == null) return;
-		var w = new ConversationWindow(_current);
+		var w = new ConversationWindow(_current, Docs);
 		w.ShowDialog(this);
 	}
 
@@ -551,7 +639,7 @@ public sealed class MainWindow : Window
 
 	async Task ReloadCurrent()
 	{
-		if (_current == null) return;
+		if (_current == null || !File.Exists(_current.FilePath)) return;
 		if (_current.Dirty && await Ui.Ask(this, "Reload", $"Discard unsaved changes to {_current.FileName}?", "Discard & reload", "Cancel") != 0) return;
 		_current.Reload();
 	}
@@ -561,17 +649,53 @@ public sealed class MainWindow : Window
 		if (_ws == null) return;
 		var id = await Ui.Prompt(this, "New conversation", "Character id (also the file name, and AFixHimMalady.HunkId in the level):", "", v =>
 			!System.Text.RegularExpressions.Regex.IsMatch(v, "^[a-z0-9_]+$") ? "Lowercase letters, digits and _ only"
-			: File.Exists(System.IO.Path.Combine(_ws.Folder, v + ".json")) ? "A file with that name exists" : null);
+			: _ws.NameTaken(v) ? "A file with that name exists" : null);
 		if (id == null) return;
 		var doc = _ws.CreateConversation(id, char.ToUpperInvariant(id[0]) + id[1..]);
 		ShowDoc(doc);
 		EditConversation();
 	}
 
-	async Task OnConflict(DialogueDocument d)
+	/// <summary>The file watcher reports each write several times; gather them and ask once.</summary>
+	void OnConflict(DialogueDocument d)
 	{
-		var r = await Ui.Ask(this, "Changed on disk", $"{d.FileName} was changed outside Story Writer, but you have unsaved edits.", "Reload from disk (lose my edits)", "Keep mine");
-		if (r == 0) d.Reload();
+		if (!_pendingConflicts.Contains(d)) _pendingConflicts.Add(d);
+		_conflictTimer.Stop();
+		_conflictTimer.Start();
+	}
+
+	async Task ResolveConflicts()
+	{
+		if (_conflictDialogOpen) return;
+		_conflictDialogOpen = true;
+		try
+		{
+			while (_pendingConflicts.Count > 0)
+			{
+				var docs = _pendingConflicts.Where(d => d.Dirty && File.Exists(d.FilePath)).ToList();
+				_pendingConflicts.Clear();
+				if (docs.Count == 0) return;
+				var names = string.Join(", ", docs.Select(d => d.FileName));
+				var r = await Ui.Ask(this, "Changed on disk",
+					$"{(docs.Count == 1 ? names + " was" : names + " were")} changed outside the Story Writer, but you have unsaved edits.",
+					"Reload from disk (lose my edits)", "Keep mine");
+				foreach (var d in docs)
+				{
+					if (r == 0)
+					{
+						try { d.Reload(); } catch { /* half-written; the watcher will fire again */ }
+					}
+					else
+					{
+						try { d.IgnoredDiskTime = File.GetLastWriteTimeUtc(d.FilePath); } catch { }
+					}
+				}
+			}
+		}
+		finally
+		{
+			_conflictDialogOpen = false;
+		}
 	}
 
 	async Task<bool> ConfirmDiscard(string action)

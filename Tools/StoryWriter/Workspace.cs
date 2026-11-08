@@ -40,6 +40,9 @@ public sealed class Workspace : IDisposable
 		d.Changed += () => DocsChanged?.Invoke();
 	}
 
+	public bool NameTaken(string id) =>
+		File.Exists(Path.Combine(Folder, id + ".json")) || Docs.Any(d => string.Equals(d.FileName, id + ".json", StringComparison.OrdinalIgnoreCase));
+
 	public DialogueDocument? Find(string id) => Docs.FirstOrDefault(d => d.Id == id);
 	public IReadOnlyCollection<string> HunkIds => Docs.Select(d => d.Id).ToList();
 
@@ -102,11 +105,11 @@ public sealed class Workspace : IDisposable
 				["v2"] = new JsonObject { ["lines"] = new JsonArray("Back again, {player}?"), ["end"] = true },
 			},
 		};
-		File.WriteAllText(path, HouseJson.Serialize(root));
+		// Nothing is written until the user saves it.
 		var doc = Docs.FirstOrDefault(d => d.FilePath == path);
 		if (doc == null)
 		{
-			doc = DialogueDocument.Load(path);
+			doc = DialogueDocument.CreateUnsaved(path, root);
 			Add(doc);
 			Docs.Sort((a, b) => string.Compare(a.FileName, b.FileName, StringComparison.OrdinalIgnoreCase));
 		}

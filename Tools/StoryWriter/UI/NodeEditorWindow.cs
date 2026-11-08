@@ -69,12 +69,14 @@ public sealed class NodeEditorWindow : Window
 	readonly TextBlock _problems = Ui.Label("", 12, Palette.Error);
 	readonly TabControl _tabs = new();
 
-	readonly AutoCompleteBox _goto;
+	const string NoneLabel = "(none)";
+	readonly Func<IEnumerable<DialogueDocument>> _allDocs;
+	readonly ComboBox _goto = new() { MinWidth = 200 };
 	readonly CheckBox _end = new() { Content = "end conversation after the last line" };
 	readonly ComboBox _ending = new() { ItemsSource = new[] { "(none)", "auto" }.Concat(Dialogue.Endings).ToList(), MinWidth = 200 };
 	readonly ComboBox _fx = new() { ItemsSource = new[] { "(none)" }.Concat(Dialogue.FxKinds).ToList(), MinWidth = 200 };
 	readonly TextBox _fxText = new() { PlaceholderText = "text shown during the fade", TextWrapping = TextWrapping.Wrap, AcceptsReturn = false };
-	readonly TextBox _do = new() { PlaceholderText = "e.g. romance: 1, flag.knows_secret: 1" };
+	readonly EffectsEditor _do;
 	readonly List<string> _nodeIds;
 	string _initialSnapshot = "";
 
@@ -82,10 +84,13 @@ public sealed class NodeEditorWindow : Window
 	public DialogueDocument Doc => _doc;
 	public event Action<string>? PreviewRequested;
 
-	public NodeEditorWindow(DialogueDocument doc, string nodeId)
+	public NodeEditorWindow(DialogueDocument doc, string nodeId, Func<IEnumerable<DialogueDocument>> allDocs)
 	{
 		_doc = doc;
+		_allDocs = allDocs;
 		_nodeId = nodeId;
+		_do = new EffectsEditor(Vars.Effects(doc, allDocs()), doc.Node(nodeId)?["do"] as JsonObject);
+		_do.Changed += () => { };
 		_nodeIds = doc.NodeIds.ToList();
 		Title = $"{doc.Name} · {nodeId}";
 		Width = 1100;
@@ -109,13 +114,35 @@ public sealed class NodeEditorWindow : Window
 		_editor.Options.EnableEmailHyperlinks = false;
 		_editor.TextArea.TextView.LineTransformers.Add(new LineColorizer());
 		_editor.TextChanged += (_, _) => RefreshPreview();
-		_goto = NodePicker("");
 
 		Content = BuildLayout();
 		Load();
 		KeyDown += OnKey;
 		Opened += (_, _) => _editor.Focus();
 	}
+
+	/// <summary>Next-node dropdown: every other node except hypertext link nodes.</summary>
+	ComboBox GotoBox(string current)
+	{
+		var cb = new ComboBox { MinWidth = 160, HorizontalAlignment = HorizontalAlignment.Stretch };
+		FillGoto(cb, current);
+		return cb;
+	}
+
+	void FillGoto(ComboBox cb, string current)
+	{
+		var kinds = _doc.NodeKinds();
+		var items = new List<string> { NoneLabel };
+		items.AddRange(_doc.NodeIds.Where(id => id != _nodeId && kinds.GetValueOrDefault(id) != NodeKind.Hypertext));
+		// Keep whatever is already set (a self-loop, a link node, a node that doesn't exist yet) so it isn't lost silently.
+		if (current.Length > 0 && !items.Contains(current)) items.Add(current);
+		cb.ItemsSource = items;
+		cb.SelectedItem = current.Length == 0 ? NoneLabel : current;
+	}
+
+	static string GotoValue(ComboBox cb) => cb.SelectedItem is string s && s != NoneLabel ? s : "";
+
+	IEnumerable<string> ConditionVars() => Vars.Conditions(_doc, _allDocs());
 
 	AutoCompleteBox NodePicker(string text) => new()
 	{
@@ -223,15 +250,19 @@ public sealed class NodeEditorWindow : Window
 	sealed class ChoiceRow
 	{
 		public JsonObject? Original;
-		public TextBox Text = null!, If = null!, Do = null!;
-		public AutoCompleteBox Goto = null!;
+		public TextBox Text = null!;
+		public ConditionEditor If = null!;
+		public EffectsEditor Do = null!;
+		public ComboBox Goto = null!;
 		public Control View = null!;
 	}
 
 	sealed class TopicRow
 	{
 		public JsonNode? Original;
-		public TextBox Key = null!, If = null!, Do = null!;
+		public TextBox Key = null!;
+		public ConditionEditor If = null!;
+		public EffectsEditor Do = null!;
 		public AutoCompleteBox Goto = null!;
 		public Control View = null!;
 	}
@@ -243,22 +274,17 @@ public sealed class NodeEditorWindow : Window
 	{
 		var row = new ChoiceRow { Original = c };
 		row.Text = new TextBox { Text = Dialogue.Str(c?["text"]) ?? "", PlaceholderText = "What Rosie says", TextWrapping = TextWrapping.Wrap };
-		row.Goto = NodePicker(Dialogue.Str(c?["goto"]) ?? "");
-		row.If = new TextBox { Text = Dialogue.Str(c?["if"]) ?? "", PlaceholderText = "always shown", FontSize = 12 };
-		row.Do = new TextBox { Text = Dialogue.FormatEffects(c?["do"] as JsonObject), PlaceholderText = "romance: 1", FontSize = 12 };
+		row.Goto = GotoBox(Dialogue.Str(c?["goto"]) ?? "");
+		row.If = new ConditionEditor(ConditionVars(), Dialogue.Str(c?["if"]), "always shown");
+		row.Do = new EffectsEditor(Vars.Effects(_doc, _allDocs()), c?["do"] as JsonObject);
 		var tools = Ui.Row(2,
 			Ui.Btn("↑", () => MoveRow(_choices, _choiceRows, row, -1, r => r.View), "Move up"),
 			Ui.Btn("↓", () => MoveRow(_choices, _choiceRows, row, 1, r => r.View), "Move down"),
 			Ui.Btn("✕", () => { _choices.Remove(row); _choiceRows.Children.Remove(row.View); RefreshPreview(); }, "Remove choice"));
-		var grid = new Grid { ColumnDefinitions = new ColumnDefinitions("*,*,*"), ColumnSpacing = 6 };
-		var g1 = Ui.Field("goto", row.Goto);
-		var g2 = Ui.Field("if", row.If);
-		var g3 = Ui.Field("do", row.Do);
-		Grid.SetColumn(g2, 1);
-		Grid.SetColumn(g3, 2);
-		grid.Children.Add(g1);
-		grid.Children.Add(g2);
-		grid.Children.Add(g3);
+		var fields = Ui.Col(6,
+			Ui.Field("go to", row.Goto, "Next node. (none) ends the conversation."),
+			Ui.Field("if", row.If),
+			Ui.Field("do", row.Do));
 		var top = new DockPanel();
 		DockPanel.SetDock(tools, Dock.Right);
 		top.Children.Add(tools);
@@ -268,10 +294,10 @@ public sealed class NodeEditorWindow : Window
 			Background = Palette.Card,
 			CornerRadius = new CornerRadius(6),
 			Padding = new Thickness(8),
-			Child = Ui.Col(6, top, grid),
+			Child = Ui.Col(6, top, fields),
 		};
 		row.Text.TextChanged += (_, _) => RefreshPreview();
-		row.If.TextChanged += (_, _) => RefreshPreview();
+		row.If.Changed += RefreshPreview;
 		_choices.Add(row);
 		_choiceRows.Children.Add(row.View);
 	}
@@ -282,19 +308,14 @@ public sealed class NodeEditorWindow : Window
 		var to = t as JsonObject;
 		row.Key = new TextBox { Text = key ?? "", PlaceholderText = "topic id (the [word])", Width = 150 };
 		row.Goto = NodePicker(to != null ? Dialogue.Str(to["goto"]) ?? "" : Dialogue.Str(t) ?? "");
-		row.If = new TextBox { Text = Dialogue.Str(to?["if"]) ?? "", PlaceholderText = "always clickable", FontSize = 12 };
-		row.Do = new TextBox { Text = Dialogue.FormatEffects(to?["do"] as JsonObject), PlaceholderText = "romance: 1", FontSize = 12 };
+		row.If = new ConditionEditor(ConditionVars(), Dialogue.Str(to?["if"]), "always clickable");
+		row.Do = new EffectsEditor(Vars.Effects(_doc, _allDocs()), to?["do"] as JsonObject);
 		var del = Ui.Btn("✕", () => { _topics.Remove(row); _topicRows.Children.Remove(row.View); RefreshPreview(); }, "Remove link (the [word] in the text stays)");
 		var top = new DockPanel();
 		DockPanel.SetDock(del, Dock.Right);
 		top.Children.Add(del);
 		top.Children.Add(Ui.Row(8, Ui.Label("[", 15, Palette.Hypertext, FontWeight.Bold), row.Key, Ui.Label("]  →", 15, Palette.Hypertext, FontWeight.Bold), row.Goto));
-		var grid = new Grid { ColumnDefinitions = new ColumnDefinitions("*,*"), ColumnSpacing = 6 };
-		var g2 = Ui.Field("if", row.If);
-		var g3 = Ui.Field("do", row.Do);
-		Grid.SetColumn(g3, 1);
-		grid.Children.Add(g2);
-		grid.Children.Add(g3);
+		var grid = Ui.Col(6, Ui.Field("if", row.If), Ui.Field("do", row.Do));
 		row.View = new Border
 		{
 			Background = Palette.Card,
@@ -305,7 +326,7 @@ public sealed class NodeEditorWindow : Window
 			Child = Ui.Col(6, top, grid),
 		};
 		row.Key.TextChanged += (_, _) => RefreshPreview();
-		row.If.TextChanged += (_, _) => RefreshPreview();
+		row.If.Changed += RefreshPreview;
 		_topics.Add(row);
 		_topicRows.Children.Add(row.View);
 	}
@@ -338,7 +359,7 @@ public sealed class NodeEditorWindow : Window
 			foreach (var c in cs.OfType<JsonObject>()) AddChoiceRow(c);
 		if (node["topics"] is JsonObject ts)
 			foreach (var (k, v) in ts) AddTopicRow(k, v);
-		_goto.Text = Dialogue.Str(node["goto"]) ?? "";
+		FillGoto(_goto, Dialogue.Str(node["goto"]) ?? "");
 		_end.IsChecked = Dialogue.Bool(node["end"]);
 		var ending = Dialogue.Str(node["ending"]);
 		_ending.SelectedItem = string.IsNullOrEmpty(ending) ? "(none)" : ending;
@@ -347,7 +368,6 @@ public sealed class NodeEditorWindow : Window
 		_fx.SelectedItem = string.IsNullOrEmpty(fx) ? "(none)" : fx;
 		if (_fx.SelectedItem == null) _fx.SelectedIndex = 0;
 		_fxText.Text = Dialogue.Str(node["fxText"]) ?? "";
-		_do.Text = Dialogue.FormatEffects(node["do"] as JsonObject);
 		if (_choices.Count == 0 && _topics.Count > 0) _tabs.SelectedIndex = 1;
 		else if (_choices.Count == 0) _tabs.SelectedIndex = 2;
 		else _tabs.SelectedIndex = 0;
@@ -355,9 +375,9 @@ public sealed class NodeEditorWindow : Window
 		_initialSnapshot = Snapshot();
 	}
 
-	string Snapshot() => string.Join("\u0001", new[] { _id.Text, _editor.Text, _goto.Text, _end.IsChecked?.ToString(), _ending.SelectedItem as string, _fx.SelectedItem as string, _fxText.Text, _do.Text }
-		.Concat(_choices.SelectMany(c => new[] { c.Text.Text, c.Goto.Text, c.If.Text, c.Do.Text }))
-		.Concat(_topics.SelectMany(t => new[] { t.Key.Text, t.Goto.Text, t.If.Text, t.Do.Text })));
+	string Snapshot() => string.Join("\u0001", new[] { _id.Text, _editor.Text, GotoValue(_goto), _end.IsChecked?.ToString(), _ending.SelectedItem as string, _fx.SelectedItem as string, _fxText.Text, _do.Snapshot }
+		.Concat(_choices.SelectMany(c => new[] { c.Text.Text, GotoValue(c.Goto), c.If.Value, c.Do.Snapshot }))
+		.Concat(_topics.SelectMany(t => new[] { t.Key.Text, t.Goto.Text, t.If.Value, t.Do.Snapshot })));
 
 	IEnumerable<string> EditorLines() => (_editor.Text ?? "").Replace("\r", "").Split('\n').Where(l => l.Trim().Length > 0);
 
@@ -378,7 +398,7 @@ public sealed class NodeEditorWindow : Window
 		for (int i = 0; i < shownChoices.Count; i++)
 		{
 			var c = shownChoices[i];
-			var cond = c.If.Text?.Trim();
+			var cond = c.If.Value;
 			_preview.Children.Add(new TextBlock
 			{
 				Text = $"{i + 1}.  {c.Text.Text}" + (string.IsNullOrEmpty(cond) ? "" : $"    [if {cond}]"),
@@ -434,7 +454,7 @@ public sealed class NodeEditorWindow : Window
 
 	string SuggestNewNodeId(string b)
 	{
-		var pending = _choices.Select(c => c.Goto.Text).Concat(_topics.Select(t => t.Goto.Text)).ToHashSet();
+		var pending = _choices.Select(c => GotoValue(c.Goto)).Concat(_topics.Select(t => t.Goto.Text)).ToHashSet();
 		var id = _doc.UniqueNodeId(b);
 		for (int i = 2; pending.Contains(id); i++) id = _doc.UniqueNodeId($"{b}_{i}");
 		return id;
@@ -450,15 +470,15 @@ public sealed class NodeEditorWindow : Window
 		else if (newId != _nodeId && _doc.Node(newId) != null) errors.Add($"Node id '{newId}' is taken.");
 		if (_doc.Node(_nodeId) == null) errors.Add($"Node '{_nodeId}' no longer exists (deleted or renamed elsewhere).");
 
-		JsonObject? Effects(string where, string? text)
+		void Cond(string where, ConditionEditor c)
 		{
-			var o = Dialogue.ParseEffects(text, out var err);
+			if (c.Error is { } e) errors.Add($"{where} condition: {e}");
+		}
+		JsonObject? Fx(string where, EffectsEditor ed)
+		{
+			var o = ed.Value(out var err);
 			if (err != null) errors.Add($"{where}: {err}");
 			return o;
-		}
-		void Cond(string where, string? c)
-		{
-			if (Runtime.Condition.Check(c) is { } e) errors.Add($"{where} condition: {e}");
 		}
 
 		var lines = EditorLines().Select(l => l.TrimEnd()).ToList();
@@ -490,9 +510,9 @@ public sealed class NodeEditorWindow : Window
 			if (key.Length == 0) continue;
 			if (topics.ContainsKey(key)) { errors.Add($"Link [{key}] is listed twice."); continue; }
 			var target = Target(row.Goto.Text);
-			var cond = row.If.Text?.Trim();
-			Cond($"[{key}]", cond);
-			var fx = Effects($"[{key}] do", row.Do.Text);
+			var cond = row.If.Value;
+			Cond($"[{key}]", row.If);
+			var fx = Fx($"[{key}] do", row.Do);
 			if (string.IsNullOrEmpty(cond) && fx == null && row.Original is not JsonObject)
 			{
 				topics[key] = target;
@@ -521,19 +541,19 @@ public sealed class NodeEditorWindow : Window
 			var text = (row.Text.Text ?? "").Trim();
 			if (text.Length == 0) { errors.Add($"Choice {ci} has no text."); continue; }
 			var o = row.Original != null ? (JsonObject)row.Original.DeepClone() : new JsonObject();
-			var cond = row.If.Text?.Trim();
-			Cond($"Choice {ci}", cond);
+			var cond = row.If.Value;
+			Cond($"Choice {ci}", row.If);
 			SetOrRemove(o, "text", JsonValue.Create(text), ChoiceOrder);
 			SetOrRemove(o, "if", string.IsNullOrEmpty(cond) ? null : JsonValue.Create(cond), ChoiceOrder);
-			var target = Target(row.Goto.Text);
+			var target = Target(GotoValue(row.Goto));
 			SetOrRemove(o, "goto", target.Length > 0 ? JsonValue.Create(target) : null, ChoiceOrder);
-			SetOrRemove(o, "do", Effects($"Choice {ci} do", row.Do.Text), ChoiceOrder);
+			SetOrRemove(o, "do", Fx($"Choice {ci} do", row.Do), ChoiceOrder);
 			choices.Add(o);
 		}
 		SetOrRemove(node, "choices", choices.Count > 0 ? choices : null, NodeOrder);
 
 		// flow
-		var g = Target(_goto.Text);
+		var g = Target(GotoValue(_goto));
 		SetOrRemove(node, "goto", g.Length > 0 ? JsonValue.Create(g) : null, NodeOrder);
 		SetOrRemove(node, "end", _end.IsChecked == true ? JsonValue.Create(true) : null, NodeOrder);
 		var ending = _ending.SelectedItem as string;
@@ -542,7 +562,7 @@ public sealed class NodeEditorWindow : Window
 		SetOrRemove(node, "fx", fxKind is null or "(none)" ? null : JsonValue.Create(fxKind), NodeOrder);
 		var fxText = _fxText.Text?.Trim();
 		SetOrRemove(node, "fxText", string.IsNullOrEmpty(fxText) ? null : JsonValue.Create(fxText), NodeOrder);
-		SetOrRemove(node, "do", Effects("Node do", _do.Text), NodeOrder);
+		SetOrRemove(node, "do", Fx("Node do", _do), NodeOrder);
 
 		if (errors.Count > 0)
 		{
@@ -571,6 +591,8 @@ public sealed class NodeEditorWindow : Window
 			Title = $"{_doc.Name} · {newId}";
 			_nodeIds.Clear();
 			_nodeIds.AddRange(_doc.NodeIds);
+			foreach (var c in _choices) FillGoto(c.Goto, GotoValue(c.Goto));
+			FillGoto(_goto, GotoValue(_goto));
 		}
 		_initialSnapshot = Snapshot();
 		_problems.Foreground = Palette.Start;

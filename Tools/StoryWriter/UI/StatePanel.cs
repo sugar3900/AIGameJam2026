@@ -12,7 +12,7 @@ public sealed class StatePanel : ScrollViewer
 {
 	readonly PreviewState _state;
 	readonly Func<IEnumerable<DialogueDocument>> _docs;
-	readonly StackPanel _root = new() { Spacing = 10, Margin = new Thickness(12) };
+	readonly StackPanel _root = new() { Spacing = 10, Margin = new Thickness(12, 12, 6, 12) };
 	bool _editing;
 	public Func<string?>? FocusHunk { get; set; }
 
@@ -23,6 +23,8 @@ public sealed class StatePanel : ScrollViewer
 		Content = _root;
 		Background = Palette.Panel;
 		HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled;
+		VerticalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Visible;
+		ScrollViewer.SetAllowAutoHide(this, false);
 		_state.Changed += () =>
 		{
 			if (!_editing) Rebuild();
