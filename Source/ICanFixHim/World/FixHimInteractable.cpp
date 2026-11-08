@@ -132,6 +132,7 @@ void AFixHimInteractable::BuildShine()
 	ShineMID = UMaterialInstanceDynamic::Create(ShineMat, this);
 	ShineMID->SetVectorParameterValue(TEXT("Color"), ShineColor);
 	ShineMID->SetScalarParameterValue(TEXT("Sweep"), -1.f);
+	ShineMID->SetScalarParameterValue(TEXT("ShineStrength"), ShineStrength);
 	ShineMID->SetScalarParameterValue(TEXT("Glow"), 0.f);
 
 	// One overlay for every visible mesh that moves with the body, with bounds covering all of them so a single
@@ -163,7 +164,7 @@ void AFixHimInteractable::BuildShine()
 	{
 		Mesh->SetOverlayMaterial(ShineMID);
 	}
-	NextShineAt = Age + FMath::FRandRange(0.5f, ShineInterval.Y);
+	NextShineAt = Age + FMath::FRandRange(0.3f, ShineInterval.Y);
 }
 
 void AFixHimInteractable::Tick(float DeltaSeconds)
@@ -181,7 +182,7 @@ void AFixHimInteractable::Tick(float DeltaSeconds)
 	if (ShineMID && bShine && bEnabled)
 	{
 		// A shine takes ShineDuration to cross the object, then the next one is a few seconds away.
-		constexpr float ShineDuration = 1.1f;
+		constexpr float ShineDuration = 0.9f;
 		const float Progress = (Age - NextShineAt) / ShineDuration;
 		if (Progress >= 0.f && Progress <= 1.f)
 		{

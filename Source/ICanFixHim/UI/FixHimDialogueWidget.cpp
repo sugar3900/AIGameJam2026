@@ -216,6 +216,14 @@ void UFixHimDialogueWidget::BindHunk(AFixHimHunk* Hunk, const FString& InHunkId)
 		PortraitMID = UMaterialInstanceDynamic::Create(Mat, this);
 		PortraitMID->SetTextureParameterValue(TEXT("Portrait"), RT);
 		PortraitMID->SetScalarParameterValue(TEXT("Silhouette"), 0.f);
+		// Solid backdrop in the character's theme colour.
+		if (const UFixHimDialogueSubsystem* D = UFixHimDialogueSubsystem::Get(this))
+		{
+			if (const FHunkDefinition* Def = D->FindHunk(HunkId))
+			{
+				PortraitMID->SetVectorParameterValue(TEXT("Background"), Def->GlowColor * 0.85f);
+			}
+		}
 		Portrait->SetBrushFromMaterial(PortraitMID);
 	}
 	else

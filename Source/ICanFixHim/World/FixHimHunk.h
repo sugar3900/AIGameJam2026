@@ -33,10 +33,11 @@ public:
 	void Disappear();
 	bool IsPresent() const { return bPresent; }
 
-	/** Live portrait while true (captures every frame). */
+	/** The dialogue portrait is a still taken when the hunk first appears; this makes sure one exists (capturing now if not). */
 	void SetPortraitLive(bool bLive);
 	UTextureRenderTarget2D* GetPortrait() const { return PortraitTarget; }
-	void CapturePortraitNow();
+	/** Re-render the portrait target. bAsStill marks the result as the dialogue still (taken once, on first appearance). */
+	void CapturePortraitNow(bool bAsStill = false);
 
 	/** One-off head-to-waist capture into Target (used for the end-of-game keepsake). */
 	void CaptureKeepsake(UTextureRenderTarget2D* Target);
@@ -57,6 +58,7 @@ private:
 	float PopAlpha = 0.f;
 	float PopTarget = 0.f;
 	bool bPresent = false;
-	bool bPortraitLive = false;
+	bool bHasStill = false;
+	FTimerHandle StillTimer;
 	float Age = 0.f;
 };

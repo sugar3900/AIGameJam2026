@@ -319,14 +319,15 @@ void AFixHimPlayerController::OnInteract()
 	switch (State)
 	{
 	case EFixHimState::Playing:
-		if (Hovered && Hovered->CanInteract())
+		if (bPodcastPlaying && RadioWidget)
+		{
+			// Click through the opening podcast captions one line at a time, even when pointing at something
+			// interactable: skipping wins until the episode is over.
+			RadioWidget->Advance();
+		}
+		else if (Hovered && Hovered->CanInteract())
 		{
 			Hovered->Interact(this);
-		}
-		else if (bPodcastPlaying && RadioWidget)
-		{
-			// Click through the opening podcast captions one line at a time.
-			RadioWidget->Advance();
 		}
 		break;
 	case EFixHimState::Dialogue:

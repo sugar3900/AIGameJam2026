@@ -149,7 +149,7 @@ SHINE_HLSL = """
 float3 rel = (WorldPos - Bounds.xyz) / max(Bounds.w, 1.0);
 float t = dot(rel, normalize(float3(0.75, 0.55, 0.35)));
 float centre = lerp(-1.5, 1.5, saturate(Sweep));
-float d = (t - centre) / 0.16;
+float d = (t - centre) / 0.2;
 float band = exp(-d * d) * step(0.0, Sweep);
 float rim = pow(1.0 - saturate(dot(normalize(Normal), normalize(CamVec))), 2.2);
 return band * ShineStrength + Glow * (0.22 + rim);
@@ -190,6 +190,39 @@ def build_shine():
     finish(mat)
 
 
+CEL_HLSL = """
+// Stylised still: tone-mapped scene colour flattened into hard light bands, with an ink outline on the silhouette
+// and on strong internal creases. Returns (rgb, coverage). The capture's alpha is inverse opacity.
+float2 w = float2(OutlineWidth, OutlineWidth);
+float4 c0 = Texture2DSample(Tex, TexSampler, UV);
+float3 hdr = c0.rgb * Exposure;
+float3 col = hdr / (hdr + 0.6) * 1.5;
+float L = dot(col, float3(0.299, 0.587, 0.114));
+float cover = 1.0 - c0.a;
+
+float Lq = L < 0.14 ? 0.30 : (L < 0.32 ? 0.52 : (L < 0.58 ? 0.74 : 0.96));
+float3 hue = min(col / max(L, 0.05), 3.0);
+float3 cel = hue * Lq;
+cel = lerp(float3(Lq, Lq, Lq), cel, 1.2);
+
+float2 offs[8] = { float2(1,0), float2(-1,0), float2(0,1), float2(0,-1), float2(0.7,0.7), float2(-0.7,0.7), float2(0.7,-0.7), float2(-0.7,-0.7) };
+float silh = 0.0;
+float crease = 0.0;
+[unroll] for (int i = 0; i < 8; i++)
+{
+    float4 n = Texture2DSample(Tex, TexSampler, UV + offs[i] * w);
+    float nc = 1.0 - n.a;
+    silh = max(silh, saturate((cover - nc) * 4.0));
+    float3 nh = n.rgb * Exposure;
+    float3 ncol = nh / (nh + 0.6) * 1.5;
+    float nL = dot(ncol, float3(0.299, 0.587, 0.114));
+    crease = max(crease, smoothstep(0.16, 0.34, abs(nL - L)) * saturate(nc * 4.0));
+}
+float edge = saturate(max(silh, crease * 0.85)) * saturate(cover * 4.0);
+return float4(lerp(cel, float3(0.045, 0.015, 0.06), edge), cover);
+"""
+
+
 def build_portrait():
     mat = fresh_material("M_UI_Portrait")
     mat.set_editor_property("material_domain", unreal.MaterialDomain.MD_UI)
@@ -204,24 +237,30 @@ def build_portrait():
         default_tex.set_editor_property("size_x", 64)
         default_tex.set_editor_property("size_y", 64)
         EAL.save_loaded_asset(default_tex)
-    tex = expr(mat, unreal.MaterialExpressionTextureSampleParameter2D, -900, 0,
+    tex = expr(mat, unreal.MaterialExpressionTextureObjectParameter, -900, 0,
                parameter_name="Portrait", texture=default_tex,
                sampler_type=unreal.MaterialSamplerType.SAMPLERTYPE_LINEAR_COLOR)
-    # SceneColorHDR capture stores *inverse* opacity in alpha.
-    alpha = expr(mat, unreal.MaterialExpressionOneMinus, -650, 150)
-    MEL.connect_material_expressions(tex, "A", alpha, "")
-    # The capture is raw scene radiance (no eye adaptation): expose, then a gentle Reinhard-ish curve.
+    uv = expr(mat, unreal.MaterialExpressionTextureCoordinate, -900, -120)
+    # The capture is raw scene radiance (no eye adaptation): expose, tone-map and cel-shade it in one pass.
     exposure = scalar_param(mat, "Exposure", 0.08, -900, -250)
-    exposed = expr(mat, unreal.MaterialExpressionMultiply, -700, -150)
-    MEL.connect_material_expressions(tex, "RGB", exposed, "A")
-    MEL.connect_material_expressions(exposure, "", exposed, "B")
-    plus = expr(mat, unreal.MaterialExpressionAdd, -650, -100, const_b=0.6)
-    MEL.connect_material_expressions(exposed, "", plus, "A")
-    div = expr(mat, unreal.MaterialExpressionDivide, -500, -50)
-    MEL.connect_material_expressions(exposed, "", div, "A")
-    MEL.connect_material_expressions(plus, "", div, "B")
-    toned = expr(mat, unreal.MaterialExpressionMultiply, -380, -50, const_b=1.5)
-    MEL.connect_material_expressions(div, "", toned, "A")
+    outline_w = scalar_param(mat, "OutlineWidth", 0.009, -900, -330)
+    cel = expr(mat, unreal.MaterialExpressionCustom, -600, -100, code=CEL_HLSL,
+               output_type=unreal.CustomMaterialOutputType.CMOT_FLOAT4, description="CelShade")
+    inputs = []
+    for n in ("Tex", "UV", "Exposure", "OutlineWidth"):
+        ci = unreal.CustomInput()
+        ci.set_editor_property("input_name", n)
+        inputs.append(ci)
+    cel.set_editor_property("inputs", inputs)
+    MEL.connect_material_expressions(tex, "", cel, "Tex")
+    MEL.connect_material_expressions(uv, "", cel, "UV")
+    MEL.connect_material_expressions(exposure, "", cel, "Exposure")
+    MEL.connect_material_expressions(outline_w, "", cel, "OutlineWidth")
+    # rgb = cel-shaded colour, a = coverage (the SceneColorHDR capture stores *inverse* opacity in alpha).
+    toned = expr(mat, unreal.MaterialExpressionComponentMask, -380, -50, r=True, g=True, b=True, a=False)
+    MEL.connect_material_expressions(cel, "", toned, "")
+    alpha = expr(mat, unreal.MaterialExpressionComponentMask, -380, 150, r=False, g=False, b=False, a=True)
+    MEL.connect_material_expressions(cel, "", alpha, "")
 
     sil_amt = scalar_param(mat, "Silhouette", 0.0, -650, 300)
     sil_col = vec_param(mat, "SilhouetteColor", (0.06, 0.01, 0.05, 1), -650, 420)

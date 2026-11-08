@@ -9,7 +9,6 @@
 class AFixHimPlayerController;
 class UStaticMeshComponent;
 class UPointLightComponent;
-class UMaterialBillboardComponent;
 class UMaterialInstanceDynamic;
 
 UENUM(BlueprintType)
@@ -114,7 +113,11 @@ public:
 
 	/** Seconds between shines (a random value in this range is drawn each time). */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
-	FVector2D ShineInterval = FVector2D(5.f, 11.f);
+	FVector2D ShineInterval = FVector2D(2.f, 4.5f);
+
+	/** Brightness of the shine band (additive, over the object's own colours). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
+	float ShineStrength = 3.f;
 
 	// ---- Behaviour --------------------------------------------------------
 
