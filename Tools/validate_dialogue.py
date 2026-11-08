@@ -15,6 +15,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DIR = os.path.join(ROOT, "Content", "ICanFixHim", "Data", "Dialogue")
 ENDINGS = {"romance_success", "romance_failure", "friend_success", "friend_failure"}
 STATS = {"romance", "friendship", "friction"}
+# Node "fx" values and inline {fx:name} tags (played by UFixHimDialogueWidget).
+FX = {"fade", "hearts"}
 COND_TOKEN = re.compile(r"\s*(\|\||&&|==|!=|>=|<=|[<>()!+-]|\d+|[A-Za-z_][A-Za-z0-9_.]*)")
 
 
@@ -57,6 +59,29 @@ def validate(path, hunk_ids):
             if scope and scope not in hunk_ids:
                 errs.append(f"{where}: unknown hunk '{scope}' in effect '{k}'")
 
+    def aside_warns(where, start):
+        # Walk the aside chain (gotos, choices, one-way topic diverts; nested asides return here
+        # by themselves, so don't follow them). It must be able to reach a "return" node.
+        seen, stack, enders = set(), [start], []
+        while stack:
+            nid = stack.pop()
+            if nid not in nodes or nid in seen:
+                continue
+            seen.add(nid)
+            n = nodes[nid]
+            if n.get("return") and not n.get("choices"):
+                continue
+            if n.get("end") or n.get("ending"):
+                enders.append(nid)
+            stack.append(n.get("goto"))
+            stack += [c.get("goto") for c in n.get("choices", [])]
+            stack += [v if isinstance(v, str) else v.get("goto") for v in n.get("topics", {}).values()
+                      if isinstance(v, str) or not v.get("aside")]
+        if not any(nodes[x].get("return") for x in seen):
+            warns.append(f"{where}: aside chain from '{start}' never reaches a \"return\": true node")
+        for x in enders:
+            warns.append(f"{where}: aside chain reaches '{x}', which ends the conversation mid-aside")
+
     for e in d.get("entries", []):
         ref("entry", e.get("node"))
         if (m := check_condition(e.get("if"))):
@@ -65,12 +90,20 @@ def validate(path, hunk_ids):
         lines = n.get("lines", [])
         if not lines:
             errs.append(f"{nid}: no lines")
-        if not n.get("choices") and not n.get("goto") and not n.get("end") and not n.get("ending"):
+        if not n.get("choices") and not n.get("goto") and not n.get("end") and not n.get("ending") and not n.get("return"):
             errs.append(f"{nid}: dead end")
+        if n.get("return") and (n.get("choices") or n.get("goto") or n.get("end") or n.get("ending")):
+            warns.append(f"{nid}: 'return' node also has choices/goto/end/ending (return wins once its lines run out, unless it has choices)")
         ref(f"{nid}.goto", n.get("goto"))
         effects(nid, n.get("do"))
         if n.get("ending") and n["ending"] != "auto" and n["ending"] not in d.get("endings", {}):
             errs.append(f"{nid}: ending '{n['ending']}' has no card")
+        if n.get("fx") and n["fx"] not in FX:
+            errs.append(f"{nid}: unknown fx '{n['fx']}' (known: {sorted(FX)})")
+        for line in lines:
+            for tag in re.findall(r"\{fx:([^}]*)\}", line):
+                if tag.strip().lower() not in FX:
+                    errs.append(f"{nid}: unknown inline fx '{{fx:{tag}}}' (known: {sorted(FX)})")
         topics = {k.lower(): v for k, v in n.get("topics", {}).items()}
         for line in lines:
             for t in topics_in(line):
@@ -80,6 +113,10 @@ def validate(path, hunk_ids):
             ref(f"{nid} topic {t}", v if isinstance(v, str) else v.get("goto"))
             if isinstance(v, dict):
                 effects(f"{nid} topic {t}", v.get("do"))
+                if "aside" in v and not isinstance(v["aside"], bool):
+                    errs.append(f"{nid} topic {t}: 'aside' must be true/false")
+                if v.get("aside"):
+                    aside_warns(f"{nid} topic {t}", v.get("goto"))
         for c in n.get("choices", []):
             ref(f"{nid} choice", c.get("goto"))
             effects(f"{nid} choice", c.get("do"))

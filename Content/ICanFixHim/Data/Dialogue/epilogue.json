@@ -2,39 +2,30 @@
     "id": "epilogue",
     "kind": "epilogue",
     "name": "Epilogue",
-    "tagline": "Day 30. The hearing. The house. What it's for.",
-    "speakers": [ "Lukey", "Dan" ],
-    "notes": "Plays after Lukey's arc is finished (and podcast ep4). Shows the Day 30 hearing, then the final house choice (sets flag.house_choice: 1 = sell, 2 = stay, 3 = demolish), then the matching epilogue for Lukey's ending.",
+    "tagline": "Day 30. The hearing. The house. What it's for. And who's still in it.",
+    "speakers": [ "Lukey", "Malcolm", "Tyler", "Wyatt", "Dan" ],
+    "notes": "Plays after the final inspection (and the finale podcast if it passed). PASS (housefixed): the Day 30 hearing, then the house choice (sets flag.house_choice: 1 = sell, 2 = stay, 3 = demolish) with Lukey's beat per ending, then a household roll call (Malcolm, Tyler, Wyatt: one beat each per ending, picked by a single visible conditional choice), then a closing that depends on how many guys stayed (romance_success). Two or more romances share one comedic Sunday dinner (one line per guy who stayed). FAIL (!housefixed): the demolition, with a last walk through the house: per guy, an 'unfinished' beat if his malady isn't fixed, a 'came with you' beat if he stayed, or a 'gone' beat otherwise. Romance-success guys always stay with the heroine; multiple romances coexist.",
     "entries": [
-        { "if": "!lukey.fixed", "node": "not_yet" },
+        { "if": "!housefixed", "node": "fail_hearing" },
         { "if": "lukey.ending_romance_success", "node": "intro_together" },
         { "if": "true", "node": "intro_alone" }
     ],
     "nodes": {
-        "not_yet": {
-            "lines": [
-                "*Day 30. City Hall. The hearing takes four minutes. Dan stands up, looks at his shoes and quietly recommends demolition.*",
-                "*On demolition day, a damp patch appears on the front wall, shaped exactly like a frowning face. The bulldozer driver says it's the saddest wall he's ever seen.*",
-                "*The lot becomes a little park. There's a drinking fountain by the gate. It drips constantly. Sometimes, if you stand very close, it hums Bon Jovi.*",
-                "*You think about him every time you walk past. You should have finished the job.*"
-            ],
-            "end": true
-        },
         "intro_alone": {
             "lines": [
                 "*Day 30. City Hall. The condemnation hearing takes four minutes.*",
-                "*Inspector Dan stands up, clears his throat and tells the council that 12 Heartbreak Lane is 'as dry as my sense of humor.' Nobody laughs. The order is lifted anyway.*",
+                "*Inspector Dan stands up, clears his throat and tells the council that 12 Heartbreak Lane is 'as dry as my sense of humor, and twice as well grounded.' Nobody laughs. The order is lifted anyway.*",
                 "*In the back row, Mrs. Pruitt fires a celebratory crossbow bolt into the ceiling. Nobody knows why she's there.*",
-                "*That night, you stand alone in the kitchen. It's quiet. It's dry. It's fixed. For real.*"
+                "*That night, you stand in the kitchen. It's quiet. It's dry. Every room in the house is fixed. For real.*"
             ],
             "goto": "decide"
         },
         "intro_together": {
             "lines": [
                 "*Day 30. City Hall. The condemnation hearing takes four minutes.*",
-                "*Inspector Dan stands up, clears his throat and tells the council that 12 Heartbreak Lane is 'as dry as my sense of humor.' Nobody laughs. The order is lifted anyway.*",
+                "*Inspector Dan stands up, clears his throat and tells the council that 12 Heartbreak Lane is 'as dry as my sense of humor, and twice as well grounded.' Nobody laughs. The order is lifted anyway.*",
                 "*In the back row, Mrs. Pruitt fires a celebratory crossbow bolt into the ceiling. Nobody knows why she's there.*",
-                "*That night, you stand in the kitchen. It's quiet. It's dry. And you're not alone: Lukey is sitting on the counter in full shoulder pads, swinging his legs.*",
+                "*That night, you stand in the kitchen. It's quiet. It's dry. And Lukey is sitting on the counter in full shoulder pads, swinging his legs.*",
                 "Lukey: So, sweetheart. What are we doing with it?"
             ],
             "goto": "decide"
@@ -61,24 +52,25 @@
 
         "sell_together": {
             "lines": [
-                "*You list the house. At the open house, a lovely woman in her seventies wanders into the kitchen, runs a finger along the sink and says, 'I had a date in a house like this once. He was very... confident.'*",
+                "*You list the house. At the open house, a lovely woman in her late sixties wanders into the kitchen, runs a finger along the sink and smiles.*",
+                "*'I used to live here, you know. A young man once tried to fix this sink for me, before our first date. He was very... confident.'*",
                 "*Lukey hides in the radiator for six hours.*",
                 "*You sell to a young couple with a baby on the way. Lukey cries the whole drive to your new place. Not sad crying. Just a LOT of water. You have to run the wipers on the inside of the car.*",
                 "*Three days later, the kitchen tap in your new apartment starts to drip.*",
                 "You: Lukey.",
                 "Lukey: What? New house. A man's gotta make an entrance."
             ],
-            "end": true
+            "goto": "household"
         },
         "stay_together": {
             "lines": [
                 "*You stay. Obviously you stay.*",
                 "*The flipper finally has a house she isn't flipping. It has a dry kitchen, a dehumidifier called Dennis who now lives in the cupboard, and a ghost who cooks by yelling at you.*",
-                "*Every Friday, Inspector Dan pops round 'just to check the pipes.' Every Friday, his shoes get mysteriously soaked.*",
+                "*Every Friday, Inspector Dan stops by 'just to check the pipes.' Every Friday, his shoes get mysteriously soaked.*",
                 "Dan: One of these days I'm going to work out how that happens.",
                 "Lukey: No he isn't."
             ],
-            "end": true
+            "goto": "household"
         },
         "demolish_together": {
             "lines": [
@@ -89,7 +81,7 @@
                 "Lukey: That's not me.",
                 "*It's definitely him.*"
             ],
-            "end": true
+            "goto": "household"
         },
 
         "sell_rf": {
@@ -106,12 +98,12 @@
         },
         "sell_gone": {
             "lines": [
-                "*At the open house, a lovely woman in her seventies stops in the kitchen, smiles at the sink and says, 'I had a date in a house like this once. He was very confident.'*",
+                "*At the open house, a lovely woman in her late sixties stops in the kitchen and smiles at the sink. 'I used to live here. A young man tried to fix this sink for me once, before our first date. He was very confident.'*",
                 "*Then, quieter: 'I hope he's somewhere nice.'*",
                 "*You sell to a young couple with a baby on the way. You check their names: not Jasper and Pip. Dan signs it off with a pun nobody laughs at.*",
                 "*The kitchen never leaks again. Not once. Which is honestly a little bit sad.*"
             ],
-            "end": true
+            "goto": "household"
         },
 
         "stay_rf": {
@@ -123,16 +115,16 @@
             "goto": "stay_gone"
         },
         "stay_ff": {
-            "lines": [ "*The torch he was so rude about lives in the drawer by the sink. You never quite manage to throw it out.*" ],
+            "lines": [ "*The flashlight he was so rude about lives in the drawer by the sink. You never quite manage to throw it out.*" ],
             "goto": "stay_gone"
         },
         "stay_gone": {
             "lines": [
                 "*You don't sell. You can't. You fixed it too well to give it away.*",
                 "*Dan comes to Sunday dinner. He tells terrible puns. Nobody floods his shoes anymore, and he seems to miss it.*",
-                "*The house is quiet now. A good quiet. Except, very occasionally, very faintly, from somewhere in the walls: 'Woah-oh, we're halfway there...'*"
+                "*The kitchen is quiet now. A good quiet. Except, very occasionally, very faintly, from somewhere in the walls: 'Woah-oh, we're halfway there...'*"
             ],
-            "end": true
+            "goto": "household"
         },
 
         "demolish_rf": {
@@ -144,7 +136,7 @@
             "goto": "demolish_gone"
         },
         "demolish_ff": {
-            "lines": [ "*Somewhere, someone is definitely muttering that HE could have done the demolition better. You hold the torch anyway.*" ],
+            "lines": [ "*Somewhere, someone is definitely muttering that HE could have done the demolition better. You hold the flashlight anyway.*" ],
             "goto": "demolish_gone"
         },
         "demolish_gone": {
@@ -152,6 +144,423 @@
                 "*You let the city have it. It's had a long, damp life.*",
                 "*The lot becomes a little park. Dan cuts the ribbon and makes a pun about 'breaking ground.' Mrs. Pruitt fires her crossbow.*",
                 "*There's a drinking fountain by the gate. It never stops dripping. Nobody can fix it. Nobody tries very hard.*"
+            ],
+            "goto": "household"
+        },
+
+        "household": {
+            "lines": [ "*That's the kitchen settled. The rest of the household has its own plans.*" ],
+            "choices": [
+                { "text": "And Malcolm?", "if": "malcolm.ending_romance_success", "goto": "m_rs" },
+                { "text": "And Malcolm?", "if": "malcolm.ending_romance_failure", "goto": "m_rf" },
+                { "text": "And Malcolm?", "if": "malcolm.ending_friend_success", "goto": "m_fs" },
+                { "text": "And Malcolm?", "if": "!malcolm.ending_romance_success && !malcolm.ending_romance_failure && !malcolm.ending_friend_success", "goto": "m_ff" }
+            ]
+        },
+
+        "m_rs": {
+            "lines": [
+                "*Malcolm goes wherever your nightstand goes. His terrarium has moss, a fern, a tiny ceramic bench and a very small, very respectable mushroom in a very small cap.*",
+                "Malcolm: Today's poem, my dear. It's called 'Dry.' ...It's one line. It's your name. I've been revising it since breakfast.",
+                "*Dennis is not allowed in the bedroom. Dennis knows why.*"
+            ],
+            "choices": [
+                { "text": "And Tyler?", "if": "tyler.ending_romance_success && flag.house_choice == 2", "goto": "t_rs_home" },
+                { "text": "And Tyler?", "if": "tyler.ending_romance_success && flag.house_choice != 2", "goto": "t_rs_moved" },
+                { "text": "And Tyler?", "if": "tyler.ending_romance_failure", "goto": "t_rf" },
+                { "text": "And Tyler?", "if": "tyler.ending_friend_success", "goto": "t_fs" },
+                { "text": "And Tyler?", "if": "!tyler.ending_romance_success && !tyler.ending_romance_failure && !tyler.ending_friend_success", "goto": "t_ff" }
+            ]
+        },
+        "m_rf": {
+            "lines": [
+                "*On Valentine's Day, a wheel of award-winning Wisconsin blue arrives at your door. Pressed into the rind is a poem. It's about you. It's a little too strong. So is the cheese.*",
+                "*The label says GRAND RESERVE. Underneath, in gel pen: 'Finally cultured. Still yours, in a blue sort of way. M.'*"
+            ],
+            "choices": [
+                { "text": "And Tyler?", "if": "tyler.ending_romance_success && flag.house_choice == 2", "goto": "t_rs_home" },
+                { "text": "And Tyler?", "if": "tyler.ending_romance_success && flag.house_choice != 2", "goto": "t_rs_moved" },
+                { "text": "And Tyler?", "if": "tyler.ending_romance_failure", "goto": "t_rf" },
+                { "text": "And Tyler?", "if": "tyler.ending_friend_success", "goto": "t_fs" },
+                { "text": "And Tyler?", "if": "!tyler.ending_romance_success && !tyler.ending_romance_failure && !tyler.ending_friend_success", "goto": "t_ff" }
+            ]
+        },
+        "m_fs": {
+            "lines": [
+                "*A jar on your kitchen counter sighs theatrically every morning until it's fed. Malcolm is a sourdough starter now: a fungus with a JOB.*",
+                "Malcolm: This loaf is called 'Sorrow, Rising.' Butter it gently. It's been through a lot.",
+                "*Raven's diaries live on your bookshelf in an acid-free box with a gel-pen label. Friday is bread night. Dan brings butter.*"
+            ],
+            "choices": [
+                { "text": "And Tyler?", "if": "tyler.ending_romance_success && flag.house_choice == 2", "goto": "t_rs_home" },
+                { "text": "And Tyler?", "if": "tyler.ending_romance_success && flag.house_choice != 2", "goto": "t_rs_moved" },
+                { "text": "And Tyler?", "if": "tyler.ending_romance_failure", "goto": "t_rf" },
+                { "text": "And Tyler?", "if": "tyler.ending_friend_success", "goto": "t_fs" },
+                { "text": "And Tyler?", "if": "!tyler.ending_romance_success && !tyler.ending_romance_failure && !tyler.ending_friend_success", "goto": "t_ff" }
+            ]
+        },
+        "m_ff": {
+            "lines": [
+                "*Malcolm lives in Mrs. Pruitt's garden shed, growing on her crossbow case out of spite.*",
+                "*Every week, wherever you're living, one of her nine cats finds you and drops off a sonnet. They're all called 'Bleach.' He's the only one allowed to say it now.*"
+            ],
+            "choices": [
+                { "text": "And Tyler?", "if": "tyler.ending_romance_success && flag.house_choice == 2", "goto": "t_rs_home" },
+                { "text": "And Tyler?", "if": "tyler.ending_romance_success && flag.house_choice != 2", "goto": "t_rs_moved" },
+                { "text": "And Tyler?", "if": "tyler.ending_romance_failure", "goto": "t_rf" },
+                { "text": "And Tyler?", "if": "tyler.ending_friend_success", "goto": "t_fs" },
+                { "text": "And Tyler?", "if": "!tyler.ending_romance_success && !tyler.ending_romance_failure && !tyler.ending_friend_success", "goto": "t_ff" }
+            ]
+        },
+
+        "t_rs_home": {
+            "lines": [
+                "*The pink bathroom stays exactly as pink as it is. The tile with the gold seam gleams by the tub, and Tyler stands beside it every morning like it's a medal.*",
+                "Tyler: {player}. Report. ...I know. I just like saying it. Also, I'd like the whole house pink.",
+                "You: No.",
+                "Tyler: Outstanding. Again tomorrow?"
+            ],
+            "choices": [
+                { "text": "And Wyatt?", "if": "wyatt.ending_romance_success && flag.house_choice == 2", "goto": "w_rs_home" },
+                { "text": "And Wyatt?", "if": "wyatt.ending_romance_success && flag.house_choice != 2", "goto": "w_rs_moved" },
+                { "text": "And Wyatt?", "if": "wyatt.ending_romance_failure", "goto": "w_rf" },
+                { "text": "And Wyatt?", "if": "wyatt.ending_friend_success", "goto": "w_fs" },
+                { "text": "And Wyatt?", "if": "!wyatt.ending_romance_success && !wyatt.ending_romance_failure && !wyatt.ending_friend_success", "goto": "w_ff" }
+            ]
+        },
+        "t_rs_moved": {
+            "lines": [
+                "*You couldn't leave him behind. You ease out one tile, the one with the gold seam, and Tyler comes with it, furious about the packing.*",
+                "Tyler: BUBBLE WRAP, {player}? I'm a WHITMORE.",
+                "*He lives above the sink in your new bathroom now. The new bathroom is white. He's ordered it pink. You've said no. He has never been happier.*"
+            ],
+            "choices": [
+                { "text": "And Wyatt?", "if": "wyatt.ending_romance_success && flag.house_choice == 2", "goto": "w_rs_home" },
+                { "text": "And Wyatt?", "if": "wyatt.ending_romance_success && flag.house_choice != 2", "goto": "w_rs_moved" },
+                { "text": "And Wyatt?", "if": "wyatt.ending_romance_failure", "goto": "w_rf" },
+                { "text": "And Wyatt?", "if": "wyatt.ending_friend_success", "goto": "w_fs" },
+                { "text": "And Wyatt?", "if": "!wyatt.ending_romance_success && !wyatt.ending_romance_failure && !wyatt.ending_friend_success", "goto": "w_ff" }
+            ]
+        },
+        "t_rf": {
+            "lines": [
+                "*You've started saluting pink bathrooms. All of them. Hotels, restaurants, your dentist's.*",
+                "*Nobody ever salutes back. You know exactly how he felt. You do it anyway, because somebody saluted him back once, and it mattered.*"
+            ],
+            "choices": [
+                { "text": "And Wyatt?", "if": "wyatt.ending_romance_success && flag.house_choice == 2", "goto": "w_rs_home" },
+                { "text": "And Wyatt?", "if": "wyatt.ending_romance_success && flag.house_choice != 2", "goto": "w_rs_moved" },
+                { "text": "And Wyatt?", "if": "wyatt.ending_romance_failure", "goto": "w_rf" },
+                { "text": "And Wyatt?", "if": "wyatt.ending_friend_success", "goto": "w_fs" },
+                { "text": "And Wyatt?", "if": "!wyatt.ending_romance_success && !wyatt.ending_romance_failure && !wyatt.ending_friend_success", "goto": "w_ff" }
+            ]
+        },
+        "t_fs": {
+            "lines": [
+                "*Wherever Dennis is plugged in, he hums a little march at oh-five-hundred sharp. Sergeant Dennis takes his promotion very seriously.*",
+                "*Sometimes, in the morning light, you catch yourself standing up very straight. Dismissed, honorably.*"
+            ],
+            "choices": [
+                { "text": "And Wyatt?", "if": "wyatt.ending_romance_success && flag.house_choice == 2", "goto": "w_rs_home" },
+                { "text": "And Wyatt?", "if": "wyatt.ending_romance_success && flag.house_choice != 2", "goto": "w_rs_moved" },
+                { "text": "And Wyatt?", "if": "wyatt.ending_romance_failure", "goto": "w_rf" },
+                { "text": "And Wyatt?", "if": "wyatt.ending_friend_success", "goto": "w_fs" },
+                { "text": "And Wyatt?", "if": "!wyatt.ending_romance_success && !wyatt.ending_romance_failure && !wyatt.ending_friend_success", "goto": "w_ff" }
+            ]
+        },
+        "t_ff": {
+            "lines": [
+                "*You think about the crooked tile on the bottom row a lot. He did that. Out of spite. It's still the best tile you've ever owned.*",
+                "*You tried to straighten it once. It clicked right back. You've decided to respect that.*"
+            ],
+            "choices": [
+                { "text": "And Wyatt?", "if": "wyatt.ending_romance_success && flag.house_choice == 2", "goto": "w_rs_home" },
+                { "text": "And Wyatt?", "if": "wyatt.ending_romance_success && flag.house_choice != 2", "goto": "w_rs_moved" },
+                { "text": "And Wyatt?", "if": "wyatt.ending_romance_failure", "goto": "w_rf" },
+                { "text": "And Wyatt?", "if": "wyatt.ending_friend_success", "goto": "w_fs" },
+                { "text": "And Wyatt?", "if": "!wyatt.ending_romance_success && !wyatt.ending_romance_failure && !wyatt.ending_friend_success", "goto": "w_ff" }
+            ]
+        },
+
+        "w_rs_home": {
+            "lines": [
+                "*The lights at 12 Heartbreak Lane never flicker. Every Friday, Dan's pun gets one delighted giggle from the fuse box.*",
+                "Wyatt: Said no to the toaster today, love. It was about toast. Big day.",
+                "*At night the lights go out on purpose, every time.*"
+            ],
+            "choices": [
+                { "text": "Look around the table.", "if": "lukey.ending_romance_success + malcolm.ending_romance_success + tyler.ending_romance_success + wyatt.ending_romance_success >= 2", "goto": "full_house" },
+                { "text": "Turn out the light.", "if": "lukey.ending_romance_success + malcolm.ending_romance_success + tyler.ending_romance_success + wyatt.ending_romance_success == 1", "goto": "close_one" }
+            ]
+        },
+        "w_rs_moved": {
+            "lines": [
+                "*Wyatt comes too, in the wiring. He takes one look at your new fuse box and goes very quiet.*",
+                "Wyatt: Who wired this? ...Was it a Gary? It feels like a Gary.",
+                "*He rewires the whole place properly in a weekend, asking permission for every single socket. Then, around socket thirty, he stops asking. You've never been prouder.*"
+            ],
+            "choices": [
+                { "text": "Look around the table.", "if": "lukey.ending_romance_success + malcolm.ending_romance_success + tyler.ending_romance_success + wyatt.ending_romance_success >= 2", "goto": "full_house" },
+                { "text": "Turn out the light.", "if": "lukey.ending_romance_success + malcolm.ending_romance_success + tyler.ending_romance_success + wyatt.ending_romance_success == 1", "goto": "close_one" }
+            ]
+        },
+        "w_rf": {
+            "lines": [
+                "*Wherever you live, the porch light flickers twice when you come home. Then it holds steady, like it's being brave about it.*",
+                "*Nobody's fixing that.*"
+            ],
+            "choices": [
+                { "text": "Look around the table.", "if": "lukey.ending_romance_success + malcolm.ending_romance_success + tyler.ending_romance_success + wyatt.ending_romance_success >= 2", "goto": "full_house" },
+                { "text": "Turn out the light.", "if": "lukey.ending_romance_success + malcolm.ending_romance_success + tyler.ending_romance_success + wyatt.ending_romance_success == 1", "goto": "close_one" },
+                { "text": "Turn out the light.", "if": "lukey.ending_romance_success + malcolm.ending_romance_success + tyler.ending_romance_success + wyatt.ending_romance_success == 0", "goto": "close_none" }
+            ]
+        },
+        "w_fs": {
+            "lines": [
+                "*Somewhere south of Sydney, a chicken shop has a very good day for no reason anyone can explain.*",
+                "*And every light you switch off goes out clean and steady, the way a light goes when someone switches it off properly.*"
+            ],
+            "choices": [
+                { "text": "Look around the table.", "if": "lukey.ending_romance_success + malcolm.ending_romance_success + tyler.ending_romance_success + wyatt.ending_romance_success >= 2", "goto": "full_house" },
+                { "text": "Turn out the light.", "if": "lukey.ending_romance_success + malcolm.ending_romance_success + tyler.ending_romance_success + wyatt.ending_romance_success == 1", "goto": "close_one" },
+                { "text": "Turn out the light.", "if": "lukey.ending_romance_success + malcolm.ending_romance_success + tyler.ending_romance_success + wyatt.ending_romance_success == 0", "goto": "close_none" }
+            ]
+        },
+        "w_ff": {
+            "lines": [
+                "*You kept his note. It's on your fridge: NO WORRIES. (SOME WORRIES.) -W*",
+                "*You ask people what they think now. First, not when the house is on fire. He'd have liked that.*"
+            ],
+            "choices": [
+                { "text": "Look around the table.", "if": "lukey.ending_romance_success + malcolm.ending_romance_success + tyler.ending_romance_success + wyatt.ending_romance_success >= 2", "goto": "full_house" },
+                { "text": "Turn out the light.", "if": "lukey.ending_romance_success + malcolm.ending_romance_success + tyler.ending_romance_success + wyatt.ending_romance_success == 1", "goto": "close_one" },
+                { "text": "Turn out the light.", "if": "lukey.ending_romance_success + malcolm.ending_romance_success + tyler.ending_romance_success + wyatt.ending_romance_success == 0", "goto": "close_none" }
+            ]
+        },
+
+        "full_house": {
+            "lines": [
+                "*Sunday dinner is a lot now.*",
+                "*Nobody in this household is exclusive, and nobody can agree on the seating plan.*"
+            ],
+            "choices": [
+                { "text": "Lukey?", "if": "lukey.ending_romance_success", "goto": "fh_lukey" },
+                { "text": "Malcolm?", "if": "!lukey.ending_romance_success && malcolm.ending_romance_success", "goto": "fh_malcolm" },
+                { "text": "Tyler?", "if": "!lukey.ending_romance_success && !malcolm.ending_romance_success && tyler.ending_romance_success", "goto": "fh_tyler" },
+                { "text": "Wyatt?", "if": "!lukey.ending_romance_success && !malcolm.ending_romance_success && !tyler.ending_romance_success && wyatt.ending_romance_success", "goto": "fh_wyatt" }
+            ]
+        },
+        "fh_lukey": {
+            "lines": [
+                "*Lukey drapes himself across the head of the table, slightly damp, entirely smug.*",
+                "Lukey: Look. It's a free market. Rival franchises. Everybody's welcome. ...But I'm your favorite. Don't answer that."
+            ],
+            "choices": [
+                { "text": "Malcolm?", "if": "malcolm.ending_romance_success", "goto": "fh_malcolm" },
+                { "text": "Tyler?", "if": "!malcolm.ending_romance_success && tyler.ending_romance_success", "goto": "fh_tyler" },
+                { "text": "Wyatt?", "if": "!malcolm.ending_romance_success && !tyler.ending_romance_success && wyatt.ending_romance_success", "goto": "fh_wyatt" }
+            ]
+        },
+        "fh_malcolm": {
+            "lines": [
+                "*Malcolm's terrarium has the best seat, on a cake stand. He is beside himself with joy.*",
+                "Malcolm: A whole table of consorts. Nine billion of me, and still room for more. I've written each of them a poem. They're all called 'Also.' I mean that warmly."
+            ],
+            "choices": [
+                { "text": "Tyler?", "if": "tyler.ending_romance_success", "goto": "fh_tyler" },
+                { "text": "Wyatt?", "if": "!tyler.ending_romance_success && wyatt.ending_romance_success", "goto": "fh_wyatt" },
+                { "text": "Pass the potatoes.", "if": "!tyler.ending_romance_success && !wyatt.ending_romance_success", "goto": "fh_end" }
+            ]
+        },
+        "fh_tyler": {
+            "lines": [
+                "*Tyler sits bolt upright with a little notebook beside his plate.*",
+                "Tyler: I'm not jealous. I'm keeping a LEDGER. You said goodnight to me SECOND yesterday, {player}. Noted. Filed. ...Pass the salt. That's an order. Please."
+            ],
+            "choices": [
+                { "text": "Wyatt?", "if": "wyatt.ending_romance_success", "goto": "fh_wyatt" },
+                { "text": "Pass the potatoes.", "if": "!wyatt.ending_romance_success", "goto": "fh_end" }
+            ]
+        },
+        "fh_wyatt": {
+            "lines": [
+                "*Wyatt catches your eye across the table. The lamp above him holds perfectly steady.*",
+                "Wyatt: I'm good. Actually good. You can check the lamp."
+            ],
+            "goto": "fh_end"
+        },
+        "fh_end": {
+            "lines": [
+                "*Dan comes to Sunday dinner too. He can't see half the people at the table, so he assumes you just set a lot of places. He's far too polite to ask.*",
+                "*He brings butter.*"
+            ],
+            "goto": "the_end"
+        },
+        "close_one": {
+            "lines": [
+                "*It's the two of you now. Well. The two of you, and Dennis, and whatever the neighbors think is going on.*",
+                "*Mrs. Pruitt waves from her porch every night. You wave back. One of you is going to explain this eventually.*"
+            ],
+            "goto": "the_end"
+        },
+        "close_none": {
+            "lines": [
+                "*Nobody waits up for you anymore. But every so often a tap drips, or a light flickers, or a cat turns up with a sonnet, and you smile.*"
+            ],
+            "goto": "the_end"
+        },
+        "the_end": {
+            "lines": [
+                "*You fixed a house. And four very stubborn men. (Three men and a fungus. Malcolm insists on the distinction. Then he insists he's a man. It changes daily.)*",
+                "*Every one of them was a pain. You'd do it all again.*"
+            ],
+            "end": true
+        },
+
+        "fail_hearing": {
+            "lines": [
+                "*Day 30. City Hall. The hearing takes four minutes. Dan stands up, looks at his shoes and quietly recommends demolition.*",
+                "*In the back row, Mrs. Pruitt fires a crossbow bolt into the ceiling. In protest, this time.*",
+                "*The night before the bulldozers come, you walk through the house one last time.*"
+            ],
+            "choices": [
+                { "text": "The kitchen.", "if": "!lukey.fixed", "goto": "fl_unfixed" },
+                { "text": "The kitchen.", "if": "lukey.ending_romance_success", "goto": "fl_rs" },
+                { "text": "The kitchen.", "if": "lukey.fixed && !lukey.ending_romance_success", "goto": "fl_gone" }
+            ]
+        },
+        "fl_unfixed": {
+            "lines": [
+                "*The tap drips. Drip. Drip. You almost hear a sigh in it.*",
+                "*On demolition day, a damp patch appears on the front wall, shaped exactly like a frowning face. The bulldozer driver says it's the saddest wall he's ever seen.*",
+                "*You should have finished the job.*"
+            ],
+            "choices": [
+                { "text": "The bedroom closet.", "if": "!malcolm.fixed", "goto": "fm_unfixed" },
+                { "text": "The bedroom closet.", "if": "malcolm.ending_romance_success", "goto": "fm_rs" },
+                { "text": "The bedroom closet.", "if": "malcolm.fixed && !malcolm.ending_romance_success", "goto": "fm_gone" }
+            ]
+        },
+        "fl_rs": {
+            "lines": [
+                "*Lukey agrees to go quietly on one condition: you take the sink.*",
+                "*You take the sink. It sits in the corner of your new kitchen, connected to nothing. He naps in it like a cat.*",
+                "Lukey: Thirty-nine years in that house, sweetheart. Well. Twenty minutes and thirty-nine years. I'm still counting it."
+            ],
+            "choices": [
+                { "text": "The bedroom closet.", "if": "!malcolm.fixed", "goto": "fm_unfixed" },
+                { "text": "The bedroom closet.", "if": "malcolm.ending_romance_success", "goto": "fm_rs" },
+                { "text": "The bedroom closet.", "if": "malcolm.fixed && !malcolm.ending_romance_success", "goto": "fm_gone" }
+            ]
+        },
+        "fl_gone": {
+            "lines": [
+                "*The kitchen is dry. Not a drop. Somewhere, a man in Lycra is being absolutely insufferable about it.*",
+                "*You leave the flashlight on the counter. For old times' sake.*"
+            ],
+            "choices": [
+                { "text": "The bedroom closet.", "if": "!malcolm.fixed", "goto": "fm_unfixed" },
+                { "text": "The bedroom closet.", "if": "malcolm.ending_romance_success", "goto": "fm_rs" },
+                { "text": "The bedroom closet.", "if": "malcolm.fixed && !malcolm.ending_romance_success", "goto": "fm_gone" }
+            ]
+        },
+
+        "fm_unfixed": {
+            "lines": [
+                "*The closet wall is still velvet black. In the dark, something clears its throat and recites a very long poem about bulldozers.*",
+                "*On demolition day, the closet is the last thing standing. The crew finds 'ODE TO THE WRECKING BALL' written across the back wall in spores. Nobody can bring themselves to read the whole thing. It's forty pages.*"
+            ],
+            "choices": [
+                { "text": "The bathroom.", "if": "!tyler.fixed", "goto": "ft_unfixed" },
+                { "text": "The bathroom.", "if": "tyler.ending_romance_success", "goto": "ft_rs" },
+                { "text": "The bathroom.", "if": "tyler.fixed && !tyler.ending_romance_success", "goto": "ft_gone" }
+            ]
+        },
+        "fm_rs": {
+            "lines": [
+                "*Malcolm's terrarium rides in the passenger seat, seatbelt on, narrating the demolition like a Greek chorus.*",
+                "Malcolm: Behold, the fall of the House of Heartbreak. Isn't it GORGEOUS? Everything ends, my dear. Except us. Drive slowly."
+            ],
+            "choices": [
+                { "text": "The bathroom.", "if": "!tyler.fixed", "goto": "ft_unfixed" },
+                { "text": "The bathroom.", "if": "tyler.ending_romance_success", "goto": "ft_rs" },
+                { "text": "The bathroom.", "if": "tyler.fixed && !tyler.ending_romance_success", "goto": "ft_gone" }
+            ]
+        },
+        "fm_gone": {
+            "lines": [
+                "*The closet is clean, dry and empty. At least that room was fixed for real.*",
+                "*Wherever Malcolm is now, he sends a poem about the demolition. It's called 'Told You So.' It's forty pages. Thirty-nine of them are dramatic pauses.*"
+            ],
+            "choices": [
+                { "text": "The bathroom.", "if": "!tyler.fixed", "goto": "ft_unfixed" },
+                { "text": "The bathroom.", "if": "tyler.ending_romance_success", "goto": "ft_rs" },
+                { "text": "The bathroom.", "if": "tyler.fixed && !tyler.ending_romance_success", "goto": "ft_gone" }
+            ]
+        },
+
+        "ft_unfixed": {
+            "lines": [
+                "*The cracked pink tile by the tub catches the moonlight. The bathroom is very quiet, and very pink, and somehow standing at attention.*",
+                "*On demolition day, the foreman stops in the doorway and salutes it. He can't explain why. Then the wall comes down.*",
+                "*You keep one cracked tile in your coat pocket. It's pinker than you remember.*"
+            ],
+            "choices": [
+                { "text": "The living room.", "if": "!wyatt.fixed", "goto": "fw_unfixed" },
+                { "text": "The living room.", "if": "wyatt.ending_romance_success", "goto": "fw_rs" },
+                { "text": "The living room.", "if": "wyatt.fixed && !wyatt.ending_romance_success", "goto": "fw_gone" }
+            ]
+        },
+        "ft_rs": {
+            "lines": [
+                "*Before the bulldozers come, you ease out the tile with the gold seam. Tyler supervises.*",
+                "Tyler: Gently. GENTLY. That's an order. ...You're telling me no, aren't you. About the bubble wrap.",
+                "*He lives above your new sink now, in a very white bathroom, giving orders. You say no. He's thrilled.*"
+            ],
+            "choices": [
+                { "text": "The living room.", "if": "!wyatt.fixed", "goto": "fw_unfixed" },
+                { "text": "The living room.", "if": "wyatt.ending_romance_success", "goto": "fw_rs" },
+                { "text": "The living room.", "if": "wyatt.fixed && !wyatt.ending_romance_success", "goto": "fw_gone" }
+            ]
+        },
+        "ft_gone": {
+            "lines": [
+                "*The pink tile was perfect when it went: restored, regrouted, sealed. The foreman calls it a crying shame.*",
+                "*You salute it on your way out. It's the least you can do.*"
+            ],
+            "choices": [
+                { "text": "The living room.", "if": "!wyatt.fixed", "goto": "fw_unfixed" },
+                { "text": "The living room.", "if": "wyatt.ending_romance_success", "goto": "fw_rs" },
+                { "text": "The living room.", "if": "wyatt.fixed && !wyatt.ending_romance_success", "goto": "fw_gone" }
+            ]
+        },
+
+        "fw_unfixed": {
+            "lines": [
+                "*The city cuts the power the morning of the demolition. Every light in number twelve stays on anyway, very politely, all morning.*",
+                "*Then, one by one, they go out, like somebody saying sorry. The last one is the porch light. It flickers twice at Mrs. Pruitt first.*"
+            ],
+            "goto": "fail_end"
+        },
+        "fw_rs": {
+            "lines": [
+                "*Wyatt comes with you, in the wiring of your new place. He checks every socket before you've unpacked a single box.*",
+                "Wyatt: Sorry the house didn't make it, love. ...No. Not sorry. Sad. Different thing. I'm learning."
+            ],
+            "goto": "fail_end"
+        },
+        "fw_gone": {
+            "lines": [
+                "*The wiring was perfect. The demolition foreman checks it and whistles: 'Whoever did this did it properly.'*",
+                "*The porch light flickers twice, though nobody's switched it on.*"
+            ],
+            "goto": "fail_end"
+        },
+        "fail_end": {
+            "lines": [
+                "*The lot becomes a little park. Dan cuts the ribbon and makes a pun about 'breaking ground.' Mrs. Pruitt's nine cats move in immediately.*",
+                "*There's a drinking fountain by the gate. It drips. Sometimes, if you stand very close, it hums Bon Jovi. Nobody tries very hard to fix it.*",
+                "*It's a nice park. It's not a home. You think about all of them every time you walk past.*"
             ],
             "end": true
         }

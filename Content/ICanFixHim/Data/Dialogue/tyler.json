@@ -1,9 +1,10 @@
 {
     "id": "tyler",
+    "kind": "hunk",
     "name": "Tyler",
     "malady": "Pink Tile",
     "room": "bathroom",
-    "tagline": "Installed in 1957. Never once apologized.",
+    "tagline": "Heir. Flipper. Rose quartz. Currently, and against his express wishes, the bathroom.",
     "look": {
         "mesh": "/Game/ICanFixHim/Characters/PinkTile/SK_PinkTile",
         "idle": "/Game/ICanFixHim/Characters/PinkTile/A_PinkTile_Idle",
@@ -20,319 +21,1157 @@
             { "shape": "cube", "socket": "spine_05", "loc": [14, 0, 140], "scale": [3, 8, 8], "color": "#C2185B" }
         ]
     },
+    "notes": "Stats run 0-20 (clamped). Ending thresholds mirror Lukey: stay = romance >= 16 && friction < 8; let him go (loved) = romance >= 16; friends = friendship >= 14 && friction < 8; 'That's your call' gives friends if friction < 8, grumpy if friction >= 8. He says 'ma'am' until Act 4 and uses your real name there if romance >= 12. Jealousy openers read lukey/malcolm/wyatt.talkedtoday (who you visited before him today) and lukey/malcolm.romance (>= 6 in Act 2, >= 10 in Act 3). Sets flag.tyler_no (each time she tells him no), flag.tyler_hal (v2_home) and flag.tyler_video (v3_reveal). Reads flag.lukey_blackout, flag.lukey_human, flag.malcolm_diary, flag.wyatt_spoke_up and lukey.romance as optional flavour.",
     "entries": [
         { "if": "fixed && ending_romance_success", "node": "after_rs" },
         { "if": "fixed && ending_romance_failure", "node": "after_rf" },
         { "if": "fixed && ending_friend_success", "node": "after_fs" },
         { "if": "fixed", "node": "after_ff" },
+        { "if": "talkedtoday && (lukey.talkedtoday || malcolm.talkedtoday)", "node": "today_rival", "counts": false },
         { "if": "talkedtoday", "node": "today", "counts": false },
+        { "if": "visits == 0 && lukey.talkedtoday && malcolm.talkedtoday && wyatt.talkedtoday", "node": "v1_last" },
+        { "if": "visits == 0 && lukey.talkedtoday", "node": "v1_kitchen" },
+        { "if": "visits == 0 && malcolm.talkedtoday", "node": "v1_closet" },
+        { "if": "visits == 0 && wyatt.talkedtoday", "node": "v1_wyatt" },
         { "if": "visits == 0", "node": "v1" },
+        { "if": "visits == 1 && ((lukey.talkedtoday && lukey.romance >= 6) || (malcolm.talkedtoday && malcolm.romance >= 6))", "node": "v2_rival" },
+        { "if": "visits == 1 && friction >= 3", "node": "v2_cb_grudge" },
+        { "if": "visits == 1 && flag.tyler_no", "node": "v2_cb_no" },
         { "if": "visits == 1", "node": "v2" },
+        { "if": "visits == 2 && (lukey.talkedtoday || malcolm.talkedtoday) && (lukey.romance >= 10 || malcolm.romance >= 10)", "node": "v3_jealous" },
+        { "if": "visits == 2 && flag.lukey_blackout", "node": "v3_cb_blackout" },
         { "if": "visits == 2", "node": "v3" },
+        { "if": "romance >= 12", "node": "v4_name" },
         { "if": "true", "node": "v4" }
     ],
     "endings": {
         "romance_success": {
             "title": "Tile Death Do Us Part",
-            "text": "Tyler is restored, regrouted and hopelessly devoted. He has agreed to let you add one (1) plant to the bathroom. He named it Mamie. Your bathroom is the pinkest, happiest room in the house."
+            "text": "Tyler stayed. The tile is restored, regrouted and sealed, one cracked square mended with a seam of gold, and he is unbearably proud of it. He still gives orders. You still say no. He has never been happier. Dennis has been promoted to sergeant."
         },
         "romance_failure": {
-            "title": "Grout of Here",
-            "text": "Tyler left for a mid-century modern museum, where he is now a featured exhibit. The plaque calls him 'bold.' He calls you 'that woman.'"
+            "title": "Tile We Meet Again",
+            "text": "Told no and loved anyway, Tyler finally finished his business. He kissed you, saluted, and was gone. The cracked tile by the tub has a seam of gold in it now. When the morning light hits it, it looks a lot like rose quartz."
         },
         "friend_success": {
-            "title": "Pink for Everybody",
-            "text": "Tyler is your loudest, proudest friend. He now hosts a monthly 'Everybody Pink' brunch in the bathroom. Even Malcolm came once. He wore a pink scarf. Ironically. Probably."
+            "title": "Grout Expectations",
+            "text": "Tyler left a better man than he arrived: restored, regrouted and saluted back at last. He passed on at attention. Dennis hums a little march now. The vanity light stayed on for a week, at exactly the angle Tyler liked."
         },
         "friend_failure": {
-            "title": "Retiled",
-            "text": "Tyler refused to speak to you ever again. Your bathroom is matte white subway tile now. It's very tasteful. It feels like a hospital. Sometimes you miss the pink."
+            "title": "Grout of Here",
+            "text": "You kept the tile. Tyler did NOT get his way, and he left furious, deeply moved and refusing to admit either. One tile on the bottom row is very slightly crooked. He did that. Out of spite. It's the best tile in the house."
         }
     },
     "nodes": {
+
         "v1": {
             "lines": [
-                "*The pink tiles shimmer. A man in a salmon blazer, a pink sweater vest and a truly confident mustache steps out of the wall, adjusting his cufflinks.*",
-                "Ah. Finally. A visitor with taste. Or at least a visitor. Let's start there.",
-                "Tyler. Pink [Tile|tile]. Installed 1957, and frankly, never been better.",
-                "Now, I don't want to alarm you, but someone has been calling me 'dated.' Was it you? It was you, wasn't it."
+                "*The bathroom is pink. Not a little pink. Floor-to-ceiling, 1957, glazed-ceramic PINK. One tile by the tub has a hairline crack.*",
+                "*The tile shimmers, and a young man steps out of the wall: navy blazer, crest on the pocket, loafers like mirrors and immaculate pink hair. He holds a cracked phone like a sidearm.*",
+                "Ma'am. Thank God. A professional.",
+                "Tyler Whitmore. Of the [Whitmores|whitmore]. You'll have seen the towers. Our name's on them. In gold."
             ],
-            "topics": { "tile": "v1_tile" },
+            "topics": { "whitmore": { "goto": "v1_a_whitmore", "aside": true, "do": { "friendship": 1 } } },
+            "goto": "v1_main"
+        },
+        "v1_kitchen": {
+            "lines": [
+                "*The bathroom is floor-to-ceiling 1957 PINK. One tile by the tub has a hairline crack.*",
+                "*A young man with immaculate pink hair and a navy blazer steps out of the tile, checks a watch he isn't wearing and looks at you like you're late.*",
+                "You're late, ma'am. You went to the KITCHEN first. To see the LEAK. Before me.",
+                "I'm not upset. I'm documenting it.",
+                "Tyler Whitmore. Of the [Whitmores|whitmore]. Our name is on towers, in gold. His name is on a damp patch."
+            ],
+            "topics": { "whitmore": { "goto": "v1_a_whitmore", "aside": true, "do": { "friendship": 1 } } },
+            "goto": "v1_main"
+        },
+        "v1_closet": {
+            "lines": [
+                "*The bathroom is floor-to-ceiling 1957 PINK. One tile by the tub has a hairline crack.*",
+                "*A young man with immaculate pink hair and a navy blazer steps out of the tile. He sniffs. He recoils.*",
+                "You've been in the bedroom closet. With the THING. You smell like a library that gave up.",
+                "You met the mold before me. Noted. Filed under 'Grievances.' It's mostly him.",
+                "Tyler Whitmore. Of the [Whitmores|whitmore]. We have towers. He has a diary."
+            ],
+            "topics": { "whitmore": { "goto": "v1_a_whitmore", "aside": true, "do": { "friendship": 1 } } },
+            "goto": "v1_main"
+        },
+        "v1_wyatt": {
+            "lines": [
+                "*The bathroom is floor-to-ceiling 1957 PINK. One tile by the tub has a hairline crack.*",
+                "*A young man with immaculate pink hair and a navy blazer steps out of the tile and nods at you, crisply.*",
+                "Ma'am. You've met Wyatt. Good. He's my man. Sound lad. Australian. I told him to carry your bags up. He can't carry bags. He's very sorry about it.",
+                "Tyler Whitmore. Of the [Whitmores|whitmore]. You'll have seen the towers."
+            ],
+            "topics": { "whitmore": { "goto": "v1_a_whitmore", "aside": true, "do": { "friendship": 1 } } },
+            "goto": "v1_main"
+        },
+        "v1_last": {
+            "lines": [
+                "*The bathroom is floor-to-ceiling 1957 PINK. One tile by the tub has a hairline crack.*",
+                "*A young man with immaculate pink hair and a navy blazer steps out of the tile, arms folded.*",
+                "Fourth. FOURTH. The leak, the mold AND my own orderly before me. I'm the gift shop.",
+                "Whitmores are never last. We came second in a regatta once and Father bought the other boat.",
+                "Tyler Whitmore. Of the [Whitmores|whitmore]. Should've come here first."
+            ],
+            "topics": { "whitmore": { "goto": "v1_a_whitmore", "aside": true, "do": { "friendship": 1 } } },
+            "goto": "v1_main"
+        },
+        "v1_a_whitmore": {
+            "lines": [
+                "You: Whitmore like Whitmore Tower? Downtown?",
+                "Whitmore Tower. Whitmore Plaza. Whitmore Grand. Whitmore Parking Structure B. I was raised by nannies, an etiquette coach and Fort Bellamy Military Academy.",
+                "It's a lot of gold lettering for one man. I've coped."
+            ],
+            "return": true
+        },
+        "v1_main": {
+            "lines": [
+                "And you've bought this house to flip it. Outstanding. I've already drawn up the plan. I drew it up a while ago, before my... [reassignment].",
+                "Look at this. LOOK at it. Pepto-Bismol. Floor to ceiling. It's like standing inside a flamingo's mouth.",
+                "Rip it out. White. [Subway]. Basic. SELL."
+            ],
+            "topics": {
+                "reassignment": { "goto": "v1_a_reassign", "aside": true },
+                "subway": { "goto": "v1_a_subway", "aside": true, "do": { "romance": 1 } }
+            },
             "choices": [
-                { "text": "Your mustache is... a lot. I like it.", "goto": "v1_flirt", "do": { "romance": 2 } },
-                { "text": "It's a LOT of pink, Tyler.", "goto": "v1_pink", "do": { "friendship": 1 } },
-                { "text": "It was me. You're hideous.", "goto": "v1_rude", "do": { "friction": 2 } }
+                { "text": "Finally. Someone who speaks flipper.", "goto": "v1_ally", "do": { "romance": 2 } },
+                { "text": "Bold words from a man with pink hair.", "goto": "v1_hair", "do": { "romance": 1, "friendship": 1 } },
+                { "text": "Actually... I think it's kind of charming.", "goto": "v1_charming", "do": { "friendship": 1, "friction": 1, "flag.tyler_no": 1 } }
             ]
         },
-        "v1_tile": {
+        "v1_a_reassign": {
             "lines": [
-                "Glazed ceramic. Four and a quarter inches square. 'Flamingo Dream,' by American Olean.",
-                "They don't make a tile like me anymore. Mainly because of the lead. But STILL."
+                "You: Reassignment?",
+                "Temporary posting. Long story. Classified. Next question.",
+                "*He rubs the back of his head, like an old polo injury.*"
             ],
-            "do": { "friendship": 1 },
-            "goto": "v1_menu"
+            "return": true
         },
-        "v1_menu": {
-            "lines": [ "Well? I'm waiting. I've been waiting since the Eisenhower administration. I'm very good at it." ],
+        "v1_a_subway": {
+            "lines": [
+                "You: You really love subway tile, huh?",
+                "Love? Ma'am, love is for spaniels. Subway tile is about RESALE. It's white, it's cheap, and nobody in history has ever had a feeling about it. That's the dream."
+            ],
+            "return": true
+        },
+        "v1_ally": {
+            "lines": [
+                "*He looks at you as if you've just been promoted.*",
+                "At last. A woman who understands the market. Everyone else in this house is SENTIMENTAL.",
+                "We'll make a fine team, ma'am. I'll give the orders. You'll give... smaller orders."
+            ],
+            "goto": "v1_numbers"
+        },
+        "v1_hair": {
+            "lines": [
+                "This? This is ROSE QUARTZ. Hand-mixed by a colorist in Manhattan. She's booked for two years. She cried when I left.",
+                "*He points at the wall with deep disgust.*",
+                "THAT is Pepto-Bismol. We are not the same pink.",
+                "*He checks his reflection in the tile. For a second he forgets he hates it.*"
+            ],
+            "goto": "v1_numbers"
+        },
+        "v1_charming": {
+            "lines": [
+                "Charming.",
+                "*Somewhere behind him, a tile clicks.*",
+                "Ma'am, I was trained to receive bad news. Nobody trained me to receive bad TASTE.",
+                "...Nobody's disagreed with me in a bathroom before. Noted. Logged."
+            ],
+            "goto": "v1_numbers"
+        },
+        "v1_numbers": {
+            "lines": [
+                "Now. Numbers. My usual flip: two weeks, Swiss Coffee white on every wall, list it on a Thursday, sold by Sunday. Never learn the street name.",
+                "Never fall in love with a property, ma'am. First thing my father ever taught me. Second thing was how to fire a nanny."
+            ],
             "choices": [
-                { "text": "Your mustache is... a lot. I like it.", "goto": "v1_flirt", "do": { "romance": 2 } },
-                { "text": "It's a LOT of pink, Tyler.", "goto": "v1_pink", "do": { "friendship": 1 } },
-                { "text": "It was me. You're hideous.", "goto": "v1_rude", "do": { "friction": 2 } }
+                { "text": "Honestly? That's the dream.", "goto": "v1_dream", "do": { "romance": 1, "friendship": 1 } },
+                { "text": "Your father taught you to fire a NANNY?", "goto": "v1_nanny", "do": { "friendship": 2 } },
+                { "text": "Never fall in love with a property. What about the people in it?", "goto": "v1_people", "do": { "romance": 2 } }
             ]
         },
-        "v1_pink": {
+        "v1_dream": {
             "lines": [
-                "A lot of pink? A LOT of pink? Are you aware that pink was considered a MASCULINE color until the 1940s?",
-                "Pink is diluted red! The color of war! Of blood! Of really bold salmon!",
-                "Blue was for girls. Dainty. Delicate. I'm a historian. I have read a placard."
+                "*He beams.*",
+                "A kindred spreadsheet. I knew it the moment you walked in. You have the eyes of a woman who's priced a countertop."
             ],
+            "goto": "v1_who"
+        },
+        "v1_nanny": {
+            "lines": [
+                "Eleven of them. Consecutively. They'd say no to me, and then they'd be gone. My coach was paid not to say it. The academy didn't dare; Father built them a gymnasium.",
+                "So I've never been told no, ma'am. Not and had it stick.",
+                "*He says it like a boast. It doesn't quite come out like one.*"
+            ],
+            "goto": "v1_who"
+        },
+        "v1_people": {
+            "lines": [
+                "*He opens his mouth. Nothing comes out.*",
+                "The people in it are... also not to be fallen in love with. Generally. As a rule.",
+                "I'll need to check the rulebook. I'll get back to you. Don't look at me like that."
+            ],
+            "goto": "v1_who"
+        },
+        "v1_who": {
+            "lines": [
+                "Intelligence briefing. This house has other occupants.",
+                "The kitchen has a damp man in Lycra who insists he IS the plumbing. He says I lasted one day here. Slander. I lasted until [lunch]. Nearly.",
+                "The bedroom closet has a mold with a vocabulary. He called me 'a man made of grout and contempt.' I'm made of CASHMERE and contempt.",
+                "And the living room has Wyatt. My man. Fetches, wires, apologizes. The only one here who can take an order."
+            ],
+            "topics": { "lunch": { "goto": "v1_a_lunch", "aside": true } },
             "choices": [
-                { "text": "Huh. I actually didn't know that.", "goto": "v1_learned", "do": { "friendship": 2 } },
-                { "text": "Colors don't have genders, Tyler.", "goto": "v1_genders", "do": { "friendship": 1, "friction": 1 } }
+                { "text": "And what are YOU, exactly?", "goto": "v1_what", "do": { "friendship": 2 } },
+                { "text": "Sounds like you need a woman who gives the orders.", "goto": "v1_orders", "do": { "romance": 2 } },
+                { "text": "Wyatt's not your servant, Tyler.", "goto": "v1_servant", "do": { "friendship": 1, "friction": 1 } }
             ]
         },
-        "v1_learned": {
+        "v1_a_lunch": {
             "lines": [
-                "*He puffs up like a satisfied pigeon.*",
-                "Of course you didn't. Nobody reads placards anymore. Stick with me, I'll teach you everything. Mostly about grout."
+                "You: What happened at lunch?",
+                "Nothing happened at lunch. Lunch didn't HAPPEN. That's my whole point. Next question."
+            ],
+            "return": true
+        },
+        "v1_what": {
+            "lines": [
+                "Me? I'm handling the property. Temporarily attached to it. Between engagements.",
+                "*You rest your hand on the cracked tile by the tub. Tyler flinches and touches his cheek.*",
+                "Don't— that's— carry on. Cold hands. On the tile. Which I felt. Sympathetically. For the tile."
+            ],
+            "goto": "v1_dennis"
+        },
+        "v1_orders": {
+            "lines": [
+                "*He opens his mouth to argue. He closes it again.*",
+                "That's... nobody has ever... I'll need a moment.",
+                "*He walks to the window very carefully, the way people walk on a wet floor, and stands with his hands clasped behind his back.*",
+                "...Carry on."
+            ],
+            "goto": "v1_dennis"
+        },
+        "v1_servant": {
+            "lines": [
+                "Servant? Ma'am, he's my BATMAN. An officer's orderly. It's an honor. I've put him in for a medal.",
+                "He just has to wait for the medal to exist. And for me to find a pen."
+            ],
+            "goto": "v1_dennis"
+        },
+        "v1_dennis": {
+            "lines": [
+                "*Out in the hall, the dehumidifier hums. Its little green light blinks on, exactly on the hour.*",
+                "*Tyler snaps to attention.*",
+                "Now THAT is a soldier. Dennis. Up at oh-five-hundred, empties on schedule, never complains. The only one in this house with any discipline."
+            ],
+            "choices": [
+                { "text": "Did you just salute a dehumidifier?", "goto": "v1_salute", "do": { "friendship": 1 } },
+                { "text": "You're kind of adorable at attention.", "goto": "v1_adorable", "do": { "romance": 2 } },
+                { "text": "Can we get back to MY bathroom?", "goto": "v1_mybathroom", "do": { "friction": 2 } }
+            ]
+        },
+        "v1_salute": {
+            "lines": [
+                "He hums back. Which is more than I get from anyone else on this street.",
+                "Nobody here salutes back, ma'am. Not the mailman. Not the woman next door with the crossbow. It's a very rude neighborhood."
             ],
             "goto": "v1_end"
         },
-        "v1_genders": {
+        "v1_adorable": {
             "lines": [
-                "*He opens his mouth. Closes it. Opens it again.*",
-                "...That's a very modern position. I'll have to think about it. In my day we had two genders and four bathroom colors.",
-                "You: And now?",
-                "Now, apparently, there are lots of genders and everybody wants 'greige.' I don't know which upsets me more."
+                "Adorable? I'm a Whitmore. We're not adorable. We're... imposing.",
+                "*He stands up even straighter, which shouldn't be possible.*",
+                "...Imposingly adorable. If you insist."
             ],
             "goto": "v1_end"
         },
-        "v1_flirt": {
+        "v1_mybathroom": {
             "lines": [
-                "*He strokes the mustache with visible pride.*",
-                "It's called a 'Gentleman's Push-Broom.' It takes forty minutes a morning. You're welcome.",
-                "And may I say, you have the bone structure of someone who could pull off a pink bathroom. That is the highest compliment I give."
-            ],
-            "goto": "v1_end"
-        },
-        "v1_rude": {
-            "lines": [
-                "Hideous?! I'll have you know Mamie Eisenhower had this EXACT bathroom!",
-                "*He clutches his pearls. He has pearls. Of course he has pearls.*",
-                "Well. I've been insulted by better. Mostly contractors."
+                "YOUR bathroom. Of course. The deed. Yes.",
+                "*A tile clicks, sulkily.*"
             ],
             "goto": "v1_end"
         },
         "v1_end": {
-            "lines": [ "I'll let you get back to your beige little life. Do visit. I'll be here. Being iconic." ],
+            "lines": [
+                "*He offers you a hand: a firm, proper, boarding-school handshake.*",
+                "*Your hand goes straight through his. It's like dipping your fingers in cold bathwater.*",
+                "...Firm. Good. I respect a woman who commits to a handshake. That one was a me problem. Don't log it.",
+                "Watch your step on the way out, ma'am. The floor's slick.",
+                "*The floor is bone dry.*"
+            ],
             "end": true
         },
 
+        "v2_rival": {
+            "lines": [
+                "*Tyler is standing at attention by the tub. He doesn't look at you.*",
+                "Forty-one minutes, ma'am. I don't own a clock. I counted the drips. Or the sighs. Depending on which of them you were with.",
+                "I'm not jealous. Whitmores don't get jealous. We get LITIGIOUS.",
+                "*A tile clicks. Pointedly.*"
+            ],
+            "goto": "v2"
+        },
+        "v2_cb_no": {
+            "lines": [
+                "Ma'am. You called the tile 'charming' last week.",
+                "I've thought about it all week. It's the first time anyone's disagreed with me since 2011. I hated it. I've replayed it forty times."
+            ],
+            "goto": "v2"
+        },
+        "v2_cb_grudge": {
+            "lines": [
+                "Oh. It's YOU. The woman with the deed. To MY bathroom.",
+                "Temporary truce. Only because I need your crowbar."
+            ],
+            "goto": "v2"
+        },
         "v2": {
             "lines": [
-                "*Tyler is inspecting the grout lines with a jeweler's loupe.*",
-                "Oh, it's you. Come. Look at this grout. Sixty-seven years and not a single crack.",
-                "That's called craftsmanship, sweetheart. That's called being built different."
+                "*Tyler has laid out a battle plan on the bath mat. His troops are a pink soap, a pink loofah and a pink rubber duck.*",
+                "Ma'am. Today we liberate this bathroom. [Operation Clean Slate|operation]. The duck is you.",
+                "Phase one: pull a test tile. Phase two: total demolition. Phase three: white subway and a little wooden sign that says BREATHE.",
+                "*The vanity light over the mirror brightens, just slightly, whenever Tyler glances at it.*",
+                "Thank you, [Wyatt|wyattlight].",
+                "Even the mold approves. 'Tear it down, for we are all of us dust.' He also says I have 'the pallor of the [departed]'."
             ],
+            "topics": {
+                "operation": { "goto": "v2_a_duck", "aside": true },
+                "wyattlight": { "goto": "v2_a_light", "aside": true },
+                "departed": { "goto": "v2_a_pallor", "aside": true }
+            },
             "choices": [
-                { "text": "What's it like, being a tile?", "goto": "v2_life", "do": { "friendship": 1 } },
-                { "text": "You're kind of cute when you're smug.", "goto": "v2_cute", "do": { "romance": 2 } },
-                { "text": "Your grout is literally mildewing.", "goto": "v2_mildew", "do": { "friction": 1 } },
-                { "text": "Wyatt seems to like you, you know.", "if": "wyatt.met", "goto": "v2_wyatt", "do": { "friendship": 1 } }
+                { "text": "Yes, sir. Ready for orders.", "goto": "v2_yessir", "do": { "romance": 1, "friendship": 1 } },
+                { "text": "I'm in charge here, Tyler. Hand me the crowbar.", "goto": "v2_charge", "do": { "romance": 2, "friction": 1 } },
+                { "text": "Who made you general?", "goto": "v2_general", "do": { "friendship": 1, "friction": 1 } },
+                { "text": "Lukey says hi. Well, he said 'tell Pinky the penthouse says hi.'", "if": "lukey.romance >= 8", "goto": "v2_pinky", "do": { "romance": 1, "friendship": 1 } }
             ]
         },
-        "v2_life": {
+        "v2_a_duck": {
             "lines": [
-                "Lonely, at times. People come in here at their most... private. And then they leave. Nobody stays for the TILE.",
-                "Do you know how many people have cried in this bathroom? Hundreds. I comforted every one of them. Silently. By being pink.",
-                "Pink is [comforting]. It's science. They paint jail cells pink to calm the criminals!"
+                "You: Why a duck?",
+                "I can only move pink things, ma'am. It's a condition of my posting. I had to requisition the duck. It was humiliating. The duck was fine about it."
             ],
-            "topics": { "comforting": { "goto": "v2_baker", "do": { "friendship": 1 } } },
+            "return": true
+        },
+        "v2_a_light": {
+            "lines": [
+                "You: Is Wyatt doing your lighting?",
+                "Every morning, through the wiring. He says I'm 'a nightmare to light, mate.' Then he does it perfectly.",
+                "Good man. I told him so. He went very quiet and the extractor fan came on."
+            ],
+            "return": true
+        },
+        "v2_a_pallor": {
+            "lines": [
+                "You: 'The pallor of the departed'?",
+                "I'm FAIR, ma'am. I'm old money. We're all this color. It's from yachting under umbrellas."
+            ],
+            "return": true
+        },
+        "v2_yessir": {
+            "lines": [
+                "Outstanding. Someone in this house who respects the chain of command. Wyatt does, but he apologizes to the chain.",
+                "*He looks at you a beat too long.*",
+                "You'd have made a fine cadet, ma'am. Excellent posture. Excellent... crowbar grip."
+            ],
+            "goto": "v2_pull"
+        },
+        "v2_charge": {
+            "lines": [
+                "*He hands you the crowbar. He didn't mean to. His hand just did it.*",
+                "...Yes. Fine. Carry on. I'll supervise from a strategic distance.",
+                "*He's gone a shade of pink that is not, technically, rose quartz.*"
+            ],
+            "goto": "v2_pull"
+        },
+        "v2_general": {
+            "lines": [
+                "Fort Bellamy did. Youngest cadet captain in its history. At thirteen.",
+                "Father donated the gymnasium the same year. Unrelated. Entirely unrelated. Give me the duck."
+            ],
+            "goto": "v2_pull"
+        },
+        "v2_pinky": {
+            "lines": [
+                "PINKY.",
+                "He lived in my CEILING, ma'am. His 'penthouse.' He dripped on my hair for— for a long time. He looked at my grout and said 'respectfully.' It was NOT respectful.",
+                "And now he hums at you. Bon Jovi. I can hear it through the pipes. ...Does he hum at you a LOT? Don't answer that. Crowbar."
+            ],
+            "goto": "v2_pull"
+        },
+        "v2_pull": {
+            "lines": [
+                "*You wedge the crowbar under a tile by the tub and lean on it. Nothing. You lean harder. Nothing. You put your whole weight on it.*",
+                "*It pops free with a crack.*",
+                "Ow.",
+                "*Tyler is clutching his ribs.*",
+                "Sympathy pain. Military training. We feel for our equipment.",
+                "*Somewhere in the walls, a pipe gurgles. It sounds a lot like laughing.*",
+                "The LEAK can stay out of this."
+            ],
+            "choices": [
+                { "text": "Tyler. Did that HURT you?", "goto": "v2_hurt", "do": { "friendship": 2 } },
+                { "text": "You flinched. That's cute.", "goto": "v2_flinch", "do": { "romance": 2 } },
+                { "text": "Toughen up, soldier.", "goto": "v2_tough", "do": { "romance": 1, "friction": 1 } }
+            ]
+        },
+        "v2_hurt": {
+            "lines": [
+                "Hurt? Whitmores don't hurt. We file complaints.",
+                "*He rubs his side. Then, absent-mindedly, the back of his head.*",
+                "It was like having a tooth pulled by someone with lovely forearms. Look at the back of it."
+            ],
+            "goto": "v2_back"
+        },
+        "v2_flinch": {
+            "lines": [
+                "I didn't flinch. I REACTED. Tactically.",
+                "*He's still holding his ribs.*",
+                "...Cute, you said? Irrelevant. Strike it from the record. Look at the back of it."
+            ],
+            "goto": "v2_back"
+        },
+        "v2_tough": {
+            "lines": [
+                "I AM tough. Four winters at Fort Bellamy. We showered in a LAKE.",
+                "This is different. Never mind. Look at the back of it."
+            ],
+            "goto": "v2_back"
+        },
+        "v2_back": {
+            "lines": [
+                "*The back of the tile is stamped 1957. On the old mortar behind it, someone has written in careful pencil capitals:*",
+                "*'SET BY HAL FOR RUTHIE. JUNE 1957. SHE WANTED PINK. BUILT TO OUTLAST US BOTH.'*",
+                "*Tyler reads it. Then he reads it again.*",
+                "...That's not on the listing.",
+                "This is [mud-set|mudset]. An inch of mortar on wire lath. Seventy years and it hasn't moved. I once lost a whole wall of subway in eleven months. The adhesive came from a gas station."
+            ],
+            "topics": { "mudset": { "goto": "v2_a_mudset", "aside": true, "do": { "friendship": 1 } } },
+            "choices": [
+                { "text": "Hal and Ruthie. This was somebody's home.", "goto": "v2_home", "do": { "friendship": 2, "flag.tyler_hal": 1 } },
+                { "text": "It's good tile, Tyler. Better than anything you'd put up.", "goto": "v2_better", "do": { "romance": 1, "friendship": 1, "friction": 1, "flag.tyler_no": 1 } },
+                { "text": "Sentiment doesn't sell. Next tile?", "goto": "v2_sell", "do": { "friction": 2 } }
+            ]
+        },
+        "v2_a_mudset": {
+            "lines": [
+                "You: Since when do you know what mud-set means?",
+                "Since... lately. I just KNOW it. The way you know your own handwriting.",
+                "*He looks a little unsettled by that.*"
+            ],
+            "return": true
+        },
+        "v2_home": {
+            "lines": [
+                "Somebody's home. Yes. Every house is somebody's home. That's the whole problem with houses.",
+                "*He touches the pencil letters, very gently.*",
+                "She wanted pink. On purpose. And he built it to last. Imagine someone building you something to last."
+            ],
+            "goto": "v2_dan"
+        },
+        "v2_better": {
+            "lines": [
+                "Better than— Whitmore Properties has won four regional awards for—",
+                "*He looks at the inch of mortar. He looks at the pencil.*",
+                "...Three. One was rescinded. Fine. It's good tile. If you tell anyone I said that, I'll deny it in writing."
+            ],
+            "goto": "v2_dan"
+        },
+        "v2_sell": {
+            "lines": [
+                "Exactly. EXACTLY. That's what I'd say. That's exactly what I'd—",
+                "*He doesn't finish. He takes the tile from your hand and sets it back in the wall, very carefully, as if it might break. It's lasted seventy years. It won't.*",
+                "Inspection's Friday. We'll... keep it on the wall. For now. Tactically."
+            ],
+            "goto": "v2_dan"
+        },
+        "v2_dan": {
+            "lines": [
+                "*Friday. Inspector Dan crouches by the tub and taps the tiles with his pen.*",
+                "*'Original 1957? Mud-set? Now THAT'S what I call a long-tile relationship.' He laughs alone for some time.*",
+                "*Tyler snaps to attention and salutes him. Dan doesn't salute back. Dan doesn't even look up.*",
+                "*'Rip it out, I need to see the substrate. Keep it, regrout and seal it. Either way, she's a grout-standing specimen.' He leaves, thrilled with himself.*"
+            ],
+            "choices": [
+                { "text": "Dan didn't salute back, huh?", "goto": "v2_nosalute", "do": { "friendship": 2 } },
+                { "text": "His puns are worse than your tile.", "goto": "v2_puns", "do": { "romance": 1, "friendship": 1 } },
+                { "text": "Honestly? I think Dan's kind of sweet.", "goto": "v2_dansweet", "do": { "romance": 1, "friction": 1 } }
+            ]
+        },
+        "v2_nosalute": {
+            "lines": [
+                "He's busy. Clipboard men are always busy.",
+                "Nobody does, ma'am. Not Dan. Not the mailman, and I've saluted that man every day for— for quite some time.",
+                "*He frowns, as if he's lost count of something important.*"
+            ],
             "goto": "v2_end"
         },
-        "v2_baker": {
+        "v2_puns": {
             "lines": [
-                "Baker-Miller Pink. 1979. Calmed the prisoners right down. Didn't work forever, but then, what does?",
-                "You: Tyler, are you comparing my bathroom to a prison?",
-                "I'm comparing it to a SUCCESS."
+                "THANK you. 'Grout-standing.' The man is a disgrace to the windbreaker.",
+                "Although a windbreaker is technically a uniform. So I salute the jacket. Not the puns."
             ],
             "goto": "v2_end"
         },
-        "v2_cute": {
+        "v2_dansweet": {
             "lines": [
-                "Smug? I'm CONFIDENT. There's a difference. Smugness is just confidence that has been right more often.",
-                "*He's blushing. It's hard to tell, with all the pink, but he is.*",
-                "...Cute, you said?"
+                "SWEET? He's wearing a windbreaker in a BATHROOM, ma'am.",
+                "...Is that what you like? Windbreakers? I could get a windbreaker.",
+                "*He pauses.*",
+                "I couldn't, actually. Long story. Very short shopping trip."
             ],
-            "goto": "v2_end"
-        },
-        "v2_mildew": {
-            "lines": [
-                "That is NOT mine. That's the goth in the bedroom. He creeps under the wall at night like a sad little raccoon.",
-                "Mildew is not a design choice. It's a cry for help. Unlike pink, which is a cry for JOY."
-            ],
-            "goto": "v2_end"
-        },
-        "v2_wyatt": {
-            "lines": [
-                "The sparky one? The fuse box boy with hair like a startled cat?",
-                "His wiring is tragically pre-war. Knob-and-tube. Practically a hazard to look at.",
-                "...Did he say something about me? Not that I care. Did he?"
-            ],
-            "do": { "flag.tyler_curious": 1 },
             "goto": "v2_end"
         },
         "v2_end": {
-            "lines": [ "Now, if you'll excuse me, I need to buff myself. A tile's work is never done." ],
+            "lines": [
+                "*That night you do the numbers on the edge of the tub. Tyler reads over your shoulder and approves of every one.*",
+                "Gut it Monday, tile Tuesday, list it Thursday. That's how I did my last flip. I came in to film the before.",
+                "*He trails off, looking at the pencil writing on the wall.*",
+                "That's all I remember. The before. I never got to the after.",
+                "You're very good at this, ma'am. You remind me of me. That ought to worry you more than it does."
+            ],
+            "choices": [
+                { "text": "Tyler... what happened to you?", "goto": "v2_what", "do": { "friendship": 2 } },
+                { "text": "Keep me company? I'll do the numbers, you do the judging.", "goto": "v2_company", "do": { "romance": 2 } },
+                { "text": "Then let's get to the after. It's all coming out.", "goto": "v2_after", "do": { "friction": 2 } }
+            ]
+        },
+        "v2_what": {
+            "lines": [
+                "Happened? Nothing happened. I'm between engagements.",
+                "*He rubs the back of his head.*",
+                "It's been a long weekend. It's been a very, very long weekend.",
+                "Goodnight, ma'am. Watch your step."
+            ],
+            "end": true
+        },
+        "v2_company": {
+            "lines": [
+                "*He sits beside you on the edge of the tub. Perfect posture. His shoulder almost touching yours. Almost.*",
+                "Your margins are tight. Your projections are sound. You're... very good at this.",
+                "*He clears his throat.*",
+                "Goodnight, ma'am. Watch your step."
+            ],
+            "end": true
+        },
+        "v2_after": {
+            "lines": [
+                "Outstanding. White. Subway. Basic. Sell.",
+                "*He says it like a prayer he isn't sure he believes anymore. Behind him, a tile clicks.*",
+                "Goodnight, ma'am. Watch your step."
+            ],
             "end": true
         },
 
+        "v3_jealous": {
+            "lines": [
+                "*Tyler is standing with his back to the door. He doesn't turn around.*",
+                "You've been with one of THEM. Kitchen or closet. You smell like a sink. Or a sonnet.",
+                "You were gone a LONG time. I counted the tiles. Twice. Three hundred and twelve. Both times.",
+                "*He turns around. He's been practicing aloof. It isn't working.*"
+            ],
+            "goto": "v3"
+        },
+        "v3_cb_blackout": {
+            "lines": [
+                "*The power's out, and you've brought a candle. The pink tile glows in it like the inside of a seashell.*",
+                "Private Wyatt has blown the house. He's been apologizing through the extractor fan for three hours. I've forgiven him twice. He's started apologizing for the apologies.",
+                "Still. Candlelight. Very flattering. On me. And the tile. Mostly me."
+            ],
+            "goto": "v3"
+        },
         "v3": {
             "lines": [
-                "*Tyler is sitting on the edge of the tub, blazer off, looking unusually small.*",
-                "I saw the catalogs on your kitchen table. 'Subway tile.' 'Matte white.' '[Modern farmhouse|farmhouse].'",
-                "You're going to replace me. Just say it."
+                "*Tyler sits on the edge of the tub, blazer folded perfectly on the toilet lid. It's the most undressed you've ever seen him.*",
+                "Ma'am. I've been thinking about Hal and Ruthie. Purely structurally.",
+                "The tile remembers things. Don't ask me how. A girl had [chicken pox|pox] in that tub in 1964 and counted every tile. A man hid an engagement ring in the soap dish in 1979. A girl dyed her hair pink in that sink in 1994. Kool-Aid. Good instincts.",
+                "In 1987 a woman kept a bottle of wine in here for a [date|brenda] that never happened. She kept it for years.",
+                "Seventy years of people. And I wanted a little sign that says BREATHE."
             ],
-            "topics": { "farmhouse": "v3_farm" },
+            "topics": {
+                "pox": { "goto": "v3_a_pox", "aside": true },
+                "brenda": { "goto": "v3_a_brenda", "aside": true, "do": { "romance": 1 } }
+            },
             "choices": [
-                { "text": "I'm not replacing you. I'm restoring you. You're one of a kind.", "goto": "v3_rom", "do": { "romance": 2 } },
-                { "text": "Things change, Tyler. Colors. Gender roles. You can change too.", "goto": "v3_friend", "do": { "friendship": 2 } },
-                { "text": "Yes. You're getting gutted.", "goto": "v3_cold", "do": { "friction": 2 } },
-                { "text": "Wyatt really does like you. Pink and all.", "if": "flag.tyler_curious && flag.wyatt_likes_tyler", "goto": "v3_wyatt", "do": { "friendship": 1 } }
+                { "text": "You're falling for the tile, Tyler.", "goto": "v3_falling", "do": { "romance": 1, "friendship": 1 } },
+                { "text": "You're not who I thought you were.", "goto": "v3_notwho", "do": { "romance": 2, "friction": -1 } },
+                { "text": "It's still coming out. You said so yourself.", "goto": "v3_still", "do": { "friction": 2 } },
+                { "text": "Malcolm read me his diary. Sounds like you two have that in common.", "if": "flag.malcolm_diary", "goto": "v3_diary", "do": { "friendship": 2 } }
             ]
         },
-        "v3_farm": {
+        "v3_a_pox": {
             "lines": [
-                "Shiplap. Little wooden signs that say 'GATHER.' That's not a design, {player}, it's a hostage situation.",
-                "*He shudders so hard a tile clicks.*"
+                "You: How many tiles did she count?",
+                "Three hundred and twelve. She was right. I've checked. Many times. I have a lot of time."
             ],
-            "goto": "v3_menu"
+            "return": true
         },
-        "v3_menu": {
-            "lines": [ "Well? Don't spare my feelings. I'm glazed. Things slide right off." ],
+        "v3_a_brenda": {
+            "lines": [
+                "You: Whose date?",
+                "No idea. Somebody with excellent taste in wine and terrible luck with sinks.",
+                "*Somewhere in the walls, a pipe gurgles very softly.*"
+            ],
+            "return": true
+        },
+        "v3_falling": {
+            "lines": [
+                "Falling? I don't FALL, ma'am. I—",
+                "*He goes very still. Something about the word has upset him, and he doesn't know why.*",
+                "...I'm reassessing. It's a valuation exercise."
+            ],
+            "goto": "v3_research"
+        },
+        "v3_notwho": {
+            "lines": [
+                "*He looks at you like nobody has ever said that to him and meant it nicely.*",
+                "Who did you think I was?",
+                "You: A snob with a crowbar.",
+                "Accurate. Still accurate. ...But I'm also this, apparently."
+            ],
+            "goto": "v3_research"
+        },
+        "v3_still": {
+            "lines": [
+                "I did say so. I say so every day. White. Subway. Basic.",
+                "*He doesn't say SELL. He just stops.*"
+            ],
+            "goto": "v3_research"
+        },
+        "v3_diary": {
+            "lines": [
+                "We have NOTHING in common. It isn't even his diary. It belongs to some teenager. He's squatting in a teenager's FEELINGS.",
+                "I'm not squatting in anything. I'm... reassessing. Different thing. Totally different thing."
+            ],
+            "goto": "v3_research"
+        },
+        "v3_research": {
+            "lines": [
+                "*You tell him you've been researching the house's history for the listing. You searched the address, and something came up.*",
+                "*A video. Posted 2024. 'WORST BATHROOM IN AMERICA?! (Flip Day 1).' Three hundred and twelve views.*",
+                "*The thumbnail is a young man with perfect pink hair, pulling a horrified face, in this exact bathroom.*"
+            ],
             "choices": [
-                { "text": "I'm not replacing you. I'm restoring you. You're one of a kind.", "goto": "v3_rom", "do": { "romance": 2 } },
-                { "text": "Things change, Tyler. Colors. Gender roles. You can change too.", "goto": "v3_friend", "do": { "friendship": 2 } },
-                { "text": "Yes. You're getting gutted.", "goto": "v3_cold", "do": { "friction": 2 } }
+                { "text": "Show him the video.", "goto": "v3_show", "do": { "friendship": 1 } },
+                { "text": "Ask first: 'Tyler, how did you get here?'", "goto": "v3_ask", "do": { "friendship": 2 } },
+                { "text": "You're internet famous, Tyler. Sort of.", "goto": "v3_famous", "do": { "romance": 1, "friction": 1 } }
             ]
         },
-        "v3_rom": {
+        "v3_show": {
             "lines": [
-                "*He looks up. The mustache trembles.*",
-                "Restoring. Not replacing.",
-                "Nobody has ever wanted to keep me just as I am. Polished, sure. Regrouted. But ME.",
-                "*He takes your hand and kisses the back of it, very formally. Then, much less formally, he kisses you.*"
+                "*You hold out the phone. He sees himself and stands up so fast the blazer slides off the toilet lid.*",
+                "That's me. That's my GOOD side. Why is my good side on YOUR phone?",
+                "...Play it."
             ],
+            "goto": "v3_video"
+        },
+        "v3_ask": {
+            "lines": [
+                "Here? The bathroom? I—",
+                "*He sees the phone in your hand. He sees the thumbnail. He goes the color of the tile.*",
+                "...Play it."
+            ],
+            "goto": "v3_video"
+        },
+        "v3_famous": {
+            "lines": [
+                "Three hundred and twelve views? That's not famous, ma'am. That's a GARDEN PARTY.",
+                "*Then he sees the thumbnail, and stops talking.*",
+                "...Play it."
+            ],
+            "goto": "v3_video"
+        },
+        "v3_video": {
+            "lines": [
+                "*On screen, a pinker, sweatier, extremely alive Tyler strides into this bathroom, holding his phone at arm's length.*",
+                "*'Morning, [Whitmore Nation|nation]. Day one. Behold: the ugliest bathroom in America. It's Pepto-Bismol. It's the inside of a flamingo.'*",
+                "*'This all comes out by Friday. White. Subway. Basic. SELL. Watch your step, this tile is slick as—'*",
+                "*The picture spins. A very loud CLONK. The last frame is the ceiling. It stays on the ceiling for a long time.*",
+                "*Underneath, one comment from 2024: 'is he ok'. It has two likes.*"
+            ],
+            "topics": { "nation": { "goto": "v3_a_nation", "aside": true } },
+            "goto": "v3_reveal"
+        },
+        "v3_a_nation": {
+            "lines": [
+                "You: Whitmore Nation?",
+                "My followers. All three hundred and twelve of them.",
+                "...I'm going to be furious about that number in a minute. I'm busy being something else right now."
+            ],
+            "return": true
+        },
+        "v3_reveal": {
+            "do": { "flag.tyler_video": 1 },
+            "lines": [
+                "*The bathroom is very quiet. Out in the hall, Dennis hums.*",
+                "...I'm not between engagements, am I.",
+                "I slipped. On the tile. The tile I was calling Pepto-Bismol. On CAMERA. And then I just... stayed. Saluting the mailman.",
+                "*He looks at the hairline crack by the tub. He touches the back of his head.*",
+                "Nobody salutes back because nobody can SEE me. I'm the tile, ma'am. I'm the Pepto-Bismol."
+            ],
+            "choices": [
+                { "text": "Hey. You're still you. Rose quartz and all.", "goto": "v3_stillyou", "do": { "romance": 2 } },
+                { "text": "Tyler, I'm so sorry.", "goto": "v3_sorry", "do": { "friendship": 2, "friction": -1 } },
+                { "text": "Three hundred and twelve views is honestly not bad for a bathroom.", "goto": "v3_views", "do": { "friendship": 1, "romance": 1 } }
+            ]
+        },
+        "v3_stillyou": {
+            "lines": [
+                "*He laughs, short and surprised.*",
+                "Rose quartz. Yes. They can take my pulse, ma'am. They cannot take my colorist."
+            ],
+            "goto": "v3_why"
+        },
+        "v3_sorry": {
+            "lines": [
+                "Don't be. Whitmores don't need sympathy. We need—",
+                "*He sits down hard on the edge of the tub.*",
+                "...Actually, I'll take some. A small amount. Don't tell the academy."
+            ],
+            "goto": "v3_why"
+        },
+        "v3_views": {
+            "lines": [
+                "Three hundred and TWELVE. One per tile. Even my audience is pink.",
+                "*He's laughing. It's slightly hysterical. It's helping.*"
+            ],
+            "goto": "v3_why"
+        },
+        "v3_why": {
+            "lines": [
+                "But why am I still HERE? Whitmores don't leave business unfinished. Father would have me court-martialed.",
+                "...Oh. It's obvious. I never finished the flip. Rip it out, put up the white, sell it, and I'm dismissed. Honorably.",
+                "Help me, ma'am. That's an order.",
+                "*A beat.*",
+                "That's a request. I've never made one before. How did I do?"
+            ],
+            "choices": [
+                { "text": "Not bad. But I don't think that's your unfinished business.", "goto": "v3_unsure", "do": { "friendship": 2 } },
+                { "text": "Take my hand.", "goto": "v3_holdhand", "do": { "romance": 2 } },
+                { "text": "Fine. If that's what it takes.", "goto": "v3_fine", "do": { "friction": 2 } }
+            ]
+        },
+        "v3_unsure": {
+            "lines": [
+                "Then what IS it? I've had everything I ever wanted. Every single thing. That's the Whitmore guarantee.",
+                "*He says it like it's the saddest sentence he knows.*"
+            ],
+            "goto": "v3_hand"
+        },
+        "v3_holdhand": {
             "fx": "hearts",
-            "goto": "v3_end"
-        },
-        "v3_friend": {
             "lines": [
-                "...You think I could? Change?",
-                "I've been pink since Eisenhower. I thought men wore hats and women wore aprons and a bathroom was a statement.",
-                "*He looks at his reflection in a tile.*",
-                "Maybe I could be... a pink that's for everybody. Is that a thing? Everybody pink?",
-                "You: That's absolutely a thing.",
-                "Huh. Everybody pink. I like that."
+                "*You reach for him. You expect cold bathwater. Instead your fingers close on something cool, smooth and solid, like glazed tile warmed by the sun.*",
+                "...Oh. Hello.",
+                "*Maybe it's because you set that test tile back in the wall. Maybe it's something else. He doesn't let go, and he doesn't explain why.*"
             ],
-            "goto": "v3_end"
+            "goto": "v3_storm"
         },
-        "v3_cold": {
+        "v3_fine": {
             "lines": [
-                "*He stands, puts his blazer back on and smooths his mustache with shaking fingers.*",
-                "Gutted. Right. Well. At least I'll go down in a blaze of salmon."
+                "*He nods. Crisp. Military.*",
+                "Outstanding. Thank you, ma'am.",
+                "*He doesn't look thrilled. He looks like a man who's just been given exactly what he asked for.*"
+            ],
+            "goto": "v3_hand"
+        },
+        "v3_hand": {
+            "lines": [
+                "*When you stand, your hands brush. His doesn't go through yours. It's cool and smooth, like glazed tile warmed by the sun.*",
+                "...Oh.",
+                "*Neither of you moves. Then he remembers he's old money and shakes your hand, very formally, for no reason at all.*"
+            ],
+            "goto": "v3_storm"
+        },
+        "v3_storm": {
+            "lines": [
+                "*The radio in the hall crackles: 'BIG STORM SATURDAY. Heavy rain and flooding expected.'*",
+                "A storm. Fine. I've weathered worse. I once weathered a regatta.",
+                "Wyatt's been checking that forecast every hour. Good man. Nervous man. Good man. And if those podcast women call this house 'haunted' on air, I'm writing to the station.",
+                "The mold says the storm will 'gather us all unto the dark.' He says that about Tuesdays."
+            ],
+            "choices": [
+                { "text": "We'll get through it. All of us.", "goto": "v3_together", "do": { "romance": 1 } },
+                { "text": "How's Wyatt holding up?", "if": "!flag.wyatt_spoke_up", "goto": "v3_wyatt", "do": { "friendship": 2 } },
+                { "text": "I heard Wyatt finally spoke up.", "if": "flag.wyatt_spoke_up", "goto": "v3_wyatt_spoke", "do": { "friendship": 2, "wyatt.friendship": 1 } },
+                { "text": "You're scared of a little rain?", "goto": "v3_rain", "do": { "romance": 1, "friction": 1 } }
+            ]
+        },
+        "v3_together": {
+            "lines": [
+                "All of us. The leak, the mold, the batman and the... tile. What a regiment.",
+                "*He's still holding your hand. Apparently he's decided to.*"
             ],
             "goto": "v3_end"
         },
         "v3_wyatt": {
             "lines": [
-                "He— really? Me? Pink me?",
-                "*He turns a shade of pink you didn't know existed.*",
-                "Well. I suppose his wiring isn't THAT pre-war. It has a certain vintage charm. Like me."
+                "Admirably. He's my man. He's done my lighting every morning for— for some time. Never once complained.",
+                "Storms make him nervous. Something about New Year's. I told him a Whitmore officer never leaves his batman behind.",
+                "The fan went on and off for a full minute. I believe that means he's fine."
             ],
-            "do": { "wyatt.friendship": 1 },
+            "goto": "v3_end"
+        },
+        "v3_wyatt_spoke": {
+            "lines": [
+                "Spoke up? He spoke up to ME. I ordered him to keep the bathroom fan running through the storm, and he said NO. To my face. Well, to my extractor fan. I called him insubordinate.",
+                "He apologized nine times afterward. But he SAID it.",
+                "...He was right. I'm going to tell him so. In a memo."
+            ],
+            "goto": "v3_end"
+        },
+        "v3_rain": {
+            "lines": [
+                "Scared? Ma'am, I'm glazed ceramic. Water rolls right off me. That's the entire point of me.",
+                "*He's quiet for a second.*",
+                "...It's the floor I don't trust."
+            ],
             "goto": "v3_end"
         },
         "v3_end": {
-            "lines": [ "Next time you come, I suppose you'll bring the grout. Be gentle. I've never been regrouted by someone I liked." ],
+            "lines": [
+                "*Late. He walks you to the bathroom door, very carefully, as if the floor might move.*",
+                "Thank you, ma'am. For showing me the before.",
+                "Watch your step.",
+                "*He says it like he means something else entirely.*"
+            ],
             "end": true
         },
 
+        "v4_name": {
+            "lines": [
+                "*Saturday. The storm hits Heartbreak Lane like it's personal. Water is running down the wall BEHIND the tile, and Tyler is holding the wall up with both hands. Or trying to.*",
+                "{player}!",
+                "*It's the first time he's used your name. He's clearly been practicing it in the mirror.*",
+                "{player}, report! Where have you BEEN?"
+            ],
+            "goto": "v4_crisis"
+        },
         "v4": {
             "lines": [
-                "*Tyler stands at attention by his wall, mustache freshly combed, holding a grout float like a bouquet.*",
-                "Alright. Regrout me. Restore me. Make me fabulous for another sixty-seven years."
+                "*Saturday. The storm hits Heartbreak Lane like it's personal. Water is running down the wall BEHIND the tile, and Tyler is holding the wall up with both hands. Or trying to.*",
+                "Ma'am! Report! Where have you BEEN?"
+            ],
+            "goto": "v4_crisis"
+        },
+        "v4_crisis": {
+            "lines": [
+                "*A tile pops off the wall and shatters on the floor. Tyler gasps and grabs his shoulder.*",
+                "The window flashing's gone. Water's getting behind the wall and softening the old mortar. The tiles are coming off one by one, and I can feel every [single one|single]."
+            ],
+            "topics": { "single": { "goto": "v4_a_feel", "aside": true } },
+            "choices": [
+                { "text": "Sorry! The kitchen was flooding. Lukey needed me.", "if": "lukey.talkedtoday", "goto": "v4_late_lukey", "do": { "romance": 1 } },
+                { "text": "Wyatt's fuse box was sparking. I had to.", "if": "wyatt.talkedtoday", "goto": "v4_late_wyatt", "do": { "friendship": 1 } },
+                { "text": "I'm here. Tell me what we do.", "goto": "v4_here", "do": { "friendship": 1 } }
+            ]
+        },
+        "v4_a_feel": {
+            "lines": [
+                "You: You can feel them?",
+                "Like losing teeth. Very small, very pink teeth. In a storm. While three hundred and twelve people watch.",
+                "Not literally. Just the first part."
+            ],
+            "return": true
+        },
+        "v4_late_lukey": {
+            "lines": [
+                "The KITCHEN. During a CRISIS. You went to the LEAK first.",
+                "*Another tile drops. He doesn't notice. He's too busy being jealous.*",
+                "I'm not upset. I'm SINKING. Literally. ...Fine. Is he all right?"
             ],
             "choices": [
-                { "text": "You're already fabulous. I'm just making it official.", "if": "romance >= 4 && friction < 3", "goto": "v4_rs" },
-                { "text": "I like you, Tyler. But you are exhausting.", "if": "romance >= 4 && friction >= 3", "goto": "v4_rf" },
-                { "text": "Let's make you a pink for everybody.", "if": "friendship >= 3 && friction < 3", "goto": "v4_fs" },
-                { "text": "Let's just get it done.", "goto": "v4_auto" }
+                { "text": "He found out he was a person. A real one.", "if": "flag.lukey_human", "goto": "v4_lukey_human", "do": { "friendship": 1 } },
+                { "text": "He'll live. Well. You know what I mean. Right now it's you.", "goto": "v4_plan", "do": { "romance": 1 } }
+            ]
+        },
+        "v4_lukey_human": {
+            "lines": [
+                "A PERSON? The leak? ...In Lycra. That explains so much. That explains the LYCRA.",
+                "Well. Welcome to the club. Terrible club. No dress code."
+            ],
+            "goto": "v4_plan"
+        },
+        "v4_late_wyatt": {
+            "lines": [
+                "Then Wyatt was right to call for you. Good man. Sound judgment.",
+                "...You could have come here second FASTER, though."
+            ],
+            "goto": "v4_plan"
+        },
+        "v4_here": {
+            "lines": [
+                "*He exhales.*",
+                "Good. You're here. That's the main thing."
+            ],
+            "goto": "v4_plan"
+        },
+        "v4_plan": {
+            "lines": [
+                "Listen to me. That's an order. It's over. Let it go. Let it ALL go.",
+                "Tomorrow, rip out what's left and put up white subway. Four ninety-nine a square foot. Cheaper, faster, it'll sell. And then I can finally be dismissed.",
+                "Seventy years is long enough for anyone. Let the tile go, ma'am. Let ME go.",
+                "*Another tile cracks off. Behind it, wet and dark but still legible, the pencil: SHE WANTED PINK.*"
+            ],
+            "choices": [
+                { "text": "No, Tyler. It stays.", "goto": "v4_no", "do": { "romance": 2, "friction": -1, "flag.tyler_no": 1 } },
+                { "text": "Hal built it to outlast them both. It's going to outlast you too. No.", "if": "flag.tyler_hal", "goto": "v4_no", "do": { "friendship": 2, "friction": -1, "flag.tyler_no": 1 } },
+                { "text": "Stop giving orders and hold this.", "goto": "v4_hold", "do": { "friendship": 2, "flag.tyler_no": 1 } },
+                { "text": "You're right. It's coming out.", "goto": "v4_tempt", "do": { "friction": 2 } }
+            ]
+        },
+        "v4_no": {
+            "lines": [
+                "*You say it once, clearly, the way nobody has ever said it to him.*",
+                "*Tyler stares at you. The rain stares at you. Even Dennis, out in the hall, stops humming.*"
+            ],
+            "goto": "v4_furious"
+        },
+        "v4_hold": {
+            "lines": [
+                "*You shove a bucket of mortar into his arms. He's solid enough to hold it now. He's so shocked that he does.*",
+                "You: It stays, Tyler. Hold the bucket."
+            ],
+            "goto": "v4_furious"
+        },
+        "v4_tempt": {
+            "lines": [
+                "*You pick up the crowbar. He nods. Crisp. Approving.*",
+                "Good. Good. White. Subway. Basic—",
+                "*You look at the pencil. HAL FOR RUTHIE. You look at the crack by the tub. You look at him, standing at attention in the rain, waiting to be thrown out like a sample board.*",
+                "*You put the crowbar down.*",
+                "You: No. Actually, no. It stays."
+            ],
+            "do": { "flag.tyler_no": 1 },
+            "goto": "v4_furious"
+        },
+        "v4_furious": {
+            "lines": [
+                "Did you just tell me NO?",
+                "Nobody tells me no! Not eleven nannies, not Madame Fontaine, not Fort Bellamy! I have never been told no in my LIFE. Or... whatever this is!",
+                "*He's furious. Properly, magnificently furious. His hair is somehow even pinker.*",
+                "You don't get to keep me because it's cheaper! Or because the inspector said so! Or because—"
+            ],
+            "choices": [
+                { "text": "Because somebody loved it. And because I love it. All of it. Including the part that argues.", "goto": "v4_love", "do": { "romance": 2 } },
+                { "text": "Because it's the real fix, and you know it. Built to outlast us.", "goto": "v4_real", "do": { "friendship": 2 } },
+                { "text": "You told me no one ever said no and meant it. I mean it.", "if": "seen.v1_nanny", "goto": "v4_meant", "do": { "friendship": 2 } },
+                { "text": "Because I said so.", "goto": "v4_saidso", "do": { "friction": 2 } }
+            ]
+        },
+        "v4_love": {
+            "lines": [
+                "*He stops mid-shout.*",
+                "...Oh.",
+                "*Every tile on the wall stops trembling at once.*"
+            ],
+            "goto": "v4_storm"
+        },
+        "v4_real": {
+            "lines": [
+                "Built to outlast— don't quote the WALL at me—",
+                "*He stops. He reads the pencil again.*",
+                "...Hal would have hated me. And Hal would have been RIGHT."
+            ],
+            "goto": "v4_storm"
+        },
+        "v4_meant": {
+            "lines": [
+                "*He remembers telling you. You can see it land.*",
+                "You... remembered that. Eleven nannies and you're the first one who stayed after saying it.",
+                "...Carry on. Ma'am. Please."
+            ],
+            "goto": "v4_storm"
+        },
+        "v4_saidso": {
+            "lines": [
+                "Because you—",
+                "*He opens his mouth. Nothing comes out. Every instinct he has says argue, and for the first time in his life he doesn't know how.*",
+                "...Understood."
+            ],
+            "goto": "v4_storm"
+        },
+        "v4_storm": {
+            "lines": [
+                "*So you fight the storm for the tile. You catch them as they fall, and he tells you where each one goes. He knows. He IS them.*",
+                "*Wyatt holds the power steady all night without being asked. Lukey can be heard yelling at the kitchen sink. Malcolm recites something about 'the beautiful ruin.' Dennis's light turns red and stays red, humming like a drum.*",
+                "Hold the line, [Dennis]! NOT TODAY, MOLD!",
+                "*By dawn the wall is back. Every tile set, every line regrouted, every inch sealed. Only the cracked tile by the tub is left.*"
+            ],
+            "topics": { "dennis": { "goto": "v4_a_dennis", "aside": true, "do": { "romance": 1 } } },
+            "choices": [
+                { "text": "Mend the crack with gold.", "goto": "v4_gold", "do": { "romance": 2 } },
+                { "text": "Let him do the last line himself.", "goto": "v4_hisone", "do": { "friendship": 2 } },
+                { "text": "Slap some grout on it and call it done.", "goto": "v4_slap", "do": { "friction": 1 } }
+            ]
+        },
+        "v4_a_dennis": {
+            "lines": [
+                "You: Did you just give Dennis a battlefield order?",
+                "And he OBEYED it. Red light. Full capacity. That machine is getting a field promotion, ma'am. Sergeant Dennis."
+            ],
+            "return": true
+        },
+        "v4_gold": {
+            "lines": [
+                "*You mix gold powder into the epoxy and fill the crack slowly: a thin, bright seam across the pink.*",
+                "Gold. You put GOLD on me.",
+                "Like the towers. Except nobody paid for this one. You just... did it.",
+                "*His hand goes to the back of his head. For the first time, it doesn't seem to hurt.*"
+            ],
+            "goto": "v4_dan"
+        },
+        "v4_hisone": {
+            "lines": [
+                "*You hand him the grout float. He holds it like a ceremonial sword.*",
+                "*He sets the last line himself. It's perfect. Fort Bellamy perfect.*",
+                "First thing I've ever fixed instead of flipped. It feels... Whitmores don't have a word for it. We've never needed one."
+            ],
+            "goto": "v4_dan"
+        },
+        "v4_slap": {
+            "lines": [
+                "*You smear grout over the crack. It's sturdy. It's sealed. It's sort of lumpy.*",
+                "...It'll hold. That's the main thing. It's very... you, ma'am.",
+                "*He's trying not to criticize it. You can see the effort. It's heroic.*"
+            ],
+            "goto": "v4_dan"
+        },
+        "v4_dan": {
+            "lines": [
+                "*Monday. Inspector Dan taps the tiles and runs a thumb along the newest grout line.*",
+                "*'Restored, regrouted, sealed. Tile be honest with you, I didn't think you'd keep it.' He signs. 'She's a keeper.'*",
+                "*Tyler salutes him. Dan, of course, doesn't salute back.*"
+            ],
+            "choices": [
+                { "text": "Salute Tyler.", "goto": "v4_salute", "do": { "friendship": 2 } },
+                { "text": "Kiss his cheek.", "goto": "v4_kiss", "do": { "romance": 2 } },
+                { "text": "Dan's right. It's a keeper.", "goto": "v4_keeper", "do": { "romance": 1 } }
+            ]
+        },
+        "v4_salute": {
+            "lines": [
+                "*You stand up straight and salute him.*",
+                "*He stares at you. Then he returns it, crisp and perfect, and his eyes are suspiciously shiny.*",
+                "Somebody saluted back."
+            ],
+            "goto": "v4_choose"
+        },
+        "v4_kiss": {
+            "lines": [
+                "*{fx:hearts}You kiss him on the cheek. It's cool and smooth, like the tile, and it goes a shade of pink no tile has ever achieved.*",
+                "That's... not regulation. Do it again sometime. That's an order. That's a request."
+            ],
+            "goto": "v4_choose"
+        },
+        "v4_keeper": {
+            "lines": [
+                "A keeper. Me. Kept.",
+                "*He tries the word out a few times under his breath, like a new rank.*"
+            ],
+            "goto": "v4_choose"
+        },
+        "v4_choose": {
+            "lines": [
+                "*Afterwards, the bathroom glows pink in the morning sun. So does Tyler, faintly, at the edges, the way people do when they're finally finished with something.*",
+                "I always got my way. Every nanny, every coach, every deal. And not once did it mean anybody cared.",
+                "You told me no. And then you stayed and helped anyway.",
+                "I think that was it. The business. I think I'm allowed to go now. ...What are your orders?"
+            ],
+            "choices": [
+                { "text": "Stay. That's an order. I'm keeping you too.", "if": "romance >= 16 && friction < 8", "goto": "v4_rs" },
+                { "text": "I love you. That's why I'm letting you go.", "if": "romance >= 16", "goto": "v4_rf" },
+                { "text": "You're a good man, Tyler Whitmore. Dismissed.", "if": "friendship >= 14 && friction < 8", "goto": "v4_fs" },
+                { "text": "That's your call, Tyler.", "if": "friction < 8", "goto": "v4_call_kind" },
+                { "text": "That's your call, Tyler.", "if": "friction >= 8", "goto": "v4_call_grumpy" }
             ]
         },
         "v4_rs": {
             "lines": [
-                "*You regrout every line, slowly and carefully. He narrates the whole thing like a nature documentary about himself.*",
-                "*The tiles gleam. The cracked ones are whole. The pink is somehow pinker.*",
-                "Look at me. LOOK at me. I'm restored. I'm a landmark. I'm— {player}, why are you looking at me like that?"
+                "*He blinks.*",
+                "That's another no. To me leaving. {player}, you're telling me no AGAIN.",
+                "*He's smiling so hard his posture breaks.*",
+                "Father said never fall in love with a property. I fell in love with the property AND the owner. He'd be appalled. I'm delighted.",
+                "*{fx:hearts}He kisses you. It's cool and smooth and very, very sure of itself.*"
             ],
             "goto": "v4_rs2"
         },
         "v4_rs2": {
             "fx": "fade",
-            "fxText": "Turns out the tub was big enough for two. Mamie Eisenhower would NOT have approved.",
-            "lines": [ "...I'm going to need to be regrouted again. Immediately." ],
+            "fxText": "The bathroom was pink. So was everything else.",
+            "lines": [ "*Much later.*", "I still think it looks like Pepto-Bismol. ...I love it. Tell no one." ],
             "ending": "romance_success"
         },
         "v4_rf": {
             "lines": [
-                "*You regrout in silence. He critiques your technique the entire time.*",
-                "*The tiles gleam. Tyler looks at himself, then at you.*",
-                "Exhausting. I see.",
-                "I have been chosen by the decorators of four first ladies. I don't need to be TOLERATED.",
-                "*He collects his pearls and exits with enormous dignity. He takes the soap dish with him.*"
+                "*He kisses your hand, very formally. Then, much less formally, he kisses you.*",
+                "You told me no, {player}, and you loved me anyway. Nobody's ever done both.",
+                "*He steps back, stands at attention and salutes. You salute back.*",
+                "Somebody saluted back.",
+                "*And then he's gone. All that's left is a gleam on the gold seam by the tub, a little like rose quartz.*"
             ],
             "ending": "romance_failure"
         },
         "v4_fs": {
             "lines": [
-                "*You regrout together. He teaches you the right angle for the float. You teach him the word 'nonbinary.' He writes it down.*",
-                "*The tiles gleam, pinker than ever.*",
-                "A pink for everybody. Boys, girls, everybody in between and outside of it. Even the goth.",
-                "I've never felt so modern. I hate it. I love it. Let's get brunch."
+                "Dismissed. Honorably. Thank you, ma'am.",
+                "*He salutes. You salute back. He laughs, astonished.*",
+                "Somebody saluted BACK. Tell Wyatt he's promoted. Tell Dennis he's in charge. Tell the leak my ceiling is a CEILING.",
+                "*He marches out into the morning light, careful step and all, and doesn't look down once.*"
             ],
             "ending": "friend_success"
         },
-        "v4_auto": {
+        "v4_call_kind": {
             "lines": [
-                "*You regrout every line. Tyler watches in silence, which is unprecedented.*",
-                "*The tiles gleam. He adjusts his cufflinks.*",
-                "Well. That's me done, then."
+                "*He thinks about it with his whole posture.*",
+                "Then I'll go. Not because I'm ordered to. Because I finally can.",
+                "Watch your step, ma'am. ...Actually, never mind. You always do.",
+                "*He salutes, and is gone in a gleam of pink.*"
             ],
-            "ending": "auto"
+            "ending": "friend_success"
+        },
+        "v4_call_grumpy": {
+            "lines": [
+                "My call? Fine. FINE. I'll go.",
+                "You kept the tile. You didn't keep it for ME. You kept it for the inspection. I know the difference. I'm a Whitmore.",
+                "*He marches out with enormous dignity. On the way, one tile on the bottom row clicks very slightly crooked.*",
+                "*He did that. Out of spite. ...It's honestly the best tile in the house.*"
+            ],
+            "ending": "friend_failure"
         },
 
         "today": {
             "lines": [
-                "Twice in one day? Darling, I'm flattered, but a tile needs time to set.",
-                "Come back next week. I'll be freshly buffed."
+                "Ma'am. We've had our briefing. Dismissed.",
+                "...You may return next week. I'll be here. I am, regrettably, always here."
+            ],
+            "end": true
+        },
+        "today_rival": {
+            "lines": [
+                "Back again. Let me guess. Kitchen or closet. You smell like a sink. Or a sonnet.",
+                "I'm not jealous. I'm keeping a LEDGER. Come back next week, ma'am."
             ],
             "end": true
         },
         "after_rs": {
-            "lines": [ "Darling! You're back. I've had the grout touched up in your honor. Look at it. LOOK at it." ],
+            "lines": [ "{player}! Report. ...No, I know. I just like saying it. Wyatt's done the lighting in your honor. Look at that grout. LOOK at it." ],
             "end": true
         },
         "after_rf": {
-            "lines": [ "*Tyler sniffs.*", "I'm only here to collect my cufflinks. The museum is expecting me." ],
+            "lines": [ "*The bathroom is quiet and very pink. The gold seam by the tub catches the light. You salute it. Nobody's watching. You do it anyway.*" ],
             "end": true
         },
         "after_fs": {
-            "lines": [ "Everybody Pink brunch is Sunday! I've invited the goth. And the sparky one. Bring mimosas. Pink ones, obviously." ],
+            "lines": [ "*The bathroom is quiet. Out in the hall, Dennis hums something like a march. The vanity light flicks on by itself for a moment, at exactly the angle Tyler liked.*" ],
             "end": true
         },
         "after_ff": {
-            "lines": [ "*Tyler turns his back on you.*", "I don't speak to people who say 'greige.'" ],
+            "lines": [ "*One tile on the bottom row is still slightly crooked. You tried to straighten it. It clicked back. You've decided to respect that.*" ],
             "end": true
         }
     }

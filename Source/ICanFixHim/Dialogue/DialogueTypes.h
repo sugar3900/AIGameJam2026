@@ -28,6 +28,12 @@ struct FDialogueTopic
 	FString Goto;
 	FString Condition;
 	TArray<FDialogueEffect> Effects;
+	/**
+	 * "aside": true - a one-off detour: the chain it starts ends in a "return" node, which
+	 * resumes the line the topic was clicked on. Spent after one click (per conversation).
+	 * Otherwise (and for string shorthand topics) the topic is a one-way divert.
+	 */
+	bool bAside = false;
 };
 
 enum class EDialogueSpeaker : uint8
@@ -44,6 +50,8 @@ struct FDialogueLine
 	EDialogueSpeaker Speaker = EDialogueSpeaker::Hunk;
 	FString SpeakerName;
 	FString Text;
+	/** From an inline {fx:name} tag: plays when this line appears (e.g. "hearts"). */
+	FString Fx;
 };
 
 struct FDialogueNode
@@ -58,9 +66,14 @@ struct FDialogueNode
 	bool bEnd = false;
 	/** Arc ending id (romance_success, ...) or "auto". Implies bEnd and repairs the malady. */
 	FString Ending;
-	/** Presentation effect played when the node is entered: "fade" (fade to black), "hearts". */
+	/**
+	 * Presentation effect played when the node is entered: "fade" (fade to black), "hearts".
+	 * Lines can also carry their own inline {fx:name} tag.
+	 */
 	FString Fx;
 	FString FxText;
+	/** "return": true - when this node's lines run out (and it has no choices), resume the line an aside topic was clicked on. */
+	bool bReturn = false;
 };
 
 struct FDialogueEntry
@@ -135,6 +148,9 @@ struct FHunkDefinition
 struct FDialogueView
 {
 	FString HunkId;
+	/** Node and line being shown (lets listeners tell a new line from a re-broadcast). */
+	FString NodeId;
+	int32 LineIndex = 0;
 	FString HunkName;
 	/** Node and 0-based line index this view shows (voice-over lookup key). */
 	FString NodeId;
@@ -149,6 +165,8 @@ struct FDialogueView
 	TArray<FString> ActiveTopics;
 	FString Fx;
 	FString FxText;
+	/** True when this line is being re-shown after returning from an aside (no fx, no effects re-applied). */
+	bool bResumed = false;
 	bool bIsLastLine = false;
 	bool bWillEnd = false;
 	/** Re-presenting a node already shown (back from a hypertext tangent): the line is not new, only its options. */

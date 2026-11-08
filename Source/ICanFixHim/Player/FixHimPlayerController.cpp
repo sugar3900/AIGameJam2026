@@ -1014,10 +1014,9 @@ void AFixHimPlayerController::HandleConversationEnded(const FString& HunkId, con
 	const FHunkDefinition* Def = Dialogue ? Dialogue->FindHunk(HunkId) : nullptr;
 	if (!EndingId.IsEmpty() && Def)
 	{
-		const UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this);
 		EndingWidget = CreateWidget<UFixHimEndingCardWidget>(this, UFixHimEndingCardWidget::StaticClass());
 		ShowWidget(EndingWidget, 35);
-		EndingWidget->Setup(*Def, EndingId, Save ? Save->CountFixed() : 0, Dialogue->CountStoryHunks());
+		EndingWidget->Setup(*Def, EndingId, Dialogue->CountFixedStoryHunks(), Dialogue->CountStoryHunks());
 		EnterState(EFixHimState::Ending);
 	}
 	else
@@ -1032,7 +1031,7 @@ void AFixHimPlayerController::RefreshRepairs()
 	const UFixHimDialogueSubsystem* Dialogue = UFixHimDialogueSubsystem::Get(this);
 	if (HUDWidget && Save && Dialogue)
 	{
-		HUDWidget->SetRepairs(Save->CountFixed(), Dialogue->CountStoryHunks(), Save->Data().Week, UFixHimSettings::Get()->NumWeeks);
+		HUDWidget->SetRepairs(Dialogue->CountFixedStoryHunks(), Dialogue->CountStoryHunks(), Save->Data().Week, UFixHimSettings::Get()->NumWeeks);
 	}
 }
 
@@ -1437,7 +1436,10 @@ void AFixHimPlayerController::RunFinale()
 		It->DismissHunk();
 	}
 	const UFixHimDialogueSubsystem* Dialogue = UFixHimDialogueSubsystem::Get(this);
-	const bool bPassed = Dialogue && Dialogue->ResolveVariable(TEXT("epilogue"), TEXT("lukey.fixed")) != 0;
+	// The house passes inspection only when every story hunk is fixed.
+	const bool bPassed = Dialogue && Dialogue->IsHouseFixed();
+	UE_LOG(LogFixHim, Log, TEXT("Finale: %d/%d hunks fixed, inspection %s"), Dialogue ? Dialogue->CountFixedStoryHunks() : 0,
+		Dialogue ? Dialogue->CountStoryHunks() : 0, bPassed ? TEXT("passes") : TEXT("fails"));
 	TArray<FString> Scenes = { TEXT("inspection") };
 	if (bPassed)
 	{
@@ -1670,6 +1672,40 @@ void AFixHimPlayerController::FixHimShot(const FString& Name)
 	UE_LOG(LogFixHim, Log, TEXT("Screenshot requested: %s"), *Path);
 }
 
+void AFixHimPlayerController::FixHimScene(const FString& SceneIds)
+{
+	TArray<FString> Ids;
+	SceneIds.ParseIntoArray(Ids, TEXT(","), true);
+	TWeakObjectPtr<AFixHimPlayerController> Self(this);
+	PlaySceneChain(Ids, [Self]()
+	{
+		if (Self.IsValid())
+		{
+			Self->EnterState(EFixHimState::Playing);
+		}
+	});
+}
+
+void AFixHimPlayerController::FixHimSetFixed(const FString& HunkId, int32 Fixed)
+{
+	UFixHimDialogueSubsystem* Dialogue = UFixHimDialogueSubsystem::Get(this);
+	UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this);
+	if (!Dialogue || !Save)
+	{
+		return;
+	}
+	for (const auto& Pair : Dialogue->GetAllHunks())
+	{
+		if (Pair.Value.IsHunk() && (HunkId.Equals(TEXT("all"), ESearchCase::IgnoreCase) || HunkId.Equals(Pair.Key, ESearchCase::IgnoreCase)))
+		{
+			Save->Hunk(Pair.Key).bFixed = Fixed != 0;
+		}
+	}
+	RefreshRepairs();
+	UE_LOG(LogFixHim, Log, TEXT("FixHimSetFixed: fixedcount=%d storycount=%d house %s"), Dialogue->CountFixedStoryHunks(),
+		Dialogue->CountStoryHunks(), Dialogue->IsHouseFixed() ? TEXT("passes") : TEXT("fails"));
+}
+
 void AFixHimPlayerController::FixHimDump()
 {
 	const UFixHimDialogueSubsystem* D = UFixHimDialogueSubsystem::Get(this);
@@ -1678,7 +1714,8 @@ void AFixHimPlayerController::FixHimDump()
 	if (D && D->IsActive())
 	{
 		const FDialogueView& V = D->GetView();
-		UE_LOG(LogFixHim, Log, TEXT("Dialogue %s: '%s' choices=%d topics=%d"), *V.HunkId, *V.Text, V.Choices.Num(), V.ActiveTopics.Num());
+		UE_LOG(LogFixHim, Log, TEXT("Dialogue %s/%s#%d%s fx=%s: '%s' choices=%d topics=[%s]"), *V.HunkId, *V.NodeId, V.LineIndex,
+			V.bResumed ? TEXT(" (resumed)") : TEXT(""), *V.Fx, *V.Text, V.Choices.Num(), *FString::Join(V.ActiveTopics, TEXT(",")));
 	}
 	if (S)
 	{

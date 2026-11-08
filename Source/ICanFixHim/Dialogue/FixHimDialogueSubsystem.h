@@ -36,6 +36,10 @@ public:
 	const FHunkDefinition* FindHunkForRoom(const FString& RoomId) const;
 	/** Number of love interests (kind == "hunk"), excluding podcast / epilogue scripts. */
 	int32 CountStoryHunks() const;
+	/** Story hunks whose arc has ended (any ending). Conditions see this as "fixedcount". */
+	int32 CountFixedStoryHunks() const;
+	/** The final inspection passes when every story hunk is fixed. */
+	bool IsHouseFixed() const { const int32 N = CountStoryHunks(); return N > 0 && CountFixedStoryHunks() >= N; }
 
 	// ---- Conversation -----------------------------------------------------
 
@@ -74,6 +78,8 @@ private:
 	void Validate(const FHunkDefinition& Def);
 
 	void EnterNode(const FString& NodeId);
+	/** Pop the aside stack and re-show the line the aside was clicked on. */
+	void ReturnFromAside();
 	void FinishConversation();
 	void ApplyEffects(const TArray<FDialogueEffect>& Effects);
 	void RebuildView(bool bIsReturn = false);
@@ -98,4 +104,16 @@ private:
 	TArray<TPair<FString, int32>> Tangents;
 	/** Guards against goto loops that never show a line. */
 	int32 JumpsWithoutLines = 0;
+
+	/** Where each open aside returns to (innermost last). */
+	struct FReturnPoint
+	{
+		FString NodeId;
+		int32 LineIndex = 0;
+	};
+	TArray<FReturnPoint> ReturnStack;
+	/** "nodeId/topicId" of aside topics already clicked this conversation. */
+	TSet<FString> SpentAsides;
+	/** Set while RebuildView re-shows a line after an aside. */
+	bool bResumingLine = false;
 };
