@@ -5,7 +5,7 @@ Creates / refreshes the procedural assets the game code expects (see Config/Defa
   /Game/ICanFixHim/Materials/M_Translucent   unlit translucent, BaseColor / Opacity params
   /Game/ICanFixHim/Materials/M_Sparkle       unlit additive twinkle sprite, Color param
   /Game/ICanFixHim/Materials/M_UI_Portrait   UI material for scene-capture portraits
-  /Game/ICanFixHim/UI/T_Pointer, T_Heart     imported from SourceArt/Generated (Tools/Art/*.svg)
+  /Game/ICanFixHim/UI/T_Pointer, T_Heart, T_PlayerSilhouette   imported from SourceArt/Generated (Tools/Art/*.svg)
 
 Run inside the editor (Python console, MCP, or -ExecutePythonScript). Idempotent.
 """
@@ -243,10 +243,13 @@ def build_portrait():
     finish(mat)
 
 
+UI_TEXTURES = ("T_Pointer", "T_Heart", "T_PlayerSilhouette")
+
+
 def import_textures():
     src_dir = os.path.join(PROJECT_DIR, "SourceArt", "Generated")
     tasks = []
-    for name in ("T_Pointer", "T_Heart"):
+    for name in UI_TEXTURES:
         src = os.path.join(src_dir, name + ".png")
         if not os.path.exists(src):
             unreal.log_warning(f"[FixHim] missing {src}; run Tools/render_icons.sh")
@@ -260,7 +263,7 @@ def import_textures():
         t.set_editor_property("save", False)
         tasks.append(t)
     ASSETS.import_asset_tasks(tasks)
-    for name in ("T_Pointer", "T_Heart"):
+    for name in UI_TEXTURES:
         tex = EAL.load_asset(f"{UI_DIR}/{name}")
         if tex:
             tex.set_editor_property("lod_group", unreal.TextureGroup.TEXTUREGROUP_UI)

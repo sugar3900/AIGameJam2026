@@ -195,6 +195,7 @@ void UFixHimDialogueWidget::BindScript(const FString& ScriptId, const FString& T
 {
 	ClearFx();
 	HunkId = ScriptId;
+	bScriptScene = true;
 	PortraitBox->SetVisibility(ESlateVisibility::Collapsed);
 	MetersBox->SetVisibility(ESlateVisibility::Collapsed);
 	MaladyText->SetText(FText::FromString(Title));
@@ -204,24 +205,27 @@ void UFixHimDialogueWidget::BindHunk(AFixHimHunk* Hunk, const FString& InHunkId)
 {
 	ClearFx();
 	HunkId = InHunkId;
+	bScriptScene = false;
 	PortraitBox->SetVisibility(ESlateVisibility::HitTestInvisible);
 	MetersBox->SetVisibility(ESlateVisibility::HitTestInvisible);
 	if (!Portrait || !Hunk)
 	{
 		return;
 	}
-	UTextureRenderTarget2D* RT = Hunk->GetPortrait();
+	HunkPortraitRT = Hunk->GetPortrait();
+	PortraitMID = nullptr;
+	if (!PlayerPortraitTexture)
+	{
+		// Load up front so the first "You:" line doesn't flash an empty frame.
+		PlayerPortraitTexture = UFixHimSettings::Get()->PlayerPortraitTexture.LoadSynchronous();
+	}
 	if (UMaterialInterface* Mat = UFixHimSettings::Get()->PortraitMaterial.LoadSynchronous())
 	{
 		PortraitMID = UMaterialInstanceDynamic::Create(Mat, this);
-		PortraitMID->SetTextureParameterValue(TEXT("Portrait"), RT);
+		PortraitMID->SetTextureParameterValue(TEXT("Portrait"), HunkPortraitRT);
 		PortraitMID->SetScalarParameterValue(TEXT("Silhouette"), 0.f);
-		Portrait->SetBrushFromMaterial(PortraitMID);
 	}
-	else
-	{
-		Portrait->SetBrushResourceObject(RT);
-	}
+	ApplySpeakerPortrait(EDialogueSpeaker::Hunk);
 	if (const UFixHimDialogueSubsystem* D = UFixHimDialogueSubsystem::Get(this))
 	{
 		if (const FHunkDefinition* Def = D->FindHunk(HunkId))
@@ -232,9 +236,47 @@ void UFixHimDialogueWidget::BindHunk(AFixHimHunk* Hunk, const FString& InHunkId)
 	RefreshMeters();
 }
 
+void UFixHimDialogueWidget::ApplySpeakerPortrait(EDialogueSpeaker Speaker)
+{
+	if (bScriptScene || !Portrait || !PortraitBox)
+	{
+		return; // scenes never show a portrait
+	}
+	if (Speaker == EDialogueSpeaker::Narration)
+	{
+		// Narration has no speaker: no frame at all (Hidden, not Collapsed, so the text doesn't jump sideways).
+		PortraitBox->SetVisibility(ESlateVisibility::Hidden);
+		return;
+	}
+	PortraitBox->SetVisibility(ESlateVisibility::HitTestInvisible);
+	if (Speaker == EDialogueSpeaker::Player)
+	{
+		if (!PlayerPortraitTexture)
+		{
+			PlayerPortraitTexture = UFixHimSettings::Get()->PlayerPortraitTexture.LoadSynchronous();
+		}
+		if (PlayerPortraitTexture)
+		{
+			Portrait->SetBrushFromTexture(PlayerPortraitTexture);
+			Portrait->SetColorAndOpacity(FLinearColor::White);
+			return;
+		}
+	}
+	// The hunk (and declared extra speakers, as before): his live portrait.
+	if (PortraitMID)
+	{
+		Portrait->SetBrushFromMaterial(PortraitMID);
+	}
+	else if (HunkPortraitRT)
+	{
+		Portrait->SetBrushResourceObject(HunkPortraitRT);
+	}
+}
+
 void UFixHimDialogueWidget::ShowView(const FDialogueView& View)
 {
 	Current = View;
+	ApplySpeakerPortrait(View.Speaker);
 
 	const bool bPlayer = View.Speaker == EDialogueSpeaker::Player;
 	const bool bNarration = View.Speaker == EDialogueSpeaker::Narration;
