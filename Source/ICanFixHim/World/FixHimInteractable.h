@@ -85,6 +85,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
 	FLinearColor BodyColor = FLinearColor(0.8f, 0.8f, 0.8f);
 
+	/** Keep material slots on authored moving meshes instead of applying the flat color. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
+	bool bUseAuthoredBodyMaterials = false;
+
 	/** Emissive applied to Body while On (Light toggles). */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
 	FLinearColor OnEmissive = FLinearColor(4.f, 3.2f, 2.f);

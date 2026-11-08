@@ -28,6 +28,7 @@ class UFixHimNameEntryWidget;
 class UFixHimTransitionWidget;
 class UFixHimKeepsakeWidget;
 class ADirectionalLight;
+class UMaterialInstanceDynamic;
 class UUserWidget;
 
 UENUM(BlueprintType)
@@ -191,6 +192,7 @@ private:
 	UPROPERTY(Transient) TObjectPtr<UFixHimTransitionWidget> TransitionWidget;
 	UPROPERTY(Transient) TObjectPtr<UFixHimKeepsakeWidget> KeepsakeWidget;
 	UPROPERTY(Transient) TObjectPtr<ADirectionalLight> Sun;
+	UPROPERTY(Transient) TArray<TObjectPtr<UMaterialInstanceDynamic>> WindowViews;
 
 	UPROPERTY(Transient) TObjectPtr<AFixHimInteractable> Hovered;
 	UPROPERTY(Transient) TObjectPtr<AFixHimMalady> ActiveMalady;

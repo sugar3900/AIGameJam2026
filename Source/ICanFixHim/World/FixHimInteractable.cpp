@@ -60,7 +60,7 @@ void AFixHimInteractable::BeginPlay()
 
 void AFixHimInteractable::ApplyLook()
 {
-	if (Body && Body->GetStaticMesh())
+	if (Body && Body->GetStaticMesh() && !bUseAuthoredBodyMaterials)
 	{
 		BodyMID = FixHim::Assets::MakeFlat(this, BodyColor);
 		if (BodyMID)
