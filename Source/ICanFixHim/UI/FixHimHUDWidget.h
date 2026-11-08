@@ -7,12 +7,11 @@
 #include "FixHimHUDWidget.generated.h"
 
 class UBorder;
-class UImage;
 class UTextBlock;
 class USizeBox;
 class UWidget;
 
-/** In-world HUD: centre reticle (dot / painted-nail pointer), interact prompt, room name, hints, toasts. */
+/** In-world HUD: centre reticle (fixed white dot), interact prompt, room name, hints, toasts. */
 UCLASS()
 class ICANFIXHIM_API UFixHimHUDWidget : public UFixHimWidget
 {
@@ -31,8 +30,6 @@ protected:
 private:
 	UPROPERTY() TObjectPtr<UWidget> ReticleRoot;
 	UPROPERTY() TObjectPtr<UBorder> Dot;
-	UPROPERTY() TObjectPtr<UImage> Pointer;
-	UPROPERTY() TObjectPtr<UTextBlock> PointerFallback;
 	UPROPERTY() TObjectPtr<UTextBlock> PromptText;
 	UPROPERTY() TObjectPtr<UBorder> PromptPill;
 	UPROPERTY() TObjectPtr<UTextBlock> RoomText;
@@ -43,6 +40,4 @@ private:
 
 	float ToastTime = 0.f;
 	float RoomFlash = 0.f;
-	float PointerPulse = 0.f;
-	bool bPointerMode = false;
 };

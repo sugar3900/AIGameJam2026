@@ -1,20 +1,17 @@
 // I Can Fix Him - AI Game Jam 2026
 
 #include "UI/FixHimHUDWidget.h"
-#include "Core/FixHimSettings.h"
 #include "Audio/FixHimSfxSubsystem.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/Border.h"
 #include "Components/CanvasPanel.h"
 #include "Components/CanvasPanelSlot.h"
-#include "Components/Image.h"
 #include "Components/Overlay.h"
 #include "Components/OverlaySlot.h"
 #include "Components/SizeBox.h"
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
-#include "Engine/Texture2D.h"
 
 using namespace FixHimUI;
 
@@ -31,35 +28,14 @@ void UFixHimHUDWidget::BuildUI()
 	RetSlot->SetHorizontalAlignment(HAlign_Center);
 	RetSlot->SetVerticalAlignment(VAlign_Center);
 
-	UOverlay* Icon = WidgetTree->ConstructWidget<UOverlay>();
-	USizeBox* IconBox = WidgetTree->ConstructWidget<USizeBox>();
-	IconBox->SetWidthOverride(56.f);
-	IconBox->SetHeightOverride(56.f);
-	IconBox->AddChild(Icon);
-	Ret->AddChildToVerticalBox(IconBox)->SetHorizontalAlignment(HAlign_Center);
-
+	// A plain white dot that never changes during gameplay; the prompt pill below says what you're hovering.
 	Dot = WidgetTree->ConstructWidget<UBorder>();
 	Dot->SetBrush(Rounded(FLinearColor(1.f, 1.f, 1.f, 0.9f), 5.f, FLinearColor(0.2f, 0.f, 0.15f, 0.8f), 1.5f));
 	USizeBox* DotBox = WidgetTree->ConstructWidget<USizeBox>();
 	DotBox->SetWidthOverride(10.f);
 	DotBox->SetHeightOverride(10.f);
 	DotBox->AddChild(Dot);
-	UOverlaySlot* DotSlot = Icon->AddChildToOverlay(DotBox);
-	DotSlot->SetHorizontalAlignment(HAlign_Center);
-	DotSlot->SetVerticalAlignment(VAlign_Center);
-
-	Pointer = WidgetTree->ConstructWidget<UImage>();
-	if (UTexture2D* Tex = UFixHimSettings::Get()->PointerTexture.LoadSynchronous())
-	{
-		Pointer->SetBrushFromTexture(Tex);
-		Pointer->SetDesiredSizeOverride(FVector2D(56.f, 56.f));
-	}
-	Pointer->SetVisibility(ESlateVisibility::Collapsed);
-	// The fingertip is the hotspot: nudge the image so the tip sits at screen centre.
-	Pointer->SetRenderTranslation(FVector2D(4.f, 25.f));
-	UOverlaySlot* PSlot = Icon->AddChildToOverlay(Pointer);
-	PSlot->SetHorizontalAlignment(HAlign_Center);
-	PSlot->SetVerticalAlignment(VAlign_Center);
+	Ret->AddChildToVerticalBox(DotBox)->SetHorizontalAlignment(HAlign_Center);
 
 	PromptPill = WidgetTree->ConstructWidget<UBorder>();
 	PromptPill->SetBrush(Rounded(FLinearColor(Plum.R, Plum.G, Plum.B, 0.8f), 14.f));
@@ -67,8 +43,8 @@ void UFixHimHUDWidget::BuildUI()
 	PromptText = MakeText(WidgetTree, TEXT(""), 18, Cream, TEXT("Bold"));
 	PromptPill->SetContent(PromptText);
 	PromptPill->SetVisibility(ESlateVisibility::Collapsed);
-	// Its own slot, shifted below the icon, so the icon stays exactly at screen centre whether or not a prompt shows.
-	PromptPill->SetRenderTranslation(FVector2D(0.f, 64.f));
+	// Its own slot, shifted below the dot, so the dot stays exactly at screen centre whether or not a prompt shows.
+	PromptPill->SetRenderTranslation(FVector2D(0.f, 36.f));
 	UOverlaySlot* PromptSlot = Root->AddChildToOverlay(PromptPill);
 	PromptSlot->SetHorizontalAlignment(HAlign_Center);
 	PromptSlot->SetVerticalAlignment(VAlign_Center);
@@ -125,15 +101,6 @@ void UFixHimHUDWidget::SetReticle(bool bVisible, bool bPointer, const FText& Pro
 		return;
 	}
 	ReticleRoot->SetVisibility(bVisible ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
-	const bool bHasPointerTex = Pointer && Pointer->GetBrush().GetResourceObject() != nullptr;
-	if (bPointer != bPointerMode)
-	{
-		PointerPulse = 0.f;
-	}
-	bPointerMode = bPointer;
-	Dot->GetParent()->SetVisibility(bPointer && bHasPointerTex ? ESlateVisibility::Collapsed : ESlateVisibility::HitTestInvisible);
-	Dot->SetBrushColor(bPointer ? Pink : FLinearColor::White);
-	Pointer->SetVisibility(bPointer && bHasPointerTex ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
 	PromptPill->SetVisibility(bVisible && bPointer && !Prompt.IsEmpty() ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
 	PromptText->SetText(Prompt);
 }
@@ -194,14 +161,5 @@ void UFixHimHUDWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
 	{
 		RoomFlash = FMath::Max(0.f, RoomFlash - InDeltaTime * 1.5f);
 		RoomPill->SetRenderScale(FVector2D(1.f + 0.12f * RoomFlash));
-	}
-
-	if (Pointer && bPointerMode)
-	{
-		// Pop in, then a gentle "come hither" tap.
-		PointerPulse += InDeltaTime;
-		const float Pop = FMath::Min(1.f, PointerPulse * 6.f);
-		const float Tap = 1.f + 0.06f * FMath::Sin(PointerPulse * 7.f);
-		Pointer->SetRenderScale(FVector2D(Pop * Tap));
 	}
 }

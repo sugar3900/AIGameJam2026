@@ -82,10 +82,6 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = "UI")
 	TSoftObjectPtr<UMaterialInterface> PortraitMaterial;
 
-	/** Reticle shown while hovering something interactable (pointing finger with painted nails). */
-	UPROPERTY(Config, EditAnywhere, Category = "UI")
-	TSoftObjectPtr<UTexture2D> PointerTexture;
-
 	/** Big heart icon used for romance meters and ending cards. */
 	UPROPERTY(Config, EditAnywhere, Category = "UI")
 	TSoftObjectPtr<UTexture2D> HeartTexture;
