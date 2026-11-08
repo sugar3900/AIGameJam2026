@@ -38,16 +38,24 @@ def main():
     remote = rex.RemoteExecution(cfg)
     remote.start()
     try:
+        # Only ever talk to the editor that has *this* checkout open. Other editors (other projects, or
+        # other worktrees of this repo) may be running too, and answer discovery in any order.
+        here = os.path.realpath(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+        def find_node():
+            return next((n for n in remote.remote_nodes
+                         if os.path.realpath(n.get("project_root", "")) == here), None)
+
         deadline = time.time() + 15
-        while not remote.remote_nodes and time.time() < deadline:
+        node = find_node()
+        while not node and time.time() < deadline:
             time.sleep(0.2)
-        if not remote.remote_nodes:
-            print("No editor found (is it running with remote execution enabled?)", file=sys.stderr)
+            node = find_node()
+        if not node:
+            others = sorted({n.get("project_root", "?") for n in remote.remote_nodes})
+            print(f"No editor found with {here} open (is it running with remote execution enabled?)"
+                  + (f"; ignoring editors for: {', '.join(others)}" if others else ""), file=sys.stderr)
             return 2
-        # Prefer the editor that has *this* project open (others may be running).
-        here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        nodes = remote.remote_nodes
-        node = next((n for n in nodes if os.path.realpath(n.get("project_root", "")) == os.path.realpath(here)), nodes[0])
         remote.open_command_connection(node["node_id"])
         result = remote.run_command(command, unattended=True, exec_mode=mode, raise_on_failure=False)
         for entry in result.get("output", []):

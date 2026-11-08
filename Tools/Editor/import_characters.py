@@ -43,17 +43,42 @@ CHARACTERS = {
     "Pink Tile": "PinkTile",
 }
 
-# Filename fragment -> (texture map name, is colour data)
+# (filename fragment, texture map name)
 TEXTURE_MAPS = [("rgb", "BaseColor"), ("normal", "Normal"), ("roughness", "Roughness"), ("metallic", "Metallic")]
+GRAYSCALE_MAPS = ("Roughness", "Metallic")
+
+# Neutral engine textures used as M_Hunk defaults, so a character missing a map never inherits another's.
+NEUTRAL_TEXTURES = {
+    "BaseColor": "/Engine/EngineResources/DefaultTexture",
+    "Normal": "/Engine/EngineMaterials/FlatNormal",
+}
+# Used when a character has no roughness map (M_Hunk blends to RoughnessConstant).
+FALLBACK_ROUGHNESS = 0.6
 
 
-def build_master_material(defaults):
-    """defaults: map name -> texture; sampler types must match the texture, so we use real imported maps."""
+class ImportError_(Exception):
+    """A setup problem the user can fix; reported as one clear error instead of a traceback."""
+
+
+def build_master_material(grayscale_defaults):
+    """
+    Texture parameter defaults must match their sampler type. Colour and normal use neutral engine textures;
+    the grayscale samplers need a grayscale texture, so they borrow an imported one. That borrowed default is
+    never visible: an instance missing that map turns it off (RoughnessMapWeight / MetallicScale = 0).
+    """
+    defaults = {name: unreal.load_asset(path) for name, path in NEUTRAL_TEXTURES.items()}
+    defaults.update(grayscale_defaults)
     path = f"{MAT_DIR}/M_Hunk"
-    if EAL.does_asset_exist(path):
-        mat = EAL.load_asset(path)
-        MEL.delete_all_material_expressions(mat)
-    else:
+    mat = EAL.load_asset(path) if EAL.does_asset_exist(path) else None
+    if mat:
+        # delete_all_material_expressions can leave orphaned nodes behind, and a leftover parameter node
+        # with the same name silently wins. Delete one by one and start over if anything survives.
+        for e in MEL.get_material_expressions(mat):
+            MEL.delete_material_expression(mat, e)
+        if MEL.get_material_expressions(mat):
+            EAL.delete_asset(path)
+            mat = None
+    if not mat:
         mat = ASSETS.create_asset("M_Hunk", MAT_DIR, unreal.Material, unreal.MaterialFactoryNew())
     mat.set_editor_property("used_with_skeletal_mesh", True)
 
@@ -83,6 +108,13 @@ def build_master_material(defaults):
     rough_mul = mul(-250, 320)
     MEL.connect_material_expressions(rough, "R", rough_mul, "A")
     MEL.connect_material_expressions(rough_scale, "", rough_mul, "B")
+    # Roughness = lerp(RoughnessConstant, map * RoughnessScale, RoughnessMapWeight).
+    rough_const = scalar("RoughnessConstant", FALLBACK_ROUGHNESS, -450, 200)
+    rough_weight = scalar("RoughnessMapWeight", 1.0, -450, 460)
+    rough_out = MEL.create_material_expression(mat, unreal.MaterialExpressionLinearInterpolate, -100, 300)
+    MEL.connect_material_expressions(rough_const, "", rough_out, "A")
+    MEL.connect_material_expressions(rough_mul, "", rough_out, "B")
+    MEL.connect_material_expressions(rough_weight, "", rough_out, "Alpha")
     metal_mul = mul(-250, 570)
     MEL.connect_material_expressions(metal, "R", metal_mul, "A")
     MEL.connect_material_expressions(metal_scale, "", metal_mul, "B")
@@ -101,7 +133,7 @@ def build_master_material(defaults):
 
     MEL.connect_material_property(base, "RGB", unreal.MaterialProperty.MP_BASE_COLOR)
     MEL.connect_material_property(normal, "RGB", unreal.MaterialProperty.MP_NORMAL)
-    MEL.connect_material_property(rough_mul, "", unreal.MaterialProperty.MP_ROUGHNESS)
+    MEL.connect_material_property(rough_out, "", unreal.MaterialProperty.MP_ROUGHNESS)
     MEL.connect_material_property(metal_mul, "", unreal.MaterialProperty.MP_METALLIC)
     MEL.connect_material_property(rim_scaled, "", unreal.MaterialProperty.MP_EMISSIVE_COLOR)
     MEL.layout_material_expressions(mat)
@@ -149,10 +181,18 @@ def make_material_instance(dest, folder, master, textures):
     mi = EAL.load_asset(path) if EAL.does_asset_exist(path) else ASSETS.create_asset(
         name, dest, unreal.MaterialInstanceConstant, unreal.MaterialInstanceConstantFactoryNew())
     mi.set_editor_property("parent", master)
+    # Start from the master's defaults every run so overrides from an earlier import can't linger.
+    MEL.clear_all_material_instance_parameters(mi)
     for map_name, tex in textures.items():
-        unreal.MaterialEditingLibrary.set_material_instance_texture_parameter_value(mi, map_name, tex)
-    if "Metallic" not in textures:
+        MEL.set_material_instance_texture_parameter_value(mi, map_name, tex)
+    missing = [m for _, m in TEXTURE_MAPS if m not in textures]
+    if "Roughness" in missing:
+        MEL.set_material_instance_scalar_parameter_value(mi, "RoughnessMapWeight", 0.0)
+    if "Metallic" in missing:
         MEL.set_material_instance_scalar_parameter_value(mi, "MetallicScale", 0.0)
+    if missing:
+        # BaseColor -> grey checker, Normal -> flat, Roughness -> constant, Metallic -> 0.
+        unreal.log_warning(f"[FixHim] {folder} has no {', '.join(missing)} map; using neutral fallbacks")
     MEL.update_material_instance(mi)
     EAL.save_loaded_asset(mi)
     return mi
@@ -276,6 +316,13 @@ def import_character(fbx, folder, master, textures, source_rig):
 
 
 def main():
+    try:
+        run()
+    except ImportError_ as e:
+        unreal.log_error(f"[FixHim] import_characters: {e}")
+
+
+def run():
     EAL.make_directory(CHAR_DIR)
     imported = []
     for src_name, folder in CHARACTERS.items():
@@ -285,9 +332,17 @@ def main():
             EAL.make_directory(f"{CHAR_DIR}/{folder}")
             textures = import_textures(fbm, f"{CHAR_DIR}/{folder}", folder)
             imported.append((fbx, folder, textures))
-    # Master defaults: the first character that has every map.
-    defaults = next(t for _, _, t in imported if all(m in t for _, m in TEXTURE_MAPS))
-    master = build_master_material(defaults)
+    if not imported:
+        raise ImportError_(
+            f"no prepared character FBXs in {MESH_DIR}. Run the Blender step first: "
+            "/Applications/Blender.app/Contents/MacOS/Blender -b --factory-startup --python Tools/Art/prepare_characters.py")
+    grayscale_defaults = {}
+    for name in GRAYSCALE_MAPS:
+        tex = next((t[name] for _, _, t in imported if name in t), None)
+        if not tex:
+            raise ImportError_(f"no character has a {name} map, so M_Hunk can't be built (check the .fbm folders)")
+        grayscale_defaults[name] = tex
+    master = build_master_material(grayscale_defaults)
     source_rig = make_ik_rig(CHAR_DIR, "IK_Manny", unreal.load_asset(MANNY_MESH))
     for fbx, folder, textures in imported:
         import_character(fbx, folder, master, textures, source_rig)
