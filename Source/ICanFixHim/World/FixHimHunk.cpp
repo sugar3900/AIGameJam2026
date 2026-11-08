@@ -1,6 +1,7 @@
 // I Can Fix Him - AI Game Jam 2026
 
 #include "World/FixHimHunk.h"
+#include "ICanFixHim.h"
 #include "Core/FixHimAssets.h"
 #include "Core/FixHimSettings.h"
 #include "Dialogue/DialogueTypes.h"
@@ -13,6 +14,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Animation/AnimInstance.h"
+#include "Animation/AnimSequenceBase.h"
+#include "Misc/PackageName.h"
 
 AFixHimHunk::AFixHimHunk()
 {
@@ -65,10 +68,55 @@ void AFixHimHunk::BeginPlay()
 	SetPresentImmediate(false);
 }
 
+namespace
+{
+	/** Loads "/Game/Dir/Asset" or "/Game/Dir/Asset.Asset" (JSON paths may omit the object name). */
+	template <typename T>
+	T* LoadAssetPath(const FString& Path)
+	{
+		if (Path.IsEmpty())
+		{
+			return nullptr;
+		}
+		FString ObjectPath = Path;
+		if (!FPackageName::GetShortName(ObjectPath).Contains(TEXT(".")))
+		{
+			ObjectPath += TEXT(".") + FPackageName::GetShortName(ObjectPath);
+		}
+		return TSoftObjectPtr<T>(FSoftObjectPath(ObjectPath)).LoadSynchronous();
+	}
+}
+
 void AFixHimHunk::ApplyDefinition(const FHunkDefinition& Def)
 {
 	HunkId = Def.Id;
 	BaseScale = Def.Scale;
+
+	if (!Def.Mesh.IsEmpty())
+	{
+		USkeletalMesh* Model = LoadAssetPath<USkeletalMesh>(Def.Mesh);
+		if (Model)
+		{
+			// A real character model: textured, has a face, no primitive dress-up needed.
+			// It has its own skeleton, so the mannequin AnimBP can't drive it; loop its retargeted idle instead.
+			GetMesh()->SetSkeletalMesh(Model);
+			UAnimSequenceBase* Idle = LoadAssetPath<UAnimSequenceBase>(Def.Idle);
+			if (Idle)
+			{
+				GetMesh()->PlayAnimation(Idle, true);
+				// Desync hunks so they don't breathe in unison.
+				GetMesh()->SetPosition(FMath::FRandRange(0.f, Idle->GetPlayLength()), false);
+			}
+			else
+			{
+				GetMesh()->SetAnimInstanceClass(nullptr);
+				UE_LOG(LogFixHim, Warning, TEXT("Hunk '%s': no idle animation ('%s'); he'll hold his rest pose."), *Def.Id, *Def.Idle);
+			}
+			SetActorScale3D(FVector(BaseScale * (bPresent ? 1.f : 0.01f)));
+			return;
+		}
+		UE_LOG(LogFixHim, Warning, TEXT("Hunk '%s': mesh '%s' not found, falling back to the mannequin."), *Def.Id, *Def.Mesh);
+	}
 
 	FixHim::Assets::FOutfit Outfit;
 	Outfit.Skin = Def.Skin;
