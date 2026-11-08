@@ -4,6 +4,10 @@ tags: [planning]
 # Task Board
 
 ## Todo
+- [x] Week flow: 4 playable days (bed ends the day), radio podcast each morning, daylight → dusk, week 1 must-meet rule, final inspection → epilogue → keepsake → title
+- [x] Name entry at New Game (fills {player})
+- [ ] Check Lukey's new look in-engine (teal Lycra, mullet, headband, wrench)
+- [ ] Rewrite Malcolm / Wyatt / Tyler in the v2 tone (after the Lukey slice is playable)
 - [ ] Audio: music bed per room + SFX (drip, sparks, toggles, UI clicks, kiss "mwah")
 - [ ] Remaining hunks: Az (asbestos), lead paint, broken floor joist, broken door (+ their rooms)
 - [ ] Playtest pass on dialogue pacing + stat thresholds (are endings reachable without metagaming?)
@@ -13,6 +17,7 @@ tags: [planning]
 - [ ] Settings: key rebinding, subtitles size
 
 ## Doing
+- [ ] Lukey v2 (Ghosts-tone) story: scripts done in `lukey.json`, `podcast.json`, `epilogue.json`; needs in-game week flow
 - [ ] Prototype polish
 
 ## Done

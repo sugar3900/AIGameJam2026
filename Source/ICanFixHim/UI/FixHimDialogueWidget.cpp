@@ -32,7 +32,7 @@ using namespace FixHimUI;
 
 namespace
 {
-	constexpr int32 MeterMax = 10;
+	constexpr int32 MeterMax = FixHimStatMax;
 	constexpr float FadeSeconds = 0.9f;
 	constexpr float HoldSeconds = 2.6f;
 }
@@ -60,16 +60,17 @@ void UFixHimDialogueWidget::BuildUI()
 	Panel->SetContent(Row);
 
 	// Portrait
-	USizeBox* PortraitBox = WidgetTree->ConstructWidget<USizeBox>();
-	PortraitBox->SetWidthOverride(210.f);
-	PortraitBox->SetHeightOverride(210.f);
+	USizeBox* PortraitSize = WidgetTree->ConstructWidget<USizeBox>();
+	PortraitSize->SetWidthOverride(210.f);
+	PortraitSize->SetHeightOverride(210.f);
 	UBorder* Frame = WidgetTree->ConstructWidget<UBorder>();
 	Frame->SetBrush(Rounded(Plum, 20.f, HotPink, 4.f));
 	Frame->SetPadding(FMargin(6.f));
-	PortraitBox->AddChild(Frame);
+	PortraitSize->AddChild(Frame);
 	Portrait = WidgetTree->ConstructWidget<UImage>();
 	Frame->SetContent(Portrait);
-	UHorizontalBoxSlot* PortraitSlot = Row->AddChildToHorizontalBox(PortraitBox);
+	PortraitBox = PortraitSize;
+	UHorizontalBoxSlot* PortraitSlot = Row->AddChildToHorizontalBox(PortraitSize);
 	PortraitSlot->SetVerticalAlignment(VAlign_Top);
 	PortraitSlot->SetPadding(FMargin(0.f, 0.f, 24.f, 0.f));
 
@@ -123,6 +124,7 @@ void UFixHimDialogueWidget::BuildUI()
 	FriendBar = AddMeter(TEXT("FRIENDSHIP"), Mint);
 	FrictionBar = AddMeter(TEXT("FRICTION"), Ember);
 	Header->AddChildToHorizontalBox(Meters)->SetVerticalAlignment(VAlign_Center);
+	MetersBox = Meters;
 
 	// Line text: typewriter text while typing, then a wrap box of words so [topics] can be clicked.
 	UOverlay* TextArea = WidgetTree->ConstructWidget<UOverlay>();
@@ -171,9 +173,38 @@ void UFixHimDialogueWidget::BuildUI()
 	FadeSlot->SetVerticalAlignment(VAlign_Fill);
 }
 
+void UFixHimDialogueWidget::ClearFx()
+{
+	for (FFloater& F : Floaters)
+	{
+		if (UWidget* W = F.Widget.Get())
+		{
+			W->RemoveFromParent();
+		}
+	}
+	Floaters.Reset();
+	FxPhase = EFxPhase::None;
+	if (FadeCurtain)
+	{
+		FadeCurtain->SetVisibility(ESlateVisibility::Collapsed);
+	}
+}
+
+void UFixHimDialogueWidget::BindScript(const FString& ScriptId, const FString& Title)
+{
+	ClearFx();
+	HunkId = ScriptId;
+	PortraitBox->SetVisibility(ESlateVisibility::Collapsed);
+	MetersBox->SetVisibility(ESlateVisibility::Collapsed);
+	MaladyText->SetText(FText::FromString(Title));
+}
+
 void UFixHimDialogueWidget::BindHunk(AFixHimHunk* Hunk, const FString& InHunkId)
 {
+	ClearFx();
 	HunkId = InHunkId;
+	PortraitBox->SetVisibility(ESlateVisibility::HitTestInvisible);
+	MetersBox->SetVisibility(ESlateVisibility::HitTestInvisible);
 	if (!Portrait || !Hunk)
 	{
 		return;
@@ -206,9 +237,13 @@ void UFixHimDialogueWidget::ShowView(const FDialogueView& View)
 
 	const bool bPlayer = View.Speaker == EDialogueSpeaker::Player;
 	const bool bNarration = View.Speaker == EDialogueSpeaker::Narration;
+	const bool bNamed = View.Speaker == EDialogueSpeaker::Named;
 	NamePill->SetVisibility(bNarration ? ESlateVisibility::Hidden : ESlateVisibility::HitTestInvisible);
-	NamePill->SetBrush(Rounded(bPlayer ? Plum : HotPink, 16.f));
-	NameText->SetText(FText::FromString((bPlayer ? UFixHimSettings::Get()->PlayerName : View.HunkName).ToUpper()));
+	NamePill->SetBrush(Rounded(bPlayer ? Plum : (bNamed ? PlumSoft : HotPink), 16.f));
+	const UFixHimSaveSubsystem* SaveSub = UFixHimSaveSubsystem::Get(this);
+	const FString PlayerName = SaveSub ? SaveSub->GetPlayerName() : UFixHimSettings::Get()->PlayerName;
+	const FString Speaker = bPlayer ? PlayerName : (bNamed ? View.SpeakerName : View.HunkName);
+	NameText->SetText(FText::FromString(Speaker.ToUpper()));
 	TypingText->SetFont(Font(24, bNarration ? TEXT("Italic") : TEXT("Regular")));
 	TypingText->SetColorAndOpacity(FSlateColor(bNarration ? PlumSoft : Plum));
 

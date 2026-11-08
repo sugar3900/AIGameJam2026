@@ -21,7 +21,7 @@ class ICANFIXHIM_API UFixHimHUDWidget : public UFixHimWidget
 public:
 	void SetReticle(bool bVisible, bool bPointer, const FText& Prompt);
 	void SetRoomName(const FText& Name);
-	void SetRepairs(int32 Fixed, int32 Total);
+	void SetRepairs(int32 Fixed, int32 Total, int32 Week = 0, int32 NumWeeks = 0);
 	void ShowToast(const FString& Message, float Seconds = 2.f);
 
 protected:

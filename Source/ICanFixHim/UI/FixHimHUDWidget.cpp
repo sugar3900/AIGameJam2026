@@ -94,7 +94,7 @@ void UFixHimHUDWidget::BuildUI()
 	RepSlot->SetPadding(FMargin(28.f, 24.f));
 
 	// ---- Controls hint (bottom left) ----
-	UTextBlock* Hint = MakeText(WidgetTree, TEXT("WASD move   Mouse look   Click interact   M floor plan   Esc pause"), 15, FLinearColor(1.f, 1.f, 1.f, 0.75f));
+	UTextBlock* Hint = MakeText(WidgetTree, TEXT("WASD move   Mouse look   Click interact   M floor plan   Esc pause   Bed = end the day"), 15, FLinearColor(1.f, 1.f, 1.f, 0.75f));
 	Hint->SetShadowOffset(FVector2D(1.f, 1.f));
 	Hint->SetShadowColorAndOpacity(FLinearColor(0.f, 0.f, 0.f, 0.7f));
 	UOverlaySlot* HintSlot = Root->AddChildToOverlay(Hint);
@@ -149,11 +149,12 @@ void UFixHimHUDWidget::SetRoomName(const FText& Name)
 	RoomPill->SetVisibility(Name.IsEmpty() ? ESlateVisibility::Collapsed : ESlateVisibility::HitTestInvisible);
 }
 
-void UFixHimHUDWidget::SetRepairs(int32 Fixed, int32 Total)
+void UFixHimHUDWidget::SetRepairs(int32 Fixed, int32 Total, int32 Week, int32 NumWeeks)
 {
 	if (RepairsText)
 	{
-		RepairsText->SetText(FText::FromString(FString::Printf(TEXT("Repairs  %d / %d"), Fixed, Total)));
+		const FString WeekText = Week > 0 && Week <= NumWeeks ? FString::Printf(TEXT("Week %d of %d   "), Week, NumWeeks) : FString();
+		RepairsText->SetText(FText::FromString(FString::Printf(TEXT("%sRepairs  %d / %d"), *WeekText, Fixed, Total)));
 	}
 }
 

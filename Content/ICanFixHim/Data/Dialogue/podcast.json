@@ -1,0 +1,121 @@
+{
+    "id": "podcast",
+    "kind": "podcast",
+    "name": "Creaky Floorboards",
+    "tagline": "Two retired ladies. One microphone. Zero correct answers (until week four).",
+    "speakers": [
+        "Bev",
+        "Trish",
+        "Dan"
+    ],
+    "notes": "Plays automatically on the radio at the start of each day (week 1-4) while the player explores; nobody can be talked to until it ends. ep5 plays after the final inspection if the house passed. Lines are 'Speaker: text'; *...* lines are sound cues. Each episode is ~30 seconds.",
+    "entries": [
+        {
+            "if": "week >= 5",
+            "node": "ep5"
+        },
+        {
+            "if": "week == 4",
+            "node": "ep4"
+        },
+        {
+            "if": "week == 3",
+            "node": "ep3"
+        },
+        {
+            "if": "week == 2",
+            "node": "ep2"
+        },
+        {
+            "if": "true",
+            "node": "ep1"
+        }
+    ],
+    "nodes": {
+        "ep1": {
+            "title": "Episode 1: The Catfish of Heartbreak Lane",
+            "lines": [
+                "*Theme music: a creaky door, then a kazoo.*",
+                "Bev: Welcome back to Creaky Floorboards! I'm Bev.",
+                "Trish: And I'm Trish. We solve the mysteries the police were too busy to care about.",
+                "Bev: This week: 12 Heartbreak Lane. Condemned. Damp. And some young flipper's just bought it.",
+                "Trish: Neighbors report dripping. At night. Inside the walls.",
+                "Bev: My theory? A catfish. Enormous. Lives in the walls, eats the drywall, comes out at night.",
+                "Trish: Bev, I think SHE'S being catfished. Who's texting her at two in the morning?",
+                "Bev: THE CATFISH, Trish.",
+                "Trish: ...Stay creaky."
+            ],
+            "end": true
+        },
+        "ep2": {
+            "title": "Episode 2: Something in the Walls Is Singing",
+            "lines": [
+                "*Theme music: a creaky door, then a kazoo.*",
+                "Trish: Update, listeners. We interviewed the next-door neighbor, Mrs. Pruitt.",
+                "Bev: Lovely woman. Eighty-two. Nine cats. One crossbow.",
+                "Trish: She says someone's been singing inside the walls of number twelve. At night. Bon Jovi.",
+                "Bev: That's the catfish.",
+                "Trish: Catfish don't sing, Bev.",
+                "Bev: Not with THAT attitude.",
+                "Trish: Mrs. Pruitt describes the singer as 'very flat, but very confident.'",
+                "Bev: Classic catfish.",
+                "Trish: She also says her bathwater keeps going cold. 'Like someone's in it with me.'",
+                "Bev: Trish, that's either a catfish or a very forward plumber.",
+                "Trish: Next week we go to the library. On purpose. Stay creaky!"
+            ],
+            "end": true
+        },
+        "ep3": {
+            "title": "Episode 3: The Inspector",
+            "lines": [
+                "*Theme music: a creaky door, then a kazoo.*",
+                "Trish: This week, an exclusive. City building inspector Dan has agreed to talk to us.",
+                "Dan: Happy to be here, ladies. Big fan. I listen while I inspect. It's very soothing.",
+                "Bev: Dan. 12 Heartbreak Lane. Haunted? Yes or no.",
+                "Dan: The only thing haunting that house is its water pressure.",
+                "Trish: Is it true you asked the new owner out for coffee?",
+                "Dan: To discuss PERMITS. ...And then my shoes filled up with water. Both of them. On a dry day.",
+                "Bev: That's the catfish, Dan.",
+                "Dan: Also, there's a big storm forecast for next weekend. Batten down the hatches.",
+                "Trish: Next week: the library. Stay creaky!"
+            ],
+            "end": true
+        },
+        "ep4": {
+            "title": "Episode 4: We Went to the Library",
+            "lines": [
+                "*Theme music: a creaky door, then a kazoo. Then, unusually, silence.*",
+                "Bev: Listeners. We went to the library.",
+                "Trish: We touched MICROFICHE, Bev.",
+                "Bev: And Trish found it. The local paper, 1987.",
+                "Trish: 'Local aerobics instructor Luke Moretti, 34, died while attempting to repair a sink on a first date.'",
+                "Bev: On a first DATE.",
+                "Trish: His date, a Brenda, told police he'd said he was 'great with his hands.'",
+                "Bev: Oh, Trish. That's tragic.",
+                "Trish: It is tragic.",
+                "Bev: A man died trying to impress a woman with his DIY. That's every man I've ever dated, Trish.",
+                "Trish: Most of them lived, Bev.",
+                "Bev: ...So no catfish?",
+                "Trish: No catfish, Bev. Stay creaky."
+            ],
+            "end": true
+        },
+        "ep5": {
+            "title": "Episode 5: Case Closed (Mostly)",
+            "lines": [
+                "*Theme music: a creaky door, a kazoo and, this week, a celebratory gong.*",
+                "Trish: We're LIVE from the front porch of 12 Heartbreak Lane. Case closed.",
+                "Bev: Mostly closed. I still think there's a catfish.",
+                "Trish: The new owner fixed every leak in the house. It passed inspection.",
+                "Bev: We asked her about Luke Moretti. She said, and I quote, 'It's complicated.'",
+                "Trish: Which, frankly, is the most romantic thing anyone's ever said about plumbing.",
+                "Bev: Also Dan the inspector says his shoes have been dry for a whole week, and he's never been so sad.",
+                "Trish: Final thoughts, Bev?",
+                "Bev: Never trust a man who says he's great with his hands.",
+                "*SPLASH. A bucket of water tips off the porch railing and soaks Bev completely.*",
+                "Trish: ...Stay creaky, everybody."
+            ],
+            "end": true
+        }
+    }
+}

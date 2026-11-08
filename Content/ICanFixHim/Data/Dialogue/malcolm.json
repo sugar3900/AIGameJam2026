@@ -27,6 +27,7 @@
         { "if": "visits == 1", "node": "v2" },
         { "if": "visits == 2", "node": "v3" },
         { "if": "lukey.fixed", "node": "v4_dry" },
+        { "if": "talkedtoday", "node": "today", "counts": false },
         { "if": "true", "node": "v4" }
     ],
     "endings": {
@@ -343,6 +344,13 @@
             "ending": "auto"
         },
 
+        "today": {
+            "lines": [
+                "We've spoken today. My quota of human contact is exhausted.",
+                "Come back next week. I'll have written something devastating about you."
+            ],
+            "end": true
+        },
         "after_rs": {
             "lines": [ "You're back. Good. I've written eleven poems since breakfast. Sit. Listen. That's an order. ...Please." ],
             "end": true

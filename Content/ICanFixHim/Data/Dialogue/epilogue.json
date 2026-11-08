@@ -1,0 +1,159 @@
+{
+    "id": "epilogue",
+    "kind": "epilogue",
+    "name": "Epilogue",
+    "tagline": "Day 30. The hearing. The house. What it's for.",
+    "speakers": [ "Lukey", "Dan" ],
+    "notes": "Plays after Lukey's arc is finished (and podcast ep4). Shows the Day 30 hearing, then the final house choice (sets flag.house_choice: 1 = sell, 2 = stay, 3 = demolish), then the matching epilogue for Lukey's ending.",
+    "entries": [
+        { "if": "!lukey.fixed", "node": "not_yet" },
+        { "if": "lukey.ending_romance_success", "node": "intro_together" },
+        { "if": "true", "node": "intro_alone" }
+    ],
+    "nodes": {
+        "not_yet": {
+            "lines": [
+                "*Day 30. City Hall. The hearing takes four minutes. Dan stands up, looks at his shoes and quietly recommends demolition.*",
+                "*On demolition day, a damp patch appears on the front wall, shaped exactly like a frowning face. The bulldozer driver says it's the saddest wall he's ever seen.*",
+                "*The lot becomes a little park. There's a drinking fountain by the gate. It drips constantly. Sometimes, if you stand very close, it hums Bon Jovi.*",
+                "*You think about him every time you walk past. You should have finished the job.*"
+            ],
+            "end": true
+        },
+        "intro_alone": {
+            "lines": [
+                "*Day 30. City Hall. The condemnation hearing takes four minutes.*",
+                "*Inspector Dan stands up, clears his throat and tells the council that 12 Heartbreak Lane is 'as dry as my sense of humor.' Nobody laughs. The order is lifted anyway.*",
+                "*In the back row, Mrs. Pruitt fires a celebratory crossbow bolt into the ceiling. Nobody knows why she's there.*",
+                "*That night, you stand alone in the kitchen. It's quiet. It's dry. It's fixed. For real.*"
+            ],
+            "goto": "decide"
+        },
+        "intro_together": {
+            "lines": [
+                "*Day 30. City Hall. The condemnation hearing takes four minutes.*",
+                "*Inspector Dan stands up, clears his throat and tells the council that 12 Heartbreak Lane is 'as dry as my sense of humor.' Nobody laughs. The order is lifted anyway.*",
+                "*In the back row, Mrs. Pruitt fires a celebratory crossbow bolt into the ceiling. Nobody knows why she's there.*",
+                "*That night, you stand in the kitchen. It's quiet. It's dry. And you're not alone: Lukey is sitting on the counter in full shoulder pads, swinging his legs.*",
+                "Lukey: So, sweetheart. What are we doing with it?"
+            ],
+            "goto": "decide"
+        },
+        "decide": {
+            "lines": [ "*The house is fixed. Now you have to decide what it's for.*" ],
+            "choices": [
+                { "text": "Sell it. And take Lukey with you.", "if": "lukey.ending_romance_success", "goto": "sell_together", "do": { "flag.house_choice": 1 } },
+                { "text": "Sell it to someone who'll love it.", "if": "lukey.ending_romance_failure", "goto": "sell_rf", "do": { "flag.house_choice": 1 } },
+                { "text": "Sell it to someone who'll love it.", "if": "lukey.ending_friend_success", "goto": "sell_fs", "do": { "flag.house_choice": 1 } },
+                { "text": "Sell it to someone who'll love it.", "if": "lukey.ending_friend_failure", "goto": "sell_ff", "do": { "flag.house_choice": 1 } },
+
+                { "text": "Stay. Here. With him.", "if": "lukey.ending_romance_success", "goto": "stay_together", "do": { "flag.house_choice": 2 } },
+                { "text": "Stay. Make it a home.", "if": "lukey.ending_romance_failure", "goto": "stay_rf", "do": { "flag.house_choice": 2 } },
+                { "text": "Stay. Make it a home.", "if": "lukey.ending_friend_success", "goto": "stay_fs", "do": { "flag.house_choice": 2 } },
+                { "text": "Stay. Make it a home.", "if": "lukey.ending_friend_failure", "goto": "stay_ff", "do": { "flag.house_choice": 2 } },
+
+                { "text": "Let it go. Some houses have had enough.", "if": "lukey.ending_romance_success", "goto": "demolish_together", "do": { "flag.house_choice": 3 } },
+                { "text": "Let it go. Some houses have had enough.", "if": "lukey.ending_romance_failure", "goto": "demolish_rf", "do": { "flag.house_choice": 3 } },
+                { "text": "Let it go. Some houses have had enough.", "if": "lukey.ending_friend_success", "goto": "demolish_fs", "do": { "flag.house_choice": 3 } },
+                { "text": "Let it go. Some houses have had enough.", "if": "lukey.ending_friend_failure", "goto": "demolish_ff", "do": { "flag.house_choice": 3 } }
+            ]
+        },
+
+        "sell_together": {
+            "lines": [
+                "*You list the house. At the open house, a lovely woman in her seventies wanders into the kitchen, runs a finger along the sink and says, 'I had a date in a house like this once. He was very... confident.'*",
+                "*Lukey hides in the radiator for six hours.*",
+                "*You sell to a young couple with a baby on the way. Lukey cries the whole drive to your new place. Not sad crying. Just a LOT of water. You have to run the wipers on the inside of the car.*",
+                "*Three days later, the kitchen tap in your new apartment starts to drip.*",
+                "You: Lukey.",
+                "Lukey: What? New house. A man's gotta make an entrance."
+            ],
+            "end": true
+        },
+        "stay_together": {
+            "lines": [
+                "*You stay. Obviously you stay.*",
+                "*The flipper finally has a house she isn't flipping. It has a dry kitchen, a dehumidifier called Dennis who now lives in the cupboard, and a ghost who cooks by yelling at you.*",
+                "*Every Friday, Inspector Dan pops round 'just to check the pipes.' Every Friday, his shoes get mysteriously soaked.*",
+                "Dan: One of these days I'm going to work out how that happens.",
+                "Lukey: No he isn't."
+            ],
+            "end": true
+        },
+        "demolish_together": {
+            "lines": [
+                "*You let the city have the house. It's had a long, damp life. Lukey agrees, on one condition: you take the sink.*",
+                "*You take the sink.*",
+                "*It sits in the corner of your new kitchen, connected to nothing, perfectly dry. Lukey naps in it like a cat.*",
+                "*The old lot becomes a little park with a drinking fountain that never quite stops dripping.*",
+                "Lukey: That's not me.",
+                "*It's definitely him.*"
+            ],
+            "end": true
+        },
+
+        "sell_rf": {
+            "lines": [ "*You keep his sweatband in your bedside drawer. It's still, somehow, slightly damp.*" ],
+            "goto": "sell_gone"
+        },
+        "sell_fs": {
+            "lines": [ "*Every time a tap drips anywhere, you do a tiny Running Man. People have started to notice.*" ],
+            "goto": "sell_gone"
+        },
+        "sell_ff": {
+            "lines": [ "*The 'FIXED IT MYSELF' message still fogs up on the kitchen window every time you boil the kettle. You never wipe it off.*" ],
+            "goto": "sell_gone"
+        },
+        "sell_gone": {
+            "lines": [
+                "*At the open house, a lovely woman in her seventies stops in the kitchen, smiles at the sink and says, 'I had a date in a house like this once. He was very confident.'*",
+                "*Then, quieter: 'I hope he's somewhere nice.'*",
+                "*You sell to a young couple with a baby on the way. You check their names: not Jasper and Pip. Dan signs it off with a pun nobody laughs at.*",
+                "*The kitchen never leaks again. Not once. Which is honestly a little bit sad.*"
+            ],
+            "end": true
+        },
+
+        "stay_rf": {
+            "lines": [ "*The heart-shaped drop on the kitchen floor never dries. You put a little rug around it so nobody steps on it.*" ],
+            "goto": "stay_gone"
+        },
+        "stay_fs": {
+            "lines": [ "*You keep Dennis plugged in, in the kitchen. He left Dennis the kitchen, after all. Every time the little light goes green, you say 'Night, Lukey.'*" ],
+            "goto": "stay_gone"
+        },
+        "stay_ff": {
+            "lines": [ "*The torch he was so rude about lives in the drawer by the sink. You never quite manage to throw it out.*" ],
+            "goto": "stay_gone"
+        },
+        "stay_gone": {
+            "lines": [
+                "*You don't sell. You can't. You fixed it too well to give it away.*",
+                "*Dan comes to Sunday dinner. He tells terrible puns. Nobody floods his shoes anymore, and he seems to miss it.*",
+                "*The house is quiet now. A good quiet. Except, very occasionally, very faintly, from somewhere in the walls: 'Woah-oh, we're halfway there...'*"
+            ],
+            "end": true
+        },
+
+        "demolish_rf": {
+            "lines": [ "*You love him enough to let his old haunt go, too.*" ],
+            "goto": "demolish_gone"
+        },
+        "demolish_fs": {
+            "lines": [ "*You think he'd get it. Some aerobics routines you just have to end on a big finish.*" ],
+            "goto": "demolish_gone"
+        },
+        "demolish_ff": {
+            "lines": [ "*Somewhere, someone is definitely muttering that HE could have done the demolition better. You hold the torch anyway.*" ],
+            "goto": "demolish_gone"
+        },
+        "demolish_gone": {
+            "lines": [
+                "*You let the city have it. It's had a long, damp life.*",
+                "*The lot becomes a little park. Dan cuts the ribbon and makes a pun about 'breaking ground.' Mrs. Pruitt fires her crossbow.*",
+                "*There's a drinking fountain by the gate. It never stops dripping. Nobody can fix it. Nobody tries very hard.*"
+            ],
+            "end": true
+        }
+    }
+}

@@ -34,12 +34,15 @@ enum class EDialogueSpeaker : uint8
 {
 	Hunk,
 	Player,
-	Narration
+	Narration,
+	/** A declared extra speaker ("Bev: ...", "Dan: ...") - see FHunkDefinition::Speakers. */
+	Named
 };
 
 struct FDialogueLine
 {
 	EDialogueSpeaker Speaker = EDialogueSpeaker::Hunk;
+	FString SpeakerName;
 	FString Text;
 };
 
@@ -64,6 +67,8 @@ struct FDialogueEntry
 {
 	FString Condition;
 	FString Node;
+	/** false for "come back next week" chatter that shouldn't advance his story. */
+	bool bCounts = true;
 };
 
 /** A primitive glued onto the hunk's skeleton to make him read as "his" malady. */
@@ -87,6 +92,10 @@ struct FHunkEnding
 struct FHunkDefinition
 {
 	FString Id;
+	/** "hunk" (a love interest with a malady), or a story script such as "podcast" / "epilogue". */
+	FString Kind = TEXT("hunk");
+	/** Extra speaker names allowed as "Name: text" line prefixes. */
+	TArray<FString> Speakers;
 	FString Name;
 	/** The house problem he embodies, e.g. "Leaky Plumbing". */
 	FString Malady;
@@ -109,6 +118,7 @@ struct FHunkDefinition
 	TMap<FString, FHunkEnding> Endings;
 
 	const FDialogueNode* FindNode(const FString& NodeId) const { return Nodes.Find(NodeId); }
+	bool IsHunk() const { return Kind == TEXT("hunk"); }
 };
 
 /** Snapshot the UI renders. */
@@ -117,6 +127,8 @@ struct FDialogueView
 	FString HunkId;
 	FString HunkName;
 	EDialogueSpeaker Speaker = EDialogueSpeaker::Hunk;
+	/** Set when Speaker == Named. */
+	FString SpeakerName;
 	/** Text with [topic] markup still in place and {player}/{name} substituted. */
 	FString Text;
 	TArray<FString> Choices;

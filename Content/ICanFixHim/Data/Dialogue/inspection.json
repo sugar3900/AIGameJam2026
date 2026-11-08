@@ -1,0 +1,45 @@
+{
+    "id": "inspection",
+    "kind": "scene",
+    "name": "Final Inspection",
+    "tagline": "Friday. Week four. The clipboard cometh.",
+    "speakers": [
+        "Dan"
+    ],
+    "notes": "Plays when the player goes to bed on the last week. The house passes if Lukey's arc is finished (the kitchen leak is fixed).",
+    "entries": [
+        {
+            "if": "lukey.fixed",
+            "node": "pass"
+        },
+        {
+            "if": "true",
+            "node": "fail"
+        }
+    ],
+    "nodes": {
+        "pass": {
+            "lines": [
+                "*Friday morning. Inspector Dan arrives with his clipboard, his windbreaker and, for once, completely dry shoes.*",
+                "Dan: Final inspection. Let's see what we've got.",
+                "*He checks every pipe in the house. He knocks on the walls. He sniffs the bathroom ceiling, for reasons he doesn't explain.*",
+                "Dan: Not a single leak. You've really turned the tide on this place.",
+                "*He waits for a laugh. Somewhere in the walls, a pipe gurgles, possibly in disgust.*",
+                "Dan: That pink tile in the bathroom is a crime against taste, but taste isn't in the building code. Yet.",
+                "Dan: Congratulations. 12 Heartbreak Lane passes. I'll tell the council on Monday it's the safest house on the street."
+            ],
+            "end": true
+        },
+        "fail": {
+            "lines": [
+                "*Friday morning. Inspector Dan arrives with his clipboard. He goes straight to the kitchen sink.*",
+                "*Drip. Drip. Drip.*",
+                "Dan: Ah.",
+                "Dan: That's a leak. That's an active leak. In the house I promised the council would be bone dry.",
+                "Dan: I'm sorry. I really am. I'll have to recommend the demolition goes ahead.",
+                "*Behind him, the tap drips once more. It sounds almost apologetic.*"
+            ],
+            "end": true
+        }
+    }
+}

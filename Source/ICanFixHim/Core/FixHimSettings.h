@@ -109,6 +109,18 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = "Tuning")
 	float TypewriterSpeed = 55.f;
 
+	/** Real seconds for daylight to fade into night (then it stays dark). */
+	UPROPERTY(Config, EditAnywhere, Category = "Tuning")
+	float DayLengthSeconds = 900.f;
+
+	/** Fraction of the day after which the "it's getting late" tooltip appears. */
+	UPROPERTY(Config, EditAnywhere, Category = "Tuning")
+	float LateWarningFraction = 0.75f;
+
+	/** Number of playable days (one per week). Going to bed on the last one triggers the final inspection. */
+	UPROPERTY(Config, EditAnywhere, Category = "Tuning")
+	int32 NumWeeks = 4;
+
 	/** Stat threshold used by the default ending resolver. */
 	UPROPERTY(Config, EditAnywhere, Category = "Tuning")
 	int32 EndingThreshold = 5;

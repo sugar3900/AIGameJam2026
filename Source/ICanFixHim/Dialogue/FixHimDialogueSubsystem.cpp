@@ -78,7 +78,7 @@ namespace
 		return Out;
 	}
 
-	FDialogueLine ParseLine(const FString& Raw)
+	FDialogueLine ParseLine(const FString& Raw, const TArray<FString>& Speakers)
 	{
 		FDialogueLine Line;
 		FString Text = Raw.TrimStartAndEnd();
@@ -86,8 +86,20 @@ namespace
 		{
 			Line.Speaker = EDialogueSpeaker::Player;
 			Text = Text.RightChop(4).TrimStart();
+			Line.Text = Text;
+			return Line;
 		}
-		else if (Text.Len() > 1 && Text.StartsWith(TEXT("*")) && Text.EndsWith(TEXT("*")))
+		for (const FString& Name : Speakers)
+		{
+			if (Text.StartsWith(Name + TEXT(":"), ESearchCase::IgnoreCase))
+			{
+				Line.Speaker = EDialogueSpeaker::Named;
+				Line.SpeakerName = Name;
+				Line.Text = Text.RightChop(Name.Len() + 1).TrimStart();
+				return Line;
+			}
+		}
+		if (Text.Len() > 1 && Text.StartsWith(TEXT("*")) && Text.EndsWith(TEXT("*")))
 		{
 			Line.Speaker = EDialogueSpeaker::Narration;
 			Text = Text.Mid(1, Text.Len() - 2);
@@ -195,6 +207,9 @@ bool UFixHimDialogueSubsystem::LoadHunkFile(const FString& Path)
 		Def.Id = FPaths::GetBaseFilename(Path).ToLower();
 	}
 	Root->TryGetStringField(TEXT("name"), Def.Name);
+	Root->TryGetStringField(TEXT("kind"), Def.Kind);
+	Def.Kind = Def.Kind.IsEmpty() ? FString(TEXT("hunk")) : Def.Kind.ToLower();
+	Root->TryGetStringArrayField(TEXT("speakers"), Def.Speakers);
 	Root->TryGetStringField(TEXT("malady"), Def.Malady);
 	Root->TryGetStringField(TEXT("room"), Def.Room);
 	Root->TryGetStringField(TEXT("tagline"), Def.Tagline);
@@ -262,6 +277,7 @@ bool UFixHimDialogueSubsystem::LoadHunkFile(const FString& Path)
 			FDialogueEntry Entry;
 			EO->TryGetStringField(TEXT("if"), Entry.Condition);
 			EO->TryGetStringField(TEXT("node"), Entry.Node);
+			EO->TryGetBoolField(TEXT("counts"), Entry.bCounts);
 			Def.Entries.Add(Entry);
 		}
 	}
@@ -298,13 +314,13 @@ bool UFixHimDialogueSubsystem::LoadHunkFile(const FString& Path)
 			{
 				for (const TSharedPtr<FJsonValue>& LV : *Lines)
 				{
-					Node.Lines.Add(ParseLine(LV->AsString()));
+					Node.Lines.Add(ParseLine(LV->AsString(), Def.Speakers));
 				}
 			}
 			FString Single;
 			if (NO->TryGetStringField(TEXT("say"), Single))
 			{
-				Node.Lines.Add(ParseLine(Single));
+				Node.Lines.Add(ParseLine(Single, Def.Speakers));
 			}
 
 			const TArray<TSharedPtr<FJsonValue>>* Choices = nullptr;
@@ -432,11 +448,21 @@ void UFixHimDialogueSubsystem::Validate(const FHunkDefinition& Def)
 	}
 }
 
+int32 UFixHimDialogueSubsystem::CountStoryHunks() const
+{
+	int32 N = 0;
+	for (const auto& Pair : Hunks)
+	{
+		N += Pair.Value.IsHunk() ? 1 : 0;
+	}
+	return N;
+}
+
 const FHunkDefinition* UFixHimDialogueSubsystem::FindHunkForRoom(const FString& RoomId) const
 {
 	for (const auto& Pair : Hunks)
 	{
-		if (Pair.Value.Room.Equals(RoomId, ESearchCase::IgnoreCase))
+		if (Pair.Value.IsHunk() && Pair.Value.Room.Equals(RoomId, ESearchCase::IgnoreCase))
 		{
 			return &Pair.Value;
 		}
@@ -472,6 +498,10 @@ int32 UFixHimDialogueSubsystem::ResolveVariable(const FString& HunkId, const FSt
 	{
 		return Save->CountFixed();
 	}
+	if (Identifier == TEXT("week"))
+	{
+		return Save->Data().Week;
+	}
 
 	const FHunkProgress* P = Save->FindHunk(Scope);
 	if (!P)
@@ -484,6 +514,7 @@ int32 UFixHimDialogueSubsystem::ResolveVariable(const FString& HunkId, const FSt
 	if (Name == TEXT("visits")) { return P->Visits; }
 	if (Name == TEXT("met")) { return P->bMet ? 1 : 0; }
 	if (Name == TEXT("fixed")) { return P->bFixed ? 1 : 0; }
+	if (Name == TEXT("talkedtoday")) { return P->LastTalkWeek == Save->Data().Week ? 1 : 0; }
 	if (Name.StartsWith(TEXT("ending_"))) { return P->Ending == Name.RightChop(7) ? 1 : 0; }
 	return 0;
 }
@@ -491,6 +522,23 @@ int32 UFixHimDialogueSubsystem::ResolveVariable(const FString& HunkId, const FSt
 bool UFixHimDialogueSubsystem::IsTrue(const FString& Condition) const
 {
 	return FixHim::Condition::IsTrue(Condition, [this](const FString& Ident) { return ResolveVariable(ActiveHunkId, Ident); });
+}
+
+const FDialogueNode* UFixHimDialogueSubsystem::ResolveEntryNode(const FString& DefinitionId) const
+{
+	const FHunkDefinition* Def = FindHunk(DefinitionId);
+	if (!Def)
+	{
+		return nullptr;
+	}
+	for (const FDialogueEntry& Entry : Def->Entries)
+	{
+		if (FixHim::Condition::IsTrue(Entry.Condition, [this, &DefinitionId](const FString& Ident) { return ResolveVariable(DefinitionId, Ident); }))
+		{
+			return Def->FindNode(Entry.Node);
+		}
+	}
+	return nullptr;
 }
 
 FString UFixHimDialogueSubsystem::ResolveAutoEnding(const FString& HunkId) const
@@ -523,11 +571,13 @@ bool UFixHimDialogueSubsystem::StartConversation(const FString& HunkId)
 	JumpsWithoutLines = 0;
 
 	FString StartNode;
+	bCountVisit = true;
 	for (const FDialogueEntry& Entry : Def->Entries)
 	{
 		if (IsTrue(Entry.Condition))
 		{
 			StartNode = Entry.Node;
+			bCountVisit = Entry.bCounts;
 			break;
 		}
 	}
@@ -687,7 +737,11 @@ void UFixHimDialogueSubsystem::FinishConversation()
 	if (UFixHimSaveSubsystem* Save = GetGameInstance()->GetSubsystem<UFixHimSaveSubsystem>())
 	{
 		FHunkProgress& P = Save->Hunk(HunkId);
-		P.Visits++;
+		if (bCountVisit)
+		{
+			P.Visits++;
+			P.LastTalkWeek = Save->Data().Week;
+		}
 		if (!Ending.IsEmpty())
 		{
 			P.Ending = Ending;
@@ -758,7 +812,8 @@ TArray<int32> UFixHimDialogueSubsystem::GetVisibleChoiceIndices() const
 
 FString UFixHimDialogueSubsystem::Substitute(const FString& In) const
 {
-	FString Out = In.Replace(TEXT("{player}"), *UFixHimSettings::Get()->PlayerName);
+	const UFixHimSaveSubsystem* Save = GetGameInstance()->GetSubsystem<UFixHimSaveSubsystem>();
+	FString Out = In.Replace(TEXT("{player}"), *(Save ? Save->GetPlayerName() : UFixHimSettings::Get()->PlayerName));
 	if (const FHunkDefinition* Def = FindHunk(ActiveHunkId))
 	{
 		Out = Out.Replace(TEXT("{name}"), *Def->Name);
@@ -780,6 +835,7 @@ void UFixHimDialogueSubsystem::RebuildView()
 	View.HunkId = ActiveHunkId;
 	View.HunkName = Def->Name;
 	View.Speaker = Line.Speaker;
+	View.SpeakerName = Line.SpeakerName;
 	View.Text = Substitute(Line.Text);
 	View.bIsLastLine = LineIndex == Node->Lines.Num() - 1;
 	if (LineIndex == 0)

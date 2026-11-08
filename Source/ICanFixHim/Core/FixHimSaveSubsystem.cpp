@@ -2,6 +2,7 @@
 
 #include "Core/FixHimSaveSubsystem.h"
 #include "ICanFixHim.h"
+#include "Core/FixHimSettings.h"
 #include "JsonObjectConverter.h"
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
@@ -114,13 +115,18 @@ void UFixHimSaveSubsystem::AddStat(const FString& HunkId, ERelationshipAxis Axis
 		return;
 	}
 	FHunkProgress& P = Hunk(HunkId);
-	switch (Axis)
+	int32* Stat = Axis == ERelationshipAxis::Romance ? &P.Romance : Axis == ERelationshipAxis::Friendship ? &P.Friendship : &P.Friction;
+	const int32 Before = *Stat;
+	*Stat = FMath::Clamp(*Stat + Delta, 0, FixHimStatMax);
+	if (*Stat != Before)
 	{
-	case ERelationshipAxis::Romance: P.Romance += Delta; break;
-	case ERelationshipAxis::Friendship: P.Friendship += Delta; break;
-	case ERelationshipAxis::Friction: P.Friction += Delta; break;
+		OnStatChanged.Broadcast(HunkId, Axis, *Stat - Before);
 	}
-	OnStatChanged.Broadcast(HunkId, Axis, Delta);
+}
+
+FString UFixHimSaveSubsystem::GetPlayerName() const
+{
+	return SaveData.PlayerName.IsEmpty() ? UFixHimSettings::Get()->PlayerName : SaveData.PlayerName;
 }
 
 int32 UFixHimSaveSubsystem::CountFixed() const

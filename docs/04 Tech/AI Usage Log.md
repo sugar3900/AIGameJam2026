@@ -13,6 +13,7 @@ Track where AI tools were used. Useful for jam disclosure rules and the [[Postmo
 | 2026-11-07 | text | Claude Code | Wrote all four character arcs (Lukey, Malcolm, Wyatt, Tyler), endings and puns from David's character briefs | `Content/ICanFixHim/Data/Dialogue/*.json` |
 | 2026-11-07 | design | Claude Code | Relationship thresholds, interconnections (leak feeds mold; Wyatt ♥ Tyler), UI layouts | Characters + beats from Scope & MVP |
 | 2026-11-07 | QA | Claude Code + Unreal MCP | Drove PIE with scripted console commands and screenshots to verify every arc reaches an ending | `FixHimScript`, `FixHimAuto` |
+| 2026-11-07 | text | Claude Code | Brainstormed the v2 story with Kirsten (flipper heroine, condemned house, Ghosts-UK tone), then wrote Lukey's v2 arc, the Bev & Trish podcast and the epilogues | `lukey.json`, `podcast.json`, `epilogue.json` |
 
 ## Prompts worth keeping
 - "Pull an update and read the documents I wrote. We will be building this out using Unreal... work independently until you've completed the prototype."

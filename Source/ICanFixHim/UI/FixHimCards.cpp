@@ -5,6 +5,7 @@
 #include "World/FixHimHunk.h"
 #include "Dialogue/DialogueTypes.h"
 #include "Core/FixHimSettings.h"
+#include "Core/FixHimSaveSubsystem.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/Border.h"
 #include "Components/HorizontalBox.h"
@@ -226,7 +227,9 @@ void UFixHimEndingCardWidget::Setup(const FHunkDefinition& Def, const FString& E
 
 	const FHunkEnding* Ending = Def.Endings.Find(EndingId);
 	Title->SetText(FText::FromString(Ending ? Ending->Title : Def.Name));
-	Body->SetText(FText::FromString(Ending ? Ending->Text.Replace(TEXT("{player}"), *UFixHimSettings::Get()->PlayerName) : FString()));
+	const UFixHimSaveSubsystem* SaveSub = UFixHimSaveSubsystem::Get(this);
+	const FString PlayerName = SaveSub ? SaveSub->GetPlayerName() : UFixHimSettings::Get()->PlayerName;
+	Body->SetText(FText::FromString(Ending ? Ending->Text.Replace(TEXT("{player}"), *PlayerName) : FString()));
 
 	const FString Fixed = FString::Printf(TEXT("%s repaired.  The house is %d / %d fixed."), *Def.Malady, FixedCount, TotalCount);
 	Progress->SetText(FText::FromString(FixedCount >= TotalCount ? Fixed + TEXT("\nEvery man in this house has been fixed. Or at least seen. Home sweet home.") : Fixed));
