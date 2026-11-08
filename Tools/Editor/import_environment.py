@@ -25,4 +25,12 @@ for name in ('SM_VintageFridgeBody', 'SM_VintageRange', 'SM_VintageSofa', 'SM_Cl
     mesh = unreal.EditorAssetLibrary.load_asset(task.destination_path + '/' + name)
     if not mesh:
         raise RuntimeError('Failed to import ' + name)
+    if name == 'SM_VintageDiningTable':
+        # Rebuild with finite render bounds; imported custom normals produced NaNs.
+        subsystem = unreal.get_editor_subsystem(unreal.StaticMeshEditorSubsystem)
+        settings = subsystem.get_lod_build_settings(mesh, 0)
+        settings.recompute_normals = True
+        settings.compute_weighted_normals = False
+        subsystem.set_lod_build_settings(mesh, 0, settings)
+        unreal.EditorAssetLibrary.save_loaded_asset(mesh, False)
     unreal.log('[Environment] %s bounds %s slots %s' % (name, mesh.get_bounds().box_extent, [str(x.material_slot_name) for x in mesh.static_materials]))

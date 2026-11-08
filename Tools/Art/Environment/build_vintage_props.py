@@ -611,11 +611,11 @@ for i in range(9):
 export('SM_LeafyPottedPlant')
 
 # Small vintage kitchen table; bottom origin, top 74 cm from floor.
-box('Tabletop',(0,0,.71),(.90,1.30,.06),wood,.035)
+box('Tabletop',(0,0,.71),(.90,1.30,.06),wood,.02)
 box('Table apron',(0,0,.64),(.78,1.18,.10),wood,.02)
 for x in [-.35,.35]:
     for y in [-.54,.54]:
-        bar('Table leg',(x*1.06,y*1.04,.015),(x,y,.64),.035,wood)
+        box('Table leg',(x,y,.32),(.07,.07,.64),wood,.008)
 export('SM_VintageDiningTable')
 
 # Bentwood inspired chair. Back at +X, seat faces -X, bottom origin.
