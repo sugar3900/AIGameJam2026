@@ -12,9 +12,10 @@ AFixHimBed::AFixHimBed()
 
 void AFixHimBed::Interact(AFixHimPlayerController* Player)
 {
+	PlayInteractSfx();
 	if (Player)
 	{
-		Player->RequestEndDay();
+		Player->OpenDoorPrompt();
 	}
 }
 

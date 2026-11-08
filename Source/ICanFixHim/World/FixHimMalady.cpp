@@ -3,6 +3,7 @@
 #include "World/FixHimMalady.h"
 #include "World/FixHimHunk.h"
 #include "Player/FixHimPlayerController.h"
+#include "Audio/FixHimSfxSubsystem.h"
 #include "Core/FixHimAssets.h"
 #include "Core/FixHimSaveSubsystem.h"
 #include "Dialogue/FixHimDialogueSubsystem.h"
@@ -100,14 +101,13 @@ FVector AFixHimMalady::GetTalkLocation(float CapsuleHalfHeight) const
 
 void AFixHimMalady::FrameCamera()
 {
-	// Over-the-shoulder two-shot: behind Rosie at the talk spot, looking at his face.
+	// First-person framing: Rosie's eye height at the talk spot (a touch back so he fits), looking at his face.
 	const FVector Head = HunkStandLocation + FVector(0.f, 0.f, 62.f);
 	const FVector Talk = TalkSpot->GetComponentLocation();
 	FVector Dir = Head - Talk;
 	Dir.Z = 0.f;
 	Dir = Dir.GetSafeNormal();
-	const FVector Right = FVector::CrossProduct(FVector::UpVector, Dir);
-	FVector CamLoc = Talk - Dir * 175.f + Right * 62.f + FVector(0.f, 0.f, 70.f);
+	FVector CamLoc = FVector(Talk.X, Talk.Y, HunkStandLocation.Z - 92.f + 160.f) - Dir * 40.f;
 
 	// Small rooms: if a wall is between his face and the ideal spot, slide the camera in front of the wall.
 	FHitResult Hit;
@@ -137,7 +137,7 @@ void AFixHimMalady::BuildBrokenFx()
 		BrokenFx.Add(Drop);
 		const float FloorZ = -GetActorLocation().Z + 0.6f;
 		UStaticMeshComponent* Puddle = FixHim::Assets::AddShape(this, Root, TEXT("cylinder"), FVector(O.X + 25.f, O.Y, FloorZ), FVector(120.f, 90.f, 0.6f), FLinearColor(0.4f, 0.65f, 0.9f));
-		if (UMaterialInstanceDynamic* MID = FixHim::Assets::MakeTranslucent(Puddle, FLinearColor(0.35f, 0.6f, 0.95f), 0.55f))
+		if (UMaterialInstanceDynamic* MID = FixHim::Assets::MakeTranslucent(Puddle, FLinearColor(1.6f, 2.8f, 4.0f), 0.28f))
 		{
 			Puddle->SetMaterial(0, MID);
 		}
@@ -146,6 +146,13 @@ void AFixHimMalady::BuildBrokenFx()
 	}
 	case EMaladyStyle::Mold:
 	{
+		TArray<AActor*> AttachedActors;
+		GetAttachedActors(AttachedActors);
+		if (AttachedActors.ContainsByPredicate([](const AActor* Actor)
+			{ return Actor && Actor->ActorHasTag(TEXT("AuthoredMoldDamage")); }))
+		{
+			break;
+		}
 		FRandomStream Rng(GetTypeHash(HunkId) + 7);
 		for (int32 i = 0; i < 14; ++i)
 		{
@@ -184,7 +191,14 @@ void AFixHimMalady::RefreshRepairState()
 {
 	const UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this);
 	const FHunkProgress* P = Save ? Save->FindHunk(HunkId) : nullptr;
+	const bool bWasRepaired = bRepaired;
 	bRepaired = P && P->bFixed;
+	// A repair that happens while playing (not just loaded from the save): celebrate a good ending, sigh at a bad one.
+	if (bRepairKnown && bRepaired && !bWasRepaired)
+	{
+		FixHim::SfxAt(this, P->Ending.EndsWith(TEXT("_success")) ? "FixComplete" : "RepairFail", GetActorLocation());
+	}
+	bRepairKnown = true;
 
 	for (UStaticMeshComponent* Fx : BrokenFx)
 	{
@@ -196,6 +210,16 @@ void AFixHimMalady::RefreshRepairState()
 	if (FxLight)
 	{
 		FxLight->SetVisibility(!bRepaired);
+	}
+	// Level-authored nonblocking damage follows the same repair state as FX.
+	TArray<AActor*> AttachedActors;
+	GetAttachedActors(AttachedActors);
+	for (AActor* Attached : AttachedActors)
+	{
+		if (Attached && Attached->ActorHasTag(TEXT("RepairDamage")))
+		{
+			Attached->SetActorHiddenInGame(bRepaired);
+		}
 	}
 }
 
@@ -265,7 +289,18 @@ void AFixHimMalady::Interact(AFixHimPlayerController* Player)
 {
 	if (Player && Hunk)
 	{
+		PlayInteractSfx();
 		Player->BeginEncounter(this);
+	}
+}
+
+FName AFixHimMalady::DefaultInteractSfx(bool bNowOn) const
+{
+	switch (Style)
+	{
+	case EMaladyStyle::Leak: return TEXT("PipeClank");
+	case EMaladyStyle::Wiring: return TEXT("Zap");
+	default: return TEXT("Interact");
 	}
 }
 

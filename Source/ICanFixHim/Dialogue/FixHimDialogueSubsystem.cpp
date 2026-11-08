@@ -437,7 +437,7 @@ void UFixHimDialogueSubsystem::Validate(const FHunkDefinition& Def)
 		{
 			LoadErrors.Add(FString::Printf(TEXT("%s: node '%s' has no lines"), *Def.Id, *N.Id));
 		}
-		if (N.Choices.IsEmpty() && N.Goto.IsEmpty() && !N.bEnd && !N.bReturn)
+		if (N.Choices.IsEmpty() && N.Goto.IsEmpty() && !N.bEnd && !N.bReturn && !IsHypertextNode(Def, N.Id))
 		{
 			LoadErrors.Add(FString::Printf(TEXT("%s: node '%s' is a dead end (no choices, goto or end)"), *Def.Id, *N.Id));
 		}
@@ -609,6 +609,7 @@ bool UFixHimDialogueSubsystem::StartConversation(const FString& HunkId)
 	JumpsWithoutLines = 0;
 	ReturnStack.Reset();
 	SpentAsides.Reset();
+	Tangents.Reset();
 
 	FString StartNode;
 	bCountVisit = true;
@@ -665,7 +666,12 @@ void UFixHimDialogueSubsystem::EnterNode(const FString& NodeId)
 
 	if (Node->Lines.IsEmpty())
 	{
-		// Pure routing node.
+		// Pure routing node (a hypertext node with no text just rewinds).
+		if (InTangent())
+		{
+			ReturnFromTangent();
+			return;
+		}
 		if (++JumpsWithoutLines > 32)
 		{
 			UE_LOG(LogFixHim, Error, TEXT("%s: goto loop near '%s'"), *ActiveHunkId, *NodeId);
@@ -711,9 +717,7 @@ void UFixHimDialogueSubsystem::ReturnFromAside()
 	ActiveNodeId = Point.NodeId;
 	LineIndex = Point.LineIndex;
 	JumpsWithoutLines = 0;
-	bResumingLine = true;
-	RebuildView();
-	bResumingLine = false;
+	RebuildView(true);
 }
 
 void UFixHimDialogueSubsystem::Advance()
@@ -733,6 +737,11 @@ void UFixHimDialogueSubsystem::Advance()
 		++LineIndex;
 		View.Fx.Reset(); // fx only plays on node entry
 		RebuildView();
+		return;
+	}
+	if (InTangent())
+	{
+		ReturnFromTangent();
 		return;
 	}
 	if (!GetVisibleChoiceIndices().IsEmpty())
@@ -799,7 +808,62 @@ void UFixHimDialogueSubsystem::ClickTopic(const FString& TopicId)
 		ReturnStack.Add({ ActiveNodeId, LineIndex });
 	}
 	ApplyEffects(Topic->Effects);
+	// Explicit asides return through their "return" node; other links rewind only when they
+	// open a hypertext dead end (StoryWriter's link nodes). One-way diverts stay one-way.
+	const FHunkDefinition* Def = FindHunk(ActiveHunkId);
+	if (!Topic->bAside && Def && Def->FindNode(Topic->Goto) && (InTangent() || IsHypertextNode(*Def, Topic->Goto)))
+	{
+		Tangents.Emplace(ActiveNodeId, LineIndex);
+	}
 	EnterNode(Topic->Goto);
+}
+
+bool UFixHimDialogueSubsystem::IsHypertextNode(const FHunkDefinition& Def, const FString& NodeId) const
+{
+	const FDialogueNode* Target = Def.FindNode(NodeId);
+	// Only true dead ends rewind: a link target with its own choices, goto, end or "return"
+	// keeps its flow (one-way diverts and aside chains).
+	if (!Target || !Target->Ending.IsEmpty() || Target->bEnd || Target->bReturn
+		|| !Target->Goto.IsEmpty() || !Target->Choices.IsEmpty())
+	{
+		return false;
+	}
+	bool bViaTopic = false;
+	for (const FDialogueEntry& Entry : Def.Entries)
+	{
+		if (Entry.Node == NodeId)
+		{
+			return false;
+		}
+	}
+	for (const auto& Pair : Def.Nodes)
+	{
+		const FDialogueNode& N = Pair.Value;
+		if (N.Goto == NodeId)
+		{
+			return false;
+		}
+		for (const FDialogueChoice& Choice : N.Choices)
+		{
+			if (Choice.Goto == NodeId)
+			{
+				return false;
+			}
+		}
+		for (const auto& TP : N.Topics)
+		{
+			bViaTopic |= TP.Value.Goto == NodeId && !TP.Value.bAside;
+		}
+	}
+	return bViaTopic;
+}
+
+void UFixHimDialogueSubsystem::ReturnFromTangent()
+{
+	const TPair<FString, int32> Back = Tangents.Pop();
+	ActiveNodeId = Back.Key;
+	LineIndex = Back.Value;
+	RebuildView(true);
 }
 
 void UFixHimDialogueSubsystem::AbortConversation()
@@ -810,6 +874,7 @@ void UFixHimDialogueSubsystem::AbortConversation()
 	PendingEnding.Reset();
 	ReturnStack.Reset();
 	SpentAsides.Reset();
+	Tangents.Reset();
 	View = FDialogueView();
 	if (bWasActive)
 	{
@@ -839,7 +904,6 @@ void UFixHimDialogueSubsystem::FinishConversation()
 			P.Ending = Ending;
 			P.bFixed = true;
 		}
-		Save->SaveGame();
 	}
 
 	AbortConversation();
@@ -913,7 +977,7 @@ FString UFixHimDialogueSubsystem::Substitute(const FString& In) const
 	return Out;
 }
 
-void UFixHimDialogueSubsystem::RebuildView()
+void UFixHimDialogueSubsystem::RebuildView(bool bIsReturn)
 {
 	const FHunkDefinition* Def = FindHunk(ActiveHunkId);
 	const FDialogueNode* Node = Def ? Def->FindNode(ActiveNodeId) : nullptr;
@@ -932,20 +996,24 @@ void UFixHimDialogueSubsystem::RebuildView()
 	View.SpeakerName = Line.SpeakerName;
 	View.Text = Substitute(Line.Text);
 	View.bIsLastLine = LineIndex == Node->Lines.Num() - 1;
-	View.bResumed = bResumingLine;
-	if (LineIndex == 0 && !bResumingLine)
+	View.bIsReturn = bIsReturn;
+	View.bInTangent = InTangent();
+	if (LineIndex == 0 && !bIsReturn)
 	{
 		View.Fx = Node->Fx;
 		View.FxText = Substitute(Node->FxText);
 	}
-	if (!Line.Fx.IsEmpty() && !bResumingLine)
+	if (!Line.Fx.IsEmpty() && !bIsReturn)
 	{
 		View.Fx = Line.Fx;
 	}
 
-	for (const int32 Index : GetVisibleChoiceIndices())
+	if (!InTangent())
 	{
-		View.Choices.Add(Substitute(Node->Choices[Index].Text));
+		for (const int32 Index : GetVisibleChoiceIndices())
+		{
+			View.Choices.Add(Substitute(Node->Choices[Index].Text));
+		}
 	}
 	for (const auto& TP : Node->Topics)
 	{
@@ -955,7 +1023,7 @@ void UFixHimDialogueSubsystem::RebuildView()
 			View.ActiveTopics.Add(TP.Key);
 		}
 	}
-	View.bWillEnd = View.bIsLastLine && View.Choices.IsEmpty()
+	View.bWillEnd = View.bIsLastLine && !InTangent() && View.Choices.IsEmpty()
 		&& (Node->bReturn ? ReturnStack.IsEmpty() : (Node->bEnd || Node->Goto.IsEmpty()));
 
 	OnView.Broadcast(View);

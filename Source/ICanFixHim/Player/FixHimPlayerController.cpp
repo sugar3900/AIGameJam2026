@@ -4,8 +4,11 @@
 #include "Player/FixHimCharacter.h"
 #include "World/FixHimInteractable.h"
 #include "World/FixHimMalady.h"
+#include "World/FixHimDoor.h"
 #include "World/FixHimHunk.h"
 #include "World/FixHimRoom.h"
+#include "Audio/FixHimSfxSubsystem.h"
+#include "Audio/FixHimMusicSubsystem.h"
 #include "Core/FixHimSaveSubsystem.h"
 #include "Core/FixHimSettings.h"
 #include "Dialogue/FixHimDialogueSubsystem.h"
@@ -15,7 +18,11 @@
 #include "UI/FixHimFloorPlanWidget.h"
 #include "UI/FixHimCards.h"
 #include "UI/FixHimDayWidgets.h"
+#include "Debug/FixHimDebug.h"
 #include "Engine/DirectionalLight.h"
+#include "Engine/StaticMeshActor.h"
+#include "Components/StaticMeshComponent.h"
+#include "Materials/MaterialInstanceDynamic.h"
 #include "Components/DirectionalLightComponent.h"
 #include "Components/LightComponent.h"
 #include "ICanFixHim.h"
@@ -39,6 +46,12 @@
 #include "UnrealClient.h"
 #include "TimerManager.h"
 
+namespace
+{
+	/** Degrees of turn per mouse count at sensitivity 1.0. */
+	constexpr float MouseLookScale = 0.3f;
+}
+
 AFixHimPlayerController::AFixHimPlayerController()
 {
 	bShowMouseCursor = true;
@@ -58,10 +71,14 @@ void AFixHimPlayerController::BeginPlay()
 	}
 
 	BuildInput();
+#if WITH_EDITOR || !UE_BUILD_SHIPPING
+	UFixHimDebugComponent::Install(this);
+#endif
 
 	if (UFixHimDialogueSubsystem* Dialogue = UFixHimDialogueSubsystem::Get(this))
 	{
 		ViewHandle = Dialogue->OnView.AddUObject(this, &AFixHimPlayerController::HandleDialogueView);
+		StartedHandle = Dialogue->OnConversationStarted.AddUObject(this, &AFixHimPlayerController::HandleConversationStarted);
 		EndHandle = Dialogue->OnConversationEnded.AddUObject(this, &AFixHimPlayerController::HandleConversationEnded);
 	}
 	if (UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this))
@@ -80,7 +97,10 @@ void AFixHimPlayerController::BeginPlay()
 		if (It->ActorHasTag(TEXT("TitleCamera")))
 		{
 			TitleCamera = *It;
-			TitleCameraBase = It->GetActorTransform();
+			// The saved map's camera sits near the living room's corner and clips into the walls as it drifts;
+			// hold it further into the room instead.
+			TitleCameraBase = FTransform(FRotator(-11.f, -150.f, 0.f), FVector(600.f, 430.f, 185.f));
+			It->SetActorTransform(TitleCameraBase);
 			break;
 		}
 	}
@@ -89,6 +109,12 @@ void AFixHimPlayerController::BeginPlay()
 	if (SunIt)
 	{
 		Sun = *SunIt;
+		// The map's sun is placed Static/Stationary; UpdateDaylight moves it every tick, which otherwise
+		// spams a "has to be 'Movable'" error into the Message Log.
+		if (USceneComponent* SunRoot = Sun->GetRootComponent())
+		{
+			SunRoot->SetMobility(EComponentMobility::Movable);
+		}
 		SunBaseRotation = Sun->GetActorRotation();
 		if (ULightComponent* LC = Sun->GetLightComponent())
 		{
@@ -96,6 +122,20 @@ void AFixHimPlayerController::BeginPlay()
 			SunBaseColor = LC->GetLightColor();
 		}
 	}
+
+	for (TActorIterator<AStaticMeshActor> It(GetWorld()); It; ++It)
+	{
+		if (It->ActorHasTag(TEXT("WindowView")))
+		{
+			if (UMaterialInstanceDynamic* View = It->GetStaticMeshComponent()->CreateDynamicMaterialInstance(0))
+			{
+				WindowViews.Add(View);
+			}
+		}
+	}
+
+	// The saved map may predate the door; make sure there is always one to click.
+	AFixHimDoor::EnsureInWorld(GetWorld());
 
 	EnterState(EFixHimState::Title);
 
@@ -111,6 +151,7 @@ void AFixHimPlayerController::EndPlay(const EEndPlayReason::Type Reason)
 	if (UFixHimDialogueSubsystem* Dialogue = UFixHimDialogueSubsystem::Get(this))
 	{
 		Dialogue->OnView.Remove(ViewHandle);
+		Dialogue->OnConversationStarted.Remove(StartedHandle);
 		Dialogue->OnConversationEnded.Remove(EndHandle);
 		Dialogue->AbortConversation();
 	}
@@ -241,8 +282,14 @@ void AFixHimPlayerController::OnMouseLook(const FInputActionValue& Value)
 	{
 		return;
 	}
+#if WITH_EDITOR || !UE_BUILD_SHIPPING
+	if (bDebugPanelOpen)
+	{
+		return; // the mouse drives the debug panel's cursor
+	}
+#endif
 	const UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this);
-	const float Sens = 0.15f * (Save ? Save->Options().MouseSensitivity : 1.f);
+	const float Sens = MouseLookScale * (Save ? Save->Options().MouseSensitivity : 1.f);
 	const bool bInvert = Save && Save->Options().bInvertY;
 	const FVector2D V = Value.Get<FVector2D>();
 	if (AFixHimCharacter* C = Cast<AFixHimCharacter>(GetPawn()))
@@ -276,10 +323,22 @@ void AFixHimPlayerController::OnInteract()
 		{
 			Hovered->Interact(this);
 		}
+		else if (bPodcastPlaying && RadioWidget)
+		{
+			// Click through the opening podcast captions one line at a time.
+			RadioWidget->Advance();
+		}
 		break;
 	case EFixHimState::Dialogue:
 	case EFixHimState::Cutscene:
 		AdvanceDialogue();
+		break;
+	case EFixHimState::Encounter:
+		// Click through the first-meeting splash.
+		if (IntroWidget)
+		{
+			IntroWidget->Skip();
+		}
 		break;
 	default:
 		break;
@@ -292,7 +351,7 @@ void AFixHimPlayerController::OnAdvance()
 	{
 		AdvanceDialogue();
 	}
-	else if (State == EFixHimState::Playing)
+	else if (State == EFixHimState::Playing || State == EFixHimState::Encounter)
 	{
 		OnInteract();
 	}
@@ -317,6 +376,9 @@ void AFixHimPlayerController::OnPausePressed()
 		break;
 	case EFixHimState::Paused:
 		SetPaused(false);
+		break;
+	case EFixHimState::DoorPrompt:
+		CloseDoorPrompt();
 		break;
 	case EFixHimState::Playing:
 	case EFixHimState::Dialogue:
@@ -399,11 +461,68 @@ void AFixHimPlayerController::EnterState(EFixHimState NewState)
 		SetHovered(nullptr);
 	}
 	ApplyInputModeForState();
+	UpdateMusic();
+}
+
+void AFixHimPlayerController::UpdateMusic()
+{
+	UFixHimMusicSubsystem* Music = UFixHimMusicSubsystem::Get(this);
+	if (!Music)
+	{
+		return;
+	}
+	// Paused is an overlay: keep the music of whatever was underneath.
+	const EFixHimState Effective = State == EFixHimState::Paused ? StateBeforePause : State;
+	FName Track = NAME_None; // None = leave the current track alone
+	float Fade = 1.5f;
+	switch (Effective)
+	{
+	case EFixHimState::Title:
+		Track = TEXT("MainMenu");
+		break;
+	case EFixHimState::Playing:
+	case EFixHimState::FloorPlan:
+	case EFixHimState::DoorPrompt:
+		Track = TEXT("Explore");
+		break;
+	case EFixHimState::Encounter:
+	case EFixHimState::Dialogue:
+	{
+		const FString Id = ActiveMalady ? ActiveMalady->HunkId : MusicConvId;
+		Track = TEXT("Explore");
+		for (const TCHAR* Hunk : { TEXT("lukey"), TEXT("malcolm"), TEXT("tyler"), TEXT("wyatt") })
+		{
+			if (Id.Equals(Hunk, ESearchCase::IgnoreCase))
+			{
+				FString Name = Id.ToLower();
+				Name[0] = FChar::ToUpper(Name[0]);
+				Track = FName(*Name);
+			}
+		}
+		Fade = 1.0f;
+		break;
+	}
+	case EFixHimState::Cutscene: // inspection / podcast / epilogue scenes
+	case EFixHimState::Finale:
+		Track = TEXT("Finale");
+		Fade = 2.5f;
+		break;
+	default: // Ending, Traveling, Sleeping: unspecified, keep playing
+		break;
+	}
+	if (!Track.IsNone() && !Music->PlayTrack(Track, Fade) && Track != TEXT("Explore"))
+	{
+		Music->PlayTrack(TEXT("Explore"), Fade); // a missing hunk/finale track falls back to Explore
+	}
 }
 
 void AFixHimPlayerController::ApplyInputModeForState()
 {
-	if (State == EFixHimState::Playing)
+	bool bGameOnly = State == EFixHimState::Playing;
+#if WITH_EDITOR || !UE_BUILD_SHIPPING
+	bGameOnly = bGameOnly && !bDebugPanelOpen;
+#endif
+	if (bGameOnly)
 	{
 		bShowMouseCursor = false;
 		SetInputMode(FInputModeGameOnly());
@@ -422,9 +541,14 @@ void AFixHimPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
 
-	if (State != EFixHimState::Title && State != EFixHimState::Paused && State != EFixHimState::Sleeping && State != EFixHimState::Finale)
+	if (State != EFixHimState::Title && State != EFixHimState::Paused && State != EFixHimState::DoorPrompt && State != EFixHimState::Sleeping && State != EFixHimState::Finale)
 	{
 		UpdateDaylight(DeltaTime);
+	}
+	if (UFixHimMusicSubsystem* Music = UFixHimMusicSubsystem::Get(this))
+	{
+		// The opening podcast has its own radio audio: keep the music under it.
+		Music->SetDuck(bPodcastPlaying ? 0.4f : 1.f, 0.8f);
 	}
 	if (State == EFixHimState::Playing)
 	{
@@ -457,7 +581,7 @@ void AFixHimPlayerController::UpdateHover()
 	if (GetWorld()->LineTraceSingleByChannel(Hit, Start, Start + Dir * 2500.f, ECC_Visibility, Q))
 	{
 		AFixHimInteractable* I = Cast<AFixHimInteractable>(Hit.GetActor());
-		if (I && I->CanInteract() && FVector::Dist(Hit.ImpactPoint, P->GetActorLocation()) <= UFixHimSettings::Get()->InteractRange)
+		if (I && I->CanInteract() && FVector::Dist(Hit.ImpactPoint, P->GetActorLocation()) <= (I->InteractRangeOverride > 0.f ? I->InteractRangeOverride : UFixHimSettings::Get()->InteractRange))
 		{
 			Found = I;
 		}
@@ -488,14 +612,29 @@ void AFixHimPlayerController::SetHovered(AFixHimInteractable* NewHovered)
 // ---------------------------------------------------------------------------
 // Menus
 
+void AFixHimPlayerController::PlacePlayerAtDoor()
+{
+	// Just inside the front door (living room's south wall), looking into the apartment.
+	if (APawn* P = GetPawn())
+	{
+		P->TeleportTo(FVector(190.f, 120.f, P->GetActorLocation().Z), FRotator(0.f, 75.f, 0.f));
+		SetControlRotation(FRotator(0.f, 75.f, 0.f));
+	}
+}
+
 void AFixHimPlayerController::BeginPlaying(bool bFromSave)
 {
+	if (!bFromSave)
+	{
+		PlacePlayerAtDoor();
+	}
 	SetViewTargetWithBlend(GetPawn(), bFromSave ? 0.6f : 1.4f, VTBlend_EaseInOut, 2.f);
 	for (TActorIterator<AFixHimMalady> It(GetWorld()); It; ++It)
 	{
 		It->RefreshRepairState();
 		It->DismissHunk();
 	}
+	FixHim::Sfx(this, "MenuStart");
 	EnterState(EFixHimState::Playing);
 	RefreshRepairs();
 	StartDay(bFromSave);
@@ -620,6 +759,46 @@ void AFixHimPlayerController::SetPaused(bool bPause)
 	}
 }
 
+void AFixHimPlayerController::OpenDoorPrompt()
+{
+	if (State != EFixHimState::Playing)
+	{
+		return;
+	}
+	if (!DoorWidget)
+	{
+		DoorWidget = CreateWidget<UFixHimDoorPromptWidget>(this, UFixHimDoorPromptWidget::StaticClass());
+	}
+	ShowWidget(DoorWidget, 40);
+	// Widgets build lazily on first show, so refresh afterwards.
+	DoorWidget->Refresh();
+	SetPause(true);
+	EnterState(EFixHimState::DoorPrompt);
+}
+
+void AFixHimPlayerController::CloseDoorPrompt()
+{
+	if (State != EFixHimState::DoorPrompt)
+	{
+		return;
+	}
+	HideWidget(DoorWidget);
+	SetPause(false);
+	EnterState(EFixHimState::Playing);
+}
+
+void AFixHimPlayerController::ConfirmEndDay()
+{
+	if (State != EFixHimState::DoorPrompt || !CanEndDay())
+	{
+		return;
+	}
+	// Back to Playing first: RequestEndDay only runs from there (and may bounce with a toast on week 1).
+	FixHim::Sfx(this, "DoorLatch");
+	CloseDoorPrompt();
+	RequestEndDay();
+}
+
 void AFixHimPlayerController::ReturnToMainMenu()
 {
 	if (UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this))
@@ -634,6 +813,7 @@ void AFixHimPlayerController::ReturnToMainMenu()
 		D->AbortConversation();
 	}
 	SetPause(false);
+	FixHim::Music(this, TEXT("MainMenu"), 1.0f); // start fading now; the reloaded title keeps it going
 	UGameplayStatics::OpenLevel(this, FName(*UGameplayStatics::GetCurrentLevelName(this, true)));
 }
 
@@ -693,7 +873,7 @@ void AFixHimPlayerController::BeginEncounter(AFixHimMalady* Malady)
 	ActiveMalady = Malady;
 	EnterState(EFixHimState::Encounter);
 
-	// Step Rosie up to the talk spot facing him, then swing the camera into the two-shot.
+	// Step Rosie up to the talk spot facing him, then swing the camera to her eye line there.
 	if (ACharacter* C = Cast<ACharacter>(GetPawn()))
 	{
 		C->GetCharacterMovement()->StopMovementImmediately();
@@ -778,6 +958,7 @@ void AFixHimPlayerController::AdvanceDialogue()
 	{
 		return;
 	}
+	FixHim::Sfx(this, "DialogueAdvance");
 	if (UFixHimDialogueSubsystem* D = UFixHimDialogueSubsystem::Get(this))
 	{
 		D->Advance();
@@ -800,8 +981,15 @@ void AFixHimPlayerController::HandleStatChanged(const FString& HunkId, ERelation
 	}
 }
 
+void AFixHimPlayerController::HandleConversationStarted(const FString& HunkId)
+{
+	MusicConvId = HunkId;
+	UpdateMusic();
+}
+
 void AFixHimPlayerController::HandleConversationEnded(const FString& HunkId, const FString& EndingId)
 {
+	MusicConvId.Reset();
 	if (!ActiveSceneId.IsEmpty() && HunkId == ActiveSceneId)
 	{
 		ActiveSceneId.Reset();
@@ -851,7 +1039,7 @@ void AFixHimPlayerController::HandleSaved()
 {
 	if (HUDWidget && State != EFixHimState::Title)
 	{
-		HUDWidget->ShowToast(TEXT("Saved"), 1.2f);
+		HUDWidget->ShowToast(TEXT("Saved"), 1.2f, false);
 	}
 }
 
@@ -881,13 +1069,6 @@ void AFixHimPlayerController::NotifyEnteredRoom(AFixHimRoom* Room)
 	if (HUDWidget)
 	{
 		HUDWidget->SetRoomName(Room->DisplayName);
-	}
-	if (State == EFixHimState::Playing)
-	{
-		if (UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this))
-		{
-			Save->SaveGame();
-		}
 	}
 }
 
@@ -926,6 +1107,7 @@ void AFixHimPlayerController::ToggleFloorPlan()
 	if (State == EFixHimState::FloorPlan)
 	{
 		HideWidget(FloorPlanWidget);
+		FixHim::Sfx(this, "MapClose");
 		EnterState(EFixHimState::Playing);
 		return;
 	}
@@ -938,6 +1120,7 @@ void AFixHimPlayerController::ToggleFloorPlan()
 		FloorPlanWidget = CreateWidget<UFixHimFloorPlanWidget>(this, UFixHimFloorPlanWidget::StaticClass());
 	}
 	ShowWidget(FloorPlanWidget, 25);
+	FixHim::Sfx(this, "MapOpen");
 	FloorPlanWidget->Refresh();
 	EnterState(EFixHimState::FloorPlan);
 }
@@ -1071,11 +1254,22 @@ void AFixHimPlayerController::UpdateDaylight(float DeltaTime)
 		}
 	}
 
+	const float WindowBrightness = FMath::Lerp(12.f, 0.35f, FMath::Pow(T, 1.4f));
+	for (UMaterialInstanceDynamic* View : WindowViews)
+	{
+		if (View) View->SetScalarParameterValue(TEXT("WindowBrightness"), WindowBrightness);
+	}
+
 	if (!bLateToastShown && T >= S->LateWarningFraction && State == EFixHimState::Playing && HUDWidget)
 	{
 		bLateToastShown = true;
 		HUDWidget->ShowToast(TEXT("It's getting late. End the day whenever you like by going to bed."), 6.f);
 	}
+}
+
+bool AFixHimPlayerController::CanEndDay() const
+{
+	return CurrentWeek() != 1 || HaveMetEveryone();
 }
 
 bool AFixHimPlayerController::HaveMetEveryone() const
@@ -1108,7 +1302,7 @@ void AFixHimPlayerController::RequestEndDay()
 		return;
 	}
 	const int32 Week = CurrentWeek();
-	if (Week == 1 && !HaveMetEveryone())
+	if (!CanEndDay())
 	{
 		if (HUDWidget)
 		{
@@ -1167,24 +1361,13 @@ void AFixHimPlayerController::RequestEndDay()
 		{
 			Save->Data().Week++;
 		}
-		// Wake up next to the bed with every hunk back in his fixture.
+		// Every morning starts at the front door, with every hunk back in his fixture.
 		for (TActorIterator<AFixHimMalady> It(Self->GetWorld()); It; ++It)
 		{
 			It->DismissHunk();
 			It->RefreshRepairState();
 		}
-		for (TActorIterator<AFixHimRoom> It(Self->GetWorld()); It; ++It)
-		{
-			if (It->RoomId == TEXT("bedroom"))
-			{
-				if (APawn* P = Self->GetPawn())
-				{
-					const FTransform T = It->GetEntryTransform();
-					P->SetActorLocation(T.GetLocation(), false, nullptr, ETeleportType::TeleportPhysics);
-					Self->SetControlRotation(FRotator(-10.f, T.Rotator().Yaw, 0.f));
-				}
-			}
-		}
+		Self->PlacePlayerAtDoor();
 		Self->DayElapsed = 0.f;
 		Self->bLateToastShown = false;
 		Self->UpdateDaylight(0.f);
@@ -1532,7 +1715,7 @@ void AFixHimPlayerController::FixHimDump()
 	{
 		const FDialogueView& V = D->GetView();
 		UE_LOG(LogFixHim, Log, TEXT("Dialogue %s/%s#%d%s fx=%s: '%s' choices=%d topics=[%s]"), *V.HunkId, *V.NodeId, V.LineIndex,
-			V.bResumed ? TEXT(" (resumed)") : TEXT(""), *V.Fx, *V.Text, V.Choices.Num(), *FString::Join(V.ActiveTopics, TEXT(",")));
+			V.bIsReturn ? TEXT(" (resumed)") : TEXT(""), *V.Fx, *V.Text, V.Choices.Num(), *FString::Join(V.ActiveTopics, TEXT(",")));
 	}
 	if (S)
 	{

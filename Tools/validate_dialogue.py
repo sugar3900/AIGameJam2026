@@ -86,11 +86,23 @@ def validate(path, hunk_ids):
         ref("entry", e.get("node"))
         if (m := check_condition(e.get("if"))):
             errs.append(f"entry condition {m}")
+    # Hypertext dead ends (StoryWriter link nodes): reached only through non-aside [word] links,
+    # no flow of their own. The game rewinds to the line the link was clicked on.
+    strong = {e.get("node") for e in d.get("entries", [])}
+    linked = set()
+    for n in nodes.values():
+        strong.add(n.get("goto"))
+        strong.update(c.get("goto") for c in n.get("choices", []))
+        linked.update(v if isinstance(v, str) else v.get("goto") for v in n.get("topics", {}).values()
+                      if isinstance(v, str) or not v.get("aside"))
+    hypertext = linked - strong
+
     for nid, n in nodes.items():
         lines = n.get("lines", [])
         if not lines:
             errs.append(f"{nid}: no lines")
-        if not n.get("choices") and not n.get("goto") and not n.get("end") and not n.get("ending") and not n.get("return"):
+        if not n.get("choices") and not n.get("goto") and not n.get("end") and not n.get("ending") and not n.get("return") \
+                and nid not in hypertext:
             errs.append(f"{nid}: dead end")
         if n.get("return") and (n.get("choices") or n.get("goto") or n.get("end") or n.get("ending")):
             warns.append(f"{nid}: 'return' node also has choices/goto/end/ending (return wins once its lines run out, unless it has choices)")

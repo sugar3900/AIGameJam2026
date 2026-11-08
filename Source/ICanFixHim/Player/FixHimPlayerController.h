@@ -18,6 +18,7 @@ class UFixHimTitleWidget;
 class UFixHimHUDWidget;
 class UFixHimDialogueWidget;
 class UFixHimPauseWidget;
+class UFixHimDoorPromptWidget;
 class UFixHimOptionsWidget;
 class UFixHimCreditsWidget;
 class UFixHimFloorPlanWidget;
@@ -28,6 +29,7 @@ class UFixHimNameEntryWidget;
 class UFixHimTransitionWidget;
 class UFixHimKeepsakeWidget;
 class ADirectionalLight;
+class UMaterialInstanceDynamic;
 class UUserWidget;
 
 UENUM(BlueprintType)
@@ -40,6 +42,8 @@ enum class EFixHimState : uint8
 	Dialogue,
 	FloorPlan,
 	Paused,
+	/** "End the day?" popup from the front door; gameplay is paused underneath. */
+	DoorPrompt,
 	Ending,
 	Traveling,
 	/** Week transition / sleeping. */
@@ -87,8 +91,16 @@ public:
 	void FinishGame();
 
 	// ---- Days ----------------------------------------------------------------
-	/** Bed was clicked. On week 1 you must meet everyone first. On the last week this triggers the finale. */
+	/** Bed or door popup confirmed. On week 1 you must meet everyone first. On the last week this triggers the finale. */
 	void RequestEndDay();
+	/** False on week 1 until everyone has been met. */
+	bool CanEndDay() const;
+	/** Door or bed was clicked: pops up End Day / Cancel. */
+	void OpenDoorPrompt();
+	/** Cancel (or Escape): closes the popup and gives control back. Nothing is consumed. */
+	void CloseDoorPrompt();
+	/** "End Day" pressed in the popup. */
+	void ConfirmEndDay();
 	bool IsPodcastPlaying() const { return bPodcastPlaying; }
 
 	// ---- World API ---------------------------------------------------------
@@ -130,24 +142,45 @@ public:
 	/** Runs a ';'-separated list of console commands. "wait <seconds>" pauses the script. */
 	UFUNCTION(Exec) void FixHimScript(const FString& Script);
 
+#if WITH_EDITOR || !UE_BUILD_SHIPPING
+	/** Debug panel open/closed: keeps the cursor visible with game input still running, and restores the state's own mode on close. */
+	void DebugSetPanelOpen(bool bOpen);
+	/** Jumps to a week (1..NumWeeks+1 = finale) as a clean day rollover, ignoring the week-1 "meet everyone" rule. */
+	void DebugSetWeek(int32 NewWeek);
+	/** Re-applies the save data to the world (repair state of maladies, HUD counters). */
+	void DebugRefreshWorld();
+	void DebugTeleportToDoor();
+#endif
+
 private:
 	void BuildInput();
 	void EnterState(EFixHimState NewState);
 	void ApplyInputModeForState();
+	/** Music director: picks the track for the current state (see FixHimMusicSubsystem). Called from EnterState. */
+	void UpdateMusic();
 	void UpdateHover();
 	void SetHovered(AFixHimInteractable* NewHovered);
 
 	void StartDialogue();
 	void HandleDialogueView(const FDialogueView& View);
+	void HandleConversationStarted(const FString& HunkId);
 	void HandleConversationEnded(const FString& HunkId, const FString& EndingId);
 	void HandleStatChanged(const FString& HunkId, ERelationshipAxis Axis, int32 Delta);
 	void HandleSaved();
 	void HandlePreSave();
 	void BeginPlaying(bool bFromSave);
+	/** Puts the player just inside the front door facing the apartment (start of every day). */
+	void PlacePlayerAtDoor();
 	void RefreshRepairs();
 	void ShowWidget(UUserWidget* Widget, int32 ZOrder);
 	void HideWidget(UUserWidget* Widget);
 	void RunNextScriptStep();
+
+#if WITH_EDITOR || !UE_BUILD_SHIPPING
+	// In-game debug panel (Debug/FixHimDebug*.cpp); not compiled into shipping builds.
+	friend class UFixHimDebugComponent;
+	bool bDebugPanelOpen = false;
+#endif
 
 	// Days, podcast, scripted scenes, finale
 	void StartDay(bool bFromSave);
@@ -184,6 +217,7 @@ private:
 	UPROPERTY(Transient) TObjectPtr<UFixHimHUDWidget> HUDWidget;
 	UPROPERTY(Transient) TObjectPtr<UFixHimDialogueWidget> DialogueWidget;
 	UPROPERTY(Transient) TObjectPtr<UFixHimPauseWidget> PauseWidget;
+	UPROPERTY(Transient) TObjectPtr<UFixHimDoorPromptWidget> DoorWidget;
 	UPROPERTY(Transient) TObjectPtr<UFixHimOptionsWidget> OptionsWidget;
 	UPROPERTY(Transient) TObjectPtr<UFixHimCreditsWidget> CreditsWidget;
 	UPROPERTY(Transient) TObjectPtr<UFixHimFloorPlanWidget> FloorPlanWidget;
@@ -195,6 +229,7 @@ private:
 	UPROPERTY(Transient) TObjectPtr<UFixHimTransitionWidget> TransitionWidget;
 	UPROPERTY(Transient) TObjectPtr<UFixHimKeepsakeWidget> KeepsakeWidget;
 	UPROPERTY(Transient) TObjectPtr<ADirectionalLight> Sun;
+	UPROPERTY(Transient) TArray<TObjectPtr<UMaterialInstanceDynamic>> WindowViews;
 
 	UPROPERTY(Transient) TObjectPtr<AFixHimInteractable> Hovered;
 	UPROPERTY(Transient) TObjectPtr<AFixHimMalady> ActiveMalady;
@@ -210,7 +245,7 @@ private:
 	FTimerHandle ScriptTimer;
 	FTimerHandle EncounterTimer;
 	FTimerHandle TravelTimer;
-	FDelegateHandle ViewHandle, EndHandle, StatHandle, SavedHandle, PreSaveHandle;
+	FDelegateHandle ViewHandle, StartedHandle, EndHandle, StatHandle, SavedHandle, PreSaveHandle;
 	float TitleTime = 0.f;
 
 	float DayElapsed = 0.f;
@@ -221,6 +256,8 @@ private:
 	FLinearColor SunBaseColor = FLinearColor::White;
 	TArray<FString> SceneQueue;
 	FString ActiveSceneId;
+	/** Hunk id of the running conversation (from the dialogue subsystem), for choosing its music. */
+	FString MusicConvId;
 	TFunction<void()> SceneChainDone;
 	FTransform TitleCameraBase;
 };

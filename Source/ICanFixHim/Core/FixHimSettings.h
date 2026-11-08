@@ -31,10 +31,6 @@ public:
 
 	// ---- Characters -------------------------------------------------------
 
-	/** Rosie, the player character. */
-	UPROPERTY(Config, EditAnywhere, Category = "Characters")
-	TSoftObjectPtr<USkeletalMesh> PlayerMesh;
-
 	/** The hunks (every house malady shares this base body; looks come from dialogue JSON). */
 	UPROPERTY(Config, EditAnywhere, Category = "Characters")
 	TSoftObjectPtr<USkeletalMesh> HunkMesh;

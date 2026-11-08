@@ -32,6 +32,9 @@ public:
 	void Stop();
 	bool IsPlaying() const { return bPlaying; }
 
+	/** Click-to-advance: ends the current caption so the next one shows (or the episode finishes) on the next tick. */
+	void Advance() { LineTimer = FMath::Max(LineTimer, LineDuration); }
+
 protected:
 	virtual void BuildUI() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;

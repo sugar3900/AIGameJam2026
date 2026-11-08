@@ -2,6 +2,7 @@
 
 #include "UI/FixHimDayWidgets.h"
 #include "Player/FixHimPlayerController.h"
+#include "Audio/FixHimSfxSubsystem.h"
 #include "World/FixHimHunk.h"
 #include "Core/FixHimSettings.h"
 #include "Blueprint/WidgetTree.h"
@@ -175,6 +176,7 @@ void UFixHimTransitionWidget::BuildUI()
 
 void UFixHimTransitionWidget::Play(const FString& Title, const FString& Subtitle, bool bStartBlack, bool bFadeBackIn, TFunction<void()> InOnMidpoint, TFunction<void()> InOnDone)
 {
+	FixHim::Sfx(this, bStartBlack ? "DayStart" : "DayEnd");
 	TitleText->SetText(FText::FromString(Title));
 	SubtitleText->SetText(FText::FromString(Subtitle));
 	TitleText->SetRenderOpacity(0.f);

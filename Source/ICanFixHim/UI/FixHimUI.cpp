@@ -2,6 +2,7 @@
 
 #include "UI/FixHimUI.h"
 #include "Player/FixHimPlayerController.h"
+#include "Audio/FixHimSfxSubsystem.h"
 #include "Blueprint/WidgetTree.h"
 #include "Brushes/SlateRoundedBoxBrush.h"
 #include "Components/Border.h"
@@ -59,10 +60,17 @@ void UFixHimButton::Init(TFunction<void()> InOnClick)
 {
 	OnClick = MoveTemp(InOnClick);
 	OnClicked.AddUniqueDynamic(this, &UFixHimButton::HandleClicked);
+	OnHovered.AddUniqueDynamic(this, &UFixHimButton::HandleHovered);
+}
+
+void UFixHimButton::HandleHovered()
+{
+	FixHim::Sfx(this, "ButtonHover", 1.f, 0.03f);
 }
 
 void UFixHimButton::HandleClicked()
 {
+	FixHim::Sfx(this, ClickSfx);
 	if (OnClick)
 	{
 		OnClick();
@@ -80,6 +88,14 @@ UFixHimButton* UFixHimButton::Make(UWidgetTree* Tree, const FString& LabelText, 
 	B->Label->SetJustification(ETextJustify::Center);
 	B->AddChild(B->Label);
 	B->Init(MoveTemp(InOnClick));
+	static const TCHAR* const BackLabels[] = { TEXT("Back"), TEXT("Cancel"), TEXT("Close"), TEXT("Not yet"), TEXT("Never mind") };
+	for (const TCHAR* BackLabel : BackLabels)
+	{
+		if (LabelText.StartsWith(BackLabel, ESearchCase::IgnoreCase))
+		{
+			B->ClickSfx = TEXT("ButtonBack");
+		}
+	}
 	return B;
 }
 
@@ -91,6 +107,13 @@ void UFixHimSlider::Init(TFunction<void(float)> InOnChanged)
 
 void UFixHimSlider::HandleChanged(float NewValue)
 {
+	// A soft tick every 5% of travel rather than on every pixel of the drag.
+	const int32 Step = FMath::FloorToInt(GetNormalizedValue() * 20.f);
+	if (Step != LastTickStep)
+	{
+		LastTickStep = Step;
+		FixHim::Sfx(this, "SliderTick", 1.f, 0.f);
+	}
 	if (OnChanged)
 	{
 		OnChanged(NewValue);
@@ -105,6 +128,7 @@ void UFixHimCheckBox::Init(TFunction<void(bool)> InOnChanged)
 
 void UFixHimCheckBox::HandleChanged(bool bChecked)
 {
+	FixHim::Sfx(this, bChecked ? "ToggleOn" : "ToggleOff");
 	if (OnChanged)
 	{
 		OnChanged(bChecked);
@@ -125,6 +149,38 @@ TSharedRef<SWidget> UFixHimWidget::RebuildWidget()
 		BuildUI();
 	}
 	return Super::RebuildWidget();
+}
+
+void UFixHimWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+	PopAge = 0.f;
+	if (PopCard)
+	{
+		PopCard->SetRenderScale(FVector2D(0.01f, 0.01f));
+		FixHim::Sfx(this, OpenSfx, 1.f, 0.03f);
+	}
+}
+
+void UFixHimWidget::NativeDestruct()
+{
+	if (PopCard)
+	{
+		FixHim::Sfx(this, CloseSfx, 1.f, 0.03f);
+	}
+	Super::NativeDestruct();
+}
+
+void UFixHimWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+{
+	Super::NativeTick(MyGeometry, InDeltaTime);
+	constexpr float PopSeconds = 0.22f;
+	if (PopCard && PopAge < PopSeconds)
+	{
+		PopAge += InDeltaTime;
+		const float S = FMath::Max(0.01f, FixHimUI::EaseOutBack(PopAge / PopSeconds));
+		PopCard->SetRenderScale(FVector2D(S, S));
+	}
 }
 
 UVerticalBox* UFixHimWidget::MakeCardScreen(const FString& Title, float Width)
@@ -150,6 +206,8 @@ UVerticalBox* UFixHimWidget::MakeCardScreen(const FString& Title, float Width)
 	Card->SetBrush(Rounded(Cream, 28.f, Pink, 4.f));
 	Card->SetPadding(FMargin(36.f, 28.f));
 	Size->AddChild(Card);
+	Size->SetRenderTransformPivot(FVector2D(0.5f, 0.5f));
+	PopCard = Size;
 
 	UVerticalBox* Col = WidgetTree->ConstructWidget<UVerticalBox>();
 	Card->SetContent(Col);

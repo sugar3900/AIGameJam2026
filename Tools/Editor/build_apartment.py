@@ -15,6 +15,7 @@ Coordinates are centimetres, floor at Z=0, north = +X. Layout (top-down):
 Run inside the editor. Rebuilds the map from scratch each time (idempotent).
 """
 import math
+import os
 import unreal
 
 EAS = unreal.get_editor_subsystem(unreal.EditorActorSubsystem)
@@ -29,7 +30,9 @@ PALETTE_DIR = "/Game/ICanFixHim/Materials/Palette"
 CUBE = unreal.load_asset("/Engine/BasicShapes/Cube")
 CYL = unreal.load_asset("/Engine/BasicShapes/Cylinder")
 SPHERE = unreal.load_asset("/Engine/BasicShapes/Sphere")
-FLAT = unreal.load_asset("/Game/ICanFixHim/Materials/M_FlatColor")
+FLAT = unreal.load_asset("/Game/ICanFixHim/Materials/Environment/M_PainterlySurface")
+if not FLAT:
+    raise RuntimeError("Run create_painterly_material.py before building the apartment")
 TRANS = unreal.load_asset("/Game/ICanFixHim/Materials/M_Translucent")
 
 H = 300.0   # wall height
@@ -39,41 +42,48 @@ T = 20.0    # wall thickness
 # Palette (material instances are real assets so they can be tweaked in-editor)
 
 COLORS = {
-    "WallCream": (0.93, 0.87, 0.80),
-    "WallBlush": (0.96, 0.74, 0.78),
-    "WallMint": (0.70, 0.88, 0.78),
-    "WallSky": (0.74, 0.84, 0.95),
-    "WallLavender": (0.78, 0.71, 0.90),
+    "WallCream": (0.68, 0.58, 0.44),
+    "WallBlush": (0.69, 0.53, 0.45),
+    "WallMint": (0.57, 0.62, 0.48),
+    "WallSky": (0.70, 0.61, 0.53),
+    "WallLavender": (0.53, 0.56, 0.43),
     "Ceiling": (0.96, 0.95, 0.93),
     "Trim": (0.98, 0.97, 0.95),
     "FloorWood": (0.50, 0.31, 0.18),
     "FloorTile": (0.88, 0.86, 0.80),
     "FloorBath": (0.94, 0.90, 0.92),
-    "FloorCarpet": (0.55, 0.45, 0.62),
+    "FloorCarpet": (0.43, 0.27, 0.16),
     "Grass": (0.30, 0.55, 0.25),
-    "Rug": (0.95, 0.45, 0.62),
+    "Rug": (0.52, 0.25, 0.20),
     "RugBlue": (0.40, 0.58, 0.85),
-    "Velvet": (0.80, 0.20, 0.38),
-    "VelvetDark": (0.62, 0.12, 0.28),
+    "Velvet": (0.43, 0.25, 0.18),
+    "VelvetDark": (0.25, 0.16, 0.12),
     "Wood": (0.55, 0.35, 0.20),
     "WoodDark": (0.32, 0.19, 0.11),
     "White": (0.95, 0.95, 0.95),
     "Black": (0.04, 0.04, 0.05),
     "Steel": (0.62, 0.64, 0.68),
     "Brass": (0.85, 0.65, 0.30),
-    "Mint": (0.45, 0.80, 0.70),
+    "Mint": (0.36, 0.47, 0.35),
     "Butter": (0.98, 0.88, 0.55),
     "Lilac": (0.70, 0.55, 0.85),
     "Teal": (0.20, 0.55, 0.60),
     "Coral": (0.98, 0.50, 0.42),
-    "Leaf": (0.25, 0.60, 0.30),
+    "Leaf": (0.28, 0.34, 0.22),
+    "FabricOlive": (0.27, 0.31, 0.22),
+    "FabricShade": (0.18, 0.22, 0.15),
+    "OldRose": (0.48, 0.25, 0.24),
+    "Paper": (0.67, 0.56, 0.40),
+    "Mildew": (0.06, 0.11, 0.06),
+    "Damp": (0.31, 0.32, 0.20),
     "Bark": (0.35, 0.22, 0.12),
     "Plum": (0.30, 0.10, 0.28),
-    "PinkTile": (0.98, 0.55, 0.72),
+    "PinkTile": (0.76, 0.40, 0.47),
 }
 EMISSIVE = {
     "LampGlow": ((1.0, 0.92, 0.75), (6.0, 5.0, 3.5)),
     "Mirror": ((0.75, 0.85, 0.92), (0.15, 0.18, 0.22)),
+    "WindowDaylight": ((0.65, 0.78, 0.77), (0.4, 0.50, 0.48)),
 }
 _mic_cache = {}
 
@@ -87,10 +97,10 @@ def mic(name):
     else:
         mi = ASSETS.create_asset(f"MI_{name}", PALETTE_DIR, unreal.MaterialInstanceConstant,
                                  unreal.MaterialInstanceConstantFactoryNew())
-    if name == "Glass":
+    if name in ("Glass", "Invisible"):
         MEL.set_material_instance_parent(mi, TRANS)
         MEL.set_material_instance_vector_parameter_value(mi, "BaseColor", unreal.LinearColor(0.75, 0.9, 1.0, 1))
-        MEL.set_material_instance_scalar_parameter_value(mi, "Opacity", 0.18)
+        MEL.set_material_instance_scalar_parameter_value(mi, "Opacity", 0.0 if name == "Invisible" else 0.18)
     else:
         MEL.set_material_instance_parent(mi, FLAT)
         if name in EMISSIVE:
@@ -124,11 +134,77 @@ def prim(label, center, size, color, folder, mesh=CUBE, yaw=0.0, pitch=0.0, roll
     a.set_actor_scale3d(unreal.Vector(size[0] / 100.0, size[1] / 100.0, size[2] / 100.0))
     a.set_folder_path(folder)
     smc = a.static_mesh_component
-    smc.set_material(0, mic(color))
+    surface = mic(color)
+    overrides = {"Floor_living": "M_Floorboards", "Floor_bedroom": "M_Floorboards",
+                 "Counter_Base": "M_AgedSagePaint", "Floor_kitchen": "M_KitchenChecker", "Floor_bathroom": "M_BathMosaic"}
+    if "_Outside" in label:
+        surface = unreal.load_asset("/Game/ICanFixHim/Materials/Environment/M_WindowView")
+        if not surface:
+            raise RuntimeError("Run import_window_view.py first")
+    if label.startswith("Wall_S_Living_") and folder == "Structure/Walls":
+        surface = unreal.load_asset("/Game/ICanFixHim/Materials/Environment/M_FloralWallpaperWorn")
+        if not surface:
+            raise RuntimeError("Run import_environment_textures.py first")
+    if label in overrides:
+        surface = unreal.load_asset("/Game/ICanFixHim/Materials/Environment/" + overrides[label])
+        if not surface:
+            raise RuntimeError("Run import_environment_textures.py first")
+    smc.set_material(0, surface)
+    if "_Outside" in label:
+        smc.set_cast_shadow(False)
+        a.tags = [unreal.Name("WindowView")]
     if not collide:
-        smc.set_collision_enabled(unreal.CollisionEnabled.NO_COLLISION)
+        smc.set_collision_profile_name("NoCollision")
     return a
 
+
+
+def authored(label, asset, location, folder, yaw=0):
+    mesh = unreal.load_asset("/Game/ICanFixHim/Environment/Meshes/" + asset)
+    if not mesh:
+        raise RuntimeError("Missing environment mesh: " + asset)
+    a = EAS.spawn_actor_from_object(mesh, unreal.Vector(*location), rot(yaw))
+    a.set_actor_label(label)
+    a.set_folder_path(folder)
+    apply_authored_materials(a.static_mesh_component, mesh)
+    return a
+
+
+def apply_authored_materials(component, mesh):
+    slots = {"Enamel_Cream": "Butter", "Paint_Sage": "Mint", "Iron": "Black",
+             "Aged_Metal": "Steel", "Rust": "WoodDark", "Upholstery": "FabricOlive",
+             "Upholstery_Shadow": "FabricShade", "Wood": "WoodDark",
+             "Porcelain": "White", "Burner": "Black", "Plaid_Rose": "OldRose", "Plaid_Gold": "Butter", "Plaid_Cream": "Trim", "Wire_Red": "Velvet", "Wire_Ochre": "Butter", "Wire_Blue": "Teal", "Exposed_Plaster": "Paper", "Old_Paint": "WallCream", "Damp_Edge": "Wood", "Quilt_Rose": "OldRose", "Quilt_Sage": "FabricOlive", "Quilt_Ivory": "Trim", "Mildew": "Mildew", "Damp": "Damp", "Pot_Terracotta": "Coral", "Leaf_Green": "Leaf", "Leaf_Light": "Mint", "Fruit_Red": "Velvet", "Fruit_Gold": "Butter", "Fruit_Green": "Leaf"}
+    for index, slot in enumerate(mesh.get_editor_property("static_materials")):
+        name = str(slot.get_editor_property("material_slot_name"))
+        special = {"Quilt_Rose": "M_RoseQuilt", "Quilt_Ivory": "M_IvoryPillow", "Paint_Sage": "M_CabinetSage", "Enamel_Cream": "M_IvoryEnamel", "Wood": "M_WarmWood"}
+        if name in special:
+            material = unreal.load_asset("/Game/ICanFixHim/Materials/Environment/" + special[name])
+            if not material:
+                raise RuntimeError("Missing quilt material " + special[name])
+        else:
+            material = mic(slots.get(name, "Wood"))
+        component.set_material(index, material)
+
+
+def moving_mesh(actor, name, local_location, yaw=0):
+    mesh = unreal.load_asset("/Game/ICanFixHim/Environment/Meshes/" + name)
+    if not mesh:
+        raise RuntimeError("Missing moving mesh " + name)
+    actor.set_editor_property("use_authored_body_materials", True)
+    body = actor.get_editor_property("body")
+    body.set_static_mesh(mesh)
+    body.set_relative_location(unreal.Vector(*local_location), False, False)
+    body.set_relative_rotation(rot(yaw), False, False)
+    body.set_relative_scale3d(unreal.Vector(1, 1, 1))
+    apply_authored_materials(body, mesh)
+
+
+def solid_proxy(label, center, size, folder):
+    a = prim(label, center, size, "Wood", folder)
+    a.set_actor_hidden_in_game(True)
+    a.static_mesh_component.set_collision_profile_name("EnvironmentBlocking")
+    return a
 
 def box_minmax(label, lo, hi, color, folder, collide=True):
     c = [(lo[i] + hi[i]) / 2.0 for i in range(3)]
@@ -179,6 +255,18 @@ def wall(label, axis, fixed, a0, a1, color, openings=(), folder="Structure/Walls
             g = box_minmax(f"{label}_Glass{j}", lo, hi, "Glass", folder + "/Glass", collide=True)
             g.static_mesh_component.set_material(0, mic("Glass"))
             g.static_mesh_component.set_cast_shadow(False)
+            # A softly lit exterior card prevents empty black windows in an
+            # enclosed level. Mullions make the period windows legible.
+            if axis == "x":
+                prim(f"{label}_Outside{j}", ((s+e)/2, fixed-20 if fixed < 100 else fixed+20, (zb+zt)/2),
+                     (e-s, 2, zt-zb), "WindowDaylight", folder+"/Glass", collide=False)
+                prim(f"{label}_Mullion{j}", ((s+e)/2, fixed, (zb+zt)/2),
+                     (5, 5, zt-zb), "Trim", folder+"/Trim", collide=False)
+            else:
+                prim(f"{label}_Outside{j}", (fixed-20 if fixed < 100 else fixed+20, (s+e)/2, (zb+zt)/2),
+                     (2, e-s, zt-zb), "WindowDaylight", folder+"/Glass", collide=False)
+                prim(f"{label}_Mullion{j}", (fixed, (s+e)/2, (zb+zt)/2),
+                     (5, 5, zt-zb), "Trim", folder+"/Trim", collide=False)
 
 
 def interactable(label, loc, yaw, room, body_mesh, body_loc, body_size, color, toggle,
@@ -291,13 +379,6 @@ def build_structure():
         box_minmax(f"Ceiling_{rid}", (x0 - 10, y0 - 10, H), (x1 + 10, y1 + 10, H + 12), "Ceiling", "Structure/Ceilings")
     prim("Ground", (700, 550, -16), (8000, 8000, 10), "Grass", "Structure")
 
-    # Kitchen floor checkerboard accents.
-    for i in range(6):
-        for j in range(6):
-            if (i + j) % 2 == 0:
-                box_minmax(f"KitchenTile_{i}_{j}", (810 + i * 97, 10 + j * 105, 0), (810 + (i + 1) * 97, 10 + (j + 1) * 105, 0.4),
-                           "Coral", "Structure/Floors/KitchenTiles", collide=False)
-
     # Exterior walls (pastel per room) - X-running walls span the corners.
     wall("Wall_W_Living", "x", 0, -10, 800, "WallBlush", [(130, 250, 0, 220)])  # front door (decorative)
     wall("Wall_W_Kitchen", "x", 0, 800, 1410, "WallMint", [(1000, 1200, 110, 230)])
@@ -313,171 +394,311 @@ def build_structure():
     wall("Wall_Mid_Y650_West", "x", 650, 10, 790, "WallCream", [(560, 680, 0, 225)])
     wall("Wall_Mid_Y650_East", "x", 650, 810, 1390, "WallCream", [(1040, 1150, 0, 225)])
 
+    # Period baseboards and crown rails are non-blocking and preserve doorway gaps.
+    for name, axis, fixed, start, end in (
+        ("LivingSouth", "y", 12, 10, 650), ("KitchenNorth", "y", 1388, 10, 650),
+        ("BedroomSouth", "y", 12, 660, 1090), ("BathNorth", "y", 1388, 660, 1090)):
+        if axis == "y":
+            prim("Baseboard_" + name, (fixed, (start+end)/2, 9), (3, end-start, 18), "Trim", "Structure/Trim", collide=False)
+            prim("Crown_" + name, (fixed, (start+end)/2, 286), (3, end-start, 12), "Trim", "Structure/Trim", collide=False)
+    # Localized old plaster loss keeps the house in need of repair without
+    # turning the painterly shader into physical surface relief.
+    for label, loc, yaw, scale in (
+        ("KitchenOldPlaster", (920, 11, 220), -90, (0.8,0.8,0.8)),
+        ("BedroomOldPlaster", (11, 710, 220), 180, (0.75,0.75,0.75))):
+        patch = authored(label, "SM_PlasterDamage", loc, "Structure/Age", yaw=yaw)
+        patch.set_actor_scale3d(unreal.Vector(*scale))
+        patch.static_mesh_component.set_collision_profile_name("NoCollision")
     # The decorative front door, firmly closed: nobody leaves until he's fixed.
-    box_minmax("FrontDoor", (132, 2, 0), (248, 14, 218), "Velvet", "Structure")
-    prim("FrontDoorKnob", (230, 18, 100), (6, 6, 6), "Brass", "Structure", mesh=SPHERE, collide=False)
+    front_door = authored("MoldedFrontDoor", "SM_MoldedFrontDoor", (190,8,0), "Structure", yaw=-90)
+    front_door.static_mesh_component.set_collision_profile_name("NoCollision")
+    solid_proxy("FrontDoorCollision", (190,8,109), (116,12,218), "Structure")
+    # Clicking the door asks whether to end the day. The authored door above stays the visible mesh, so this
+    # interactable's body is invisible (it still blocks the hover trace).
+    front = interactable("FrontDoor", (190, 8, 0), 0, "living", CUBE, (0, 0, 109), (116, 12, 218), "Velvet",
+                         unreal.InteractToggle.NONE, "Leave the apartment", "Leave the apartment",
+                         cls=unreal.FixHimDoor, folder="Structure")
+    front.get_editor_property("body").set_editor_property("hidden_in_game", True)
 
 
 def build_living():
     f = "Furniture/Living"
-    prim("Rug", (240, 260, 0.6), (330, 300, 1.2), "Rug", f, collide=False)
-    # Sofa against the south wall under the window, facing the TV.
-    prim("Sofa_Base", (72, 245, 24), (95, 250, 48), "Velvet", f)
-    prim("Sofa_Back", (34, 245, 70), (22, 250, 55), "VelvetDark", f)
-    prim("Sofa_ArmL", (72, 112, 40), (95, 22, 62), "VelvetDark", f)
-    prim("Sofa_ArmR", (72, 378, 40), (95, 22, 62), "VelvetDark", f)
-    prim("Sofa_Cushion1", (80, 185, 55), (72, 112, 16), "Velvet", f)
-    prim("Sofa_Cushion2", (80, 305, 55), (72, 112, 16), "Velvet", f)
-    prim("Sofa_Pillow", (52, 140, 80), (16, 40, 34), "Butter", f, yaw=-10, roll=8)
+    plane = unreal.load_asset("/Engine/BasicShapes/Plane")
+    rug = prim("FloralRug", (240,260,1), (330,300,1), "Rug", f, mesh=plane, collide=False)
+    rug.static_mesh_component.set_material(0, unreal.load_asset("/Game/ICanFixHim/Materials/Environment/M_FloralRug"))
+    sofa = authored("VintageSofa", "SM_VintageSofa", (72, 245, 0), f, yaw=180)
+    for y in (172, 315):
+        cushion = authored("PlaidCushion", "SM_PlaidCushion", (93,y,50), f, yaw=180)
+        cushion.static_mesh_component.set_collision_profile_name("NoCollision")
+    throw = authored("FoldedThrow", "SM_FoldedThrow", (72,345,66), f)
+    throw.static_mesh_component.set_collision_profile_name("NoCollision")
     # Coffee table
-    prim("CoffeeTable_Top", (230, 245, 40), (75, 140, 6), "Wood", f)
-    for i, (dx, dy) in enumerate(((-30, -60), (30, -60), (-30, 60), (30, 60))):
-        prim(f"CoffeeTable_Leg{i}", (230 + dx, 245 + dy, 18), (5, 5, 37), "WoodDark", f, mesh=CYL)
+    authored("VintageCoffeeTable", "SM_VintageCoffeeTable", (230,245,0), f)
     prim("CoffeeTable_Mug", (220, 220, 49), (9, 9, 12), "Mint", f, mesh=CYL, collide=False)
+    books = authored("StackedBooks", "SM_StackedBooks", (230,270,44), f)
+    books.static_mesh_component.set_collision_profile_name("NoCollision")
+    caddy = authored("RepairCaddy", "SM_RepairCaddy", (370,58,0), f)
+    caddy.static_mesh_component.set_collision_profile_name("NoCollision")
     # TV stand and TV on the east (kitchen) wall
-    prim("TVStand", (762, 245, 26), (50, 180, 52), "WoodDark", f)
-    prim("TVFrame", (782, 245, 115), (6, 140, 84), "Black", f)
+    authored("VintageTVStand", "SM_VintageTVStand", (762,245,0), f)
+    tv_frame = authored("VintageTVFrame", "SM_VintageTVFrame", (782,245,115), f)
+    tv_frame.static_mesh_component.set_collision_profile_name("NoCollision")
     # Bookshelf on the west wall
-    prim("Bookshelf", (680, 30, 95), (150, 38, 190), "Wood", f)
-    book_colors = ["Coral", "Mint", "Butter", "Lilac", "Teal", "Velvet"]
-    for shelf in range(3):
-        for b in range(7):
-            prim(f"Book_{shelf}_{b}", (620 + b * 18, 42, 30 + shelf * 58), (14, 22, 34 + (b % 3) * 5),
-                 book_colors[(b + shelf) % len(book_colors)], f + "/Books", collide=False)
+    bookshelf = authored("OldBookshelf", "SM_OldBookshelf", (680, 30, 0), f, yaw=-90)
     # Plant
-    prim("Plant_Pot", (740, 600, 22), (40, 40, 44), "Coral", f, mesh=CYL)
-    prim("Plant_Leaves", (740, 600, 80), (70, 70, 80), "Leaf", f, mesh=SPHERE, collide=False)
+    living_plant = authored("LivingPlant", "SM_LeafyPottedPlant", (740,600,0), f)
+    living_plant.static_mesh_component.set_collision_profile_name("NoCollision")
     # Floor lamp pole (shade is interactable)
-    prim("FloorLamp_Base", (60, 430, 2), (34, 34, 4), "Brass", f, mesh=CYL)
-    prim("FloorLamp_Pole", (60, 430, 75), (4, 4, 146), "Brass", f, mesh=CYL)
+    lamp_base = authored("FloorLampBase", "SM_FloorLampBase", (60,430,0), f)
+    lamp_base.static_mesh_component.set_collision_profile_name("NoCollision")
+    # Window dressing and old framed pictures keep the room lived-in.
+    curtains = authored("GatheredCurtains", "SM_GatheredCurtains", (19,245,5), f, yaw=180)
+    curtains.static_mesh_component.set_collision_profile_name("NoCollision")
+    for y,z,w,h in ((470,190,75,58),(550,175,48,62)):
+        prim("PictureFrame", (13,y,z), (5,w,h), "WoodDark", f, collide=False)
+        picture = prim("PicturePrint", (17,y,z), (2,w-10,h-10), "Paper", f, collide=False)
+        picture.static_mesh_component.set_material(0, unreal.load_asset("/Game/ICanFixHim/Materials/Environment/M_ArtPrint"))
     # Fuse box surround
     prim("FuseBox_Conduit", (420, 14, 230), (6, 6, 130), "Steel", f, mesh=CYL, collide=False)
 
-    interactable("FloorLamp", (60, 430, 0), 0, "living", CYL, (0, 0, 158), (46, 46, 34), "Butter",
+    # The localized stain is a flat color overlay, not physical relief.
+    overlay = unreal.load_asset("/Game/ICanFixHim/Materials/Environment/M_WaterStain_Overlay")
+    plane = unreal.load_asset("/Engine/BasicShapes/Plane")
+    age_overlay = None
+    if overlay and plane:
+        a = EAS.spawn_actor_from_object(plane, unreal.Vector(420, 11.5, 150), rot(0, 0, 90))
+        age_overlay = a
+        a.set_actor_label("FuseWallAge")
+        a.set_folder_path(f)
+        a.set_actor_scale3d(unreal.Vector(2.5, 1.7, 1))
+        a.static_mesh_component.set_material(0, overlay)
+        a.static_mesh_component.set_collision_profile_name("NoCollision")
+    lamp = interactable("FloorLamp", (60, 430, 0), 0, "living", CYL, (0, 0, 158), (46, 46, 34), "Butter",
                  unreal.InteractToggle.LIGHT, "Turn on lamp", "Turn off lamp",
                  on_emissive=(5, 4, 2.5), light_loc=(0, 0, 150), light_intensity=5000)
+    lamp_body = lamp.get_editor_property("body")
+    lamp_body.set_static_mesh(unreal.load_asset("/Game/ICanFixHim/Environment/Meshes/SM_FloorLampShade"))
+    lamp_body.set_relative_scale3d(unreal.Vector(1,1,1))
+    for index in range(lamp_body.get_num_materials()):
+        lamp_body.set_material(index, mic("Butter"))
     interactable("TV", (778, 245, 115), 180, "living", CUBE, (0, 0, 0), (4, 128, 72), "Black",
                  unreal.InteractToggle.LIGHT, "Turn on TV", "Turn off TV",
                  on_emissive=(0.6, 1.2, 3.0), light_loc=(60, 0, 0), light_color=(120, 170, 255), light_intensity=1500)
 
-    malady("Malady_FuseBox", "wyatt", unreal.MaladyStyle.WIRING, (420, 10, 150), 90, "living",
+    fuse = malady("Malady_FuseBox", "wyatt", unreal.MaladyStyle.WIRING, (420, 10, 150), 90, "living",
            CUBE, (8, 0, 0), (16, 56, 74), "Steel", fx_offset=(18, 0, -20),
            hunk_spawn=(150, 0, 0), talk_spot=(310, 0, 0))
+    for name, mesh, location in (("BrokenFuseDetails", "SM_DamagedFuseboxOverlay", (420,29,150)),
+                                 ("FusePlasterDamage", "SM_PlasterDamage", (420,11,150))):
+        detail = authored(name, mesh, location, f, yaw=-90)
+        detail.static_mesh_component.set_collision_profile_name("NoCollision")
+        detail.static_mesh_component.set_mobility(unreal.ComponentMobility.MOVABLE)
+        detail.tags = [unreal.Name("RepairDamage")]
+        detail.attach_to_actor(fuse, "", unreal.AttachmentRule.KEEP_WORLD, unreal.AttachmentRule.KEEP_WORLD, unreal.AttachmentRule.KEEP_WORLD, False)
+    if age_overlay:
+        age_overlay.static_mesh_component.set_mobility(unreal.ComponentMobility.MOVABLE)
+        age_overlay.tags = [unreal.Name("RepairDamage")]
+        age_overlay.attach_to_actor(fuse, "", unreal.AttachmentRule.KEEP_WORLD, unreal.AttachmentRule.KEEP_WORLD, unreal.AttachmentRule.KEEP_WORLD, False)
 
 
 def build_kitchen():
     f = "Furniture/Kitchen"
     # Counter run along the north wall (y 120..640), fridge at the west end.
-    prim("Counter_Base", (1360, 380, 43), (60, 520, 86), "Mint", f)
-    prim("Counter_Top", (1357, 380, 89), (68, 524, 5), "White", f)
-    prim("Counter_Kick", (1331, 380, 5), (4, 520, 10), "Teal", f, collide=False)
+    for label, mesh, y, width in (("BaseCabinet96", "SM_BaseCabinet96", 168, 96), ("BaseCabinet86", "SM_BaseCabinet86", 467, 86)):
+        cabinet = authored(label, mesh, (1360,y,0), f)
+        cabinet.static_mesh_component.set_collision_profile_name("NoCollision")
+        solid_proxy(label + "Collision", (1368,y,42), (44,width,84), f)
+    sink_cabinet = authored("VintageSinkCabinet", "SM_KitchenSinkCabinet", (1360, 320, 0), f)
+    sink_cabinet.static_mesh_component.set_collision_profile_name("NoCollision")
+    prim("Counter_Top", (1357, 168, 89), (68, 96, 5), "White", f)
+    prim("Counter_Top", (1357, 467, 89), (68, 86, 5), "White", f)
+    prim("Counter_Kick", (1331, 315, 5), (4, 390, 10), "Teal", f, collide=False)
     for i, y in enumerate((170, 260, 520, 600)):
         prim(f"Cabinet_Knob{i}", (1328, y, 60), (4, 4, 4), "Brass", f, mesh=SPHERE, collide=False)
     # Faucet behind the sink (sink basin is the malady body)
-    prim("Faucet_Stem", (1382, 320, 105), (5, 5, 30), "Steel", f, mesh=CYL, collide=False)
-    prim("Faucet_Spout", (1370, 320, 118), (26, 5, 5), "Steel", f, collide=False)
     # Stove
-    prim("Stove_Top", (1360, 560, 90), (58, 90, 3), "Black", f, collide=False)
+    range_actor = authored("VintageRange", "SM_VintageRange", (1360, 560, 0), f)
+    range_actor.static_mesh_component.set_collision_profile_name("NoCollision")
+    solid_proxy("RangeCollision", (1360,560,42), (60,76,84), f)
     # Fridge
-    prim("Fridge", (1357, 65, 95), (66, 90, 190), "Butter", f)
-    prim("Fridge_Handle", (1318, 95, 120), (3, 3, 40), "Steel", f, mesh=CYL, collide=False)
-    # Upper shelf + jars
-    prim("Shelf", (1385, 560, 185), (28, 100, 4), "Wood", f, collide=False)
-    for i in range(4):
-        prim(f"Jar{i}", (1385, 525 + i * 24, 197), (12, 12, 20), ["Coral", "Butter", "Lilac", "Mint"][i], f, mesh=CYL, collide=False)
+    fridge = authored("VintageFridge", "SM_VintageFridgeBody", (1357, 65, 0), f)
+    fridge.static_mesh_component.set_collision_profile_name("NoCollision")
+    solid_proxy("FridgeCollision", (1367,65,91), (44,82,182), f)
+    # Backsplash panels respect the window opening above the sink.
+    backsplash = unreal.load_asset("/Game/ICanFixHim/Materials/Environment/M_KitchenBacksplash")
+    for y, width, z, height in ((160,80,120,60), (320,240,100,20), (475,70,120,60)):
+        tile = prim("KitchenBacksplash", (1388,y,z), (2,width,height), "White", f, collide=False)
+        tile.static_mesh_component.set_material(0, backsplash)
+    upper = authored("UpperKitchenCabinet", "SM_UpperKitchenCabinet", (1380,510,160), f)
+    upper.static_mesh_component.set_collision_profile_name("NoCollision")
+    pans = authored("HangingPans", "SM_HangingPans", (1385,590,154), f)
+    pans.static_mesh_component.set_collision_profile_name("NoCollision")
+    kettle = authored("OldKettle", "SM_EnamelKettle", (1358, 560, 94), f)
+    kettle.static_mesh_component.set_collision_profile_name("NoCollision")
+    bucket = authored("RepairBucket", "SM_RepairBucket", (1260, 245, 0), f)
+    bucket.static_mesh_component.set_collision_profile_name("NoCollision")
     # Table & chairs
-    prim("Table_Top", (1010, 120, 74), (90, 130, 5), "Wood", f)
-    prim("Table_Leg", (1010, 120, 36), (10, 10, 72), "WoodDark", f, mesh=CYL)
-    prim("Table_Foot", (1010, 120, 2), (50, 50, 4), "WoodDark", f, mesh=CYL)
-    for i, dy in enumerate((-80, 80)):
-        prim(f"Chair{i}_Seat", (1010, 120 + dy, 45), (42, 42, 6), "Coral", f)
-        prim(f"Chair{i}_Back", (1010, 120 + dy * 1.25, 75), (42, 5, 55), "Coral", f)
-        prim(f"Chair{i}_Leg", (1010, 120 + dy, 22), (6, 6, 44), "WoodDark", f, mesh=CYL)
-    prim("FruitBowl", (1010, 110, 82), (36, 36, 10), "White", f, mesh=SPHERE, collide=False)
-    for i, c in enumerate(("Coral", "Butter", "Leaf")):
-        prim(f"Fruit{i}", (1000 + i * 10, 105 + (i % 2) * 12, 88), (11, 11, 11), c, f, mesh=SPHERE, collide=False)
+    authored("VintageDiningTable", "SM_VintageDiningTable", (1010,120,0), f)
+    authored("DiningChairA", "SM_VintageDiningChair", (1010,40,0), f, yaw=-90)
+    authored("DiningChairB", "SM_VintageDiningChair", (1010,200,0), f, yaw=90)
+    fruit = authored("FruitBowl", "SM_FruitBowl", (1010,110,74), f)
+    fruit.static_mesh_component.set_collision_profile_name("NoCollision")
 
-    interactable("Fridge_Door", (1322, 20, 0), 180, "kitchen", CUBE, (3, -45, 95), (6, 88, 186), "Butter",
+    fridge_door = interactable("Fridge_Door", (1322, 20, 0), 180, "kitchen", CUBE, (3, -45, 95), (6, 88, 186), "Butter",
                  unreal.InteractToggle.ROTATE, "Open fridge", "Close fridge", rotation=(100, 0, 0))
+    moving_mesh(fridge_door, "SM_RetroFridgeDoor", (3,-45,0), yaw=180)
     interactable("Stove_Burner", (1352, 560, 92), 180, "kitchen", CYL, (0, 0, 0), (26, 26, 2), "WoodDark",
                  unreal.InteractToggle.LIGHT, "Turn on stove", "Turn off stove",
                  on_emissive=(8, 1.2, 0.2), light_loc=(0, 0, 15), light_color=(255, 90, 40), light_intensity=800)
-    interactable("Kitchen_Drawer", (1328, 450, 70), 180, "kitchen", CUBE, (2, 0, 0), (5, 80, 24), "Teal",
+    kitchen_drawer = interactable("Kitchen_Drawer", (1328, 467, 70), 180, "kitchen", CUBE, (2, 0, 0), (5, 80, 24), "Teal",
                  unreal.InteractToggle.SLIDE, "Open drawer", "Close drawer", offset=(38, 0, 0))
+    moving_mesh(kitchen_drawer, "SM_KitchenDrawer", (-17,0,0), yaw=180)
 
-    malady("Malady_Sink", "lukey", unreal.MaladyStyle.LEAK, (1358, 320, 92), 180, "kitchen",
+    sink = malady("Malady_Sink", "lukey", unreal.MaladyStyle.LEAK, (1358, 320, 92), 180, "kitchen",
            CUBE, (0, 0, 2), (46, 74, 8), "Steel", fx_offset=(32, 0, -14),
            hunk_spawn=(160, 0, 0), talk_spot=(320, 0, 0))
+    # Keep the original collision target while letting the authored basin show.
+    sink.set_editor_property("use_authored_body_materials", True)
+    sink.get_editor_property("body").set_material(0, mic("Invisible"))
+    sink.get_editor_property("body").set_cast_shadow(False)
+    wear = prim("SinkFloorWear", (1280,320,0.8), (150,130,1), "Wood", f,
+                mesh=unreal.load_asset("/Engine/BasicShapes/Plane"), collide=False)
+    wear.static_mesh_component.set_material(0, unreal.load_asset("/Game/ICanFixHim/Materials/Environment/M_LinoleumWear_Overlay"))
+    wear.static_mesh_component.set_mobility(unreal.ComponentMobility.MOVABLE)
+    wear.tags = [unreal.Name("RepairDamage")]
+    wear.attach_to_actor(sink, "", unreal.AttachmentRule.KEEP_WORLD, unreal.AttachmentRule.KEEP_WORLD, unreal.AttachmentRule.KEEP_WORLD, False)
+    stain = prim("SinkWallStain", (1386,320,102), (110,24,1), "Wood", f,
+                 mesh=unreal.load_asset("/Engine/BasicShapes/Plane"), yaw=90, roll=90, collide=False)
+    stain.static_mesh_component.set_material(0, unreal.load_asset("/Game/ICanFixHim/Materials/Environment/M_SinkStain_Overlay"))
+    stain.static_mesh_component.set_mobility(unreal.ComponentMobility.MOVABLE)
+    stain.tags = [unreal.Name("RepairDamage")]
+    stain.attach_to_actor(sink, "", unreal.AttachmentRule.KEEP_WORLD, unreal.AttachmentRule.KEEP_WORLD, unreal.AttachmentRule.KEEP_WORLD, False)
 
 
 def build_bathroom():
     f = "Furniture/Bathroom"
     # Tub along the north wall
-    prim("Tub_Outer", (1345, 790, 28), (80, 180, 56), "White", f)
-    prim("Tub_Water", (1345, 790, 50), (62, 160, 4), "Glass", f, collide=False)
-    prim("Tub_Foot0", (1310, 715, 4), (10, 10, 8), "Brass", f, mesh=SPHERE, collide=False)
-    prim("Tub_Foot1", (1310, 865, 4), (10, 10, 8), "Brass", f, mesh=SPHERE, collide=False)
+    authored("VintageTub", "SM_ClawfootTub", (1345, 790, 0), f)
+
     prim("Tub_FaucetStem", (1388, 790, 70), (5, 5, 30), "Brass", f, mesh=CYL, collide=False)
     # Toilet against the east wall
-    prim("Toilet_Base", (900, 1050, 20), (40, 50, 40), "White", f, mesh=CYL)
-    prim("Toilet_Tank", (900, 1080, 62), (44, 18, 44), "White", f)
+    toilet = authored("VintageToilet", "SM_VintageToiletBody", (900, 1050, 0), f, yaw=90)
+    toilet.static_mesh_component.set_collision_profile_name("NoCollision")
+    solid_proxy("ToiletCollision", (900,1050,19), (40,50,38), f)
     # Pedestal sink + mirror on the west (bedroom) wall
-    prim("Sink_Pedestal", (832, 720, 40), (16, 16, 80), "White", f, mesh=CYL)
-    prim("Sink_Bowl", (835, 720, 84), (44, 56, 14), "White", f)
-    prim("Mirror", (812, 720, 160), (3, 60, 80), "Mirror", f, collide=False)
+    authored("PedestalSink", "SM_PedestalSink", (835, 720, 0), f, yaw=180)
+    mirror = authored("BathMirror", "SM_BathMirror", (813,720,108), f, yaw=180)
+    mirror.static_mesh_component.set_collision_profile_name("NoCollision")
     prim("BathMat", (1240, 790, 0.6), (60, 120, 1.2), "RugBlue", f, collide=False)
-    prim("Towel", (1210, 1088, 140), (4, 50, 70), "Mint", f, collide=False)
+    towel_rail = authored("TowelRail", "SM_TowelRail", (1210,1088,90), f, yaw=90)
+    towel_rail.static_mesh_component.set_collision_profile_name("NoCollision")
+    basket = authored("TowelBasket", "SM_TowelBasket", (1270,1035,0), f)
+    basket.static_mesh_component.set_collision_profile_name("NoCollision")
 
-    interactable("Tub_Faucet", (1386, 790, 82), 180, "bathroom", CYL, (9, 0, 0), (5, 5, 18), "Brass",
+    tub_faucet = interactable("Tub_Faucet", (1386, 790, 82), 180, "bathroom", CYL, (9, 0, 0), (5, 5, 18), "Brass",
                  unreal.InteractToggle.REVEAL, "Run the bath", "Turn off the water", body_rot=(0, 90, 0),
                  reveal={"mesh": CYL, "loc": (18, 0, -16), "size": (4, 4, 32)})
-    interactable("Toilet_Lid", (900, 1068, 41), -90, "bathroom", CUBE, (22, 0, 1), (44, 38, 3), "White",
+    moving_mesh(tub_faucet, "SM_TubFaucet", (0,0,0))
+    lid = interactable("Toilet_Lid", (900, 1068, 41), -90, "bathroom", CUBE, (22, 0, 1), (44, 38, 3), "White",
                  unreal.InteractToggle.ROTATE, "Lift the lid", "Put the lid down", rotation=(0, 85, 0))
+    moving_mesh(lid, "SM_ToiletLid", (22,0,1))
 
+    # Original wall tile surrounds the interactive feature wall.
+    tile_mat = unreal.load_asset("/Game/ICanFixHim/Materials/Environment/M_PinkTile")
+    if not tile_mat:
+        raise RuntimeError("Run import_environment_textures.py first")
+    # Continuous wainscot wraps the room, with door openings left clear.
+    for label, center, size in (
+        ("BathTileEast", (1100,1087,75), (580,2,150)),
+        ("BathTileNorth", (1388,870,75), (2,440,150)),
+        ("BathTileWestA", (925,662,75), (230,2,150)),
+        ("BathTileWestB", (1270,662,75), (240,2,150)),
+        ("BathTileSouthA", (812,755,75), (2,210,150)),
+        ("BathTileSouthB", (812,1025,75), (2,130,150))):
+        tile = prim(label, center, size, "PinkTile", f, collide=False)
+        tile.static_mesh_component.set_material(0, tile_mat)
+    # Tile surface remains visible before and after repair; the crack overlay
+    # is attached separately and follows the malady's repaired state.
+    plane = unreal.load_asset("/Engine/BasicShapes/Plane")
+    tile_surface = prim("PinkTileSurface", (1100,1085,150), (220,180,1), "PinkTile", f, mesh=plane, roll=90, collide=False)
+    tile_surface.static_mesh_component.set_material(0, tile_mat)
     # The pink tile wall: the bathroom's original 1957 "feature".
-    malady("Malady_PinkTile", "tyler", unreal.MaladyStyle.TILE, (1100, 1090, 150), -90, "bathroom",
+    tile_malady = malady("Malady_PinkTile", "tyler", unreal.MaladyStyle.TILE, (1100, 1090, 150), -90, "bathroom",
            CUBE, (2, 0, 0), (4, 220, 180), "PinkTile",
            hunk_spawn=(130, 0, 0), talk_spot=(290, 0, 0))
-    for i in range(10):
-        for j in range(8):
-            box_minmax(f"Grout_{i}_{j}", (990 + i * 22, 1084, 60 + j * 22.5), (990 + i * 22 + 1.5, 1086, 60 + j * 22.5 + 1.5),
-                       "White", f + "/Grout", collide=False)
+    crack_mat = unreal.load_asset("/Game/ICanFixHim/Materials/Environment/M_TileCrack_Overlay")
+    plane = unreal.load_asset("/Engine/BasicShapes/Plane")
+    if crack_mat and plane:
+        crack = EAS.spawn_actor_from_object(plane, unreal.Vector(1100,1084,150), rot(0,0,90))
+        crack.set_actor_label("DamagedPinkTile")
+        crack.set_folder_path(f)
+        crack.set_actor_scale3d(unreal.Vector(2.2,1.8,1))
+        crack.static_mesh_component.set_material(0, crack_mat)
+        crack.static_mesh_component.set_collision_profile_name("NoCollision")
+        crack.static_mesh_component.set_mobility(unreal.ComponentMobility.MOVABLE)
+        crack.tags = [unreal.Name("RepairDamage")]
+        crack.attach_to_actor(tile_malady, "", unreal.AttachmentRule.KEEP_WORLD, unreal.AttachmentRule.KEEP_WORLD, unreal.AttachmentRule.KEEP_WORLD, False)
 
 
 def build_bedroom():
     f = "Furniture/Bedroom"
     prim("Rug", (420, 850, 0.6), (240, 160, 1.2), "Butter", f, collide=False)
     # Bed against the east wall
-    prim("Bed_Frame", (350, 985, 18), (170, 210, 36), "WoodDark", f)
-    prim("Bed_Mattress", (350, 985, 45), (160, 200, 18), "White", f)
+    bed_mesh = authored("VintageBed", "SM_VintageBed", (350, 985, 0), f, yaw=180)
+    bed_mesh.static_mesh_component.set_collision_profile_name("NoCollision")
+    solid_proxy("BedCollision", (350,985,25), (165,200,50), f)
     # The blanket is the clickable bed: "Go to bed (end the day)".
     bed = interactable("Bed", (350, 955, 56), 0, "bedroom", CUBE, (0, 0, 0), (164, 140, 6), "Plum",
                        unreal.InteractToggle.NONE, "Go to bed", "Go to bed", cls=unreal.FixHimBed)
-    prim("Bed_Headboard", (350, 1086, 65), (175, 8, 130), "WoodDark", f)
-    for i, dx in enumerate((-38, 38)):
-        prim(f"Bed_Pillow{i}", (350 + dx, 1055, 60), (62, 30, 14), "Lilac", f, collide=False)
+    moving_mesh(bed, "SM_RumpledQuilt", (0,0,12), yaw=180)
     # Nightstand
-    prim("Nightstand", (480, 1060, 28), (46, 44, 56), "Wood", f)
+    authored("VintageNightstand", "SM_VintageNightstand", (480,1060,0), f, yaw=180)
     prim("BedLamp_Base", (480, 1060, 66), (12, 12, 20), "Brass", f, mesh=CYL, collide=False)
     # Wardrobe on the south wall
-    prim("Wardrobe", (42, 720, 100), (64, 112, 200), "Wood", f)
+    wardrobe = authored("VintageWardrobe", "SM_VintageWardrobe", (42, 720, 0), f, yaw=180)
+    wardrobe.static_mesh_component.set_collision_profile_name("NoCollision")
+    solid_proxy("WardrobeCollision", (33,720,100), (45,108,200), f)
     # Dresser on the north (living) wall
-    prim("Dresser", (225, 685, 40), (150, 50, 80), "Wood", f)
-    prim("Dresser_Mirror", (225, 664, 130), (90, 3, 70), "Mirror", f, collide=False)
-    prim("Plant_Pot", (740, 1050, 18), (34, 34, 36), "Teal", f, mesh=CYL)
-    prim("Plant_Leaves", (740, 1050, 65), (56, 56, 70), "Leaf", f, mesh=SPHERE, collide=False)
+    dresser = authored("VintageDresser", "SM_VintageDresser", (225, 685, 0), f, yaw=-90)
+    dresser.static_mesh_component.set_collision_profile_name("NoCollision")
+    solid_proxy("DresserCollision", (225,677,40), (145,35,80), f)
+    dresser_mirror = authored("DresserMirror", "SM_BathMirror", (225,713,94), f, yaw=-90)
+    dresser_mirror.static_mesh_component.set_collision_profile_name("NoCollision")
+    bedroom_curtains = authored("BedroomCurtains", "SM_GatheredCurtains", (350,1090,0), f, yaw=90)
+    bedroom_curtains.set_actor_scale3d(unreal.Vector(.8,.8,1))
+    bedroom_curtains.static_mesh_component.set_collision_profile_name("NoCollision")
+    bedroom_plant = authored("BedroomPlant", "SM_LeafyPottedPlant", (740,1050,0), f)
+    bedroom_plant.set_actor_scale3d(unreal.Vector(.8,.8,.8))
+    bedroom_plant.static_mesh_component.set_collision_profile_name("NoCollision")
 
-    interactable("BedLamp", (480, 1060, 56), 0, "bedroom", CYL, (0, 0, 32), (30, 30, 22), "Lilac",
+    bed_lamp = interactable("BedLamp", (480, 1060, 56), 0, "bedroom", CYL, (0, 0, 32), (30, 30, 22), "Lilac",
                  unreal.InteractToggle.LIGHT, "Turn on lamp", "Turn off lamp",
                  on_emissive=(5, 3.5, 5), light_loc=(0, 0, 28), light_color=(255, 200, 230), light_intensity=2500)
-    interactable("Wardrobe_Door", (76, 666, 0), 0, "bedroom", CUBE, (0, 54, 100), (5, 106, 196), "WoodDark",
+    bed_lamp_body = bed_lamp.get_editor_property("body")
+    bed_lamp_body.set_static_mesh(unreal.load_asset("/Game/ICanFixHim/Environment/Meshes/SM_FloorLampShade"))
+    bed_lamp_body.set_relative_scale3d(unreal.Vector(.65,.65,.65))
+    for index in range(bed_lamp_body.get_num_materials()):
+        bed_lamp_body.set_material(index, mic("Lilac"))
+    wardrobe_door = interactable("Wardrobe_Door", (76, 666, 0), 0, "bedroom", CUBE, (0, 54, 100), (5, 106, 196), "WoodDark",
                  unreal.InteractToggle.ROTATE, "Open wardrobe", "Close wardrobe", rotation=(-100, 0, 0))
-    interactable("Dresser_Drawer", (225, 713, 55), 90, "bedroom", CUBE, (0, 0, 0), (5, 130, 24), "WoodDark",
+    moving_mesh(wardrobe_door, "SM_WardrobeDoor", (0,54,0), yaw=180)
+    drawer = interactable("Dresser_Drawer", (225, 713, 55), 90, "bedroom", CUBE, (0, 0, 0), (5, 130, 24), "WoodDark",
                  unreal.InteractToggle.SLIDE, "Open drawer", "Close drawer", offset=(35, 0, 0))
+    moving_mesh(drawer, "SM_DresserDrawer", (-14,0,0), yaw=180)
 
-    malady("Malady_Mold", "malcolm", unreal.MaladyStyle.MOLD, (790, 760, 140), 180, "bedroom",
+    mold = malady("Malady_Mold", "malcolm", unreal.MaladyStyle.MOLD, (790, 760, 140), 180, "bedroom",
            CUBE, (1, 0, 0), (3, 150, 170), "WallCream", fx_offset=(2, 0, 0),
            hunk_spawn=(140, 0, 0), talk_spot=(300, 0, 0))
+    mold.set_editor_property("use_authored_body_materials", True)
+    mold.get_editor_property("body").set_material(0, mic("Invisible"))
+    mold.get_editor_property("body").set_cast_shadow(False)
+    mold_plane = unreal.load_asset("/Engine/BasicShapes/Plane")
+    mold_detail = prim("MoldDamage", (786,760,150), (160,160,1), "Mildew", f, mesh=mold_plane, yaw=90, roll=90, collide=False)
+    mold_detail.static_mesh_component.set_material(0, unreal.load_asset("/Game/ICanFixHim/Materials/Environment/M_Mold_Overlay"))
+    mold_detail.static_mesh_component.set_collision_profile_name("NoCollision")
+    mold_detail.static_mesh_component.set_mobility(unreal.ComponentMobility.MOVABLE)
+    mold_detail.tags = [unreal.Name("RepairDamage"), unreal.Name("AuthoredMoldDamage")]
+    mold_detail.attach_to_actor(mold, "", unreal.AttachmentRule.KEEP_WORLD, unreal.AttachmentRule.KEEP_WORLD, unreal.AttachmentRule.KEEP_WORLD, False)
 
 
 def build_lighting():
@@ -485,7 +706,7 @@ def build_lighting():
     sun.set_actor_label("Sun")
     sun.set_folder_path("Lighting")
     sc = sun.get_component_by_class(unreal.DirectionalLightComponent)
-    sc.set_editor_property("intensity", 450.0)
+    sc.set_editor_property("intensity", 8.0)
     sc.set_editor_property("light_color", unreal.Color(r=255, g=236, b=214, a=255))
     sc.set_editor_property("atmosphere_sun_light", True)
 
@@ -505,10 +726,10 @@ def build_lighting():
     # Warm ceiling fixtures, one per room.
     for rid, (cx, cy) in {"living": (400, 325), "kitchen": (1100, 325), "bedroom": (400, 875), "bathroom": (1100, 875)}.items():
         prim(f"CeilingFixture_{rid}", (cx, cy, H - 4), (50, 50, 8), "LampGlow", "Lighting/Fixtures", mesh=CYL, collide=False)
-        point_light(f"CeilingLight_{rid}", (cx, cy, H - 40), 4500)
+        point_light(f"CeilingLight_{rid}", (cx, cy, H - 40), 3400)
     # Fill lights so corners aren't murky.
-    point_light("Fill_Living", (150, 500, 200), 1200, radius=600, shadows=False)
-    point_light("Fill_Kitchen", (1250, 150, 200), 1200, radius=600, shadows=False)
+    point_light("Fill_Living", (150, 500, 200), 850, radius=600, shadows=False)
+    point_light("Fill_Kitchen", (1250, 150, 200), 850, radius=600, shadows=False)
 
     ppv = EAS.spawn_actor_from_class(unreal.PostProcessVolume, unreal.Vector(700, 550, 150), rot())
     ppv.set_actor_label("PostProcess")
@@ -522,7 +743,7 @@ def build_lighting():
     s.set_editor_property("override_auto_exposure_bias", True)
     s.set_editor_property("auto_exposure_bias", 0.6)
     s.set_editor_property("override_bloom_intensity", True)
-    s.set_editor_property("bloom_intensity", 0.9)
+    s.set_editor_property("bloom_intensity", 0.25)
     s.set_editor_property("override_vignette_intensity", True)
     s.set_editor_property("vignette_intensity", 0.35)
     s.set_editor_property("override_color_saturation", True)
@@ -546,7 +767,7 @@ def build_gameplay():
     room("bedroom", "Bedroom", 0, 800, 650, 1100, "Lilac", (520, 820), 90)
     room("bathroom", "Bathroom", 800, 1400, 650, 1100, "WallSky", (1000, 790), 90)
 
-    start = EAS.spawn_actor_from_class(unreal.PlayerStart, unreal.Vector(420, 420, 100), rot(yaw=0))
+    start = EAS.spawn_actor_from_class(unreal.PlayerStart, unreal.Vector(190, 120, 100), rot(yaw=75))
     start.set_actor_label("PlayerStart")
     start.set_folder_path("Gameplay")
 
@@ -558,6 +779,12 @@ def build_gameplay():
 
 
 def main():
+    if unreal.EditorLevelLibrary.get_pie_worlds(False):
+        raise RuntimeError("Stop PIE before rebuilding the apartment")
+    expected = os.path.realpath(os.path.join(os.path.dirname(__file__), "../.."))
+    actual = os.path.realpath(unreal.Paths.convert_relative_path_to_full(unreal.Paths.project_dir()))
+    if actual != expected:
+        raise RuntimeError("Refusing to rebuild a different project: " + actual)
     reset_level()
     build_structure()
     build_living()

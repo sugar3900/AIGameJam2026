@@ -91,6 +91,12 @@ bool UFixHimVoiceSubsystem::HasLine(const FString& ScriptId, const FString& Node
 	return Index.Contains(MakeKey(ScriptId, NodeId, LineIndex));
 }
 
+bool UFixHimVoiceSubsystem::IsPlaying() const
+{
+	const UAudioComponent* Comp = Playing.Get();
+	return Comp && Comp->IsPlaying();
+}
+
 void UFixHimVoiceSubsystem::Stop(float FadeSeconds)
 {
 	if (UAudioComponent* Comp = Playing.Get())
@@ -117,9 +123,9 @@ void UFixHimVoiceSubsystem::HandleView(const FDialogueView& View)
 		return;
 	}
 	Stop();
-	if (View.bResumed)
+	if (View.bIsReturn)
 	{
-		// Back from an aside to a line the player already heard (or clicked through):
+		// Back from an aside or hypertext tangent to a line the player already heard (or clicked through):
 		// don't restart it from the top. Remember the key so a re-broadcast stays quiet too.
 		PlayingKey = Key;
 		return;

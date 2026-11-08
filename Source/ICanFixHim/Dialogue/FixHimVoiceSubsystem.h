@@ -17,7 +17,7 @@ class UAudioComponent;
  *
  * Starts the clip when the line appears, cuts it off when the player clicks on,
  * and stops when the conversation ends or is aborted. Lines inside aside nodes are
- * voiced like any other; the line an aside returns to (FDialogueView::bResumed) is
+ * voiced like any other; the line an aside returns to (FDialogueView::bIsReturn) is
  * not replayed. No code changes are needed to voice
  * another character: generate and import the files.
  */
@@ -37,6 +37,8 @@ public:
 	bool HasLine(const FString& ScriptId, const FString& NodeId, int32 LineIndex) const;
 	void Stop(float FadeSeconds = 0.08f);
 	int32 NumIndexed() const { return Index.Num(); }
+	/** True while a voice line is audible (the music ducks under it). */
+	bool IsPlaying() const;
 
 	static FString MakeKey(const FString& ScriptId, const FString& NodeId, int32 LineIndex);
 

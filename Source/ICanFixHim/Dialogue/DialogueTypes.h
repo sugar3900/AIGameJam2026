@@ -165,8 +165,13 @@ struct FDialogueView
 	TArray<FString> ActiveTopics;
 	FString Fx;
 	FString FxText;
-	/** True when this line is being re-shown after returning from an aside (no fx, no effects re-applied). */
-	bool bResumed = false;
 	bool bIsLastLine = false;
 	bool bWillEnd = false;
+	/**
+	 * Re-presenting a line already shown (back from an aside's "return" node or a hypertext
+	 * tangent): the line is not new, only its options. No fx; voice-over is not replayed.
+	 */
+	bool bIsReturn = false;
+	/** Reading a hypertext node: a dead end that returns to the node it was opened from. */
+	bool bInTangent = false;
 };

@@ -2,6 +2,7 @@
 
 #include "UI/FixHimHUDWidget.h"
 #include "Core/FixHimSettings.h"
+#include "Audio/FixHimSfxSubsystem.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/Border.h"
 #include "Components/CanvasPanel.h"
@@ -66,9 +67,11 @@ void UFixHimHUDWidget::BuildUI()
 	PromptText = MakeText(WidgetTree, TEXT(""), 18, Cream, TEXT("Bold"));
 	PromptPill->SetContent(PromptText);
 	PromptPill->SetVisibility(ESlateVisibility::Collapsed);
-	UVerticalBoxSlot* PromptSlot = Ret->AddChildToVerticalBox(PromptPill);
+	// Its own slot, shifted below the icon, so the icon stays exactly at screen centre whether or not a prompt shows.
+	PromptPill->SetRenderTranslation(FVector2D(0.f, 64.f));
+	UOverlaySlot* PromptSlot = Root->AddChildToOverlay(PromptPill);
 	PromptSlot->SetHorizontalAlignment(HAlign_Center);
-	PromptSlot->SetPadding(FMargin(0.f, 20.f, 0.f, 0.f));
+	PromptSlot->SetVerticalAlignment(VAlign_Center);
 
 	// ---- Room name (top left) ----
 	RoomPill = WidgetTree->ConstructWidget<UBorder>();
@@ -94,7 +97,7 @@ void UFixHimHUDWidget::BuildUI()
 	RepSlot->SetPadding(FMargin(28.f, 24.f));
 
 	// ---- Controls hint (bottom left) ----
-	UTextBlock* Hint = MakeText(WidgetTree, TEXT("WASD move   Mouse look   Click interact   M floor plan   Esc pause   Bed = end the day"), 15, FLinearColor(1.f, 1.f, 1.f, 0.75f));
+	UTextBlock* Hint = MakeText(WidgetTree, TEXT("WASD move   Mouse look   Click interact   M floor plan   Esc pause   Bed or door = end the day"), 15, FLinearColor(1.f, 1.f, 1.f, 0.75f));
 	Hint->SetShadowOffset(FVector2D(1.f, 1.f));
 	Hint->SetShadowColorAndOpacity(FLinearColor(0.f, 0.f, 0.f, 0.7f));
 	UOverlaySlot* HintSlot = Root->AddChildToOverlay(Hint);
@@ -131,7 +134,7 @@ void UFixHimHUDWidget::SetReticle(bool bVisible, bool bPointer, const FText& Pro
 	Dot->GetParent()->SetVisibility(bPointer && bHasPointerTex ? ESlateVisibility::Collapsed : ESlateVisibility::HitTestInvisible);
 	Dot->SetBrushColor(bPointer ? Pink : FLinearColor::White);
 	Pointer->SetVisibility(bPointer && bHasPointerTex ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
-	PromptPill->SetVisibility(bPointer && !Prompt.IsEmpty() ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
+	PromptPill->SetVisibility(bVisible && bPointer && !Prompt.IsEmpty() ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
 	PromptText->SetText(Prompt);
 }
 
@@ -158,7 +161,7 @@ void UFixHimHUDWidget::SetRepairs(int32 Fixed, int32 Total, int32 Week, int32 Nu
 	}
 }
 
-void UFixHimHUDWidget::ShowToast(const FString& Message, float Seconds)
+void UFixHimHUDWidget::ShowToast(const FString& Message, float Seconds, bool bChime)
 {
 	if (!ToastPill)
 	{
@@ -167,6 +170,10 @@ void UFixHimHUDWidget::ShowToast(const FString& Message, float Seconds)
 	ToastText->SetText(FText::FromString(Message));
 	ToastPill->SetVisibility(ESlateVisibility::HitTestInvisible);
 	ToastTime = Seconds;
+	if (bChime)
+	{
+		FixHim::Sfx(this, "Toast");
+	}
 }
 
 void UFixHimHUDWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)

@@ -85,6 +85,7 @@ A normal topic is a one-way divert: clicking `[pipes]` leaves the current node f
 - Asides nest: a line inside an aside can have its own aside topic.
 - An aside is **spent** after one click: for the rest of that conversation the word renders as plain text. String-shorthand topics and topics without `"aside": true` behave as before.
 - A `return` node reached with no open aside ends the conversation (logged as a warning).
+- **Hypertext dead ends** (Story Writer link nodes): a node reached only through non-aside `[word]` links that has no `choices`, `goto`, `end`, `ending` or `return` of its own is a tangent. Its lines play (its choices are hidden), then the conversation rewinds to the line the word was clicked on, without replaying fx or voice. The validators accept these instead of flagging them as dead ends. A link target with its own flow is still a one-way divert.
 
 ### Effects (`fx`)
 Node-level `"fx": "name"` plays on the node's first line; an inline tag `{fx:name}` anywhere in a line plays when that line appears and is stripped from the text (`"*{fx:hearts} He blushes.*"` shows as `*He blushes.*`). A line tag wins over a node fx on the same line. Effects do not replay when a line is re-shown after an aside.

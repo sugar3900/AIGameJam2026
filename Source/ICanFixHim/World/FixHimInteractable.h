@@ -61,6 +61,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Interactable")
 	FString RoomId;
 
+	/** How close the player must be to click this; 0 uses the global InteractRange. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
+	float InteractRangeOverride = 0.f;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<USceneComponent> Root;
 
@@ -84,6 +88,10 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
 	FLinearColor BodyColor = FLinearColor(0.8f, 0.8f, 0.8f);
+
+	/** Keep material slots on authored moving meshes instead of applying the flat color. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
+	bool bUseAuthoredBodyMaterials = false;
 
 	/** Emissive applied to Body while On (Light toggles). */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
@@ -134,7 +142,21 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
 	float LightIntensityOn = 2500.f;
 
+	/** Sound (SFX_<Name>) played when switched on/opened; empty picks a default from the toggle type and name. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Sound")
+	FName InteractSfx;
+
+	/** Sound played when switched off/closed; empty falls back to InteractSfx or the default. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Sound")
+	FName InteractSfxOff;
+
+	/** The sound for a toggle that just ended up `bNowOn`: the explicit fields above, else DefaultInteractSfx. */
+	FName GetInteractSfx(bool bNowOn) const;
+	/** Inferred from the toggle type and prompt, so actors already placed in the level need no rebuild. */
+	virtual FName DefaultInteractSfx(bool bNowOn) const;
+
 protected:
+	void PlayInteractSfx();
 	void ApplyLook();
 	void BuildOutline();
 	void BuildSparkles();

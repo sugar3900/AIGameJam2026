@@ -2,6 +2,7 @@
 
 #include "UI/FixHimCards.h"
 #include "Player/FixHimPlayerController.h"
+#include "Audio/FixHimSfxSubsystem.h"
 #include "World/FixHimHunk.h"
 #include "Dialogue/DialogueTypes.h"
 #include "Core/FixHimSettings.h"
@@ -86,6 +87,7 @@ void UFixHimIntroCardWidget::BuildUI()
 void UFixHimIntroCardWidget::Setup(const FHunkDefinition& Def, AFixHimHunk* Hunk, TFunction<void()> InOnFinished)
 {
 	OnFinished = MoveTemp(InOnFinished);
+	FixHim::Sfx(this, "IntroCard");
 	MaladyName->SetText(FText::FromString(Def.Malady.ToUpper()));
 	Tagline->SetText(FText::FromString(Def.Tagline));
 	Band->SetBrushColor(Def.GlowColor.CopyWithNewOpacity(1.f));
@@ -170,6 +172,7 @@ void UFixHimIntroCardWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 void UFixHimEndingCardWidget::BuildUI()
 {
 	UVerticalBox* Col = MakeCardScreen(TEXT(""), 760.f);
+	OpenSfx = NAME_None; // the ending jingle covers it
 	if (UBorder* CardBorder = Cast<UBorder>(Col->GetParent()))
 	{
 		Card = CardBorder;
@@ -211,6 +214,7 @@ void UFixHimEndingCardWidget::Setup(const FHunkDefinition& Def, const FString& E
 	else if (EndingId == TEXT("friend_success")) { KindText = TEXT("FRIENDSHIP  -  BESTIES"); KindColor = Mint; }
 	else { KindText = TEXT("FRIENDSHIP  -  SWORN ENEMIES"); KindColor = Ember; }
 
+	FixHim::Sfx(this, EndingId == TEXT("romance_success") ? "EndingRomance" : EndingId == TEXT("friend_success") ? "EndingFriend" : "EndingFail");
 	Kind->SetText(FText::FromString(KindText));
 	Kind->SetColorAndOpacity(FSlateColor(KindColor));
 

@@ -2,6 +2,7 @@
 
 #include "UI/FixHimDialogueWidget.h"
 #include "Player/FixHimPlayerController.h"
+#include "Audio/FixHimSfxSubsystem.h"
 #include "World/FixHimHunk.h"
 #include "Core/FixHimSaveSubsystem.h"
 #include "Core/FixHimSettings.h"
@@ -249,6 +250,7 @@ void UFixHimDialogueWidget::ShowView(const FDialogueView& View)
 
 	ParseTokens(View.Text);
 	CharsShown = 0.f;
+	LastTypeTick = 0;
 	bTyping = true;
 	TypingText->SetText(FText::GetEmpty());
 	TypingText->SetVisibility(ESlateVisibility::HitTestInvisible);
@@ -267,6 +269,7 @@ void UFixHimDialogueWidget::ShowView(const FDialogueView& View)
 	{
 		FxPhase = EFxPhase::FadeOut;
 		FxTimer = 0.f;
+		FixHim::Sfx(this, "FadeOut");
 		FadeText->SetText(FText::FromString(View.FxText.IsEmpty() ? TEXT("...") : View.FxText));
 		FadeText->SetRenderOpacity(0.f);
 		FadeCurtain->SetRenderOpacity(0.f);
@@ -275,6 +278,7 @@ void UFixHimDialogueWidget::ShowView(const FDialogueView& View)
 	else if (View.Fx == TEXT("hearts"))
 	{
 		SpawnHearts(16);
+		FixHim::Sfx(this, "ReactHearts");
 	}
 }
 
@@ -377,6 +381,7 @@ void UFixHimDialogueWidget::BuildWordWrap()
 			B->Label = MakeText(WidgetTree, Tok.Text, 24, HotPink, TEXT("Bold"));
 			B->AddChild(B->Label);
 			B->SetToolTipText(FText::FromString(TEXT("Ask about this")));
+			B->ClickSfx = TEXT("TopicClick");
 			B->Init([Self, Topic]()
 			{
 				if (Self.IsValid() && !Self->IsBusy())
@@ -414,6 +419,7 @@ void UFixHimDialogueWidget::BuildChoices()
 			LabelSlot->SetHorizontalAlignment(HAlign_Fill);
 			LabelSlot->SetPadding(FMargin(4.f, 0.f));
 		}
+		B->ClickSfx = TEXT("ChoiceSelect");
 		B->Init([Self, i]()
 		{
 			if (Self.IsValid() && !Self->IsBusy())
@@ -453,6 +459,17 @@ void UFixHimDialogueWidget::OnStatChanged(const FString& InHunkId, ERelationship
 	if (Axis == ERelationshipAxis::Romance && Delta > 0)
 	{
 		SpawnHearts(3 + Delta * 2);
+	}
+
+	// Romance up is hearts, friendship up a happy ding, friction up a low grumble, and a loss a sad sigh.
+	const bool bGood = Axis != ERelationshipAxis::Friction;
+	if (Delta > 0)
+	{
+		FixHim::Sfx(this, !bGood ? "ReactAngry" : Axis == ERelationshipAxis::Romance ? "ReactHearts" : "ReactHappy");
+	}
+	else if (Delta < 0 && bGood)
+	{
+		FixHim::Sfx(this, "ReactSad");
 	}
 }
 
@@ -523,7 +540,14 @@ void UFixHimDialogueWidget::NativeTick(const FGeometry& MyGeometry, float InDelt
 		}
 		else
 		{
-			TypingText->SetText(FText::FromString(PlainText.Left(FMath::FloorToInt(CharsShown))));
+			const int32 Shown = FMath::FloorToInt(CharsShown);
+			TypingText->SetText(FText::FromString(PlainText.Left(Shown)));
+			// A very soft tick every third letter.
+			if (Shown / 3 != LastTypeTick / 3 && !FChar::IsWhitespace(PlainText[Shown - 1]))
+			{
+				FixHim::Sfx(this, "TypeTick", 0.5f, 0.1f);
+			}
+			LastTypeTick = Shown;
 		}
 	}
 

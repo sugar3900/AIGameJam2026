@@ -1,88 +1,64 @@
 // I Can Fix Him - AI Game Jam 2026
 
 #include "Player/FixHimCharacter.h"
-#include "Core/FixHimAssets.h"
-#include "Core/FixHimSettings.h"
+#include "Audio/FixHimSfxSubsystem.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
-#include "Components/StaticMeshComponent.h"
-#include "Engine/SkeletalMesh.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/SpringArmComponent.h"
-#include "Materials/MaterialInstanceDynamic.h"
 
 AFixHimCharacter::AFixHimCharacter()
 {
 	GetCapsuleComponent()->InitCapsuleSize(38.f, 90.f);
 
+	// First person: the body always faces where the camera looks; there is no mesh to turn.
 	bUseControllerRotationPitch = false;
-	bUseControllerRotationYaw = false;
+	bUseControllerRotationYaw = true;
 	bUseControllerRotationRoll = false;
 
 	UCharacterMovementComponent* Move = GetCharacterMovement();
-	Move->bOrientRotationToMovement = true;
-	Move->RotationRate = FRotator(0.f, 540.f, 0.f);
+	Move->bOrientRotationToMovement = false;
 	Move->MaxWalkSpeed = 360.f;
 	Move->MinAnalogWalkSpeed = 20.f;
 	Move->BrakingDecelerationWalking = 2000.f;
-	Move->JumpZVelocity = 420.f;
+	Move->JumpZVelocity = 0.f;
 
+	// Always at floor height: never step up onto props or climb slopes.
+	Move->MaxStepHeight = 0.f;
+	Move->SetWalkableFloorAngle(5.f);
+	Move->bUseFlatBaseForFloorChecks = true;
+
+	// Nobody sees Rosie; the inherited mesh component stays empty.
+	GetMesh()->SetVisibility(false);
 	GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -90.f));
-	GetMesh()->SetRelativeRotation(FRotator(0.f, -90.f, 0.f));
 
-	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 290.f;
-	CameraBoom->SocketOffset = FVector(0.f, 55.f, 45.f);
-	CameraBoom->bUsePawnControlRotation = true;
-	CameraBoom->ProbeSize = 14.f;
-	CameraBoom->bEnableCameraLag = true;
-	CameraBoom->CameraLagSpeed = 12.f;
-
-	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
-	FollowCamera->bUsePawnControlRotation = false;
-	FollowCamera->SetFieldOfView(80.f);
+	// Eye height: ~160cm above the floor (capsule centre is 90cm up).
+	FirstPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
+	FirstPersonCamera->SetupAttachment(GetCapsuleComponent());
+	FirstPersonCamera->SetRelativeLocation(FVector(0.f, 0.f, 70.f));
+	FirstPersonCamera->bUsePawnControlRotation = true;
+	FirstPersonCamera->SetFieldOfView(80.f);
 }
 
-void AFixHimCharacter::BeginPlay()
+void AFixHimCharacter::Tick(float DeltaSeconds)
 {
-	Super::BeginPlay();
+	Super::Tick(DeltaSeconds);
 
-	const UFixHimSettings* S = UFixHimSettings::Get();
-	if (USkeletalMesh* Mesh = S->PlayerMesh.LoadSynchronous())
+	// Soft footsteps timed by distance walked, so they follow her speed (and stop when she does).
+	const UCharacterMovementComponent* Move = GetCharacterMovement();
+	const float Speed = GetVelocity().Size2D();
+	if (!Move->IsMovingOnGround() || Speed < 40.f)
 	{
-		GetMesh()->SetSkeletalMesh(Mesh);
+		StepDistance = FMath::Min(StepDistance, NextStepDistance * 0.5f);
+		return;
 	}
-	if (UClass* Anim = S->LocomotionAnimClass.LoadSynchronous())
+	StepDistance += Speed * DeltaSeconds;
+	if (StepDistance >= NextStepDistance)
 	{
-		GetMesh()->SetAnimInstanceClass(Anim);
+		StepDistance = 0.f;
+		NextStepDistance = FMath::FRandRange(125.f, 155.f);
+		FixHim::Sfx(this, "Footstep", FMath::FRandRange(0.35f, 0.5f), 0.08f);
 	}
-	GetMesh()->RefreshBoneTransforms();
-	DressUp();
-}
-
-void AFixHimCharacter::DressUp()
-{
-	// Rosie the renovator: denim work shirt, rolled jeans, red bandana with a bow, tool belt.
-	FixHim::Assets::FOutfit Outfit;
-	Outfit.Skin = SkinColor;
-	Outfit.Shirt = ShirtColor;
-	Outfit.Pants = PantsColor;
-	Outfit.Shoes = FLinearColor(0.85f, 0.85f, 0.82f);
-	FixHim::Assets::ApplyOutfit(GetMesh(), Outfit);
-	FixHim::Assets::AddEyes(this);
-
-	const FLinearColor Red(0.75f, 0.05f, 0.08f);
-	using FixHim::Assets::AddBodyProp;
-	AddBodyProp(this, TEXT("sphere"), FVector(-1.f, 0.f, 172.f), FVector(22.f, 21.f, 10.f), Red, TEXT("head"));
-	AddBodyProp(this, TEXT("sphere"), FVector(-2.f, -4.f, 178.f), FVector(6.f, 6.f, 6.f), Red, TEXT("head"));
-	AddBodyProp(this, TEXT("sphere"), FVector(-2.f, -9.f, 180.f), FVector(5.f, 8.f, 5.f), Red, TEXT("head"), FRotator(0.f, 0.f, 25.f));
-	AddBodyProp(this, TEXT("sphere"), FVector(-2.f, 1.f, 180.f), FVector(5.f, 8.f, 5.f), Red, TEXT("head"), FRotator(0.f, 0.f, -25.f));
-	AddBodyProp(this, TEXT("sphere"), FVector(-3.f, 0.f, 166.f), FVector(20.f, 20.f, 22.f), HairColor, TEXT("head"));
-	AddBodyProp(this, TEXT("cylinder"), FVector(0.f, 0.f, 99.f), FVector(32.f, 28.f, 6.f), FLinearColor(0.35f, 0.2f, 0.1f), TEXT("pelvis"));
-	AddBodyProp(this, TEXT("cube"), FVector(3.f, 14.f, 94.f), FVector(4.f, 7.f, 12.f), FLinearColor(0.6f, 0.6f, 0.65f), TEXT("pelvis"));
 }
 
 void AFixHimCharacter::DoMove(float Right, float Forward)
