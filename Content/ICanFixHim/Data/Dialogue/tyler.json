@@ -5,6 +5,8 @@
     "room": "bathroom",
     "tagline": "Installed in 1957. Never once apologized.",
     "look": {
+        "mesh": "/Game/ICanFixHim/Characters/PinkTile/SK_PinkTile",
+        "idle": "/Game/ICanFixHim/Characters/PinkTile/A_PinkTile_Idle",
         "skin": "#E8B4A0",
         "shirt": "#F7C6D6",
         "pants": "#EADCC4",

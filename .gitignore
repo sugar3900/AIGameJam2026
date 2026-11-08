@@ -68,3 +68,7 @@ docs/.trash/
 
 # Tripo export zips are redundant with their extracted .fbx/.fbm folders
 Art Source/**/*.zip
+
+# .NET build output (Tools/StoryWriter)
+Tools/**/bin/
+Tools/**/obj/

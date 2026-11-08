@@ -5,6 +5,8 @@
     "room": "living",
     "tagline": "Got his wires crossed. Both currents.",
     "look": {
+        "mesh": "/Game/ICanFixHim/Characters/FaultyWiring/SK_FaultyWiring",
+        "idle": "/Game/ICanFixHim/Characters/FaultyWiring/A_FaultyWiring_Idle",
         "skin": "#D9B08C",
         "shirt": "#F28B2E",
         "pants": "#6E6450",
