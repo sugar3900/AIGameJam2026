@@ -58,6 +58,17 @@ namespace
 			}
 		}));
 
+	FAutoConsoleCommandWithWorld GMusicStatus(
+		TEXT("Music.Status"),
+		TEXT("Log the music voices (track, playing, crossfade level, volume)."),
+		FConsoleCommandWithWorldDelegate::CreateLambda([](UWorld* World)
+		{
+			if (UFixHimMusicSubsystem* Music = UFixHimMusicSubsystem::Get(World))
+			{
+				UE_LOG(LogFixHim, Display, TEXT("Music.Status %s"), *Music->DescribeState());
+			}
+		}));
+
 	FAutoConsoleCommandWithWorld GMusicReload(
 		TEXT("Music.Reload"),
 		TEXT("Rescan the music folder."),
@@ -88,13 +99,14 @@ void UFixHimMusicSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 void UFixHimMusicSubsystem::Deinitialize()
 {
 	FTSTicker::GetCoreTicker().RemoveTicker(TickHandle);
-	for (TWeakObjectPtr<UAudioComponent>& Voice : Voices)
+	for (TObjectPtr<UAudioComponent>& Voice : Voices)
 	{
-		if (UAudioComponent* V = Voice.Get())
+		if (Voice)
 		{
-			V->Stop();
+			Voice->Stop();
+			Voice->DestroyComponent();
 		}
-		Voice.Reset();
+		Voice = nullptr;
 	}
 	Current = NAME_None;
 	Super::Deinitialize();
@@ -139,7 +151,7 @@ bool UFixHimMusicSubsystem::PlayTrack(FName Name, float FadeSeconds)
 		return false;
 	}
 
-	UAudioComponent* Playing = Voices[Active].Get();
+	UAudioComponent* Playing = Voices[Active];
 	if (Name == Current && Playing && Playing->IsPlaying() && State[Active].Target > 0.f)
 	{
 		return true; // already playing: never restart
@@ -152,7 +164,7 @@ bool UFixHimMusicSubsystem::PlayTrack(FName Name, float FadeSeconds)
 		return false;
 	}
 	const int32 Next = 1 - Active;
-	if (UAudioComponent* Old = Voices[Next].Get())
+	if (UAudioComponent* Old = Voices[Next])
 	{
 		Old->Stop();
 		Old->DestroyComponent();
@@ -165,6 +177,9 @@ bool UFixHimMusicSubsystem::PlayTrack(FName Name, float FadeSeconds)
 	}
 	Voice->bIsUISound = true; // keeps playing while the game is paused
 	Voice->bIsMusic = true;
+	// Never lose the music to voice stealing when lots of SFX play at once.
+	Voice->bOverridePriority = true;
+	Voice->Priority = 100.f;
 	Voices[Next] = Voice;
 
 	const float Rate = 1.f / FMath::Max(FadeSeconds, 0.02f);
@@ -212,7 +227,7 @@ void UFixHimMusicSubsystem::ApplyVolumes()
 	const float Base = UserVolume * TrackTrim * DuckCurrent * VoiceDuck;
 	for (int32 i = 0; i < 2; ++i)
 	{
-		if (UAudioComponent* Voice = Voices[i].Get())
+		if (UAudioComponent* Voice = Voices[i])
 		{
 			Voice->SetVolumeMultiplier(Base * FMath::Sin(State[i].Level * HALF_PI));
 		}
@@ -236,13 +251,25 @@ bool UFixHimMusicSubsystem::Tick(float /*DeltaTime*/)
 	{
 		FVoiceState& S = State[i];
 		S.Level = FMath::FInterpConstantTo(S.Level, S.Target, Dt, S.Rate);
-		if (S.Target <= 0.f && S.Level <= 0.f && Voices[i].IsValid() && Voices[i]->IsPlaying())
+		if (S.Target <= 0.f && S.Level <= 0.f && Voices[i] && Voices[i]->IsPlaying())
 		{
 			Voices[i]->Stop();
 		}
 	}
 	ApplyVolumes();
 	return true;
+}
+
+FString UFixHimMusicSubsystem::DescribeState() const
+{
+	FString Out = FString::Printf(TEXT("current=%s active=%d user=%.2f duck=%.2f voiceDuck=%.2f"), *Current.ToString(), Active, UserVolume, DuckCurrent, VoiceDuck);
+	for (int32 i = 0; i < 2; ++i)
+	{
+		const UAudioComponent* V = Voices[i];
+		Out += FString::Printf(TEXT(" | voice%d sound=%s playing=%d level=%.2f target=%.2f"), i,
+			V && V->Sound ? *V->Sound->GetName() : TEXT("-"), V && V->IsPlaying() ? 1 : 0, State[i].Level, State[i].Target);
+	}
+	return Out;
 }
 
 void FixHim::Music(const UObject* WorldContext, FName Track, float FadeSeconds)

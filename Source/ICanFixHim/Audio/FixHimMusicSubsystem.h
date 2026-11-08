@@ -40,6 +40,8 @@ public:
 	bool PlayTrack(FName Name, float FadeSeconds = 1.5f);
 	void StopMusic(float FadeSeconds = 1.f);
 	FName GetCurrentTrack() const { return Current; }
+	/** One line per voice (track, playing, level, volume) for the Music.Status console command and tests. */
+	FString DescribeState() const;
 
 	/** 0..1 player option. Applied live. */
 	void SetMusicVolume(float Volume);
@@ -64,12 +66,13 @@ private:
 	TSet<FName> Warned;
 
 	/**
-	 * The two crossfading voices. A component with no world can't resolve the right audio device (in the editor the
-	 * play session has its own), so they are normal world-registered 2D sounds that persist across level
-	 * transitions. Weak on purpose: the world owns them, and a strong reference from here would keep a finished
-	 * play-in-editor world alive. They are recreated when a new world needs music.
+	 * The two crossfading voices: 2D UI sounds made by CreateSound2D(bPersistAcrossLevelTransition), so they live in
+	 * the transient package with no world or owner, and keep playing through level reloads (return to title). Held
+	 * strongly on purpose: nothing else references them, and a weak pointer let the garbage collector destroy the
+	 * playing component (silencing the music) at the next GC, about a minute in or on any level load. They hold no
+	 * world reference, so they don't keep a finished play-in-editor world alive; Deinitialize stops them.
 	 */
-	TWeakObjectPtr<UAudioComponent> Voices[2];
+	UPROPERTY(Transient) TObjectPtr<UAudioComponent> Voices[2];
 	FVoiceState State[2];
 	int32 Active = 0;
 	FName Current;
