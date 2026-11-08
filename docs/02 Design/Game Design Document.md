@@ -88,10 +88,12 @@ Stats are clamped to 0–20.
 | [[Malcolm]] | Black Mold | Bedroom | Toxic emo poet, a sub, nothing positive | ✅ full arc |
 | [[Wyatt]] | Faulty Wiring | Living room | Confused, crossed wires, bisexual ("AC/DC") | ✅ full arc |
 | [[Tyler]] | Pink Tile | Bathroom | Obnoxious, bad taste, outdated on gender, pink is masculine | ✅ full arc |
-| Az | Asbestos | (attic?) | Diva; protects against fire spreading | 📝 backlog |
+| [[Az]] | Asbestos | (attic?) | K-pop idol diva; protects against fire spreading | 📝 backlog (voice cast) |
 | Lance? | Lead Paint | (?) | Pure, chaste, heroic, self-righteous, chivalric | 📝 backlog |
 | Joey? | Broken Floor Joist | (?) | TBD | 📝 backlog |
 | Dorian? | Broken Door | (?) | TBD | 📝 backlog |
+
+Voices for every hunk: [[Voice Casting]]. The player is never voiced.
 
 ## Mechanics
 - **Interactables:** everything clickable sparkles faintly from a distance; on hover it gets an outline and the reticle becomes a pointing finger with painted nails. Ordinary objects toggle (lamp, TV, stove, fridge, drawers, wardrobe, faucet, toilet lid); clicking again reverts.

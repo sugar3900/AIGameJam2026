@@ -24,4 +24,7 @@ Love interest. Always a little confused; his wires are crossed.
 ## Interconnections
 - Crush on [[Tyler]]; telling him to confess raises Tyler's romance.
 
+## Voice
+**Smart, masculine Australian, a little submissive**: a deep, gentle baritone, thoughtful, trails off politely ("if that's... alright?"), quick and nerdy about circuits, then catches himself. His crossed wires now read as overthinking rather than confusion: smart and flustered, never dim. ElevenLabs fallback: **Charlie**. Full brief and Voice Design prompt: [[Voice Casting]]. Not voiced in the game yet.
+
 Back to [[Game Design Document]]

@@ -136,6 +136,9 @@ struct FDialogueView
 {
 	FString HunkId;
 	FString HunkName;
+	/** Node and 0-based line index this view shows (voice-over lookup key). */
+	FString NodeId;
+	int32 LineIndex = 0;
 	EDialogueSpeaker Speaker = EDialogueSpeaker::Hunk;
 	/** Set when Speaker == Named. */
 	FString SpeakerName;

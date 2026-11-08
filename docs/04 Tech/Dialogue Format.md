@@ -112,6 +112,14 @@ When `mesh` is set the hunk uses that rigged model instead of the painted manneq
    - fallback → `auto` (resolver picks by stats; usually friend failure if you've been rude)
 5. **after_\*.** Short post-ending chats per ending.
 
+## Voice-over
+A line is voiced if a sound wave named `VO_<file id>_<node id>_<line index>` exists under `/Game/ICanFixHim/Audio/VO/` (the line index is 0-based within that node's `lines`). It plays when the line appears, and stops when the player clicks on.
+
+- **Editing a voiced line:** re-run `Tools/Audio/generate_vo.py`, then `Tools/Editor/import_vo.py`. Only changed lines regenerate.
+- **Inserting or removing lines mid-node shifts the indices,** so re-run the generator after any edit to a voiced node.
+
+`You:` lines and `*narration*` are never voiced. See [[Voice Casting]].
+
 ## Moving to an LLM later
 `UFixHimDialogueSubsystem` exposes a UI-agnostic `FDialogueView` and `Advance / Choose / ClickTopic`. An AI-driven provider can produce the same view (text, choices, topics) and apply the same `do` effects, so the UI and the save format don't change. The JSON character sheets (`name`, `malady`, `tagline`, endings, existing lines) double as the prompt context.
 

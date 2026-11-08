@@ -782,11 +782,16 @@ void UFixHimDialogueSubsystem::ReturnFromTangent()
 
 void UFixHimDialogueSubsystem::AbortConversation()
 {
+	const bool bWasActive = IsActive();
 	ActiveHunkId.Reset();
 	ActiveNodeId.Reset();
 	PendingEnding.Reset();
 	Tangents.Reset();
 	View = FDialogueView();
+	if (bWasActive)
+	{
+		OnConversationAborted.Broadcast();
+	}
 }
 
 void UFixHimDialogueSubsystem::FinishConversation()
@@ -897,6 +902,8 @@ void UFixHimDialogueSubsystem::RebuildView(bool bIsReturn)
 	View = FDialogueView();
 	View.HunkId = ActiveHunkId;
 	View.HunkName = Def->Name;
+	View.NodeId = ActiveNodeId;
+	View.LineIndex = LineIndex;
 	View.Speaker = Line.Speaker;
 	View.SpeakerName = Line.SpeakerName;
 	View.Text = Substitute(Line.Text);

@@ -14,6 +14,8 @@ Track where AI tools were used. Useful for jam disclosure rules and the [[Postmo
 | 2026-11-07 | design | Claude Code | Relationship thresholds, interconnections (leak feeds mold; Wyatt ♥ Tyler), UI layouts | Characters + beats from Scope & MVP |
 | 2026-11-07 | QA | Claude Code + Unreal MCP | Drove PIE with scripted console commands and screenshots to verify every arc reaches an ending | `FixHimScript`, `FixHimAuto` |
 | 2026-11-07 | text | Claude Code | Brainstormed the v2 story with Kirsten (flipper heroine, condemned house, Ghosts-UK tone), then wrote Lukey's v2 arc, the Bev & Trish podcast and the epilogues | `lukey.json`, `podcast.json`, `epilogue.json` |
+| 2026-11-08 | audio | Kokoro-82M TTS (local, Apache-2.0) + Claude Code | Placeholder voice-over for all of Lukey's lines, generated and imported by script; in-game playback | `Tools/Audio/generate_vo.py`; final VO planned in ElevenLabs ([[Voice Casting]]) |
+| 2026-11-08 | design | Claude Code | Voice casting briefs and ElevenLabs Voice Design prompts for all five hunks | [[Voice Casting]] |
 
 ## Prompts worth keeping
 - "Pull an update and read the documents I wrote. We will be building this out using Unreal... work independently until you've completed the prototype."

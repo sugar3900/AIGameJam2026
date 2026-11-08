@@ -21,4 +21,7 @@ Love interest. Obnoxious, bad taste, outdated about gender, and secretly soft.
 3. **v3:** Found your renovation catalogs. Restore him (romance) / "you can change too" (friendship: *Everybody Pink*) / gut him.
 4. **v4:** The grout float. Endings: *Tile Death Do Us Part* / *Grout of Here* / *Pink for Everybody* / *Retiled*.
 
+## Voice
+**A royal officer who has always got his way**: crisp upper-class British, a commanding parade-ground baritone, snooty and composed, every sentence ends like an order, and he splutters when complimented. His opinions about pink now come from privilege and tradition (defending the 1957 tile like a regimental colour). ElevenLabs fallback: **Daniel**. Full brief and Voice Design prompt: [[Voice Casting]]. Not voiced in the game yet.
+
 Back to [[Game Design Document]]
