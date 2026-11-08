@@ -52,6 +52,8 @@ struct FDialogueLine
 	FString Text;
 	/** From an inline {fx:name} tag: plays when this line appears (e.g. "hearts"). */
 	FString Fx;
+	/** From inline {sfx:Name} tags (any number): SFX cues played when this line first appears. */
+	TArray<FString> Sfx;
 };
 
 struct FDialogueNode
@@ -72,6 +74,8 @@ struct FDialogueNode
 	 */
 	FString Fx;
 	FString FxText;
+	/** "sfx": "Name" (or an array of names): SFX cues played with the node's first line. */
+	TArray<FString> Sfx;
 	/** "return": true - when this node's lines run out (and it has no choices), resume the line an aside topic was clicked on. */
 	bool bReturn = false;
 };
@@ -148,7 +152,10 @@ struct FHunkDefinition
 struct FDialogueView
 {
 	FString HunkId;
-	/** Node and 0-based line index being shown (voice-over lookup key; lets listeners tell a new line from a re-broadcast). */
+	/**
+	 * Node and 0-based line index this view shows. Lets listeners tell a new line from a
+	 * re-broadcast, and is the voice-over lookup key (VO_<script>_<node>_<line>).
+	 */
 	FString NodeId;
 	int32 LineIndex = 0;
 	FString HunkName;
@@ -162,11 +169,17 @@ struct FDialogueView
 	TArray<FString> ActiveTopics;
 	FString Fx;
 	FString FxText;
-	/** True when this line is being re-shown after returning from an aside (no fx, no effects re-applied). */
-	bool bResumed = false;
+	/**
+	 * SFX cues for this line (node "sfx" on line 0, then the line's {sfx:Name} tags). Played by the dialogue
+	 * subsystem when the view is broadcast; empty when bIsReturn.
+	 */
+	TArray<FString> Sfx;
 	bool bIsLastLine = false;
 	bool bWillEnd = false;
-	/** Re-presenting a node already shown (back from a hypertext tangent): the line is not new, only its options. */
+	/**
+	 * Re-presenting a line already shown (back from an aside's "return" node or a hypertext
+	 * tangent): the line is not new, only its options. No fx; voice-over is not replayed.
+	 */
 	bool bIsReturn = false;
 	/** Reading a hypertext node: a dead end that returns to the node it was opened from. */
 	bool bInTangent = false;

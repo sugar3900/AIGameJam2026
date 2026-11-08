@@ -16,7 +16,9 @@ class UAudioComponent;
  * a clip (narration, the player, unrecorded characters) are silent.
  *
  * Starts the clip when the line appears, cuts it off when the player clicks on,
- * and stops when the conversation ends. No code changes are needed to voice
+ * and stops when the conversation ends or is aborted. Lines inside aside nodes are
+ * voiced like any other; the line an aside returns to (FDialogueView::bIsReturn) is
+ * not replayed. No code changes are needed to voice
  * another character: generate and import the files.
  */
 UCLASS()

@@ -4,6 +4,7 @@
 #include "Dialogue/DialogueCondition.h"
 #include "Core/FixHimSaveSubsystem.h"
 #include "Core/FixHimSettings.h"
+#include "Audio/FixHimSfxSubsystem.h"
 #include "ICanFixHim.h"
 #include "Dom/JsonObject.h"
 #include "Serialization/JsonReader.h"
@@ -83,22 +84,29 @@ namespace
 		FDialogueLine Line;
 		FString Text = Raw.TrimStartAndEnd();
 
-		// Inline effect tags: "{fx:flicker}" anywhere in the line. Stripped from the text.
-		int32 TagStart = INDEX_NONE;
-		while ((TagStart = Text.Find(TEXT("{fx:"))) != INDEX_NONE)
+		// Inline tags anywhere in the line, stripped from the text: "{fx:flicker}" (one presentation effect, the last
+		// one wins) and "{sfx:Thunder}" (any number of SFX cues, played when the line first appears).
+		auto StripTags = [&Text](const TCHAR* Prefix, TFunctionRef<void(const FString&)> OnTag)
 		{
-			const int32 TagEnd = Text.Find(TEXT("}"), ESearchCase::CaseSensitive, ESearchDir::FromStart, TagStart);
-			if (TagEnd == INDEX_NONE)
+			const int32 PrefixLen = FCString::Strlen(Prefix);
+			int32 TagStart = INDEX_NONE;
+			while ((TagStart = Text.Find(Prefix)) != INDEX_NONE)
 			{
-				break;
+				const int32 TagEnd = Text.Find(TEXT("}"), ESearchCase::CaseSensitive, ESearchDir::FromStart, TagStart);
+				if (TagEnd == INDEX_NONE)
+				{
+					break;
+				}
+				OnTag(Text.Mid(TagStart + PrefixLen, TagEnd - TagStart - PrefixLen).TrimStartAndEnd());
+				Text = (Text.Left(TagStart) + Text.Mid(TagEnd + 1)).TrimStartAndEnd();
+				Text.ReplaceInline(TEXT("  "), TEXT(" "));
+				// "*{fx:flicker} The lights...*" -> "*The lights...*"
+				if (Text.StartsWith(TEXT("* "))) { Text = TEXT("*") + Text.RightChop(2); }
+				if (Text.EndsWith(TEXT(" *"))) { Text = Text.LeftChop(2) + TEXT("*"); }
 			}
-			Line.Fx = Text.Mid(TagStart + 4, TagEnd - TagStart - 4).TrimStartAndEnd().ToLower();
-			Text = (Text.Left(TagStart) + Text.Mid(TagEnd + 1)).TrimStartAndEnd();
-			Text.ReplaceInline(TEXT("  "), TEXT(" "));
-			// "*{fx:flicker} The lights...*" -> "*The lights...*"
-			if (Text.StartsWith(TEXT("* "))) { Text = TEXT("*") + Text.RightChop(2); }
-			if (Text.EndsWith(TEXT(" *"))) { Text = Text.LeftChop(2) + TEXT("*"); }
-		}
+		};
+		StripTags(TEXT("{fx:"), [&Line](const FString& Tag) { Line.Fx = Tag.ToLower(); });
+		StripTags(TEXT("{sfx:"), [&Line](const FString& Tag) { if (!Tag.IsEmpty()) { Line.Sfx.Add(Tag); } });
 		if (Text.StartsWith(TEXT("You:"), ESearchCase::IgnoreCase))
 		{
 			Line.Speaker = EDialogueSpeaker::Player;
@@ -388,6 +396,26 @@ bool UFixHimDialogueSubsystem::LoadHunkFile(const FString& Path)
 			NO->TryGetStringField(TEXT("ending"), Node.Ending);
 			NO->TryGetStringField(TEXT("fx"), Node.Fx);
 			NO->TryGetStringField(TEXT("fxText"), Node.FxText);
+			{
+				// "sfx": "Name" or "sfx": ["Name", "Other"]
+				FString OneSfx;
+				const TArray<TSharedPtr<FJsonValue>>* SfxArray = nullptr;
+				if (NO->TryGetStringField(TEXT("sfx"), OneSfx) && !OneSfx.TrimStartAndEnd().IsEmpty())
+				{
+					Node.Sfx.Add(OneSfx.TrimStartAndEnd());
+				}
+				else if (NO->TryGetArrayField(TEXT("sfx"), SfxArray))
+				{
+					for (const TSharedPtr<FJsonValue>& V : *SfxArray)
+					{
+						const FString Name = V.IsValid() ? V->AsString().TrimStartAndEnd() : FString();
+						if (!Name.IsEmpty())
+						{
+							Node.Sfx.Add(Name);
+						}
+					}
+				}
+			}
 			NO->TryGetBoolField(TEXT("return"), Node.bReturn);
 			if (!Node.Ending.IsEmpty())
 			{
@@ -437,7 +465,7 @@ void UFixHimDialogueSubsystem::Validate(const FHunkDefinition& Def)
 		{
 			LoadErrors.Add(FString::Printf(TEXT("%s: node '%s' has no lines"), *Def.Id, *N.Id));
 		}
-		if (N.Choices.IsEmpty() && N.Goto.IsEmpty() && !N.bEnd && !N.bReturn)
+		if (N.Choices.IsEmpty() && N.Goto.IsEmpty() && !N.bEnd && !N.bReturn && !IsHypertextNode(Def, N.Id))
 		{
 			LoadErrors.Add(FString::Printf(TEXT("%s: node '%s' is a dead end (no choices, goto or end)"), *Def.Id, *N.Id));
 		}
@@ -607,9 +635,9 @@ bool UFixHimDialogueSubsystem::StartConversation(const FString& HunkId)
 	ActiveHunkId = HunkId;
 	PendingEnding.Reset();
 	JumpsWithoutLines = 0;
-	Tangents.Reset();
 	ReturnStack.Reset();
 	SpentAsides.Reset();
+	Tangents.Reset();
 
 	FString StartNode;
 	bCountVisit = true;
@@ -717,9 +745,7 @@ void UFixHimDialogueSubsystem::ReturnFromAside()
 	ActiveNodeId = Point.NodeId;
 	LineIndex = Point.LineIndex;
 	JumpsWithoutLines = 0;
-	bResumingLine = true;
-	RebuildView();
-	bResumingLine = false;
+	RebuildView(true);
 }
 
 void UFixHimDialogueSubsystem::Advance()
@@ -810,8 +836,10 @@ void UFixHimDialogueSubsystem::ClickTopic(const FString& TopicId)
 		ReturnStack.Add({ ActiveNodeId, LineIndex });
 	}
 	ApplyEffects(Topic->Effects);
+	// Explicit asides return through their "return" node; other links rewind only when they
+	// open a hypertext dead end (StoryWriter's link nodes). One-way diverts stay one-way.
 	const FHunkDefinition* Def = FindHunk(ActiveHunkId);
-	if (Def && Def->FindNode(Topic->Goto) && (InTangent() || IsHypertextNode(*Def, Topic->Goto)))
+	if (!Topic->bAside && Def && Def->FindNode(Topic->Goto) && (InTangent() || IsHypertextNode(*Def, Topic->Goto)))
 	{
 		Tangents.Emplace(ActiveNodeId, LineIndex);
 	}
@@ -821,7 +849,10 @@ void UFixHimDialogueSubsystem::ClickTopic(const FString& TopicId)
 bool UFixHimDialogueSubsystem::IsHypertextNode(const FHunkDefinition& Def, const FString& NodeId) const
 {
 	const FDialogueNode* Target = Def.FindNode(NodeId);
-	if (!Target || !Target->Ending.IsEmpty())
+	// Only true dead ends rewind: a link target with its own choices, goto, end or "return"
+	// keeps its flow (one-way diverts and aside chains).
+	if (!Target || !Target->Ending.IsEmpty() || Target->bEnd || Target->bReturn
+		|| !Target->Goto.IsEmpty() || !Target->Choices.IsEmpty())
 	{
 		return false;
 	}
@@ -849,7 +880,7 @@ bool UFixHimDialogueSubsystem::IsHypertextNode(const FHunkDefinition& Def, const
 		}
 		for (const auto& TP : N.Topics)
 		{
-			bViaTopic |= TP.Value.Goto == NodeId;
+			bViaTopic |= TP.Value.Goto == NodeId && !TP.Value.bAside;
 		}
 	}
 	return bViaTopic;
@@ -869,9 +900,9 @@ void UFixHimDialogueSubsystem::AbortConversation()
 	ActiveHunkId.Reset();
 	ActiveNodeId.Reset();
 	PendingEnding.Reset();
-	Tangents.Reset();
 	ReturnStack.Reset();
 	SpentAsides.Reset();
+	Tangents.Reset();
 	View = FDialogueView();
 	if (bWasActive)
 	{
@@ -995,15 +1026,22 @@ void UFixHimDialogueSubsystem::RebuildView(bool bIsReturn)
 	View.bIsLastLine = LineIndex == Node->Lines.Num() - 1;
 	View.bIsReturn = bIsReturn;
 	View.bInTangent = InTangent();
-	View.bResumed = bResumingLine;
-	if (LineIndex == 0 && !bIsReturn && !bResumingLine)
+	if (LineIndex == 0 && !bIsReturn)
 	{
 		View.Fx = Node->Fx;
 		View.FxText = Substitute(Node->FxText);
 	}
-	if (!Line.Fx.IsEmpty() && !bResumingLine && !bIsReturn)
+	if (!Line.Fx.IsEmpty() && !bIsReturn)
 	{
 		View.Fx = Line.Fx;
+	}
+	if (!bIsReturn)
+	{
+		if (LineIndex == 0)
+		{
+			View.Sfx = Node->Sfx;
+		}
+		View.Sfx.Append(Line.Sfx);
 	}
 
 	if (!InTangent())
@@ -1023,6 +1061,15 @@ void UFixHimDialogueSubsystem::RebuildView(bool bIsReturn)
 	}
 	View.bWillEnd = View.bIsLastLine && !InTangent() && View.Choices.IsEmpty()
 		&& (Node->bReturn ? ReturnStack.IsEmpty() : (Node->bEnd || Node->Goto.IsEmpty()));
+
+	// Sound cues play once, when the line first appears (never when it's re-shown after an aside or tangent).
+	if (UFixHimSfxSubsystem* Sfx = GetGameInstance()->GetSubsystem<UFixHimSfxSubsystem>())
+	{
+		for (const FString& Cue : View.Sfx)
+		{
+			Sfx->Play2D(FName(*Cue), 1.f, 0.f);
+		}
+	}
 
 	OnView.Broadcast(View);
 }

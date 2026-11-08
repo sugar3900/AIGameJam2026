@@ -17,13 +17,13 @@ status: draft
 **Jam scope: four guys, all written in the v2 tone:** [[Lukey]], [[Malcolm]], [[Tyler]] and [[Wyatt]]. Each bible holds his backstory, four-week arc, hooks and endings.
 
 - **Heroine:** 29, ambitious house flipper, a deliberate blank slate for the player, named by the player (`{player}`). Unvoiced.
-- **External problem:** the house is condemned. There are **30 days** to fix it for real, with **weekly Friday inspections** by Inspector Dan and a **storm** that hits in week 4. We only fix things for real; there's no cosmetic flip.
+- **External problem:** the house is condemned. There are **30 days** to fix it for real, a **storm** that hits in week 4, and **one inspection**: Inspector Dan comes **once, on day 30**, for the final inspection (inspectors don't drop by weekly; before that the player only hears him as a guest on the week-3 podcast). We only fix things for real; there's no cosmetic flip.
 - **Each love interest is the broken thing** (every leak, the closet mold, the pink tile, the wiring), flirts with the heroine from minute one, and solves the house's problem with her as a team. Each has a mystery the player can spot early, but **nothing states plainly that anyone is a ghost before his own reveal**:
   - **Lukey** (leaks): learns he was a 1987 aerobics instructor from the week-4 podcast (Act 4). Unfinished business: the first date he never got.
   - **Malcolm** (mold): the diary on the top shelf of his closet shows he was never alive; he's a goth teenager's fan fiction (Act 3).
   - **Tyler** (pink tile): his last video shows how he died on flip day one, in 2024 (Act 3). Unfinished business: being told no, and loved anyway.
   - **Wyatt** (wiring): a January 2000 newspaper inside the wall (Act 3). Unfinished business: the "no" he never said on New Year's Eve, 1999.
-- **Every morning:** the *Creaky Floorboards with Bev & Trish* podcast. **Fridays:** Dan's inspection.
+- **Every morning:** the *Creaky Floorboards with Bev & Trish* podcast. **Day 30:** Dan's final inspection, his first and only visit to the house.
 - **Each guy's mid-game conflict is a real difference in values** (Lukey: profit vs. home; Malcolm: can you love a thing without fixing it; Tyler: rip it out vs. restore it; Wyatt: cheap patch vs. doing it right).
 - **Endings:** per guy, he stays (romance) or passes on / moves on (three other endings). Final house choice: **sell / stay / demolish**, then a whole-household epilogue.
 
@@ -38,13 +38,13 @@ The 30 days are told as **4 playable days**, one per week. A week passes every t
 6. **Go to bed** (click the bed in the bedroom) to end the day: fade to black → "Week N+1" → wake up in the bedroom.
    - **Week 1 only:** you must meet every guy first. Otherwise: *"You feel a presence in the house... someone you still need to meet."*
    - **Skipping a guy for a week is allowed.** His story doesn't advance, so next time you get the week you missed. But each guy needs all four acts by the end of week 4, so skipping anyone means his Act 4 can't happen before the inspection and the house fails.
-7. **Going to bed on week 4** → "Inspection Day" card → **Inspector Dan's final inspection**: it passes **only if all four maladies are fixed** (`housefixed`), with a pun per room; otherwise Dan walks to each room that's still broken and the demolition goes ahead → if it passed, Bev & Trish go live from the porch → **the epilogue** (pass: Day 30 hearing, sell / stay / demolish, a beat for each guy's ending, and a shared Sunday dinner if two or more stayed; fail: a last walk through the house and the demolition) → for each **romantic ending**, an option to **see him** (a big portrait) → back to the title. The finished save is deleted.
+7. **Going to bed on week 4** → "Inspection Day" card → **Inspector Dan's final inspection** (day 30, his first and only visit): it passes **only if all four maladies are fixed** (`housefixed`), with a pun per room; otherwise Dan walks to each room that's still broken and the demolition goes ahead → if it passed, Bev & Trish go live from the porch → **the epilogue** (pass: Day 30 hearing, sell / stay / demolish, a beat for each guy's ending, and a shared Sunday dinner if two or more stayed; fail: a last walk through the house and the demolition) → for each **romantic ending**, an option to **see him** (a big portrait) → back to the title. The finished save is deleted.
 
 | Week | Podcast every morning (each also teases one of the other guys, hints only) |
 |---|---|
-| 1 | The Catfish of Heartbreak Lane (tease: a man in a navy blazer saluting from the bathroom window) |
+| 1 | The Catfish of Heartbreak Lane (tease: an enormous shirtless man with a pink pompadour, pink all over, saluting from the bathroom window) |
 | 2 | Something in the Walls Is Singing (Mrs. Pruitt: Bon Jovi in the walls; tease: a porch light that hums about "a certain year") |
-| 3 | The Inspector (Dan interview: "the only thing haunting that house is its water pressure"; tease: poetry in a closet; BIG STORM SATURDAY) |
+| 3 | The Inspector (radio guest spot; Dan has never been inside and only goes in on day 30: "the only thing haunting that house is its water pressure"; tease: poetry in a closet; BIG STORM SATURDAY) |
 | 4 | We Went to the Library (Lukey's 1987 newspaper reveal; tease: the missing January 2000 paper) |
 | Finale | Case Closed (Mostly), live from the porch, only if the whole house passed |
 
@@ -80,7 +80,9 @@ Multiple romances are allowed and coexist (nobody in the house is exclusive). Ea
 **Interconnections (Monster Prom-style):** global flags and cross-character reads, all optional flavour that never locks content:
 - Shared flags: `flag.lukey_blackout` (week 3: Wyatt blacks out the house during Lukey's candlelit dinner; it was jealousy), `flag.lukey_human`, `flag.malcolm_diary`, `flag.tyler_video`, `flag.wyatt_spoke_up`. Later acts call back to whichever reveals have happened.
 - Jealousy beats read the other guys' `romance` (Lukey and Tyler are petty about it, Malcolm is thrilled, Wyatt says "fine" until he learns to say how he feels).
-- Running cast: **Dennis** the dehumidifier (everyone's nemesis or sergeant; Lukey and Malcolm sign the Damp Accord against him), Inspector Dan, Mrs. Pruitt, Bev & Trish.
+- Running cast: Inspector Dan (on the radio in week 3, in person only on day 30), Mrs. Pruitt, Bev & Trish. **The dehumidifier is just an appliance:** it has no name and isn't sentient. The damp-loving guys can resent it as a thing (Lukey and Malcolm sign the Damp Accord against it), but it never acts, hums at anyone or gets promoted.
+- **Cross-references are seasoning, not the meal.** Each guy's weekly script mentions the other housemates **at most 0–2 times per act**, and **not at all in week 1** (Act 1 is just him and her). The epilogue can have household beats (the roll call, the shared dinner), but no guy's own coda is mostly about the others.
+- **Day-1 touches vary per guy** (no handshakes), and **Malcolm isn't touched at all on day 1**.
 - Wyatt's crush on Tyler is subtle, unrequited and never stated; it isn't a route.
 - Characters gossip about each other, and some choices only appear if you've met someone.
 
@@ -89,14 +91,16 @@ Multiple romances are allowed and coexist (nobody in the house is exclusive). Ea
 ## Cast (the first four)
 | Hunk | Malady | Room | Personality | Status |
 |---|---|---|---|---|
-| [[Lukey]] | The Leaks (every leak in the house) | Kitchen + walls | Vain, flirty 1987 aerobics instructor who thinks he's a franchise of leaks; Bon Jovi; medium-length blow-dry that never dries; died showing off under Brenda's sink before their first date | ✅ v2 arc |
-| [[Malcolm]] | Black Mold | Walk-in closet in the bedroom | Velvet, theatrical "tragic poet" who was never alive (a goth teen's 2005–08 fan fiction); polyamorous colony, sweet sub, terrified of bleach | ✅ v2 arc |
-| [[Tyler]] | Pink Tile | Bathroom | Snooty old-money heir with military-school manners and rose-quartz hair; slipped on the tile he hated on flip day one (2024); has never been told no | ✅ v2 arc |
-| [[Wyatt]] | Faulty Wiring | Living room fuse box | Shy, sweet, nerdy Australian apprentice electrician (died NYE 1999); apologizes constantly; the lights tell the truth | ✅ v2 arc |
-| Az | Asbestos | (attic?) | Diva; protects against fire spreading | 📝 backlog |
+| [[Lukey]] | The Leaks (every leak in the house) | Kitchen + walls | Vain, flirty 1987 aerobics instructor who thinks he's a franchise of leaks; Bon Jovi; died showing off under Brenda's sink before their first date (in Lycra, which is the only Lycra in the game). **Look:** a big, bearded redhead with chin-length copper curls that are always wet; copper-pipe neck, arms and legs with duct-tape patches; soaked white tank top with a red valve wheel; denim cut-offs; work boots | ✅ v2 arc |
+| [[Malcolm]] | Black Mold | Walk-in closet in the bedroom | Velvet, theatrical "tragic poet" who was never alive (a goth teen's 2005–08 fan fiction); polyamorous colony, sweet sub, terrified of bleach. **Look:** gaunt and pale ivory with black mold blotches; long black wavy hair; a long open moss-black coat, bare-chested; cropped trousers; ankle boots | ✅ v2 arc |
+| [[Tyler]] | Pink Tile | Bathroom | Snooty old-money heir with military-school manners; slipped on the tile he hated on flip day one (2024); has never been told no. **Look:** a huge shirtless bodybuilder tiled hot pink from the neck down with white grout lines; a hot-pink pompadour the same pink as the tile; pink gym shorts, white socks, pink high-tops | ✅ v2 arc |
+| [[Wyatt]] | Faulty Wiring | Living room fuse box | Shy, sweet, nerdy Australian apprentice electrician (died NYE 1999); apologizes constantly; the lights tell the truth. **Look:** slight and ginger with round copper-rimmed glasses; a singed open tan coat over a cream shirt; brown shorts; braided red/copper wire neck, arms and legs | ✅ v2 arc |
+| [[Az]] | Asbestos | (attic?) | K-pop idol diva; protects against fire spreading | 📝 backlog (voice cast) |
 | Lance? | Lead Paint | (?) | Pure, chaste, heroic, self-righteous, chivalric | 📝 backlog |
 | Joey? | Broken Floor Joist | (?) | TBD | 📝 backlog |
 | Dorian? | Broken Door | (?) | TBD | 📝 backlog |
+
+Voices for every hunk: [[Voice Casting]]. The player is never voiced.
 
 ## Mechanics
 - **Interactables:** everything clickable sparkles faintly from a distance; on hover it gets an outline and the reticle becomes a pointing finger with painted nails. Ordinary objects toggle (lamp, TV, stove, fridge, drawers, wardrobe, faucet, toilet lid); clicking again reverts.
@@ -116,7 +120,7 @@ Multiple romances are allowed and coexist (nobody in the house is exclusive). Ea
 
 ## Look & Sound
 [[Art Direction]] · [[Audio Direction]]
-Stylized pastel primitives, a different pastel per room, UE mannequins painted with outfits by a custom material, plus primitive props (caps, berets, mustaches, bandanas). No audio in the prototype yet.
+Stylized pastel primitives, a different pastel per room. The four guys are rigged 3D models (the appearance summaries in the cast table above match them; the JSON `look` colours and props are only the fallback mannequin). Dialogue can trigger one-shot sound cues: inline `{sfx:Name}` tags in a line or a node-level `"sfx"` (cue names come from `Art Source/Audio/SFX`; see [[Dialogue Format]]). The podcast's radio caption panel strips the tags but doesn't play them yet, so podcast cues are kept minimal.
 
 ## Open Questions
 - Names for the backlog hunks (Az is set; lead paint / joist / door TBD).

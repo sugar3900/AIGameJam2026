@@ -48,9 +48,22 @@ VOICES = {
 }
 
 
+FX_TAG = re.compile(r"\{s?fx:[^}]*\}")  # {fx:name} and {sfx:Name}
+
+
+def strip_fx(text):
+    """Remove inline {fx:name} / {sfx:Name} tags, like ParseLine does before it reads the speaker."""
+    t = re.sub(r"\s{2,}", " ", FX_TAG.sub("", text)).strip()
+    if t.startswith("* "):
+        t = "*" + t[2:]
+    if t.endswith(" *"):
+        t = t[:-2] + "*"
+    return t
+
+
 def speaker_of(raw, speakers):
     """Mirror of ParseLine in FixHimDialogueSubsystem.cpp. Returns (speaker key, text)."""
-    text = raw.strip()
+    text = strip_fx(raw.strip())
     if text.lower().startswith("you:"):
         return "player", text[4:].strip()
     for name in speakers:
@@ -63,7 +76,8 @@ def speaker_of(raw, speakers):
 
 def speakable(text, hunk_name):
     """Turn a script line into something TTS can read. Returns None if nothing is left to say."""
-    t = re.sub(r"\*[^*]*\*", " ", text)                       # inline stage directions
+    t = FX_TAG.sub(" ", text)                                  # {fx:name} / {sfx:Name} tags
+    t = re.sub(r"\*[^*]*\*", " ", t)                          # inline stage directions
     t = re.sub(r"\[([^\]|]+)\|[^\]]*\]", r"\1", t)            # [shown|topic]
     t = re.sub(r"\[([^\]]+)\]", r"\1", t)                     # [topic]
     t = t.replace("{name}", hunk_name)

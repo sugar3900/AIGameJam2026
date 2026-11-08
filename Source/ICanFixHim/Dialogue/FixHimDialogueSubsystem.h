@@ -83,7 +83,10 @@ private:
 	void FinishConversation();
 	void ApplyEffects(const TArray<FDialogueEffect>& Effects);
 	void RebuildView(bool bIsReturn = false);
-	/** Hypertext nodes (only reached through a [word] link) are dead ends that rewind to the node they were opened from. */
+	/**
+	 * Hypertext nodes (only reached through a non-aside [word] link, and with no choices, goto,
+	 * end or return of their own) are dead ends that rewind to the node they were opened from.
+	 */
 	bool IsHypertextNode(const FHunkDefinition& Def, const FString& NodeId) const;
 	void ReturnFromTangent();
 	bool InTangent() const { return !Tangents.IsEmpty(); }
@@ -114,6 +117,4 @@ private:
 	TArray<FReturnPoint> ReturnStack;
 	/** "nodeId/topicId" of aside topics already clicked this conversation. */
 	TSet<FString> SpentAsides;
-	/** Set while RebuildView re-shows a line after an aside. */
-	bool bResumingLine = false;
 };

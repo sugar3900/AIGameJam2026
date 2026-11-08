@@ -44,6 +44,12 @@ for path in eal.list_assets(DEST, recursive=True, include_folder=False):
     obj_path = path.split(".")[0]
     if obj_path not in wanted:
         eal.delete_asset(obj_path)
+        # With git source control on, delete_asset can drop the package from memory but leave a
+        # newly added .uasset on disk (it then reappears on the next scan), so remove the file too.
+        leftover = unreal.Paths.convert_relative_path_to_full(
+            unreal.Paths.project_content_dir() + obj_path[len("/Game/"):] + ".uasset")
+        if os.path.exists(leftover):
+            os.remove(leftover)
         removed += 1
 
 unreal.log(f"import_vo: {len(tasks)} clips imported, {removed} orphans removed")

@@ -14,24 +14,27 @@ status: draft
 ## The premise (Wyatt's slice of the story)
 - **The heroine** (29, house flipper, named by the player) has 30 days to fix 12 Heartbreak Lane **for real** or it's demolished. It's a budget flip: she has $11k, and a full rewire was quoted at $40k.
 - **The ghost:** every wire in the house is Wyatt. He isn't sure what he is. He has theories.
-- **His conflict is the reverse of Lukey's.** Lukey hates being fixed. Wyatt *wants* the house fixed properly. She wants a cheap patch to scrape past Inspector Dan, and he knows it'll burn the house down, but he's too eager to please to say so. Exactly like New Year's Eve, 1999.
+- **His conflict is the reverse of Lukey's.** Lukey hates being fixed. Wyatt *wants* the house fixed properly. She wants a cheap patch to scrape past Inspector Dan's final inspection on day 30, and he knows it'll burn the house down, but he's too eager to please to say so. Exactly like New Year's Eve, 1999.
 
 ## Who he thinks he is (Acts 1–2)
 **"I'm Wyatt. Like 'wire it.' Like, wire it wrong."**
-- Lanky, static-fluffed glowing hair, an orange work shirt, red and blue wires slung over his back. Falls out of the fuse box patting out a small fire on his sleeve ("It's a starter fire!").
+- **Look (matches the 3D model):** slim, slight and boyish, 26, light skin, clean-shaven, a soft, mild face with amber eyes behind **thin round copper-rimmed glasses**. Messy, fluffy strawberry-blond hair. An open tan/caramel thigh-length coat with the sleeves rolled to the elbow, every edge singed charred grey; a cream/peach button-up with an open collar; brown knee-length shorts with scorched hems; brown derbies, no socks. His neck, forearms and legs are braided red, copper and dark-grey cable, with thin wire "veins" up his jaw and temples. (No hi-vis, no work shirt, no wires on his back.)
+- **The glasses are his tell.** He pushes them up when he's nervous and a spark jumps off the copper rim; they fog when he's flustered or kissed; they hang off one ear when he's tangled in a cord; in the storm they're the brightest thing in the room. In Act 4, he pushes them up and nothing sparks.
+- Falls out of the fuse box looking for the doorbell (there is no doorbell), patting out a small fire on his singed coat sleeve ("It's a starter fire!").
 - **Not sure what he is, and has been overthinking it for 27 years.** *"I reckon I'm a surge. Or a really committed static charge."* He has **forty-one theories** (theory thirty: he's the millennium bug and owes everyone an apology; theory forty-one is a drawing of a sad lightbulb).
 - **Smart.** He understands circuits better than anyone alive (or otherwise). When he explains electrics he gets fast and nerdy, then catches himself: *"Sorry! That was a lot of words. I went fast."*
 - **Deferential.** Apologizes constantly, asks permission, trails off politely ("if that's... alright?"). Says "no worries" when there are worries. He lights up (literally) when she takes charge: *"Assistant! Yeah! I'm really good at being told what to do."*
 - **The lights are his mood ring.** They flicker when he's nervous, go disco when he's lying to be polite, brown out "long and slow, like a sigh" when he says something's fine and it isn't, and pop when he's flirted with. Steady light = he's being honest. (Narration only; there are no light effects.)
-- **Physical progression:** Act 1 handshake = ZAP (*"That's a thing my body does when someone's nice to me"*). Act 3 hand-hold or kiss = a zap that turns into a hum, "like licking a nine-volt battery, but in a good way." Act 4 = no zap, just warm.
+- **Physical progression:** Act 1: no handshake. You both reach for the lamp switch at once, fingertips touch, static ZAP (*"That's a thing my body does when someone's nice to me"*). Act 3 hand-hold or kiss = a zap that turns into a hum, "like licking a nine-volt battery, but in a good way." Act 4 = no zap, just warm.
 
 ### Hints he explains away
 - An Australian accent: *"Imported components, maybe. Never met a fuse box with a passport, though."*
 - Hums a song "about partying like it's a certain year." The lights dip at the word "year."
-- Lukey calls him **Sparky**: *"Where I'm from, that's what you call an electrician. ...Where am I from? Fuse boxes aren't from places."*
-- Keeps mentioning **Gary** ("Gary was always...", "That's not insulation, Gary"), then: *"Who's Gary?"*
+- **Sparky:** told he sounds "like a holiday," he says he sounds like a sparky: *"That's what you call an electrician, where I'm from. ...Where am I from? Fuse boxes aren't from places."*
+- Keeps mentioning **Gary** ("Gary was always...", "That's not insulation, Gary"), then: *"Who's Gary?"* The fuse box labels (KITCHEN?, LOUNGE (PROBABLY), DON'T underlined three times, MYSTERY) and the cord taped to itself are in "the same handwriting": Gary's.
+- A 1998 magazine in the wall that tells him to ask about your pager. Theory fourteen: he's a very long-life light bulb.
 - Theory thirty (the millennium bug).
-- Laughs at Dan's puns: *"You might be the only person alive who laughs at Dan." "Alive. Ha! Yeah. Totally."*
+- *"You're the most alive thing in this house." "Alive. Ha! Yeah. Alive. Totally."*
 
 ## Who he actually was (revealed in Act 3)
 **Wyatt Doyle, 26, apprentice electrician from Wollongong, NSW, on a working holiday. Died New Year's Eve, 1999.**
@@ -48,22 +51,29 @@ status: draft
 ---
 
 ## The cast, from Wyatt's side
-Every act references the others, with real feelings.
+**Budget (designer rule, all four guys):** Act 1 (day 1) never mentions Lukey, Malcolm or Tyler: no lines, choices, asides or jealousy, because she may not have met them. From Act 2, each act has **at most two** lines or exchanges about another housemate, never the main topic, and at most one of them is the Tyler crush. Everything else is his own story, flirting, and patch-vs-speak-up.
 
-- **[[Lukey]] (big brother).** Looks out for him, tells him to stand up straight, tells the toaster to leave him alone, calls him Sparky, says he's "too polite for a fuse box." They can't hug: water and electricity, health and safety. They do a nod. In week 3 the power goes out during Lukey's candlelit dinner with her. Wyatt insists it wasn't him. It was him (`flag.lukey_blackout`, set by Lukey). In Act 4 he admits why: he was jealous.
-- **[[Malcolm]] ("knows things").** "He looks at you and you feel read. Like a meter." He's the only one who notices Wyatt's crush on Tyler, and he's kind about it: *"He said it's alright to want things you can't have."* (Wyatt: "That was about the cable budget. Obviously.") Malcolm's cryptic "nobody here is strictly speaking alive" gets brushed off ("he says that about the fruit bowl as well").
-- **[[Tyler]] (the crush, never stated).** Tyler calls him "Private" and treats him like a valet; Wyatt says "yes, sir" and folds Tyler's towel in thirds "like a flag" (Tyler is a tile; he doesn't use towels). The lamp flickers when Tyler's mentioned; Wyatt studies the carpet, defends him ("He's just used to people saying yes. And I'm really good at yes."), and "very carefully does not look toward the bathroom." Tyler never notices. In Act 4 Wyatt says no to Tyler too, and Tyler calls him "insubordinate": *"He's never called me anything but Private before."*
-  - **Rules:** subtle and unrequited. Never stated outright, never a punchline, no matchmaking route. The last beat is a towel folded in thirds that Malcolm says nobody is to move.
-- **Dennis the dehumidifier.** Wyatt worries he's plugged into the dodgy socket by the stairs (Gary's work). *"He's just a little bloke doing his job. I relate to him."* In the storm Dennis goes dark; after the fix his green light blinks back on, smug as ever.
-- **Inspector Dan (Fridays).** Wyatt is the first person in the city's history to laugh at a Dan pun, and it becomes a weekly giggle from the fuse box. Dan is also exactly the inspector a cheap patch could fool ("doesn't look behind a single faceplate"), which is the problem.
-- **Bev & Trish (*Creaky Floorboards*).** Wyatt keeps the radio going for them every morning. "Don't tell Bev. She'd want a credit." Their week-3 storm warning sets up Act 4.
-- **Mrs. Pruitt next door.** He keeps her porch light on; she waves at it. In Act 4 she lends the heroine her generator (it has a crossbow sticker).
+| Act | Housemate beats (max 2) |
+|---|---|
+| 1 | none |
+| 2 | Tyler's towel (optional `[towel]` aside); "Things are getting a bit flirty around the house" (jealousy, only if another guy's romance ≥ 8) |
+| 3 | The blackout opener (only with `flag.lukey_blackout`); "Who do you like? In the house. For the wiring." (jealousy branch only if another guy's romance ≥ 8) |
+| 4 | Tyler calls him "insubordinate"; "Is this about me and the others?" (jealousy, plus the blackout confession if `flag.lukey_blackout`) |
+
+- **[[Lukey]].** Only through the blackout: in week 3 the power goes out during Lukey's candlelit dinner with her. Wyatt insists it wasn't him. It was him (`flag.lukey_blackout`, set by Lukey). In Act 4 he admits why: he was jealous.
+- **[[Tyler]] (the crush, never stated).** Act 2: a pink towel folded on the fuse box. Tyler wants it "folded in thirds, Private. Like a flag." (He's a tile; he doesn't use towels.) The lamp flickers; Wyatt studies the cord ("He's just used to people saying yes. And I'm really good at yes."). Act 4: Wyatt says no to Tyler too, and Tyler calls him "insubordinate": *"He's never called me anything but Private before."*
+  - **Rules:** subtle and unrequited. Never stated outright, never a punchline, no matchmaking route, at most one beat per act.
+- **[[Malcolm]].** Not referenced in Wyatt's script (budget). Malcolm's own script can still notice the crush.
+- **The dehumidifier.** Just an appliance, no name, no personality. Wyatt, as an electrician, worries it's plugged into the dodgy socket by the stairs ("one very tired screw doing the job of four... I relate to the screw"). In the storm it's dark; after the fix its green light comes back on, on its good socket.
+- **Inspector Dan.** Comes **once**, on day 30, for the final inspection (`inspection.json`). There are no weekly visits. She mentions the day-30 inspection; Wyatt worries about it ("Does he look behind the faceplates? Asking for a friend. The friend is the wiring."), and it's exactly why the cheap patch is tempting. In Act 4 he's not scared of it any more: "Let him open every faceplate in the house."
+- **The radio.** It crackles into the week-3 storm bulletin that sets up Act 4.
+- **Mrs. Pruitt next door.** In Act 4 she lends the heroine her generator (it has a crossbow sticker).
 
 ## Jealousy
-Monogamous at heart. When she's romancing the others (`lukey/tyler/malcolm.romance >= 8`) he says it's "fine," and the lamp browns out. Learning to say how he actually feels is part of his speaking-up arc:
+Monogamous at heart. When she's romancing the others (`lukey/tyler/malcolm.romance >= 8`) he says it's "fine," and the lamp browns out. Learning to say how he actually feels is part of his speaking-up arc (each beat uses one of that act's two housemate slots):
 - **Act 2:** "That's fine. Totally fine." *(The lamp disagrees.)*
 - **Act 3:** "...Ask me again next week. I'm working up to it. One 'no' at a time."
-- **Act 4:** *"It's not fine. I'd want to be your one person. If that's... no. No 'if that's alright.' That's what I want."* With `flag.lukey_blackout`, he also confesses the blackout was jealousy: *"Sorry about the dinner. Not sorry about the feeling."*
+- **Act 4:** *"It's not fine. I'd want to be your one person. If that's... no. No 'if that's alright.' That's what I want."* Shown if another guy's romance ≥ 8 or `flag.lukey_blackout`; with the flag she can follow up and he confesses the blackout was jealousy: *"Sorry about the dinner. Not sorry about the feeling."*
 
 ---
 
@@ -72,10 +82,10 @@ Entries are visit-based, like Lukey's: skip him for a week and next time you get
 
 | Act | Title | Wyatt is... | Key beats |
 |---|---|---|---|
-| **1** | "Wire it wrong." | Nervous, sparky, eager to help, hiding every opinion | Falls out of the fuse box looking for the bathroom. Forty-one theories. She lays out the budget: "the minimum to scrape past." The lamp sighs. She can **ask what he thinks** (`flag.wyatt_asked`), make him her assistant, or tell him to cut corners. The housemates. Dennis's dodgy socket. Handshake: ZAP. *"Can I call you {player}? Is that... alright?"* |
-| **2** | "No worries." (There are worries.) | Falling for her and agreeing with everything | Folding Tyler's towel. "You're very grounding." **The cheap patch:** 30-amp breakers on 15-amp wire, plus a feature wall in "Greige Expectations." He says "no worries" while the room turns into a disco. She can push ("The lights. What aren't you telling me?") and **reward his pushback** (`flag.wyatt_pushback`), or steamroll him (`flag.wyatt_patch`). Dan's "current-ly passing" and Wyatt's giggle. "How is... everyone?" |
-| **3** | "Who's Gary?" | Scared, then honest for the first time | The wall is warm and smells like toast. They open it: Gary's sticky-tape splices, a fossilized ham sandwich, and **the 1999 newspaper**. The reveal and the backstory. **He speaks up:** *"Don't patch it. Please. Rewire it. Properly."* She can agree (`flag.wyatt_realfix`), **kiss him for saying it** (hearts), or say she'll think about it. Malcolm "knows things." "Who do you like? For the wiring." Storm warning. |
-| **4** | "NO." | Brave, then quiet, then finished | The storm, a power cut, and a flooding basement. She has Mrs. Pruitt's generator and an old cord with a plug on both ends, labeled GARY: exactly what killed him. He stammers "if that's what you..." and then: **"NO."** Every light in the house blazes with no power (`flag.wyatt_spoke_up`). The fix done his way. "It's so QUIET." He says the second thing (how he feels / jealousy / the blackout). Dan: "Shockingly good." Stay or go. |
+| **1** | "Wire it wrong." | Nervous, sparky, eager to help, hiding every opinion | Falls out of the fuse box looking for the doorbell. Forty-one theories. She lays out the budget: "the minimum to scrape past" the day-30 inspection. The lamp sighs. She can **ask what he thinks** (`flag.wyatt_asked`), make him her assistant, or tell him to cut corners. The fuse box tour: Gary's labels, DON'T, MYSTERY (rang a doorbell they don't have). The dehumidifier on the dodgy socket. Static ZAP when you both reach for the lamp switch. *"Can I call you {player}? Is that... alright?"* No other housemates. |
+| **2** | "No worries." (There are worries.) | Falling for her and agreeing with everything | Tangled in a cord he was "checking" (it's taped to itself, Gary's handwriting). "You're very grounding." **The cheap patch:** 30-amp breakers on 15-amp wire, plus a feature wall in "Greige Expectations," all to look perfect for Dan on day 30. He says "no worries" while the room turns into a disco. She can push ("The lights. What aren't you telling me?") and **reward his pushback** (`flag.wyatt_pushback`), or steamroll him (`flag.wyatt_patch`). Biscuits by the fuse box: she can clean his glasses ("You're still nice-looking at this resolution"). "How's your week been? Not the house. You." Sparky. |
+| **3** | "Who's Gary?" | Scared, then honest for the first time | The wall is warm and smells like toast. They open it: Gary's sticky-tape splices, a fossilized ham sandwich, and **the 1999 newspaper**. The reveal and the backstory. **He speaks up:** *"Don't patch it. Please. Rewire it. Properly."* She can agree (`flag.wyatt_realfix`), **kiss him for saying it** (hearts; his glasses fog solid), or say she'll think about it. "Who do you like? In the house. For the wiring." Storm warning on the radio. |
+| **4** | "NO." | Brave, then quiet, then finished | The storm, a power cut, and a flooding basement. She has Mrs. Pruitt's generator and an old cord with a plug on both ends, labeled GARY: exactly what killed him. He stammers "if that's what you..." and then: **"NO."** Every light in the house blazes with no power (`flag.wyatt_spoke_up`). The fix done his way. "It's so QUIET." His cables stop humming; he pushes his glasses up and nothing sparks. He's not scared of Dan's day-30 inspection any more. He says the second thing (how he feels / jealousy / the blackout). Stay or go. |
 
 He calls her **{player}** (after asking permission) and, in Act 4 if romance ≥ 12, **"love"**: *"Sorry, that slipped out. No. It didn't slip. Love."*
 
@@ -90,16 +100,16 @@ He calls her **{player}** (after asking permission) and, in Act 4 if romance ≥
 2. **A drip-fed mystery.** The accent, Sparky, Gary, the song, theory thirty. The player gets there long before the newspaper does.
 3. **Being seen:** "*Wyatt will remember that you asked.*" Callback openers for asking his opinion (Act 2) and for being rude (Act 2 grudge: "I don't get upset. I get slightly dimmer.").
 4. **Rewarding pushback** is the romance mechanic: the biggest romance choices are the ones that thank him for disagreeing.
-5. **Physical progression:** ZAP → hum → warm.
+5. **Physical progression:** static ZAP at the lamp switch → hum → warm.
 6. **Set-pieces:** untangling the cord, opening the wall together, the newspaper, the stadium-lit "NO," the quiet house.
-7. **Running gags that pay off:** "Who's Gary?", the forty-one theories, Tyler's towel, Dan's puns getting exactly one laugh, Dennis's socket, Mrs. Pruitt's crossbow-sticker generator, "No worries (some worries)."
+7. **Running gags that pay off:** "Who's Gary?", the forty-one theories, the glasses (spark, fog, no spark), the fuse box labels (DON'T becomes DONE), the dodgy stairs socket, the doorbell that doesn't exist, Mrs. Pruitt's crossbow-sticker generator, "No worries (some worries)."
 
 ---
 
 ## Relationship tuning
 - **Stats run 0–20, clamped.** Romance is generous: flirting, tenderness and **thanking him for pushing back** all give romance.
-- **Friction** comes from steamrolling him (installing the patch over his hints, "Dan passed it. Leave it," "Does this affect the budget?", plugging Gary's cord in). Agreeing to do the job properly lowers friction (−1, −2, −2 at the three key moments).
-- **Simulated random play:** median romance 16, friendship 17, friction 7. A consistently romantic player hits romance 20 / friction 0; a consistent friend hits friendship 20 with romance about 12; a rude player hits friction 20.
+- **Friction** comes from steamrolling him (installing the patch over his hints, "Dan's never going to open a wall. Leave it," "Does this affect the budget?", plugging Gary's cord in). Agreeing to do the job properly lowers friction (−1, −2, −2 at the three key moments).
+- **Simulated random play:** median romance 17, friendship 16, friction 7. A consistently romantic player hits romance 20 / friction 0; a consistent friend hits friendship 20 with romance about 12; a rude player hits friction 20.
 
 | Option at the finale | Shown when | Ending |
 |---|---|---|
@@ -114,9 +124,9 @@ Other thresholds: "love" in Act 4 at romance ≥ 12; Act 2 grudge opener at fric
 ## Endings
 | Ending | Title | Outcome |
 |---|---|---|
-| `romance_success` | **Watt a Keeper** | Kiss, no zap. *"I'm staying. I want to. That's me wanting something, out loud."* Fade: "The lights went out. On purpose, this time." He says no once a day to keep his hand in. |
+| `romance_success` | **Watt a Keeper** | Kiss, no zap (his glasses end up in her hair). *"I'm staying. I want to. That's me wanting something, out loud."* Fade: "The lights went out. On purpose, this time." He says no once a day to keep his hand in. |
 | `romance_failure` | **Yeah, Nah** | He loves her and says so "first go, no 'if that's alright.'" Then goodbye. If she asked him to stay with high friction, it's his first big no: *"You'd have me patching things for you forever, and I'd let you."* The porch light flickers twice whenever she comes home. |
-| `friend_success` | **Current Besties** | A thumbs up, "best mate I've ever had, alive or... whatever this was," and a clean, steady fade, "the way a light goes when someone switches it off properly." A towel folded in thirds stays in the bathroom. |
+| `friend_success` | **Current Besties** | A thumbs up, "best mate I've ever had, alive or... whatever this was," and a clean, steady fade, "the way a light goes when someone switches it off properly." After: the fuse box is relabeled in his neat capitals; DON'T now says DONE. |
 | `friend_failure` | **No Worries (Some Worries)** | *"I'm not staying for someone who only asks what I think when the house is on fire."* Said gently, without a sorry. A note on the fuse box: NO WORRIES. (SOME WORRIES.) -W |
 
 ## Flags
@@ -128,14 +138,18 @@ Other thresholds: "love" in Act 4 at romance ≥ 12; Act 2 grudge opener at fric
 | `flag.wyatt_realfix` | set Act 3 | She agreed to rewire properly |
 | `flag.wyatt_spoke_up` | **set Act 4** (shared) | He said NO in the storm. Read by Tyler and Malcolm. |
 | `flag.lukey_blackout` | read | Act 3 opener ("Wasn't me. ...It was me.") and Act 4 jealousy confession |
-| `flag.lukey_human`, `flag.tyler_video`, `flag.malcolm_diary` | read | Optional Act 4 "Is everyone alright?" check-ins |
 | `lukey/tyler/malcolm.romance >= 8` | read | Jealousy beats in Acts 2, 3, 4 |
 
+The Act 4 "Is everyone alright?" check-ins (`flag.lukey_human`, `flag.tyler_video`, `flag.malcolm_diary`) were cut for the housemate budget; Wyatt no longer reads those flags.
+
+## Sound cues
+Inline `{sfx:Name}` tags: **Zap** (glasses static, the lamp-switch touch, the hand-hold, "NO."), **Spark** (falling out of the fuse box, popping bulbs, sparks at his feet), **Sizzle** (wall noises, the dodgy socket, his fizz of a laugh), **Hum** (flickering and browning-out lights), **SwitchOn** (the patch going in, the steady lamp in Act 4), **PowerDown** (the newspaper blackout, the dinner blackout), **PowerUp** (the realfix lights, the stadium "NO," the generator), **RadioStatic** (storm bulletin), **Thunder**/**Rain** (the storm), **WaterSplash** (flooding), **Kiss**, **FixComplete** (the rewire done).
+
 ## Voice
-**A smart, deep, gentle Australian baritone.** Warm and unhurried, natural Australian phrasing ("reckon," "no worries," "yeah, nah," "heaps," "bloke") without tipping into caricature: no "crikey," no shrimp on the barbie. He speeds up and goes up in pitch when he explains electrics, then drops back down when he catches himself. The placeholder voice may be non-Australian for now, **but the final voice must be Australian.**
+**A smart, deep, gentle Australian baritone.** Warm and unhurried, natural Australian phrasing ("reckon," "no worries," "yeah, nah," "heaps," "bloke") without tipping into caricature: no "crikey," no shrimp on the barbie. He speeds up and goes up in pitch when he explains electrics, then drops back down when he catches himself. The placeholder voice may be non-Australian for now, **but the final voice must be Australian.** ElevenLabs fallback: **Charlie** (Australian). Full brief and Voice Design prompt: [[Voice Casting]]. Not voiced in the game yet.
 
 ## Open questions
-1. ~~Lukey's script doesn't say "Sparky" yet.~~ Done: Lukey calls him Sparky in Act 3 (`v3_aside_wyatt`).
+1. ~~Lukey's script doesn't say "Sparky" yet.~~ Wyatt now says "sparky" himself (Act 2); Lukey can still use it in his own script.
 2. If the player skips him in week 2 or 3, his Act 3 storm warning plays during the storm itself (same limitation as Lukey's structure).
 3. Does Mr. Kowalski (or Gary) ever turn up, maybe in an epilogue?
 

@@ -9,7 +9,7 @@
         "Dan",
         "Mrs. Pruitt"
     ],
-    "notes": "Plays automatically on the radio every morning (weeks 1-4) while the player explores; nobody can be talked to until it ends, so keep each episode to roughly 120-180 words. ep5 plays after the final inspection, only if the whole house passed (housefixed). Lukey's mystery is the main story (ep4 is his reveal); each episode also teases one of the others with a hint, never a statement: Tyler (the saluting man in a navy blazer, ep1), Wyatt (the porch light and 'a certain year', ep2; the missing January 2000 paper, ep4), Malcolm (poetry in a closet, ep3). Lines are 'Speaker: text'; *...* lines are sound cues.",
+    "notes": "Plays automatically on the radio every morning (weeks 1-4) while the player explores; nobody can be talked to until it ends, so keep each episode to roughly 120-180 words. ep5 plays after the final inspection, only if the whole house passed (housefixed). Lukey's mystery is the main story (ep4 is his reveal); each episode also teases one of the others with a hint, never a statement: Tyler (a huge shirtless man with a hot-pink pompadour, pink from the neck down, saluting from the bathroom window, ep1), Wyatt (the porch light and 'a certain year', ep2; the missing January 2000 paper, ep4), Malcolm (poetry in a closet, ep3). Inspector Dan is a radio guest in ep3 only: he has never been inside the house and comes exactly once, for the final inspection on day 30 (inspection.json), so no episode may imply weekly or earlier visits. Lines are 'Speaker: text'; *...* lines are sound cues. The radio caption widget (UFixHimRadioWidget) strips {sfx:} tags but does not play them yet, so podcast sfx are kept to one RadioStatic per intro plus the ep5 splash; they will sound once the radio plays line cues.",
     "entries": [
         {
             "if": "week >= 5 && housefixed",
@@ -36,7 +36,7 @@
         "ep1": {
             "title": "Episode 1: The Catfish of Heartbreak Lane",
             "lines": [
-                "*Theme music: a creaky door, then a kazoo.*",
+                "*{sfx:RadioStatic} Theme music: a creaky door, then a kazoo.*",
                 "Bev: Welcome back to Creaky Floorboards! I'm Bev.",
                 "Trish: And I'm Trish. We solve the mysteries the police were too busy to care about.",
                 "Bev: This week: 12 Heartbreak Lane. Condemned. Damp. And some young flipper's just bought it.",
@@ -44,8 +44,8 @@
                 "Bev: My theory? A catfish. Enormous. Lives in the walls, eats the drywall.",
                 "Trish: Bev, I think SHE'S being catfished. Who's texting her at two in the morning?",
                 "Bev: THE CATFISH, Trish.",
-                "Trish: Listener mail. 'I saw a young man in a navy blazer saluting me from the bathroom window. I looked again and nobody was there.'",
-                "Bev: Military catfish. Did you salute back?",
+                "Trish: Listener mail. 'I saw an enormous shirtless young man with a bright pink pompadour saluting me from the bathroom window. Pink all over. I looked again and nobody was there.'",
+                "Bev: A salmon, Trish. A military salmon. Did she salute back?",
                 "Trish: She did not.",
                 "Trish: ...Stay creaky."
             ],
@@ -54,7 +54,7 @@
         "ep2": {
             "title": "Episode 2: Something in the Walls Is Singing",
             "lines": [
-                "*Theme music: a creaky door, then a kazoo.*",
+                "*{sfx:RadioStatic} Theme music: a creaky door, then a kazoo.*",
                 "Trish: Update, listeners. We interviewed the next-door neighbor, Mrs. Pruitt.",
                 "Bev: Lovely woman. Eighty-two. Nine cats. One crossbow.",
                 "Mrs. Pruitt: Somebody's singing Bon Jovi in the walls of number twelve. Very flat. Very confident.",
@@ -72,13 +72,13 @@
         "ep3": {
             "title": "Episode 3: The Inspector",
             "lines": [
-                "*Theme music: a creaky door, then a kazoo.*",
+                "*{sfx:RadioStatic} Theme music: a creaky door, then a kazoo.*",
                 "Trish: This week, an exclusive. City building inspector Dan has agreed to talk to us.",
-                "Dan: Happy to be here, ladies. Big fan. I listen while I inspect. It's very soothing.",
+                "Dan: Big fan, ladies. I listen while I inspect. Very soothing.",
                 "Bev: Dan. 12 Heartbreak Lane. Haunted? Yes or no.",
-                "Dan: The only thing haunting that house is its water pressure.",
-                "Trish: Is it true you asked the new owner out for coffee?",
-                "Dan: To discuss PERMITS. ...And then my shoes filled up with water. Both of them. On a dry day.",
+                "Dan: Never been inside. I go in once, on day thirty, for the final inspection. But I've read the file. The only thing haunting that house is its water pressure.",
+                "Trish: Is it true you phoned the new owner about coffee?",
+                "Dan: About PERMITS. ...Then I stood on the sidewalk outside to look at the gutters. Thirty seconds. Both shoes, full of water. On a dry day.",
                 "Bev: That's the catfish, Dan.",
                 "Trish: A listener says she heard a man in a closet at number twelve reciting poetry. Forty pages. About a banana.",
                 "Dan: That's just the mold, ladies. A fungus among us! A real moldy oldie!",
@@ -91,7 +91,7 @@
         "ep4": {
             "title": "Episode 4: We Went to the Library",
             "lines": [
-                "*Theme music: a creaky door, then a kazoo. Then, unusually, silence.*",
+                "*{sfx:RadioStatic} Theme music: a creaky door, then a kazoo. Then, unusually, silence.*",
                 "Bev: Listeners. We went to the library.",
                 "Trish: We touched MICROFICHE, Bev.",
                 "Bev: And Trish found it. The local paper, 1987.",
@@ -110,16 +110,16 @@
         "ep5": {
             "title": "Episode 5: Case Closed (Mostly)",
             "lines": [
-                "*Theme music: a creaky door, a kazoo and, this week, a celebratory gong.*",
+                "*{sfx:RadioStatic} Theme music: a creaky door, a kazoo and, this week, a celebratory gong.*",
                 "Trish: We're LIVE from the front porch of 12 Heartbreak Lane. It passed inspection. Case closed.",
                 "Bev: Mostly closed. I still think there's a catfish.",
                 "Trish: Every leak, fixed. The mold, gone. The wiring, redone. And the pink bathroom, restored. Dan called it a keeper.",
-                "Bev: We asked the owner about Luke Moretti. And the man in the blazer. And the poetry in the closet. And the porch light.",
+                "Bev: We asked the owner about Luke Moretti. And the saluting pink man in the bathroom window. And the poetry in the closet. And the porch light.",
                 "Trish: She said, and I quote, 'It's complicated.'",
                 "Bev: Which is the most romantic thing anyone's ever said about home repair.",
-                "Trish: Dan says his shoes have been dry for a whole week, and he's never been so sad. Final thoughts, Bev?",
+                "Trish: Dan wore brand-new waterproof shoes to the inspection. They stayed dry. He sounds a little disappointed. Final thoughts, Bev?",
                 "Bev: Never trust a man who says he's great with his hands.",
-                "*SPLASH. A bucket of water tips off the porch railing and soaks Bev completely.*",
+                "*{sfx:WaterSplash} SPLASH. A bucket of water tips off the porch railing and soaks Bev completely.*",
                 "Trish: ...Stay creaky, everybody."
             ],
             "end": true

@@ -11,10 +11,10 @@ Every love interest is a **man, and attractive**: the voice should make the play
 | Character | Malady | The voice in one line | Reference ("in the spirit of") | ElevenLabs default fallback |
 |---|---|---|---|---|
 | [[Lukey]] | The Leaks | Big, grinning all-American golden retriever | Emmett Cullen in *Twilight* | **Liam** (alt: Chris) |
-| [[Malcolm]] | Black Mold | Silky, theatrical, velvet-menace British baritone | Loki | **Callum** (alt: George) |
+| [[Malcolm]] | Black Mold (bedroom walk-in closet) | Silky, theatrical, velvet-menace British baritone | Loki | **Callum** (alt: George) |
 | [[Az]] | Asbestos | Bright, breathy K-pop idol with a soft Korean accent | A K-pop boy-band visual on a variety show | **Liam**, as a stopgap (see notes) |
-| [[Tyler]] | Pink Tile | Clipped, posh, royal officer who has never heard "no" | A young prince in dress uniform | **Daniel** (alt: George) |
-| [[Wyatt]] | Faulty Wiring | Smart, masculine Australian, soft and a little deferential | A gentle-giant Aussie engineer | **Charlie** |
+| [[Tyler]] | Pink Tile | Clipped, old-money American heir with military-school diction who has never heard "no" | A prep-school cadet captain in dress blues at his family's gala | **Eric** (alt: Roger) |
+| [[Wyatt]] | Faulty Wiring | Smart, masculine Australian, soft and a little deferential | A lanky, gentle Aussie apprentice sparky | **Charlie** |
 
 > **Don't clone real people.** The references are about *vibe* only. ElevenLabs' terms forbid cloning someone's voice without their consent, and it would also be a legal problem for the jam. Use the **Voice Design** prompts below, which describe a voice without naming anyone, or the default fallbacks.
 
@@ -42,10 +42,10 @@ Every love interest is a **man, and attractive**: the voice should make the play
 - **Placeholder in the game now:** Kokoro (free, local) voice blend `am_fenrir` 50% / `am_michael` 30% / `am_puck` 20%, at speed 1.05. See *Placeholder VO pipeline* below.
 
 ## Malcolm: Black Mold
-**Silky, theatrical and dangerous, in a way you shouldn't find hot.** A trickster prince of the damp corner, in the spirit of Loki: velvet British RP, a smile that's slightly too wide, every line a performance for an audience of one.
+**Silky, theatrical and dangerous, in a way you shouldn't find hot.** A trickster prince of the walk-in closet in your bedroom (the mold is on its back wall), in the spirit of Loki: velvet British RP, a smile that's slightly too wide, every line a performance for an audience of one.
 
 - **Age / pitch:** sounds early to mid 30s. A smooth, resonant baritone that can curl up into an amused purr.
-- **Accent:** refined British RP. Crisp consonants and long, savoured vowels.
+- **Accent:** refined British RP. Crisp consonants and long, savoured vowels. In canon he's a goth teen's 2005–08 fan-fiction idea of a Victorian poet (all Mr. Darcy), so the accent is part of the costume: it can be a little *too* perfect.
 - **Pace:** unhurried. He *lingers* on words, uses pauses as power, then snaps with sudden venom or glee.
 - **Signature moves:** a low, private chuckle; dramatic whispered asides; mock-wounded sighs; reading poetry like it's a confession.
 - **Personality fit:** an emo poet and a sub. The menace is a costume over neediness, so the voice cracks into vulnerability when you give him an order.
@@ -69,32 +69,33 @@ Every love interest is a **man, and attractive**: the voice should make the play
 - **Default fallback:** **Liam** (young, bright American). This is only a stopgap, because it loses the accent, so use Voice Design or the Library for Az.
 
 ## Tyler: Pink Tile
-**A royal officer who has always got his way.** Grew up in a palace, commissioned at 18, has never once been told "no". Snooty, proper and drill-sergeant crisp, but the posture hides a soft heart (he *is* pink, after all). The hotness is the composure, and the fun is watching it crack.
+**An old-money American heir who has always got his way.** Tyler Whitmore, 27: heir to the Whitmore real-estate dynasty ("American royalty"), raised by eleven nannies and an etiquette coach, then Fort Bellamy Military Academy from 13 (youngest cadet captain in its history). He has never been told no and had it stick. Snooty, proper and drill-sergeant crisp, but the posture hides a soft heart (he *is* pink, after all). The hotness is the composure, and the fun is watching it crack. **He is not British** (the v1 prototype was); see [[Tyler]].
 
 - **Age / pitch:** sounds late 20s. A firm, bright baritone with excellent projection; parade-ground clarity.
-- **Accent:** upper-class British, the received pronunciation of a palace and a military academy. Clipped, precise, faintly bored.
-- **Pace:** measured and decisive; short commands; long-suffering sighs; every sentence ends like an order.
-- **Signature moves:** an affronted "I beg your *pardon*?"; a sniff of disapproval; barking an order then immediately softening into gentlemanly courtesy; flustered spluttering when complimented.
-- **Personality fit:** keeps his outdated opinions about pink and taste, but they now come from privilege and tradition rather than obnoxiousness. He's defending the 1957 tile like a regimental colour.
-- **Must have:** entitlement, poise, command. **Avoid:** an old colonel, a cartoon toff, or nasal.
+- **Accent:** general American with East-coast old-money polish (prep school, yacht club) and military-academy diction: crisp consonants, clipped endings, no slang, no drawl. Not a 1940s Transatlantic movie accent, and not British RP.
+- **Pace:** measured and decisive; short commands; long-suffering sighs; every sentence ends like an order. When he's flustered he gets *more* formal, not less.
+- **Signature moves:** "Ma'am." "Outstanding." "Carry on." "Noted. Logged." "That's an order." An affronted "I beg your *pardon*?"; a sniff of disapproval; barking an order then immediately softening into gentlemanly courtesy; flustered spluttering when complimented. He never swears and never raises his voice except on one ALL-CAPS word.
+- **Personality fit:** vain about his rose-quartz hair, jealous (he keeps a *ledger*), and defending the 1957 tile he once wanted ripped out. His snobbery comes from privilege and his father's rules, not malice.
+- **Must have:** entitlement, poise, command, American. **Avoid:** British or Transatlantic, an old colonel, a cartoon frat bro, a Southern drawl, or nasal.
 - **Voice Design prompt:**
-  > A handsome, aristocratic British man in his late twenties, a royal army officer raised in privilege who has always gotten his way. Crisp, upper-class received-pronunciation accent, a firm, clear baritone with commanding projection. Proper, snooty and composed, with a hidden softness. Clear studio recording.
-- **Library search:** "British male, posh, aristocratic, upper class, officer, commanding, young".
-- **Default fallback:** **Daniel** (British, authoritative). **George** (British, warm) for his softer moments.
+  > A handsome American man in his late twenties, the heir to an old-money East Coast family who went to military academy and has always gotten his way. Crisp, clipped, polished general American accent with precise military diction, a firm, clear baritone with commanding projection. Proper, snooty and composed, with a hidden softness that shows when he is flustered. Clear studio recording.
+- **Library search:** "American male, young, posh, preppy, authoritative, commanding, crisp".
+- **Default fallback:** **Eric** (American, smooth, polished and classy). His controlled, expensive-sounding delivery reads as old money, and it takes "clipped and commanding" direction well. **Roger** (American, confident, resonant) if Eric sounds too soft, but direct him away from his laid-back default. Both read a little older than 27, which suits a man raised to sound like his father. The old fallbacks, Daniel and George, are British, so they no longer fit.
 
 ## Wyatt: Faulty Wiring
-**A smart, masculine Australian who's sweet on you and a little bit submissive.** Big, capable and clever (he understands circuits better than anyone), but deferential and eager to please. He asks permission, apologises too much and lights up when you take charge.
+**A smart, masculine Australian who's sweet on you and a little bit submissive.** Wyatt Doyle, 26, an apprentice electrician from Wollongong who died on New Year's Eve 1999. Lanky, capable and clever (he understands circuits better than anyone), but deferential and eager to please. He asks permission, apologises too much and lights up when you take charge.
 
-- **Age / pitch:** sounds late 20s to early 30s. A deep, relaxed, masculine baritone kept soft and gentle.
+- **Age / pitch:** sounds mid to late 20s. A deep, relaxed, masculine baritone kept soft and gentle.
 - **Accent:** general Australian. Warm, easy vowels and a natural rising lilt; not ocker or broad.
 - **Pace:** thoughtful; trails off ("if that's... alright?"); gets quick and nerdy when explaining something technical, then catches himself.
 - **Signature moves:** a shy laugh; a soft "yeah, nah"; deferring ("whatever you reckon"); a breathy, overwhelmed little exhale when complimented.
 - **Personality fit:** keeps the crossed-wires comedy (his lights flicker when he thinks), but it now reads as overthinking, not confusion. He's smart and *flustered*, not dim. Bi ("very AC/DC").
-- **Must have:** a big man with a gentle voice; intelligence; softness. **Avoid:** a Crocodile Dundee caricature, a surfer bro, or anything weak or whiny.
+- **Must have:** a deep voice used gently; intelligence; softness; **an Australian accent in the final recording.** **Avoid:** a Crocodile Dundee caricature, a surfer bro, or anything weak or whiny.
 - **Voice Design prompt:**
-  > A handsome Australian man around thirty with a deep, warm, masculine baritone and a natural Australian accent. Smart and articulate but gentle, a little shy and deferential, eager to please, often trailing off politely. Soft-spoken and sweet with quiet confidence when talking about technical things. Clear studio recording.
+  > A handsome Australian man in his mid twenties with a deep, warm, masculine baritone and a natural Australian accent. Smart and articulate but gentle, a little shy and deferential, eager to please, often trailing off politely. Soft-spoken and sweet with quiet confidence when talking about technical things. Clear studio recording.
 - **Library search:** "Australian male, deep, gentle, warm, soft-spoken, conversational".
 - **Default fallback:** **Charlie** (Australian, natural, conversational).
+- **Placeholder vs final:** a placeholder voice may be non-Australian (Kokoro has no Australian voices), **but the final voice must be Australian.** The accent is one of his story clues ("Never met a fuse box with a passport").
 
 ---
 
@@ -104,7 +105,8 @@ Until we record the real cast, the game uses free, local text-to-speech so we ca
 - **Model:** [Kokoro-82M](https://github.com/hexgrad/kokoro) via `kokoro-onnx` (Apache-2.0). It runs locally, so there's no account or cost. It reads naturally, but it can't *act*: no audio tags, no accents beyond US/UK. The model files (~350 MB) download to `Saved/VOModels/` on first run.
 - **Generate:** `uv run --python 3.11 --with kokoro-onnx --with soundfile Tools/Audio/generate_vo.py`. Only changed lines regenerate (tracked in `Art Source/Audio/VO/manifest.json`). Add a character by adding an entry to `VOICES` in the script.
 - **Import:** with the editor open, `python3 Tools/run_in_editor.py Tools/Editor/import_vo.py`. That creates `/Game/ICanFixHim/Audio/VO/<script>/VO_<script>_<node>_<line>`.
-- **In game:** `UFixHimVoiceSubsystem` plays the clip for a line when it appears, cuts it when you click on, and stops when the conversation ends. Any line without a clip is silent, so voicing another character is data-only.
+- **In game:** `UFixHimVoiceSubsystem` plays the clip for a line when it appears, cuts it when you click on, and stops when the conversation ends or is aborted. Lines inside an aside are voiced normally; the line an aside returns to isn't replayed. Any line without a clip is silent, so voicing another character is data-only.
+- **Who's voiced:** only Lukey (194 lines across `lukey.json` and his lines in `epilogue.json`, regenerated for the v2 script on 2026-11-08). Malcolm, Tyler and Wyatt are deliberately not in `VOICES` yet. Inline `{fx:name}` tags are stripped before speaking.
 - **Your name:** the player's chosen name can't be pre-recorded. Lines that say `{player}` are recorded with the name left out ("{player}, did you listen..." becomes "Did you listen..."). A line that is *only* the name stays silent.
 - **Swapping in ElevenLabs takes:** export the line as WAV and save it over the placeholder in `Art Source/Audio/VO/<script>/` under the same name (`VO_<script>_<node>_<line>.wav`), then re-run the import. The generator leaves it alone unless that line's text changes, or you run it with `--force`.
 

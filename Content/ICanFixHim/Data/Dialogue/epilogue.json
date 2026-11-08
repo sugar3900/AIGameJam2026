@@ -4,7 +4,7 @@
     "name": "Epilogue",
     "tagline": "Day 30. The hearing. The house. What it's for. And who's still in it.",
     "speakers": [ "Lukey", "Malcolm", "Tyler", "Wyatt", "Dan" ],
-    "notes": "Plays after the final inspection (and the finale podcast if it passed). PASS (housefixed): the Day 30 hearing, then the house choice (sets flag.house_choice: 1 = sell, 2 = stay, 3 = demolish) with Lukey's beat per ending, then a household roll call (Malcolm, Tyler, Wyatt: one beat each per ending, picked by a single visible conditional choice), then a closing that depends on how many guys stayed (romance_success). Two or more romances share one comedic Sunday dinner (one line per guy who stayed). FAIL (!housefixed): the demolition, with a last walk through the house: per guy, an 'unfinished' beat if his malady isn't fixed, a 'came with you' beat if he stayed, or a 'gone' beat otherwise. Romance-success guys always stay with the heroine; multiple romances coexist.",
+    "notes": "Plays after the final inspection (and the finale podcast if it passed). Day 30 is Dan's first and only visit: the inspection is that morning and the hearing that afternoon, so nothing here refers to earlier inspections or weekly visits (afterwards he can drop by socially). The dehumidifier is an unnamed, non-sentient appliance. PASS (housefixed): the Day 30 hearing, then the house choice (sets flag.house_choice: 1 = sell, 2 = stay, 3 = demolish) with Lukey's beat per ending, then a household roll call (Malcolm, Tyler, Wyatt: one beat each per ending, picked by a single visible conditional choice), then a closing that depends on how many guys stayed (romance_success). Two or more romances share one comedic Sunday dinner (one line per guy who stayed). FAIL (!housefixed): the demolition, with a last walk through the house: per guy, an 'unfinished' beat if his malady isn't fixed, a 'came with you' beat if he stayed, or a 'gone' beat otherwise. Romance-success guys always stay with the heroine; multiple romances coexist.",
     "entries": [
         { "if": "!housefixed", "node": "fail_hearing" },
         { "if": "lukey.ending_romance_success", "node": "intro_together" },
@@ -13,19 +13,19 @@
     "nodes": {
         "intro_alone": {
             "lines": [
-                "*Day 30. City Hall. The condemnation hearing takes four minutes.*",
+                "*Day 30, that afternoon. City Hall. The condemnation hearing takes four minutes.*",
                 "*Inspector Dan stands up, clears his throat and tells the council that 12 Heartbreak Lane is 'as dry as my sense of humor, and twice as well grounded.' Nobody laughs. The order is lifted anyway.*",
-                "*In the back row, Mrs. Pruitt fires a celebratory crossbow bolt into the ceiling. Nobody knows why she's there.*",
+                "*{sfx:Thud} In the back row, Mrs. Pruitt fires a celebratory crossbow bolt into the ceiling. Nobody knows why she's there.*",
                 "*That night, you stand in the kitchen. It's quiet. It's dry. Every room in the house is fixed. For real.*"
             ],
             "goto": "decide"
         },
         "intro_together": {
             "lines": [
-                "*Day 30. City Hall. The condemnation hearing takes four minutes.*",
+                "*Day 30, that afternoon. City Hall. The condemnation hearing takes four minutes.*",
                 "*Inspector Dan stands up, clears his throat and tells the council that 12 Heartbreak Lane is 'as dry as my sense of humor, and twice as well grounded.' Nobody laughs. The order is lifted anyway.*",
-                "*In the back row, Mrs. Pruitt fires a celebratory crossbow bolt into the ceiling. Nobody knows why she's there.*",
-                "*That night, you stand in the kitchen. It's quiet. It's dry. And Lukey is sitting on the counter in full shoulder pads, swinging his legs.*",
+                "*{sfx:Thud} In the back row, Mrs. Pruitt fires a celebratory crossbow bolt into the ceiling. Nobody knows why she's there.*",
+                "*That night, you stand in the kitchen. It's quiet. It's dry. And Lukey is sitting on the counter, copper curls still dripping, swinging his work boots.*",
                 "Lukey: So, sweetheart. What are we doing with it?"
             ],
             "goto": "decide"
@@ -56,7 +56,7 @@
                 "*'I used to live here, you know. A young man once tried to fix this sink for me, before our first date. He was very... confident.'*",
                 "*Lukey hides in the radiator for six hours.*",
                 "*You sell to a young couple with a baby on the way. Lukey cries the whole drive to your new place. Not sad crying. Just a LOT of water. You have to run the wipers on the inside of the car.*",
-                "*Three days later, the kitchen tap in your new apartment starts to drip.*",
+                "*{sfx:TapDrip} Three days later, the kitchen tap in your new apartment starts to drip.*",
                 "You: Lukey.",
                 "Lukey: What? New house. A man's gotta make an entrance."
             ],
@@ -65,8 +65,8 @@
         "stay_together": {
             "lines": [
                 "*You stay. Obviously you stay.*",
-                "*The flipper finally has a house she isn't flipping. It has a dry kitchen, a dehumidifier called Dennis who now lives in the cupboard, and a ghost who cooks by yelling at you.*",
-                "*Every Friday, Inspector Dan stops by 'just to check the pipes.' Every Friday, his shoes get mysteriously soaked.*",
+                "*The flipper finally has a house she isn't flipping. It has a dry kitchen, a dehumidifier Lukey made you banish to the cupboard, and a ghost who cooks by yelling at you.*",
+                "*{sfx:WaterSplash} Inspector Dan drops by now and then, strictly socially. Every single time, somewhere between the porch and the table, his shoes get mysteriously soaked.*",
                 "Dan: One of these days I'm going to work out how that happens.",
                 "Lukey: No he isn't."
             ],
@@ -77,7 +77,7 @@
                 "*You let the city have the house. It's had a long, damp life. Lukey agrees, on one condition: you take the sink.*",
                 "*You take the sink.*",
                 "*It sits in the corner of your new kitchen, connected to nothing, perfectly dry. Lukey naps in it like a cat.*",
-                "*The old lot becomes a little park with a drinking fountain that never quite stops dripping.*",
+                "*{sfx:TapDrip} The old lot becomes a little park with a drinking fountain that never quite stops dripping.*",
                 "Lukey: That's not me.",
                 "*It's definitely him.*"
             ],
@@ -85,7 +85,7 @@
         },
 
         "sell_rf": {
-            "lines": [ "*You keep his sweatband in your bedside drawer. It's still, somehow, slightly damp.*" ],
+            "lines": [ "*You keep a strip of his duct tape in your bedside drawer. It's still, somehow, slightly damp.*" ],
             "goto": "sell_gone"
         },
         "sell_fs": {
@@ -111,7 +111,7 @@
             "goto": "stay_gone"
         },
         "stay_fs": {
-            "lines": [ "*You keep Dennis plugged in, in the kitchen. He left Dennis the kitchen, after all. Every time the little light goes green, you say 'Night, Lukey.'*" ],
+            "lines": [ "*You keep the dehumidifier plugged in, in the kitchen. He hated that thing. Every night, when its little light clicks green, you say 'Night, Lukey' to it anyway.*" ],
             "goto": "stay_gone"
         },
         "stay_ff": {
@@ -121,7 +121,7 @@
         "stay_gone": {
             "lines": [
                 "*You don't sell. You can't. You fixed it too well to give it away.*",
-                "*Dan comes to Sunday dinner. He tells terrible puns. Nobody floods his shoes anymore, and he seems to miss it.*",
+                "*Dan comes to Sunday dinner. He tells terrible puns. He wears the waterproof shoes every time, and every time they stay dry. He seems a little disappointed.*",
                 "*The kitchen is quiet now. A good quiet. Except, very occasionally, very faintly, from somewhere in the walls: 'Woah-oh, we're halfway there...'*"
             ],
             "goto": "household"
@@ -162,7 +162,7 @@
             "lines": [
                 "*Malcolm goes wherever your nightstand goes. His terrarium has moss, a fern, a tiny ceramic bench and a very small, very respectable mushroom in a very small cap.*",
                 "Malcolm: Today's poem, my dear. It's called 'Dry.' ...It's one line. It's your name. I've been revising it since breakfast.",
-                "*Dennis is not allowed in the bedroom. Dennis knows why.*"
+                "*The dehumidifier is not allowed in the bedroom. Malcolm had it written into the lease.*"
             ],
             "choices": [
                 { "text": "And Tyler?", "if": "tyler.ending_romance_success && flag.house_choice == 2", "goto": "t_rs_home" },
@@ -174,7 +174,7 @@
         },
         "m_rf": {
             "lines": [
-                "*On Valentine's Day, a wheel of award-winning Wisconsin blue arrives at your door. Pressed into the rind is a poem. It's about you. It's a little too strong. So is the cheese.*",
+                "*{sfx:DoorKnock} On Valentine's Day, a wheel of award-winning Wisconsin blue arrives at your door. Pressed into the rind is a poem. It's about you. It's a little too strong. So is the cheese.*",
                 "*The label says GRAND RESERVE. Underneath, in gel pen: 'Finally cultured. Still yours, in a blue sort of way. M.'*"
             ],
             "choices": [
@@ -189,7 +189,7 @@
             "lines": [
                 "*A jar on your kitchen counter sighs theatrically every morning until it's fed. Malcolm is a sourdough starter now: a fungus with a JOB.*",
                 "Malcolm: This loaf is called 'Sorrow, Rising.' Butter it gently. It's been through a lot.",
-                "*Raven's diaries live on your bookshelf in an acid-free box with a gel-pen label. Friday is bread night. Dan brings butter.*"
+                "*Raven's diaries live on your bookshelf in an acid-free box with a gel-pen label. Thursday is bread night. Dan brings butter.*"
             ],
             "choices": [
                 { "text": "And Tyler?", "if": "tyler.ending_romance_success && flag.house_choice == 2", "goto": "t_rs_home" },
@@ -257,8 +257,8 @@
         },
         "t_fs": {
             "lines": [
-                "*Wherever Dennis is plugged in, he hums a little march at oh-five-hundred sharp. Sergeant Dennis takes his promotion very seriously.*",
-                "*Sometimes, in the morning light, you catch yourself standing up very straight. Dismissed, honorably.*"
+                "*Every morning at oh-five-hundred sharp, you wake up for no reason and make the bed with hospital corners. You've stopped fighting it.*",
+                "*Sometimes, in the morning light, you catch yourself standing up very straight and saluting the bathroom mirror. Dismissed, honorably.*"
             ],
             "choices": [
                 { "text": "And Wyatt?", "if": "wyatt.ending_romance_success && flag.house_choice == 2", "goto": "w_rs_home" },
@@ -284,9 +284,9 @@
 
         "w_rs_home": {
             "lines": [
-                "*The lights at 12 Heartbreak Lane never flicker. Every Friday, Dan's pun gets one delighted giggle from the fuse box.*",
+                "*The lights at 12 Heartbreak Lane never flicker. At Sunday dinner, Dan's pun gets exactly one delighted giggle {sfx:Spark}from the fuse box. Dan thinks it's the wiring. It is.*",
                 "Wyatt: Said no to the toaster today, love. It was about toast. Big day.",
-                "*At night the lights go out on purpose, every time.*"
+                "*{sfx:PowerDown} At night the lights go out on purpose, every time.*"
             ],
             "choices": [
                 { "text": "Look around the table.", "if": "lukey.ending_romance_success + malcolm.ending_romance_success + tyler.ending_romance_success + wyatt.ending_romance_success >= 2", "goto": "full_house" },
@@ -295,7 +295,7 @@
         },
         "w_rs_moved": {
             "lines": [
-                "*Wyatt comes too, in the wiring. He takes one look at your new fuse box and goes very quiet.*",
+                "*Wyatt comes too, in the wiring. {sfx:Zap}He takes one look at your new fuse box and goes very quiet.*",
                 "Wyatt: Who wired this? ...Was it a Gary? It feels like a Gary.",
                 "*He rewires the whole place properly in a weekend, asking permission for every single socket. Then, around socket thirty, he stops asking. You've never been prouder.*"
             ],
@@ -306,7 +306,7 @@
         },
         "w_rf": {
             "lines": [
-                "*Wherever you live, the porch light flickers twice when you come home. Then it holds steady, like it's being brave about it.*",
+                "*{sfx:Hum} Wherever you live, the porch light flickers twice when you come home. Then it holds steady, like it's being brave about it.*",
                 "*Nobody's fixing that.*"
             ],
             "choices": [
@@ -340,7 +340,7 @@
 
         "full_house": {
             "lines": [
-                "*Sunday dinner is a lot now.*",
+                "*{sfx:GlassClink} Sunday dinner is a lot now.*",
                 "*Nobody in this household is exclusive, and nobody can agree on the seating plan.*"
             ],
             "choices": [
@@ -352,7 +352,7 @@
         },
         "fh_lukey": {
             "lines": [
-                "*Lukey drapes himself across the head of the table, slightly damp, entirely smug.*",
+                "*Lukey drapes himself across the head of the table, copper curls dripping onto the tablecloth, entirely smug.*",
                 "Lukey: Look. It's a free market. Rival franchises. Everybody's welcome. ...But I'm your favorite. Don't answer that."
             ],
             "choices": [
@@ -374,7 +374,7 @@
         },
         "fh_tyler": {
             "lines": [
-                "*Tyler sits bolt upright with a little notebook beside his plate.*",
+                "*Tyler sits bolt upright, hot-pink pompadour perfectly set, with a little notebook beside his plate.*",
                 "Tyler: I'm not jealous. I'm keeping a LEDGER. You said goodnight to me SECOND yesterday, {player}. Noted. Filed. ...Pass the salt. That's an order. Please."
             ],
             "choices": [
@@ -398,7 +398,7 @@
         },
         "close_one": {
             "lines": [
-                "*It's the two of you now. Well. The two of you, and Dennis, and whatever the neighbors think is going on.*",
+                "*It's the two of you now. Well. The two of you, a dehumidifier nobody likes, and whatever the neighbors think is going on.*",
                 "*Mrs. Pruitt waves from her porch every night. You wave back. One of you is going to explain this eventually.*"
             ],
             "goto": "the_end"
@@ -419,8 +419,8 @@
 
         "fail_hearing": {
             "lines": [
-                "*Day 30. City Hall. The hearing takes four minutes. Dan stands up, looks at his shoes and quietly recommends demolition.*",
-                "*In the back row, Mrs. Pruitt fires a crossbow bolt into the ceiling. In protest, this time.*",
+                "*Day 30, that afternoon. City Hall. The hearing takes four minutes. Dan stands up, looks at his shoes and quietly recommends demolition.*",
+                "*{sfx:Thud} In the back row, Mrs. Pruitt fires a crossbow bolt into the ceiling. In protest, this time.*",
                 "*The night before the bulldozers come, you walk through the house one last time.*"
             ],
             "choices": [
@@ -431,7 +431,7 @@
         },
         "fl_unfixed": {
             "lines": [
-                "*The tap drips. Drip. Drip. You almost hear a sigh in it.*",
+                "*{sfx:TapDrip} The tap drips. Drip. Drip. You almost hear a sigh in it.*",
                 "*On demolition day, a damp patch appears on the front wall, shaped exactly like a frowning face. The bulldozer driver says it's the saddest wall he's ever seen.*",
                 "*You should have finished the job.*"
             ],
@@ -455,7 +455,7 @@
         },
         "fl_gone": {
             "lines": [
-                "*The kitchen is dry. Not a drop. Somewhere, a man in Lycra is being absolutely insufferable about it.*",
+                "*The kitchen is dry. Not a drop. Somewhere, a big, bearded, very damp redhead is being absolutely insufferable about it.*",
                 "*You leave the flashlight on the counter. For old times' sake.*"
             ],
             "choices": [
@@ -467,7 +467,7 @@
 
         "fm_unfixed": {
             "lines": [
-                "*The closet wall is still velvet black. In the dark, something clears its throat and recites a very long poem about bulldozers.*",
+                "*The closet wall is still velvet black. In the dark, something {sfx:Squelch}clears its throat and recites a very long poem about bulldozers.*",
                 "*On demolition day, the closet is the last thing standing. The crew finds 'ODE TO THE WRECKING BALL' written across the back wall in spores. Nobody can bring themselves to read the whole thing. It's forty pages.*"
             ],
             "choices": [
@@ -502,7 +502,7 @@
         "ft_unfixed": {
             "lines": [
                 "*The cracked pink tile by the tub catches the moonlight. The bathroom is very quiet, and very pink, and somehow standing at attention.*",
-                "*On demolition day, the foreman stops in the doorway and salutes it. He can't explain why. Then the wall comes down.*",
+                "*On demolition day, the foreman stops in the doorway and salutes it. He can't explain why. {sfx:TileCrack}Then the wall comes down.*",
                 "*You keep one cracked tile in your coat pocket. It's pinker than you remember.*"
             ],
             "choices": [
@@ -538,7 +538,7 @@
         "fw_unfixed": {
             "lines": [
                 "*The city cuts the power the morning of the demolition. Every light in number twelve stays on anyway, very politely, all morning.*",
-                "*Then, one by one, they go out, like somebody saying sorry. The last one is the porch light. It flickers twice at Mrs. Pruitt first.*"
+                "*{sfx:PowerDown} Then, one by one, they go out, like somebody saying sorry. The last one is the porch light. It flickers twice at Mrs. Pruitt first.*"
             ],
             "goto": "fail_end"
         },
@@ -552,14 +552,14 @@
         "fw_gone": {
             "lines": [
                 "*The wiring was perfect. The demolition foreman checks it and whistles: 'Whoever did this did it properly.'*",
-                "*The porch light flickers twice, though nobody's switched it on.*"
+                "*{sfx:Hum} The porch light flickers twice, though nobody's switched it on.*"
             ],
             "goto": "fail_end"
         },
         "fail_end": {
             "lines": [
                 "*The lot becomes a little park. Dan cuts the ribbon and makes a pun about 'breaking ground.' Mrs. Pruitt's nine cats move in immediately.*",
-                "*There's a drinking fountain by the gate. It drips. Sometimes, if you stand very close, it hums Bon Jovi. Nobody tries very hard to fix it.*",
+                "*{sfx:TapDrip} There's a drinking fountain by the gate. It drips. Sometimes, if you stand very close, it hums Bon Jovi. Nobody tries very hard to fix it.*",
                 "*It's a nice park. It's not a home. You think about all of them every time you walk past.*"
             ],
             "end": true

@@ -1715,7 +1715,7 @@ void AFixHimPlayerController::FixHimDump()
 	{
 		const FDialogueView& V = D->GetView();
 		UE_LOG(LogFixHim, Log, TEXT("Dialogue %s/%s#%d%s fx=%s: '%s' choices=%d topics=[%s]"), *V.HunkId, *V.NodeId, V.LineIndex,
-			V.bResumed ? TEXT(" (resumed)") : TEXT(""), *V.Fx, *V.Text, V.Choices.Num(), *FString::Join(V.ActiveTopics, TEXT(",")));
+			V.bIsReturn ? TEXT(" (resumed)") : TEXT(""), *V.Fx, *V.Text, V.Choices.Num(), *FString::Join(V.ActiveTopics, TEXT(",")));
 	}
 	if (S)
 	{

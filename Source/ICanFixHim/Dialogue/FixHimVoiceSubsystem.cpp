@@ -123,6 +123,13 @@ void UFixHimVoiceSubsystem::HandleView(const FDialogueView& View)
 		return;
 	}
 	Stop();
+	if (View.bIsReturn)
+	{
+		// Back from an aside or hypertext tangent to a line the player already heard (or clicked through):
+		// don't restart it from the top. Remember the key so a re-broadcast stays quiet too.
+		PlayingKey = Key;
+		return;
+	}
 
 	const FSoftObjectPath* Path = Index.Find(Key);
 	USoundBase* Sound = Path ? Cast<USoundBase>(Path->TryLoad()) : nullptr;
