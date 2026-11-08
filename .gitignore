@@ -65,3 +65,6 @@ docs/.obsidian/workspace.json
 docs/.obsidian/workspace-mobile.json
 docs/.obsidian/cache
 docs/.trash/
+
+# Tripo export zips are redundant with their extracted .fbx/.fbm folders
+Art Source/**/*.zip
