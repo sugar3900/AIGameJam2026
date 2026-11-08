@@ -6,7 +6,7 @@
 #include "World/FixHimInteractable.h"
 #include "FixHimBed.generated.h"
 
-/** Rosie's bed. Click it to end the day (one week passes). */
+/** Rosie's bed. Click it to be asked whether to end the day (one week passes). */
 UCLASS()
 class ICANFIXHIM_API AFixHimBed : public AFixHimInteractable
 {

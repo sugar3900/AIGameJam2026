@@ -95,7 +95,7 @@ public:
 	void RequestEndDay();
 	/** False on week 1 until everyone has been met. */
 	bool CanEndDay() const;
-	/** Door was clicked: pops up End Day / Cancel. */
+	/** Door or bed was clicked: pops up End Day / Cancel. */
 	void OpenDoorPrompt();
 	/** Cancel (or Escape): closes the popup and gives control back. Nothing is consumed. */
 	void CloseDoorPrompt();

@@ -14,7 +14,7 @@ void AFixHimBed::Interact(AFixHimPlayerController* Player)
 {
 	if (Player)
 	{
-		Player->RequestEndDay();
+		Player->OpenDoorPrompt();
 	}
 }
 

@@ -220,10 +220,10 @@ void UFixHimPauseWidget::BuildUI()
 
 void UFixHimDoorPromptWidget::BuildUI()
 {
-	UVerticalBox* Col = MakeCardScreen(TEXT("Leave the apartment?"), 460.f);
+	UVerticalBox* Col = MakeCardScreen(TEXT("End the day?"), 460.f);
 	TWeakObjectPtr<UFixHimDoorPromptWidget> Self(this);
 
-	BodyText = MakeText(WidgetTree, TEXT("Heading out ends the day. A week will pass."), 18, PlumSoft);
+	BodyText = MakeText(WidgetTree, TEXT("The day ends and a week will pass."), 18, PlumSoft);
 	BodyText->SetJustification(ETextJustify::Center);
 	BodyText->SetAutoWrapText(true);
 	Col->AddChildToVerticalBox(BodyText)->SetPadding(FMargin(0.f, 0.f, 0.f, 18.f));
@@ -255,7 +255,7 @@ void UFixHimDoorPromptWidget::Refresh()
 	if (BodyText)
 	{
 		BodyText->SetText(FText::FromString(bAllowed
-			? TEXT("Heading out ends the day. A week will pass.")
+			? TEXT("The day ends and a week will pass.")
 			: TEXT("You feel a presence in the house... someone you still need to meet.")));
 	}
 }
@@ -367,7 +367,7 @@ void UFixHimCreditsWidget::BuildUI()
 	Line(TEXT("I CAN FIX HIM"), 26, Plum, TEXT("Bold"), 4.f);
 	Line(TEXT("Made for AI Game Jam 2026"), 18, PlumSoft, TEXT("Italic"), 18.f);
 	Line(TEXT("Created by"), 16, Pink, TEXT("Bold"), 0.f);
-	Line(TEXT("Kirsten Sugar and David Wallin"), 22, Plum, TEXT("Bold"), 12.f);
+	Line(TEXT("Kirsten Sugar, David Wallin and Michael Consoli"), 22, Plum, TEXT("Bold"), 12.f);
 	Line(TEXT("Code, dialogue & puns (sorry)"), 16, Pink, TEXT("Bold"), 0.f);
 	Line(TEXT("Claude (Anthropic), directed by David"), 20, Plum, TEXT("Regular"), 12.f);
 	Line(TEXT("Built with"), 16, Pink, TEXT("Bold"), 0.f);

@@ -413,6 +413,12 @@ def build_structure():
     front_door = authored("MoldedFrontDoor", "SM_MoldedFrontDoor", (190,8,0), "Structure", yaw=-90)
     front_door.static_mesh_component.set_collision_profile_name("NoCollision")
     solid_proxy("FrontDoorCollision", (190,8,109), (116,12,218), "Structure")
+    # Clicking the door asks whether to end the day. The authored door above stays the visible mesh, so this
+    # interactable's body is invisible (it still blocks the hover trace).
+    front = interactable("FrontDoor", (190, 8, 0), 0, "living", CUBE, (0, 0, 109), (116, 12, 218), "Velvet",
+                         unreal.InteractToggle.NONE, "Leave the apartment", "Leave the apartment",
+                         cls=unreal.FixHimDoor, folder="Structure")
+    front.get_editor_property("body").set_editor_property("hidden_in_game", True)
 
 
 def build_living():
