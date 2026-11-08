@@ -144,6 +144,8 @@ public sealed class DialogueView
 	public List<ChoiceView> Choices = new();
 	public HashSet<string> ActiveTopics = new();
 	public string Fx = "", FxText = "";
+	/// <summary>SFX cues for this line (node "sfx" on its first line, then the line's {sfx:Name} tags); empty on a return.</summary>
+	public List<string> Sfx = new();
 	public bool IsLastLine, WillEnd;
 	/// <summary>Re-presenting a node already printed (back from a hypertext tangent, or a refresh): don't print its line again.</summary>
 	public bool IsReturn;
@@ -390,7 +392,8 @@ public sealed class DialogueRunner
 		var lines = Dialogue.Lines(node);
 		if (_lineIndex >= lines.Count) _lineIndex = Math.Max(0, lines.Count - 1);
 		if (lines.Count == 0) return;
-		var (speaker, text) = Dialogue.ParseLine(lines[_lineIndex]);
+		var stripped = Dialogue.StripInlineTags(lines[_lineIndex], out var lineFx, out var lineSfx);
+		var (speaker, text) = Dialogue.ParseLine(stripped);
 		var v = new DialogueView
 		{
 			HunkId = ActiveHunkId!,
@@ -408,6 +411,13 @@ public sealed class DialogueRunner
 		{
 			v.Fx = Dialogue.Str(node["fx"]) ?? "";
 			v.FxText = Substitute(Dialogue.Str(node["fxText"]) ?? "");
+			if (node["sfx"] is JsonArray cues) v.Sfx.AddRange(cues.Select(c => Dialogue.Str(c) ?? "").Where(c => c.Trim().Length > 0).Select(c => c.Trim()));
+			else if (Dialogue.Str(node["sfx"]) is { Length: > 0 } one && one.Trim().Length > 0) v.Sfx.Add(one.Trim());
+		}
+		if (!isReturn)
+		{
+			if (!string.IsNullOrEmpty(lineFx)) v.Fx = lineFx; // a line tag wins over the node fx
+			v.Sfx.AddRange(lineSfx);
 		}
 		var visible = VisibleChoiceIndices(node);
 		if (v.IsLastLine && !InTangent && node["choices"] is JsonArray cs)

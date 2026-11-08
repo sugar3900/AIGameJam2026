@@ -9,6 +9,7 @@ static class Program
 	public static int Main(string[] args)
 	{
 		if (args.Length > 0 && args[0] == "--selftest") return SelfTest.Run(args.Length > 1 ? args[1] : null);
+		if (args.Length > 0 && args[0] == "--audioloop") return SelfTest.AudioLoop(args.Length > 1 ? args[1] : null, args.Length > 2 ? double.Parse(args[2], System.Globalization.CultureInfo.InvariantCulture) : 10);
 		WaitForDisplayOnMac();
 		return BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
 	}

@@ -33,6 +33,7 @@ public sealed class PreviewPanel : Grid
 	// Audio: the character's loop plays while previewing; the dropdown auditions the other tracks (menu, explore, finale).
 	readonly CheckBox _voiceToggle = new() { Content = "Voice", IsChecked = true, FontSize = 12 };
 	readonly CheckBox _musicToggle = new() { Content = "Music", IsChecked = true, FontSize = 12 };
+	readonly CheckBox _sfxToggle = new() { Content = "SFX", IsChecked = true, FontSize = 12 };
 	readonly TextBlock _track = Ui.Label("no music", 11, Palette.Muted);
 	readonly ComboBox _auditionBox = new() { FontSize = 11, MinHeight = 0, Padding = new Thickness(6, 1), MinWidth = 120 };
 	const string CharacterMusic = "(character music)";
@@ -112,6 +113,8 @@ public sealed class PreviewPanel : Grid
 	Control BuildAudioBar()
 	{
 		_voiceToggle.IsCheckedChanged += (_, _) => AudioService.VoiceEnabled = _voiceToggle.IsChecked == true;
+		_sfxToggle.IsCheckedChanged += (_, _) => AudioService.SfxEnabled = _sfxToggle.IsChecked == true;
+		ToolTip.SetTip(_sfxToggle, "Play the line's {sfx:Name} sound cues (Art Source/Audio/SFX)");
 		_musicToggle.IsCheckedChanged += (_, _) =>
 		{
 			AudioService.MusicEnabled = _musicToggle.IsChecked == true;
@@ -130,17 +133,17 @@ public sealed class PreviewPanel : Grid
 		_auditionBox.DropDownOpened += (_, _) => RefreshTracks();
 		if (!AudioService.Available)
 		{
-			foreach (var c in new Control[] { _voiceToggle, _musicToggle, _auditionBox })
+			foreach (var c in new Control[] { _voiceToggle, _musicToggle, _sfxToggle, _auditionBox })
 			{
 				c.IsEnabled = false;
 				ToolTip.SetTip(c, AudioService.UnavailableReason);
 				ToolTip.SetShowOnDisabled(c, true);
 			}
-			_voiceToggle.IsChecked = _musicToggle.IsChecked = false;
+			_voiceToggle.IsChecked = _musicToggle.IsChecked = _sfxToggle.IsChecked = false;
 		}
 		RefreshTracks();
 		var row = new WrapPanel { Margin = new Thickness(0, 2, 0, 0) };
-		foreach (var c in new Control[] { _voiceToggle, _musicToggle, _auditionBox, _track })
+		foreach (var c in new Control[] { _voiceToggle, _musicToggle, _sfxToggle, _auditionBox, _track })
 		{
 			c.Margin = new Thickness(0, 0, 10, 0);
 			row.Children.Add(c);
@@ -154,6 +157,7 @@ public sealed class PreviewPanel : Grid
 		{
 			_voiceToggle.IsChecked = AudioService.VoiceEnabled;
 			_musicToggle.IsChecked = AudioService.MusicEnabled;
+			_sfxToggle.IsChecked = AudioService.SfxEnabled;
 		}
 		UpdateTrackLabel();
 	}
@@ -212,6 +216,17 @@ public sealed class PreviewPanel : Grid
 		if (!AudioService.VoiceEnabled || !AudioService.Available) return;
 		var clip = ClipFor(v);
 		if (clip != null) AudioService.PlayVoice(clip);
+	}
+
+	/// <summary>Sound cues of a freshly shown line, like the game: once, never on a return. Unknown cues are noted.</summary>
+	void PlayLineSfx(DialogueView v)
+	{
+		foreach (var cue in v.Sfx)
+		{
+			var path = AudioLibrary.SfxPath(ProjectPaths.SfxDir(), cue);
+			if (path == null) AddNote($"⚠ no sound for {{sfx:{cue}}} in {ProjectPaths.SfxRelative}", Palette.Error);
+			else if (AudioService.Available) AudioService.PlaySfx(path);
+		}
 	}
 
 	static string? ClipFor(DialogueView v)
@@ -318,6 +333,7 @@ public sealed class PreviewPanel : Grid
 			_transcript.Children.Add(card);
 			_liveLine = card;
 			PlayLineVoice(v);
+			PlayLineSfx(v);
 		}
 		else AudioService.StopVoice();
 

@@ -5,6 +5,7 @@ static class ProjectPaths
 	public const string DialogueRelative = "Content/ICanFixHim/Data/Dialogue";
 	public const string VoiceRelative = "Art Source/Audio/VO";
 	public const string MusicRelative = "Art Source/Audio/BGM";
+	public const string SfxRelative = "Art Source/Audio/SFX";
 
 	/// <summary>Walks up from <paramref name="start"/> looking for the Unreal project and returns its root folder.</summary>
 	public static string? FindRoot(string start)
@@ -41,6 +42,7 @@ static class ProjectPaths
 
 	public static string? VoiceDir(string? root = null) => Under(root ?? DefaultRoot(), VoiceRelative);
 	public static string? MusicDir(string? root = null) => Under(root ?? DefaultRoot(), MusicRelative);
+	public static string? SfxDir(string? root = null) => Under(root ?? DefaultRoot(), SfxRelative);
 
 	static string? Under(string? root, string relative) => root == null ? null : Path.Combine(root, relative);
 }
