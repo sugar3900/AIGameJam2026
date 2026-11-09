@@ -189,7 +189,7 @@ void AFixHimInteractable::Tick(float DeltaSeconds)
 		ApplyToggleAlpha(ToggleAlpha);
 	}
 
-	if (ShineMID && bShine && bEnabled)
+	if (ShineMID && bShine && bEnabled && bInteractionShineEnabled)
 	{
 		// A shine takes ShineDuration to cross the object, then the next one is a few seconds away.
 		constexpr float ShineDuration = 0.9f;
@@ -204,6 +204,21 @@ void AFixHimInteractable::Tick(float DeltaSeconds)
 			NextShineAt = Age + FMath::FRandRange(ShineInterval.X, ShineInterval.Y);
 		}
 	}
+}
+
+void AFixHimInteractable::SetInteractionShineEnabled(bool bAllow)
+{
+	if (bInteractionShineEnabled == bAllow)
+	{
+		return;
+	}
+	bInteractionShineEnabled = bAllow;
+	if (ShineMID)
+	{
+		ShineMID->SetScalarParameterValue(TEXT("Sweep"), -1.f);
+	}
+	// Resume with a fresh delay, rather than continuing a sweep left over from before the conversation.
+	NextShineAt = Age + FMath::FRandRange(ShineInterval.X, ShineInterval.Y);
 }
 
 void AFixHimInteractable::ApplyToggleAlpha(float Alpha)

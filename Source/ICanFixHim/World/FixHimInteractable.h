@@ -54,6 +54,8 @@ public:
 
 	void SetHovered(bool bInHovered);
 	bool IsHovered() const { return bHovered; }
+	/** Suppress the attention sweep immediately, even when the world is about to pause. */
+	void SetInteractionShineEnabled(bool bAllow);
 
 	UFUNCTION(BlueprintCallable, Category = "Interactable")
 	void SetOn(bool bInOn, bool bInstant = false);
@@ -189,6 +191,7 @@ protected:
 	TObjectPtr<UMaterialInstanceDynamic> ShineMID;
 
 	bool bHovered = false;
+	bool bInteractionShineEnabled = false;
 	float ToggleAlpha = 0.f;
 	float Age = 0.f;
 	float NextShineAt = 0.f;

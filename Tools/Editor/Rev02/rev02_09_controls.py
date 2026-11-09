@@ -20,10 +20,11 @@ SWITCH_ART = {
     'bathroom': 'Art_BA_Switch_BA_Switch_Plate',
     'kitchen': 'Art_BA_Switch_BA_Switch_Plate_S086',
 }
-# Missing switches: living-room south wall, hall east wall, walk-in closet east wall.
+# Entry controls share the east wall, beyond the door trim; hallway has its own circuit.
 NEW_SWITCHES = {
-    'living': ((730, 374, 114), 180),
-    'hall': ((1194, 510, 114), 90),
+    'living': ((1194, 545, 114), 90),
+    'entry_sconce': ((1194, 530, 114), 90),
+    'hall': ((430, 386, 114), 0),
     'closet': ((214, 520, 114), 90),
 }
 FIXTURES = {
@@ -36,7 +37,7 @@ FIXTURES = {
     'office': ('Office', 'CeilingLight_Office'),
 }
 required = list(SWITCH_ART.values()) + ['Wardrobe_Door_L', 'Wardrobe_Door_R', 'Bulb_Closet',
-                                      'Art_BA_Switch_BA_Switch_Toggle']
+                                      'Art_BA_Switch_BA_Switch_Toggle', 'Sconce_Hall_2']
 required += ['Art_CeilingLight_%s_Glass' % name for name, _ in FIXTURES.values()]
 assert all(k in acts for k in required), 'Missing required Rev02 art or gameplay actors'
 
@@ -121,8 +122,15 @@ for room, (art_name, label) in FIXTURES.items():
     a.set_folder_path('Gameplay/OverheadLights/' + room)
     states[room] = a.get_editor_property('is_on')
 
+sconce = acts['Sconce_Hall_2']
+sconce.modify()
+sconce.set_editor_property('toggle_group', group('entry_sconce'))
+sconce.set_editor_property('enabled', False)
+sconce.set_editor_property('shine', False)
+states['entry_sconce'] = sconce.get_editor_property('is_on')
+
 states['closet'] = True
-for room in list(FIXTURES) + ['closet']:
+for room in list(FIXTURES) + ['closet', 'entry_sconce']:
     if room in SWITCH_ART:
         plate = acts[SWITCH_ART[room]]
     else:
@@ -130,6 +138,7 @@ for room in list(FIXTURES) + ['closet']:
         plate = duplicate_art('Art_BA_Switch_BA_Switch_Plate', 'Art_WallSwitch_' + room + '_Plate', position, yaw)
         duplicate_art('Art_BA_Switch_BA_Switch_Toggle', 'Art_WallSwitch_' + room + '_Toggle', position, yaw)
     a = interactable('WallSwitch_' + room, plate.get_actor_transform())
+    a.set_actor_transform(plate.get_actor_transform(), False, True)
     copy_body(a, plate)
     # The small rocker remains visible but must not intercept the plate's click trace.
     rocker_label = (SWITCH_ART[room].replace('_Plate', '_Toggle') if room in SWITCH_ART
@@ -137,19 +146,20 @@ for room in list(FIXTURES) + ['closet']:
     rocker = acts[rocker_label].static_mesh_component
     rocker.modify()
     rocker.set_collision_profile_name('NoCollision')
-    a.set_editor_property('room_id', 'bedroom' if room == 'closet' else room)
+    a.set_editor_property('room_id', 'bedroom' if room == 'closet' else 'hall' if room == 'entry_sconce' else room)
     a.set_editor_property('toggle_group', group(room))
     a.set_editor_property('toggle', unreal.InteractToggle.LIGHT)
     a.set_editor_property('light_intensity_on', 0.0)
     a.set_editor_property('on_emissive', unreal.LinearColor(0, 0, 0, 1))
     a.set_editor_property('enabled', True)
     a.set_editor_property('is_on', states[room])
-    a.set_editor_property('prompt_off', 'Turn on closet light' if room == 'closet' else 'Turn on overhead light')
-    a.set_editor_property('prompt_on', 'Turn off closet light' if room == 'closet' else 'Turn off overhead light')
+    target = 'closet light' if room == 'closet' else 'entry sconce' if room == 'entry_sconce' else 'overhead light'
+    a.set_editor_property('prompt_off', 'Turn on ' + target)
+    a.set_editor_property('prompt_on', 'Turn off ' + target)
     a.set_editor_property('interact_sfx', unreal.Name('SwitchOn'))
     a.set_editor_property('interact_sfx_off', unreal.Name('SwitchOff'))
     a.set_editor_property('controlled_lights', [acts['Bulb_Closet']] if room == 'closet' else [])
     a.set_folder_path('Gameplay/WallSwitches')
 
 assert L.save_all_dirty_levels()
-unreal.log('[Rev02 controls] Linked both Malcolm doors; wired seven wall switches and disabled ceiling clicks')
+unreal.log('[Rev02 controls] Linked both Malcolm doors; wired eight wall switches and disabled ceiling/entry-sconce clicks')

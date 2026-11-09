@@ -38,12 +38,13 @@ try:
 
     fixtures = {'living': 'CeilingLight_Living', 'hall': 'CeilingLight_HallWest',
                 'kitchen': 'CeilingLight_HallEast', 'bedroom': 'CeilingLight_Bedroom',
-                'bathroom': 'CeilingLight_Bath', 'office': 'CeilingLight_Office'}
+                'bathroom': 'CeilingLight_Bath', 'office': 'CeilingLight_Office',
+                'entry_sconce': 'Sconce_Hall_2'}
     for room, label in fixtures.items():
         switch, light = by['WallSwitch_' + room], by[label]
         before = states()
         assert switch.can_interact() and not light.can_interact(), room + ': wrong interaction eligibility'
-        assert switch.get_editor_property('room_id') == light.get_editor_property('room_id') == room
+        assert switch.get_editor_property('room_id') == light.get_editor_property('room_id') == ('hall' if room == 'entry_sconce' else room)
         switch.set_on(False, True)
         assert light.get_editor_property('light').get_editor_property('intensity') == 0
         light.interact(pc)
@@ -66,6 +67,11 @@ try:
     closet_switch.interact(pc)
     assert component.is_visible(), 'Closet light did not turn on'
 
+    living_pos = by['WallSwitch_living'].get_actor_location()
+    sconce_pos = by['WallSwitch_entry_sconce'].get_actor_location()
+    assert abs(living_pos.x - sconce_pos.x) < 0.1 and abs(living_pos.z - sconce_pos.z) < 0.1
+    assert abs(living_pos.y - sconce_pos.y - 15) < 0.1, 'Entry switches must sit side by side'
+
     # Verify the actual click traces, including switches made from formerly decorative wall art.
     for room in list(fixtures) + ['closet']:
         switch = by['WallSwitch_' + room]
@@ -75,7 +81,7 @@ try:
         hit = unreal.SystemLibrary.line_trace_single(w, start, center, unreal.TraceTypeQuery.ECC_VISIBILITY,
                                                     False, [], unreal.DrawDebugTrace.NONE, True)
         assert hit and hit.to_dict()['hit_actor'] == switch, room + ': wall switch click is obstructed'
-    unreal.log('[Controls test] closet circuit and all seven wall-switch click traces passed')
+    unreal.log('[Controls test] closet circuit and all eight wall-switch click traces passed')
 finally:
     for a, state in original.items():
         a.set_on(state, True)
