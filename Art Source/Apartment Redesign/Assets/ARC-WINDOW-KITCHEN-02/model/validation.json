@@ -1,0 +1,128 @@
+{
+  "status": "PASS",
+  "units": "metres",
+  "parts": [
+    {
+      "part": "frame",
+      "vertices": 800,
+      "triangles": 1552,
+      "collision_hulls": 12,
+      "bounds_min": [
+        -0.9150000214576721,
+        -0.1700001358985901,
+        -0.06999999284744263
+      ],
+      "bounds_max": [
+        0.9150000810623169,
+        0.060000136494636536,
+        1.2679998874664307
+      ],
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "UV": "finite and present",
+      "zero_area_geometry_triangles": 0
+    },
+    {
+      "part": "upper_sash",
+      "vertices": 960,
+      "triangles": 1880,
+      "collision_hulls": 10,
+      "bounds_min": [
+        -0.73499995470047,
+        -0.005000111646950245,
+        0.5694999694824219
+      ],
+      "bounds_max": [
+        0.7350000143051147,
+        0.03700011223554611,
+        1.1065000295639038
+      ],
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "UV": "finite and present",
+      "zero_area_geometry_triangles": 0
+    },
+    {
+      "part": "upper_glass",
+      "vertices": 8,
+      "triangles": 12,
+      "collision_hulls": 0,
+      "bounds_min": [
+        -0.699999988079071,
+        0.02449989505112171,
+        0.6044999957084656
+      ],
+      "bounds_max": [
+        0.699999988079071,
+        0.02950010634958744,
+        1.0715000629425049
+      ],
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "UV": "finite and present",
+      "zero_area_geometry_triangles": 0
+    },
+    {
+      "part": "lower_sash",
+      "vertices": 1056,
+      "triangles": 2068,
+      "collision_hulls": 11,
+      "bounds_min": [
+        -0.73499995470047,
+        -0.06800011545419693,
+        0.04150000214576721
+      ],
+      "bounds_max": [
+        0.7350000143051147,
+        -0.013999889604747295,
+        0.581000030040741
+      ],
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "UV": "finite and present",
+      "zero_area_geometry_triangles": 0
+    },
+    {
+      "part": "lower_glass",
+      "vertices": 8,
+      "triangles": 12,
+      "collision_hulls": 0,
+      "bounds_min": [
+        -0.699999988079071,
+        -0.02650010585784912,
+        0.07649999856948853
+      ],
+      "bounds_max": [
+        0.699999988079071,
+        -0.021499894559383392,
+        0.5435000061988831
+      ],
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "UV": "finite and present",
+      "zero_area_geometry_triangles": 0
+    }
+  ],
+  "fit": {
+    "apron_world_bottom": 1.18,
+    "sill_projection_from_wall_face": 0.11,
+    "lower_slide_max": 0.48,
+    "wood_track_gap": 0.023
+  },
+  "limitations": "Unreal import/pivots/materials/collision recognition and complete sink/faucet/camera fit still require engine review."
+}

@@ -1,0 +1,4027 @@
+{
+  "status": "Reworked elevations from approved revision02; engine fit checks pending",
+  "rooms": {
+    "LV": [
+      "Living + entry",
+      [
+        5.5,
+        0,
+        6.5,
+        5.6
+      ],
+      "#e7ceb0"
+    ],
+    "KI": [
+      "Kitchen / dining",
+      [
+        0,
+        0,
+        5.5,
+        3.8
+      ],
+      "#ded5b3"
+    ],
+    "HA": [
+      "Hall",
+      [
+        2.2,
+        3.8,
+        9.8,
+        1.8
+      ],
+      "#e7d0b3"
+    ],
+    "BR": [
+      "Bedroom",
+      [
+        0,
+        5.6,
+        4.8,
+        3.95
+      ],
+      "#dfc7b5"
+    ],
+    "BA": [
+      "Bathroom",
+      [
+        4.8,
+        5.6,
+        3.1,
+        3.95
+      ],
+      "#e8d5bf"
+    ],
+    "OF": [
+      "Office / guest",
+      [
+        7.9,
+        5.6,
+        4.1,
+        3.95
+      ],
+      "#d7d9c8"
+    ],
+    "BC": [
+      "Mold closet",
+      [
+        0,
+        3.8,
+        2.2,
+        1.8
+      ],
+      "#c6bba6"
+    ],
+    "CT": [
+      "Entry coat closet",
+      [
+        10.75,
+        5.6,
+        1.25,
+        0.8
+      ],
+      "#d9ccb6"
+    ],
+    "WG": [
+      "Guest wardrobe",
+      [
+        10.75,
+        6.4,
+        1.25,
+        0.75
+      ],
+      "#e0d8c8"
+    ]
+  },
+  "items": [
+    {
+      "instance": "BA-TUB-01:001",
+      "asset": "BA-TUB-01",
+      "kind": "tub",
+      "name": "Tub / crack",
+      "rooms": [
+        "BA"
+      ],
+      "rect": [
+        4.95,
+        8.72,
+        1.7,
+        0.7
+      ],
+      "z": 0,
+      "h": 0.57,
+      "front": null,
+      "show": "NESW",
+      "children": [
+        "BA-TUB-WATER-01",
+        "taps",
+        "shower riser",
+        "curtain"
+      ],
+      "state": "Tyler repair; water reveal",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BA-BASIN-01:002",
+      "asset": "BA-BASIN-01",
+      "kind": "basin",
+      "name": "Basin",
+      "rooms": [
+        "BA"
+      ],
+      "rect": [
+        4.95,
+        6.95,
+        0.65,
+        0.65
+      ],
+      "z": 0,
+      "h": 0.85,
+      "front": "east",
+      "show": "NESW",
+      "children": [
+        "taps"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BA-TOILET-01:003",
+      "asset": "BA-TOILET-01",
+      "kind": "toilet",
+      "name": "WC",
+      "rooms": [
+        "BA"
+      ],
+      "rect": [
+        7.05,
+        7.55,
+        0.7,
+        0.75
+      ],
+      "z": 0,
+      "h": 0.924,
+      "front": "west",
+      "show": "NESW",
+      "children": [],
+      "state": "lid hinge",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BA-LINEN-01:004",
+      "asset": "BA-LINEN-01",
+      "kind": "pantry",
+      "name": "Linen",
+      "rooms": [
+        "BA"
+      ],
+      "rect": [
+        7.15,
+        8.75,
+        0.6,
+        0.6
+      ],
+      "z": 0,
+      "h": 1.742,
+      "front": "west",
+      "show": "NESW",
+      "children": [],
+      "state": "hinged doors",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "OF-DAYBED-01:005",
+      "asset": "OF-DAYBED-01",
+      "kind": "daybed",
+      "name": "Daybed",
+      "rooms": [
+        "OF"
+      ],
+      "rect": [
+        8.05,
+        7.25,
+        0.8,
+        1.9
+      ],
+      "z": 0,
+      "h": 0.83,
+      "front": "east",
+      "show": "NESW",
+      "children": [
+        "pillows",
+        "quilt"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "OF-DESK-01:006",
+      "asset": "OF-DESK-01",
+      "kind": "desk",
+      "name": "Desk",
+      "rooms": [
+        "OF"
+      ],
+      "rect": [
+        9.7,
+        8.8,
+        1.75,
+        0.6
+      ],
+      "z": 0,
+      "h": 0.757,
+      "front": "north",
+      "show": "NESW",
+      "children": [
+        "OF-DESK-LAMP-01",
+        "OF-PAPERS-01",
+        "book"
+      ],
+      "state": "drawer / door candidate",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "OF-CHAIR-01:007",
+      "asset": "OF-CHAIR-01",
+      "kind": "chair",
+      "name": "Chair",
+      "rooms": [
+        "OF"
+      ],
+      "rect": [
+        10.1,
+        8.15,
+        0.5,
+        0.5
+      ],
+      "z": 0,
+      "h": 0.85,
+      "front": null,
+      "show": "NESW",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BA-BASKET-01:008",
+      "asset": "BA-BASKET-01",
+      "kind": "basket",
+      "name": "Towel basket",
+      "rooms": [
+        "BA"
+      ],
+      "rect": [
+        4.95,
+        5.75,
+        0.5,
+        0.4
+      ],
+      "z": 0,
+      "h": 0.38,
+      "front": null,
+      "show": "NESW",
+      "children": [
+        "rolled towels"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BA-BIN-01:009",
+      "asset": "BA-BIN-01",
+      "kind": "bin",
+      "name": "Pedal bin",
+      "rooms": [
+        "BA"
+      ],
+      "rect": [
+        7.5,
+        5.75,
+        0.25,
+        0.3
+      ],
+      "z": 0,
+      "h": 0.4,
+      "front": null,
+      "show": "NESW",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "LV-LAMP-01:010",
+      "asset": "LV-LAMP-01",
+      "kind": "lamp",
+      "name": "Office floor lamp",
+      "rooms": [
+        "OF"
+      ],
+      "rect": [
+        11.6,
+        8.2,
+        0.28,
+        0.28
+      ],
+      "z": 0,
+      "h": 1.56,
+      "front": null,
+      "show": "NESW",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "OF-CABINET-01:011",
+      "asset": "OF-CABINET-01",
+      "kind": "cabinet",
+      "name": "Office storage cabinet",
+      "rooms": [
+        "OF"
+      ],
+      "rect": [
+        8.05,
+        5.96,
+        0.3,
+        0.75
+      ],
+      "z": 0,
+      "h": 0.72,
+      "front": "east",
+      "show": "NESW",
+      "children": [
+        "box"
+      ],
+      "state": "drawer / door candidate",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "KI-RANGE-01:012",
+      "asset": "KI-RANGE-01",
+      "kind": "range",
+      "name": "Range",
+      "rooms": [
+        "KI"
+      ],
+      "rect": [
+        0.15,
+        0.15,
+        0.75,
+        0.732
+      ],
+      "z": 0,
+      "h": 1.07,
+      "front": "south",
+      "show": "NESW",
+      "children": [
+        "KI-KETTLE-01",
+        "KI-PAN-01",
+        "KI-RANGE-FLAME-01"
+      ],
+      "state": "oven hinge; burner glow",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "KI-CABINET-01:013",
+      "asset": "KI-CABINET-01",
+      "kind": "cabinet",
+      "name": "Prep",
+      "rooms": [
+        "KI"
+      ],
+      "rect": [
+        0.15,
+        0.9,
+        0.68,
+        0.45
+      ],
+      "z": 0,
+      "h": 0.91,
+      "front": "east",
+      "show": "NESW",
+      "children": [
+        "KI-JAR-01"
+      ],
+      "state": "drawer / door candidate",
+      "note": "Fitted cabinet frontages; keep profiles and hardware at source scale.",
+      "tone": null
+    },
+    {
+      "instance": "KI-SINK-NARROW-01:014",
+      "asset": "KI-SINK-NARROW-01",
+      "kind": "sink",
+      "name": "Sink / leak",
+      "rooms": [
+        "KI"
+      ],
+      "rect": [
+        0.15,
+        1.35,
+        0.68,
+        1.05
+      ],
+      "z": 0,
+      "h": 1.343,
+      "front": "east",
+      "show": "NESW",
+      "children": [
+        "faucet",
+        "KI-BUCKET-01"
+      ],
+      "state": "Lukey leak / repaired",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "KI-CABINET-01:015",
+      "asset": "KI-CABINET-01",
+      "kind": "cabinet",
+      "name": "Counter",
+      "rooms": [
+        "KI"
+      ],
+      "rect": [
+        0.15,
+        2.4,
+        0.68,
+        0.6
+      ],
+      "z": 0,
+      "h": 0.91,
+      "front": "east",
+      "show": "NESW",
+      "children": [
+        "KI-BOWL-01"
+      ],
+      "state": "drawer / door candidate",
+      "note": "Fitted cabinet frontages; keep profiles and hardware at source scale.",
+      "tone": null
+    },
+    {
+      "instance": "KI-CABINET-01:016",
+      "asset": "KI-CABINET-01",
+      "kind": "cabinet",
+      "name": "Prep / uppers",
+      "rooms": [
+        "KI"
+      ],
+      "rect": [
+        0.15,
+        3.0,
+        0.68,
+        0.65
+      ],
+      "z": 0,
+      "h": 0.91,
+      "front": "east",
+      "show": "NESW",
+      "children": [
+        "KI-MUG-01",
+        "KI-POTTERY-01"
+      ],
+      "state": "drawer / door candidate",
+      "note": "Fitted cabinet frontages; keep profiles and hardware at source scale.",
+      "tone": null
+    },
+    {
+      "instance": "KI-FRIDGE-01:017",
+      "asset": "KI-FRIDGE-01",
+      "kind": "fridge",
+      "name": "Fridge",
+      "rooms": [
+        "KI"
+      ],
+      "rect": [
+        4.5,
+        0.15,
+        0.77,
+        0.75
+      ],
+      "z": 0,
+      "h": 1.68,
+      "front": "south",
+      "show": "NESW",
+      "children": [],
+      "state": "hinged doors",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "KI-PANTRY-01:018",
+      "asset": "KI-PANTRY-01",
+      "kind": "pantry",
+      "name": "Pantry",
+      "rooms": [
+        "KI"
+      ],
+      "rect": [
+        3.25,
+        0.15,
+        1.0,
+        0.678
+      ],
+      "z": 0,
+      "h": 1.976,
+      "front": "south",
+      "show": "NESW",
+      "children": [],
+      "state": "hinged doors",
+      "note": "Full-size 1.00 m source pantry reused beside fridge after user swap.",
+      "tone": null
+    },
+    {
+      "instance": "LV-RADIATOR-01:019",
+      "asset": "LV-RADIATOR-01",
+      "kind": "radiator",
+      "name": "Radiator",
+      "rooms": [
+        "KI"
+      ],
+      "rect": [
+        1.879,
+        0.15,
+        0.542,
+        0.254
+      ],
+      "z": 0,
+      "h": 0.57,
+      "front": null,
+      "show": "NESW",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "KI-TABLE-01:020",
+      "asset": "KI-TABLE-01",
+      "kind": "table",
+      "name": "Dining table",
+      "rooms": [
+        "KI"
+      ],
+      "rect": [
+        2.6,
+        1.85,
+        1.5,
+        0.85
+      ],
+      "z": 0,
+      "h": 0.74,
+      "front": null,
+      "show": "NESW",
+      "children": [
+        "KI-BOWL-01"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "KI-CHAIR-01:021",
+      "asset": "KI-CHAIR-01",
+      "kind": "chair",
+      "name": "Chair",
+      "rooms": [
+        "KI"
+      ],
+      "rect": [
+        2.05,
+        2.02,
+        0.45,
+        0.5
+      ],
+      "z": 0,
+      "h": 0.85,
+      "front": null,
+      "show": "NESW",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "KI-CHAIR-01:022",
+      "asset": "KI-CHAIR-01",
+      "kind": "chair",
+      "name": "Chair",
+      "rooms": [
+        "KI"
+      ],
+      "rect": [
+        4.25,
+        2.02,
+        0.45,
+        0.5
+      ],
+      "z": 0,
+      "h": 0.85,
+      "front": null,
+      "show": "NESW",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "HA-BENCH-01:023",
+      "asset": "HA-BENCH-01",
+      "kind": "bench",
+      "name": "Entry bench",
+      "rooms": [
+        "HA",
+        "LV"
+      ],
+      "rect": [
+        11.6,
+        2.7,
+        0.25,
+        0.65
+      ],
+      "z": 0,
+      "h": 0.45,
+      "front": "west",
+      "show": "NESW",
+      "children": [
+        "HA-SHOES-01"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "HA-CABINET-01:024",
+      "asset": "HA-CABINET-01",
+      "kind": "cabinet",
+      "name": "Hall end cabinet",
+      "rooms": [
+        "HA"
+      ],
+      "rect": [
+        2.28,
+        4.19,
+        0.2475,
+        1.02
+      ],
+      "z": 0,
+      "h": 0.7195,
+      "front": "east",
+      "show": "NESW",
+      "children": [
+        "HA-VASE-02"
+      ],
+      "state": "drawer / door candidate",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "HA-CONSOLE-01:025",
+      "asset": "HA-CONSOLE-01",
+      "kind": "table",
+      "name": "Hall side console",
+      "rooms": [
+        "HA",
+        "LV"
+      ],
+      "rect": [
+        7.85,
+        5.27,
+        1.05,
+        0.25
+      ],
+      "z": 0,
+      "h": 0.785,
+      "front": "north",
+      "show": "NESW",
+      "children": [
+        "HA-VASE-01",
+        "HA-FLOWERS-01"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "OF-BOOKCASE-01:026",
+      "asset": "OF-BOOKCASE-01",
+      "kind": "bookcase",
+      "name": "Bookcase from office",
+      "rooms": [
+        "BR"
+      ],
+      "rect": [
+        0.15,
+        6.45,
+        0.3,
+        1.1
+      ],
+      "z": 0,
+      "h": 0.9,
+      "front": "east",
+      "show": "NESW",
+      "children": [
+        "books",
+        "plant",
+        "storage box"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BR-BED-01:027",
+      "asset": "BR-BED-01",
+      "kind": "bed",
+      "name": "Bed",
+      "rooms": [
+        "BR"
+      ],
+      "rect": [
+        1.6,
+        7.4,
+        1.5,
+        1.9
+      ],
+      "z": 0,
+      "h": 1.179,
+      "front": "south",
+      "show": "NESW",
+      "children": [
+        "pillows",
+        "floral quilt"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BR-NIGHTSTAND-01:028",
+      "asset": "BR-NIGHTSTAND-01",
+      "kind": "cabinet",
+      "name": "Nightstand",
+      "rooms": [
+        "BR"
+      ],
+      "rect": [
+        1.0,
+        8.85,
+        0.45,
+        0.45
+      ],
+      "z": 0,
+      "h": 0.52,
+      "front": "north",
+      "show": "NESW",
+      "children": [
+        "BR-LAMP-01"
+      ],
+      "state": "drawer / door candidate",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BR-NIGHTSTAND-01:029",
+      "asset": "BR-NIGHTSTAND-01",
+      "kind": "cabinet",
+      "name": "Nightstand",
+      "rooms": [
+        "BR"
+      ],
+      "rect": [
+        3.25,
+        8.85,
+        0.45,
+        0.45
+      ],
+      "z": 0,
+      "h": 0.52,
+      "front": "north",
+      "show": "NESW",
+      "children": [
+        "BR-LAMP-01"
+      ],
+      "state": "drawer / door candidate",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BR-DRESSER-01:030",
+      "asset": "BR-DRESSER-01",
+      "kind": "dresser",
+      "name": "Dresser / mirror",
+      "rooms": [
+        "BR"
+      ],
+      "rect": [
+        4.25,
+        7.35,
+        0.4,
+        1.15
+      ],
+      "z": 0,
+      "h": 0.925,
+      "front": "west",
+      "show": "NESW",
+      "children": [
+        "BR-PERFUME-01",
+        "tray"
+      ],
+      "state": "drawer / door candidate",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "LV-SOFA-01:031",
+      "asset": "LV-SOFA-01",
+      "kind": "sofa",
+      "name": "Sofa",
+      "rooms": [
+        "LV"
+      ],
+      "rect": [
+        8.1,
+        1.2,
+        0.84,
+        2.04
+      ],
+      "z": 0,
+      "h": 0.98,
+      "front": "east",
+      "show": "NESW",
+      "children": [
+        "cushions",
+        "floral throw"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "LV-COFFEE-01:032",
+      "asset": "LV-COFFEE-01",
+      "kind": "table",
+      "name": "Coffee table",
+      "rooms": [
+        "LV"
+      ],
+      "rect": [
+        9.4,
+        1.75,
+        0.6,
+        1.2
+      ],
+      "z": 0,
+      "h": 0.453,
+      "front": null,
+      "show": "NESW",
+      "children": [
+        "books",
+        "KI-MUG-01"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "LV-TV-01:033",
+      "asset": "LV-TV-01",
+      "kind": "tv",
+      "name": "TV / console",
+      "rooms": [
+        "LV"
+      ],
+      "rect": [
+        11.42,
+        1.5,
+        0.46,
+        1.1
+      ],
+      "z": 0,
+      "h": 1.257,
+      "front": "west",
+      "show": "NESW",
+      "children": [],
+      "state": "screen on/off; doors",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "LV-CHAIR-01:034",
+      "asset": "LV-CHAIR-01",
+      "kind": "chair",
+      "name": "Armchair",
+      "rooms": [
+        "LV"
+      ],
+      "rect": [
+        9.4,
+        0.6,
+        0.749,
+        0.689
+      ],
+      "z": 0,
+      "h": 0.935,
+      "front": "south",
+      "show": "NESW",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "LV-BOOK-01:035",
+      "asset": "LV-BOOK-01",
+      "kind": "bookcase",
+      "name": "Bookcase",
+      "rooms": [
+        "LV"
+      ],
+      "rect": [
+        5.65,
+        0.3,
+        0.4,
+        1.25
+      ],
+      "z": 0,
+      "h": 2.056,
+      "front": "east",
+      "show": "NESW",
+      "children": [
+        "shelf books",
+        "plant",
+        "tin"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "LV-SIDE-TABLE-01:036",
+      "asset": "LV-SIDE-TABLE-01",
+      "kind": "table",
+      "name": "Side table",
+      "rooms": [
+        "LV"
+      ],
+      "rect": [
+        8.3,
+        3.4,
+        0.37,
+        0.351
+      ],
+      "z": 0,
+      "h": 0.54,
+      "front": null,
+      "show": "NESW",
+      "children": [
+        "LV-TABLE-LAMP-01"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "LV-PLANT-01:037",
+      "asset": "LV-PLANT-01",
+      "kind": "plant",
+      "name": "Plant",
+      "rooms": [
+        "LV"
+      ],
+      "rect": [
+        10.85,
+        0.3,
+        0.4,
+        0.4
+      ],
+      "z": 0,
+      "h": 0.7,
+      "front": null,
+      "show": "NESW",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "LV-RADIATOR-01:038",
+      "asset": "LV-RADIATOR-01",
+      "kind": "radiator",
+      "name": "Radiator",
+      "rooms": [
+        "LV"
+      ],
+      "rect": [
+        8.279,
+        0.15,
+        0.542,
+        0.254
+      ],
+      "z": 0,
+      "h": 0.57,
+      "front": null,
+      "show": "NESW",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "LV-ART-04:039",
+      "asset": "LV-ART-04",
+      "kind": "art",
+      "name": "Landscape over TV",
+      "rooms": [
+        "LV"
+      ],
+      "rect": [
+        11.905,
+        1.65,
+        0.035,
+        0.72
+      ],
+      "z": 1.52,
+      "h": 0.52,
+      "front": "west",
+      "show": "E",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "HA-ART-02:040",
+      "asset": "HA-ART-02",
+      "kind": "art",
+      "name": "Small portrait",
+      "rooms": [
+        "LV"
+      ],
+      "rect": [
+        11.905,
+        0.35,
+        0.035,
+        0.42
+      ],
+      "z": 1.4,
+      "h": 0.55,
+      "front": "west",
+      "show": "E",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "HA-HOOKS-01:041",
+      "asset": "HA-HOOKS-01",
+      "kind": "hooks",
+      "name": "Coat hooks over bench",
+      "rooms": [
+        "LV"
+      ],
+      "rect": [
+        11.905,
+        2.72,
+        0.035,
+        0.6
+      ],
+      "z": 1.52,
+      "h": 0.12,
+      "front": "west",
+      "show": "E",
+      "children": [
+        "HA-COAT-01"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "LV-FUSE-01:042",
+      "asset": "LV-FUSE-01",
+      "kind": "fuse",
+      "name": "Entry fusebox / Wyatt",
+      "rooms": [
+        "LV"
+      ],
+      "rect": [
+        11.82,
+        3.4,
+        0.12,
+        0.45
+      ],
+      "z": 1.12,
+      "h": 0.65,
+      "front": "west",
+      "show": "E",
+      "children": [
+        "LV-FUSE-DAMAGE-01"
+      ],
+      "state": "hinged cover; repair damage hidden",
+      "note": "Wall position from selected plan; use 0.45 m source panel; keep damage off entry casing.",
+      "tone": null
+    },
+    {
+      "instance": "HA-SCONCE-01:043",
+      "asset": "HA-SCONCE-01",
+      "kind": "sconce",
+      "name": "Entry sconce",
+      "rooms": [
+        "LV"
+      ],
+      "rect": [
+        11.76,
+        5.22,
+        0.18,
+        0.16
+      ],
+      "z": 1.82,
+      "h": 0.3,
+      "front": "west",
+      "show": "E",
+      "children": [],
+      "state": "light",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "LV-ART-04:044",
+      "asset": "LV-ART-04",
+      "kind": "art",
+      "name": "Landscape beside bookcase",
+      "rooms": [
+        "LV"
+      ],
+      "rect": [
+        5.56,
+        1.62,
+        0.035,
+        0.55
+      ],
+      "z": 1.44,
+      "h": 0.5,
+      "front": "east",
+      "show": "W",
+      "children": [],
+      "state": "static",
+      "note": "Reused frame; distinct artwork variant.",
+      "tone": null
+    },
+    {
+      "instance": "ARC-WALL-SHELF-01:045",
+      "asset": "ARC-WALL-SHELF-01",
+      "kind": "shelf",
+      "name": "Display shelf + pottery",
+      "rooms": [
+        "LV"
+      ],
+      "rect": [
+        6.15,
+        0.06,
+        0.65,
+        0.15
+      ],
+      "z": 1.55,
+      "h": 0.145,
+      "front": "south",
+      "show": "N",
+      "children": [
+        "KI-POTTERY-01",
+        "books"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "KI-UPPER-01:046",
+      "asset": "KI-UPPER-01",
+      "kind": "upper",
+      "name": "Upper cupboard",
+      "rooms": [
+        "KI"
+      ],
+      "rect": [
+        0.06,
+        2.525,
+        0.365,
+        1.0
+      ],
+      "z": 1.6,
+      "h": 0.5455,
+      "front": "east",
+      "show": "W",
+      "children": [],
+      "state": "paired doors",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "KI-PAN-RAIL-01:047",
+      "asset": "KI-PAN-RAIL-01",
+      "kind": "pans",
+      "name": "Rail + two pans",
+      "rooms": [
+        "KI"
+      ],
+      "rect": [
+        0.06,
+        0.88,
+        0.15,
+        0.42
+      ],
+      "z": 1.62,
+      "h": 0.5,
+      "front": "east",
+      "show": "W",
+      "children": [
+        "KI-PAN-01"
+      ],
+      "state": "static",
+      "note": "Short rail variant above prep; keep pan bottoms clear of worktop.",
+      "tone": null
+    },
+    {
+      "instance": "KI-WALL-STAIN-01:048",
+      "asset": "KI-WALL-STAIN-01",
+      "kind": "stain",
+      "name": "Optional water stain",
+      "rooms": [
+        "KI"
+      ],
+      "rect": [
+        0.06,
+        1.55,
+        0.005,
+        0.7
+      ],
+      "z": 1.15,
+      "h": 0.47,
+      "front": "east",
+      "show": "W",
+      "children": [],
+      "state": "separate optional overlay",
+      "note": "No mold identity; restrained old water mark.",
+      "tone": null
+    },
+    {
+      "instance": "ARC-WALL-SHELF-01:049",
+      "asset": "ARC-WALL-SHELF-01",
+      "kind": "shelf",
+      "name": "Sink shelf / jars",
+      "rooms": [
+        "KI"
+      ],
+      "rect": [
+        0.06,
+        1.55,
+        0.15,
+        0.65
+      ],
+      "z": 1.94,
+      "h": 0.145,
+      "front": "east",
+      "show": "W",
+      "children": [
+        "KI-JAR-01",
+        "KI-MUG-01"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "KI-ART-01:050",
+      "asset": "KI-ART-01",
+      "kind": "art",
+      "name": "Still life",
+      "rooms": [
+        "KI"
+      ],
+      "rect": [
+        2.15,
+        3.7049999999999996,
+        0.6,
+        0.035
+      ],
+      "z": 1.35,
+      "h": 0.48,
+      "front": "north",
+      "show": "S",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "ARC-WALL-SHELF-01:051",
+      "asset": "ARC-WALL-SHELF-01",
+      "kind": "shelf",
+      "name": "Mugs and pottery",
+      "rooms": [
+        "KI"
+      ],
+      "rect": [
+        3.5,
+        3.59,
+        0.65,
+        0.15
+      ],
+      "z": 1.58,
+      "h": 0.145,
+      "front": "north",
+      "show": "S",
+      "children": [
+        "KI-MUG-01",
+        "KI-POTTERY-01"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "KI-ART-01:052",
+      "asset": "KI-ART-01",
+      "kind": "art",
+      "name": "Small kitchen print",
+      "rooms": [
+        "KI"
+      ],
+      "rect": [
+        5.405,
+        0.85,
+        0.035,
+        0.55
+      ],
+      "z": 1.4,
+      "h": 0.44,
+      "front": "west",
+      "show": "E",
+      "children": [],
+      "state": "static",
+      "note": "Artwork variation using existing frame.",
+      "tone": null
+    },
+    {
+      "instance": "ARC-WALL-SHELF-01:053",
+      "asset": "ARC-WALL-SHELF-01",
+      "kind": "shelf",
+      "name": "Kitchen east shelf",
+      "rooms": [
+        "KI"
+      ],
+      "rect": [
+        5.29,
+        1.5,
+        0.15,
+        0.65
+      ],
+      "z": 1.65,
+      "h": 0.145,
+      "front": "west",
+      "show": "E",
+      "children": [
+        "KI-JAR-01",
+        "KI-PLANT-01"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BA-SWITCH-01:054",
+      "asset": "BA-SWITCH-01",
+      "kind": "switch",
+      "name": "Kitchen switch",
+      "rooms": [
+        "KI"
+      ],
+      "rect": [
+        5.405,
+        3.65,
+        0.035,
+        0.1
+      ],
+      "z": 1.08,
+      "h": 0.12,
+      "front": "west",
+      "show": "E",
+      "children": [],
+      "state": "light",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "HA-ART-09:055",
+      "asset": "HA-ART-09",
+      "kind": "art",
+      "name": "Focal landscape",
+      "rooms": [
+        "HA"
+      ],
+      "rect": [
+        2.2600000000000002,
+        4.24,
+        0.035,
+        0.9
+      ],
+      "z": 1.3,
+      "h": 0.65,
+      "front": "east",
+      "show": "W",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "HA-ART-03:056",
+      "asset": "HA-ART-03",
+      "kind": "art",
+      "name": "Landscape above side console",
+      "rooms": [
+        "HA",
+        "LV"
+      ],
+      "rect": [
+        8.0,
+        5.505,
+        0.65,
+        0.035
+      ],
+      "z": 1.35,
+      "h": 0.52,
+      "front": "north",
+      "show": "S",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "HA-ART-02:057",
+      "asset": "HA-ART-02",
+      "kind": "art",
+      "name": "Hall portrait",
+      "rooms": [
+        "HA"
+      ],
+      "rect": [
+        4.6,
+        5.505,
+        0.42,
+        0.035
+      ],
+      "z": 1.44,
+      "h": 0.55,
+      "front": "north",
+      "show": "S",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "HA-SCONCE-01:058",
+      "asset": "HA-SCONCE-01",
+      "kind": "sconce",
+      "name": "Hall warm sconce",
+      "rooms": [
+        "HA"
+      ],
+      "rect": [
+        4.15,
+        3.86,
+        0.16,
+        0.18
+      ],
+      "z": 1.85,
+      "h": 0.3,
+      "front": "south",
+      "show": "N",
+      "children": [],
+      "state": "light",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "HA-ART-02:059",
+      "asset": "HA-ART-02",
+      "kind": "art",
+      "name": "Small gallery print",
+      "rooms": [
+        "HA"
+      ],
+      "rect": [
+        2.68,
+        3.86,
+        0.42,
+        0.035
+      ],
+      "z": 1.43,
+      "h": 0.55,
+      "front": "south",
+      "show": "N",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "HA-ART-03:060",
+      "asset": "HA-ART-03",
+      "kind": "art",
+      "name": "Gallery landscape",
+      "rooms": [
+        "HA"
+      ],
+      "rect": [
+        3.34,
+        3.86,
+        0.65,
+        0.035
+      ],
+      "z": 1.48,
+      "h": 0.52,
+      "front": "south",
+      "show": "N",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BR-ART-FLORAL-01:061",
+      "asset": "BR-ART-FLORAL-01",
+      "kind": "art",
+      "name": "Floral print between doors",
+      "rooms": [
+        "BR"
+      ],
+      "rect": [
+        1.98,
+        5.659999999999999,
+        0.58,
+        0.035
+      ],
+      "z": 1.4,
+      "h": 0.55,
+      "front": "south",
+      "show": "N",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "ARC-WALL-SHELF-01:062",
+      "asset": "ARC-WALL-SHELF-01",
+      "kind": "shelf",
+      "name": "Bedroom display shelf",
+      "rooms": [
+        "BR"
+      ],
+      "rect": [
+        4.59,
+        8.7,
+        0.15,
+        0.65
+      ],
+      "z": 1.62,
+      "h": 0.145,
+      "front": "west",
+      "show": "E",
+      "children": [
+        "keepsake",
+        "small books"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BR-ART-FLORAL-01:063",
+      "asset": "BR-ART-FLORAL-01",
+      "kind": "art",
+      "name": "Botanical above moved bookcase",
+      "rooms": [
+        "BR"
+      ],
+      "rect": [
+        0.06,
+        6.5,
+        0.035,
+        0.58
+      ],
+      "z": 1.35,
+      "h": 0.55,
+      "front": "east",
+      "show": "W",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "ARC-WALL-SHELF-01:064",
+      "asset": "ARC-WALL-SHELF-01",
+      "kind": "shelf",
+      "name": "Books and vase",
+      "rooms": [
+        "BR"
+      ],
+      "rect": [
+        0.06,
+        7.9799999999999995,
+        0.15,
+        0.65
+      ],
+      "z": 1.65,
+      "h": 0.145,
+      "front": "east",
+      "show": "W",
+      "children": [
+        "books",
+        "HA-VASE-01"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BR-ART-FLORAL-01:065",
+      "asset": "BR-ART-FLORAL-01",
+      "kind": "art",
+      "name": "Print near dresser",
+      "rooms": [
+        "BR"
+      ],
+      "rect": [
+        4.705,
+        6.1,
+        0.035,
+        0.55
+      ],
+      "z": 1.45,
+      "h": 0.5,
+      "front": "west",
+      "show": "E",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BR-ART-FLORAL-01:066",
+      "asset": "BR-ART-FLORAL-01",
+      "kind": "art",
+      "name": "Headboard picture",
+      "rooms": [
+        "BR"
+      ],
+      "rect": [
+        1.78,
+        9.455,
+        0.72,
+        0.035
+      ],
+      "z": 1.55,
+      "h": 0.52,
+      "front": "north",
+      "show": "S",
+      "children": [],
+      "state": "static",
+      "note": "Distinct artwork variant in reused frame.",
+      "tone": null
+    },
+    {
+      "instance": "BA-SWITCH-01:067",
+      "asset": "BA-SWITCH-01",
+      "kind": "switch",
+      "name": "Bedroom switch",
+      "rooms": [
+        "BR"
+      ],
+      "rect": [
+        2.76,
+        5.659999999999999,
+        0.1,
+        0.035
+      ],
+      "z": 1.08,
+      "h": 0.12,
+      "front": "south",
+      "show": "N",
+      "children": [],
+      "state": "light",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BR-WAINSCOT-01:068",
+      "asset": "BR-WAINSCOT-01",
+      "kind": "lead",
+      "name": "Lead-paint condition",
+      "rooms": [
+        "OF"
+      ],
+      "rect": [
+        8.65,
+        5.659999999999999,
+        0.55,
+        0.005
+      ],
+      "z": 0.55,
+      "h": 0.3,
+      "front": "south",
+      "show": "N",
+      "children": [],
+      "state": "damaged / sealed; separate future gameplay",
+      "note": "Keep separate from Malcolm; wainscot module reuse, clipped panel variant around openings.",
+      "tone": null
+    },
+    {
+      "instance": "OF-ART-LANDSCAPE-01:069",
+      "asset": "OF-ART-LANDSCAPE-01",
+      "kind": "art",
+      "name": "North-wall landscape",
+      "rooms": [
+        "OF"
+      ],
+      "rect": [
+        8.5,
+        5.659999999999999,
+        0.65,
+        0.035
+      ],
+      "z": 1.47,
+      "h": 0.5,
+      "front": "south",
+      "show": "N",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "OF-ART-BOTANICAL-01:070",
+      "asset": "OF-ART-BOTANICAL-01",
+      "kind": "art",
+      "name": "Botanical over daybed",
+      "rooms": [
+        "OF"
+      ],
+      "rect": [
+        7.96,
+        7.6499999999999995,
+        0.035,
+        0.6
+      ],
+      "z": 1.42,
+      "h": 0.6,
+      "front": "east",
+      "show": "W",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "ARC-WALL-SHELF-01:071",
+      "asset": "ARC-WALL-SHELF-01",
+      "kind": "shelf",
+      "name": "Daybed shelf",
+      "rooms": [
+        "OF"
+      ],
+      "rect": [
+        7.96,
+        6.6,
+        0.15,
+        0.65
+      ],
+      "z": 1.65,
+      "h": 0.145,
+      "front": "east",
+      "show": "W",
+      "children": [
+        "books",
+        "KI-PLANT-01"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "OF-ART-BOTANICAL-01:072",
+      "asset": "OF-ART-BOTANICAL-01",
+      "kind": "art",
+      "name": "East botanical",
+      "rooms": [
+        "OF"
+      ],
+      "rect": [
+        11.905,
+        7.699999999999999,
+        0.035,
+        0.55
+      ],
+      "z": 1.5,
+      "h": 0.58,
+      "front": "west",
+      "show": "E",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "ARC-WALL-SHELF-01:073",
+      "asset": "ARC-WALL-SHELF-01",
+      "kind": "shelf",
+      "name": "East display shelf",
+      "rooms": [
+        "OF"
+      ],
+      "rect": [
+        11.79,
+        7.22,
+        0.15,
+        0.65
+      ],
+      "z": 1.45,
+      "h": 0.145,
+      "front": "west",
+      "show": "E",
+      "children": [
+        "small pot",
+        "books"
+      ],
+      "state": "static",
+      "note": "No floor furniture in wardrobe approach.",
+      "tone": null
+    },
+    {
+      "instance": "BA-SWITCH-01:074",
+      "asset": "BA-SWITCH-01",
+      "kind": "switch",
+      "name": "Office switch",
+      "rooms": [
+        "OF"
+      ],
+      "rect": [
+        9.22,
+        5.659999999999999,
+        0.1,
+        0.035
+      ],
+      "z": 1.08,
+      "h": 0.12,
+      "front": "south",
+      "show": "N",
+      "children": [],
+      "state": "light",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BA-MIRROR-01:075",
+      "asset": "BA-MIRROR-01",
+      "kind": "mirror",
+      "name": "Mirror and paired globes",
+      "rooms": [
+        "BA"
+      ],
+      "rect": [
+        4.859999999999999,
+        7.0,
+        0.07,
+        0.58
+      ],
+      "z": 1.16,
+      "h": 0.8,
+      "front": "east",
+      "show": "W",
+      "children": [
+        "opal globe lights"
+      ],
+      "state": "light",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "ARC-WALL-SHELF-01:076",
+      "asset": "ARC-WALL-SHELF-01",
+      "kind": "shelf",
+      "name": "Basin toiletries shelf",
+      "rooms": [
+        "BA"
+      ],
+      "rect": [
+        4.859999999999999,
+        7.8,
+        0.15,
+        0.65
+      ],
+      "z": 1.28,
+      "h": 0.145,
+      "front": "east",
+      "show": "W",
+      "children": [
+        "BA-BOTTLE-01",
+        "BA-CUP-01",
+        "BA-SOAP-01"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BA-TOWEL-RAIL-01:077",
+      "asset": "BA-TOWEL-RAIL-01",
+      "kind": "towel",
+      "name": "Hand towel rail",
+      "rooms": [
+        "BA"
+      ],
+      "rect": [
+        4.859999999999999,
+        6.05,
+        0.08,
+        0.55
+      ],
+      "z": 1.02,
+      "h": 0.5,
+      "front": "east",
+      "show": "W",
+      "children": [
+        "BA-HAND-TOWEL-01"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BA-SWITCH-01:078",
+      "asset": "BA-SWITCH-01",
+      "kind": "switch",
+      "name": "Bath switch",
+      "rooms": [
+        "BA"
+      ],
+      "rect": [
+        4.859999999999999,
+        5.75,
+        0.035,
+        0.1
+      ],
+      "z": 1.18,
+      "h": 0.12,
+      "front": "east",
+      "show": "W",
+      "children": [],
+      "state": "light",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "ARC-WALL-SHELF-01:079",
+      "asset": "ARC-WALL-SHELF-01",
+      "kind": "shelf",
+      "name": "North toiletries shelf",
+      "rooms": [
+        "BA"
+      ],
+      "rect": [
+        5.25,
+        5.659999999999999,
+        0.65,
+        0.15
+      ],
+      "z": 1.55,
+      "h": 0.145,
+      "front": "south",
+      "show": "N",
+      "children": [
+        "BA-JAR-01",
+        "BA-SOAP-01"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BA-ART-01:080",
+      "asset": "BA-ART-01",
+      "kind": "art",
+      "name": "Small botanical",
+      "rooms": [
+        "BA"
+      ],
+      "rect": [
+        5.35,
+        5.659999999999999,
+        0.46,
+        0.035
+      ],
+      "z": 1.95,
+      "h": 0.5,
+      "front": "south",
+      "show": "N",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BA-HOOK-01:081",
+      "asset": "BA-HOOK-01",
+      "kind": "towel",
+      "name": "Hook + hand towel",
+      "rooms": [
+        "BA"
+      ],
+      "rect": [
+        7.449999999999999,
+        5.659999999999999,
+        0.22,
+        0.08
+      ],
+      "z": 1.1,
+      "h": 0.55,
+      "front": "south",
+      "show": "N",
+      "children": [
+        "BA-HAND-TOWEL-01"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BA-ROLL-01:082",
+      "asset": "BA-ROLL-01",
+      "kind": "roll",
+      "name": "Toilet roll",
+      "rooms": [
+        "BA"
+      ],
+      "rect": [
+        7.805000000000001,
+        6.88,
+        0.035,
+        0.18
+      ],
+      "z": 0.66,
+      "h": 0.18,
+      "front": "west",
+      "show": "E",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BA-TOWEL-RAIL-01:083",
+      "asset": "BA-TOWEL-RAIL-01",
+      "kind": "towel",
+      "name": "Bath towel rail",
+      "rooms": [
+        "BA"
+      ],
+      "rect": [
+        7.760000000000001,
+        5.9799999999999995,
+        0.08,
+        0.65
+      ],
+      "z": 1.12,
+      "h": 0.6,
+      "front": "west",
+      "show": "E",
+      "children": [
+        "BA-HAND-TOWEL-01"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "ARC-WALL-SHELF-01:084",
+      "asset": "ARC-WALL-SHELF-01",
+      "kind": "shelf",
+      "name": "Folded towel and tin",
+      "rooms": [
+        "BA"
+      ],
+      "rect": [
+        7.69,
+        7.1499999999999995,
+        0.15,
+        0.65
+      ],
+      "z": 1.65,
+      "h": 0.145,
+      "front": "west",
+      "show": "E",
+      "children": [
+        "BA-FOLDED-TOWEL-01",
+        "BA-TIN-01"
+      ],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BA-TILE-01:085",
+      "asset": "BA-TILE-01",
+      "kind": "crack",
+      "name": "Tyler cracked tile",
+      "rooms": [
+        "BA"
+      ],
+      "rect": [
+        5.62,
+        9.485,
+        0.45,
+        0.005
+      ],
+      "z": 0.88,
+      "h": 0.48,
+      "front": "north",
+      "show": "S",
+      "children": [],
+      "state": "broken / restored",
+      "note": "Patch below window; curtain parks at tub east end to keep it visible.",
+      "tone": null
+    },
+    {
+      "instance": "ARC-SLIDING-CLOSET-01:086",
+      "asset": "ARC-SLIDING-CLOSET-01",
+      "kind": "wardrobe",
+      "name": "Guest wardrobe front",
+      "rooms": [
+        "OF"
+      ],
+      "rect": [
+        10.75,
+        6.4,
+        1.25,
+        0.75
+      ],
+      "z": 0,
+      "h": 2.75,
+      "front": "south",
+      "show": "N",
+      "children": [],
+      "state": "bypass slide",
+      "note": "Front at y=7.15; 0.90 m clear / 0.96 m rough; 0.60 m usable hanging depth target.",
+      "tone": null
+    },
+    {
+      "instance": "ARC-CLOSET-RETURN:087",
+      "asset": "ARC-CLOSET-RETURN",
+      "kind": "return",
+      "name": "Closet side / shared coat volume",
+      "rooms": [
+        "OF"
+      ],
+      "rect": [
+        10.75,
+        5.6,
+        0.12,
+        1.55
+      ],
+      "z": 0,
+      "h": 2.75,
+      "front": "west",
+      "show": "E",
+      "children": [],
+      "state": "static",
+      "note": "Projected exposed west face of paired storage, not a new exterior wall.",
+      "tone": null
+    },
+    {
+      "instance": "BR-CLOSET-01:088",
+      "asset": "BR-CLOSET-01",
+      "kind": "mold",
+      "name": "Malcolm mold on back wall",
+      "rooms": [
+        "BC"
+      ],
+      "rect": [
+        0.65,
+        3.86,
+        0.9,
+        0.005
+      ],
+      "z": 0.75,
+      "h": 1.1,
+      "front": "south",
+      "show": "N",
+      "children": [],
+      "state": "hidden by closed doors; repaired = clean wall",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "BR-CLOSET-01:089",
+      "asset": "BR-CLOSET-01",
+      "kind": "closetshelf",
+      "name": "High side shelf / hangers",
+      "rooms": [
+        "BC"
+      ],
+      "rect": [
+        0.06,
+        4.02,
+        0.3,
+        1.05
+      ],
+      "z": 2.15,
+      "h": 0.1,
+      "front": "east",
+      "show": "W",
+      "children": [
+        "empty hangers"
+      ],
+      "state": "static",
+      "note": "0.30 m deep; keep central standing volume clear.",
+      "tone": null
+    },
+    {
+      "instance": "BR-CLOSET-BOX-01:090",
+      "asset": "BR-CLOSET-BOX-01",
+      "kind": "boxes",
+      "name": "Low side boxes",
+      "rooms": [
+        "BC"
+      ],
+      "rect": [
+        0.06,
+        4.05,
+        0.035,
+        0.6
+      ],
+      "z": 0.14,
+      "h": 0.35,
+      "front": "east",
+      "show": "W",
+      "children": [],
+      "state": "static",
+      "note": "At west side, not behind Malcolm or across doorway.",
+      "tone": null
+    },
+    {
+      "instance": "BR-CLOSET-01:091",
+      "asset": "BR-CLOSET-01",
+      "kind": "bulb",
+      "name": "Single bare bulb",
+      "rooms": [
+        "BC"
+      ],
+      "rect": [
+        1.06,
+        4.6,
+        0.16,
+        0.16
+      ],
+      "z": 2.06,
+      "h": 0.69,
+      "front": null,
+      "show": "NESW",
+      "children": [],
+      "state": "light",
+      "note": "Cord reaches ceiling; lowest bulb point 2.06 m above floor.",
+      "tone": null
+    },
+    {
+      "instance": "CHAR-MALCOLM:092",
+      "asset": "CHAR-MALCOLM",
+      "kind": "human",
+      "name": "Standing clearance reference",
+      "rooms": [
+        "BC"
+      ],
+      "rect": [
+        0.8,
+        4.25,
+        0.6,
+        0.6
+      ],
+      "z": 0,
+      "h": 1.8,
+      "front": null,
+      "show": "NESW",
+      "children": [],
+      "state": "static",
+      "note": "Dashed proxy only; use actual character and encounter camera for final clearance.",
+      "tone": null
+    },
+    {
+      "instance": "ARC-SLIDING-CLOSET-01:093",
+      "asset": "ARC-SLIDING-CLOSET-01",
+      "kind": "closetshelf",
+      "name": "Shelf / hanging rail",
+      "rooms": [
+        "CT"
+      ],
+      "rect": [
+        10.9,
+        6.04,
+        0.95,
+        0.3
+      ],
+      "z": 1.95,
+      "h": 0.1,
+      "front": "north",
+      "show": "S",
+      "children": [
+        "hangers"
+      ],
+      "state": "static",
+      "note": "Storage assembly; preserve 0.60 m usable hanging depth.",
+      "tone": null
+    },
+    {
+      "instance": "BR-CLOSET-BOX-01:094",
+      "asset": "BR-CLOSET-BOX-01",
+      "kind": "boxes",
+      "name": "Storage boxes",
+      "rooms": [
+        "CT"
+      ],
+      "rect": [
+        10.95,
+        6.305,
+        0.6,
+        0.035
+      ],
+      "z": 0.08,
+      "h": 0.32,
+      "front": "north",
+      "show": "S",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    },
+    {
+      "instance": "ARC-SLIDING-CLOSET-01:095",
+      "asset": "ARC-SLIDING-CLOSET-01",
+      "kind": "closetshelf",
+      "name": "Shelf / hanging rail",
+      "rooms": [
+        "WG"
+      ],
+      "rect": [
+        10.9,
+        6.46,
+        0.95,
+        0.3
+      ],
+      "z": 1.95,
+      "h": 0.1,
+      "front": "south",
+      "show": "N",
+      "children": [
+        "hangers"
+      ],
+      "state": "static",
+      "note": "Storage assembly; preserve 0.60 m usable hanging depth.",
+      "tone": null
+    },
+    {
+      "instance": "BR-CLOSET-BOX-01:096",
+      "asset": "BR-CLOSET-BOX-01",
+      "kind": "boxes",
+      "name": "Storage boxes",
+      "rooms": [
+        "WG"
+      ],
+      "rect": [
+        10.95,
+        6.46,
+        0.6,
+        0.035
+      ],
+      "z": 0.08,
+      "h": 0.32,
+      "front": "south",
+      "show": "N",
+      "children": [],
+      "state": "static",
+      "note": "",
+      "tone": null
+    }
+  ],
+  "openings": [
+    {
+      "room": "KI",
+      "side": "N",
+      "kind": "window",
+      "u": 1.35,
+      "width": 1.6,
+      "sill": 0.9,
+      "head": 2.3
+    },
+    {
+      "room": "LV",
+      "side": "N",
+      "kind": "window",
+      "u": 2.25,
+      "width": 1.6,
+      "sill": 0.9,
+      "head": 2.3
+    },
+    {
+      "room": "BR",
+      "side": "S",
+      "kind": "window",
+      "u": 3.3,
+      "width": 1.1,
+      "sill": 0.9,
+      "head": 2.3
+    },
+    {
+      "room": "BA",
+      "side": "S",
+      "kind": "window",
+      "u": 0.4500000000000002,
+      "width": 1.15,
+      "sill": 1.5,
+      "head": 2.3
+    },
+    {
+      "room": "OF",
+      "side": "S",
+      "kind": "window",
+      "u": 1.799999999999999,
+      "width": 1.4,
+      "sill": 0.9,
+      "head": 2.3
+    },
+    {
+      "room": "BR",
+      "side": "N",
+      "kind": "door",
+      "u": 3.0,
+      "width": 1.05,
+      "head": 2.14,
+      "name": "BR door"
+    },
+    {
+      "room": "HA",
+      "side": "S",
+      "kind": "door",
+      "u": 0.7999999999999998,
+      "width": 1.05,
+      "head": 2.14,
+      "name": "BR door"
+    },
+    {
+      "room": "BA",
+      "side": "N",
+      "kind": "door",
+      "u": 1.4500000000000002,
+      "width": 1.05,
+      "head": 2.14,
+      "name": "BA door"
+    },
+    {
+      "room": "HA",
+      "side": "S",
+      "kind": "door",
+      "u": 4.05,
+      "width": 1.05,
+      "head": 2.14,
+      "name": "BA door"
+    },
+    {
+      "room": "LV",
+      "side": "S",
+      "kind": "door",
+      "u": 0.75,
+      "width": 1.05,
+      "head": 2.14,
+      "name": "BA door"
+    },
+    {
+      "room": "OF",
+      "side": "N",
+      "kind": "door",
+      "u": 1.549999999999999,
+      "width": 1.05,
+      "head": 2.14,
+      "name": "OF door"
+    },
+    {
+      "room": "HA",
+      "side": "S",
+      "kind": "door",
+      "u": 7.249999999999999,
+      "width": 1.05,
+      "head": 2.14,
+      "name": "OF door"
+    },
+    {
+      "room": "LV",
+      "side": "S",
+      "kind": "door",
+      "u": 3.9499999999999993,
+      "width": 1.05,
+      "head": 2.14,
+      "name": "OF door"
+    },
+    {
+      "room": "LV",
+      "side": "E",
+      "kind": "door",
+      "u": 4.0,
+      "width": 1.05,
+      "head": 2.14,
+      "name": "Entry / outward"
+    },
+    {
+      "room": "HA",
+      "side": "E",
+      "kind": "door",
+      "u": 0.2,
+      "width": 1.05,
+      "head": 2.14,
+      "name": "Entry / outward"
+    },
+    {
+      "room": "KI",
+      "side": "E",
+      "kind": "portal",
+      "u": 2.35,
+      "width": 1.2,
+      "head": 2.3,
+      "name": "To living"
+    },
+    {
+      "room": "LV",
+      "side": "W",
+      "kind": "portal",
+      "u": 2.35,
+      "width": 1.2,
+      "head": 2.3,
+      "name": "To kitchen"
+    },
+    {
+      "room": "LV",
+      "side": "W",
+      "kind": "open",
+      "u": 3.8,
+      "width": 1.8,
+      "head": 2.45,
+      "name": "Hall continuation"
+    },
+    {
+      "room": "HA",
+      "side": "N",
+      "kind": "open",
+      "u": 3.3,
+      "width": 6.5,
+      "head": 2.45,
+      "name": "Open to living"
+    },
+    {
+      "room": "BR",
+      "side": "N",
+      "kind": "paired",
+      "u": 0.55,
+      "width": 1.1,
+      "head": 2.14,
+      "name": "Mold closet"
+    },
+    {
+      "room": "BC",
+      "side": "S",
+      "kind": "paired",
+      "u": 0.55,
+      "width": 1.1,
+      "head": 2.14,
+      "name": "Bedroom"
+    },
+    {
+      "room": "LV",
+      "side": "S",
+      "kind": "sliding",
+      "u": 5.4,
+      "width": 0.96,
+      "head": 2.18,
+      "name": "Coat closet"
+    },
+    {
+      "room": "HA",
+      "side": "S",
+      "kind": "sliding",
+      "u": 8.7,
+      "width": 0.96,
+      "head": 2.18,
+      "name": "Coat closet"
+    },
+    {
+      "room": "CT",
+      "side": "N",
+      "kind": "sliding",
+      "u": 0.15,
+      "width": 0.96,
+      "head": 2.18,
+      "name": "Entry-facing doors"
+    },
+    {
+      "room": "WG",
+      "side": "S",
+      "kind": "sliding",
+      "u": 0.15,
+      "width": 0.96,
+      "head": 2.18,
+      "name": "Office-facing doors"
+    }
+  ],
+  "ceiling_fixtures": [
+    {
+      "room": "LV",
+      "asset": "ARC-CEILING-LIGHT-01",
+      "position": [
+        8.75,
+        2.8,
+        2.75
+      ],
+      "note": "Warm low-glare ceiling light; keep pendant bottom above 2.20 m."
+    },
+    {
+      "room": "KI",
+      "asset": "ARC-CEILING-LIGHT-01",
+      "position": [
+        2.75,
+        1.9,
+        2.75
+      ],
+      "note": "Warm low-glare ceiling light; keep pendant bottom above 2.20 m."
+    },
+    {
+      "room": "BR",
+      "asset": "ARC-CEILING-LIGHT-01",
+      "position": [
+        2.4,
+        7.574999999999999,
+        2.75
+      ],
+      "note": "Warm low-glare ceiling light; keep pendant bottom above 2.20 m."
+    },
+    {
+      "room": "BA",
+      "asset": "ARC-CEILING-LIGHT-01",
+      "position": [
+        6.35,
+        7.574999999999999,
+        2.75
+      ],
+      "note": "Warm low-glare ceiling light; keep pendant bottom above 2.20 m."
+    },
+    {
+      "room": "OF",
+      "asset": "ARC-CEILING-LIGHT-01",
+      "position": [
+        9.95,
+        7.574999999999999,
+        2.75
+      ],
+      "note": "Warm low-glare ceiling light; keep pendant bottom above 2.20 m."
+    },
+    {
+      "room": "HA",
+      "asset": "ARC-CEILING-LIGHT-01",
+      "position": [
+        4.55,
+        4.7,
+        2.75
+      ],
+      "note": "Hall fixture; living fixture covers open eastern zone."
+    }
+  ],
+  "coverage": {
+    "LV": {
+      "N": [
+        "ARC-WALL-SHELF-01:045",
+        "LV-RADIATOR-01:038",
+        "LV-BOOK-01:035",
+        "LV-PLANT-01:037",
+        "LV-CHAIR-01:034",
+        "LV-SOFA-01:031",
+        "LV-TV-01:033",
+        "LV-COFFEE-01:032",
+        "HA-BENCH-01:023",
+        "LV-SIDE-TABLE-01:036",
+        "HA-CONSOLE-01:025"
+      ],
+      "E": [
+        "LV-FUSE-01:042",
+        "HA-SCONCE-01:043",
+        "LV-ART-04:039",
+        "HA-ART-02:040",
+        "HA-HOOKS-01:041",
+        "LV-TV-01:033",
+        "HA-BENCH-01:023",
+        "LV-PLANT-01:037",
+        "LV-CHAIR-01:034",
+        "LV-COFFEE-01:032",
+        "LV-SOFA-01:031",
+        "HA-CONSOLE-01:025",
+        "LV-RADIATOR-01:038",
+        "LV-SIDE-TABLE-01:036",
+        "LV-BOOK-01:035"
+      ],
+      "S": [
+        "HA-ART-03:056",
+        "HA-CONSOLE-01:025",
+        "LV-SIDE-TABLE-01:036",
+        "HA-BENCH-01:023",
+        "LV-SOFA-01:031",
+        "LV-COFFEE-01:032",
+        "LV-TV-01:033",
+        "LV-BOOK-01:035",
+        "LV-CHAIR-01:034",
+        "LV-PLANT-01:037",
+        "LV-RADIATOR-01:038"
+      ],
+      "W": [
+        "LV-ART-04:044",
+        "LV-BOOK-01:035",
+        "HA-CONSOLE-01:025",
+        "LV-SOFA-01:031",
+        "LV-RADIATOR-01:038",
+        "LV-SIDE-TABLE-01:036",
+        "LV-COFFEE-01:032",
+        "LV-CHAIR-01:034",
+        "LV-PLANT-01:037",
+        "LV-TV-01:033",
+        "HA-BENCH-01:023"
+      ]
+    },
+    "KI": {
+      "N": [
+        "KI-RANGE-01:012",
+        "KI-FRIDGE-01:017",
+        "KI-PANTRY-01:018",
+        "LV-RADIATOR-01:019",
+        "KI-CABINET-01:013",
+        "KI-SINK-NARROW-01:014",
+        "KI-TABLE-01:020",
+        "KI-CHAIR-01:021",
+        "KI-CHAIR-01:022",
+        "KI-CABINET-01:015",
+        "KI-CABINET-01:016"
+      ],
+      "E": [
+        "KI-ART-01:052",
+        "BA-SWITCH-01:054",
+        "ARC-WALL-SHELF-01:053",
+        "KI-FRIDGE-01:017",
+        "KI-CHAIR-01:022",
+        "KI-PANTRY-01:018",
+        "KI-TABLE-01:020",
+        "KI-CHAIR-01:021",
+        "LV-RADIATOR-01:019",
+        "KI-RANGE-01:012",
+        "KI-CABINET-01:013",
+        "KI-SINK-NARROW-01:014",
+        "KI-CABINET-01:015",
+        "KI-CABINET-01:016"
+      ],
+      "S": [
+        "ARC-WALL-SHELF-01:051",
+        "KI-ART-01:050",
+        "KI-CABINET-01:016",
+        "KI-CABINET-01:015",
+        "KI-TABLE-01:020",
+        "KI-CHAIR-01:021",
+        "KI-CHAIR-01:022",
+        "KI-SINK-NARROW-01:014",
+        "KI-CABINET-01:013",
+        "KI-FRIDGE-01:017",
+        "KI-RANGE-01:012",
+        "KI-PANTRY-01:018",
+        "LV-RADIATOR-01:019"
+      ],
+      "W": [
+        "KI-UPPER-01:046",
+        "KI-PAN-RAIL-01:047",
+        "KI-WALL-STAIN-01:048",
+        "ARC-WALL-SHELF-01:049",
+        "KI-RANGE-01:012",
+        "KI-CABINET-01:013",
+        "KI-SINK-NARROW-01:014",
+        "KI-CABINET-01:015",
+        "KI-CABINET-01:016",
+        "LV-RADIATOR-01:019",
+        "KI-CHAIR-01:021",
+        "KI-TABLE-01:020",
+        "KI-PANTRY-01:018",
+        "KI-CHAIR-01:022",
+        "KI-FRIDGE-01:017"
+      ]
+    },
+    "HA": {
+      "N": [
+        "HA-BENCH-01:023",
+        "HA-SCONCE-01:058",
+        "HA-ART-02:059",
+        "HA-ART-03:060",
+        "HA-CABINET-01:024",
+        "HA-CONSOLE-01:025"
+      ],
+      "E": [
+        "HA-CONSOLE-01:025",
+        "HA-CABINET-01:024"
+      ],
+      "S": [
+        "HA-ART-03:056",
+        "HA-ART-02:057",
+        "HA-CONSOLE-01:025",
+        "HA-CABINET-01:024",
+        "HA-BENCH-01:023"
+      ],
+      "W": [
+        "HA-ART-09:055",
+        "HA-CABINET-01:024",
+        "HA-CONSOLE-01:025"
+      ]
+    },
+    "BR": {
+      "N": [
+        "BR-ART-FLORAL-01:061",
+        "BA-SWITCH-01:067",
+        "OF-BOOKCASE-01:026",
+        "BR-DRESSER-01:030",
+        "BR-BED-01:027",
+        "BR-NIGHTSTAND-01:028",
+        "BR-NIGHTSTAND-01:029"
+      ],
+      "E": [
+        "BR-ART-FLORAL-01:065",
+        "ARC-WALL-SHELF-01:062",
+        "BR-DRESSER-01:030",
+        "BR-NIGHTSTAND-01:029",
+        "BR-BED-01:027",
+        "BR-NIGHTSTAND-01:028",
+        "OF-BOOKCASE-01:026"
+      ],
+      "S": [
+        "BR-ART-FLORAL-01:066",
+        "BR-BED-01:027",
+        "BR-NIGHTSTAND-01:028",
+        "BR-NIGHTSTAND-01:029",
+        "BR-DRESSER-01:030",
+        "OF-BOOKCASE-01:026"
+      ],
+      "W": [
+        "BR-ART-FLORAL-01:063",
+        "ARC-WALL-SHELF-01:064",
+        "OF-BOOKCASE-01:026",
+        "BR-NIGHTSTAND-01:028",
+        "BR-BED-01:027",
+        "BR-NIGHTSTAND-01:029",
+        "BR-DRESSER-01:030"
+      ]
+    },
+    "BA": {
+      "N": [
+        "ARC-WALL-SHELF-01:079",
+        "BA-ART-01:080",
+        "BA-HOOK-01:081",
+        "BA-BASKET-01:008",
+        "BA-BIN-01:009",
+        "BA-BASIN-01:002",
+        "BA-TOILET-01:003",
+        "BA-TUB-01:001",
+        "BA-LINEN-01:004"
+      ],
+      "E": [
+        "BA-TOWEL-RAIL-01:083",
+        "BA-ROLL-01:082",
+        "ARC-WALL-SHELF-01:084",
+        "BA-LINEN-01:004",
+        "BA-BIN-01:009",
+        "BA-TOILET-01:003",
+        "BA-TUB-01:001",
+        "BA-BASIN-01:002",
+        "BA-BASKET-01:008"
+      ],
+      "S": [
+        "BA-TILE-01:085",
+        "BA-TUB-01:001",
+        "BA-LINEN-01:004",
+        "BA-TOILET-01:003",
+        "BA-BASIN-01:002",
+        "BA-BASKET-01:008",
+        "BA-BIN-01:009"
+      ],
+      "W": [
+        "BA-MIRROR-01:075",
+        "ARC-WALL-SHELF-01:076",
+        "BA-TOWEL-RAIL-01:077",
+        "BA-SWITCH-01:078",
+        "BA-TUB-01:001",
+        "BA-BASIN-01:002",
+        "BA-BASKET-01:008",
+        "BA-TOILET-01:003",
+        "BA-LINEN-01:004",
+        "BA-BIN-01:009"
+      ]
+    },
+    "OF": {
+      "N": [
+        "BR-WAINSCOT-01:068",
+        "OF-ART-LANDSCAPE-01:069",
+        "BA-SWITCH-01:074",
+        "OF-CABINET-01:011",
+        "ARC-SLIDING-CLOSET-01:086",
+        "OF-DAYBED-01:005",
+        "OF-CHAIR-01:007",
+        "LV-LAMP-01:010",
+        "OF-DESK-01:006"
+      ],
+      "E": [
+        "OF-ART-BOTANICAL-01:072",
+        "ARC-WALL-SHELF-01:073",
+        "LV-LAMP-01:010",
+        "OF-DESK-01:006",
+        "ARC-CLOSET-RETURN:087",
+        "OF-CHAIR-01:007",
+        "OF-DAYBED-01:005",
+        "OF-CABINET-01:011"
+      ],
+      "S": [
+        "OF-DESK-01:006",
+        "OF-DAYBED-01:005",
+        "OF-CHAIR-01:007",
+        "LV-LAMP-01:010",
+        "OF-CABINET-01:011"
+      ],
+      "W": [
+        "OF-ART-BOTANICAL-01:070",
+        "ARC-WALL-SHELF-01:071",
+        "OF-DAYBED-01:005",
+        "OF-CABINET-01:011",
+        "OF-DESK-01:006",
+        "OF-CHAIR-01:007",
+        "LV-LAMP-01:010"
+      ]
+    },
+    "BC": {
+      "N": [
+        "BR-CLOSET-01:088",
+        "CHAR-MALCOLM:092",
+        "BR-CLOSET-01:091"
+      ],
+      "E": [
+        "CHAR-MALCOLM:092",
+        "BR-CLOSET-01:091"
+      ],
+      "S": [
+        "CHAR-MALCOLM:092",
+        "BR-CLOSET-01:091"
+      ],
+      "W": [
+        "BR-CLOSET-01:089",
+        "BR-CLOSET-BOX-01:090",
+        "CHAR-MALCOLM:092",
+        "BR-CLOSET-01:091"
+      ]
+    },
+    "CT": {
+      "N": [],
+      "E": [],
+      "S": [
+        "ARC-SLIDING-CLOSET-01:093",
+        "BR-CLOSET-BOX-01:094"
+      ],
+      "W": []
+    },
+    "WG": {
+      "N": [
+        "ARC-SLIDING-CLOSET-01:095",
+        "BR-CLOSET-BOX-01:096"
+      ],
+      "E": [],
+      "S": [],
+      "W": []
+    }
+  },
+  "review": [
+    {
+      "room": "LV",
+      "side": "N",
+      "title": "LV-N / Living + entry",
+      "notes": "Window and radiator stay readable. Chair is south-facing foreground; sofa/rug are floating, not attached to this wall.",
+      "legend": [
+        "Window 1.60 m; sill 0.90, head 2.30. Sash, casing, drapes and rod.",
+        "45. Display shelf + pottery \u2014 ARC-WALL-SHELF-01",
+        "   + KI-POTTERY-01, books",
+        "38. Radiator \u2014 LV-RADIATOR-01",
+        "35. Bookcase \u2014 LV-BOOK-01",
+        "   + shelf books, plant, tin",
+        "37. Plant \u2014 LV-PLANT-01",
+        "34. Armchair \u2014 LV-CHAIR-01",
+        "Ceiling: ARC-CEILING-LIGHT-01; one physical fixture, not a copy per wall."
+      ],
+      "clean": "lv-n-drawing.svg",
+      "projected": "lv-n-projected-drawing.svg",
+      "projection_legend": [
+        "Window 1.60 m; sill 0.90, head 2.30. Sash, casing, drapes and rod.",
+        "45. Display shelf + pottery \u2014 ARC-WALL-SHELF-01",
+        "   + KI-POTTERY-01, books",
+        "38. Radiator \u2014 LV-RADIATOR-01",
+        "35. Bookcase \u2014 LV-BOOK-01",
+        "   + shelf books, plant, tin",
+        "37. Plant \u2014 LV-PLANT-01",
+        "34. Armchair \u2014 LV-CHAIR-01",
+        "31. Sofa [projection] \u2014 LV-SOFA-01",
+        "   + cushions, floral throw",
+        "33. TV / console [projection] \u2014 LV-TV-01 \u00b7 screen on/off; doors",
+        "32. Coffee table [projection] \u2014 LV-COFFEE-01",
+        "   + books, KI-MUG-01",
+        "23. Entry bench [projection] \u2014 HA-BENCH-01",
+        "   + HA-SHOES-01",
+        "36. Side table [projection] \u2014 LV-SIDE-TABLE-01",
+        "   + LV-TABLE-LAMP-01",
+        "25. Hall side console [projection] \u2014 HA-CONSOLE-01",
+        "   + HA-VASE-01, HA-FLOWERS-01",
+        "Ceiling: ARC-CEILING-LIGHT-01; one physical fixture, not a copy per wall."
+      ]
+    },
+    {
+      "room": "LV",
+      "side": "E",
+      "title": "LV-E / Living + entry",
+      "notes": "TV at y=1.50\u20132.60; bench y=2.70\u20133.35; fusebox y=3.40\u20133.85. Entry is farther south. Keep repair damage and conduit clear of casing.",
+      "legend": [
+        "Entry / outward: 1.05 rough / 0.99 clear target; head 2.14. Wider frame/leaf variant.",
+        "42. Entry fusebox / Wyatt \u2014 LV-FUSE-01 \u00b7 hinged cover; repair damage hidden",
+        "   + LV-FUSE-DAMAGE-01",
+        "43. Entry sconce \u2014 HA-SCONCE-01 \u00b7 light",
+        "39. Landscape over TV \u2014 LV-ART-04",
+        "40. Small portrait \u2014 HA-ART-02",
+        "41. Coat hooks over bench \u2014 HA-HOOKS-01",
+        "   + HA-COAT-01",
+        "33. TV / console \u2014 LV-TV-01 \u00b7 screen on/off; doors",
+        "23. Entry bench \u2014 HA-BENCH-01",
+        "   + HA-SHOES-01",
+        "37. Plant \u2014 LV-PLANT-01"
+      ],
+      "clean": "lv-e-drawing.svg",
+      "projected": "lv-e-projected-drawing.svg",
+      "projection_legend": [
+        "Entry / outward: 1.05 rough / 0.99 clear target; head 2.14. Wider frame/leaf variant.",
+        "42. Entry fusebox / Wyatt \u2014 LV-FUSE-01 \u00b7 hinged cover; repair damage hidden",
+        "   + LV-FUSE-DAMAGE-01",
+        "43. Entry sconce \u2014 HA-SCONCE-01 \u00b7 light",
+        "39. Landscape over TV \u2014 LV-ART-04",
+        "40. Small portrait \u2014 HA-ART-02",
+        "41. Coat hooks over bench \u2014 HA-HOOKS-01",
+        "   + HA-COAT-01",
+        "33. TV / console \u2014 LV-TV-01 \u00b7 screen on/off; doors",
+        "23. Entry bench \u2014 HA-BENCH-01",
+        "   + HA-SHOES-01",
+        "37. Plant \u2014 LV-PLANT-01",
+        "34. Armchair [projection] \u2014 LV-CHAIR-01",
+        "32. Coffee table [projection] \u2014 LV-COFFEE-01",
+        "   + books, KI-MUG-01",
+        "31. Sofa [projection] \u2014 LV-SOFA-01",
+        "   + cushions, floral throw",
+        "25. Hall side console [projection] \u2014 HA-CONSOLE-01",
+        "   + HA-VASE-01, HA-FLOWERS-01",
+        "38. Radiator [projection] \u2014 LV-RADIATOR-01",
+        "36. Side table [projection] \u2014 LV-SIDE-TABLE-01",
+        "   + LV-TABLE-LAMP-01",
+        "35. Bookcase [projection] \u2014 LV-BOOK-01",
+        "   + shelf books, plant, tin"
+      ]
+    },
+    {
+      "room": "LV",
+      "side": "S",
+      "title": "LV-S / Living + entry",
+      "notes": "Actual southern boundary of combined living/entry: bathroom, office and coats. Hall console is shared, not duplicated.",
+      "legend": [
+        "BA door: 1.05 rough / 0.99 clear target; head 2.14. Wider frame/leaf variant.",
+        "OF door: 1.05 rough / 0.99 clear target; head 2.14. Wider frame/leaf variant.",
+        "Coat closet: 0.96 rough / 0.90 clear target; head 2.18. Bypass sliders.",
+        "56. Landscape above side console \u2014 HA-ART-03",
+        "25. Hall side console \u2014 HA-CONSOLE-01",
+        "   + HA-VASE-01, HA-FLOWERS-01"
+      ],
+      "clean": "lv-s-drawing.svg",
+      "projected": "lv-s-projected-drawing.svg",
+      "projection_legend": [
+        "BA door: 1.05 rough / 0.99 clear target; head 2.14. Wider frame/leaf variant.",
+        "OF door: 1.05 rough / 0.99 clear target; head 2.14. Wider frame/leaf variant.",
+        "Coat closet: 0.96 rough / 0.90 clear target; head 2.18. Bypass sliders.",
+        "56. Landscape above side console \u2014 HA-ART-03",
+        "25. Hall side console \u2014 HA-CONSOLE-01",
+        "   + HA-VASE-01, HA-FLOWERS-01",
+        "36. Side table [projection] \u2014 LV-SIDE-TABLE-01",
+        "   + LV-TABLE-LAMP-01",
+        "23. Entry bench [projection] \u2014 HA-BENCH-01",
+        "   + HA-SHOES-01",
+        "31. Sofa [projection] \u2014 LV-SOFA-01",
+        "   + cushions, floral throw",
+        "32. Coffee table [projection] \u2014 LV-COFFEE-01",
+        "   + books, KI-MUG-01",
+        "33. TV / console [projection] \u2014 LV-TV-01 \u00b7 screen on/off; doors",
+        "35. Bookcase [projection] \u2014 LV-BOOK-01",
+        "   + shelf books, plant, tin",
+        "34. Armchair [projection] \u2014 LV-CHAIR-01",
+        "37. Plant [projection] \u2014 LV-PLANT-01",
+        "38. Radiator [projection] \u2014 LV-RADIATOR-01"
+      ]
+    },
+    {
+      "room": "LV",
+      "side": "W",
+      "title": "LV-W / Living + entry",
+      "notes": "Bookcase on kitchen partition. Kitchen portal at y=2.35\u20133.55; below that the hall continues through an open span.",
+      "legend": [
+        "To kitchen: 1.20 m span, 2.30 m head; no leaf.",
+        "Hall continuation: 1.80 m span, 2.45 m head; no leaf.",
+        "44. Landscape beside bookcase \u2014 LV-ART-04",
+        "35. Bookcase \u2014 LV-BOOK-01",
+        "   + shelf books, plant, tin"
+      ],
+      "clean": "lv-w-drawing.svg",
+      "projected": "lv-w-projected-drawing.svg",
+      "projection_legend": [
+        "To kitchen: 1.20 m span, 2.30 m head; no leaf.",
+        "Hall continuation: 1.80 m span, 2.45 m head; no leaf.",
+        "44. Landscape beside bookcase \u2014 LV-ART-04",
+        "35. Bookcase \u2014 LV-BOOK-01",
+        "   + shelf books, plant, tin",
+        "25. Hall side console [projection] \u2014 HA-CONSOLE-01",
+        "   + HA-VASE-01, HA-FLOWERS-01",
+        "31. Sofa [projection] \u2014 LV-SOFA-01",
+        "   + cushions, floral throw",
+        "38. Radiator [projection] \u2014 LV-RADIATOR-01",
+        "36. Side table [projection] \u2014 LV-SIDE-TABLE-01",
+        "   + LV-TABLE-LAMP-01",
+        "32. Coffee table [projection] \u2014 LV-COFFEE-01",
+        "   + books, KI-MUG-01",
+        "34. Armchair [projection] \u2014 LV-CHAIR-01",
+        "37. Plant [projection] \u2014 LV-PLANT-01",
+        "33. TV / console [projection] \u2014 LV-TV-01 \u00b7 screen on/off; doors",
+        "23. Entry bench [projection] \u2014 HA-BENCH-01",
+        "   + HA-SHOES-01"
+      ]
+    },
+    {
+      "room": "KI",
+      "side": "N",
+      "title": "KI-N / Kitchen / dining",
+      "notes": "Range at northwest corner; source depth includes controls. Window remains clear of counter/sink. Full-size pantry sits beside fridge after the user swap.",
+      "legend": [
+        "Window 1.60 m; sill 0.90, head 2.30. Sash, casing, drapes and rod.",
+        "12. Range \u2014 KI-RANGE-01 \u00b7 oven hinge; burner glow",
+        "   + KI-KETTLE-01, KI-PAN-01, KI-RANGE-FLAME-01",
+        "17. Fridge \u2014 KI-FRIDGE-01 \u00b7 hinged doors",
+        "18. Pantry \u2014 KI-PANTRY-01 \u00b7 hinged doors",
+        "19. Radiator \u2014 LV-RADIATOR-01",
+        "Ceiling: ARC-CEILING-LIGHT-01; one physical fixture, not a copy per wall."
+      ],
+      "clean": "ki-n-drawing.svg",
+      "projected": "ki-n-projected-drawing.svg",
+      "projection_legend": [
+        "Window 1.60 m; sill 0.90, head 2.30. Sash, casing, drapes and rod.",
+        "12. Range \u2014 KI-RANGE-01 \u00b7 oven hinge; burner glow",
+        "   + KI-KETTLE-01, KI-PAN-01, KI-RANGE-FLAME-01",
+        "17. Fridge \u2014 KI-FRIDGE-01 \u00b7 hinged doors",
+        "18. Pantry \u2014 KI-PANTRY-01 \u00b7 hinged doors",
+        "19. Radiator \u2014 LV-RADIATOR-01",
+        "13. Prep [projection] \u2014 KI-CABINET-01 \u00b7 drawer / door candidate",
+        "   + KI-JAR-01",
+        "14. Sink / leak [projection] \u2014 KI-SINK-NARROW-01 \u00b7 Lukey leak / repaired",
+        "   + faucet, KI-BUCKET-01",
+        "20. Dining table [projection] \u2014 KI-TABLE-01",
+        "   + KI-BOWL-01",
+        "21. Chair [projection] \u2014 KI-CHAIR-01",
+        "22. Chair [projection] \u2014 KI-CHAIR-01",
+        "15. Counter [projection] \u2014 KI-CABINET-01 \u00b7 drawer / door candidate",
+        "   + KI-BOWL-01",
+        "16. Prep / uppers [projection] \u2014 KI-CABINET-01 \u00b7 drawer / door candidate",
+        "   + KI-MUG-01, KI-POTTERY-01",
+        "Ceiling: ARC-CEILING-LIGHT-01; one physical fixture, not a copy per wall."
+      ]
+    },
+    {
+      "room": "KI",
+      "side": "E",
+      "title": "KI-E / Kitchen / dining",
+      "notes": "Kitchen opens directly to living. Display shelf and print stay north of the portal; no new tall furniture in the doorway.",
+      "legend": [
+        "To living: 1.20 m span, 2.30 m head; no leaf.",
+        "52. Small kitchen print \u2014 KI-ART-01",
+        "54. Kitchen switch \u2014 BA-SWITCH-01 \u00b7 light",
+        "53. Kitchen east shelf \u2014 ARC-WALL-SHELF-01",
+        "   + KI-JAR-01, KI-PLANT-01",
+        "17. Fridge \u2014 KI-FRIDGE-01 \u00b7 hinged doors",
+        "22. Chair \u2014 KI-CHAIR-01"
+      ],
+      "clean": "ki-e-drawing.svg",
+      "projected": "ki-e-projected-drawing.svg",
+      "projection_legend": [
+        "To living: 1.20 m span, 2.30 m head; no leaf.",
+        "52. Small kitchen print \u2014 KI-ART-01",
+        "54. Kitchen switch \u2014 BA-SWITCH-01 \u00b7 light",
+        "53. Kitchen east shelf \u2014 ARC-WALL-SHELF-01",
+        "   + KI-JAR-01, KI-PLANT-01",
+        "17. Fridge \u2014 KI-FRIDGE-01 \u00b7 hinged doors",
+        "22. Chair \u2014 KI-CHAIR-01",
+        "18. Pantry [projection] \u2014 KI-PANTRY-01 \u00b7 hinged doors",
+        "20. Dining table [projection] \u2014 KI-TABLE-01",
+        "   + KI-BOWL-01",
+        "21. Chair [projection] \u2014 KI-CHAIR-01",
+        "19. Radiator [projection] \u2014 LV-RADIATOR-01",
+        "12. Range [projection] \u2014 KI-RANGE-01 \u00b7 oven hinge; burner glow",
+        "   + KI-KETTLE-01, KI-PAN-01, KI-RANGE-FLAME-01",
+        "13. Prep [projection] \u2014 KI-CABINET-01 \u00b7 drawer / door candidate",
+        "   + KI-JAR-01",
+        "14. Sink / leak [projection] \u2014 KI-SINK-NARROW-01 \u00b7 Lukey leak / repaired",
+        "   + faucet, KI-BUCKET-01",
+        "15. Counter [projection] \u2014 KI-CABINET-01 \u00b7 drawer / door candidate",
+        "   + KI-BOWL-01",
+        "16. Prep / uppers [projection] \u2014 KI-CABINET-01 \u00b7 drawer / door candidate",
+        "   + KI-MUG-01, KI-POTTERY-01"
+      ]
+    },
+    {
+      "room": "KI",
+      "side": "S",
+      "title": "KI-S / Kitchen / dining",
+      "notes": "Former hallway doorway is closed. Table and chairs are projected foreground; wall art and pottery add interest without narrowing the passage.",
+      "legend": [
+        "51. Mugs and pottery \u2014 ARC-WALL-SHELF-01",
+        "   + KI-MUG-01, KI-POTTERY-01",
+        "50. Still life \u2014 KI-ART-01",
+        "16. Prep / uppers \u2014 KI-CABINET-01 \u00b7 drawer / door candidate",
+        "   + KI-MUG-01, KI-POTTERY-01",
+        "15. Counter \u2014 KI-CABINET-01 \u00b7 drawer / door candidate",
+        "   + KI-BOWL-01"
+      ],
+      "clean": "ki-s-drawing.svg",
+      "projected": "ki-s-projected-drawing.svg",
+      "projection_legend": [
+        "51. Mugs and pottery \u2014 ARC-WALL-SHELF-01",
+        "   + KI-MUG-01, KI-POTTERY-01",
+        "50. Still life \u2014 KI-ART-01",
+        "16. Prep / uppers \u2014 KI-CABINET-01 \u00b7 drawer / door candidate",
+        "   + KI-MUG-01, KI-POTTERY-01",
+        "15. Counter \u2014 KI-CABINET-01 \u00b7 drawer / door candidate",
+        "   + KI-BOWL-01",
+        "20. Dining table [projection] \u2014 KI-TABLE-01",
+        "   + KI-BOWL-01",
+        "21. Chair [projection] \u2014 KI-CHAIR-01",
+        "22. Chair [projection] \u2014 KI-CHAIR-01",
+        "14. Sink / leak [projection] \u2014 KI-SINK-NARROW-01 \u00b7 Lukey leak / repaired",
+        "   + faucet, KI-BUCKET-01",
+        "13. Prep [projection] \u2014 KI-CABINET-01 \u00b7 drawer / door candidate",
+        "   + KI-JAR-01",
+        "17. Fridge [projection] \u2014 KI-FRIDGE-01 \u00b7 hinged doors",
+        "12. Range [projection] \u2014 KI-RANGE-01 \u00b7 oven hinge; burner glow",
+        "   + KI-KETTLE-01, KI-PAN-01, KI-RANGE-FLAME-01",
+        "18. Pantry [projection] \u2014 KI-PANTRY-01 \u00b7 hinged doors",
+        "19. Radiator [projection] \u2014 LV-RADIATOR-01"
+      ]
+    },
+    {
+      "room": "KI",
+      "side": "W",
+      "title": "KI-W / Kitchen / dining",
+      "notes": "Sink and prep run face east. Prep widths 0.45, 0.60 and 0.65 m; existing 1.00 m upper spans the southern two sections. Pantry is now north beside fridge.",
+      "legend": [
+        "46. Upper cupboard \u2014 KI-UPPER-01 \u00b7 paired doors",
+        "47. Rail + two pans \u2014 KI-PAN-RAIL-01",
+        "   + KI-PAN-01",
+        "48. Optional water stain \u2014 KI-WALL-STAIN-01 \u00b7 separate optional overlay",
+        "49. Sink shelf / jars \u2014 ARC-WALL-SHELF-01",
+        "   + KI-JAR-01, KI-MUG-01",
+        "12. Range \u2014 KI-RANGE-01 \u00b7 oven hinge; burner glow",
+        "   + KI-KETTLE-01, KI-PAN-01, KI-RANGE-FLAME-01",
+        "13. Prep \u2014 KI-CABINET-01 \u00b7 drawer / door candidate",
+        "   + KI-JAR-01",
+        "14. Sink / leak \u2014 KI-SINK-NARROW-01 \u00b7 Lukey leak / repaired",
+        "   + faucet, KI-BUCKET-01",
+        "15. Counter \u2014 KI-CABINET-01 \u00b7 drawer / door candidate",
+        "   + KI-BOWL-01",
+        "16. Prep / uppers \u2014 KI-CABINET-01 \u00b7 drawer / door candidate",
+        "   + KI-MUG-01, KI-POTTERY-01"
+      ],
+      "clean": "ki-w-drawing.svg",
+      "projected": "ki-w-projected-drawing.svg",
+      "projection_legend": [
+        "46. Upper cupboard \u2014 KI-UPPER-01 \u00b7 paired doors",
+        "47. Rail + two pans \u2014 KI-PAN-RAIL-01",
+        "   + KI-PAN-01",
+        "48. Optional water stain \u2014 KI-WALL-STAIN-01 \u00b7 separate optional overlay",
+        "49. Sink shelf / jars \u2014 ARC-WALL-SHELF-01",
+        "   + KI-JAR-01, KI-MUG-01",
+        "12. Range \u2014 KI-RANGE-01 \u00b7 oven hinge; burner glow",
+        "   + KI-KETTLE-01, KI-PAN-01, KI-RANGE-FLAME-01",
+        "13. Prep \u2014 KI-CABINET-01 \u00b7 drawer / door candidate",
+        "   + KI-JAR-01",
+        "14. Sink / leak \u2014 KI-SINK-NARROW-01 \u00b7 Lukey leak / repaired",
+        "   + faucet, KI-BUCKET-01",
+        "15. Counter \u2014 KI-CABINET-01 \u00b7 drawer / door candidate",
+        "   + KI-BOWL-01",
+        "16. Prep / uppers \u2014 KI-CABINET-01 \u00b7 drawer / door candidate",
+        "   + KI-MUG-01, KI-POTTERY-01",
+        "19. Radiator [projection] \u2014 LV-RADIATOR-01",
+        "21. Chair [projection] \u2014 KI-CHAIR-01",
+        "20. Dining table [projection] \u2014 KI-TABLE-01",
+        "   + KI-BOWL-01",
+        "18. Pantry [projection] \u2014 KI-PANTRY-01 \u00b7 hinged doors",
+        "22. Chair [projection] \u2014 KI-CHAIR-01",
+        "17. Fridge [projection] \u2014 KI-FRIDGE-01 \u00b7 hinged doors"
+      ]
+    },
+    {
+      "room": "HA",
+      "side": "N",
+      "title": "HA-N / Hall",
+      "notes": "Short gallery wall ends at x=5.50; the rest is an opening into living. No side console remains on this wall.",
+      "legend": [
+        "Open to living: 6.50 m span, 2.45 m head; no leaf.",
+        "23. Entry bench \u2014 HA-BENCH-01",
+        "   + HA-SHOES-01",
+        "58. Hall warm sconce \u2014 HA-SCONCE-01 \u00b7 light",
+        "59. Small gallery print \u2014 HA-ART-02",
+        "60. Gallery landscape \u2014 HA-ART-03",
+        "24. Hall end cabinet \u2014 HA-CABINET-01 \u00b7 drawer / door candidate",
+        "   + HA-VASE-02"
+      ],
+      "clean": "ha-n-drawing.svg",
+      "projected": "ha-n-projected-drawing.svg",
+      "projection_legend": [
+        "Open to living: 6.50 m span, 2.45 m head; no leaf.",
+        "23. Entry bench \u2014 HA-BENCH-01",
+        "   + HA-SHOES-01",
+        "58. Hall warm sconce \u2014 HA-SCONCE-01 \u00b7 light",
+        "59. Small gallery print \u2014 HA-ART-02",
+        "60. Gallery landscape \u2014 HA-ART-03",
+        "24. Hall end cabinet \u2014 HA-CABINET-01 \u00b7 drawer / door candidate",
+        "   + HA-VASE-02",
+        "25. Hall side console [projection] \u2014 HA-CONSOLE-01",
+        "   + HA-VASE-01, HA-FLOWERS-01"
+      ]
+    },
+    {
+      "room": "HA",
+      "side": "E",
+      "title": "HA-E / Hall",
+      "notes": "Entry opens outward. Fusebox and bench are immediately north of this cropped hall view; see LV-E for the complete entry composition.",
+      "legend": [
+        "Entry / outward: 1.05 rough / 0.99 clear target; head 2.14. Wider frame/leaf variant."
+      ],
+      "clean": "ha-e-drawing.svg",
+      "projected": "ha-e-projected-drawing.svg",
+      "projection_legend": [
+        "Entry / outward: 1.05 rough / 0.99 clear target; head 2.14. Wider frame/leaf variant.",
+        "25. Hall side console [projection] \u2014 HA-CONSOLE-01",
+        "   + HA-VASE-01, HA-FLOWERS-01",
+        "24. Hall end cabinet [projection] \u2014 HA-CABINET-01 \u00b7 drawer / door candidate",
+        "   + HA-VASE-02"
+      ]
+    },
+    {
+      "room": "HA",
+      "side": "S",
+      "title": "HA-S / Hall",
+      "notes": "Bedroom, bath and office doors open into their rooms. Side console and flowers sit between bath and office; coat doors face this hall.",
+      "legend": [
+        "BR door: 1.05 rough / 0.99 clear target; head 2.14. Wider frame/leaf variant.",
+        "BA door: 1.05 rough / 0.99 clear target; head 2.14. Wider frame/leaf variant.",
+        "OF door: 1.05 rough / 0.99 clear target; head 2.14. Wider frame/leaf variant.",
+        "Coat closet: 0.96 rough / 0.90 clear target; head 2.18. Bypass sliders.",
+        "56. Landscape above side console \u2014 HA-ART-03",
+        "57. Hall portrait \u2014 HA-ART-02",
+        "25. Hall side console \u2014 HA-CONSOLE-01",
+        "   + HA-VASE-01, HA-FLOWERS-01",
+        "24. Hall end cabinet \u2014 HA-CABINET-01 \u00b7 drawer / door candidate",
+        "   + HA-VASE-02"
+      ],
+      "clean": "ha-s-drawing.svg",
+      "projected": "ha-s-projected-drawing.svg",
+      "projection_legend": [
+        "BR door: 1.05 rough / 0.99 clear target; head 2.14. Wider frame/leaf variant.",
+        "BA door: 1.05 rough / 0.99 clear target; head 2.14. Wider frame/leaf variant.",
+        "OF door: 1.05 rough / 0.99 clear target; head 2.14. Wider frame/leaf variant.",
+        "Coat closet: 0.96 rough / 0.90 clear target; head 2.18. Bypass sliders.",
+        "56. Landscape above side console \u2014 HA-ART-03",
+        "57. Hall portrait \u2014 HA-ART-02",
+        "25. Hall side console \u2014 HA-CONSOLE-01",
+        "   + HA-VASE-01, HA-FLOWERS-01",
+        "24. Hall end cabinet \u2014 HA-CABINET-01 \u00b7 drawer / door candidate",
+        "   + HA-VASE-02",
+        "23. Entry bench [projection] \u2014 HA-BENCH-01",
+        "   + HA-SHOES-01"
+      ]
+    },
+    {
+      "room": "HA",
+      "side": "W",
+      "title": "HA-W / Hall",
+      "notes": "Preserve the existing end cabinet, landscape and vase grouping against the relocated closet wall; this is the new hall terminus.",
+      "legend": [
+        "55. Focal landscape \u2014 HA-ART-09",
+        "24. Hall end cabinet \u2014 HA-CABINET-01 \u00b7 drawer / door candidate",
+        "   + HA-VASE-02"
+      ],
+      "clean": "ha-w-drawing.svg",
+      "projected": "ha-w-projected-drawing.svg",
+      "projection_legend": [
+        "55. Focal landscape \u2014 HA-ART-09",
+        "24. Hall end cabinet \u2014 HA-CABINET-01 \u00b7 drawer / door candidate",
+        "   + HA-VASE-02",
+        "25. Hall side console [projection] \u2014 HA-CONSOLE-01",
+        "   + HA-VASE-01, HA-FLOWERS-01"
+      ]
+    },
+    {
+      "room": "BR",
+      "side": "N",
+      "title": "BR-N / Bedroom",
+      "notes": "Both closet and room door are on this wall. Closet doors open outward onto clear floor; the room door hinges at its east jamb.",
+      "legend": [
+        "BR door: 1.05 rough / 0.99 clear target; head 2.14. Wider frame/leaf variant.",
+        "Mold closet: 1.10 rough / 1.00 clear target; head 2.14. Paired outward leaves.",
+        "61. Floral print between doors \u2014 BR-ART-FLORAL-01",
+        "67. Bedroom switch \u2014 BA-SWITCH-01 \u00b7 light",
+        "Ceiling: ARC-CEILING-LIGHT-01; one physical fixture, not a copy per wall."
+      ],
+      "clean": "br-n-drawing.svg",
+      "projected": "br-n-projected-drawing.svg",
+      "projection_legend": [
+        "BR door: 1.05 rough / 0.99 clear target; head 2.14. Wider frame/leaf variant.",
+        "Mold closet: 1.10 rough / 1.00 clear target; head 2.14. Paired outward leaves.",
+        "61. Floral print between doors \u2014 BR-ART-FLORAL-01",
+        "67. Bedroom switch \u2014 BA-SWITCH-01 \u00b7 light",
+        "26. Bookcase from office [projection] \u2014 OF-BOOKCASE-01",
+        "   + books, plant, storage box",
+        "30. Dresser / mirror [projection] \u2014 BR-DRESSER-01 \u00b7 drawer / door candidate",
+        "   + BR-PERFUME-01, tray",
+        "27. Bed [projection] \u2014 BR-BED-01",
+        "   + pillows, floral quilt",
+        "28. Nightstand [projection] \u2014 BR-NIGHTSTAND-01 \u00b7 drawer / door candidate",
+        "   + BR-LAMP-01",
+        "29. Nightstand [projection] \u2014 BR-NIGHTSTAND-01 \u00b7 drawer / door candidate",
+        "   + BR-LAMP-01",
+        "Ceiling: ARC-CEILING-LIGHT-01; one physical fixture, not a copy per wall."
+      ]
+    },
+    {
+      "room": "BR",
+      "side": "E",
+      "title": "BR-E / Bedroom",
+      "notes": "Dresser and mirror retain the 1.15 m bed-side aisle. Bedroom is aged plaster, with no white wainscoting or lead-paint patch.",
+      "legend": [
+        "65. Print near dresser \u2014 BR-ART-FLORAL-01",
+        "62. Bedroom display shelf \u2014 ARC-WALL-SHELF-01",
+        "   + keepsake, small books",
+        "30. Dresser / mirror \u2014 BR-DRESSER-01 \u00b7 drawer / door candidate",
+        "   + BR-PERFUME-01, tray"
+      ],
+      "clean": "br-e-drawing.svg",
+      "projected": "br-e-projected-drawing.svg",
+      "projection_legend": [
+        "65. Print near dresser \u2014 BR-ART-FLORAL-01",
+        "62. Bedroom display shelf \u2014 ARC-WALL-SHELF-01",
+        "   + keepsake, small books",
+        "30. Dresser / mirror \u2014 BR-DRESSER-01 \u00b7 drawer / door candidate",
+        "   + BR-PERFUME-01, tray",
+        "29. Nightstand [projection] \u2014 BR-NIGHTSTAND-01 \u00b7 drawer / door candidate",
+        "   + BR-LAMP-01",
+        "27. Bed [projection] \u2014 BR-BED-01",
+        "   + pillows, floral quilt",
+        "28. Nightstand [projection] \u2014 BR-NIGHTSTAND-01 \u00b7 drawer / door candidate",
+        "   + BR-LAMP-01",
+        "26. Bookcase from office [projection] \u2014 OF-BOOKCASE-01",
+        "   + books, plant, storage box"
+      ]
+    },
+    {
+      "room": "BR",
+      "side": "S",
+      "title": "BR-S / Bedroom",
+      "notes": "Bed head faces south. Window moved 0.25 m west to clear casing. Nightstands/lamps and quilt provide the warm layered character.",
+      "legend": [
+        "Window 1.10 m; sill 0.90, head 2.30. Sash, casing, drapes and rod.",
+        "66. Headboard picture \u2014 BR-ART-FLORAL-01",
+        "27. Bed \u2014 BR-BED-01",
+        "   + pillows, floral quilt",
+        "28. Nightstand \u2014 BR-NIGHTSTAND-01 \u00b7 drawer / door candidate",
+        "   + BR-LAMP-01",
+        "29. Nightstand \u2014 BR-NIGHTSTAND-01 \u00b7 drawer / door candidate",
+        "   + BR-LAMP-01"
+      ],
+      "clean": "br-s-drawing.svg",
+      "projected": "br-s-projected-drawing.svg",
+      "projection_legend": [
+        "Window 1.10 m; sill 0.90, head 2.30. Sash, casing, drapes and rod.",
+        "66. Headboard picture \u2014 BR-ART-FLORAL-01",
+        "27. Bed \u2014 BR-BED-01",
+        "   + pillows, floral quilt",
+        "28. Nightstand \u2014 BR-NIGHTSTAND-01 \u00b7 drawer / door candidate",
+        "   + BR-LAMP-01",
+        "29. Nightstand \u2014 BR-NIGHTSTAND-01 \u00b7 drawer / door candidate",
+        "   + BR-LAMP-01",
+        "30. Dresser / mirror [projection] \u2014 BR-DRESSER-01 \u00b7 drawer / door candidate",
+        "   + BR-PERFUME-01, tray",
+        "26. Bookcase from office [projection] \u2014 OF-BOOKCASE-01",
+        "   + books, plant, storage box"
+      ]
+    },
+    {
+      "room": "BR",
+      "side": "W",
+      "title": "BR-W / Bedroom",
+      "notes": "Moved office bookcase fills the wall beside the closet approach. Shelf and print sit above; preserve access to the closet doors.",
+      "legend": [
+        "63. Botanical above moved bookcase \u2014 BR-ART-FLORAL-01",
+        "64. Books and vase \u2014 ARC-WALL-SHELF-01",
+        "   + books, HA-VASE-01",
+        "26. Bookcase from office \u2014 OF-BOOKCASE-01",
+        "   + books, plant, storage box"
+      ],
+      "clean": "br-w-drawing.svg",
+      "projected": "br-w-projected-drawing.svg",
+      "projection_legend": [
+        "63. Botanical above moved bookcase \u2014 BR-ART-FLORAL-01",
+        "64. Books and vase \u2014 ARC-WALL-SHELF-01",
+        "   + books, HA-VASE-01",
+        "26. Bookcase from office \u2014 OF-BOOKCASE-01",
+        "   + books, plant, storage box",
+        "28. Nightstand [projection] \u2014 BR-NIGHTSTAND-01 \u00b7 drawer / door candidate",
+        "   + BR-LAMP-01",
+        "27. Bed [projection] \u2014 BR-BED-01",
+        "   + pillows, floral quilt",
+        "29. Nightstand [projection] \u2014 BR-NIGHTSTAND-01 \u00b7 drawer / door candidate",
+        "   + BR-LAMP-01",
+        "30. Dresser / mirror [projection] \u2014 BR-DRESSER-01 \u00b7 drawer / door candidate",
+        "   + BR-PERFUME-01, tray"
+      ]
+    },
+    {
+      "room": "BA",
+      "side": "N",
+      "title": "BA-N / Bathroom",
+      "notes": "North shelf, botanical and towel hook frame the door without covering its casing.",
+      "legend": [
+        "BA door: 1.05 rough / 0.99 clear target; head 2.14. Wider frame/leaf variant.",
+        "79. North toiletries shelf \u2014 ARC-WALL-SHELF-01",
+        "   + BA-JAR-01, BA-SOAP-01",
+        "80. Small botanical \u2014 BA-ART-01",
+        "81. Hook + hand towel \u2014 BA-HOOK-01",
+        "   + BA-HAND-TOWEL-01",
+        "8. Towel basket \u2014 BA-BASKET-01",
+        "   + rolled towels",
+        "9. Pedal bin \u2014 BA-BIN-01",
+        "Ceiling: ARC-CEILING-LIGHT-01; one physical fixture, not a copy per wall."
+      ],
+      "clean": "ba-n-drawing.svg",
+      "projected": "ba-n-projected-drawing.svg",
+      "projection_legend": [
+        "BA door: 1.05 rough / 0.99 clear target; head 2.14. Wider frame/leaf variant.",
+        "79. North toiletries shelf \u2014 ARC-WALL-SHELF-01",
+        "   + BA-JAR-01, BA-SOAP-01",
+        "80. Small botanical \u2014 BA-ART-01",
+        "81. Hook + hand towel \u2014 BA-HOOK-01",
+        "   + BA-HAND-TOWEL-01",
+        "8. Towel basket \u2014 BA-BASKET-01",
+        "   + rolled towels",
+        "9. Pedal bin \u2014 BA-BIN-01",
+        "2. Basin [projection] \u2014 BA-BASIN-01",
+        "   + taps",
+        "3. WC [projection] \u2014 BA-TOILET-01 \u00b7 lid hinge",
+        "1. Tub / crack [projection] \u2014 BA-TUB-01 \u00b7 Tyler repair; water reveal",
+        "   + BA-TUB-WATER-01, taps, shower riser, curtain",
+        "4. Linen [projection] \u2014 BA-LINEN-01 \u00b7 hinged doors",
+        "Ceiling: ARC-CEILING-LIGHT-01; one physical fixture, not a copy per wall."
+      ]
+    },
+    {
+      "room": "BA",
+      "side": "E",
+      "title": "BA-E / Bathroom",
+      "notes": "Keep towel/roll reach clear of toilet lid. Linen cabinet is at the south end; shelf stays above toilet/towel zone.",
+      "legend": [
+        "83. Bath towel rail \u2014 BA-TOWEL-RAIL-01",
+        "   + BA-HAND-TOWEL-01",
+        "82. Toilet roll \u2014 BA-ROLL-01",
+        "84. Folded towel and tin \u2014 ARC-WALL-SHELF-01",
+        "   + BA-FOLDED-TOWEL-01, BA-TIN-01",
+        "4. Linen \u2014 BA-LINEN-01 \u00b7 hinged doors",
+        "9. Pedal bin \u2014 BA-BIN-01",
+        "3. WC \u2014 BA-TOILET-01 \u00b7 lid hinge"
+      ],
+      "clean": "ba-e-drawing.svg",
+      "projected": "ba-e-projected-drawing.svg",
+      "projection_legend": [
+        "83. Bath towel rail \u2014 BA-TOWEL-RAIL-01",
+        "   + BA-HAND-TOWEL-01",
+        "82. Toilet roll \u2014 BA-ROLL-01",
+        "84. Folded towel and tin \u2014 ARC-WALL-SHELF-01",
+        "   + BA-FOLDED-TOWEL-01, BA-TIN-01",
+        "4. Linen \u2014 BA-LINEN-01 \u00b7 hinged doors",
+        "9. Pedal bin \u2014 BA-BIN-01",
+        "3. WC \u2014 BA-TOILET-01 \u00b7 lid hinge",
+        "1. Tub / crack [projection] \u2014 BA-TUB-01 \u00b7 Tyler repair; water reveal",
+        "   + BA-TUB-WATER-01, taps, shower riser, curtain",
+        "2. Basin [projection] \u2014 BA-BASIN-01",
+        "   + taps",
+        "8. Towel basket [projection] \u2014 BA-BASKET-01",
+        "   + rolled towels"
+      ]
+    },
+    {
+      "room": "BA",
+      "side": "S",
+      "title": "BA-S / Bathroom",
+      "notes": "Tub, shower and frosted window. Keep Tyler crack visible below the sill; curtain parks at the east end and water fill is a separate reveal.",
+      "legend": [
+        "Window 1.15 m; sill 1.50, head 2.30. Frosted glass.",
+        "85. Tyler cracked tile \u2014 BA-TILE-01 \u00b7 broken / restored",
+        "1. Tub / crack \u2014 BA-TUB-01 \u00b7 Tyler repair; water reveal",
+        "   + BA-TUB-WATER-01, taps, shower riser, curtain",
+        "4. Linen \u2014 BA-LINEN-01 \u00b7 hinged doors",
+        "Tub fixtures + curtain: parked east; keep repair patch visible."
+      ],
+      "clean": "ba-s-drawing.svg",
+      "projected": "ba-s-projected-drawing.svg",
+      "projection_legend": [
+        "Window 1.15 m; sill 1.50, head 2.30. Frosted glass.",
+        "85. Tyler cracked tile \u2014 BA-TILE-01 \u00b7 broken / restored",
+        "1. Tub / crack \u2014 BA-TUB-01 \u00b7 Tyler repair; water reveal",
+        "   + BA-TUB-WATER-01, taps, shower riser, curtain",
+        "4. Linen \u2014 BA-LINEN-01 \u00b7 hinged doors",
+        "3. WC [projection] \u2014 BA-TOILET-01 \u00b7 lid hinge",
+        "2. Basin [projection] \u2014 BA-BASIN-01",
+        "   + taps",
+        "8. Towel basket [projection] \u2014 BA-BASKET-01",
+        "   + rolled towels",
+        "9. Pedal bin [projection] \u2014 BA-BIN-01",
+        "Tub fixtures + curtain: parked east; keep repair patch visible."
+      ]
+    },
+    {
+      "room": "BA",
+      "side": "W",
+      "title": "BA-W / Bathroom",
+      "notes": "Mirror/globes centred on basin, with toiletries shelf and hand towel nearby. Scale source mirror assembly and sconces only after dimension review.",
+      "legend": [
+        "75. Mirror and paired globes \u2014 BA-MIRROR-01 \u00b7 light",
+        "   + opal globe lights",
+        "76. Basin toiletries shelf \u2014 ARC-WALL-SHELF-01",
+        "   + BA-BOTTLE-01, BA-CUP-01, BA-SOAP-01",
+        "77. Hand towel rail \u2014 BA-TOWEL-RAIL-01",
+        "   + BA-HAND-TOWEL-01",
+        "78. Bath switch \u2014 BA-SWITCH-01 \u00b7 light",
+        "1. Tub / crack \u2014 BA-TUB-01 \u00b7 Tyler repair; water reveal",
+        "   + BA-TUB-WATER-01, taps, shower riser, curtain",
+        "2. Basin \u2014 BA-BASIN-01",
+        "   + taps",
+        "8. Towel basket \u2014 BA-BASKET-01",
+        "   + rolled towels"
+      ],
+      "clean": "ba-w-drawing.svg",
+      "projected": "ba-w-projected-drawing.svg",
+      "projection_legend": [
+        "75. Mirror and paired globes \u2014 BA-MIRROR-01 \u00b7 light",
+        "   + opal globe lights",
+        "76. Basin toiletries shelf \u2014 ARC-WALL-SHELF-01",
+        "   + BA-BOTTLE-01, BA-CUP-01, BA-SOAP-01",
+        "77. Hand towel rail \u2014 BA-TOWEL-RAIL-01",
+        "   + BA-HAND-TOWEL-01",
+        "78. Bath switch \u2014 BA-SWITCH-01 \u00b7 light",
+        "1. Tub / crack \u2014 BA-TUB-01 \u00b7 Tyler repair; water reveal",
+        "   + BA-TUB-WATER-01, taps, shower riser, curtain",
+        "2. Basin \u2014 BA-BASIN-01",
+        "   + taps",
+        "8. Towel basket \u2014 BA-BASKET-01",
+        "   + rolled towels",
+        "3. WC [projection] \u2014 BA-TOILET-01 \u00b7 lid hinge",
+        "4. Linen [projection] \u2014 BA-LINEN-01 \u00b7 hinged doors",
+        "9. Pedal bin [projection] \u2014 BA-BIN-01"
+      ]
+    },
+    {
+      "room": "OF",
+      "side": "N",
+      "title": "OF-N / Office / guest",
+      "notes": "White wainscoting and lead-paint condition moved here. Wardrobe front is projected 1.55 m from the original north line, with coat storage behind it.",
+      "legend": [
+        "OF door: 1.05 rough / 0.99 clear target; head 2.14. Wider frame/leaf variant.",
+        "68. Lead-paint condition \u2014 BR-WAINSCOT-01 \u00b7 damaged / sealed; separate future gameplay",
+        "69. North-wall landscape \u2014 OF-ART-LANDSCAPE-01",
+        "74. Office switch \u2014 BA-SWITCH-01 \u00b7 light",
+        "11. Office storage cabinet \u2014 OF-CABINET-01 \u00b7 drawer / door candidate",
+        "   + box",
+        "86. Guest wardrobe front \u2014 ARC-SLIDING-CLOSET-01 \u00b7 bypass slide",
+        "Ceiling: ARC-CEILING-LIGHT-01; one physical fixture, not a copy per wall."
+      ],
+      "clean": "of-n-drawing.svg",
+      "projected": "of-n-projected-drawing.svg",
+      "projection_legend": [
+        "OF door: 1.05 rough / 0.99 clear target; head 2.14. Wider frame/leaf variant.",
+        "68. Lead-paint condition \u2014 BR-WAINSCOT-01 \u00b7 damaged / sealed; separate future gameplay",
+        "69. North-wall landscape \u2014 OF-ART-LANDSCAPE-01",
+        "74. Office switch \u2014 BA-SWITCH-01 \u00b7 light",
+        "11. Office storage cabinet \u2014 OF-CABINET-01 \u00b7 drawer / door candidate",
+        "   + box",
+        "86. Guest wardrobe front \u2014 ARC-SLIDING-CLOSET-01 \u00b7 bypass slide",
+        "5. Daybed [projection] \u2014 OF-DAYBED-01",
+        "   + pillows, quilt",
+        "7. Chair [projection] \u2014 OF-CHAIR-01",
+        "10. Office floor lamp [projection] \u2014 LV-LAMP-01",
+        "6. Desk [projection] \u2014 OF-DESK-01 \u00b7 drawer / door candidate",
+        "   + OF-DESK-LAMP-01, OF-PAPERS-01, book",
+        "Ceiling: ARC-CEILING-LIGHT-01; one physical fixture, not a copy per wall."
+      ]
+    },
+    {
+      "room": "OF",
+      "side": "E",
+      "title": "OF-E / Office / guest",
+      "notes": "Closet side return occupies first 1.55 m. No bookcase on this wall now; keep wardrobe approach open. White panels continue around the exposed return.",
+      "legend": [
+        "72. East botanical \u2014 OF-ART-BOTANICAL-01",
+        "73. East display shelf \u2014 ARC-WALL-SHELF-01",
+        "   + small pot, books",
+        "10. Office floor lamp \u2014 LV-LAMP-01",
+        "6. Desk \u2014 OF-DESK-01 \u00b7 drawer / door candidate",
+        "   + OF-DESK-LAMP-01, OF-PAPERS-01, book",
+        "87. Closet side / shared coat volume \u2014 ARC-CLOSET-RETURN"
+      ],
+      "clean": "of-e-drawing.svg",
+      "projected": "of-e-projected-drawing.svg",
+      "projection_legend": [
+        "72. East botanical \u2014 OF-ART-BOTANICAL-01",
+        "73. East display shelf \u2014 ARC-WALL-SHELF-01",
+        "   + small pot, books",
+        "10. Office floor lamp \u2014 LV-LAMP-01",
+        "6. Desk \u2014 OF-DESK-01 \u00b7 drawer / door candidate",
+        "   + OF-DESK-LAMP-01, OF-PAPERS-01, book",
+        "87. Closet side / shared coat volume \u2014 ARC-CLOSET-RETURN",
+        "7. Chair [projection] \u2014 OF-CHAIR-01",
+        "5. Daybed [projection] \u2014 OF-DAYBED-01",
+        "   + pillows, quilt",
+        "11. Office storage cabinet [projection] \u2014 OF-CABINET-01 \u00b7 drawer / door candidate",
+        "   + box"
+      ]
+    },
+    {
+      "room": "OF",
+      "side": "S",
+      "title": "OF-S / Office / guest",
+      "notes": "Desk beneath window. Wainscot stops around window/apron: do not run the 1.10 m rail through the 0.90 m sill. Desk/lamp/papers remain.",
+      "legend": [
+        "Window 1.40 m; sill 0.90, head 2.30. Sash, casing, drapes and rod.",
+        "6. Desk \u2014 OF-DESK-01 \u00b7 drawer / door candidate",
+        "   + OF-DESK-LAMP-01, OF-PAPERS-01, book",
+        "5. Daybed \u2014 OF-DAYBED-01",
+        "   + pillows, quilt"
+      ],
+      "clean": "of-s-drawing.svg",
+      "projected": "of-s-projected-drawing.svg",
+      "projection_legend": [
+        "Window 1.40 m; sill 0.90, head 2.30. Sash, casing, drapes and rod.",
+        "6. Desk \u2014 OF-DESK-01 \u00b7 drawer / door candidate",
+        "   + OF-DESK-LAMP-01, OF-PAPERS-01, book",
+        "5. Daybed \u2014 OF-DAYBED-01",
+        "   + pillows, quilt",
+        "7. Chair [projection] \u2014 OF-CHAIR-01",
+        "10. Office floor lamp [projection] \u2014 LV-LAMP-01",
+        "11. Office storage cabinet [projection] \u2014 OF-CABINET-01 \u00b7 drawer / door candidate",
+        "   + box"
+      ]
+    },
+    {
+      "room": "OF",
+      "side": "W",
+      "title": "OF-W / Office / guest",
+      "notes": "Daybed and small storage cabinet remain. Shelf, botanical and white wainscoting give this room its new finish identity.",
+      "legend": [
+        "70. Botanical over daybed \u2014 OF-ART-BOTANICAL-01",
+        "71. Daybed shelf \u2014 ARC-WALL-SHELF-01",
+        "   + books, KI-PLANT-01",
+        "5. Daybed \u2014 OF-DAYBED-01",
+        "   + pillows, quilt",
+        "11. Office storage cabinet \u2014 OF-CABINET-01 \u00b7 drawer / door candidate",
+        "   + box"
+      ],
+      "clean": "of-w-drawing.svg",
+      "projected": "of-w-projected-drawing.svg",
+      "projection_legend": [
+        "70. Botanical over daybed \u2014 OF-ART-BOTANICAL-01",
+        "71. Daybed shelf \u2014 ARC-WALL-SHELF-01",
+        "   + books, KI-PLANT-01",
+        "5. Daybed \u2014 OF-DAYBED-01",
+        "   + pillows, quilt",
+        "11. Office storage cabinet \u2014 OF-CABINET-01 \u00b7 drawer / door candidate",
+        "   + box",
+        "6. Desk [projection] \u2014 OF-DESK-01 \u00b7 drawer / door candidate",
+        "   + OF-DESK-LAMP-01, OF-PAPERS-01, book",
+        "7. Chair [projection] \u2014 OF-CHAIR-01",
+        "10. Office floor lamp [projection] \u2014 LV-LAMP-01"
+      ]
+    },
+    {
+      "room": "BC",
+      "side": "N",
+      "title": "BC-N / Mold closet",
+      "notes": "Mold belongs to interior back wall only. Centre is reserved for standing Malcolm; no low storage across this wall.",
+      "legend": [
+        "88. Malcolm mold on back wall \u2014 BR-CLOSET-01 \u00b7 hidden by closed doors; repaired = clean wall",
+        "92. Standing clearance reference \u2014 CHAR-MALCOLM",
+        "91. Single bare bulb \u2014 BR-CLOSET-01 \u00b7 light"
+      ],
+      "clean": "bc-n-drawing.svg",
+      "projected": "bc-n-projected-drawing.svg",
+      "projection_legend": [
+        "88. Malcolm mold on back wall \u2014 BR-CLOSET-01 \u00b7 hidden by closed doors; repaired = clean wall",
+        "92. Standing clearance reference \u2014 CHAR-MALCOLM",
+        "91. Single bare bulb \u2014 BR-CLOSET-01 \u00b7 light"
+      ]
+    },
+    {
+      "room": "BC",
+      "side": "E",
+      "title": "BC-E / Mold closet",
+      "notes": "Keep east side plain and unobstructed. Single bulb and dashed standing proxy are projections, not extra repeated objects.",
+      "legend": [
+        "92. Standing clearance reference \u2014 CHAR-MALCOLM"
+      ],
+      "clean": "bc-e-drawing.svg",
+      "projected": "bc-e-projected-drawing.svg",
+      "projection_legend": [
+        "92. Standing clearance reference \u2014 CHAR-MALCOLM",
+        "91. Single bare bulb [projection] \u2014 BR-CLOSET-01 \u00b7 light"
+      ]
+    },
+    {
+      "room": "BC",
+      "side": "S",
+      "title": "BC-S / Mold closet",
+      "notes": "View back toward paired doors opening into bedroom. Closed leaves conceal encounter and prompt; repair preserves doors and bulb.",
+      "legend": [
+        "Bedroom: 1.10 rough / 1.00 clear target; head 2.14. Paired outward leaves.",
+        "92. Standing clearance reference \u2014 CHAR-MALCOLM",
+        "91. Single bare bulb \u2014 BR-CLOSET-01 \u00b7 light"
+      ],
+      "clean": "bc-s-drawing.svg",
+      "projected": "bc-s-projected-drawing.svg",
+      "projection_legend": [
+        "Bedroom: 1.10 rough / 1.00 clear target; head 2.14. Paired outward leaves.",
+        "92. Standing clearance reference \u2014 CHAR-MALCOLM",
+        "91. Single bare bulb \u2014 BR-CLOSET-01 \u00b7 light"
+      ]
+    },
+    {
+      "room": "BC",
+      "side": "W",
+      "title": "BC-W / Mold closet",
+      "notes": "High shallow shelf and low boxes stay on west side. Keep hanging clothes and storage outside the character/door/camera volume.",
+      "legend": [
+        "89. High side shelf / hangers \u2014 BR-CLOSET-01",
+        "   + empty hangers",
+        "90. Low side boxes \u2014 BR-CLOSET-BOX-01",
+        "92. Standing clearance reference \u2014 CHAR-MALCOLM"
+      ],
+      "clean": "bc-w-drawing.svg",
+      "projected": "bc-w-projected-drawing.svg",
+      "projection_legend": [
+        "89. High side shelf / hangers \u2014 BR-CLOSET-01",
+        "   + empty hangers",
+        "90. Low side boxes \u2014 BR-CLOSET-BOX-01",
+        "92. Standing clearance reference \u2014 CHAR-MALCOLM",
+        "91. Single bare bulb [projection] \u2014 BR-CLOSET-01 \u00b7 light"
+      ]
+    },
+    {
+      "room": "CT",
+      "side": "N",
+      "title": "CT-N / Entry coat closet",
+      "notes": "Coat storage opens north into entry. Hanging rail/shelf and boxes are contained behind sliding doors; back wall is shared with guest wardrobe.",
+      "legend": [
+        "Entry-facing doors: 0.96 rough / 0.90 clear target; head 2.18. Bypass sliders."
+      ],
+      "clean": "ct-n-drawing.svg",
+      "projected": "ct-n-projected-drawing.svg",
+      "projection_legend": [
+        "Entry-facing doors: 0.96 rough / 0.90 clear target; head 2.18. Bypass sliders."
+      ]
+    },
+    {
+      "room": "CT",
+      "side": "E",
+      "title": "CT-E / Entry coat closet",
+      "notes": "Coat storage opens north into entry. Hanging rail/shelf and boxes are contained behind sliding doors; back wall is shared with guest wardrobe.",
+      "legend": [],
+      "clean": "ct-e-drawing.svg",
+      "projected": "ct-e-projected-drawing.svg",
+      "projection_legend": []
+    },
+    {
+      "room": "CT",
+      "side": "S",
+      "title": "CT-S / Entry coat closet",
+      "notes": "Coat storage opens north into entry. Hanging rail/shelf and boxes are contained behind sliding doors; back wall is shared with guest wardrobe.",
+      "legend": [
+        "93. Shelf / hanging rail \u2014 ARC-SLIDING-CLOSET-01",
+        "   + hangers",
+        "94. Storage boxes \u2014 BR-CLOSET-BOX-01"
+      ],
+      "clean": "ct-s-drawing.svg",
+      "projected": "ct-s-projected-drawing.svg",
+      "projection_legend": [
+        "93. Shelf / hanging rail \u2014 ARC-SLIDING-CLOSET-01",
+        "   + hangers",
+        "94. Storage boxes \u2014 BR-CLOSET-BOX-01"
+      ]
+    },
+    {
+      "room": "CT",
+      "side": "W",
+      "title": "CT-W / Entry coat closet",
+      "notes": "Coat storage opens north into entry. Hanging rail/shelf and boxes are contained behind sliding doors; back wall is shared with guest wardrobe.",
+      "legend": [],
+      "clean": "ct-w-drawing.svg",
+      "projected": "ct-w-projected-drawing.svg",
+      "projection_legend": []
+    },
+    {
+      "room": "WG",
+      "side": "N",
+      "title": "WG-N / Guest wardrobe",
+      "notes": "Guest wardrobe opens south into office. Target 0.60 m usable depth after tracks/trim; no duplicated wall between the two storage volumes.",
+      "legend": [
+        "95. Shelf / hanging rail \u2014 ARC-SLIDING-CLOSET-01",
+        "   + hangers",
+        "96. Storage boxes \u2014 BR-CLOSET-BOX-01"
+      ],
+      "clean": "wg-n-drawing.svg",
+      "projected": "wg-n-projected-drawing.svg",
+      "projection_legend": [
+        "95. Shelf / hanging rail \u2014 ARC-SLIDING-CLOSET-01",
+        "   + hangers",
+        "96. Storage boxes \u2014 BR-CLOSET-BOX-01"
+      ]
+    },
+    {
+      "room": "WG",
+      "side": "E",
+      "title": "WG-E / Guest wardrobe",
+      "notes": "Guest wardrobe opens south into office. Target 0.60 m usable depth after tracks/trim; no duplicated wall between the two storage volumes.",
+      "legend": [],
+      "clean": "wg-e-drawing.svg",
+      "projected": "wg-e-projected-drawing.svg",
+      "projection_legend": []
+    },
+    {
+      "room": "WG",
+      "side": "S",
+      "title": "WG-S / Guest wardrobe",
+      "notes": "Guest wardrobe opens south into office. Target 0.60 m usable depth after tracks/trim; no duplicated wall between the two storage volumes.",
+      "legend": [
+        "Office-facing doors: 0.96 rough / 0.90 clear target; head 2.18. Bypass sliders."
+      ],
+      "clean": "wg-s-drawing.svg",
+      "projected": "wg-s-projected-drawing.svg",
+      "projection_legend": [
+        "Office-facing doors: 0.96 rough / 0.90 clear target; head 2.18. Bypass sliders."
+      ]
+    },
+    {
+      "room": "WG",
+      "side": "W",
+      "title": "WG-W / Guest wardrobe",
+      "notes": "Guest wardrobe opens south into office. Target 0.60 m usable depth after tracks/trim; no duplicated wall between the two storage volumes.",
+      "legend": [],
+      "clean": "wg-w-drawing.svg",
+      "projected": "wg-w-projected-drawing.svg",
+      "projection_legend": []
+    }
+  ]
+}

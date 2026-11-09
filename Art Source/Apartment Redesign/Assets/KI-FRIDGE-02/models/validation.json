@@ -1,0 +1,70 @@
+{
+  "status": "PASS",
+  "checks": [
+    "finite geometry/UV/normals",
+    "nonzero triangle areas",
+    "positive render and collision transforms",
+    "mirrored bounds",
+    "body and door hinge origins",
+    "named convex box UCX and shared pivot"
+  ],
+  "parts": [
+    {
+      "part": "BODY",
+      "vertices": 7656,
+      "triangles": 15012,
+      "UV_layers": 1,
+      "collision_hulls": 13,
+      "origin_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "determinant": 1.0,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "bounds_min": [
+        -0.375,
+        -0.3519999384880066,
+        0.007499947212636471
+      ],
+      "bounds_max": [
+        0.3969999849796295,
+        0.3426499366760254,
+        1.6799999475479126
+      ]
+    },
+    {
+      "part": "DOOR",
+      "vertices": 4536,
+      "triangles": 8808,
+      "UV_layers": 1,
+      "collision_hulls": 15,
+      "origin_m": [
+        0.3799999952316284,
+        -0.3349999785423279,
+        0.0
+      ],
+      "determinant": 1.0,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "bounds_min": [
+        -0.36000001430511475,
+        -0.4034998118877411,
+        0.13999998569488525
+      ],
+      "bounds_max": [
+        0.3610000014305115,
+        -0.12799973785877228,
+        1.649999976158142
+      ]
+    }
+  ],
+  "limitations": "Source and Blender reimport validation only; Unreal hinge sign and material/collision import still require integration test."
+}

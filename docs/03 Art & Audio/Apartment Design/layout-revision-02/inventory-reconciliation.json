@@ -1,0 +1,1269 @@
+{
+  "date": "2026-11-09",
+  "scope": "Source folders and approved drawing schedule; engine instance reconciliation remains separate. FBX presence is not visual approval.",
+  "rows": [
+    {
+      "asset": "ARC-BEDROOM-PLASTER-01",
+      "action": "reuse",
+      "destination": "Bedroom and office upper plaster; fitted shell uses existing surface, not old cut walls.",
+      "source_fbx": [
+        "model/ARC_Bedroom_UpperPlaster_2m.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-CEILING-LIGHT-01",
+      "action": "reuse",
+      "destination": "Ceiling LV; Ceiling KI; Ceiling BR; Ceiling BA; Ceiling OF; Ceiling HA; Finish / surface schedule",
+      "source_fbx": [
+        "model/ARC_CeilingLight_Hardware.fbx",
+        "model/ARC_CeilingLight_Glass.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-CEILING-PLASTER-01",
+      "action": "reuse",
+      "destination": "Finish / surface schedule",
+      "source_fbx": [
+        "model/ARC_Ceiling_Module_2m.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-CLOSET-STORAGE-02",
+      "action": "new",
+      "destination": "Separate coat/guest shelf, hanging rail and empty hangers; twice, mounted at shared back wall. No front panels included.",
+      "source_fbx": [
+        "model/ARC_ClosetStorage02.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-CURTAINS-01",
+      "action": "reuse",
+      "destination": "Finish / surface schedule",
+      "source_fbx": [
+        "model/Curtain_Right.fbx",
+        "model/Curtain_Rod.fbx",
+        "model/Curtain_Left.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-DOOR-01",
+      "action": "modify",
+      "destination": "Room frames and leaves fitted to approved openings; rough width clear+0.06m, head2.14m.",
+      "source_fbx": [
+        "model/ARC_Door_Frame.fbx",
+        "model/ARC_Door_Leaf.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-DOOR-02",
+      "action": "new",
+      "destination": "Fitted .99clear/1.05rough room door, retained five-panel style and hardware.",
+      "source_fbx": [
+        "model/ARC_Door02_Leaf.fbx",
+        "model/ARC_Door02_Frame.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-ENTRY-DOOR-01",
+      "action": "modify",
+      "destination": "East entry y4.00..5.05; fit frame/leaf width to new opening, retain outward swing.",
+      "source_fbx": [
+        "model/ARC_Entry_Door_Frame.fbx",
+        "model/ARC_Entry_Door_Leaf.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-ENTRY-DOOR-02",
+      "action": "new",
+      "destination": "Fitted .99clear/1.05rough walnut entrance leaf and ivory frame.",
+      "source_fbx": [
+        "model/ARC_Entry_Door02_Frame.fbx",
+        "model/ARC_Entry_Door02_Leaf.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-FLOOR-WOOD-01",
+      "action": "reuse",
+      "destination": "Finish / surface schedule",
+      "source_fbx": [
+        "model/ARC_Floor_Wood_2m.fbx",
+        "model/ARC_Floor_Wear_Optional.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-KITCHEN-PLASTER-01",
+      "action": "reuse",
+      "destination": "Kitchen plaster; new north window and east portal cuts.",
+      "source_fbx": [
+        "model/ARC_Kitchen_Plaster_Wall_2m.fbx",
+        "model/ARC_Kitchen_Optional_Hairlines.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-LIVING-WALL-01",
+      "action": "modify",
+      "destination": "Reuse living/hall plaster appearance; rebuild shell partitions/openings, do not import old fixed wall-window assembly.",
+      "source_fbx": [
+        "model/ARC_Living_WindowWall_2p4m.fbx",
+        "model/ARC_Window_Glazing.fbx",
+        "model/ARC_Window_Casing_Sash.fbx",
+        "model/ARC_Living_SolidWall_2m.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-SLIDING-CLOSET-01",
+      "action": "modify",
+      "destination": "Front kits/rails fitted to new entry coat and guest wardrobe, back-to-back shared wall; no duplicate shells.",
+      "source_fbx": [
+        "model/ARC_Sliding_LeftPanel.fbx",
+        "model/ARC_Sliding_Frame.fbx",
+        "model/ARC_Sliding_RightPanel.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-SLIDING-CLOSET-02",
+      "action": "new",
+      "destination": "Rebuilt .90m-clear bypass front for shared coat/guest closets; cabinet depth remains shell-controlled.",
+      "source_fbx": [
+        "model/ARC_Sliding02_Frame.fbx",
+        "model/ARC_Sliding02_LeftPanel.fbx",
+        "model/ARC_Sliding02_RightPanel.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-TRIM-01",
+      "action": "reuse",
+      "destination": "Finish / surface schedule",
+      "source_fbx": [
+        "model/Baseboard_1m.fbx",
+        "model/Crown_1m.fbx",
+        "model/Baseboard_Inside_Start.fbx",
+        "model/Crown_Inside_Start.fbx",
+        "model/Baseboard_Inside_End.fbx",
+        "model/Casing_1m.fbx",
+        "model/Crown_Inside_End.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-WALL-SHELF-01",
+      "action": "reuse",
+      "destination": "Display shelf + pottery (LV); Bedroom display shelf (BR); Books and vase (BR); Daybed shelf (OF); East display shelf (OF); Basin toiletries shelf (BA); North toiletries shelf (BA); Folded towel and tin (BA); Breakfast mugs / pottery (KI); Finish / surface schedule",
+      "source_fbx": [
+        "model/ARC_WALL_SHELF_01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-WINDOW-01",
+      "action": "modify",
+      "destination": "Living north1.60m window; kitchen replaced by new ARC-WINDOW-KITCHEN-02 counter-height kit.",
+      "source_fbx": [
+        "model/ARC_Window_lower_glass.fbx",
+        "model/ARC_Window_frame.fbx",
+        "model/ARC_Window_upper_glass.fbx",
+        "model/ARC_Window_upper_sash.fbx",
+        "model/ARC_Window_lower_sash.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-WINDOW-BATH-01",
+      "action": "reuse",
+      "destination": "Bathroom south frosted window; follow approved aperture.",
+      "source_fbx": [
+        "model/ARC_Window_lower_glass.fbx",
+        "model/ARC_Window_frame.fbx",
+        "model/ARC_Window_upper_glass.fbx",
+        "model/ARC_Window_upper_sash.fbx",
+        "model/ARC_Window_lower_sash.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-WINDOW-KITCHEN-02",
+      "action": "new",
+      "destination": "Counter-height1.60x1.15 opening, sill1.25/head2.40; apron bottom>=1.18.",
+      "source_fbx": [
+        "model/ARC_Window_Kitchen_frame.fbx",
+        "model/ARC_Window_Kitchen_lower_sash.fbx",
+        "model/ARC_Window_Kitchen_upper_glass.fbx",
+        "model/ARC_Window_Kitchen_upper_sash.fbx",
+        "model/ARC_Window_Kitchen_lower_glass.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-WINDOW-NARROW-01",
+      "action": "reuse",
+      "destination": "Bedroom south opening x3.30..4.40, sill0.90/head2.30; move with opening.",
+      "source_fbx": [
+        "model/ARC_Window_lower_glass.fbx",
+        "model/ARC_Window_frame.fbx",
+        "model/ARC_Window_upper_glass.fbx",
+        "model/ARC_Window_upper_sash.fbx",
+        "model/ARC_Window_lower_sash.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-WINDOW-OFFICE-01",
+      "action": "reuse",
+      "destination": "Office south window; terminate relocated panel rail/apron around opening.",
+      "source_fbx": [
+        "model/ARC_Window_lower_glass.fbx",
+        "model/ARC_Window_frame.fbx",
+        "model/ARC_Window_upper_glass.fbx",
+        "model/ARC_Window_upper_sash.fbx",
+        "model/ARC_Window_lower_sash.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-ART-01",
+      "action": "reuse",
+      "destination": "Small botanical (BA); Finish / surface schedule",
+      "source_fbx": [
+        "model/BA-ART-01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-BASIN-01",
+      "action": "reuse",
+      "destination": "Basin (BA); Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_BasinTap_L.fbx",
+        "model/BA_BasinTap_R.fbx",
+        "model/BA_BasinBody.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-BASKET-01",
+      "action": "reuse",
+      "destination": "Towel basket (BA); Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_Towel_0.fbx",
+        "model/BA_Towel_1.fbx",
+        "model/BA_Towel_2.fbx",
+        "model/BA_Basket_LOD1.fbx",
+        "model/BA_Basket.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-BIN-01",
+      "action": "reuse",
+      "destination": "Pedal bin (BA); Finish / surface schedule",
+      "source_fbx": [
+        "model/Bin_lid.fbx",
+        "model/Bin_pedal.fbx",
+        "model/Bin_body.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-BOTTLE-01",
+      "action": "reuse",
+      "destination": "Basin toiletries shelf (BA); Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_Bottle_Stopper.fbx",
+        "model/BA_Bottle_Body.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-CUP-01",
+      "action": "reuse",
+      "destination": "Basin toiletries shelf (BA); Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_Brush_Sage.fbx",
+        "model/BA_Cup.fbx",
+        "model/BA_Brush_Ivory.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-FLOOR-01",
+      "action": "reuse",
+      "destination": "Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_FLOOR_MODULE.fbx",
+        "model/BA_FLOOR_WEAR.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-FOLDED-TOWEL-01",
+      "action": "reuse",
+      "destination": "Folded towel and tin (BA); Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_Folded_Towel.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-HAND-TOWEL-01",
+      "action": "reuse",
+      "destination": "Hand towel rail (BA); Hook + hand towel (BA); Bath towel rail (BA); Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_Hand_Towel.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-HOOK-01",
+      "action": "reuse",
+      "destination": "Hook + hand towel (BA); Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_Hook_01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-JAR-01",
+      "action": "reuse",
+      "destination": "North toiletries shelf (BA); Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_Jar_Lid.fbx",
+        "model/BA_Jar_Body.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-LINEN-01",
+      "action": "reuse",
+      "destination": "Linen (BA); Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_Linen_LowerDoor.fbx",
+        "model/BA_Linen_Body.fbx",
+        "model/BA_Linen_UpperDoor.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-MAT-01",
+      "action": "reuse",
+      "destination": "Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_Mat.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-MIRROR-01",
+      "action": "reuse",
+      "destination": "Mirror and paired globes (BA); Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_Mirror_mirror.fbx",
+        "model/BA_Mirror_sconce.fbx",
+        "model/BA_Mirror_globe.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-ROLL-01",
+      "action": "reuse",
+      "destination": "Toilet roll (BA); Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_Roll_Paper.fbx",
+        "model/BA_Roll_Holder.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-SOAP-01",
+      "action": "reuse",
+      "destination": "Basin toiletries shelf (BA); North toiletries shelf (BA); Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_SoapDish.fbx",
+        "model/BA_SoapBar.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-SWITCH-01",
+      "action": "reuse",
+      "destination": "Bedroom switch (BR); Office switch (OF); Bath switch (BA); Kitchen switch (KI); Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_Switch_Plate.fbx",
+        "model/BA_Switch_Toggle.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-TILE-01",
+      "action": "reuse",
+      "destination": "Tyler cracked tile (BA); Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_Tile_040_Extension.fbx",
+        "model/BA_Tile_Damage.fbx",
+        "model/BA_Tile_1m_Module.fbx",
+        "model/BA_Tile_Cap.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-TIN-01",
+      "action": "reuse",
+      "destination": "Folded towel and tin (BA); Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_Tin_Body.fbx",
+        "model/BA_Tin_Lid.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-TOILET-01",
+      "action": "reuse",
+      "destination": "WC (BA); Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_ToiletBody.fbx",
+        "model/BA_ToiletLid.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-TOWEL-RAIL-01",
+      "action": "reuse",
+      "destination": "Hand towel rail (BA); Bath towel rail (BA); Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_Towel_Ivory.fbx",
+        "model/BA_Towel_Rose.fbx",
+        "model/BA_Towel_Rail.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-TUB-01",
+      "action": "reuse",
+      "destination": "Tub / crack (BA); Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_TapRight.fbx",
+        "model/BA_TubFixtures.fbx",
+        "model/BA_Tub.fbx",
+        "model/BA_Curtain.fbx",
+        "model/BA_TapLeft.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-TUB-WATER-01",
+      "action": "reuse",
+      "destination": "Tub / crack (BA); Finish / surface schedule",
+      "source_fbx": [
+        "model/BA_TUB_WATER_Surface.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BR-ART-FLORAL-01",
+      "action": "reuse",
+      "destination": "Floral print between doors (BR); Botanical above moved bookcase (BR); Print near dresser (BR); Headboard picture (BR); Finish / surface schedule",
+      "source_fbx": [
+        "model/BR-ART-FLORAL-01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BR-BED-01",
+      "action": "reuse",
+      "destination": "Bed (BR); Finish / surface schedule",
+      "source_fbx": [
+        "model/BR_Bed_Frame.fbx",
+        "model/BR_Bed_Complete.fbx",
+        "model/BR_Bed_Bedding.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BR-CLOSET-01",
+      "action": "replace",
+      "destination": "Old undersized shell replaced by fitted BR-CLOSET-02 interior/door kit and new shell. Reuse mold texture, bulb and trim style; preserve Malcolm.",
+      "source_fbx": [
+        "model/BR_Closet_Body.fbx",
+        "model/BR_Closet_Door_R.fbx",
+        "model/BR_Closet_Door_L.fbx",
+        "model/BR_Closet_Mold.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BR-CLOSET-02",
+      "action": "new",
+      "destination": "Hall-end closet doors/interior kit; shell assembled separately.",
+      "source_fbx": [
+        "model/BR_Closet02_Door_L.fbx",
+        "model/BR_Closet02_Trim.fbx",
+        "model/BR_Closet02_Bulb.fbx",
+        "model/BR_Closet02_Mold.fbx",
+        "model/BR_Closet02_Shelf.fbx",
+        "model/BR_Closet02_Door_R.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BR-CLOSET-BOX-01",
+      "action": "reuse",
+      "destination": "Low west box (BC); Storage box (CT); Storage box (WG); Finish / surface schedule",
+      "source_fbx": [
+        "model/BR_BOX_LID.fbx",
+        "model/BR_BOX_BODY.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BR-DRESSER-01",
+      "action": "reuse",
+      "destination": "Dresser / mirror (BR); Finish / surface schedule",
+      "source_fbx": [
+        "model/BR_Dresser_body.fbx",
+        "model/BR_Dresser_mirror.fbx",
+        "model/BR_Dresser_drawer1.fbx",
+        "model/BR_Dresser_drawer2.fbx",
+        "model/BR_Dresser_drawer3.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BR-LAMP-01",
+      "action": "reuse",
+      "destination": "Nightstand (BR); Finish / surface schedule",
+      "source_fbx": [
+        "model/BR_LampBody.fbx",
+        "model/BR_LampBulb.fbx",
+        "model/BR_LampShade.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BR-NIGHTSTAND-01",
+      "action": "reuse",
+      "destination": "Nightstand (BR); Finish / surface schedule",
+      "source_fbx": [
+        "model/BR_NIGHTSTAND_DRAWER.fbx",
+        "model/BR_NIGHTSTAND_BODY.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BR-PERFUME-01",
+      "action": "reuse",
+      "destination": "Dresser / mirror (BR); Finish / surface schedule",
+      "source_fbx": [
+        "model/BR_Perfume_Body.fbx",
+        "model/BR_Perfume_Stopper.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BR-WAINSCOT-01",
+      "action": "modify",
+      "destination": "Relocate white panels and lead paint to office. Fit widths around door, closet return and window; bedroom uses plaster.",
+      "source_fbx": [
+        "model/BR_Wainscot_Damage.fbx",
+        "model/BR_Wainscot_Module.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ENV-SKY-01",
+      "action": "reuse",
+      "destination": "Exterior painted sky and skyline retained; rotate to golden sun/window direction.",
+      "source_fbx": [],
+      "source_readme": true
+    },
+    {
+      "asset": "HA-ART-02",
+      "action": "reuse",
+      "destination": "Small portrait (LV); Hall portrait (HA); Small gallery print (HA); Finish / surface schedule",
+      "source_fbx": [
+        "model/HA-ART-02.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "HA-ART-03",
+      "action": "reuse",
+      "destination": "Landscape above side console (HA/LV); Gallery landscape (HA); Finish / surface schedule",
+      "source_fbx": [
+        "model/HA-ART-03.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "HA-ART-09",
+      "action": "reuse",
+      "destination": "Focal landscape (HA); Finish / surface schedule",
+      "source_fbx": [
+        "model/HA-ART-09.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "HA-BENCH-01",
+      "action": "reuse",
+      "destination": "Entry bench (HA/LV); Finish / surface schedule",
+      "source_fbx": [
+        "model/HA_BENCH_01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "HA-CABINET-01",
+      "action": "reuse",
+      "destination": "Hall end cabinet (HA); Finish / surface schedule",
+      "source_fbx": [
+        "model/HA_CABINET_BODY.fbx",
+        "model/HA_CABINET_DOOR_R.fbx",
+        "model/HA_CABINET_DRAWER.fbx",
+        "model/HA_CABINET_DOOR_L.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "HA-COAT-01",
+      "action": "reuse",
+      "destination": "Coat hooks over bench (LV); Finish / surface schedule",
+      "source_fbx": [
+        "model/HA_Coat.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "HA-CONSOLE-01",
+      "action": "reuse",
+      "destination": "Hall side console (HA/LV); Finish / surface schedule",
+      "source_fbx": [
+        "model/HA_CONSOLE_DRAWER.fbx",
+        "model/HA_CONSOLE_BODY.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "HA-FLOWERS-01",
+      "action": "reuse",
+      "destination": "Hall side console (HA/LV); Finish / surface schedule",
+      "source_fbx": [
+        "model/HA_FLOWERS_01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "HA-HOOKS-01",
+      "action": "reuse",
+      "destination": "Coat hooks over bench (LV); Finish / surface schedule",
+      "source_fbx": [
+        "model/HA_Hooks.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "HA-RUNNER-01",
+      "action": "reuse",
+      "destination": "Finish / surface schedule",
+      "source_fbx": [
+        "model/HA_RUNNER_01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "HA-SCONCE-01",
+      "action": "reuse",
+      "destination": "Entry sconce (LV); Hall warm sconce (HA); Breakfast sconce (KI); Finish / surface schedule",
+      "source_fbx": [
+        "model/HA_Sconce_Bulb.fbx",
+        "model/HA_Sconce_Hardware.fbx",
+        "model/HA_Sconce_Shade.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "HA-SHOES-01",
+      "action": "reuse",
+      "destination": "Entry bench (HA/LV); Finish / surface schedule",
+      "source_fbx": [
+        "model/HA_Oxford_2.fbx",
+        "model/HA_Oxford_1.fbx",
+        "model/HA_ShoeTray.fbx",
+        "model/HA_SlipOn_2.fbx",
+        "model/HA_SlipOn_1.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "HA-VASE-01",
+      "action": "reuse",
+      "destination": "Hall side console (HA/LV); Books and vase (BR); Finish / surface schedule",
+      "source_fbx": [
+        "model/HA_VASE_01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "HA-VASE-02",
+      "action": "reuse",
+      "destination": "Hall end cabinet (HA); Finish / surface schedule",
+      "source_fbx": [
+        "model/HA_VASE_02.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-ART-01",
+      "action": "reuse",
+      "destination": "Breakfast still life (KI); Finish / surface schedule",
+      "source_fbx": [
+        "model/KI-ART-01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-BACKSPLASH-01",
+      "action": "reuse",
+      "destination": "North counter backsplash left (KI); North counter backsplash right (KI); Finish / surface schedule",
+      "source_fbx": [
+        "model/KI_Backsplash_End_Right.fbx",
+        "model/KI_Backsplash_Module_1m.fbx",
+        "model/KI_Backsplash_End_Left.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-BOWL-01",
+      "action": "reuse",
+      "destination": "Counter (KI); Dining table (LV); Finish / surface schedule",
+      "source_fbx": [
+        "model/Pear.fbx",
+        "model/Lemon_B.fbx",
+        "model/Lemon_A.fbx",
+        "model/Apple_A.fbx",
+        "model/Apple_B.fbx",
+        "model/KI_Bowl.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-BUCKET-01",
+      "action": "reuse",
+      "destination": "Sink / leak (KI); Finish / surface schedule",
+      "source_fbx": [
+        "model/KI_Bucket_Water.fbx",
+        "model/KI_Bucket_Handle.fbx",
+        "model/KI_Bucket_Body.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-CABINET-01",
+      "action": "replace",
+      "destination": "Three base frontages replaced by source-style KI-CABINET-02 variants .425/.775/.450m; preserve sage profiles/hardware scale.",
+      "source_fbx": [
+        "model/KI_Cabinet_drawer.fbx",
+        "model/KI_Cabinet_door.fbx",
+        "model/KI_Cabinet_body.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-CABINET-02",
+      "action": "new",
+      "destination": "Three fitted cabinet widths; parent review/FBX validation before import.",
+      "source_fbx": [
+        "model/KI_CAB_0775_door_L.fbx",
+        "model/KI_CAB_0450_door.fbx",
+        "model/KI_CAB_0425_body.fbx",
+        "model/KI_CAB_0425_drawer.fbx",
+        "model/KI_CAB_0775_body.fbx",
+        "model/KI_CAB_0775_drawer_R.fbx",
+        "model/KI_CAB_0425_door.fbx",
+        "model/KI_CAB_0450_drawer.fbx",
+        "model/KI_CAB_0775_drawer_L.fbx",
+        "model/KI_CAB_0450_body.fbx",
+        "model/KI_CAB_0775_door_R.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-CHAIR-01",
+      "action": "reuse",
+      "destination": "Dining chair (LV); Finish / surface schedule",
+      "source_fbx": [
+        "model/KI_CHAIR_01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-FRIDGE-01",
+      "action": "reuse",
+      "destination": "Imported geometry already has west/-X hinge. Correct old click-action pivot to actual hinge;105-degree sweep beside north prep.",
+      "source_fbx": [
+        "models/KI_FRIDGE_DOOR.fbx",
+        "models/KI_FRIDGE_BODY.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-FRIDGE-02",
+      "action": "omit",
+      "destination": "Unused opposite-hinge variant: imported +X is east. Original KI-FRIDGE-01 is correct; false report traced to old gameplay pivot.",
+      "source_fbx": [
+        "models/KI_FRIDGE_02_BODY.fbx",
+        "models/KI_FRIDGE_02_DOOR.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-JAR-01",
+      "action": "reuse",
+      "destination": "Prep (KI); Finish / surface schedule",
+      "source_fbx": [
+        "model/KI_Jar_Lid.fbx",
+        "model/KI_Jar_Body.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-KETTLE-01",
+      "action": "reuse",
+      "destination": "Range (KI); Finish / surface schedule",
+      "source_fbx": [
+        "model/KI_Kettle_Lid.fbx",
+        "model/KI_Kettle_Body.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-MUG-01",
+      "action": "reuse",
+      "destination": "Coffee table (LV); Prep / uppers (KI); Breakfast mugs / pottery (KI); Finish / surface schedule",
+      "source_fbx": [
+        "model/KI_Mug_01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-PAN-01",
+      "action": "reuse",
+      "destination": "Range (KI); Pan rail (KI); Finish / surface schedule",
+      "source_fbx": [
+        "model/KI_Pan_Body.fbx",
+        "model/KI_Pan_Handle.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-PAN-RAIL-01",
+      "action": "reuse",
+      "destination": "Pan rail (KI); Finish / surface schedule",
+      "source_fbx": [
+        "model/KI_Pan_Rail_Body.fbx",
+        "model/KI_Pan_Rail_Hooks.fbx",
+        "model/KI_Pan_Rail_Assembly.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-PANTRY-01",
+      "action": "reuse",
+      "destination": "Pantry (KI); Finish / surface schedule",
+      "source_fbx": [
+        "model/KI_Pantry_LeftDoor.fbx",
+        "model/KI_Pantry_RightDoor.fbx",
+        "model/KI_Pantry_Body.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-PLANT-01",
+      "action": "reuse",
+      "destination": "Daybed shelf (OF); Finish / surface schedule",
+      "source_fbx": [
+        "model/KI_Geranium.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-POTTERY-01",
+      "action": "reuse",
+      "destination": "Prep / uppers (KI); Display shelf + pottery (LV); Breakfast mugs / pottery (KI); Finish / surface schedule",
+      "source_fbx": [
+        "model/KI_Pottery_01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-RANGE-01",
+      "action": "reuse",
+      "destination": "Range (KI); Finish / surface schedule",
+      "source_fbx": [
+        "model/KI_RANGE_Door.fbx",
+        "model/KI_RANGE_Body.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-RANGE-FLAME-01",
+      "action": "reuse",
+      "destination": "Range (KI); Finish / surface schedule",
+      "source_fbx": [
+        "model/KI_Range_Flame.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-SINK-01",
+      "action": "replace",
+      "destination": "Full sink assembly omitted; approved narrow KI-SINK-NARROW-01 preserves leak/repair.",
+      "source_fbx": [
+        "models/KI_SINK_L_tap.fbx",
+        "models/KI_SINK_L_door.fbx",
+        "models/KI_SINK_R_door.fbx",
+        "models/KI_SINK_R_tap.fbx",
+        "models/KI_SINK_R_drawer.fbx",
+        "models/KI_SINK_L_drawer.fbx",
+        "models/KI_SINK_body.fbx",
+        "models/KI_SINK_damage.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-SINK-NARROW-01",
+      "action": "reuse",
+      "destination": "Sink / leak (KI); Finish / surface schedule",
+      "source_fbx": [
+        "models/KI_SINK_NARROW_R_tap.fbx",
+        "models/KI_SINK_NARROW_L_tap.fbx",
+        "models/KI_SINK_NARROW_body.fbx",
+        "models/KI_SINK_NARROW_damage.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-STOOL-02",
+      "action": "new",
+      "destination": "Matching stool .30x.30x.45 tucked below wall table.",
+      "source_fbx": [
+        "model/KI_STOOL_02.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-TABLE-01",
+      "action": "reuse",
+      "destination": "Dining table (LV); Finish / surface schedule",
+      "source_fbx": [
+        "model/KI_TABLE_01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-TILE-01",
+      "action": "reuse",
+      "destination": "Finish / surface schedule",
+      "source_fbx": [
+        "model/KI_TILE_SUBSTRATE.fbx",
+        "model/KI_TILE_TOP.fbx",
+        "model/KI_TILE_WEAR_4x3.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-UPPER-01",
+      "action": "reuse",
+      "destination": "East return cupboard (KI); Finish / surface schedule",
+      "source_fbx": [
+        "model/KI_Upper_Body.fbx",
+        "model/KI_Upper_LeftDoor.fbx",
+        "model/KI_Upper_RightDoor.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-WALL-STAIN-01",
+      "action": "reuse",
+      "destination": "Water tide beside sink window (KI); Finish / surface schedule",
+      "source_fbx": [
+        "model/KI_Wall_Stain.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-WALL-TABLE-02",
+      "action": "new",
+      "destination": "Small south-wall table .90x.45x.74; source-style fitted piece.",
+      "source_fbx": [
+        "model/KI_WALL_TABLE_02.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "LV-ART-04",
+      "action": "reuse",
+      "destination": "Landscape over TV (LV); Landscape beside bookcase (LV); Finish / surface schedule",
+      "source_fbx": [
+        "model/LV-ART-04.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "LV-BOOK-01",
+      "action": "reuse",
+      "destination": "Bookcase (LV); Finish / surface schedule",
+      "source_fbx": [
+        "model/LV_BOOK_BOOKS.fbx",
+        "model/LV_BOOK_PLANT.fbx",
+        "model/LV_BOOK_TIN.fbx",
+        "model/LV_BOOK_CASE.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "LV-CHAIR-01",
+      "action": "reuse",
+      "destination": "Armchair (LV); Finish / surface schedule",
+      "source_fbx": [
+        "model/LV-CHAIR-01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "LV-CHEST-01",
+      "action": "omit",
+      "destination": "Old living south-wall chest has no assigned place in open living/hall arrangement. Do not obstruct kitchen/dining circulation to force it in; retain source for future use.",
+      "source_fbx": [
+        "model/LV_CHEST_BODY.fbx",
+        "model/LV_CHEST_LID.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "LV-COFFEE-01",
+      "action": "reuse",
+      "destination": "Coffee table (LV); Finish / surface schedule",
+      "source_fbx": [
+        "model/LV_COFFEE_01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "LV-FUSE-01",
+      "action": "reuse",
+      "destination": "Entry fusebox / Wyatt (LV); Finish / surface schedule",
+      "source_fbx": [
+        "exports/LV_FUSE_01_Door.fbx",
+        "exports/LV_FUSE_01_Wire_Damaged.fbx",
+        "exports/LV_FUSE_01_Shell.fbx",
+        "exports/LV_FUSE_01_Wire_Repaired.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "LV-FUSE-DAMAGE-01",
+      "action": "reuse",
+      "destination": "Entry fusebox / Wyatt (LV); Finish / surface schedule",
+      "source_fbx": [
+        "model/LV_Fuse_Plaster_Damage.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "LV-LAMP-01",
+      "action": "reuse",
+      "destination": "Office floor lamp (OF); Finish / surface schedule",
+      "source_fbx": [
+        "model/LV_LampBulb.fbx",
+        "model/LV_LampBody.fbx",
+        "model/LV_LampShade.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "LV-PLANT-01",
+      "action": "reuse",
+      "destination": "Plant (LV); Finish / surface schedule",
+      "source_fbx": [
+        "model/LV_Plant.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "LV-PLANT-STAND-01",
+      "action": "reuse",
+      "destination": "Relocate from old hall to support living plant at plan(11.05,0.50); stand top0.480, riser0.036, plant origin0.516. Fit .451x.351 footprint around same center.",
+      "source_fbx": [
+        "model/LV_Plant_Stand.fbx",
+        "model/LV_Plant_Stand_Riser.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "LV-RADIATOR-01",
+      "action": "reuse",
+      "destination": "Radiator (LV); Finish / surface schedule",
+      "source_fbx": [
+        "model/LV_Radiator.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "LV-RUG-01",
+      "action": "reuse",
+      "destination": "Finish / surface schedule",
+      "source_fbx": [
+        "model/LV_RUG_01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "LV-SIDE-TABLE-01",
+      "action": "reuse",
+      "destination": "Side table (LV); Finish / surface schedule",
+      "source_fbx": [
+        "model/LV_SIDE_TABLE_BODY.fbx",
+        "model/LV_SIDE_TABLE_DRAWER.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "LV-SOFA-01",
+      "action": "reuse",
+      "destination": "Sofa (LV); Finish / surface schedule",
+      "source_fbx": [
+        "model/LV-SOFA-01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "LV-TABLE-LAMP-01",
+      "action": "reuse",
+      "destination": "Side table (LV); Finish / surface schedule",
+      "source_fbx": [
+        "model/LV_TableLampBody.fbx",
+        "model/LV_TableLampShade.fbx",
+        "model/LV_TableLampBulb.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "LV-TV-01",
+      "action": "reuse",
+      "destination": "TV / console (LV); Finish / surface schedule",
+      "source_fbx": [
+        "model/LV_TV_screen_on.fbx",
+        "model/LV_TV_screen_off.fbx",
+        "model/LV_TV_left.fbx",
+        "model/LV_TV_body.fbx",
+        "model/LV_TV_right.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "OF-ART-BOTANICAL-01",
+      "action": "reuse",
+      "destination": "Botanical over daybed (OF); East botanical (OF); Finish / surface schedule",
+      "source_fbx": [
+        "model/OF-ART-BOTANICAL-01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "OF-ART-LANDSCAPE-01",
+      "action": "reuse",
+      "destination": "North-wall landscape (OF); Finish / surface schedule",
+      "source_fbx": [
+        "model/OF-ART-LANDSCAPE-01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "OF-BOOKCASE-01",
+      "action": "reuse",
+      "destination": "Bookcase from office (BR); Finish / surface schedule",
+      "source_fbx": [
+        "model/OF_BOOKCASE_BODY.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "OF-CABINET-01",
+      "action": "reuse",
+      "destination": "Office storage cabinet (OF); Finish / surface schedule",
+      "source_fbx": [
+        "model/OF_CABINET_DOOR_L.fbx",
+        "model/OF_CABINET_DOOR_R.fbx",
+        "model/OF_CABINET_BODY.fbx",
+        "model/OF_CABINET_DRAWER.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "OF-CHAIR-01",
+      "action": "reuse",
+      "destination": "Chair (OF); Finish / surface schedule",
+      "source_fbx": [
+        "model/OF_CHAIR_01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "OF-DAYBED-01",
+      "action": "reuse",
+      "destination": "Daybed (OF); Finish / surface schedule",
+      "source_fbx": [
+        "model/OF_DAYBED_Frame.fbx",
+        "model/OF_DAYBED_Assembly.fbx",
+        "model/OF_DAYBED_Bedding.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "OF-DESK-01",
+      "action": "reuse",
+      "destination": "Desk (OF); Finish / surface schedule",
+      "source_fbx": [
+        "model/OF_DESK_DRAWER_3.fbx",
+        "model/OF_DESK_DRAWER_2.fbx",
+        "model/OF_DESK_DRAWER_1.fbx",
+        "model/OF_DESK_BODY.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "OF-DESK-LAMP-01",
+      "action": "reuse",
+      "destination": "Desk (OF); Finish / surface schedule",
+      "source_fbx": [
+        "model/OF_DeskLamp_Shade.fbx",
+        "model/OF_DeskLamp_Bulb.fbx",
+        "model/OF_DeskLamp_Body.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "OF-PAPERS-01",
+      "action": "reuse",
+      "destination": "Desk (OF); Finish / surface schedule",
+      "source_fbx": [
+        "model/OF_PAPERS_01.fbx"
+      ],
+      "source_readme": true
+    }
+  ],
+  "unresolved": []
+}

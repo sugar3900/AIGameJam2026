@@ -1,0 +1,28 @@
+{
+  "asset": "KI-STOOL-02",
+  "dimensions_m": [
+    0.3,
+    0.3,
+    0.45
+  ],
+  "origin": "floor centre",
+  "source_front": "-Y",
+  "source_up": "+Z",
+  "fbx_axes": {
+    "forward": "-Y",
+    "up": "Z"
+  },
+  "parts": [
+    {
+      "file": "model/KI_STOOL_02.fbx",
+      "offset_m": [
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "collision": "Per-member UCX, open underside retained",
+  "new_geometry": true,
+  "texture_source": "KI-TABLE-01"
+}

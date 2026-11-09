@@ -1,0 +1,46 @@
+[
+  {
+    "file": "ARC_Entry_Door02_Frame.fbx",
+    "render_mesh": "ARC_Entry_Door02_Frame",
+    "location": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "bounds_min": [
+      -0.5950000286102295,
+      -0.09099999815225601,
+      -1.4825780603189287e-08
+    ],
+    "bounds_max": [
+      0.5950000286102295,
+      0.09100036323070526,
+      2.2189998626708984
+    ],
+    "triangles": 1512,
+    "collision_hulls": 3,
+    "status": "pass"
+  },
+  {
+    "file": "ARC_Entry_Door02_Leaf.fbx",
+    "render_mesh": "ARC_Entry_Door02_Leaf",
+    "location": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "bounds_min": [
+      -0.00700002908706665,
+      -0.05900000408291817,
+      -2.101676521704121e-08
+    ],
+    "bounds_max": [
+      0.9830000400543213,
+      0.12900033593177795,
+      2.0940001010894775
+    ],
+    "triangles": 6352,
+    "collision_hulls": 1,
+    "status": "pass"
+  }
+]

@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "checks": [
+    "FBX round trip",
+    "zero object origin",
+    "finite geometry/UV",
+    "UV presence",
+    "nondegenerate triangles",
+    "two closed convex UCX boxes only",
+    "shelf .95x.30 at1.95..1.985",
+    "full hanger depth below.50m",
+    "rear edge no geometry behindY0"
+  ],
+  "vertices": 10320,
+  "triangles": 20348,
+  "collision_hulls": 2,
+  "bounds_min": [
+    -0.4750000536441803,
+    -0.485147625207901,
+    1.5820000171661377
+  ],
+  "bounds_max": [
+    0.4749999940395355,
+    7.127002277229622e-08,
+    1.9850000143051147
+  ],
+  "overall_depth": 0.4851476964779238
+}

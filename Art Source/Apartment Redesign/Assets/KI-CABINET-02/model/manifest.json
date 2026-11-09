@@ -1,0 +1,270 @@
+{
+  "units": "metres",
+  "up": "Z",
+  "front": "-Y",
+  "countertop_top": 0.91,
+  "overall_depth": 0.65,
+  "upstand": "none: separate backsplash and sill",
+  "variants": [
+    {
+      "code": "0425",
+      "width": 0.425,
+      "module_width": 0.425,
+      "carcass_width": 0.425,
+      "carcass_offset_x": 0,
+      "filler_width": 0,
+      "filler_side": null,
+      "filler_front_y": null,
+      "parts": {
+        "body": {
+          "file": "KI_CAB_0425_body.fbx",
+          "object": "KI_CAB_0425_body",
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "closed_min": [
+            -0.21250000596046448,
+            -0.32499998807907104,
+            0.0
+          ],
+          "closed_max": [
+            0.21250000596046448,
+            0.32499998807907104,
+            0.9099999666213989
+          ],
+          "ucx_hulls": 11
+        },
+        "door": {
+          "file": "KI_CAB_0425_door.fbx",
+          "object": "KI_CAB_0425_door",
+          "pivot": [
+            -0.17049999999999998,
+            -0.2705,
+            0
+          ],
+          "closed_min": [
+            -0.18149998784065247,
+            -0.32084348797798157,
+            0.1355000138282776
+          ],
+          "closed_max": [
+            0.16250000894069672,
+            -0.23999999463558197,
+            0.6504999995231628
+          ],
+          "ucx_hulls": 1
+        },
+        "drawer": {
+          "file": "KI_CAB_0425_drawer.fbx",
+          "object": "KI_CAB_0425_drawer",
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "closed_min": [
+            -0.16249999403953552,
+            -0.3136763274669647,
+            0.6749999523162842
+          ],
+          "closed_max": [
+            0.16249999403953552,
+            0.23500001430511475,
+            0.8550000190734863
+          ],
+          "ucx_hulls": 5
+        }
+      }
+    },
+    {
+      "code": "0775",
+      "width": 0.775,
+      "module_width": 0.775,
+      "carcass_width": 0.735,
+      "carcass_offset_x": -0.02,
+      "filler_width": 0.04,
+      "filler_side": "east",
+      "filler_front_y": -0.19,
+      "parts": {
+        "body": {
+          "file": "KI_CAB_0775_body.fbx",
+          "object": "KI_CAB_0775_body",
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "closed_min": [
+            -0.38749998807907104,
+            -0.32499998807907104,
+            0.0
+          ],
+          "closed_max": [
+            0.38749998807907104,
+            0.32499998807907104,
+            0.9099999666213989
+          ],
+          "ucx_hulls": 14
+        },
+        "door_L": {
+          "file": "KI_CAB_0775_door_L.fbx",
+          "object": "KI_CAB_0775_door_L",
+          "pivot": [
+            -0.34550000000000003,
+            -0.2705,
+            0
+          ],
+          "closed_min": [
+            -0.35649996995925903,
+            -0.32084348797798157,
+            0.1355000138282776
+          ],
+          "closed_max": [
+            -0.023000001907348633,
+            -0.23999999463558197,
+            0.6504999995231628
+          ],
+          "ucx_hulls": 1,
+          "gameplay_identity": "Sink_Door_L"
+        },
+        "drawer_L": {
+          "file": "KI_CAB_0775_drawer_L.fbx",
+          "object": "KI_CAB_0775_drawer_L",
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "closed_min": [
+            -0.3375000059604645,
+            -0.3136763274669647,
+            0.6749999523162842
+          ],
+          "closed_max": [
+            -0.023000001907348633,
+            0.23500001430511475,
+            0.8550000190734863
+          ],
+          "ucx_hulls": 5,
+          "gameplay_identity": "Sink_Drawer_L"
+        },
+        "door_R": {
+          "file": "KI_CAB_0775_door_R.fbx",
+          "object": "KI_CAB_0775_door_R",
+          "pivot": [
+            0.3055,
+            -0.2705,
+            0
+          ],
+          "closed_min": [
+            -0.0169999897480011,
+            -0.32084348797798157,
+            0.1355000138282776
+          ],
+          "closed_max": [
+            0.3165000081062317,
+            -0.23999999463558197,
+            0.6504999995231628
+          ],
+          "ucx_hulls": 1,
+          "gameplay_identity": "Sink_Door_R"
+        },
+        "drawer_R": {
+          "file": "KI_CAB_0775_drawer_R.fbx",
+          "object": "KI_CAB_0775_drawer_R",
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "closed_min": [
+            -0.017000004649162292,
+            -0.3136763274669647,
+            0.6749999523162842
+          ],
+          "closed_max": [
+            0.29750001430511475,
+            0.23500001430511475,
+            0.8550000190734863
+          ],
+          "ucx_hulls": 5,
+          "gameplay_identity": "Sink_Drawer_R"
+        }
+      }
+    },
+    {
+      "code": "0450",
+      "width": 0.45,
+      "module_width": 0.45,
+      "carcass_width": 0.41000000000000003,
+      "carcass_offset_x": 0.02,
+      "filler_width": 0.04,
+      "filler_side": "west",
+      "filler_front_y": -0.19,
+      "parts": {
+        "body": {
+          "file": "KI_CAB_0450_body.fbx",
+          "object": "KI_CAB_0450_body",
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "closed_min": [
+            -0.22499999403953552,
+            -0.32499998807907104,
+            0.0
+          ],
+          "closed_max": [
+            0.22499999403953552,
+            0.32499998807907104,
+            0.9099999666213989
+          ],
+          "ucx_hulls": 12
+        },
+        "door": {
+          "file": "KI_CAB_0450_door.fbx",
+          "object": "KI_CAB_0450_door",
+          "pivot": [
+            -0.14300000000000002,
+            -0.2705,
+            0
+          ],
+          "closed_min": [
+            -0.15399999916553497,
+            -0.32084348797798157,
+            0.1355000138282776
+          ],
+          "closed_max": [
+            0.17500001192092896,
+            -0.23999999463558197,
+            0.6504999995231628
+          ],
+          "ucx_hulls": 1
+        },
+        "drawer": {
+          "file": "KI_CAB_0450_drawer.fbx",
+          "object": "KI_CAB_0450_drawer",
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "closed_min": [
+            -0.13500000536441803,
+            -0.3136763274669647,
+            0.6749999523162842
+          ],
+          "closed_max": [
+            0.17499999701976776,
+            0.23500001430511475,
+            0.8550000190734863
+          ],
+          "ucx_hulls": 5
+        }
+      }
+    }
+  ]
+}

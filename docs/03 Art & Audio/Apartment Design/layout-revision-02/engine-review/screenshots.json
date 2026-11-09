@@ -1,0 +1,159 @@
+{
+  "date": "2026-11-09",
+  "map": "L_Apartment_Rev02",
+  "status": "Art visual and engine acceptance passed; coordinated PR release pending",
+  "views": [
+    {
+      "file": "r2_kitchen.png",
+      "title": "Kitchen north counter",
+      "source": "Saved/ApartmentProgress/rev02/r2_kitchen.png",
+      "sha256": "793800b740c3b2bd6b29cd4691f56ed459b7b03d281b1ff8023a92a679f2a032"
+    },
+    {
+      "file": "r2_kitchen_west.png",
+      "title": "Kitchen pantry and wall table",
+      "source": "Saved/ApartmentProgress/rev02/r2_kitchen_west.png",
+      "sha256": "0d45a7d1f819ea45a0deccf2ca0ef6d151714f6f4e7ee686935653a498bacaf6"
+    },
+    {
+      "file": "r2_kitchen_east.png",
+      "title": "Kitchen return and portal",
+      "source": "Saved/ApartmentProgress/rev02/r2_kitchen_east.png",
+      "sha256": "bcef5c321463e54374ec095eeb846a1240fa7dc1f56404ef77fdba6a46bac912"
+    },
+    {
+      "file": "r2_kitchen_open.png",
+      "title": "Kitchen doors open",
+      "source": "Saved/ApartmentProgress/rev02/r2_kitchen_open.png",
+      "sha256": "acaf69b35d615def30cfebda33e6128ea3da8a12297170d540dcba281cad9c64"
+    },
+    {
+      "file": "r2_living.png",
+      "title": "Living from dining",
+      "source": "Saved/ApartmentProgress/rev02/r2_living.png",
+      "sha256": "2c2609ce6840fa71db5702a0e247903bd76b1f052daf44d078736cea6aafe770"
+    },
+    {
+      "file": "r2_dining.png",
+      "title": "Dining from living",
+      "source": "Saved/ApartmentProgress/rev02/r2_dining.png",
+      "sha256": "48c1ee486af6bd663e68fb2d550e61852282beae276db4b68824cb89cf5123b9"
+    },
+    {
+      "file": "r2_bedroom_west.png",
+      "title": "Bedroom bookcase and closet",
+      "source": "Saved/ApartmentProgress/rev02/r2_bedroom_west.png",
+      "sha256": "0ef99773af4fe99ed2e4da2d3ed0ba5ef85df16798b84d3e69bcf37adad767ac"
+    },
+    {
+      "file": "r2_bedroom_east.png",
+      "title": "Bedroom dresser and display shelf",
+      "source": "Saved/ApartmentProgress/rev02/r2_bedroom_east.png",
+      "sha256": "b3ce5f08b8b57673cd4c4f745c2fa14c53c40e1120072a2bca93081a448bc479"
+    },
+    {
+      "file": "r2_office_east.png",
+      "title": "Office wainscot and corrected picture",
+      "source": "Saved/ApartmentProgress/rev02/r2_office_east.png",
+      "sha256": "4a12d551f273f7a48e415ef08ab0b7a0a16134be07fc7cad9278f3d969e05604"
+    },
+    {
+      "file": "r2_office_alt.png",
+      "title": "Office daybed and desk",
+      "source": "Saved/ApartmentProgress/rev02/r2_office_alt.png",
+      "sha256": "5b91e1012a680c0674b5f09eaf123f2d8688efd368d6b809baf97735fa9c7664"
+    },
+    {
+      "file": "r2_bath_north.png",
+      "title": "Bath north",
+      "source": "Saved/ApartmentProgress/rev02/r2_bath_north.png",
+      "sha256": "a8c4ce3d9be7d10a05228b5815b36d2634ca8b5b9ffa87cc288dcd717fe7ef3d"
+    },
+    {
+      "file": "r2_bath_west.png",
+      "title": "Bath basin and tub",
+      "source": "Saved/ApartmentProgress/rev02/r2_bath_west.png",
+      "sha256": "0b7cfeca9a93989f22f55860995e33a045db2f1e235e5a7d85d877f72b41e620"
+    },
+    {
+      "file": "r2_hall_end.png",
+      "title": "Hall end cabinet",
+      "source": "Saved/ApartmentProgress/rev02/r2_hall_end.png",
+      "sha256": "c6eb42f8ff03cbd5e9b20efbbe2a50382e9147c48d1d0370ecf07d076340fc7b"
+    },
+    {
+      "file": "r2_entry.png",
+      "title": "Entry and fuse box",
+      "source": "Saved/ApartmentProgress/rev02/r2_entry.png",
+      "sha256": "ebe83d7fea008f5005e570951fe21f91537ae72580cd6687cd129a71d89d8b00"
+    },
+    {
+      "file": "r2_coat.png",
+      "title": "Relocated coat closet",
+      "source": "Saved/ApartmentProgress/rev02/r2_coat.png",
+      "sha256": "c2c828f34545e537399cab2e3ed7a0b1a5922db4096d53fbaeb7d0f45a431556"
+    },
+    {
+      "file": "r2_closet_open.png",
+      "title": "Walk-in closet open",
+      "source": "Saved/ApartmentProgress/rev02/r2_closet_open.png",
+      "sha256": "e4f73876bbb7f5bf45de1b51011a69a4a53f50af2892bbc477f18e3c8c64b062"
+    },
+    {
+      "file": "r2_closet_inside.png",
+      "title": "Mold closet interior",
+      "source": "Saved/ApartmentProgress/rev02/r2_closet_inside.png",
+      "sha256": "e26d4c51e4304eadebb7fd5b29c2abf54e49de293ff71468e37f89ba29acf135"
+    }
+  ],
+  "repair_evidence": [
+    {
+      "file": "pie_repair_lukey_before.png",
+      "title": "lukey repair before",
+      "source": "Saved/ApartmentProgress/rev02/pie_repair_lukey_before.png",
+      "sha256": "f848c87f98c9470aaf64e0373d6fefc7a7092a311b677d38dc1200e0824190de"
+    },
+    {
+      "file": "pie_repair_lukey_after.png",
+      "title": "lukey repair after",
+      "source": "Saved/ApartmentProgress/rev02/pie_repair_lukey_after.png",
+      "sha256": "3eb7f793cbe7e5b2fa6eabbec8b5b90dd82d539aacd5f3b9f00436ecf8d61cf7"
+    },
+    {
+      "file": "pie_repair_wyatt_before.png",
+      "title": "wyatt repair before",
+      "source": "Saved/ApartmentProgress/rev02/pie_repair_wyatt_before.png",
+      "sha256": "25d6d0b89b3730279887ea0d0f1606b76dda3a919c6e2ab6ad46c0dbd14b169f"
+    },
+    {
+      "file": "pie_repair_wyatt_after.png",
+      "title": "wyatt repair after",
+      "source": "Saved/ApartmentProgress/rev02/pie_repair_wyatt_after.png",
+      "sha256": "5b658ba51023c4c774c343b1809c2f6c848e6e21e73b7346b6b1433b465755dc"
+    },
+    {
+      "file": "pie_repair_tyler_before.png",
+      "title": "tyler repair before",
+      "source": "Saved/ApartmentProgress/rev02/pie_repair_tyler_before.png",
+      "sha256": "eb23afe725794a822f005d0b4b2156fd2c189435ccc9d237323a0bb4911cd4e0"
+    },
+    {
+      "file": "pie_repair_tyler_after.png",
+      "title": "tyler repair after",
+      "source": "Saved/ApartmentProgress/rev02/pie_repair_tyler_after.png",
+      "sha256": "7b8eea05846212155736d3af0921b06a86f54984c26fe76ea0ad88ef774ab716"
+    },
+    {
+      "file": "pie_repair_malcolm_before.png",
+      "title": "malcolm repair before",
+      "source": "Saved/ApartmentProgress/rev02/pie_repair_malcolm_before.png",
+      "sha256": "8df3188c039bfd6bd83164ca0c39ba49e947a037703a43d53f83447cd27167a0"
+    },
+    {
+      "file": "pie_repair_malcolm_after.png",
+      "title": "malcolm repair after",
+      "source": "Saved/ApartmentProgress/rev02/pie_repair_malcolm_after.png",
+      "sha256": "3140c519fb49a19635127c94c58c77541c9235175129b3a06862e780076ed221"
+    }
+  ]
+}

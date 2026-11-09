@@ -4,7 +4,11 @@ status: draft
 ---
 # Apartment room build guide
 
-This is the handoff for building the selected **A+ gallery plan** in engine while environment art is still arriving. The layout is a design target and blockout, not a verified construction drawing or a finished game level. The room-by-room elevations define the intended density and look; use temporary stand-ins where assets are not ready and replace them as the art worktree supplies reviewed exports. Do not wait for all small props before validating the shell.
+The user approved the compact kitchen/dining layout on **2026-11-09**, including the fridge beside the north prep counter. Use the [current revision 02 handoff](layout-revision-02/README.md), [approved SVG](layout-revision-02/kitchen-dining-study/approved-plan.svg), [coordinates](layout-revision-02/kitchen-dining-study/approved-plan.json) and [matching elevations](layout-revision-02/kitchen-dining-study/elevations/README.md).
+
+Kitchen partition x=4.80 m; north counter/sink and fridge; pantry west; dining between kitchen and sofa. Living option A, hall-end mold closet, office wainscoting/lead paint, entry coat/guest closets, fusebox and console relocations are all retained. This supersedes both the original A+ and earlier revision 02 kitchen. Engine validation and implementation remain with the integration team.
+
+The rest of this page is the original A+ blockout handoff, retained as history rather than current placement coordinates.
 
 ## Source of truth and where to start
 
