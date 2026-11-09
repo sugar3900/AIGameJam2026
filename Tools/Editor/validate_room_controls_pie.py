@@ -42,6 +42,8 @@ try:
                 'entry_sconce': 'Sconce_Hall_2'}
     for room, label in fixtures.items():
         switch, light = by['WallSwitch_' + room], by[label]
+        extra = by.get({'kitchen': 'Sconce_Kitchen', 'hall': 'Sconce_Hall_1'}.get(room, ''))
+        circuit = {switch, light} | ({extra} if extra else set())
         before = states()
         assert switch.can_interact() and not light.can_interact(), room + ': wrong interaction eligibility'
         assert switch.get_editor_property('room_id') == light.get_editor_property('room_id') == ('hall' if room == 'entry_sconce' else room)
@@ -55,7 +57,15 @@ try:
         assert light.get_editor_property('light').get_editor_property('intensity') > 0
         switch.interact(pc)
         assert not on(light) and not on(switch), room + ': wall switch failed to turn off fixture'
-        unchanged_except(before, {switch, light})
+        if extra:
+            assert not extra.can_interact() and not on(extra)
+            extra.interact(pc)
+            assert not on(extra), room + ': sconce accepted direct interaction'
+            switch.set_on(True, True)
+            assert on(extra) and extra.get_editor_property('light').get_editor_property('intensity') > 0
+            switch.set_on(False, True)
+            assert not on(extra) and extra.get_editor_property('light').get_editor_property('intensity') == 0
+        unchanged_except(before, circuit)
         unreal.log('[Controls test] %s switch, light output, disabled ceiling click, isolation passed' % room)
 
     closet_switch = by['WallSwitch_closet']
@@ -71,6 +81,13 @@ try:
     sconce_pos = by['WallSwitch_entry_sconce'].get_actor_location()
     assert abs(living_pos.x - sconce_pos.x) < 0.1 and abs(living_pos.z - sconce_pos.z) < 0.1
     assert abs(living_pos.y - sconce_pos.y - 15) < 0.1, 'Entry switches must sit side by side'
+    all_by = {a.get_actor_label(): a for a in unreal.GameplayStatics.get_all_actors_of_class(w, unreal.Actor)}
+    door_center, door_extent = all_by['Door_Entry_Frame'].get_actor_bounds(False)
+    closet_center, closet_extent = all_by['Art_CoatCloset_Frame'].get_actor_bounds(False)
+    for name in ('WallSwitch_living', 'WallSwitch_entry_sconce'):
+        center, extent, _ = unreal.SystemLibrary.get_component_bounds(by[name].get_editor_property('body'))
+        assert center.y - extent.y > door_center.y + door_extent.y + 2
+        assert center.y + extent.y < closet_center.y - closet_extent.y - 2
 
     # Verify the actual click traces, including switches made from formerly decorative wall art.
     for room in list(fixtures) + ['closet']:

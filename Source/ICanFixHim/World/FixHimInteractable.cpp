@@ -10,6 +10,8 @@
 #include "Engine/Light.h"
 #include "Components/LightComponent.h"
 #include "EngineUtils.h"
+#include "Kismet/GameplayStatics.h"
+#include "Player/FixHimPlayerController.h"
 #include "Materials/MaterialInstanceDynamic.h"
 
 AFixHimInteractable::AFixHimInteractable()
@@ -181,6 +183,25 @@ void AFixHimInteractable::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 	Age += DeltaSeconds;
+
+	if (bAutoCloseOnWalkAway && bIsOn && (Toggle == EInteractToggle::Slide || Toggle == EInteractToggle::Rotate))
+	{
+		const AFixHimPlayerController* PC = Cast<AFixHimPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+		if (PC && PC->GetState() == EFixHimState::Playing && PC->GetPawn())
+		{
+			// Measure from the closed body's center, so the moving door cannot change the threshold.
+			const FVector Center = Body->GetStaticMesh()
+				? Body->GetRelativeTransform().TransformPosition(Body->GetStaticMesh()->GetBounds().Origin)
+				: FVector::ZeroVector;
+			const FVector ClosedCenter = GetActorTransform().TransformPosition(Center);
+			const float Range = (InteractRangeOverride > 0.f ? InteractRangeOverride : UFixHimSettings::Get()->InteractRange) + 50.f;
+			if (FVector::DistSquared2D(PC->GetPawn()->GetActorLocation(), ClosedCenter) > FMath::Square(Range))
+			{
+				SetOn(false);
+				PlayInteractSfx();
+			}
+		}
+	}
 
 	const float Target = bIsOn ? 1.f : 0.f;
 	if (!FMath::IsNearlyEqual(ToggleAlpha, Target))

@@ -1,4 +1,4 @@
-"""Wire paired closet doors and room overhead-light circuits on the loaded Rev02 map.
+"""Wire room light circuits, paired closet doors, and walk-away closing on the loaded Rev02 map.
 
 Run with Tools/run_in_editor.py after building the native linked-toggle properties.
 Re-runnable; also called by rev02_05_gameplay so rebuilding gameplay preserves the wiring.
@@ -22,8 +22,8 @@ SWITCH_ART = {
 }
 # Entry controls share the east wall, beyond the door trim; hallway has its own circuit.
 NEW_SWITCHES = {
-    'living': ((1194, 545, 114), 90),
-    'entry_sconce': ((1194, 530, 114), 90),
+    'living': ((1194, 535, 114), 90),
+    'entry_sconce': ((1194, 520, 114), 90),
     'hall': ((430, 386, 114), 0),
     'closet': ((214, 520, 114), 90),
 }
@@ -37,7 +37,7 @@ FIXTURES = {
     'office': ('Office', 'CeilingLight_Office'),
 }
 required = list(SWITCH_ART.values()) + ['Wardrobe_Door_L', 'Wardrobe_Door_R', 'Bulb_Closet',
-                                      'Art_BA_Switch_BA_Switch_Toggle', 'Sconce_Hall_2']
+                                      'Art_BA_Switch_BA_Switch_Toggle', 'Sconce_Hall_2', 'Sconce_Hall_1', 'Sconce_Kitchen']
 required += ['Art_CeilingLight_%s_Glass' % name for name, _ in FIXTURES.values()]
 assert all(k in acts for k in required), 'Missing required Rev02 art or gameplay actors'
 
@@ -129,6 +129,28 @@ sconce.set_editor_property('enabled', False)
 sconce.set_editor_property('shine', False)
 states['entry_sconce'] = sconce.get_editor_property('is_on')
 
+for room, label in (('kitchen', 'Sconce_Kitchen'), ('hall', 'Sconce_Hall_1')):
+    fixture = acts[label]
+    fixture.modify()
+    fixture.set_editor_property('toggle_group', group(room))
+    fixture.set_editor_property('enabled', False)
+    fixture.set_editor_property('shine', False)
+    fixture.set_editor_property('is_on', states[room])
+
+# Absolute positions keep regeneration idempotent, including the visible rocker.
+for label in ('Art_BA_Switch_BA_Switch_Plate_S086', 'Art_BA_Switch_BA_Switch_Toggle_S086'):
+    art = acts[label]
+    art.modify()
+    art.set_actor_location(unreal.Vector(474.075, 355, 114), False, True)
+
+for a in acts.values():
+    if isinstance(a, unreal.FixHimInteractable):
+        prompt = str(a.get_editor_property('prompt_off')).lower()
+        if a.get_editor_property('toggle') in (unreal.InteractToggle.SLIDE, unreal.InteractToggle.ROTATE):
+            a.modify()
+            a.set_editor_property('auto_close_on_walk_away', any(word in prompt for word in
+                                  ('drawer', 'oven', 'pantry', 'cupboard', 'cabinet', 'fridge')))
+
 states['closet'] = True
 for room in list(FIXTURES) + ['closet', 'entry_sconce']:
     if room in SWITCH_ART:
@@ -153,7 +175,8 @@ for room in list(FIXTURES) + ['closet', 'entry_sconce']:
     a.set_editor_property('on_emissive', unreal.LinearColor(0, 0, 0, 1))
     a.set_editor_property('enabled', True)
     a.set_editor_property('is_on', states[room])
-    target = 'closet light' if room == 'closet' else 'entry sconce' if room == 'entry_sconce' else 'overhead light'
+    target = {'closet': 'closet light', 'entry_sconce': 'entry sconce',
+              'kitchen': 'kitchen lights', 'hall': 'hallway lights'}.get(room, 'overhead light')
     a.set_editor_property('prompt_off', 'Turn on ' + target)
     a.set_editor_property('prompt_on', 'Turn off ' + target)
     a.set_editor_property('interact_sfx', unreal.Name('SwitchOn'))
@@ -162,4 +185,4 @@ for room in list(FIXTURES) + ['closet', 'entry_sconce']:
     a.set_folder_path('Gameplay/WallSwitches')
 
 assert L.save_all_dirty_levels()
-unreal.log('[Rev02 controls] Linked both Malcolm doors; wired eight wall switches and disabled ceiling/entry-sconce clicks')
+unreal.log('[Rev02 controls] Linked both Malcolm doors; wired eight wall switches and disabled direct ceiling/sconce clicks')

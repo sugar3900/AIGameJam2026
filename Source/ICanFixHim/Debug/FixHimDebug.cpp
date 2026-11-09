@@ -2,6 +2,14 @@
 
 #include "Debug/FixHimDebug.h"
 
+UFixHimDebugComponent::UFixHimDebugComponent()
+{
+#if FIXHIM_DEBUG
+	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bTickEvenWhenPaused = true;
+#endif
+}
+
 #if FIXHIM_DEBUG
 
 #include "Debug/FixHimDebugWidget.h"
@@ -43,13 +51,6 @@ public:
 private:
 	TWeakObjectPtr<UFixHimDebugComponent> Owner;
 };
-
-UFixHimDebugComponent::UFixHimDebugComponent()
-{
-	PrimaryComponentTick.bCanEverTick = true;
-	// The panel must also open under the pause / door popups.
-	PrimaryComponentTick.bTickEvenWhenPaused = true;
-}
 
 UFixHimDebugComponent* UFixHimDebugComponent::Install(AFixHimPlayerController* PC)
 {

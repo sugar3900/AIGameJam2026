@@ -135,6 +135,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
 	bool bIsOn = false;
 
+	/** Close this drawer or appliance when the player walks beyond interaction range. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
+	bool bAutoCloseOnWalkAway = false;
+
 	/** Members of the same non-empty group share state (paired doors or a room's light circuit). */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
 	FName ToggleGroup;
