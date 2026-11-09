@@ -737,16 +737,20 @@ void AFixHimPlayerController::ContinueGame()
 				break;
 			}
 		}
-		if (bInsideRoom)
+		// Also require that the pawn actually fits there (a save made in another layout can land inside a wall
+		// or furniture even when it is within a room's rectangle). TeleportTo with bIsATest only tests.
+		const FRotator SavedFacing(0.f, Save->Data().PlayerYaw, 0.f);
+		const bool bFits = bInsideRoom && P->TeleportTo(Save->Data().PlayerLocation, SavedFacing, /*bIsATest*/ true);
+		if (bFits)
 		{
 			P->SetActorLocation(Save->Data().PlayerLocation, false, nullptr, ETeleportType::TeleportPhysics);
 			SetControlRotation(FRotator(-10.f, Save->Data().PlayerYaw, 0.f));
-			P->SetActorRotation(FRotator(0.f, Save->Data().PlayerYaw, 0.f));
+			P->SetActorRotation(SavedFacing);
 		}
 		else
 		{
-			UE_LOG(LogFixHim, Warning, TEXT("Saved position %s is outside every room; starting at the front door"),
-				*Save->Data().PlayerLocation.ToString());
+			UE_LOG(LogFixHim, Warning, TEXT("Saved position %s is %s; starting at the front door"),
+				*Save->Data().PlayerLocation.ToString(), bInsideRoom ? TEXT("blocked") : TEXT("outside every room"));
 			PlacePlayerAtDoor();
 		}
 	}
