@@ -109,7 +109,12 @@ The [coverage tracker](Inventory%20coverage.md) groups existing exports, partial
 | HA-ART-03 hall landscape | Original artwork and multiview | Framed landscape with corrected UVs | Provisional visual pass; UE materials, mounting and lighting pending |
 | OF-ART-LANDSCAPE-01 office print | Original coastal artwork and multiview | Framed print FBX | Provisional visual pass; Unreal material and mounting pending |
 | BA-FOLDED-TOWEL-01 shelf towel | Multiview concept | Folded mesh with integrated stripe materials | Provisional visual pass; Unreal material and shelf contact pending |
-| ENV-SKY-01 painterly golden-hour sky | Independent candidates in progress | Equirectangular / cubemap production and seam checks in progress | Pending review and Unreal integration |
+| ENV-SKY-01 painterly golden-hour sky | Three independent candidates | Source art complete: reviewed 2K equirectangular PNG and LDR-derived RGBE; seam, poles and sun elevation checked | Provisional visual pass; Unreal cubemap import, yaw, exposure and window framing pending |
+| BR-PERFUME-01 dresser perfume | Open/closed multiview | Iterated opaque ceramic body and separate stopper; revised finish visually reviewed | Provisional visual pass; Unreal material, stopper position and transition pending |
+| LV-FUSE-DAMAGE-01 fuse plaster | Before/after concept | Iterated separate opaque cracks, chips and restrained ageing | Provisional visual pass; shared fuse-wall origin, UE wall color/depth and RepairDamage lifecycle pending |
+| KI-RANGE-FLAME-01 burner flame | Off/on concept | Iterated separate flame ring with vertex-color gradient | Provisional visual pass; preserve FBX vertex color/alpha, UE emissive/opacity and toggle pending |
+| BA-TUB-WATER-01 bath water | Empty/filled concept | Fitted water-only mesh and two independent cool candidates | Provisional visual pass; tub-origin placement and UE material, sorting and reveal pending |
+| KI-WALL-STAIN-01 optional sink-wall stain | Before/after concept | Separate 0.70 × 0.47 m stain mesh and two independently generated texture candidates | Provisional visual pass; opacity clamp, Unreal mip/fringe, placement and repair-state linkage pending |
 | Remaining inventory | Not yet generated | Not started | Pending |
 
 Each asset folder under `Art Source/Apartment Redesign/Assets/<ID>/` should contain concept iterations, selected view references, Blender source/generator, textures, exports and previews. Concept art provides a visual goal rather than measured blueprints: independently generated views can disagree, so the floor plan and elevation dimensions control the model. Never mark an item integrated solely because a Blender export exists.

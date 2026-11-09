@@ -126,7 +126,7 @@ g.set_editor_property('two_sided', True)
 gc = MEL.create_material_expression(g, unreal.MaterialExpressionConstant3Vector, -300, 0)
 gc.set_editor_property('constant', unreal.LinearColor(0.82, 0.90, 0.92, 1))
 MEL.connect_material_property(gc, '', unreal.MaterialProperty.MP_BASE_COLOR)
-for prop, val, y in [(unreal.MaterialProperty.MP_OPACITY, 0.18, 120), (unreal.MaterialProperty.MP_ROUGHNESS, 0.08, 220), (unreal.MaterialProperty.MP_SPECULAR, 0.6, 320)]:
+for prop, val, y in [(unreal.MaterialProperty.MP_OPACITY, 0.05, 120), (unreal.MaterialProperty.MP_ROUGHNESS, 0.08, 220), (unreal.MaterialProperty.MP_SPECULAR, 0.6, 320)]:
     k = MEL.create_material_expression(g, unreal.MaterialExpressionConstant, -300, y); k.set_editor_property('r', val)
     MEL.connect_material_property(k, '', prop)
 MEL.recompile_material(g); EAL.save_asset(GPATH)

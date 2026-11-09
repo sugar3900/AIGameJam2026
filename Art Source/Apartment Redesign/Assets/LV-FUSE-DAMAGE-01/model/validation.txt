@@ -1,0 +1,5 @@
+FBX version: 7400
+{"meshes": 1, "vertices": 970, "faces": 860, "bounds_m": [[-0.40507593750953674, 0.3961068093776703], [-0.003200026461854577, -0.0006498880102299154], [-0.16311849653720856, 0.8101310729980469]], "object_location_m": [0.0, 0.0, 0.0], "material_slots": ["Age worn grey", "Age worn ochre", "Exposed plaster ochre", "Exposed plaster midtone", "Chipped light edge", "Crevice brown", "Hairline brown"], "uv": "present and finite", "zero_area_faces": 0}
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:31:22)
+
+Blender quit

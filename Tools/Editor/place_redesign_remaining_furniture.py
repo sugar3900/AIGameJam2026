@@ -126,5 +126,9 @@ for p, m in fuse.items():
     if p == 'LV_FUSE_01_Wire_Repaired':
         a.set_actor_hidden_in_game(True); a.static_mesh_component.set_visibility(False)
         a.tags = [unreal.Name('RepairFixed'), unreal.Name('wyatt')]
+# OF-BOOKCASE-01 muted walnut (also applied by fix_redesign_office_bookcase.py); kept here so re-runs keep it.
+_walnut = EAL.load_asset('/Game/ICanFixHim/Environment/Redesign/Finishes/MI_Walnut_MutedB')
+for a in A.get_all_level_actors():
+    if a.get_actor_label().startswith('Art_OF_Bookcase_') and _walnut: a.static_mesh_component.set_material(0, _walnut)
 assert L.save_current_level()
 unreal.log('[Furn] saved')

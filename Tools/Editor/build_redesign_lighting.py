@@ -9,7 +9,7 @@ CFG = dict(
     sky_intensity=1.5, sky_color=(255, 246, 236),
     south_spot_lm=14000, south_color=(255, 222, 176),
     fixture_lm=260, fill_lm=120, lamp_lm=380, bulb_lm=200, lamp_color=(255, 222, 186),
-    window_view_brightness=0.9,
+    window_view_brightness=2.6,
     exposure_bias=0.3, ev_min=-1.0, ev_max=3.0,
     saturation=1.08, contrast=0.97, gain=(1.0, 1.0, 0.98), shadow_gain=(1.03, 1.0, 0.96),
     shadow_offset=(0.012, 0.009, 0.005), bloom=0.45, vignette=0.25, white_temp=6500,
@@ -88,9 +88,13 @@ plane = unreal.load_asset('/Engine/BasicShapes/Plane')
 WINDOWS = [('LV', 215, 0, -1, 90, 230, 160), ('KI', 855, 0, -1, 90, 230, 110), ('BR', 410, 955, 1, 90, 230, 110),
            ('BA', 582.5, 955, 1, 150, 230, 115), ('OF', 1040, 955, 1, 90, 230, 140)]
 for label, x, y, out, sill, head, w in WINDOWS:
-    card = A.spawn_actor_from_object(plane, unreal.Vector(x, y + out * 140, (sill + head) / 2 + 20),
-                                     unreal.Rotator(roll=0, pitch=-90, yaw=90 if out < 0 else -90))
-    card.set_actor_scale3d(unreal.Vector(3.2, 5.6, 1)); card.set_actor_label('WindowView_' + label)
+    # Plane UV: U along local X, V along local Y, normal +Z. Build the rotation from the wanted axes so the
+    # painted view reads upright from inside: U -> viewer's right, V -> down, normal -> into the room.
+    right = unreal.Vector(1, 0, 0) if out < 0 else unreal.Vector(-1, 0, 0)
+    rot = unreal.MathLibrary.make_rot_from_xy(right, unreal.Vector(0, 0, -1))
+    card = A.spawn_actor_from_object(plane, unreal.Vector(x, y + out * 140, (sill + head) / 2 + 20), rot)
+    card.set_actor_scale3d(unreal.Vector(5.6, 3.2, 1))
+    card.set_actor_label('WindowView_' + label)
     card.set_folder_path(FOLDER + '/Window Views'); card.tags = [unreal.Name('WindowView')]
     m = card.static_mesh_component; m.set_material(0, vmi); m.set_cast_shadow(False); m.set_collision_profile_name('NoCollision')
     m.set_editor_property('affect_distance_field_lighting', False)
