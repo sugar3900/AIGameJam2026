@@ -38,9 +38,11 @@ class UFixHimDebugComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-#if FIXHIM_DEBUG
 public:
+	// UHT must see the constructor so generated construction uses our tick setup.
 	UFixHimDebugComponent();
+
+#if FIXHIM_DEBUG
 
 	/** Creates and registers the component on the controller; call once after its input is built. */
 	static UFixHimDebugComponent* Install(AFixHimPlayerController* PC);

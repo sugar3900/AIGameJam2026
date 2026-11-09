@@ -104,11 +104,12 @@ void AFixHimMalady::FrameCamera()
 {
 	// First-person framing: Rosie's eye height at the talk spot (a touch back so he fits), looking at his face.
 	const FVector Head = HunkStandLocation + FVector(0.f, 0.f, 62.f);
+	const bool bMalcolm = HunkId.Equals(TEXT("malcolm"), ESearchCase::IgnoreCase);
 	const FVector Talk = TalkSpot->GetComponentLocation();
 	FVector Dir = Head - Talk;
 	Dir.Z = 0.f;
 	Dir = Dir.GetSafeNormal();
-	FVector CamLoc = FVector(Talk.X, Talk.Y, HunkStandLocation.Z - 92.f + 160.f) - Dir * 40.f;
+	FVector CamLoc = FVector(Talk.X, Talk.Y, HunkStandLocation.Z - 92.f + 160.f) - Dir * (bMalcolm ? 50.f : 40.f);
 
 	// Small rooms: if a wall is between his face and the ideal spot, slide the camera in front of the wall.
 	FHitResult Hit;
@@ -117,12 +118,19 @@ void AFixHimMalady::FrameCamera()
 	{
 		Q.AddIgnoredActor(Hunk);
 	}
+	// Rosie stands between the face and the camera; her capsule must not push the camera toward him.
+	if (APlayerController* Player = GetWorld()->GetFirstPlayerController())
+	{
+		Q.AddIgnoredActor(Player->GetPawn());
+	}
 	if (GetWorld()->SweepSingleByChannel(Hit, Head, CamLoc, FQuat::Identity, ECC_Visibility, FCollisionShape::MakeSphere(18.f), Q))
 	{
 		CamLoc = Hit.Location + (Head - CamLoc).GetSafeNormal() * 10.f;
 	}
-	// Aim a little below the face so he sits in the top 3/4 of the frame, above the dialogue box.
-	const FVector Aim = Head + FVector(0.f, 0.f, -38.f);
+	// Malcolm gets a closer upper-body shot. The shorter camera distances in the other rooms need a
+	// wider lens and a higher aim point to leave room above the hair while keeping faces above the UI.
+	DialogueCamera->SetFieldOfView(bMalcolm ? 55.f : 65.f);
+	const FVector Aim = Head + FVector(0.f, 0.f, bMalcolm ? -30.f : -18.f);
 	DialogueCamera->SetWorldLocationAndRotation(CamLoc, (Aim - CamLoc).Rotation());
 }
 
@@ -357,7 +365,18 @@ void AFixHimMalady::SummonHunk()
 	}
 	if (Hunk)
 	{
-		Hunk->SetActorLocationAndRotation(HunkStandLocation, HunkSpawn->GetComponentRotation());
+		FRotator Facing = HunkSpawn->GetComponentRotation();
+		if (HunkId.Equals(TEXT("wyatt"), ESearchCase::IgnoreCase))
+		{
+			// His talk spot is offset from the fuse box. Face the final camera position, including wall avoidance.
+			FVector ToCamera = DialogueCamera->GetComponentLocation() - HunkStandLocation;
+			ToCamera.Z = 0.f;
+			if (!ToCamera.IsNearlyZero())
+			{
+				Facing = ToCamera.Rotation();
+			}
+		}
+		Hunk->SetActorLocationAndRotation(HunkStandLocation, Facing);
 		// Grow out of the glowing fixture itself.
 		const FVector From = Body && Body->GetStaticMesh() ? Body->Bounds.Origin : GetActorLocation();
 		Hunk->Appear(From);

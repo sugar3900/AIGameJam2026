@@ -71,6 +71,7 @@ public:
 	virtual void SetupInputComponent() override;
 	virtual void PlayerTick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintPure, Category = "Game State")
 	EFixHimState GetState() const { return State; }
 
 	// ---- Menu API (called by widgets) -------------------------------------
@@ -101,6 +102,7 @@ public:
 	void CloseDoorPrompt();
 	/** "End Day" pressed in the popup. */
 	void ConfirmEndDay();
+	UFUNCTION(BlueprintPure, Category = "Game State")
 	bool IsPodcastPlaying() const { return bPodcastPlaying; }
 
 	// ---- World API ---------------------------------------------------------
@@ -162,6 +164,7 @@ private:
 	void BuildInput();
 	void EnterState(EFixHimState NewState);
 	void ApplyInputModeForState();
+	void RefreshInteractionShine();
 	/** Music director: picks the track for the current state (see FixHimMusicSubsystem). Called from EnterState. */
 	void UpdateMusic();
 	void UpdateHover();

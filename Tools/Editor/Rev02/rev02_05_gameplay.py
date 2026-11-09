@@ -175,6 +175,9 @@ cam.set_actor_location(unreal.Vector(*eye), False, True)
 dx, dy, dz = tgt[0] - eye[0], tgt[1] - eye[1], tgt[2] - eye[2]
 cam.set_actor_rotation(rot(math.degrees(math.atan2(dy, dx)), math.degrees(math.atan2(dz, math.hypot(dx, dy)))), False)
 
+# Preserve linked doors and room light circuits whenever gameplay is regenerated.
+import runpy
+runpy.run_path(os.path.join(os.path.dirname(__file__), 'rev02_09_controls.py'))
 assert L.save_all_dirty_levels()
 n = sum(1 for a in A.get_all_level_actors() if str(a.get_folder_path()).startswith('Gameplay'))
 unreal.log('[Rev02 gameplay] saved; gameplay actors=%d' % n)

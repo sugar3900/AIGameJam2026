@@ -10,6 +10,7 @@ class AFixHimPlayerController;
 class UStaticMeshComponent;
 class UPointLightComponent;
 class UMaterialInstanceDynamic;
+class ALight;
 
 UENUM(BlueprintType)
 enum class EInteractToggle : uint8
@@ -45,12 +46,16 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 
+	UFUNCTION(BlueprintPure, Category = "Interactable")
 	virtual bool CanInteract() const { return bEnabled; }
+	UFUNCTION(BlueprintCallable, Category = "Interactable")
 	virtual void Interact(AFixHimPlayerController* Player);
 	virtual FText GetPrompt() const;
 
 	void SetHovered(bool bInHovered);
 	bool IsHovered() const { return bHovered; }
+	/** Suppress the attention sweep immediately, even when the world is about to pause. */
+	void SetInteractionShineEnabled(bool bAllow);
 
 	UFUNCTION(BlueprintCallable, Category = "Interactable")
 	void SetOn(bool bInOn, bool bInstant = false);
@@ -117,7 +122,7 @@ public:
 
 	/** Brightness of the shine band (additive, over the object's own colours). */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
-	float ShineStrength = 3.f;
+	float ShineStrength = 0.65f;
 
 	// ---- Behaviour --------------------------------------------------------
 
@@ -129,6 +134,18 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
 	bool bIsOn = false;
+
+	/** Close this drawer or appliance after the player retreats from it. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
+	bool bAutoCloseOnWalkAway = false;
+
+	/** Members of the same non-empty group share state (paired doors or a room's light circuit). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
+	FName ToggleGroup;
+
+	/** Authored standalone lights controlled by this toggle. Soft references allow different sublevels. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
+	TArray<TSoftObjectPtr<ALight>> ControlledLights;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
 	FVector ToggleOffset = FVector(40.f, 0.f, 0.f);
@@ -160,6 +177,7 @@ public:
 	virtual FName DefaultInteractSfx(bool bNowOn) const;
 
 protected:
+	void SetOnLocal(bool bInOn, bool bInstant);
 	void PlayInteractSfx();
 	void ApplyLook();
 	void BuildOutline();
@@ -177,7 +195,9 @@ protected:
 	TObjectPtr<UMaterialInstanceDynamic> ShineMID;
 
 	bool bHovered = false;
+	bool bInteractionShineEnabled = false;
 	float ToggleAlpha = 0.f;
 	float Age = 0.f;
 	float NextShineAt = 0.f;
+	float ClosestOpenDistance = TNumericLimits<float>::Max();
 };

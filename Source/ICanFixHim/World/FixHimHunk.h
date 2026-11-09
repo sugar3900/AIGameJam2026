@@ -68,6 +68,12 @@ public:
 
 private:
 	void SetPresentImmediate(bool bVisible);
+	/** Finish texture builds and stream in material mips before any entrance cues or timers start. */
+	void PreloadTextures();
+	void SetupPortraitMesh();
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	TObjectPtr<USkeletalMeshComponent> PortraitMesh;
 
 	UPROPERTY(Transient)
 	TObjectPtr<UTextureRenderTarget2D> PortraitTarget;
@@ -90,7 +96,7 @@ private:
 	void SetForm(float Alpha, EEntrance Style);
 	EEntrance Enter = EEntrance::Bubble;
 	EEntrance Leave = EEntrance::Bubble;
-	float FormAlpha = 1.f;
+	float FormAlpha = 0.f;
 	float LeaveStartForm = 1.f;
 	bool bLeaveFxPlayed = false;
 	UPROPERTY(Transient)
