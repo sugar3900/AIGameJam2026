@@ -82,7 +82,7 @@ These discrepancies were found in a read-only review of the actual exports. Do n
 
 ## Exterior sky
 
-`ENV-SKY-01` is in production for a painterly golden-hour 360° sky, with a soft brick-rowhouse/tree horizon. It is a texture/environment asset rather than an FBX, so it will not appear in the FBX snapshot; see its asset README and [production log](Asset%20production.md) for current status and orientation. Match the visible sun direction to the actual directional light, and avoid counting an LDR image as true HDR illumination.
+`ENV-SKY-01` is a provisionally reviewed painterly golden-hour 360° sky, with a soft brick-rowhouse/tree horizon. The 2K PNG and LDR-derived RGBE are ready for Unreal import and evaluation; the latter is not a captured HDRI. It is a texture/environment asset rather than an FBX, so it will not appear in the FBX snapshot; see its asset README and [production log](Asset%20production.md) for current status and orientation. Match the visible sun direction to the actual directional light, and avoid counting an LDR image as true HDR illumination.
 
 ## First playable assembly and acceptance
 

@@ -1,0 +1,5 @@
+FBX version: 7400
+PASS single mesh, UVs finite, nonzero area, dimensions (0.7, 0.0, 0.47) raw_edge_alpha_max 0.007843137718737125 effective_edge_alpha_max 0.0 alpha_range 0.0 0.9686275124549866
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:31:22)
+
+Blender quit
