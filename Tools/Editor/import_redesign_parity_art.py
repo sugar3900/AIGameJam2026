@@ -47,9 +47,9 @@ if 'Art_LV_Fuse_Plaster_Damage' not in acts:
     d = A.spawn_actor_from_object(fuse, shell.get_actor_location(), shell.get_actor_rotation())
     d.set_actor_label('Art_LV_Fuse_Plaster_Damage'); d.set_folder_path('Gameplay/Damage')
     d.static_mesh_component.set_collision_profile_name('NoCollision'); d.tags = [unreal.Name('RepairDamage'), unreal.Name('wyatt')]
-# Stain: clear plaster west of the kitchen window, under the pan rail, 2 mm proud of the north wall face (y=6).
+# Stain: clear plaster above the range, left of the pan rail and its hanging pans, 2 mm proud of the north wall (y=6).
 if 'Art_KI_Wall_Stain' not in acts:
-    s = A.spawn_actor_from_object(stain, unreal.Vector(745, 6.2, 150), unreal.Rotator(0, 0, 0))
+    s = A.spawn_actor_from_object(stain, unreal.Vector(674, 6.2, 147), unreal.Rotator(0, 0, 0))
     s.set_actor_label('Art_KI_Wall_Stain'); s.set_folder_path('Gameplay/Damage')
     c = s.static_mesh_component; c.set_collision_profile_name('NoCollision'); c.set_cast_shadow(False)
     s.tags = [unreal.Name('RepairDamage'), unreal.Name('lukey')]

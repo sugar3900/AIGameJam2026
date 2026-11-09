@@ -38,5 +38,13 @@ kit('KI_Pantry', ['KI_Pantry_Body', 'KI_Pantry_LeftDoor', 'KI_Pantry_RightDoor']
 for p in ['KI_Backsplash_Module_1m', 'KI_Backsplash_End_Left', 'KI_Backsplash_End_Right']:
     a = A.spawn_actor_from_object(load(R + 'KI_Backsplash/' + p), unreal.Vector(925, 6, 91), unreal.Rotator(0, 0, 0))
     a.set_actor_label('Art_' + p); a.set_folder_path(FOLDER); a.static_mesh_component.set_collision_profile_name('NoCollision')
+# Paint per READMEs (also applied by fix_redesign_cabinet_paint.py): KI-CABINET-01 sage-D at value 0.75,
+# KI-UPPER-01 reuses the pantry's sage. Applied here too so re-running this script keeps the finish.
+_sage = load('/Game/ICanFixHim/Environment/Redesign/Finishes/MI_Cabinet_Sage')
+_pantry = load(R + 'KI_Pantry/Sage_painted_wood')
+for a in A.get_all_level_actors():
+    lab = a.get_actor_label()
+    if lab.startswith('Art_KI_Cabinet_') and _sage: a.static_mesh_component.set_material(0, _sage)
+    elif lab.startswith('Art_KI_Upper_') and _pantry: a.static_mesh_component.set_material(0, _pantry)
 assert L.save_current_level()
 unreal.log('[Casework] saved')
