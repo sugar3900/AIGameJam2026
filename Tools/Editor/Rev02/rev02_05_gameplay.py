@@ -170,10 +170,15 @@ mg.get_editor_property('glow_light').set_relative_location(unreal.Vector(35, 0, 
 fd = actor('FrontDoor'); fd.modify(); fd.set_actor_location(unreal.Vector(1192, 452.5, 0), False, True)
 ps = actor('PlayerStart_Door'); ps.modify(); ps.set_actor_location(unreal.Vector(1120, 452.5, 100), False, True)
 cam = actor('TitleCamera'); cam.modify()
-eye, tgt = (600, 500, 175), (980, 180, 95)
+eye, tgt = (600, 470, 175), (980, 180, 95)   # hall centreline: the title drift (+/-60 cm in y) stays clear of the walls
 cam.set_actor_location(unreal.Vector(*eye), False, True)
 dx, dy, dz = tgt[0] - eye[0], tgt[1] - eye[1], tgt[2] - eye[2]
 cam.set_actor_rotation(rot(math.degrees(math.atan2(dy, dx)), math.degrees(math.atan2(dz, math.hypot(dx, dy)))), False)
+# Without this tag the player controller replaces the camera with a view tuned for the original L_Apartment, which
+# in this layout frames a wall edge beside the kitchen portal.
+cam.tags = [unreal.Name('TitleCamera'), unreal.Name('TitleCameraAsPlaced')]
+# The hall's east ceiling light now hangs in the kitchen.
+acts['CeilingLight_HallEast'].set_editor_property('room_id', 'kitchen')
 
 assert L.save_all_dirty_levels()
 n = sum(1 for a in A.get_all_level_actors() if str(a.get_folder_path()).startswith('Gameplay'))

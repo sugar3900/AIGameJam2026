@@ -34,7 +34,8 @@ SHOTS = [('living', (470, 340, 160), (120, 0, 140)), ('kitchen', (640, 340, 160)
          ('r2_kitchen_east', (180, 230, 165), (470, 100, 140)), ('r2_bath_north', (640, 900, 165), (620, 566, 140)),
          ('r2_bath_west', (720, 760, 165), (486, 760, 130)), ('r2_hall_end', (620, 470, 165), (226, 470, 110)),
          ('r2_closet_inside', (200, 520, 160), (60, 386, 140)), ('r2_closet_open', (300, 760, 160), (110, 520, 120)),
-         ('r2_kitchen_open', (330, 290, 160), (250, 60, 70))]
+         ('r2_kitchen_open', (330, 290, 160), (250, 60, 70)),
+         ('r2_title_code', (600, 430, 185), (345, 283, 128)), ('r2_title_map', (600, 500, 175), (980, 180, 95))]
 only = globals().get('ONLY')
 world = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem).get_editor_world()
 A = unreal.get_editor_subsystem(unreal.EditorActorSubsystem)

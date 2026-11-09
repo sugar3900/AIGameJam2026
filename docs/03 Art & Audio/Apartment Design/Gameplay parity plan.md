@@ -222,3 +222,11 @@ builder is fixed too, applied on its next run — the A+ map itself was not rebu
 
 Captures: `Saved/ApartmentProgress/rev02/` (room views and `pie_*` scene captures); the reviewed set is archived by
 the art thread under `layout-revision-02/engine-review/`.
+
+**Hook-up audit (2026-11-09, after the merge):** code, config and dialogue data hold no references to old-layout
+labels or positions except the title camera. `FixHimPlayerController` replaced every map's title camera with a view
+tuned for the original `L_Apartment`; in Rev02 that framed a wall edge beside the kitchen portal. A camera tagged
+`TitleCameraAsPlaced` is now used as placed (Rev02's sits on the hall centreline so the ±60 cm title drift stays clear
+of walls); untagged cameras keep the old override. `CeilingLight_HallEast` now hangs in the kitchen and has
+`room_id` `kitchen` (non-malady room ids are not read by gameplay). Room-id audit: 0 mismatches of 61. In PIE, the
+front door and the bed open the end-of-day prompt by real clicks, and the title screen shows the living room.
