@@ -37,6 +37,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Room")
 	bool bLocked = false;
 
+	/** An extra area of RoomId, e.g. a walk-in closet opening off a bedroom. Standing in it counts as being in that
+	 *  room (crossing between it and the room's main volume changes nothing), but the floor plan draws it without
+	 *  its own status and it is never a travel destination. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Room")
+	bool bSubVolume = false;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UBoxComponent> Bounds;
 

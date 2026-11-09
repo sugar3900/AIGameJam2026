@@ -5,7 +5,8 @@ ECC_Visibility, bTraceComplex=false) and the pawn's movement both use simple col
 every art-body interactable (doors, drawers, lamps) is unclickable and the player walks through furniture.
 Each mesh used by a visible actor in the redesign (environment map + streamed gameplay sublevel) that has no
 simple shapes is switched to "use complex collision as simple": exact triangles, so open frames, cabinets and
-closets keep their openings (a bounding box would seal a doorway). Meshes that already have simple shapes and
+closets keep their openings (a bounding box would seal a doorway). Meshes that already have simple shapes (including authored UCX convex hulls; StaticMeshEditorSubsystem's
+get_simple_collision_count does not count those) and
 engine meshes (walls, the sky sphere, gameplay proxies) are left alone. Re-runnable; run again after re-importing art.
 """
 import unreal
@@ -31,7 +32,9 @@ for a in A.get_all_level_actors():
 changed, kept = [], 0
 for path, m in sorted(meshes.items()):
     bs = m.get_editor_property('body_setup')
-    if SM.get_simple_collision_count(m) > 0 or (bs and bs.get_editor_property('collision_trace_flag') == unreal.CollisionTraceFlag.CTF_USE_COMPLEX_AS_SIMPLE):
+    ag = bs.get_editor_property('agg_geom') if bs else None
+    shapes = sum(len(ag.get_editor_property(k)) for k in ('convex_elems', 'box_elems', 'sphere_elems', 'sphyl_elems')) if ag else 0
+    if shapes > 0 or (bs and bs.get_editor_property('collision_trace_flag') == unreal.CollisionTraceFlag.CTF_USE_COMPLEX_AS_SIMPLE):
         kept += 1
         continue
     if not bs:

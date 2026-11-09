@@ -127,7 +127,11 @@ void UFixHimFloorPlanWidget::Refresh()
 
 		FString Status;
 		FLinearColor StatusColor = FLinearColor(0.8f, 0.88f, 1.f, 0.9f);
-		if (Room->bLocked)
+		if (Room->bSubVolume)
+		{
+			// Part of another room (e.g. a closet): name only; that room's own cell carries the status.
+		}
+		else if (Room->bLocked)
 		{
 			Status = TEXT("coming soon");
 		}
@@ -157,14 +161,14 @@ void UFixHimFloorPlanWidget::Refresh()
 			St->SetAutoWrapText(true);
 			Info->AddChildToVerticalBox(St)->SetHorizontalAlignment(HAlign_Center);
 		}
-		if (bHere)
+		if (bHere && !Room->bSubVolume)
 		{
 			UTextBlock* You = MakeText(WidgetTree, TEXT("you are here"), 13, FLinearColor::White, TEXT("Bold"));
 			Info->AddChildToVerticalBox(You)->SetHorizontalAlignment(HAlign_Center);
 		}
 
 		UWidget* Cell = nullptr;
-		if (Room->bLocked)
+		if (Room->bLocked || Room->bSubVolume)   // sub-volumes are not travel destinations
 		{
 			UBorder* Locked = WidgetTree->ConstructWidget<UBorder>();
 			Locked->SetBrush(Rounded(Fill, 4.f, Line, 2.f));

@@ -163,9 +163,13 @@ body_from_art(tv, 'Art_LV_TV_LV_TV_screen_off', authored=False)
 tv.set_editor_property('body_color', unreal.LinearColor(0.04, 0.05, 0.06, 1))
 tv.set_editor_property('on_emissive', unreal.LinearColor(0.6, 1.2, 3.0, 1)); light(tv, (455, 172, 96), (120, 170, 255), 1500)
 
-(fx0, fy0, _), (fx1, fy1, _), _ = bounds('Art_KI_Fridge_Door')
-fridge = interactable('Fridge_Door', (fx1 - 1, fy1 - 2, 0), 0, 'kitchen', T.ROTATE, 'Open fridge', 'Close fridge')
-body_from_art(fridge, 'Art_KI_Fridge_Door'); fridge.set_editor_property('toggle_rotation', rot(-100))
+# KI-FRIDGE-01 imports west-hinged: its hinge barrels sit at body-local (-38, +33.5) (measured from the mesh
+# vertices; the handle is on +X). The door swings out (+yaw) about that axis; 90 deg clears the partition wall
+# 4 cm west of the body. (Until 2026-11-09 this pivoted on the handle edge.)
+fbody = acts['Art_KI_Fridge_Body']
+fh = fbody.get_actor_transform().transform_location(unreal.Vector(-38, 33.5, 0))
+fridge = interactable('Fridge_Door', (fh.x, fh.y, 0), 0, 'kitchen', T.ROTATE, 'Open fridge', 'Close fridge')
+body_from_art(fridge, 'Art_KI_Fridge_Door'); fridge.set_editor_property('toggle_rotation', rot(90))
 
 # Stove: invisible click target over the front-right burner; KI-RANGE-FLAME-01 is the lit part.
 # README burner offset (Blender) (+0.18, -0.15, 0.931) m from the range origin -> Unreal (+18, +15, 93.1) cm.
