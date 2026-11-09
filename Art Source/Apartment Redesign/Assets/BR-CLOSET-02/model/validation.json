@@ -1,0 +1,148 @@
+{
+  "status": "passed",
+  "checks": [
+    "FBX round trip",
+    "finite vertices/UV",
+    "UV presence",
+    "nondegenerate triangles",
+    "zero export origins",
+    "UCX hull counts and closed cubes",
+    "bulb and mold heights",
+    "west-only shelf",
+    "1.8m central standing proxy exclusion"
+  ],
+  "exports": [
+    {
+      "mesh": "BR_Closet02_Trim",
+      "vertices": 1344,
+      "triangles": 2632,
+      "uv_layers": 1,
+      "collision_hulls": 3,
+      "local_origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "assembled_bounds_min": [
+        -0.675,
+        -1.019,
+        0.0
+      ],
+      "assembled_bounds_max": [
+        0.675,
+        -0.84,
+        2.2435
+      ]
+    },
+    {
+      "mesh": "BR_Closet02_Door_L",
+      "vertices": 3484,
+      "triangles": 6848,
+      "uv_layers": 1,
+      "collision_hulls": 1,
+      "local_origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "assembled_bounds_min": [
+        -0.51,
+        -1.091,
+        0.015
+      ],
+      "assembled_bounds_max": [
+        -0.005,
+        -0.867,
+        2.1
+      ]
+    },
+    {
+      "mesh": "BR_Closet02_Door_R",
+      "vertices": 3484,
+      "triangles": 6848,
+      "uv_layers": 1,
+      "collision_hulls": 1,
+      "local_origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "assembled_bounds_min": [
+        0.005,
+        -1.091,
+        0.015
+      ],
+      "assembled_bounds_max": [
+        0.51,
+        -0.867,
+        2.1
+      ]
+    },
+    {
+      "mesh": "BR_Closet02_Shelf",
+      "vertices": 2544,
+      "triangles": 5012,
+      "uv_layers": 1,
+      "collision_hulls": 1,
+      "local_origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "assembled_bounds_min": [
+        -1.04,
+        -0.37,
+        1.973
+      ],
+      "assembled_bounds_max": [
+        -0.74,
+        0.68,
+        2.25
+      ]
+    },
+    {
+      "mesh": "BR_Closet02_Bulb",
+      "vertices": 794,
+      "triangles": 1572,
+      "uv_layers": 1,
+      "collision_hulls": 0,
+      "local_origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "assembled_bounds_min": [
+        -0.015,
+        -0.035,
+        2.06
+      ],
+      "assembled_bounds_max": [
+        0.095,
+        0.075,
+        2.75
+      ]
+    },
+    {
+      "mesh": "BR_Closet02_Mold",
+      "vertices": 4,
+      "triangles": 2,
+      "uv_layers": 1,
+      "collision_hulls": 0,
+      "local_origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "assembled_bounds_min": [
+        -0.45,
+        0.837,
+        0.75
+      ],
+      "assembled_bounds_max": [
+        0.45,
+        0.837,
+        1.85
+      ]
+    }
+  ]
+}

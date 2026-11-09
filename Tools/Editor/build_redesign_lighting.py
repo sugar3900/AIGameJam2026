@@ -111,9 +111,8 @@ def point(label, loc, lm, radius=500, src=6, shadows=True):
     c.set_editor_property('intensity_units', unreal.LightUnits.LUMENS); c.set_editor_property('intensity', lm)
     c.set_editor_property('light_color', C(CFG['lamp_color'])); c.set_editor_property('attenuation_radius', radius)
     c.set_editor_property('source_radius', src); c.set_editor_property('cast_shadows', shadows)
-for n, x, y in [('Living', 275, 190), ('HallWest', 300, 470), ('HallEast', 900, 470)]:
-    point('Fixture_' + n, (x, y, 225), CFG['fixture_lm'], 520, 20)
-point('Lamp_OfficeFloor', (1172.7, 834, 130), CFG['lamp_lm'], 420, 4)
+# Ceiling fixtures and the office floor lamp are switchable interactables now (build_redesign_gameplay.py
+# owns their lights), so the rig no longer adds always-on lights at those fixtures.
 point('Fill_Living', (300, 230, 150), CFG['fill_lm'], 600, 40, False)
 point('Fill_Hall', (600, 470, 150), CFG['fill_lm'] * 0.7, 700, 40, False)
 point('Bulb_Closet', (90, 632.5, 225), CFG['bulb_lm'], 260, 2)

@@ -1,0 +1,171 @@
+{
+  "date": "2026-11-09",
+  "items": [
+    {
+      "asset_id": "ARC-WINDOW-KITCHEN-02",
+      "root": "Art Source/Apartment Redesign/Assets/ARC-WINDOW-KITCHEN-02",
+      "exports": [
+        "model/ARC_Window_Kitchen_frame.fbx",
+        "model/ARC_Window_Kitchen_lower_glass.fbx",
+        "model/ARC_Window_Kitchen_lower_sash.fbx",
+        "model/ARC_Window_Kitchen_upper_glass.fbx",
+        "model/ARC_Window_Kitchen_upper_sash.fbx"
+      ],
+      "manifests": [
+        "model/dimensions.json",
+        "model/validation.json",
+        "model/sink-fit-validation.json"
+      ],
+      "source_review": "Parent visual/FBX checks passed; independent recheck cleared high/medium source findings on 2026-11-09",
+      "engine_review": "Integrated and accepted in final Rev02 build; authored UCX retained, room leaves posed90 degrees, range-side doors100 degrees. Exact runtime coverage and limitations in engine-review/Review.md.",
+      "visual_review": "Integrated room captures reviewed; no unresolved high/medium visual issues. See engine-review/Review.md."
+    },
+    {
+      "asset_id": "BR-CLOSET-02",
+      "root": "Art Source/Apartment Redesign/Assets/BR-CLOSET-02",
+      "exports": [
+        "model/BR_Closet02_Bulb.fbx",
+        "model/BR_Closet02_Door_L.fbx",
+        "model/BR_Closet02_Door_R.fbx",
+        "model/BR_Closet02_Mold.fbx",
+        "model/BR_Closet02_Shelf.fbx",
+        "model/BR_Closet02_Trim.fbx"
+      ],
+      "manifests": [
+        "assembly.json",
+        "model/validation.json"
+      ],
+      "source_review": "Parent visual/FBX checks passed; independent recheck cleared high/medium source findings on 2026-11-09",
+      "engine_review": "Integrated and accepted in final Rev02 build; authored UCX retained, room leaves posed90 degrees, range-side doors100 degrees. Exact runtime coverage and limitations in engine-review/Review.md.",
+      "visual_review": "Integrated room captures reviewed; no unresolved high/medium visual issues. See engine-review/Review.md."
+    },
+    {
+      "asset_id": "KI-CABINET-02",
+      "root": "Art Source/Apartment Redesign/Assets/KI-CABINET-02",
+      "exports": [
+        "model/KI_CAB_0425_body.fbx",
+        "model/KI_CAB_0425_door.fbx",
+        "model/KI_CAB_0425_drawer.fbx",
+        "model/KI_CAB_0450_body.fbx",
+        "model/KI_CAB_0450_door.fbx",
+        "model/KI_CAB_0450_drawer.fbx",
+        "model/KI_CAB_0775_body.fbx",
+        "model/KI_CAB_0775_door_L.fbx",
+        "model/KI_CAB_0775_door_R.fbx",
+        "model/KI_CAB_0775_drawer_L.fbx",
+        "model/KI_CAB_0775_drawer_R.fbx"
+      ],
+      "manifests": [
+        "model/validation.json",
+        "model/manifest.json",
+        "model/range-fit-validation.json"
+      ],
+      "source_review": "40 mm range-filler revision complete; parent visual review and independent exported-geometry recheck passed with no high/medium findings on 2026-11-09.",
+      "engine_review": "Integrated and accepted in final Rev02 build; authored UCX retained, room leaves posed90 degrees, range-side doors100 degrees. Exact runtime coverage and limitations in engine-review/Review.md.",
+      "visual_review": "Integrated room captures reviewed; no unresolved high/medium visual issues. See engine-review/Review.md."
+    },
+    {
+      "asset_id": "KI-FRIDGE-02",
+      "root": "Art Source/Apartment Redesign/Assets/KI-FRIDGE-02",
+      "exports": [
+        "models/KI_FRIDGE_02_BODY.fbx",
+        "models/KI_FRIDGE_02_DOOR.fbx"
+      ],
+      "manifests": [
+        "models/validation.json",
+        "models/manifest.json"
+      ],
+      "source_review": "Parent visual/FBX checks passed; independent recheck cleared high/medium source findings on 2026-11-09",
+      "engine_review": "Not selected: use original west-hinged KI-FRIDGE-01; old click pivot was wrong.",
+      "selected": false
+    },
+    {
+      "asset_id": "ARC-SLIDING-CLOSET-02",
+      "root": "Art Source/Apartment Redesign/Assets/ARC-SLIDING-CLOSET-02",
+      "exports": [
+        "model/ARC_Sliding02_Frame.fbx",
+        "model/ARC_Sliding02_LeftPanel.fbx",
+        "model/ARC_Sliding02_RightPanel.fbx"
+      ],
+      "manifests": [
+        "assembly.json",
+        "model/validation.json"
+      ],
+      "source_review": "Parent visual/FBX checks passed; independent recheck cleared high/medium source findings on 2026-11-09",
+      "engine_review": "Integrated and accepted in final Rev02 build; authored UCX retained, room leaves posed90 degrees, range-side doors100 degrees. Exact runtime coverage and limitations in engine-review/Review.md.",
+      "visual_review": "Integrated room captures reviewed; no unresolved high/medium visual issues. See engine-review/Review.md."
+    },
+    {
+      "asset_id": "ARC-DOOR-02",
+      "root": "Art Source/Apartment Redesign/Assets/ARC-DOOR-02",
+      "exports": [
+        "model/ARC_Door02_Frame.fbx",
+        "model/ARC_Door02_Leaf.fbx"
+      ],
+      "manifests": [
+        "assembly.json",
+        "model/validation.json"
+      ],
+      "source_review": "Parent visual/FBX checks passed; independent recheck cleared high/medium source findings on 2026-11-09",
+      "engine_review": "Integrated and accepted in final Rev02 build; authored UCX retained, room leaves posed90 degrees, range-side doors100 degrees. Exact runtime coverage and limitations in engine-review/Review.md.",
+      "visual_review": "Integrated room captures reviewed; no unresolved high/medium visual issues. See engine-review/Review.md."
+    },
+    {
+      "asset_id": "ARC-ENTRY-DOOR-02",
+      "root": "Art Source/Apartment Redesign/Assets/ARC-ENTRY-DOOR-02",
+      "exports": [
+        "model/ARC_Entry_Door02_Frame.fbx",
+        "model/ARC_Entry_Door02_Leaf.fbx"
+      ],
+      "manifests": [
+        "assembly.json",
+        "model/validation.json"
+      ],
+      "source_review": "Parent visual/FBX checks passed; independent recheck cleared high/medium source findings on 2026-11-09",
+      "engine_review": "Integrated and accepted in final Rev02 build; authored UCX retained, room leaves posed90 degrees, range-side doors100 degrees. Exact runtime coverage and limitations in engine-review/Review.md.",
+      "visual_review": "Integrated room captures reviewed; no unresolved high/medium visual issues. See engine-review/Review.md."
+    },
+    {
+      "asset_id": "KI-WALL-TABLE-02",
+      "root": "Art Source/Apartment Redesign/Assets/KI-WALL-TABLE-02",
+      "exports": [
+        "model/KI_WALL_TABLE_02.fbx"
+      ],
+      "manifests": [
+        "assembly.json",
+        "model/validation.json"
+      ],
+      "source_review": "Parent visual/FBX checks passed; independent recheck cleared high/medium source findings on 2026-11-09",
+      "engine_review": "Integrated and accepted in final Rev02 build; authored UCX retained, room leaves posed90 degrees, range-side doors100 degrees. Exact runtime coverage and limitations in engine-review/Review.md.",
+      "visual_review": "Integrated room captures reviewed; no unresolved high/medium visual issues. See engine-review/Review.md."
+    },
+    {
+      "asset_id": "KI-STOOL-02",
+      "root": "Art Source/Apartment Redesign/Assets/KI-STOOL-02",
+      "exports": [
+        "model/KI_STOOL_02.fbx"
+      ],
+      "manifests": [
+        "assembly.json",
+        "model/validation.json"
+      ],
+      "source_review": "Parent visual/FBX checks passed; independent recheck cleared high/medium source findings on 2026-11-09",
+      "engine_review": "Integrated and accepted in final Rev02 build; authored UCX retained, room leaves posed90 degrees, range-side doors100 degrees. Exact runtime coverage and limitations in engine-review/Review.md.",
+      "visual_review": "Integrated room captures reviewed; no unresolved high/medium visual issues. See engine-review/Review.md."
+    },
+    {
+      "asset_id": "ARC-CLOSET-STORAGE-02",
+      "root": "Art Source/Apartment Redesign/Assets/ARC-CLOSET-STORAGE-02",
+      "exports": [
+        "model/ARC_ClosetStorage02.fbx"
+      ],
+      "manifests": [
+        "assembly.json",
+        "model/validation.json"
+      ],
+      "source_review": "Parent visual/FBX checks passed; independent recheck cleared high/medium source findings on 2026-11-09",
+      "engine_review": "Integrated and accepted in final Rev02 build; authored UCX retained, room leaves posed90 degrees, range-side doors100 degrees. Exact runtime coverage and limitations in engine-review/Review.md.",
+      "visual_review": "Integrated room captures reviewed; no unresolved high/medium visual issues. See engine-review/Review.md."
+    }
+  ]
+}

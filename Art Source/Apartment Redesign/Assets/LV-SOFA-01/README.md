@@ -10,4 +10,10 @@ A vintage three-seat floral sofa with rolled arms, separate cushions, rose and t
 
 Rebuild with Blender background mode using `model/build_sofa.py`. Run `model/validate_fbx.py` in Blender to check the FBX round trip. Latest validation: 44 meshes, zero non-finite vertices or UVs, zero zero-area faces. Source texture images are external, alongside the model; reconnect or import them when building Unreal materials.
 
-The model has not been imported into Unreal. Review cloth/arm joins and textile scale under final room lighting; the throw is stylized geometry, not a simulation or a crochet transparency map. Collision and engine material setup remain to be checked.
+The original source review preceded Unreal integration; see the dated findings below. Review cloth/arm joins and textile scale under final room lighting; the throw is stylized geometry, not a simulation or a crochet transparency map. Collision and engine material setup remain to be checked.
+
+## Integration feedback — 2026-11-08
+
+The integration team verified that the Blender **−Y front imports as +Y** under the current Unreal FBX import settings. The previous in-level sofa faced the wall; they corrected that placement with **yaw −90°**. This yaw belongs to that specific placement, not every future layout. Use the imported +Y front to calculate the world-facing direction specified in a new floor plan; verify visually before accepting placement. The source geometry and export are unchanged.
+
+The current FBX contains no authored simple collision. The team applied complex-as-simple collision to its Unreal import; re-run `Tools/Editor/build_redesign_collision.py` after re-import and check player blocking/click traces.

@@ -1147,6 +1147,19 @@ void AFixHimPlayerController::NotifyLeftRoom(AFixHimRoom* Room)
 	{
 		return;
 	}
+	const APawn* Pawn = GetPawn();
+	if (Pawn)
+	{
+		// Still inside another volume of the same room (e.g. stepping between a bedroom and its walk-in closet):
+		// the player hasn't left, so nothing changes.
+		for (TActorIterator<AFixHimRoom> It(GetWorld()); It; ++It)
+		{
+			if (*It != Room && It->RoomId == Room->RoomId && It->ContainsPoint(Pawn->GetActorLocation()))
+			{
+				return;
+			}
+		}
+	}
 	// He only exists while you're in his room: walk out and he's gone until you summon him again.
 	for (TActorIterator<AFixHimMalady> It(GetWorld()); It; ++It)
 	{
@@ -1770,7 +1783,7 @@ void AFixHimPlayerController::FixHimGoto(const FString& RoomId)
 {
 	for (TActorIterator<AFixHimRoom> It(GetWorld()); It; ++It)
 	{
-		if (It->RoomId.Equals(RoomId, ESearchCase::IgnoreCase))
+		if (!It->bSubVolume && It->RoomId.Equals(RoomId, ESearchCase::IgnoreCase))
 		{
 			if (State == EFixHimState::Playing)
 			{

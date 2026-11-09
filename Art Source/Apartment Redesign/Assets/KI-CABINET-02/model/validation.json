@@ -1,0 +1,337 @@
+{
+  "status": "passed",
+  "checks": "11 FBX fresh reimports; render/UCX separation, convex box counts, finite geometry and UVs, nonzero triangles, native pivot and bounds, widths, depth<=650 mm, counter top910 mm",
+  "files": [
+    {
+      "file": "KI_CAB_0425_body.fbx",
+      "render_vertices": 1056,
+      "triangles": 2068,
+      "ucx_convex_boxes": 11,
+      "pivot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds": [
+        [
+          -0.21250000596046448,
+          -0.3249998390674591,
+          -4.7084068199865214e-08
+        ],
+        [
+          0.21250000596046448,
+          0.325000137090683,
+          0.9100000262260437
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "file": "KI_CAB_0425_door.fbx",
+      "render_vertices": 1290,
+      "triangles": 2508,
+      "ucx_convex_boxes": 1,
+      "pivot": [
+        -0.1704999953508377,
+        -0.2705000042915344,
+        0.0
+      ],
+      "bounds": [
+        [
+          -0.18149998784065247,
+          -0.3208434283733368,
+          0.1355000138282776
+        ],
+        [
+          0.16250000894069672,
+          -0.2399998903274536,
+          0.6504999995231628
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "file": "KI_CAB_0425_drawer.fbx",
+      "render_vertices": 1066,
+      "triangles": 2084,
+      "ucx_convex_boxes": 5,
+      "pivot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds": [
+        [
+          -0.16249999403953552,
+          -0.31367620825767517,
+          0.675000011920929
+        ],
+        [
+          0.16249999403953552,
+          0.2350001484155655,
+          0.8550000786781311
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "file": "KI_CAB_0775_body.fbx",
+      "render_vertices": 1344,
+      "triangles": 2632,
+      "ucx_convex_boxes": 14,
+      "pivot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds": [
+        [
+          -0.38749998807907104,
+          -0.3249998390674591,
+          -4.7084068199865214e-08
+        ],
+        [
+          0.38749998807907104,
+          0.325000137090683,
+          0.9100000262260437
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "file": "KI_CAB_0775_door_L.fbx",
+      "render_vertices": 1290,
+      "triangles": 2508,
+      "ucx_convex_boxes": 1,
+      "pivot": [
+        -0.34549999237060547,
+        -0.2705000042915344,
+        0.0
+      ],
+      "bounds": [
+        [
+          -0.35649996995925903,
+          -0.3208434283733368,
+          0.1355000138282776
+        ],
+        [
+          -0.023000001907348633,
+          -0.2399998903274536,
+          0.6504999995231628
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "file": "KI_CAB_0775_drawer_L.fbx",
+      "render_vertices": 1066,
+      "triangles": 2084,
+      "ucx_convex_boxes": 5,
+      "pivot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds": [
+        [
+          -0.3375000059604645,
+          -0.31367620825767517,
+          0.675000011920929
+        ],
+        [
+          -0.023000001907348633,
+          0.2350001484155655,
+          0.8550000786781311
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "file": "KI_CAB_0775_door_R.fbx",
+      "render_vertices": 1290,
+      "triangles": 2508,
+      "ucx_convex_boxes": 1,
+      "pivot": [
+        0.30549997091293335,
+        -0.2705000042915344,
+        0.0
+      ],
+      "bounds": [
+        [
+          -0.017000019550323486,
+          -0.3208434283733368,
+          0.1355000138282776
+        ],
+        [
+          0.3164999783039093,
+          -0.2399998903274536,
+          0.6504999995231628
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "file": "KI_CAB_0775_drawer_R.fbx",
+      "render_vertices": 1066,
+      "triangles": 2084,
+      "ucx_convex_boxes": 5,
+      "pivot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds": [
+        [
+          -0.017000004649162292,
+          -0.31367620825767517,
+          0.675000011920929
+        ],
+        [
+          0.29750001430511475,
+          0.2350001484155655,
+          0.8550000786781311
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "file": "KI_CAB_0450_body.fbx",
+      "render_vertices": 1152,
+      "triangles": 2256,
+      "ucx_convex_boxes": 12,
+      "pivot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds": [
+        [
+          -0.22499999403953552,
+          -0.3249998390674591,
+          -4.7084068199865214e-08
+        ],
+        [
+          0.22499999403953552,
+          0.325000137090683,
+          0.9100000262260437
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "file": "KI_CAB_0450_door.fbx",
+      "render_vertices": 1290,
+      "triangles": 2508,
+      "ucx_convex_boxes": 1,
+      "pivot": [
+        -0.14300000667572021,
+        -0.2705000042915344,
+        0.0
+      ],
+      "bounds": [
+        [
+          -0.15399999916553497,
+          -0.3208434283733368,
+          0.1355000138282776
+        ],
+        [
+          0.17500001192092896,
+          -0.2399998903274536,
+          0.6504999995231628
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "file": "KI_CAB_0450_drawer.fbx",
+      "render_vertices": 1066,
+      "triangles": 2084,
+      "ucx_convex_boxes": 5,
+      "pivot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds": [
+        [
+          -0.13500000536441803,
+          -0.31367620825767517,
+          0.675000011920929
+        ],
+        [
+          0.17499999701976776,
+          0.2350001484155655,
+          0.8550000786781311
+        ]
+      ],
+      "passed": true
+    }
+  ],
+  "door_sweeps": [
+    {
+      "variant": "0425",
+      "door": "door",
+      "range_degrees": [
+        0,
+        -100
+      ],
+      "sample_step": 5,
+      "barrel_orbit_m": 0,
+      "carcass_panel_overlap": false
+    },
+    {
+      "variant": "0775",
+      "door": "door_L",
+      "range_degrees": [
+        0,
+        -100
+      ],
+      "sample_step": 5,
+      "barrel_orbit_m": 0,
+      "carcass_panel_overlap": false
+    },
+    {
+      "variant": "0775",
+      "door": "door_R",
+      "range_degrees": [
+        0,
+        100
+      ],
+      "sample_step": 5,
+      "barrel_orbit_m": 0,
+      "carcass_panel_overlap": false
+    },
+    {
+      "variant": "0450",
+      "door": "door",
+      "range_degrees": [
+        0,
+        -100
+      ],
+      "sample_step": 5,
+      "barrel_orbit_m": 0,
+      "carcass_panel_overlap": false
+    }
+  ],
+  "paired_door_independence": "passed",
+  "render_mesh_sweeps": [
+    {
+      "variant": "0425",
+      "samples": "0..100 degrees at5-degree steps",
+      "includes": "all door render geometry including handles, hinges and moldings; body, drawers and closed/open partner",
+      "overlap": false
+    },
+    {
+      "variant": "0775",
+      "samples": "0..100 degrees at5-degree steps",
+      "includes": "all door render geometry including handles, hinges and moldings; body, drawers and closed/open partner",
+      "overlap": false
+    },
+    {
+      "variant": "0450",
+      "samples": "0..100 degrees at5-degree steps",
+      "includes": "all door render geometry including handles, hinges and moldings; body, drawers and closed/open partner",
+      "overlap": false
+    }
+  ]
+}

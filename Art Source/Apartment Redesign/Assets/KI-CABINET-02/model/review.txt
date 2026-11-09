@@ -1,0 +1,9 @@
+2026-11-09: final range-neighbour fit revision
+
+The 0775 module retains its 0.775 m worktop, with a 0.735 m carcass shifted X=-0.020 m and a recessed 40 mm east filler. The 0450 module retains its 0.450 m worktop, with a 0.410 m carcass shifted X=+0.020 m and a recessed 40 mm west filler. Module origins and overall footprints remain fixed. The 0425 module is unchanged.
+
+Hardware keeps its original size. Paired doors, twin drawers and gameplay identities are preserved. New closed/open lineup and range-fit renders were visually inspected; painterly source textures are explicitly relinked in fit previews.
+
+All eleven FBX reimports pass geometry, UV, pivot, bounds and UCX checks. Own-cabinet sweeps pass through 100 degrees. Actual-neighbour checks include the range body/controls and oven door, narrow sink, fridge and other casework: sixteen independent configurations with oven at 0 or 82 degrees; cabinet doors sampled every degree through 100 degrees; drawers sampled every 5 mm to 300 mm. Another 101 combined door/drawer poses pass. Actual range back is plan Y=0.15, width X=3.45..4.20; its full oven handle reaches plan Y=0.926.
+
+Reimport all 0775 and 0450 body, door and drawer exports. Use current manifest pivots. Engine collision, animation easing, player and camera validation remain with integration. No Blender jobs remain active.

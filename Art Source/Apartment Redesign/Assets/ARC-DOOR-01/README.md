@@ -17,4 +17,10 @@ FBX does not preserve the Blender node graph reliably. Recreate the paint color 
 
 ## Validation
 
-`model/validate_fbx.py` reimports both FBXs and checks finite vertices, normals and UVs, UV presence and nonzero triangle areas. `model/validate_pivot.py` reimports the leaf and asserts the hinge origin and extent. Both passed in Blender; leaf 8,576 triangles, frame 1,512. No Unreal import, runtime interaction, animation, collision or assembled-room test has been performed.
+`model/validate_fbx.py` reimports both FBXs and checks finite vertices, normals and UVs, UV presence and nonzero triangle areas. `model/validate_pivot.py` reimports the leaf and asserts the hinge origin and extent. Both passed in Blender; leaf 8,576 triangles, frame 1,512. That original source-validation pass did not test Unreal import, runtime interaction, animation, collision or assembled-room fit. See the dated integration findings below for subsequent engine feedback.
+
+## Integration feedback — 2026-11-08
+
+The integration team reports jamb linings coincided with the wall cut and caused z-fighting. For the current unscaled frame, allow **rough-opening width = clear width + 6 cm** (3 cm per side), with the rough header at **214 cm above floor**. For the 90 cm clear-width kit this is a 96 cm wall cut. The casings cover the allowance. The team corrected the walls; no source geometry change is requested. New-width layout proposals must reconcile the frame/leaf dimensions separately rather than assuming this existing kit matches them.
+
+The existing FBX has no authored simple collision. The integration team applied complex-as-simple collision to the current imports; re-run `Tools/Editor/build_redesign_collision.py` after re-import. Future moving leaves/panels should include separately named convex `UCX_<render mesh name>_<index>` collision hulls, following the moving part and its pivot. These hulls have not been added by this documentation update.

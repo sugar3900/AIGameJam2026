@@ -1,0 +1,66 @@
+{
+  "asset": "ARC-SLIDING-CLOSET-02",
+  "units": "metres",
+  "up": "+Z",
+  "front": "-Y",
+  "rough_opening": [
+    0.96,
+    2.18
+  ],
+  "clear_jamb_opening": [
+    0.9,
+    2.15
+  ],
+  "usable_open_width": 0.44,
+  "motion_rule": "Open one panel at a time; panels retain separate tracks.",
+  "exports": [
+    {
+      "file": "model/ARC_Sliding02_Frame.fbx",
+      "mesh": "ARC_Sliding02_Frame",
+      "assembly_offset": [
+        0,
+        0,
+        0
+      ],
+      "export_object_origin": [
+        0,
+        0,
+        0
+      ],
+      "collision_hulls": 3,
+      "slide_local_X": 0
+    },
+    {
+      "file": "model/ARC_Sliding02_LeftPanel.fbx",
+      "mesh": "ARC_Sliding02_LeftPanel",
+      "assembly_offset": [
+        -0.22,
+        -0.028,
+        0
+      ],
+      "export_object_origin": [
+        0,
+        0,
+        0
+      ],
+      "collision_hulls": 1,
+      "slide_local_X": 0.44
+    },
+    {
+      "file": "model/ARC_Sliding02_RightPanel.fbx",
+      "mesh": "ARC_Sliding02_RightPanel",
+      "assembly_offset": [
+        0.22,
+        0.028,
+        0
+      ],
+      "export_object_origin": [
+        0,
+        0,
+        0
+      ],
+      "collision_hulls": 1,
+      "slide_local_X": -0.44
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "asset": "BR-CLOSET-02",
+  "units": "metres",
+  "up": "+Z",
+  "front": "-Y",
+  "plan_origin": [
+    1.1,
+    4.7,
+    0
+  ],
+  "plan_mapping": "plan x=1.1+local x; plan y=4.7-local y; plan z=local z; map handedness through existing Unreal importer",
+  "opening": {
+    "rough_width": 1.1,
+    "rough_head": 2.14,
+    "finished_clear_width": 1.0,
+    "finished_clear_head": 2.11
+  },
+  "exports": [
+    {
+      "file": "model/BR_Closet02_Trim.fbx",
+      "mesh": "BR_Closet02_Trim",
+      "assembly_offset": [
+        0,
+        0,
+        0
+      ],
+      "export_object_origin": [
+        0,
+        0,
+        0
+      ],
+      "collision_hulls": 3,
+      "opens_about_local_Z_degrees": null
+    },
+    {
+      "file": "model/BR_Closet02_Door_L.fbx",
+      "mesh": "BR_Closet02_Door_L",
+      "assembly_offset": [
+        -0.5,
+        -0.978,
+        0
+      ],
+      "export_object_origin": [
+        0,
+        0,
+        0
+      ],
+      "collision_hulls": 1,
+      "opens_about_local_Z_degrees": -95
+    },
+    {
+      "file": "model/BR_Closet02_Door_R.fbx",
+      "mesh": "BR_Closet02_Door_R",
+      "assembly_offset": [
+        0.5,
+        -0.978,
+        0
+      ],
+      "export_object_origin": [
+        0,
+        0,
+        0
+      ],
+      "collision_hulls": 1,
+      "opens_about_local_Z_degrees": 95
+    },
+    {
+      "file": "model/BR_Closet02_Shelf.fbx",
+      "mesh": "BR_Closet02_Shelf",
+      "assembly_offset": [
+        0,
+        0,
+        0
+      ],
+      "export_object_origin": [
+        0,
+        0,
+        0
+      ],
+      "collision_hulls": 1,
+      "opens_about_local_Z_degrees": null
+    },
+    {
+      "file": "model/BR_Closet02_Bulb.fbx",
+      "mesh": "BR_Closet02_Bulb",
+      "assembly_offset": [
+        0,
+        0,
+        0
+      ],
+      "export_object_origin": [
+        0,
+        0,
+        0
+      ],
+      "collision_hulls": 0,
+      "opens_about_local_Z_degrees": null
+    },
+    {
+      "file": "model/BR_Closet02_Mold.fbx",
+      "mesh": "BR_Closet02_Mold",
+      "assembly_offset": [
+        0,
+        0,
+        0
+      ],
+      "export_object_origin": [
+        0,
+        0,
+        0
+      ],
+      "collision_hulls": 0,
+      "opens_about_local_Z_degrees": null
+    }
+  ]
+}

@@ -1,6 +1,18 @@
 # Integration handoff
 
-This is a working checklist, not a claim of implemented functionality. The new apartment and its assets have not yet been imported or tested in the game.
+The user approved the **compact kitchen/dining layout on 2026-11-09**, with the fridge beside north-wall prep. The [current handoff](layout-revision-02/README.md), [approved plan](layout-revision-02/kitchen-dining-study/approved-plan.svg), [coordinates](layout-revision-02/kitchen-dining-study/approved-plan.json) and [matching elevations](layout-revision-02/kitchen-dining-study/elevations/README.md) supersede earlier A+ and revision 02 layout coordinates. Geometry, motion and gameplay validation remain pending; this approval records the design choice, not completed engine work. The integration team's editor/Content/Tools reservation remains active.
+
+The original sections below predate engine assembly; dated integration feedback takes precedence over older untested-status statements.
+
+## Integration feedback — 2026-11-08
+
+Reported by the environment integration team; these are their in-engine findings, not new editor tests by the art thread.
+
+- The delivered FBX imports had no authored simple collision. The team changed **226 redesign meshes** to **Use Complex Collision As Simple** to restore player blocking and click traces. Re-run `Tools/Editor/build_redesign_collision.py` after re-import. Do not assume this workaround is preserved by a re-import or establishes physics-simulation suitability.
+- Future moving doors, drawers and lids should include convex `UCX_<render mesh name>_<index>` hulls tied to each moving mesh/pivot. Validate imported hulls, click tracing, player blocking and open/closed sweeps. Existing exports were not retrofitted in this documentation pass.
+- `ARC-DOOR-01` and `ARC-ENTRY-DOOR-01`: rough width = clear width + 6 cm; rough header at 214 cm. `ARC-SLIDING-CLOSET-01`: same width allowance, rough header at 218 cm. These are for current unscaled kits; the team already corrected the level walls. Casings cover the cut. A different planned clear width still requires a matching frame and leaf.
+- Sofa orientation: source −Y front becomes imported +Y under their import settings; **yaw −90° corrected the existing placement**. Future furniture options specify plan-facing directions; calculate their own world rotations rather than copying that yaw universally.
+- The user subsequently moved the proposed white wainscoting and separate lead-paint feature to the **office/guestroom**. Original bedroom references below are historical A+ instructions; the pending revision documents the new location. Closet mold stays in the bedroom.
 
 ## Closet and bedroom conditions
 

@@ -1,0 +1,65 @@
+{
+  "status": "passed",
+  "checks": [
+    "finite vertices and UV",
+    "UV presence",
+    "nondegenerate triangles",
+    "zero object origins",
+    "three open frame UCX boxes",
+    "one panel UCX each",
+    "0.96x2.18 rough lining bounds",
+    "0.90x2.15 clear jamb opening",
+    "0.44m track travel within jambs",
+    "more than4mm panel hardware depth clearance at overlap"
+  ],
+  "exports": [
+    {
+      "mesh": "ARC_Sliding02_Frame",
+      "vertices": 784,
+      "triangles": 1512,
+      "collision_hulls": 3,
+      "assembled_min": [
+        -0.5400000214576721,
+        -0.09900008887052536,
+        0.0
+      ],
+      "assembled_max": [
+        0.5399999618530273,
+        0.09050008654594421,
+        2.257499933242798
+      ]
+    },
+    {
+      "mesh": "ARC_Sliding02_LeftPanel",
+      "vertices": 1288,
+      "triangles": 2484,
+      "collision_hulls": 1,
+      "assembled_min": [
+        -0.44999998807907104,
+        -0.05350001901388168,
+        0.019999980926513672
+      ],
+      "assembled_max": [
+        0.01000000536441803,
+        -0.0025000199675559998,
+        2.125
+      ]
+    },
+    {
+      "mesh": "ARC_Sliding02_RightPanel",
+      "vertices": 1288,
+      "triangles": 2484,
+      "collision_hulls": 1,
+      "assembled_min": [
+        -0.01000000536441803,
+        0.0025000199675559998,
+        0.019999980926513672
+      ],
+      "assembled_max": [
+        0.44999998807907104,
+        0.05350001901388168,
+        2.125
+      ]
+    }
+  ]
+}

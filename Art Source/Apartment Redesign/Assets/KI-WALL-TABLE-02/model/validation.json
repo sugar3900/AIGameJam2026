@@ -1,0 +1,24 @@
+[
+  {
+    "file": "KI_WALL_TABLE_02.fbx",
+    "render_mesh": "KI_WALL_TABLE_02",
+    "location": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "bounds_min": [
+      -0.45000001788139343,
+      -0.2250000685453415,
+      0.0
+    ],
+    "bounds_max": [
+      0.45000001788139343,
+      0.2250000685453415,
+      0.7400000095367432
+    ],
+    "triangles": 2264,
+    "collision_hulls": 9,
+    "status": "pass"
+  }
+]

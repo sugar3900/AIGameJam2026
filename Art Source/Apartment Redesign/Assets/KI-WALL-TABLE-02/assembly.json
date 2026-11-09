@@ -1,0 +1,28 @@
+{
+  "asset": "KI-WALL-TABLE-02",
+  "dimensions_m": [
+    0.9,
+    0.45,
+    0.74
+  ],
+  "origin": "floor centre",
+  "source_front": "-Y",
+  "source_up": "+Z",
+  "fbx_axes": {
+    "forward": "-Y",
+    "up": "Z"
+  },
+  "parts": [
+    {
+      "file": "model/KI_WALL_TABLE_02.fbx",
+      "offset_m": [
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "collision": "Per-member UCX, open underside retained",
+  "new_geometry": true,
+  "texture_source": "KI-TABLE-01"
+}

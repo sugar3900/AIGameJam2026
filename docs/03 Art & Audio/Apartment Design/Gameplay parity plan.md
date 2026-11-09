@@ -138,5 +138,87 @@ All of section 8 passes in the redesign map, the parity table has no unexplained
   9. `import_redesign_parity_art`
   10. `prepare_redesign_gameplay_level`
   11. `build_redesign_gameplay`
+  12. `build_redesign_collision` (also after any art re-import)
 
-  Always finish with the gameplay builder.
+  Always finish with the gameplay builder and then the collision pass.
+
+**2026-11-09: click actions for the newer art, collision, doorway and sofa fixes:**
+- **41 new interactables wired** in `build_redesign_gameplay.py`:
+  - **Kitchen:** pantry, upper-cupboard, cabinet and sink doors; sink drawers; the oven door (drops open on +85° roll); the sink tap (water stream).
+  - **Living:** ceiling light and fuse-box door. Wyatt's malady now sits inside the box, behind that door.
+  - **Hall:** both ceiling lights, both sconces, the console drawer, the end-cabinet doors and drawer, and the coat-closet sliding panels.
+  - **Bedroom:** two dresser drawers, both nightstand drawers, and the east bed lamp.
+  - **Bath:** mirror sconces (the light sits out from the wall so it leaves no hotspot in the mirror), the basin tap, and the shower curtain slide.
+  - **Office:** the closet panels, three desk drawers, the cabinet doors and drawer, the desk lamp and the floor lamp.
+  - Open poses were checked in viewport captures. Sliding-closet panels each slide behind the other, so clicking one opens that half.
+- **Collision (new `build_redesign_collision.py`):**
+  - **Problem:** the FBX imports had no simple collision. The click trace (Visibility, simple) passed through every art-body interactable, including the older Fridge/Wardrobe/TV/Bed parts, and the player walked through furniture.
+  - **Fix:** 226 redesign meshes now use complex collision as simple. Exact shapes keep doorways, cabinets and closets open. Placement scripts that spawn with collision off (floors, ceiling, trim, door frames) are unchanged.
+  - **Verified:** a trace sweep shows every interactable and malady is reachable. Wyatt's is reachable only once the fuse door is open, as intended. In PIE, a real click opened the fuse door, and a second click started Wyatt's encounter.
+- **Doorways:** the room-door, entry and sliding-closet frames put their jambs exactly on the clear opening, and their head jambs at 211 cm (215 cm for the sliding frames). The walls were cut to the same line, so the plaster z-fought with the jambs and showed under the heads.
+  - **Fix:** `build_redesign_wall_finishes.py` cuts door-type openings 3 cm wider per side, with headers at 214 cm (218 cm for the sliding frames). The casings hide the cut.
+  - An `EntryBacker` panel outside the east wall stops sky light showing through the gap around the entry leaf, which never opens.
+- **Sofa:** turned to yaw −90. Its front is Blender −Y, which imports as +Y; at yaw 90 it faced the west wall.
+
+## Revision 02 integration (2026-11-09)
+
+The approved revision 02 layout ([handoff](layout-revision-02/README.md)) is built as a separate map pair,
+`L_Apartment_Rev02` + `L_Apartment_Rev02_Gameplay`, by a re-runnable pipeline in `Tools/Editor/Rev02/`. The game's
+default map (`L_Apartment_Redesign_Blockout`) is unchanged until Rev02 is accepted.
+
+**Pipeline** (run in order; 01 always starts from a fresh copy of the A+ maps, so the whole chain reproduces):
+1. `rev02_01_make_maps` — copy the A+ map pair to Rev02 and re-point the streamed gameplay sublevel.
+2. `rev02_02_import_fitted` — import the fitted kits (KI-CABINET-02, KI-SINK-NARROW-01, ARC-WINDOW-KITCHEN-02,
+   BR-CLOSET-02, ARC-SLIDING-CLOSET-02, ARC-DOOR-02, ARC-ENTRY-DOOR-02, KI-WALL-TABLE-02, KI-STOOL-02,
+   ARC-CLOSET-STORAGE-02, LV-BOOK-01 book parts). Run once per source release, not per rebuild. Uses the legacy FBX
+   importer: UE 5.8's Interchange path drops authored UCX hulls.
+3. `rev02_03_shell` — walls, rough openings (doors 1.05 × 2.14 m, sliders 0.96 × 2.18, walk-in 1.10 × 2.14, kitchen
+   portal 1.20 × 2.30, living/hall 7.20 × 2.45), floors, trim, bath tile, office wainscot with under-sill panels,
+   lead paint, windows, the 0.99-clear room/entry doors (open leaves collide, posed at 90°), sliding frames.
+4. `rev02_04_furnish` — rigid moves of every A+ assembly with its dressing and click actions to the plan, plus the
+   fitted kitchen, walk-in, sliding panels, storage, wall table and stool.
+5. `rev02_04b_dressing` — wall-mounted dressing and children from the elevation schedule (shelves, switches, rails,
+   sconces, books from LV-BOOK-01 parts), and schedule height corrections.
+6. `rev02_05_gameplay` — re-bind changed click actions (kitchen cabinet fronts from the KI-CABINET-02 manifest
+   pivots, narrow-sink tap, west-hinged fridge, walk-in doors, sliding panels), rooms + travel points, the walk-in as
+   a `bedroom` sub-volume, front door, door start, title camera, re-derived talk spots, Malcolm's glow light.
+7. `rev02_06_lighting` — fills, window-view cards and sun spot follow the new rooms/windows.
+8. `rev02_08_reconcile` — verification: writes [Rev02 engine reconciliation](Rev02%20engine%20reconciliation.md)
+   (every elevation-schedule instance and child → actors or an intentional omission; every other placed actor classified).
+
+**C++:** `AFixHimRoom::bSubVolume` — an extra area of a room (the walk-in closet of the bedroom). Standing in it counts
+as being in that room; crossing between it and the main volume neither changes the room nor dismisses the room's
+hunk (`NotifyLeftRoom` returns before dismissing); the floor plan draws it without status or a travel button and
+`FixHimGoto` skips it.
+
+**Collision:** fitted kits keep their authored UCX hulls; sources without UCX (narrow sink, closet bulb/mold) use
+complex-as-simple. `build_redesign_collision.py` now counts convex hulls as existing collision.
+
+**Click actions and repair identities:** the A+ map has 54 interactable actors (13 from the original parity pass,
+41 added 2026-11-08; FrontDoor and Bed included). Rev02 keeps all 54 by label and adds 3: `Cabinet_Door_2` and
+`Kitchen_Drawer_2` (the 0450 cabinet's fronts) and `Sconce_Kitchen` (breakfast sconce) = 57. The four maladies keep
+their hunk ids: `Malady_FuseBox` (wyatt, living), `Malady_Sink` (lukey, kitchen), `Malady_PinkTile` (tyler,
+bathroom), `Malady_Mold` (malcolm, bedroom via the walk-in sub-volume). Changed bodies: Sink_Door_L/R and
+Sink_Drawer_L/R on the KI-CABINET-02 0775 fronts, Cabinet_Door/Kitchen_Drawer on 0425, Sink_Tap on the narrow
+sink's tap, Wardrobe_Door_L/R on BR-CLOSET-02, the four closet panels on ARC-SLIDING-CLOSET-02. The A+ fridge
+action pivoted on the handle edge; it now pivots on KI-FRIDGE-01's measured west hinge (105° in Rev02; the A+
+builder is fixed too, applied on its next run — the A+ map itself was not rebuilt).
+
+**Validation (2026-11-09, final build):**
+
+| Check | Method | Result |
+|---|---|---|
+| Schedule coverage | `rev02_08_reconcile` vs. elevation schedule (97 instances) | 0 problems, 0 unaccounted actors; 11 intentional omissions recorded |
+| Routes | capsule traces (r 38, hh 90) along every approved circulation path, room leaves colliding at 90°, closet leaves closed and open | all clear; the only hit is the segment that starts inside the closed entry leaf |
+| Bedroom route | real PIE pawn, both closet leaves open, actual bed | y 6.55 blocked by the right leaf (hinge at 5.678, tip 6.181); y 6.62/6.65/6.68 pass — plan updated to 6.65 |
+| Walk-in entry | real PIE pawn through the open leaves | passes on the centreline and ±2/±4 cm |
+| Encounter spots | capsule overlap at every hunk spawn / talk spot (closet leaves open and closed), room containment, sight line | all clear; Wyatt's and Lukey's talk spots re-derived (sofa 30 cm, wall table) |
+| Door/drawer sweeps | body collision overlaps through full travel (5°/3 cm steps); sensitivity check (forced 10 cm overlap registers) | 33 clear; pantry/upper doors and shower curtain have no simple collision (bounds-checked) |
+| Range-side doors | traces on KI-RANGE-01 sides, then sweeps after the 40 mm filler revision | full 100° restored, clear |
+| Clicks | real `FixHimClick` from the pawn on 17 actions (new/re-bound/reveal) | all toggle; reveals visible: sink tap water, stove flame, tub water |
+| Encounters | conversations run to the end (`met=1`) | Wyatt by real clicks (fuse door, then malady), Lukey, Tyler, Malcolm via `FixHimTalk` |
+| Repairs | **state-driven repair test** (not the repair minigames): all met, `FixHimSetFixed` ×4, `FixHimSleep` → new day (pawn back at door start) | the six hunk-attached overlays hide (flags + before/after scene captures); lead paint stays (not tied to a hunk) |
+| Walk-in sub-volume | PIE walk bedroom ↔ closet, travel | room id stays `bedroom`; `hall` on leaving; `FixHimGoto bedroom` lands in the bedroom. Non-dismissal while crossing is code-backed: Malcolm auto-dismisses 0.35 s after a talk (`HandleConversationEnded`), so "present and idle while crossing" was not reachable |
+
+Captures: `Saved/ApartmentProgress/rev02/` (room views and `pie_*` scene captures); the reviewed set is archived by
+the art thread under `layout-revision-02/engine-review/`.
