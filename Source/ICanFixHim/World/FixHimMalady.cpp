@@ -109,7 +109,7 @@ void AFixHimMalady::FrameCamera()
 	FVector Dir = Head - Talk;
 	Dir.Z = 0.f;
 	Dir = Dir.GetSafeNormal();
-	FVector CamLoc = FVector(Talk.X, Talk.Y, HunkStandLocation.Z - 92.f + 160.f) - Dir * (bMalcolm ? 140.f : 40.f);
+	FVector CamLoc = FVector(Talk.X, Talk.Y, HunkStandLocation.Z - 92.f + 160.f) - Dir * (bMalcolm ? 80.f : 40.f);
 
 	// Small rooms: if a wall is between his face and the ideal spot, slide the camera in front of the wall.
 	FHitResult Hit;
@@ -128,8 +128,8 @@ void AFixHimMalady::FrameCamera()
 		CamLoc = Hit.Location + (Head - CamLoc).GetSafeNormal() * 10.f;
 	}
 	// Aim a little below the face so he sits in the top 3/4 of the frame, above the dialogue box.
-	// Malcolm needs more headroom and an upward eye line in the closet.
-	const FVector Aim = Head + FVector(0.f, 0.f, bMalcolm ? 20.f : -38.f);
+	// Aim at Malcolm's upper torso: his face belongs in the upper third, clear of the dialogue panel.
+	const FVector Aim = Head + FVector(0.f, 0.f, bMalcolm ? -30.f : -38.f);
 	DialogueCamera->SetWorldLocationAndRotation(CamLoc, (Aim - CamLoc).Rotation());
 }
 
