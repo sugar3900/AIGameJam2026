@@ -138,5 +138,24 @@ All of section 8 passes in the redesign map, the parity table has no unexplained
   9. `import_redesign_parity_art`
   10. `prepare_redesign_gameplay_level`
   11. `build_redesign_gameplay`
+  12. `build_redesign_collision` (also after any art re-import)
 
-  Always finish with the gameplay builder.
+  Always finish with the gameplay builder and then the collision pass.
+
+**2026-11-09: click actions for the newer art, collision, doorway and sofa fixes:**
+- **41 new interactables wired** in `build_redesign_gameplay.py`:
+  - **Kitchen:** pantry, upper-cupboard, cabinet and sink doors; sink drawers; the oven door (drops open on +85° roll); the sink tap (water stream).
+  - **Living:** ceiling light and fuse-box door. Wyatt's malady now sits inside the box, behind that door.
+  - **Hall:** both ceiling lights, both sconces, the console drawer, the end-cabinet doors and drawer, and the coat-closet sliding panels.
+  - **Bedroom:** two dresser drawers, both nightstand drawers, and the east bed lamp.
+  - **Bath:** mirror sconces (the light sits out from the wall so it leaves no hotspot in the mirror), the basin tap, and the shower curtain slide.
+  - **Office:** the closet panels, three desk drawers, the cabinet doors and drawer, the desk lamp and the floor lamp.
+  - Open poses were checked in viewport captures. Sliding-closet panels each slide behind the other, so clicking one opens that half.
+- **Collision (new `build_redesign_collision.py`):**
+  - **Problem:** the FBX imports had no simple collision. The click trace (Visibility, simple) passed through every art-body interactable, including the older Fridge/Wardrobe/TV/Bed parts, and the player walked through furniture.
+  - **Fix:** 226 redesign meshes now use complex collision as simple. Exact shapes keep doorways, cabinets and closets open. Placement scripts that spawn with collision off (floors, ceiling, trim, door frames) are unchanged.
+  - **Verified:** a trace sweep shows every interactable and malady is reachable. Wyatt's is reachable only once the fuse door is open, as intended. In PIE, a real click opened the fuse door, and a second click started Wyatt's encounter.
+- **Doorways:** the room-door, entry and sliding-closet frames put their jambs exactly on the clear opening, and their head jambs at 211 cm (215 cm for the sliding frames). The walls were cut to the same line, so the plaster z-fought with the jambs and showed under the heads.
+  - **Fix:** `build_redesign_wall_finishes.py` cuts door-type openings 3 cm wider per side, with headers at 214 cm (218 cm for the sliding frames). The casings hide the cut.
+  - An `EntryBacker` panel outside the east wall stops sky light showing through the gap around the entry leaf, which never opens.
+- **Sofa:** turned to yaw −90. Its front is Blender −Y, which imports as +Y; at yaw 90 it faced the west wall.

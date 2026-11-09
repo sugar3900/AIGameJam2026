@@ -10,7 +10,7 @@ if not levels.load_level(level):
     raise RuntimeError('Could not load redesign blockout')
 tools = unreal.AssetToolsHelpers.get_asset_tools()
 items = [
-    ('LV_Sofa', 'LV-SOFA-01/model/LV-SOFA-01.fbx', 'Placeholder_00_Sofa', (54.5,180,0), 90),
+    ('LV_Sofa', 'LV-SOFA-01/model/LV-SOFA-01.fbx', 'Placeholder_00_Sofa', (54.5,180,0), -90),
     ('BR_Bed', 'BR-BED-01/model/BR_Bed_Complete.fbx', 'Placeholder_15_Bed', (265,850,0), 180),
 ]
 for name, source, placeholder, location, yaw in items:

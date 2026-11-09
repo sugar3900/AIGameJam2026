@@ -139,8 +139,10 @@ def malady(label, hunk, style, loc, yaw, room, proxy_size, proxy_rel=(2, 0, 0), 
     return a
 
 _, _, fc = bounds('Art_LV_Fuse_Shell')
-malady('Malady_FuseBox', 'wyatt', unreal.MaladyStyle.WIRING, (fc[0], 362, fc[2]), -90, 'living', (16, 56, 84),
-       proxy_rel=(4, 0, 0), fx=(18, 0, -20), hunk_spawn=(110, 80, -40), talk=(260, 30, -40))
+# The click target sits inside the box, behind LV-FUSE-01's door (door front y=354.4): like Malcolm's closet,
+# the closed door hides the fault and opening it exposes the damaged wiring to inspect.
+malady('Malady_FuseBox', 'wyatt', unreal.MaladyStyle.WIRING, (fc[0], 368, fc[2]), -90, 'living', (8, 40, 56),
+       proxy_rel=(0, 0, 0), fx=(24, 0, -20), hunk_spawn=(116, 80, -40), talk=(266, 30, -40))
 malady('Malady_Sink', 'lukey', unreal.MaladyStyle.LEAK, (855, 62, 82), 90, 'kitchen', (16, 100, 30),
        proxy_rel=(4, 0, 0), fx=(8, 0, -45), hunk_spawn=(75, 0, 28), talk=(235, 0, 28))
 _, _, tc = bounds('Damage_BA_CrackedTile')
@@ -214,6 +216,83 @@ door = interactable('FrontDoor', (1192, 442.5, 0), 180, 'hall', T.NONE, 'Leave t
 door.set_folder_path('Gameplay/Structure')
 body_proxy(door, CUBE, (1192, 442.5, 105), (10, 92, 210), invisible=True)
 door.get_editor_property('body').set_editor_property('hidden_in_game', True)
+
+# ---------------- extended interactables (design notes: doors rotate, drawers slide, lights) ----------------
+# Hinged leaves: actor on the hinge, yaw 0; toggle yaw sign from the leaf's direction from its hinge so it
+# swings into the room. Drawers: actor yaw points +X into the room; offset along +X. Lights: authored shade
+# body, point light at the bulb.
+def rotate_leaf(label, art, hinge, swing, room, what, roll=False):
+    a = interactable(label, hinge, 0, room, T.ROTATE, 'Open ' + what, 'Close ' + what)
+    body_from_art(a, art); a.set_editor_property('toggle_rotation', rot(0, 0, swing) if roll else rot(swing))
+    return a
+def slide(label, art, yaw, dist, room, what):
+    _, _, c = bounds(art)
+    a = interactable(label, c, yaw, room, T.SLIDE, 'Open ' + what, 'Close ' + what)
+    body_from_art(a, art); a.set_editor_property('toggle_offset', unreal.Vector(dist, 0, 0))
+    return a
+def lamp(label, art, bulb, room, intensity, color=WARM, what='lamp'):
+    a = interactable(label, bulb, 0, room, T.LIGHT, 'Turn on ' + what, 'Turn off ' + what)
+    body_from_art(a, art); light(a, bulb, color, intensity)
+    return a
+def water(label, art, stream_center, stream_height, room, off, on):
+    _, _, c = bounds(art)
+    a = interactable(label, c, 0, room, T.REVEAL, off, on)
+    body_from_art(a, art)
+    rp = a.get_editor_property('reveal_part'); rp.set_static_mesh(CYL)
+    rp.set_world_location(unreal.Vector(*stream_center), False, False); rp.set_world_rotation(rot(0), False, False)
+    rp.set_world_scale3d(unreal.Vector(0.014, 0.014, stream_height / 100.0)); rp.set_cast_shadow(False)
+    a.set_editor_property('reveal_color', unreal.LinearColor(0.55, 0.78, 0.9, 1)); a.set_editor_property('reveal_opacity', 0.55)
+    return a
+
+# Kitchen
+rotate_leaf('Pantry_Door_L', 'Art_KI_Pantry_LeftDoor', (1126, 13.4, 0), 100, 'kitchen', 'pantry')
+rotate_leaf('Pantry_Door_R', 'Art_KI_Pantry_RightDoor', (1126, 110.6, 0), -100, 'kitchen', 'pantry')
+rotate_leaf('Cupboard_Door_L', 'Art_KI_Upper_LeftDoor', (927.5, 38, 160), 100, 'kitchen', 'cupboard')
+rotate_leaf('Cupboard_Door_R', 'Art_KI_Upper_RightDoor', (1022.5, 38, 160), -100, 'kitchen', 'cupboard')
+rotate_leaf('Cabinet_Door', 'Art_KI_Cabinet_door', (977.7, 70.6, 0), 100, 'kitchen', 'cabinet')
+rotate_leaf('Sink_Door_L', 'Art_KI_SINK_L_door', (742, 69, 0), 100, 'kitchen', 'cabinet')
+rotate_leaf('Sink_Door_R', 'Art_KI_SINK_R_door', (968, 69, 0), -100, 'kitchen', 'cabinet')
+slide('Sink_Drawer_L', 'Art_KI_SINK_L_drawer', 90, 28, 'kitchen', 'drawer')
+slide('Sink_Drawer_R', 'Art_KI_SINK_R_drawer', 90, 28, 'kitchen', 'drawer')
+rotate_leaf('Oven_Door', 'Art_KI_Range_Door', (687.5, 85, 22), 85, 'kitchen', 'oven', roll=True)   # +roll drops the door outward (-roll folds it into the oven)
+water('Sink_Tap', 'Art_KI_SINK_L_tap', (855, 33, 92), 50, 'kitchen', 'Turn on the tap', 'Turn off the tap')
+# Living
+lamp('CeilingLight_Living', 'Art_CeilingLight_Living_Glass', (275, 190, 250), 'living', 2400, what='light')
+rotate_leaf('FuseBox_Door', 'Art_LV_Fuse_Door', (336.4, 358, 120), 100, 'living', 'fuse box')
+# Hall
+lamp('CeilingLight_HallWest', 'Art_CeilingLight_HallWest_Glass', (300, 470, 250), 'hall', 2200, what='light')
+lamp('CeilingLight_HallEast', 'Art_CeilingLight_HallEast_Glass', (900, 470, 250), 'hall', 2200, what='light')
+lamp('Sconce_Hall_1', 'Art_HA_Sconce01_HA_Sconce_Shade', (330, 394, 181), 'hall', 900, what='sconce')
+lamp('Sconce_Hall_2', 'Art_HA_Sconce02_HA_Sconce_Shade', (750, 394, 181), 'hall', 900, what='sconce')
+slide('Console_Drawer', 'Art_HA_Console_HA_CONSOLE_DRAWER', 90, 18, 'hall', 'drawer')
+slide('HallCabinet_Drawer', 'Art_HA_EndCabinet_HA_CABINET_DRAWER', 0, 16, 'hall', 'drawer')
+rotate_leaf('HallCabinet_Door_L', 'Art_HA_EndCabinet_HA_CABINET_DOOR_L', (29.4, 515.6, 0), 100, 'hall', 'cabinet')
+rotate_leaf('HallCabinet_Door_R', 'Art_HA_EndCabinet_HA_CABINET_DOOR_R', (29.4, 422.4, 0), -100, 'hall', 'cabinet')
+for side, dist in (('Left', 44), ('Right', -44)):   # README: front panel +0.44 m / back panel -0.44 m in local X
+    sp = interactable('CoatCloset_' + side, (1135, 380, 0), 0, 'hall', T.SLIDE, 'Slide closet door', 'Slide closet door')
+    body_from_art(sp, 'Art_CoatCloset_%sPanel' % side); sp.set_editor_property('toggle_offset', unreal.Vector(dist, 0, 0))
+# Bedroom
+slide('Dresser_Drawer_1', 'Art_BR_Dresser_BR_Dresser_drawer1', 180, 30, 'bedroom', 'drawer')
+slide('Dresser_Drawer_2', 'Art_BR_Dresser_BR_Dresser_drawer2', 180, 30, 'bedroom', 'drawer')
+slide('Nightstand_Drawer_W', 'Art_BR_Nightstand_W_BR_NIGHTSTAND_DRAWER', -90, 18, 'bedroom', 'drawer')
+slide('Nightstand_Drawer_E', 'Art_BR_Nightstand_E_BR_NIGHTSTAND_DRAWER', -90, 18, 'bedroom', 'drawer')
+lamp('BedLamp_E', 'Art_BR_Lamp_E_BR_LampShade', (372.5, 926.5, 87), 'bedroom', 1400)
+# Bath
+# light sits out from the wall and above the globes: at the globes it leaves a hotspot in the mirror
+lamp('Mirror_Sconces', 'Art_BA_Mirror_BA_Mirror_globe', (535, 727, 205), 'bathroom', 1200, what='lights')
+water('Basin_Tap', 'Art_BA_Basin_BA_BA_BasinTap_L', (516, 745, 84), 14, 'bathroom', 'Turn on the tap', 'Turn off the tap')
+slide('Shower_Curtain', 'Art_BA_Tub_BA_BA_Curtain', 0, 110, 'bathroom', 'curtain')
+# Office
+for side, dist in (('Left', 44), ('Right', -44)):
+    sp = interactable('OfficeCloset_' + side, (1138, 680, 0), 0, 'office', T.SLIDE, 'Slide closet door', 'Slide closet door')
+    body_from_art(sp, 'Art_OfficeCloset_%sPanel' % side); sp.set_editor_property('toggle_offset', unreal.Vector(dist, 0, 0))
+for i in (1, 2, 3):
+    slide('Desk_Drawer_%d' % i, 'Art_OF_Desk_OF_DESK_DRAWER_%d' % i, -90, 24, 'office', 'drawer')
+rotate_leaf('OfficeCabinet_Door_L', 'Art_OF_Cabinet_OF_CABINET_DOOR_L', (823.8, 667.8, 0), 100, 'office', 'cabinet')
+rotate_leaf('OfficeCabinet_Door_R', 'Art_OF_Cabinet_OF_CABINET_DOOR_R', (823.8, 599.2, 0), -100, 'office', 'cabinet')
+slide('OfficeCabinet_Drawer', 'Art_OF_Cabinet_OF_CABINET_DRAWER', 0, 18, 'office', 'drawer')
+lamp('DeskLamp', 'Art_OF_DeskLamp_OF_DeskLamp_Shade', (979.4, 905, 104), 'office', 1100)
+lamp('FloorLamp_Office', 'Art_OF_FloorLamp_LV_LampShade', (1172.7, 834, 131), 'office', 1800)
 
 # ---------------- start + title camera ----------------
 ps = spawn(unreal.PlayerStart, 'PlayerStart_Door', (1120, 442.5, 100), 180, 'Gameplay/Start')

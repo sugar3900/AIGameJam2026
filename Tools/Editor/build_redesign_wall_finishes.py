@@ -54,14 +54,27 @@ def box(label, center, size, mat, folder='Redesign/Shell'):
     a.static_mesh_component.set_material(0, MI[mat])
     return a
 
+# Door frames (ARC-DOOR-01, the entry frame, ARC-SLIDING closet frames) put their jamb linings exactly on the
+# 0.90 m clear opening and their head jambs at 211 cm (215 cm for the sliding frames). A wall cut to the clear
+# opening z-fights with the jambs and shows a plaster band under the head, so door-type openings are cut REVEAL
+# wider per side and above the head jamb; the frames' casings (11 / 9 cm wide, 3 cm proud) hide the cut edges.
+REVEAL, DOOR_HEAD, SLIDING_HEAD = 3, 214, 218
+def door_opening(a, b, head=DOOR_HEAD):
+    return (a - REVEAL, b + REVEAL, 0, head)
+COAT_CLOSET = door_opening(1090, 1180, SLIDING_HEAD)
+OFFICE_CLOSET = door_opening(1093, 1183, SLIDING_HEAD)
+
 def plan_openings(axis, fixed):
     out = []
     for d in plan['swing_doors'] + plan['windows']:
         if d['axis'] != ('h' if axis == 'x' else 'v'): continue
         if abs(100 * d['y' if axis == 'x' else 'x'] - fixed) > .01: continue
         s = 100 * d['x' if axis == 'x' else 'y']
-        out.append((s, s + 100 * d['width'], 100 * d.get('sill_height', 0), 100 * d.get('head_height', 2.1)))
-    if axis == 'x' and abs(fixed - 380) < .01: out.append((1090, 1180, 0, 210))
+        if d in plan['swing_doors']:
+            out.append(door_opening(s, s + 100 * d['width']))
+        else:
+            out.append((s, s + 100 * d['width'], 100 * d.get('sill_height', 0), 100 * d.get('head_height', 2.1)))
+    if axis == 'x' and abs(fixed - 380) < .01: out.append(COAT_CLOSET)
     return out
 
 BOUNDS = {'x': [180, 480, 550, 790, 1070, 1075], 'y': [300, 380, 560, 680, 705]}
@@ -91,10 +104,14 @@ for name, axis, fixed, start, end in [
     wall(name, axis, fixed, start, end, plan_openings(axis, fixed), hide=(0, 550) if name == 'North' else None)
 wall('BedroomClosetFront', 'x', 705, 0, 180, [(45, 135, 0, 210)])
 wall('BedroomClosetSide', 'y', 180, 560, 705)
-wall('OfficeClosetFront', 'x', 680, 1075, 1200, [(1093, 1183, 0, 210)])
+wall('OfficeClosetFront', 'x', 680, 1075, 1200, [OFFICE_CLOSET])
 wall('OfficeClosetSide', 'y', 1075, 560, 680)
 wall('CoatClosetBack', 'x', 300, 1070, 1200)
 wall('CoatClosetSide', 'y', 1070, 300, 380)
+# The entry leaf never opens and is ~7 mm narrower than its jambs; without something behind it, exterior sky
+# shows through that gap as a bright outline. A plaster panel just outside the east wall (behind the outer
+# casing, x 1209) closes it.
+box('EntryBacker', (1214, 442.5, 112.5), (4, 125, 225), 'Plaster_Exterior')
 
 # ---------- living-room wall kit on the north exterior wall ----------
 KIT = 'Redesign/Wall Finishes/Living'
@@ -122,7 +139,7 @@ def room_openings(axis, plane, s):
     fixed = plane - 6 * s
     out = plan_openings(axis, fixed)
     if axis == 'x' and abs(fixed - 705) < .1: out.append((45, 135, 0, 210))
-    if axis == 'x' and abs(fixed - 680) < .1: out.append((1093, 1183, 0, 210))
+    if axis == 'x' and abs(fixed - 680) < .1: out.append(OFFICE_CLOSET)
     return out
 
 def strip(tag, folder, m, axis, plane, s, span, z, h, mats=None, collision=False, zscale=1.0, keep=None):
