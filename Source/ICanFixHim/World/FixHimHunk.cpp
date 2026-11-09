@@ -41,6 +41,12 @@ AFixHimHunk::AFixHimHunk()
 	GetMesh()->SetRelativeRotation(FRotator(0.f, -90.f, 0.f));
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
+	PortraitMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PortraitMesh"));
+	PortraitMesh->SetupAttachment(GetMesh());
+	PortraitMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	PortraitMesh->SetCastShadow(false);
+	PortraitMesh->SetVisibleInSceneCaptureOnly(true);
+
 	PortraitCapture = CreateDefaultSubobject<USceneCaptureComponent2D>(TEXT("PortraitCapture"));
 	PortraitCapture->SetupAttachment(GetCapsuleComponent());
 	// Close on the face, slightly below eye level and tilted up at it. Mannequin head sits ~70cm above capsule centre.
@@ -75,7 +81,7 @@ void AFixHimHunk::BeginPlay()
 	PortraitTarget->InitAutoFormat(512, 512);
 	PortraitTarget->UpdateResourceImmediate(true);
 	PortraitCapture->TextureTarget = PortraitTarget;
-	PortraitCapture->ShowOnlyActors.Add(this);
+	PortraitCapture->ShowOnlyComponent(PortraitMesh);
 
 	// ApplyDefinition installs the final mesh and its fully dissolved materials while still hidden.
 }
@@ -138,6 +144,7 @@ void AFixHimHunk::ApplyDefinition(const FHunkDefinition& Def)
 			}
 			SetActorScale3D(FVector(BaseScale));
 			SetForm(0.f, Enter);
+			SetupPortraitMesh();
 			PreloadTextures();
 			return;
 		}
@@ -162,6 +169,7 @@ void AFixHimHunk::ApplyDefinition(const FHunkDefinition& Def)
 
 	SetActorScale3D(FVector(BaseScale));
 	SetForm(0.f, Enter);
+	SetupPortraitMesh();
 	PreloadTextures();
 }
 
@@ -398,23 +406,38 @@ void AFixHimHunk::SetPortraitLive(bool bLive)
 	}
 }
 
+void AFixHimHunk::SetupPortraitMesh()
+{
+	PortraitMesh->SetSkeletalMesh(GetMesh()->GetSkeletalMeshAsset());
+	PortraitMesh->SetLeaderPoseComponent(GetMesh());
+	PortraitMesh->EmptyOverrideMaterials();
+	for (int32 i = 0; i < GetMesh()->GetNumMaterials(); ++i)
+	{
+		if (UMaterialInterface* Material = GetMesh()->GetMaterial(i))
+		{
+			// Independent parameters: capturing a fully formed face must never change the world dissolve.
+			const UMaterialInstanceDynamic* SourceMID = Cast<UMaterialInstanceDynamic>(Material);
+			UMaterialInterface* Parent = SourceMID ? SourceMID->Parent.Get() : Material;
+			UMaterialInstanceDynamic* MID = UMaterialInstanceDynamic::Create(Parent, this);
+			MID->CopyMaterialUniformParameters(Material);
+			MID->SetScalarParameterValue(TEXT("Dissolve"), 1.f);
+			PortraitMesh->SetMaterial(i, MID);
+		}
+	}
+}
+
 void AFixHimHunk::CapturePortraitNow(bool bAsStill)
 {
 	if (PortraitCapture && PortraitTarget)
 	{
 		bHasStill |= bAsStill;
-		// Capture at full size even mid-pop so silhouettes are never tiny.
-		const FVector Saved = GetActorScale3D();
-		SetActorScale3D(FVector(BaseScale));
+		// The portrait copy is visible only to scene captures. Never set the gameplay mesh's form to 1.
 		const bool bWasHidden = IsHidden();
-		const float SavedForm = FormAlpha;
-		SetForm(1.f, Enter);
 		SetActorHiddenInGame(false);
 		GetMesh()->RefreshBoneTransforms();
+		PortraitMesh->RefreshBoneTransforms();
 		PortraitCapture->CaptureScene();
 		SetActorHiddenInGame(bWasHidden);
-		SetForm(SavedForm, Enter);
-		SetActorScale3D(Saved);
 	}
 }
 

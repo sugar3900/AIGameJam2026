@@ -70,6 +70,10 @@ private:
 	void SetPresentImmediate(bool bVisible);
 	/** Finish texture builds and stream in material mips before any entrance cues or timers start. */
 	void PreloadTextures();
+	void SetupPortraitMesh();
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	TObjectPtr<USkeletalMeshComponent> PortraitMesh;
 
 	UPROPERTY(Transient)
 	TObjectPtr<UTextureRenderTarget2D> PortraitTarget;

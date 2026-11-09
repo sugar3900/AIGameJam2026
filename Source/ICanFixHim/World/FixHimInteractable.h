@@ -122,7 +122,7 @@ public:
 
 	/** Brightness of the shine band (additive, over the object's own colours). */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
-	float ShineStrength = 3.f;
+	float ShineStrength = 0.65f;
 
 	// ---- Behaviour --------------------------------------------------------
 
@@ -135,7 +135,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
 	bool bIsOn = false;
 
-	/** Close this drawer or appliance when the player walks beyond interaction range. */
+	/** Close this drawer or appliance after the player retreats from it. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
 	bool bAutoCloseOnWalkAway = false;
 
@@ -199,4 +199,5 @@ protected:
 	float ToggleAlpha = 0.f;
 	float Age = 0.f;
 	float NextShineAt = 0.f;
+	float ClosestOpenDistance = TNumericLimits<float>::Max();
 };

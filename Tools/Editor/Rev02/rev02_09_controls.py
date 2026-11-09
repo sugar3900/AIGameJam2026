@@ -141,10 +141,12 @@ for room, label in (('kitchen', 'Sconce_Kitchen'), ('hall', 'Sconce_Hall_1')):
 for label in ('Art_BA_Switch_BA_Switch_Plate_S086', 'Art_BA_Switch_BA_Switch_Toggle_S086'):
     art = acts[label]
     art.modify()
-    art.set_actor_location(unreal.Vector(474.075, 355, 114), False, True)
+    art.set_actor_location(unreal.Vector(474.075, 360, 114), False, True)
 
 for a in acts.values():
     if isinstance(a, unreal.FixHimInteractable):
+        a.modify()
+        a.set_editor_property('shine_strength', 0.65)
         prompt = str(a.get_editor_property('prompt_off')).lower()
         if a.get_editor_property('toggle') in (unreal.InteractToggle.SLIDE, unreal.InteractToggle.ROTATE):
             a.modify()

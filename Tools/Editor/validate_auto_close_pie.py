@@ -45,7 +45,7 @@ def tick(delta):
             state['phase'] = 'near'
         elif state['phase'] == 'near':
             assert a.get_editor_property('is_on'), a.get_actor_label() + ' closed while nearby'
-            pawn.set_actor_location(state['center'] + unreal.Vector(0, 1000, 100), False, True)
+            pawn.set_actor_location(state['center'] + unreal.Vector(0, 220, 100), False, True)
             state['phase'] = 'far'
         else:
             assert not a.get_editor_property('is_on'), a.get_actor_label() + ' stayed open after walking away'

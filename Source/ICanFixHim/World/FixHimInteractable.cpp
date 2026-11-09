@@ -194,8 +194,12 @@ void AFixHimInteractable::Tick(float DeltaSeconds)
 				? Body->GetRelativeTransform().TransformPosition(Body->GetStaticMesh()->GetBounds().Origin)
 				: FVector::ZeroVector;
 			const FVector ClosedCenter = GetActorTransform().TransformPosition(Center);
-			const float Range = (InteractRangeOverride > 0.f ? InteractRangeOverride : UFixHimSettings::Get()->InteractRange) + 50.f;
-			if (FVector::DistSquared2D(PC->GetPawn()->GetActorLocation(), ClosedCenter) > FMath::Square(Range))
+			const float Distance = FVector::Dist2D(PC->GetPawn()->GetActorLocation(), ClosedCenter);
+			ClosestOpenDistance = FMath::Min(ClosestOpenDistance, Distance);
+			// Allow normal movement nearby, then close after a 60 cm retreat. Opening at long
+			// interaction range must still work without immediately snapping the door shut.
+			const float Range = FMath::Max(180.f, ClosestOpenDistance + 60.f);
+			if (Distance > Range)
 			{
 				SetOn(false);
 				PlayInteractSfx();
@@ -213,7 +217,7 @@ void AFixHimInteractable::Tick(float DeltaSeconds)
 	if (ShineMID && bShine && bEnabled && bInteractionShineEnabled)
 	{
 		// A shine takes ShineDuration to cross the object, then the next one is a few seconds away.
-		constexpr float ShineDuration = 0.9f;
+		constexpr float ShineDuration = 1.4f;
 		const float Progress = (Age - NextShineAt) / ShineDuration;
 		if (Progress >= 0.f && Progress <= 1.f)
 		{
@@ -374,6 +378,10 @@ void AFixHimInteractable::SetOn(bool bInOn, bool bInstant)
 
 void AFixHimInteractable::SetOnLocal(bool bInOn, bool bInstant)
 {
+	if (bInOn != bIsOn)
+	{
+		ClosestOpenDistance = TNumericLimits<float>::Max();
+	}
 	bIsOn = bInOn;
 	if (bInstant)
 	{
