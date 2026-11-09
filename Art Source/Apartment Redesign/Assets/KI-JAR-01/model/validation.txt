@@ -1,0 +1,8 @@
+FBX version: 7400
+KI_Jar_Body.fbx meshes 1 verts 1536 triangles 3068 location (0.0, 0.0, 0.0) dimensions (0.158, 0.158, 0.202)
+FBX version: 7400
+KI_Jar_Lid.fbx meshes 1 verts 2112 triangles 4024 location (0.0, 0.0, 0.196) dimensions (0.1604, 0.1604, 0.053)
+PASS finite geometry, UVs and nonzero geometry triangle area
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:31:22)
+
+Blender quit

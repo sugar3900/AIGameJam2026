@@ -1,0 +1,11 @@
+# BA-SOAP-01 — ceramic soap dish and soap
+
+Provisional Blender asset for the bathroom shelf or basin; not yet imported or tested in Unreal. `concepts/soap-dish-multiview-v1.png` is the generated front/back/left/right/top and separated-state reference. The modeled dish has a hollow interior, gently scalloped rim and three raised drainage ribs; the rounded rose soap is a separate object for possible pickup. The small floral decoration is painted in the color texture, not modeled as physical paint.
+
+`model/BA-SOAP-01.blend` is the source. `model/BA_SoapDish.fbx` and `model/BA_SoapBar.fbx` each have the **same tabletop-level origin** `(0,0,0)` in the assembled pose, rather than the bar's center. Blender units are metres, +Z up, long axis +X, front −Y. Place both exports with the same transform to reproduce `previews/soap-on-dish.png`; the soap can be moved separately in engine. `previews/dish-empty.png` shows the drainage ribs. A pickup interaction needs an appropriately placed engine pivot and interaction/collision; none is authored in FBX.
+
+Dish dimensions after FBX round-trip are **0.14965 × 0.10660 × 0.02718 m**; soap is **0.095 × 0.060 × 0.024 m**. The bar bottom is about Z=0.017 m above the shared tabletop datum, resting over the ribs. Check actual basin/shelf space, contact and collision in game; Blender studio lighting and scale do not establish in-room appearance.
+
+`textures/ceramic-ivory.png` and `textures/soap-rose.png` were independently generated for the ribs and soap; `textures/floral-ceramic.png` is the reused generated ceramic wrap from `KI-MUG-01` so the apartment's pottery is coherent. Images are packed in the `.blend` and copied here. The dish exterior's wrap has a deliberate UV seam at the rear; inspect it in Unreal. Recreate the roughness/materials in Unreal rather than assuming the FBX transfers Blender nodes. Painterly marks are color, not displacement.
+
+Rebuild with `/Applications/Blender.app/Contents/MacOS/Blender -b --python model/build_soap.py` and run `model/validate_fbx.py` with Blender. The clean FBX reimport (`model/validation.txt`) passed bounds, finite positions/normals/UVs, UV presence and nonzero geometry triangles: dish 3,504 triangles; bar 588. Unreal import axes, materials, contact, collision and pickup behavior have not been verified.

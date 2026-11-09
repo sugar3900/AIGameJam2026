@@ -349,6 +349,12 @@ FText AFixHimMalady::GetPrompt() const
 
 void AFixHimMalady::SummonHunk()
 {
+	// Re-frame now rather than only at BeginPlay: doors (e.g. a closet hiding the fixture) may have been
+	// opened since, and the wall-avoidance sweep should see the room as it is for this encounter.
+	if (bAutoFrameCamera)
+	{
+		FrameCamera();
+	}
 	if (Hunk)
 	{
 		Hunk->SetActorLocationAndRotation(HunkStandLocation, HunkSpawn->GetComponentRotation());

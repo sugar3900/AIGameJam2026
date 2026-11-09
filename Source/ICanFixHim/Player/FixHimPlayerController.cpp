@@ -38,6 +38,7 @@
 #include "InputMappingContext.h"
 #include "InputModifiers.h"
 #include "EngineUtils.h"
+#include "GameFramework/PlayerStart.h"
 #include "Engine/World.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -617,12 +618,26 @@ void AFixHimPlayerController::SetHovered(AFixHimInteractable* NewHovered)
 
 void AFixHimPlayerController::PlacePlayerAtDoor()
 {
-	// Just inside the front door (living room's south wall), looking into the apartment.
-	if (APawn* P = GetPawn())
+	APawn* P = GetPawn();
+	if (!P)
 	{
-		P->TeleportTo(FVector(190.f, 120.f, P->GetActorLocation().Z), FRotator(0.f, 75.f, 0.f));
-		SetControlRotation(FRotator(0.f, 75.f, 0.f));
+		return;
 	}
+	// A level can mark its own spot just inside the front door with a PlayerStart tagged "DoorStart"
+	// (the redesigned apartment's entry is on the east hall wall).
+	for (TActorIterator<APlayerStart> It(GetWorld()); It; ++It)
+	{
+		if (It->ActorHasTag(TEXT("DoorStart")))
+		{
+			const FRotator Facing(0.f, It->GetActorRotation().Yaw, 0.f);
+			P->TeleportTo(It->GetActorLocation(), Facing);
+			SetControlRotation(Facing);
+			return;
+		}
+	}
+	// Original apartment: just inside the front door (living room's south wall), looking into the apartment.
+	P->TeleportTo(FVector(190.f, 120.f, P->GetActorLocation().Z), FRotator(0.f, 75.f, 0.f));
+	SetControlRotation(FRotator(0.f, 75.f, 0.f));
 }
 
 void AFixHimPlayerController::BeginPlaying(bool bFromSave)
@@ -707,9 +722,33 @@ void AFixHimPlayerController::ContinueGame()
 	}
 	if (APawn* P = GetPawn(); P && Save->Data().bHasPlayerTransform)
 	{
-		P->SetActorLocation(Save->Data().PlayerLocation, false, nullptr, ETeleportType::TeleportPhysics);
-		SetControlRotation(FRotator(-10.f, Save->Data().PlayerYaw, 0.f));
-		P->SetActorRotation(FRotator(0.f, Save->Data().PlayerYaw, 0.f));
+		// Only restore a position that lies in one of this map's rooms; a save from another layout (or a stale
+		// position) falls back to the front door, keeping all story and repair progress.
+		// Inclusive with a small tolerance: rooms share edges (doorways), and a position exactly on a shared
+		// edge must still count. (AFixHimRoom::ContainsPoint is strict, so it isn't used here.)
+		bool bInsideRoom = false;
+		const FVector2D Saved2D(Save->Data().PlayerLocation);
+		for (TActorIterator<AFixHimRoom> It(GetWorld()); It; ++It)
+		{
+			const FBox2D Rect = It->GetFloorRect().ExpandBy(2.f);
+			if (Saved2D.X >= Rect.Min.X && Saved2D.X <= Rect.Max.X && Saved2D.Y >= Rect.Min.Y && Saved2D.Y <= Rect.Max.Y)
+			{
+				bInsideRoom = true;
+				break;
+			}
+		}
+		if (bInsideRoom)
+		{
+			P->SetActorLocation(Save->Data().PlayerLocation, false, nullptr, ETeleportType::TeleportPhysics);
+			SetControlRotation(FRotator(-10.f, Save->Data().PlayerYaw, 0.f));
+			P->SetActorRotation(FRotator(0.f, Save->Data().PlayerYaw, 0.f));
+		}
+		else
+		{
+			UE_LOG(LogFixHim, Warning, TEXT("Saved position %s is outside every room; starting at the front door"),
+				*Save->Data().PlayerLocation.ToString());
+			PlacePlayerAtDoor();
+		}
 	}
 	BeginPlaying(true);
 }
@@ -1528,6 +1567,11 @@ void AFixHimPlayerController::ShowKeepsake()
 void AFixHimPlayerController::FixHimNewGame(const FString& PlayerName)
 {
 	BeginNewGame(PlayerName.IsEmpty() ? FString(TEXT("Rosie")) : PlayerName);
+}
+
+void AFixHimPlayerController::FixHimContinue()
+{
+	ContinueGame();
 }
 
 void AFixHimPlayerController::FixHimTalk(const FString& HunkId)

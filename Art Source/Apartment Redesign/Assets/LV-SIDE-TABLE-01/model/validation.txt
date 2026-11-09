@@ -1,0 +1,8 @@
+FBX version: 7400
+LV_SIDE_TABLE_BODY.fbx vertices 2052 triangles 4016 dimensions (0.37, 0.3506, 0.54) origin (0.0, 0.0, 0.0)
+FBX version: 7400
+LV_SIDE_TABLE_DRAWER.fbx vertices 986 triangles 1936 dimensions (0.2623, 0.3072, 0.135) origin (0.0, 0.0, 0.0)
+PASS finite geometry, UVs, triangle area, expected size and common origin
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:31:22)
+
+Blender quit

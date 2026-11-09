@@ -1,0 +1,9 @@
+FBX version: 7400
+VALIDATION OF_DAYBED_Assembly meshes 53 triangles 13532 zero_area 0 missing_uv 0 nonfinite 0 bounds [1.850000023841858, 0.8059999346733093, 0.8300000131130219]
+FBX version: 7400
+VALIDATION OF_DAYBED_Frame meshes 46 triangles 7728 zero_area 0 missing_uv 0 nonfinite 0 bounds [1.850000023841858, 0.7700000107288361, 0.8300000131130219]
+FBX version: 7400
+VALIDATION OF_DAYBED_Bedding meshes 7 triangles 5804 zero_area 0 missing_uv 0 nonfinite 0 bounds [1.6800000667572021, 0.7470000684261322, 0.47961772978305817]
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:31:22)
+
+Blender quit

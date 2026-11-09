@@ -1,0 +1,9 @@
+FBX version: 7400
+BA_Brush_Ivory.fbx meshes 1 vertices 1440 triangles 2820 bounds_m (0.02854, 0.0102, 0.17753) invalid 0 uv_errors 0
+FBX version: 7400
+BA_Brush_Sage.fbx meshes 1 vertices 1440 triangles 2820 bounds_m (0.03198, 0.0102, 0.17721) invalid 0 uv_errors 0
+FBX version: 7400
+BA_Cup.fbx meshes 1 vertices 1472 triangles 2940 bounds_m (0.0778, 0.0778, 0.099) invalid 0 uv_errors 0
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:31:22)
+
+Blender quit

@@ -1,0 +1,15 @@
+# BR-PERFUME-01 — dresser perfume bottle
+
+Status: **provisional Blender asset for visual review; not yet tested in Unreal**. The selected generated open/closed five-view concept is `concepts/perfume-multiview.png`. The original generated painterly rose ceramic and floral color texture is `textures/rose-floral.png`. It is a color treatment, not physical paint displacement. The modeled body uses opaque glazed ceramic; it is not physically transparent glass.
+
+## Contents and placement
+
+`model/BR-PERFUME-01.blend` is the editable source and `model/build_perfume.py` regenerates the model, two FBXs and previews. `model/BR_Perfume_Body.fbx` contains the rounded rose body, brass collar and annular neck, and `model/BR_Perfume_Stopper.fbx` contains the separate faceted ivory stopper and insertion peg. Blender axes are **X width, +Z up, −Y front**, in metres; the body spans approximately 0.060 × 0.040 × 0.093 m and the closed assembled height is approximately 0.118 m. The source bottle's assembly origin is the dresser tabletop at floor-center of the body. The stopper pivot is at `(0, 0, 0.094)` m relative to that origin. A Blender FBX round trip preserves the constituent body object transforms and the stopper object position at that offset; verify actual Unreal import axes, pivot treatment and scale before assembling. Lift the stopper along local +Z; no animation or interaction is authored.
+
+The open state reveals an annular neck and **shallow dark socket**, not a physically modeled bottle cavity; it is intended to read as an open bottle at normal scene distance. `previews/perfume-closed.png` and `previews/perfume-open.png` show the intended states. The painted floral motif is directly UV mapped to the front of the body. The remaining body faces sample an undecorated region of the same image so the finish continues across the corners; the neck uses a matching rose ceramic material. Assess the texture mapping and any corner transitions in-room. The image texture path may need reconnecting if the Blender file is moved.
+
+## Unreal handoff and checks
+
+Import body with its constituent transforms retained or combine it deliberately, then place the stopper using its documented offset and verify it does not jump or intersect when moved. Reconnect `rose-floral.png` as sRGB base color to the painted ceramic material, set the other rose ceramic, aged brass collar and ivory stopper materials as appropriate, and tune roughness under game lighting. Blender nodes do not constitute finished Unreal materials. If translucent glass is desired later, it needs a new material and interior geometry; this asset deliberately uses opaque ceramic.
+
+`model/validate_fbx.py` reimports each FBX in a clean Blender scene and checks finite geometry and UVs, UV layer presence and nondegenerate triangles. Latest result in `model/validation.txt`: body 4 meshes / 1,064 triangles, stopper 1 mesh / 244 triangles, no detected errors. These checks do not validate Unreal materials, pivot conversion, collision, contact, dresser placement, or lighting.

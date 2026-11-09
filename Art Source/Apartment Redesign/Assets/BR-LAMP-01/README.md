@@ -1,0 +1,9 @@
+# BR-LAMP-01 — bedroom bedside lamp
+
+A provisional vintage bedside lamp for the A+ bedroom, intended for the 0.45 m nightstand. `concepts/bedside-on-off-multiview.png` shows the selected on/off and multiview target. The generated `floral-linen.png` and `ceramic-floral.png` are color textures; `brass.png` is reused from the living table lamp to coordinate finishes. Brushwork is a color treatment, not physical impasto.
+
+The assembly is approximately 0.295 m in shade diameter and 0.475 m high. Its separate `model/BR_LampBody.fbx`, `BR_LampShade.fbx`, and `BR_LampBulb.fbx` share a tabletop-level origin. The body combines a glazed ceramic vase, brass foot and neck; the shade is floral fabric with dusty-rose piping. Position the shared origin on the nightstand and check shade clearance against walls and headboard. The floral texture is not mathematically seamless; inspect the shade and ceramic UV joins in the room.
+
+`model/build_lamp.py` creates the editable Blender source, FBX files and `previews/lamp-off.png` / `lamp-on.png`. Run it with `/Applications/Blender.app/Contents/MacOS/Blender -b --python <script>`. `model/validate_fbx.py` reimports each part and checks finite geometry, normals and UVs, UV existence and nonzero triangle area. Blender 5.2.3 validation passed for all three: body 3,938 vertices / 7,716 triangles; shade 2,304 / 4,608; bulb 482 / 960.
+
+The FBX does not transfer the complete Blender shader graph. Recreate ceramic, brass and fabric materials in Unreal. For a switchable lamp, use a scalar to warm the floral shade's emission without obscuring the print, make the bulb emissive, and add a warm point light near z=0.35 m relative to the tabletop. Blender preview values are illustrative and the on/off difference is subtle under its studio lighting. Tune under actual room exposure. Unreal imports, shader mapping, light, interaction, collision and bedside clearance have not yet been tested.
