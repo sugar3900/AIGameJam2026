@@ -724,10 +724,14 @@ void AFixHimPlayerController::ContinueGame()
 	{
 		// Only restore a position that lies in one of this map's rooms; a save from another layout (or a stale
 		// position) falls back to the front door, keeping all story and repair progress.
+		// Inclusive with a small tolerance: rooms share edges (doorways), and a position exactly on a shared
+		// edge must still count. (AFixHimRoom::ContainsPoint is strict, so it isn't used here.)
 		bool bInsideRoom = false;
+		const FVector2D Saved2D(Save->Data().PlayerLocation);
 		for (TActorIterator<AFixHimRoom> It(GetWorld()); It; ++It)
 		{
-			if (It->ContainsPoint(Save->Data().PlayerLocation))
+			const FBox2D Rect = It->GetFloorRect().ExpandBy(2.f);
+			if (Saved2D.X >= Rect.Min.X && Saved2D.X <= Rect.Max.X && Saved2D.Y >= Rect.Min.Y && Saved2D.Y <= Rect.Max.Y)
 			{
 				bInsideRoom = true;
 				break;

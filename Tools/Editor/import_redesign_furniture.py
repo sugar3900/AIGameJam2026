@@ -14,8 +14,11 @@ items = [
     ('BR_Bed', 'BR-BED-01/model/BR_Bed_Complete.fbx', 'Placeholder_15_Bed', (265,850,0), 180),
 ]
 for name, source, placeholder, location, yaw in items:
+    src_path = os.path.join(root, 'Art Source/Apartment Redesign/Assets', source)
+    if not os.path.isfile(src_path):
+        raise RuntimeError('Missing source FBX: ' + src_path)
     task = unreal.AssetImportTask()
-    task.filename = os.path.join(root, 'Art Source/Apartment Redesign/Assets', source)
+    task.filename = src_path
     task.destination_path = asset_root
     task.destination_name = name
     task.automated = True
@@ -30,8 +33,11 @@ for name, source, placeholder, location, yaw in items:
     options.static_mesh_import_data.auto_generate_collision = True
     task.options = options
     tools.import_asset_tasks([task])
+    # Only trust this run's import, not a stale asset that already exists at the destination.
+    if not task.get_editor_property('imported_object_paths'):
+        raise RuntimeError('Import produced nothing: ' + src_path)
     mesh = unreal.EditorAssetLibrary.load_asset(asset_root + '/' + name)
-    if not mesh:
+    if not isinstance(mesh, unreal.StaticMesh):
         raise RuntimeError('Import failed: ' + name)
     label = 'Art_' + name
     existing = next((a for a in actors.get_all_level_actors() if a.get_actor_label() == label), None)
