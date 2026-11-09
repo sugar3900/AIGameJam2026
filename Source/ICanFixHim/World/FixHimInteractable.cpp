@@ -7,6 +7,9 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/PointLightComponent.h"
 #include "Engine/StaticMesh.h"
+#include "Engine/Light.h"
+#include "Components/LightComponent.h"
+#include "EngineUtils.h"
 #include "Materials/MaterialInstanceDynamic.h"
 
 AFixHimInteractable::AFixHimInteractable()
@@ -51,8 +54,7 @@ void AFixHimInteractable::BeginPlay()
 	ApplyLook();
 	BuildOutline();
 	BuildShine();
-	ToggleAlpha = bIsOn ? 1.f : 0.f;
-	ApplyToggleAlpha(ToggleAlpha);
+	SetOnLocal(bIsOn, true);
 }
 
 void AFixHimInteractable::ApplyLook()
@@ -83,6 +85,10 @@ void AFixHimInteractable::ApplyLook()
 
 void AFixHimInteractable::BuildOutline()
 {
+	if (!bEnabled)
+	{
+		return;
+	}
 	// Inverted-hull outline: a slightly larger copy of each body mesh rendered with reverse culling
 	// in an unlit colour. Works well for the convex primitives the apartment is built from.
 	TArray<UStaticMeshComponent*> Sources;
@@ -124,6 +130,10 @@ void AFixHimInteractable::BuildOutline()
 
 void AFixHimInteractable::BuildShine()
 {
+	if (!bEnabled)
+	{
+		return;
+	}
 	UMaterialInterface* ShineMat = UFixHimSettings::Get()->ShineMaterial.LoadSynchronous();
 	if (!ShineMat)
 	{
@@ -232,6 +242,10 @@ void AFixHimInteractable::ApplyToggleAlpha(float Alpha)
 
 void AFixHimInteractable::Interact(AFixHimPlayerController* Player)
 {
+	if (!CanInteract())
+	{
+		return;
+	}
 	if (Toggle != EInteractToggle::None)
 	{
 		SetOn(!bIsOn);
@@ -308,11 +322,34 @@ void AFixHimInteractable::PlayInteractSfx()
 
 void AFixHimInteractable::SetOn(bool bInOn, bool bInstant)
 {
+	SetOnLocal(bInOn, bInstant);
+	if (!ToggleGroup.IsNone() && GetWorld())
+	{
+		for (TActorIterator<AFixHimInteractable> It(GetWorld()); It; ++It)
+		{
+			if (*It != this && It->ToggleGroup == ToggleGroup)
+			{
+				// Assign the requested state, never toggle recursively. Disabled light fixtures still receive it.
+				It->SetOnLocal(bInOn, bInstant);
+			}
+		}
+	}
+}
+
+void AFixHimInteractable::SetOnLocal(bool bInOn, bool bInstant)
+{
 	bIsOn = bInOn;
 	if (bInstant)
 	{
 		ToggleAlpha = bIsOn ? 1.f : 0.f;
 		ApplyToggleAlpha(ToggleAlpha);
+	}
+	for (const TSoftObjectPtr<ALight>& Target : ControlledLights)
+	{
+		if (ALight* TargetLight = Target.Get())
+		{
+			TargetLight->GetLightComponent()->SetVisibility(bIsOn);
+		}
 	}
 }
 
@@ -323,6 +360,7 @@ FText AFixHimInteractable::GetPrompt() const
 
 void AFixHimInteractable::SetHovered(bool bInHovered)
 {
+	bInHovered &= CanInteract();
 	if (bHovered == bInHovered)
 	{
 		return;

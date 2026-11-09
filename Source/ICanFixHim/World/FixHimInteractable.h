@@ -10,6 +10,7 @@ class AFixHimPlayerController;
 class UStaticMeshComponent;
 class UPointLightComponent;
 class UMaterialInstanceDynamic;
+class ALight;
 
 UENUM(BlueprintType)
 enum class EInteractToggle : uint8
@@ -45,7 +46,9 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 
+	UFUNCTION(BlueprintPure, Category = "Interactable")
 	virtual bool CanInteract() const { return bEnabled; }
+	UFUNCTION(BlueprintCallable, Category = "Interactable")
 	virtual void Interact(AFixHimPlayerController* Player);
 	virtual FText GetPrompt() const;
 
@@ -130,6 +133,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
 	bool bIsOn = false;
 
+	/** Members of the same non-empty group share state (paired doors or a room's light circuit). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
+	FName ToggleGroup;
+
+	/** Authored standalone lights controlled by this toggle. Soft references allow different sublevels. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
+	TArray<TSoftObjectPtr<ALight>> ControlledLights;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
 	FVector ToggleOffset = FVector(40.f, 0.f, 0.f);
 
@@ -160,6 +171,7 @@ public:
 	virtual FName DefaultInteractSfx(bool bNowOn) const;
 
 protected:
+	void SetOnLocal(bool bInOn, bool bInstant);
 	void PlayInteractSfx();
 	void ApplyLook();
 	void BuildOutline();
