@@ -92,7 +92,7 @@ private:
 	void SetForm(float Alpha, EEntrance Style);
 	EEntrance Enter = EEntrance::Bubble;
 	EEntrance Leave = EEntrance::Bubble;
-	float FormAlpha = 1.f;
+	float FormAlpha = 0.f;
 	float LeaveStartForm = 1.f;
 	bool bLeaveFxPlayed = false;
 	UPROPERTY(Transient)
