@@ -58,12 +58,31 @@ for label, loc, scale in [('Roof', (600, 477.5, 290), (12.6, 10.15, 0.2)), ('Gro
     r = A.spawn_actor_from_object(cube, unreal.Vector(*loc)); r.set_actor_label(label); r.set_folder_path(FOLDER + '/Envelope')
     r.set_actor_scale3d(unreal.Vector(*scale)); r.static_mesh_component.set_collision_profile_name('NoCollision')
 
-# Painted exterior views behind every window (non-shadow-casting, unlit).
-base = EAL.load_asset('/Game/ICanFixHim/Materials/Environment/M_WindowView')
-vpath = '/Game/ICanFixHim/Environment/Redesign/Finishes/MI_WindowView'
-vmi = EAL.load_asset(vpath) if EAL.does_asset_exist(vpath) else tools.create_asset('MI_WindowView', '/Game/ICanFixHim/Environment/Redesign/Finishes', unreal.MaterialInstanceConstant, unreal.MaterialInstanceConstantFactoryNew())
-MEL.set_material_instance_parent(vmi, base)
-MEL.set_material_instance_scalar_parameter_value(vmi, 'WindowBrightness', CFG['window_view_brightness']); EAL.save_asset(vpath)
+# Painted exterior views behind every window (non-shadow-casting, unlit). The game's
+# player controller drives 'WindowBrightness' on cards tagged WindowView (12 at dawn -> 0.35 at
+# night), so the redesign material multiplies it by BrightnessScale to land on the tuned look.
+F = '/Game/ICanFixHim/Environment/Redesign/Finishes'
+WV = F + '/M_Redesign_WindowView'
+if not EAL.does_asset_exist(WV):
+    wm = tools.create_asset('M_Redesign_WindowView', F, unreal.Material, unreal.MaterialFactoryNew())
+    wm.set_editor_property('shading_model', unreal.MaterialShadingModel.MSM_UNLIT)
+    smp = MEL.create_material_expression(wm, unreal.MaterialExpressionTextureSample, -500, 0)
+    smp.set_editor_property('texture', EAL.load_asset('/Game/ICanFixHim/Materials/Environment/T_WindowView'))
+    wb = MEL.create_material_expression(wm, unreal.MaterialExpressionScalarParameter, -500, 220)
+    wb.set_editor_property('parameter_name', 'WindowBrightness'); wb.set_editor_property('default_value', 12.0)
+    sc = MEL.create_material_expression(wm, unreal.MaterialExpressionScalarParameter, -500, 320)
+    sc.set_editor_property('parameter_name', 'BrightnessScale'); sc.set_editor_property('default_value', 0.075)
+    m1 = MEL.create_material_expression(wm, unreal.MaterialExpressionMultiply, -250, 220)
+    MEL.connect_material_expressions(wb, '', m1, 'A'); MEL.connect_material_expressions(sc, '', m1, 'B')
+    m2 = MEL.create_material_expression(wm, unreal.MaterialExpressionMultiply, -100, 0)
+    MEL.connect_material_expressions(smp, 'RGB', m2, 'A'); MEL.connect_material_expressions(m1, '', m2, 'B')
+    MEL.connect_material_property(m2, '', unreal.MaterialProperty.MP_EMISSIVE_COLOR)
+    MEL.recompile_material(wm); EAL.save_asset(WV)
+vpath = F + '/MI_WindowView'
+vmi = EAL.load_asset(vpath) if EAL.does_asset_exist(vpath) else tools.create_asset('MI_WindowView', F, unreal.MaterialInstanceConstant, unreal.MaterialInstanceConstantFactoryNew())
+MEL.set_material_instance_parent(vmi, EAL.load_asset(WV))
+MEL.set_material_instance_scalar_parameter_value(vmi, 'WindowBrightness', 12.0)
+MEL.set_material_instance_scalar_parameter_value(vmi, 'BrightnessScale', CFG['window_view_brightness'] / 12.0); EAL.save_asset(vpath)
 plane = unreal.load_asset('/Engine/BasicShapes/Plane')
 # (label, centre x, wall y, outward sign, sill, head, width)
 WINDOWS = [('LV', 215, 0, -1, 90, 230, 160), ('KI', 855, 0, -1, 90, 230, 110), ('BR', 410, 955, 1, 90, 230, 110),
@@ -72,7 +91,7 @@ for label, x, y, out, sill, head, w in WINDOWS:
     card = A.spawn_actor_from_object(plane, unreal.Vector(x, y + out * 140, (sill + head) / 2 + 20),
                                      unreal.Rotator(roll=0, pitch=-90, yaw=90 if out < 0 else -90))
     card.set_actor_scale3d(unreal.Vector(3.2, 5.6, 1)); card.set_actor_label('WindowView_' + label)
-    card.set_folder_path(FOLDER + '/Window Views')
+    card.set_folder_path(FOLDER + '/Window Views'); card.tags = [unreal.Name('WindowView')]
     m = card.static_mesh_component; m.set_material(0, vmi); m.set_cast_shadow(False); m.set_collision_profile_name('NoCollision')
     m.set_editor_property('affect_distance_field_lighting', False)
     if out > 0:   # south windows: warm "sun" spot from outside, through the opening onto the floor

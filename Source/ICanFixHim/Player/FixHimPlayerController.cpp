@@ -38,6 +38,7 @@
 #include "InputMappingContext.h"
 #include "InputModifiers.h"
 #include "EngineUtils.h"
+#include "GameFramework/PlayerStart.h"
 #include "Engine/World.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -617,12 +618,26 @@ void AFixHimPlayerController::SetHovered(AFixHimInteractable* NewHovered)
 
 void AFixHimPlayerController::PlacePlayerAtDoor()
 {
-	// Just inside the front door (living room's south wall), looking into the apartment.
-	if (APawn* P = GetPawn())
+	APawn* P = GetPawn();
+	if (!P)
 	{
-		P->TeleportTo(FVector(190.f, 120.f, P->GetActorLocation().Z), FRotator(0.f, 75.f, 0.f));
-		SetControlRotation(FRotator(0.f, 75.f, 0.f));
+		return;
 	}
+	// A level can mark its own spot just inside the front door with a PlayerStart tagged "DoorStart"
+	// (the redesigned apartment's entry is on the east hall wall).
+	for (TActorIterator<APlayerStart> It(GetWorld()); It; ++It)
+	{
+		if (It->ActorHasTag(TEXT("DoorStart")))
+		{
+			const FRotator Facing(0.f, It->GetActorRotation().Yaw, 0.f);
+			P->TeleportTo(It->GetActorLocation(), Facing);
+			SetControlRotation(Facing);
+			return;
+		}
+	}
+	// Original apartment: just inside the front door (living room's south wall), looking into the apartment.
+	P->TeleportTo(FVector(190.f, 120.f, P->GetActorLocation().Z), FRotator(0.f, 75.f, 0.f));
+	SetControlRotation(FRotator(0.f, 75.f, 0.f));
 }
 
 void AFixHimPlayerController::BeginPlaying(bool bFromSave)

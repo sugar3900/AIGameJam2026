@@ -87,3 +87,25 @@ Fusebox plaster damage (Wyatt, `RepairDamage`), range burner/flame part, bath-wa
 
 ## Done when
 All of section 8 passes in the redesign map, the parity table has no unexplained gaps, and the work is committed. Merging to main and switching `GameDefaultMap` are user decisions.
+
+## Progress log
+**2026-11-08 (integration thread):**
+- Sections 0–6 implemented. The gameplay sublevel `L_Apartment_Redesign_Gameplay` holds 6 rooms, 4 maladies, 12 interactables + bed, the front door (`AFixHimDoor`), `PlayerStart` tagged `DoorStart` and a `TitleCamera`, built by `Tools/Editor/build_redesign_gameplay.py` (re-runnable). Window cards are tagged `WindowView`; `M_Redesign_WindowView` scales the game's brightness drive.
+- Parity art integrated: `LV-FUSE-DAMAGE-01` and `KI-WALL-STAIN-01` are attached `RepairDamage`; `KI-RANGE-FLAME-01` is the stove's lit part; `BA-TUB-WATER-01` is the bath reveal.
+- C++ (minimal, `L_Apartment` behaviour unchanged):
+  - `PlacePlayerAtDoor` uses a `DoorStart` PlayerStart if present.
+  - `AFixHimMalady::SummonHunk` re-frames the dialogue camera, so a closet opened since BeginPlay doesn't jam it.
+  - Light toggles show an optional `RevealPart` while on (the stove flame).
+- Verified in PIE (`Tools/test_redesign_pie.py`):
+  - A new game starts at the door; all four encounters run to the end of the conversation with good framing.
+  - Sleep hides all repair damage and the new day starts at the door.
+  - `FixHimGoto` works for all six rooms; the front door opens `DoorPrompt`.
+  - All interactables toggle, with stove flame and bath water visible.
+  - Hunk availability is timing-gated by design (podcast/day rules); skip the podcast before scripted talks.
+- Open items:
+  - The repaired fuse wire (`RepairFixed`) needs a code hook to appear on repair.
+  - A shine overlay shows as a rectangle on invisible malady proxies (same as `L_Apartment`).
+  - Old-save location fallback (test 6) and an `L_Apartment` regression pass (test 7) are not yet run.
+  - Floor-plan orientation is not reviewed.
+  - Small dressing props and `ENV-SKY-01` remain to integrate.
+- Build note: with other UnrealEditor instances open, UBT writes a new numbered `libUnrealEditor-ICanFixHim-000N.dylib` without updating `Binaries/Mac/UnrealEditor.modules`. Point the manifest at the new dylib, or the editor loads stale code.
