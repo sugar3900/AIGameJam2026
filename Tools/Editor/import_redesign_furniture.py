@@ -33,15 +33,20 @@ for name, source, placeholder, location, yaw in items:
     mesh = unreal.EditorAssetLibrary.load_asset(asset_root + '/' + name)
     if not mesh:
         raise RuntimeError('Import failed: ' + name)
+    label = 'Art_' + name
+    existing = next((a for a in actors.get_all_level_actors() if a.get_actor_label() == label), None)
+    if existing:   # re-run: update in place (keeps tags/hidden state if it is a gameplay body source)
+        existing.static_mesh_component.set_static_mesh(mesh)
+        existing.set_actor_location_and_rotation(unreal.Vector(*location), unreal.Rotator(0, 0, yaw), False, True)
+    else:
+        a = actors.spawn_actor_from_object(mesh, unreal.Vector(*location), unreal.Rotator(0, 0, yaw))
+        if not a:
+            raise RuntimeError('Spawn failed: ' + name)
+        a.set_actor_label(label)
+        a.set_folder_path('Redesign/Imported Art')
     old = next((a for a in actors.get_all_level_actors() if a.get_actor_label() == placeholder), None)
-    if not old:
-        raise RuntimeError('Placeholder missing: ' + placeholder)
-    a = actors.spawn_actor_from_object(mesh, unreal.Vector(*location), unreal.Rotator(0, 0, yaw))
-    if not a:
-        raise RuntimeError('Spawn failed: ' + name)
-    a.set_actor_label('Art_' + name)
-    a.set_folder_path('Redesign/Imported Art')
-    actors.destroy_actor(old)
+    if old:
+        actors.destroy_actor(old)
     unreal.log('[Redesign] %s bounds %s' % (name, mesh.get_bounds().box_extent))
 if not levels.save_current_level():
     raise RuntimeError('Failed to save redesign')

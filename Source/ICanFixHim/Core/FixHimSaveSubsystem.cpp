@@ -6,6 +6,8 @@
 #include "JsonObjectConverter.h"
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
+#include "Misc/ConfigCacheIni.h"
+#include "Misc/PackageName.h"
 #include "HAL/FileManager.h"
 #include "Engine/GameInstance.h"
 #include "Engine/World.h"
@@ -51,7 +53,23 @@ void UFixHimSaveSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 
 FString UFixHimSaveSubsystem::GetSavePath() const
 {
-	return FPaths::ProjectSavedDir() / TEXT("SaveGames") / TEXT("ICanFixHim_Save.json");
+	// The game's default map keeps the original file. Any other map (e.g. the apartment redesign) gets its own file,
+	// so it never restores world positions saved in a different layout or overwrites the shipping map's progress.
+	FString FileName = TEXT("ICanFixHim_Save");
+	const UGameInstance* GI = GetGameInstance();
+	const UWorld* World = GI ? GI->GetWorld() : nullptr;
+	if (World)
+	{
+		const FString MapName = UWorld::RemovePIEPrefix(World->GetMapName());
+		FString DefaultMap;
+		GConfig->GetString(TEXT("/Script/EngineSettings.GameMapsSettings"), TEXT("GameDefaultMap"), DefaultMap, GEngineIni);
+		const FString DefaultMapName = FPackageName::GetShortName(FPackageName::ObjectPathToPackageName(DefaultMap));
+		if (!MapName.IsEmpty() && !DefaultMapName.IsEmpty() && MapName != DefaultMapName)
+		{
+			FileName += TEXT("_") + MapName;
+		}
+	}
+	return FPaths::ProjectSavedDir() / TEXT("SaveGames") / (FileName + TEXT(".json"));
 }
 
 FString UFixHimSaveSubsystem::GetOptionsPath() const

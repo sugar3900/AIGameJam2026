@@ -41,16 +41,19 @@ EAL.save_asset(path)
 
 assert L.load_level('/Game/ICanFixHim/Maps/L_Apartment_Redesign_Blockout')
 acts = {a.get_actor_label(): a for a in A.get_all_level_actors()}
-for lab in ('Art_LV_Fuse_Plaster_Damage', 'Art_KI_Wall_Stain'):
-    if lab in acts: A.destroy_actor(acts[lab])
 shell = acts['Art_LV_Fuse_Shell']   # README: same origin as LV_FUSE_01_Shell
-d = A.spawn_actor_from_object(fuse, shell.get_actor_location(), shell.get_actor_rotation())
-d.set_actor_label('Art_LV_Fuse_Plaster_Damage'); d.set_folder_path('Gameplay/Damage')
-d.static_mesh_component.set_collision_profile_name('NoCollision'); d.tags = [unreal.Name('RepairDamage'), unreal.Name('wyatt')]
+# Keep overlays that already exist (they may be attached to their malady in the gameplay sublevel).
+if 'Art_LV_Fuse_Plaster_Damage' not in acts:
+    d = A.spawn_actor_from_object(fuse, shell.get_actor_location(), shell.get_actor_rotation())
+    d.set_actor_label('Art_LV_Fuse_Plaster_Damage'); d.set_folder_path('Gameplay/Damage')
+    d.static_mesh_component.set_collision_profile_name('NoCollision'); d.tags = [unreal.Name('RepairDamage'), unreal.Name('wyatt')]
 # Stain: clear plaster west of the kitchen window, under the pan rail, 2 mm proud of the north wall face (y=6).
-s = A.spawn_actor_from_object(stain, unreal.Vector(745, 6.2, 150), unreal.Rotator(0, 0, 0))
-s.set_actor_label('Art_KI_Wall_Stain'); s.set_folder_path('Gameplay/Damage')
-c = s.static_mesh_component; c.set_collision_profile_name('NoCollision'); c.set_material(0, mi); c.set_cast_shadow(False)
-s.tags = [unreal.Name('RepairDamage'), unreal.Name('lukey')]
+if 'Art_KI_Wall_Stain' not in acts:
+    s = A.spawn_actor_from_object(stain, unreal.Vector(745, 6.2, 150), unreal.Rotator(0, 0, 0))
+    s.set_actor_label('Art_KI_Wall_Stain'); s.set_folder_path('Gameplay/Damage')
+    c = s.static_mesh_component; c.set_collision_profile_name('NoCollision'); c.set_cast_shadow(False)
+    s.tags = [unreal.Name('RepairDamage'), unreal.Name('lukey')]
+acts['Art_KI_Wall_Stain'] = acts.get('Art_KI_Wall_Stain') or s
+acts['Art_KI_Wall_Stain'].static_mesh_component.set_material(0, mi)
 L.save_all_dirty_levels()
 unreal.log('[Parity] placed fuse damage + wall stain')

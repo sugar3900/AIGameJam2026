@@ -68,7 +68,9 @@ def body_from_art(actor, art_label, authored=True):
     for i in range(src.get_num_materials()):
         body.set_material(i, src.get_material(i))
     actor.set_editor_property('use_authored_body_materials', authored)
-    # keep the source in the environment map, hidden, so this script can be re-run
+    # keep the source in the environment map, hidden, so this script can be re-run. modify() marks the
+    # environment map dirty; otherwise save_all_dirty_levels can skip it and the hide/tag is never saved.
+    art.modify(); src.modify()
     art.set_actor_hidden_in_game(True); src.set_visibility(False); src.set_collision_profile_name('NoCollision')
     art.tags = [unreal.Name('GameplayBodySource')]
     return body

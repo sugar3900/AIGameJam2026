@@ -26,6 +26,11 @@ def put(path, loc, yaw=0, label=None, collide=False, tags=()):
     if tags: a.tags = [unreal.Name(t) for t in tags]
     return a
 
+# Repair-damage overlays are owned by build_redesign_gameplay.py once it has run (moved into the gameplay
+# sublevel and attached to their malady). Never duplicate or recreate one that already exists in any level.
+def _exists_anywhere(label):
+    return any(a.get_actor_label() == label for a in unreal.get_editor_subsystem(unreal.EditorActorSubsystem).get_all_level_actors())
+
 # Bedroom mold closet (Malcolm).
 hidden = 0
 for a in A.get_all_level_actors():
@@ -36,8 +41,8 @@ for a in A.get_all_level_actors():
 put('BR_Closet/BR_Closet_Body', (90, 632.5, 0.3), label='Art_BR_Closet_Body')
 put('BR_Closet/BR_Closet_Door_L', (90, 632.5, 0.3), label='Art_BR_Closet_Door_L', collide=True)
 put('BR_Closet/BR_Closet_Door_R', (90, 632.5, 0.3), label='Art_BR_Closet_Door_R', collide=True)
-mold = put('BR_Closet/BR_Closet_Mold', (90, 632.5, 0.3), label='Art_BR_Closet_Mold', tags=('RepairDamage', 'malcolm'))
-mold.static_mesh_component.set_cast_shadow(False)
+mold = None if _exists_anywhere('Art_BR_Closet_Mold') else put('BR_Closet/BR_Closet_Mold', (90, 632.5, 0.3), label='Art_BR_Closet_Mold', tags=('RepairDamage', 'malcolm'))
+if mold: mold.static_mesh_component.set_cast_shadow(False)
 
 # Sliding bypass fronts: coat closet (hall, wall y=380) and office closet (wall y=680), both facing +Y.
 for room, cx, y in [('Coat', 1135, 380), ('Office', 1138, 680)]:

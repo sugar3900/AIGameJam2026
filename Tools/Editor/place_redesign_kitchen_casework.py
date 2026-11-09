@@ -17,8 +17,14 @@ for a in A.get_all_level_actors():
     if str(a.get_folder_path()) == FOLDER or lab.startswith(('Placeholder_08_', 'Placeholder_09_', 'Placeholder_10_', 'Placeholder_11_')):
         A.destroy_actor(a)
 
+# Repair-damage overlays are owned by build_redesign_gameplay.py once it has run (moved into the gameplay
+# sublevel and attached to their malady). Never duplicate or recreate one that already exists in any level.
+def _exists_anywhere(label):
+    return any(a.get_actor_label() == label for a in unreal.get_editor_subsystem(unreal.EditorActorSubsystem).get_all_level_actors())
+
 def kit(folder, parts, loc, yaw, body, tags=None):
     for p in parts:
+        if tags and p in tags and _exists_anywhere('Art_' + p): continue
         a = A.spawn_actor_from_object(load(R + folder + '/' + p), unreal.Vector(*loc), unreal.Rotator(0, 0, yaw))
         a.set_actor_label('Art_' + p); a.set_folder_path(FOLDER)
         if p != body: a.static_mesh_component.set_collision_profile_name('NoCollision')

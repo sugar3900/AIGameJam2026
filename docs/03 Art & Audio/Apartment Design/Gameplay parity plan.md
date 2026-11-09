@@ -109,3 +109,34 @@ All of section 8 passes in the redesign map, the parity table has no unexplained
   - Floor-plan orientation is not reviewed.
   - Small dressing props and `ENV-SKY-01` remain to integrate.
 - Build note: with other UnrealEditor instances open, UBT writes a new numbered `libUnrealEditor-ICanFixHim-000N.dylib` without updating `Binaries/Mac/UnrealEditor.modules`. Point the manifest at the new dylib, or the editor loads stale code.
+
+**2026-11-09: PR #3 review fixes (all verified in PIE):**
+- **Saves:** non-default maps get their own save file (`ICanFixHim_Save_<Map>.json`); the default map keeps `ICanFixHim_Save.json`. Continue restores a saved position only if it lies inside one of the map's rooms, otherwise it starts at the front door (progress is kept). Verified: the redesign writes its own file; an old-layout position (1300,300) falls back to the door; a valid one (300,200) restores.
+- **`L_Apartment` regression (test 7) passed:**
+  - New game starts at (190,120), yaw 75, and writes `ICanFixHim_Save.json`.
+  - All four encounters run with unchanged framing.
+  - Sleep hides all seven damage overlays.
+  - Room travel works.
+  - Continue restores (1100,300).
+- **Scripts are safe to re-run:**
+  - Finish materials are updated in place, never deleted.
+  - Repair-damage overlays are never duplicated once they exist.
+  - The kitchen and furniture imports update existing actors by label, and paths derive from `__file__`.
+  - The capture tool quotes everything with `repr` and validates `--size`.
+  - The gameplay builder calls `modify()` before hiding body sources, so the hide is saved.
+  - Verified by snapshot: re-running ten scripts left the map identical (789 actors, no duplicate labels, no blank material slots, same damage attachments).
+- **Debug command:** `FixHimContinue`, the same as the title Continue button, for scripted tests.
+- **Rebuild order (environment, then gameplay):**
+  1. `build_redesign_finish_materials`
+  2. `build_redesign_wall_finishes`
+  3. `place_redesign_windows`
+  4. `import_/place_redesign_floors_doors`
+  5. kitchen, furniture and dressing placement scripts
+  6. `place_redesign_closets_lights`
+  7. `build_redesign_masked_decals`
+  8. `build_redesign_lighting`
+  9. `import_redesign_parity_art`
+  10. `prepare_redesign_gameplay_level`
+  11. `build_redesign_gameplay`
+
+  Always finish with the gameplay builder.

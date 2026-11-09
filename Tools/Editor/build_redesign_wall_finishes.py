@@ -5,6 +5,11 @@ half-thickness boxes per segment (each gets the plaster of the room it faces), t
 places ARC-LIVING-WALL-01 on the living north wall, BR-WAINSCOT-01 around the bedroom,
 BA-TILE-01 around the bath, and ARC-TRIM-01 baseboard/crown elsewhere.
 Imported kit fronts face local +Y in Unreal; origin at the module's left end.
+
+Re-run note: this rebuilds everything under Redesign/Shell and Redesign/Wall Finishes (including the
+windows), so afterwards re-run place_redesign_windows.py, place_redesign_closets_lights.py,
+build_redesign_masked_decals.py and build_redesign_gameplay.py. Repair-damage overlays are never
+duplicated or recreated once they exist.
 """
 import json, os, unreal
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -22,8 +27,13 @@ mesh = lambda p: load(R + p)
 
 for a in A.get_all_level_actors():
     fp = str(a.get_folder_path())
-    if fp.startswith('Redesign/Shell') or fp.startswith('Redesign/Wall Finishes'):
+    if (fp.startswith('Redesign/Shell') or fp.startswith('Redesign/Wall Finishes')) and a.get_actor_label() != 'Damage_BR_LeadPaint':
         A.destroy_actor(a)
+
+# Repair-damage overlays are owned by build_redesign_gameplay.py once it has run (moved into the gameplay
+# sublevel and attached to their malady). Never duplicate or recreate one that already exists in any level.
+def _exists_anywhere(label):
+    return any(a.get_actor_label() == label for a in unreal.get_editor_subsystem(unreal.EditorActorSubsystem).get_all_level_actors())
 
 # ---------- room lookup (closets first) ----------
 ZONES = [((0, 560, 180, 145), 'Plaster_Living'),        # bedroom mold closet
@@ -182,12 +192,14 @@ for k, (axis, plane, s, span) in BRF:
     if k == 'E': east_mods = mods
     strip('Trim_BR_%s_Crown' % k, 'Redesign/Wall Finishes/Trim', crown, axis, plane, s, span, 265, 10, trim)
 # Localized lead-paint state on the east wall (separate repair; no gameplay wired yet).
-if east_mods:
+if east_mods and not _exists_anywhere('Damage_BR_LeadPaint'):
     src = east_mods[len(east_mods) // 2][0]
     d = A.spawn_actor_from_object(mesh('BR_Wainscot/BR_Wainscot_Damage'), src.get_actor_location(), src.get_actor_rotation())
     d.set_actor_scale3d(src.get_actor_scale3d()); d.set_actor_label('Damage_BR_LeadPaint'); d.set_folder_path('Redesign/Wall Finishes/Bedroom')
     d.static_mesh_component.set_collision_profile_name('NoCollision'); d.static_mesh_component.set_cast_shadow(False)
     d.tags = [unreal.Name('RepairDamage'), unreal.Name('LeadPaint')]
+    lead = unreal.EditorAssetLibrary.load_asset(F + 'MI_Decal_LeadPaint')   # from build_redesign_masked_decals.py
+    if lead: d.static_mesh_component.set_material(0, lead)
 
 # Bath: 1.15 m tile wainscot, 1.55 m tub surround on south wall, crack above tub.
 tile, cap, ext = mesh('BA_Tile/BA_Tile_1m_Module'), mesh('BA_Tile/BA_Tile_Cap'), mesh('BA_Tile/BA_Tile_040_Extension')
@@ -202,7 +214,7 @@ for k, (axis, plane, s, span) in BAF.items():
     else:
         strip('Tile_BA_%s_Cap' % k, 'Redesign/Wall Finishes/Bath', cap, axis, plane, s, span, 110, 5)
     strip('Trim_BA_%s_Crown' % k, 'Redesign/Wall Finishes/Trim', crown, axis, plane, s, span, 265, 10, trim)
-if south_mods:
+if south_mods and not _exists_anywhere('Damage_BA_CrackedTile'):
     src = south_mods[len(south_mods) // 2][0]
     loc = src.get_actor_location(); loc.z += 45
     d = A.spawn_actor_from_object(mesh('BA_Tile/BA_Tile_Damage'), loc, src.get_actor_rotation())

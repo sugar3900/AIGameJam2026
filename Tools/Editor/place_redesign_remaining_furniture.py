@@ -113,8 +113,14 @@ cx, cy, cz = tops['HA_Console']
 put(extra['vase'], (cx - 25, cy, cz), 0, 'Art_HA_Vase', False)
 put(extra['flowers'], (cx - 25, cy, cz + 26.0), 0, 'Art_HA_Flowers', False)
 
+# Repair-damage overlays are owned by build_redesign_gameplay.py once it has run (moved into the gameplay
+# sublevel and attached to their malady). Never duplicate or recreate one that already exists in any level.
+def _exists_anywhere(label):
+    return any(a.get_actor_label() == label for a in unreal.get_editor_subsystem(unreal.EditorActorSubsystem).get_all_level_actors())
+
 # Fusebox (Wyatt): origin at wall, lower box edge; living south wall face y=374, facing north.
 for p, m in fuse.items():
+    if 'Wire' in p and _exists_anywhere('Art_LV_Fuse_' + p.replace('LV_FUSE_01_', '')): continue
     a = put(m, (312.5, 374, 120), 180, 'Art_LV_Fuse_' + p.replace('LV_FUSE_01_', ''), p == 'LV_FUSE_01_Shell')
     if p == 'LV_FUSE_01_Wire_Damaged': a.tags = [unreal.Name('RepairDamage'), unreal.Name('wyatt')]
     if p == 'LV_FUSE_01_Wire_Repaired':

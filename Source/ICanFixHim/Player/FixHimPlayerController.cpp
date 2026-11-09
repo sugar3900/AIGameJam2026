@@ -722,9 +722,29 @@ void AFixHimPlayerController::ContinueGame()
 	}
 	if (APawn* P = GetPawn(); P && Save->Data().bHasPlayerTransform)
 	{
-		P->SetActorLocation(Save->Data().PlayerLocation, false, nullptr, ETeleportType::TeleportPhysics);
-		SetControlRotation(FRotator(-10.f, Save->Data().PlayerYaw, 0.f));
-		P->SetActorRotation(FRotator(0.f, Save->Data().PlayerYaw, 0.f));
+		// Only restore a position that lies in one of this map's rooms; a save from another layout (or a stale
+		// position) falls back to the front door, keeping all story and repair progress.
+		bool bInsideRoom = false;
+		for (TActorIterator<AFixHimRoom> It(GetWorld()); It; ++It)
+		{
+			if (It->ContainsPoint(Save->Data().PlayerLocation))
+			{
+				bInsideRoom = true;
+				break;
+			}
+		}
+		if (bInsideRoom)
+		{
+			P->SetActorLocation(Save->Data().PlayerLocation, false, nullptr, ETeleportType::TeleportPhysics);
+			SetControlRotation(FRotator(-10.f, Save->Data().PlayerYaw, 0.f));
+			P->SetActorRotation(FRotator(0.f, Save->Data().PlayerYaw, 0.f));
+		}
+		else
+		{
+			UE_LOG(LogFixHim, Warning, TEXT("Saved position %s is outside every room; starting at the front door"),
+				*Save->Data().PlayerLocation.ToString());
+			PlacePlayerAtDoor();
+		}
 	}
 	BeginPlaying(true);
 }
@@ -1543,6 +1563,11 @@ void AFixHimPlayerController::ShowKeepsake()
 void AFixHimPlayerController::FixHimNewGame(const FString& PlayerName)
 {
 	BeginNewGame(PlayerName.IsEmpty() ? FString(TEXT("Rosie")) : PlayerName);
+}
+
+void AFixHimPlayerController::FixHimContinue()
+{
+	ContinueGame();
 }
 
 void AFixHimPlayerController::FixHimTalk(const FString& HunkId)

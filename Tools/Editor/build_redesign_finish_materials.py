@@ -25,6 +25,19 @@ def import_file(path, dest, name, mesh=False, collision=True):
     if not a: raise RuntimeError('import failed ' + path)
     return a
 
+
+def material_in_place(name, folder):
+    """Load-or-create and clear the graph in place. Deleting and recreating would force-delete the
+    asset and blank every actor/instance reference to it (EditorAssetLibrary.delete_asset)."""
+    path = folder + '/' + name
+    if EAL.does_asset_exist(path):
+        mat = EAL.load_asset(path); MEL.delete_all_material_expressions(mat); return mat
+    return tools.create_asset(name, folder, unreal.Material, unreal.MaterialFactoryNew())
+
+def instance_in_place(name, folder):
+    path = folder + '/' + name
+    return EAL.load_asset(path) if EAL.does_asset_exist(path) else tools.create_asset(name, folder, unreal.MaterialInstanceConstant, unreal.MaterialInstanceConstantFactoryNew())
+
 TEX = {
     'T_Plaster_Living': 'ARC-LIVING-WALL-01/textures/plaster-candidate-d.png',
     'T_Trim_Cream': 'ARC-LIVING-WALL-01/textures/trim-candidate-a.png',
@@ -39,8 +52,7 @@ tex = {k: import_file(os.path.join(SRC, v), BASE + '/Textures', k) for k, v in T
 
 # Master: world-projected, mirrored, rotation-aware (X/Z, Y/Z, or X/Y for floors/ceilings).
 MPATH = BASE + '/M_Redesign_WorldFinish'
-if EAL.does_asset_exist(MPATH): EAL.delete_asset(MPATH)
-m = tools.create_asset('M_Redesign_WorldFinish', BASE, unreal.Material, unreal.MaterialFactoryNew())
+m = material_in_place('M_Redesign_WorldFinish', BASE)
 wp = MEL.create_material_expression(m, unreal.MaterialExpressionWorldPosition, -900, 0)
 nrm = MEL.create_material_expression(m, unreal.MaterialExpressionVertexNormalWS, -900, 150)
 scale = MEL.create_material_expression(m, unreal.MaterialExpressionScalarParameter, -900, 300)
@@ -75,8 +87,7 @@ MEL.recompile_material(m); EAL.save_asset(MPATH)
 
 def mi(name, texname, roughness=0.9, tint=None, proj=320.0):
     path = BASE + '/' + name
-    if EAL.does_asset_exist(path): EAL.delete_asset(path)
-    inst = tools.create_asset(name, BASE, unreal.MaterialInstanceConstant, unreal.MaterialInstanceConstantFactoryNew())
+    inst = instance_in_place(name, BASE)
     MEL.set_material_instance_parent(inst, m)
     MEL.set_material_instance_texture_parameter_value(inst, 'BaseTexture', tex[texname])
     MEL.set_material_instance_scalar_parameter_value(inst, 'Roughness', roughness)
@@ -109,8 +120,7 @@ for src, parts, folder in MESH:
 
 # Translucent glass for window glazing (README: low roughness, pale tint, no shadow).
 GPATH = BASE + '/M_Redesign_Glass'
-if EAL.does_asset_exist(GPATH): EAL.delete_asset(GPATH)
-g = tools.create_asset('M_Redesign_Glass', BASE, unreal.Material, unreal.MaterialFactoryNew())
+g = material_in_place('M_Redesign_Glass', BASE)
 g.set_editor_property('blend_mode', unreal.BlendMode.BLEND_TRANSLUCENT)
 g.set_editor_property('two_sided', True)
 gc = MEL.create_material_expression(g, unreal.MaterialExpressionConstant3Vector, -300, 0)
@@ -120,5 +130,5 @@ for prop, val, y in [(unreal.MaterialProperty.MP_OPACITY, 0.18, 120), (unreal.Ma
     k = MEL.create_material_expression(g, unreal.MaterialExpressionConstant, -300, y); k.set_editor_property('r', val)
     MEL.connect_material_property(k, '', prop)
 MEL.recompile_material(g); EAL.save_asset(GPATH)
-gi = tools.create_asset('MI_Window_Glass', BASE, unreal.MaterialInstanceConstant, unreal.MaterialInstanceConstantFactoryNew()) if not EAL.does_asset_exist(BASE + '/MI_Window_Glass') else EAL.load_asset(BASE + '/MI_Window_Glass')
+gi = instance_in_place('MI_Window_Glass', BASE)
 MEL.set_material_instance_parent(gi, g); EAL.save_asset(BASE + '/MI_Window_Glass')
