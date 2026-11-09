@@ -1,0 +1,6 @@
+FBX version: 7400
+vertex color [('FlameTint', 'CORNER')] alpha range 0.02352941408753395 0.9960784912109375
+PASS meshes 1 triangles 2592 materials ['Flame_Outer_Blue'] metre bounds [-0.051400087773799896, -0.051400087773799896, 0.0] [0.051400087773799896, 0.051400087773799896, 0.03010622039437294] origins burner center
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:31:22)
+
+Blender quit

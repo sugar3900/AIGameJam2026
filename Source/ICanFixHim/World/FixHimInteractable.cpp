@@ -210,6 +210,11 @@ void AFixHimInteractable::ApplyToggleAlpha(float Alpha)
 		{
 			BodyMID->SetVectorParameterValue(TEXT("Emissive"), OnEmissive * Smooth);
 		}
+		// Optional "lit" part (e.g. a stove's gas flame) shown only while on.
+		if (RevealPart && RevealPart->GetStaticMesh())
+		{
+			RevealPart->SetVisibility(Alpha > 0.05f);
+		}
 		break;
 	case EInteractToggle::Slide:
 		Pivot->SetRelativeLocation(ToggleOffset * Smooth);

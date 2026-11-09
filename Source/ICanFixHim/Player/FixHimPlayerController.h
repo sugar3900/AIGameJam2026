@@ -115,6 +115,8 @@ public:
 	// ---- Debug / automation (console) -------------------------------------
 	/** Skips the name prompt (automation). */
 	UFUNCTION(Exec) void FixHimNewGame(const FString& PlayerName);
+	/** Same as the title menu's Continue button (loads the save for this map). */
+	UFUNCTION(Exec) void FixHimContinue();
 	UFUNCTION(Exec) void FixHimTalk(const FString& HunkId);
 	UFUNCTION(Exec) void FixHimAdvance(int32 Times = 1);
 	UFUNCTION(Exec) void FixHimChoose(int32 OneBasedIndex);

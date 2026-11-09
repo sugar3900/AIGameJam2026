@@ -1,0 +1,11 @@
+FBX version: 7400
+KI_SINK_NARROW_L_tap.fbx verts 192 faces 104 nonfinite 0 degenerate 0 badUV 0 uvlayers 1 bounds (0.1, 0.044, 0.097)
+FBX version: 7400
+KI_SINK_NARROW_R_tap.fbx verts 192 faces 104 nonfinite 0 degenerate 0 badUV 0 uvlayers 1 bounds (0.1, 0.044, 0.097)
+FBX version: 7400
+KI_SINK_NARROW_body.fbx verts 4494 faces 4239 nonfinite 0 degenerate 0 badUV 0 uvlayers 1 bounds (1.05, 0.65, 1.343)
+FBX version: 7400
+KI_SINK_NARROW_damage.fbx verts 656 faces 736 nonfinite 0 degenerate 0 badUV 0 uvlayers 1 bounds (0.46, 0.32, 0.422)
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:31:22)
+
+Blender quit

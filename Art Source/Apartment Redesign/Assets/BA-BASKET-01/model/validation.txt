@@ -1,0 +1,11 @@
+FBX version: 7400
+BA_Basket.fbx PASS vertices 13970 triangles 27616 bounds [0.4663, 0.342, 0.2252]
+FBX version: 7400
+BA_Towel_0.fbx PASS vertices 1320 triangles 2620 bounds [0.1364, 0.1842, 0.1424]
+FBX version: 7400
+BA_Towel_1.fbx PASS vertices 1320 triangles 2620 bounds [0.1364, 0.1842, 0.1424]
+FBX version: 7400
+BA_Towel_2.fbx PASS vertices 1320 triangles 2620 bounds [0.1364, 0.1842, 0.1424]
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:31:22)
+
+Blender quit

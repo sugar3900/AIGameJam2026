@@ -128,12 +128,9 @@ struct FHunkDefinition
 	FString Mesh;
 	/** Looping idle animation for Mesh (look.idle), retargeted onto its skeleton by Tools/Editor/import_characters.py. */
 	FString Idle;
-	/**
-	 * Object path of his dialogue portrait texture (look.portrait), e.g. "/Game/ICanFixHim/UI/Portraits/T_Portrait_Lukey".
-	 * Made by Tools/Art/Portraits/render_portraits.py, imported by Tools/Editor/import_portraits.py. When empty (or missing)
-	 * the dialogue falls back to the scene-capture still of his model.
-	 */
-	FString Portrait;
+	/** How he arrives / leaves (look.entrance, look.exit): bubble (default), sparkle, spores or surge. Empty exit = same as entrance. */
+	FString Entrance;
+	FString Exit;
 
 	/** Outfit painted onto the mannequin by M_Character (fallback when Mesh is empty). */
 	FLinearColor Skin = FLinearColor(0.8f, 0.58f, 0.47f);

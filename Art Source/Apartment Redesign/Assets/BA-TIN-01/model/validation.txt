@@ -1,0 +1,7 @@
+FBX version: 7400
+BA_Tin_Body.fbx meshes 1 vertices 864 triangles 1692 bounds [0.121, 0.091, 0.1435] origins [(0.0, 0.0, 0.0)]
+FBX version: 7400
+BA_Tin_Lid.fbx meshes 1 vertices 576 triangles 1128 bounds [0.12, 0.09, 0.0135] origins [(0.0, 0.0, 0.145)]
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:31:22)
+
+Blender quit

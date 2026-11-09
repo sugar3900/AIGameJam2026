@@ -1,0 +1,238 @@
+{
+  "status": "passed",
+  "coordinate_map": "BVH tests use right-handed Blender source common coordinates (X,-planY,Z); isometric reflection yields UE floor-plan coordinates (X,planY,Z). No neighbour mesh scaled.",
+  "range_source_files": [
+    "KI-RANGE-01/model/KI_RANGE_Body.fbx",
+    "KI-RANGE-01/model/KI_RANGE_Door.fbx"
+  ],
+  "range_offset_source_m": [
+    3.825000047683716,
+    -0.5000001192092896,
+    0.0
+  ],
+  "range_body_plan_bounds": [
+    [
+      3.450000047683716,
+      0.1499999761581421,
+      -5.1645852039428064e-08
+    ],
+    [
+      4.200000286102295,
+      0.8815000057220459,
+      1.0699999332427979
+    ]
+  ],
+  "range_closed_assembly_plan_bounds": [
+    [
+      3.450000047683716,
+      0.1499999761581421,
+      -5.1645852039428064e-08
+    ],
+    [
+      4.200000286102295,
+      0.9260000586509705,
+      1.0699999332427979
+    ]
+  ],
+  "casework_origin_plan_m": {
+    "0425": [
+      1.4125,
+      0.475
+    ],
+    "0775": [
+      3.0625,
+      0.475
+    ],
+    "0450": [
+      4.425,
+      0.475
+    ]
+  },
+  "tests": [
+    {
+      "variant": "0425",
+      "part": "door",
+      "oven_angle": 0,
+      "samples": 101,
+      "range": [
+        0,
+        100
+      ],
+      "passed": true
+    },
+    {
+      "variant": "0425",
+      "part": "drawer",
+      "oven_angle": 0,
+      "samples": 61,
+      "range": [
+        0,
+        0.3
+      ],
+      "passed": true
+    },
+    {
+      "variant": "0775",
+      "part": "door_L",
+      "oven_angle": 0,
+      "samples": 101,
+      "range": [
+        0,
+        100
+      ],
+      "passed": true
+    },
+    {
+      "variant": "0775",
+      "part": "drawer_L",
+      "oven_angle": 0,
+      "samples": 61,
+      "range": [
+        0,
+        0.3
+      ],
+      "passed": true
+    },
+    {
+      "variant": "0775",
+      "part": "door_R",
+      "oven_angle": 0,
+      "samples": 101,
+      "range": [
+        0,
+        100
+      ],
+      "passed": true
+    },
+    {
+      "variant": "0775",
+      "part": "drawer_R",
+      "oven_angle": 0,
+      "samples": 61,
+      "range": [
+        0,
+        0.3
+      ],
+      "passed": true
+    },
+    {
+      "variant": "0450",
+      "part": "door",
+      "oven_angle": 0,
+      "samples": 101,
+      "range": [
+        0,
+        100
+      ],
+      "passed": true
+    },
+    {
+      "variant": "0450",
+      "part": "drawer",
+      "oven_angle": 0,
+      "samples": 61,
+      "range": [
+        0,
+        0.3
+      ],
+      "passed": true
+    },
+    {
+      "variant": "0425",
+      "part": "door",
+      "oven_angle": 82,
+      "samples": 101,
+      "range": [
+        0,
+        100
+      ],
+      "passed": true
+    },
+    {
+      "variant": "0425",
+      "part": "drawer",
+      "oven_angle": 82,
+      "samples": 61,
+      "range": [
+        0,
+        0.3
+      ],
+      "passed": true
+    },
+    {
+      "variant": "0775",
+      "part": "door_L",
+      "oven_angle": 82,
+      "samples": 101,
+      "range": [
+        0,
+        100
+      ],
+      "passed": true
+    },
+    {
+      "variant": "0775",
+      "part": "drawer_L",
+      "oven_angle": 82,
+      "samples": 61,
+      "range": [
+        0,
+        0.3
+      ],
+      "passed": true
+    },
+    {
+      "variant": "0775",
+      "part": "door_R",
+      "oven_angle": 82,
+      "samples": 101,
+      "range": [
+        0,
+        100
+      ],
+      "passed": true
+    },
+    {
+      "variant": "0775",
+      "part": "drawer_R",
+      "oven_angle": 82,
+      "samples": 61,
+      "range": [
+        0,
+        0.3
+      ],
+      "passed": true
+    },
+    {
+      "variant": "0450",
+      "part": "door",
+      "oven_angle": 82,
+      "samples": 101,
+      "range": [
+        0,
+        100
+      ],
+      "passed": true
+    },
+    {
+      "variant": "0450",
+      "part": "drawer",
+      "oven_angle": 82,
+      "samples": 61,
+      "range": [
+        0,
+        0.3
+      ],
+      "passed": true
+    }
+  ],
+  "simultaneous_open_samples": 101,
+  "neighbours": [
+    "actual range body/controls",
+    "actual range oven door closed and82 degrees",
+    "actual narrow sink body",
+    "actual fridge body and door",
+    "all three actual cabinet render assemblies"
+  ],
+  "limitation": "Discrete triangle-intersection samples at1 degree for doors and5mm for drawers, not a continuous physics proof; validate engine hulls and easing."
+}

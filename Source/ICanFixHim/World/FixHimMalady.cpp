@@ -314,6 +314,28 @@ FName AFixHimMalady::DefaultInteractSfx(bool bNowOn) const
 	return !Sfx || Sfx->Has(Cue) ? Cue : FName(TEXT("Interact"));
 }
 
+bool AFixHimMalady::CanInteract() const
+{
+	if (!Super::CanInteract())
+	{
+		return false;
+	}
+	const UWorld* World = GetWorld();
+	if (World && World->GetTimeSeconds() < InteractLockedUntil)
+	{
+		return false;
+	}
+	return !(Hunk && Hunk->IsTransitioning());
+}
+
+void AFixHimMalady::LockInteraction(float Seconds)
+{
+	if (const UWorld* World = GetWorld())
+	{
+		InteractLockedUntil = FMath::Max(InteractLockedUntil, World->GetTimeSeconds() + Seconds);
+	}
+}
+
 FText AFixHimMalady::GetPrompt() const
 {
 	const UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this);
@@ -327,6 +349,12 @@ FText AFixHimMalady::GetPrompt() const
 
 void AFixHimMalady::SummonHunk()
 {
+	// Re-frame now rather than only at BeginPlay: doors (e.g. a closet hiding the fixture) may have been
+	// opened since, and the wall-avoidance sweep should see the room as it is for this encounter.
+	if (bAutoFrameCamera)
+	{
+		FrameCamera();
+	}
 	if (Hunk)
 	{
 		Hunk->SetActorLocationAndRotation(HunkStandLocation, HunkSpawn->GetComponentRotation());

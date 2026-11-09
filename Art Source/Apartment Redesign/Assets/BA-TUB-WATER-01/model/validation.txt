@@ -1,0 +1,1 @@
+PASS: 1 mesh, 2561 vertices, 4992 triangles; finite UV/vertices; min triangle area 0.000003152 m²; minimum sampled wall clearance 0.018000 m; z range 0.428915..0.431085 m; local origin (0.0, 0.0, 0.0)

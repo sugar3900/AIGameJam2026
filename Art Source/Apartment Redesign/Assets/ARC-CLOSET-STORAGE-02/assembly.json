@@ -1,0 +1,59 @@
+{
+  "asset": "ARC-CLOSET-STORAGE-02",
+  "units": "metres",
+  "up": "+Z",
+  "front": "-Y",
+  "origin": "rear-edge center at floor level; rear plane local Y=0",
+  "exports": [
+    {
+      "file": "model/ARC_ClosetStorage02.fbx",
+      "mesh": "ARC_ClosetStorage02",
+      "assembly_offset": [
+        0,
+        0,
+        0
+      ],
+      "collision_hulls": 2
+    }
+  ],
+  "shelf_bounds": {
+    "min": [
+      -0.475,
+      -0.3,
+      1.95
+    ],
+    "max": [
+      0.475,
+      0,
+      1.985
+    ]
+  },
+  "rail_center": [
+    0,
+    -0.27,
+    1.85
+  ],
+  "recommended_placements": [
+    {
+      "closet": "coat",
+      "plan_origin": [
+        11.375,
+        6.34,
+        0
+      ],
+      "front": "north",
+      "plan_mapping": "x=11.375+localX; y=6.34+localY; z=localZ"
+    },
+    {
+      "closet": "guest",
+      "plan_origin": [
+        11.375,
+        6.46,
+        0
+      ],
+      "front": "south",
+      "plan_mapping": "x=11.375-localX; y=6.46-localY; z=localZ"
+    }
+  ],
+  "motion": "static shelf/rail/hangers; no door geometry"
+}

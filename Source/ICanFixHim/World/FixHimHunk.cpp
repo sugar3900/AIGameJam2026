@@ -95,6 +95,8 @@ void AFixHimHunk::ApplyDefinition(const FHunkDefinition& Def)
 	HunkId = Def.Id;
 	BaseScale = Def.Scale;
 	GlowColor = Def.GlowColor;
+	Enter = ParseEntrance(Def.Entrance);
+	Leave = Def.Exit.IsEmpty() ? Enter : ParseEntrance(Def.Exit);
 
 	if (!Def.Mesh.IsEmpty())
 	{
@@ -116,7 +118,7 @@ void AFixHimHunk::ApplyDefinition(const FHunkDefinition& Def)
 				GetMesh()->SetAnimInstanceClass(nullptr);
 				UE_LOG(LogFixHim, Warning, TEXT("Hunk '%s': no idle animation ('%s'); he'll hold his rest pose."), *Def.Id, *Def.Idle);
 			}
-			SetActorScale3D(FVector(BaseScale * (bPresent ? 1.f : 0.01f)));
+			SetActorScale3D(FVector(BaseScale));
 			return;
 		}
 		UE_LOG(LogFixHim, Warning, TEXT("Hunk '%s': mesh '%s' not found, falling back to the mannequin."), *Def.Id, *Def.Mesh);
@@ -138,7 +140,7 @@ void AFixHimHunk::ApplyDefinition(const FHunkDefinition& Def)
 		FixHim::Assets::AddBodyProp(this, Prop.Shape, Prop.Location, Prop.Scale, Prop.Color, Prop.Socket, Prop.Rotation, Prop.Emissive);
 	}
 
-	SetActorScale3D(FVector(BaseScale * (bPresent ? 1.f : 0.01f)));
+	SetActorScale3D(FVector(BaseScale));
 }
 
 void AFixHimHunk::SetPresentImmediate(bool bVisible)
@@ -147,7 +149,8 @@ void AFixHimHunk::SetPresentImmediate(bool bVisible)
 	PopAnim = EPopAnim::None;
 	SetActorHiddenInGame(!bVisible);
 	SetActorEnableCollision(bVisible);
-	SetActorScale3D(FVector(BaseScale * (bVisible ? 1.f : 0.01f)));
+	SetActorScale3D(FVector(BaseScale));
+	SetForm(1.f, Enter);
 }
 
 void AFixHimHunk::Appear(const FVector& From)
@@ -160,15 +163,14 @@ void AFixHimHunk::Appear(const FVector& From)
 	PopAnim = EPopAnim::Appear;
 	PopTime = 0.f;
 	AppearTo = GetActorLocation();
-	AppearFrom = From;
 	// Hidden for the first short beat (the fixture sparkles first), then he grows out of it.
+	// No scaling and no travel for any style: he stands where he will be, and the transition effect builds him there.
 	SetActorHiddenInGame(true);
-	SetActorScale3D(FVector(BaseScale * 0.01f));
-	SetActorLocation(AppearFrom);
 	SetActorEnableCollision(true);
-	const FLinearColor Glow = GlowColor;
-	AFixHimPuffFx::Spawn(GetWorld(), From, Glow, EFixHimPuffStyle::Appear, 1.f);
-	FixHim::SfxAt(this, UFixHimSfxSubsystem::Get(this) && UFixHimSfxSubsystem::Get(this)->Has("HunkAppear") ? FName("HunkAppear") : FName("HunkPop"), From, 0.9f, 0.02f);
+	SetActorScale3D(FVector(BaseScale));
+	SetActorLocation(AppearTo);
+	SetForm(0.f, Enter);
+	PlayEntranceFx(AppearTo, true);
 
 	if (!bHasStill)
 	{
@@ -197,13 +199,124 @@ void AFixHimHunk::Disappear(bool bBubblePop)
 		SetPresentImmediate(false);
 		return;
 	}
-	if (PopAnim == EPopAnim::Appear)
-	{
-		// Still growing in: finish at his spot so the pop happens where he stands.
-		SetActorLocation(AppearTo);
-	}
 	PopAnim = EPopAnim::Pop;
 	PopTime = 0.f;
+	bLeaveFxPlayed = false;
+	LeaveStartForm = FormAlpha;
+}
+
+AFixHimHunk::EEntrance AFixHimHunk::ParseEntrance(const FString& Name)
+{
+	if (Name.Equals(TEXT("sparkle"), ESearchCase::IgnoreCase))
+	{
+		return EEntrance::Sparkle;
+	}
+	if (Name.Equals(TEXT("spores"), ESearchCase::IgnoreCase))
+	{
+		return EEntrance::Spores;
+	}
+	if (Name.Equals(TEXT("surge"), ESearchCase::IgnoreCase))
+	{
+		return EEntrance::Surge;
+	}
+	return EEntrance::Bubble;
+}
+
+void AFixHimHunk::SetForm(float Alpha, EEntrance Style)
+{
+	FormAlpha = Alpha;
+	if (FormMIDs.IsEmpty())
+	{
+		if (Alpha >= 1.f || !GetMesh())
+		{
+			return; // nothing to drive, and no need to swap materials until a dissolve is actually used
+		}
+		for (int32 i = 0; i < GetMesh()->GetNumMaterials(); ++i)
+		{
+			if (UMaterialInterface* M = GetMesh()->GetMaterial(i))
+			{
+				UMaterialInstanceDynamic* MID = UMaterialInstanceDynamic::Create(M, this);
+				GetMesh()->SetMaterial(i, MID);
+				FormMIDs.Add(MID);
+			}
+		}
+	}
+	// The front of the sweep, per style:
+	//   Spores  smoky black that darkens him as he forms
+	//   Surge   hot electric blue-white with crackling arcs
+	//   Sparkle a warm glittering white
+	//   Bubble  a soft, glassy bubble-pink shimmer
+	FLinearColor Edge;
+	float Glow = 0.f, Arcs = 0.f, Dark = 0.f;
+	switch (Style)
+	{
+	case EEntrance::Spores:
+		Edge = FLinearColor(0.01f, 0.014f, 0.01f);
+		Dark = 1.f;
+		break;
+	case EEntrance::Surge:
+		Edge = FMath::Lerp(GlowColor, FLinearColor(0.45f, 0.8f, 1.f), 0.6f);
+		Glow = 14.f;
+		Arcs = 6.f;
+		break;
+	case EEntrance::Sparkle:
+		Edge = FMath::Lerp(GlowColor, FLinearColor(1.f, 0.95f, 0.8f), 0.55f);
+		Glow = 9.f;
+		break;
+	default:
+		Edge = FMath::Lerp(FMath::Lerp(GlowColor, FLinearColor::White, 0.45f), FLinearColor(1.f, 0.62f, 0.82f), 0.5f);
+		Glow = 5.f;
+		break;
+	}
+	for (UMaterialInstanceDynamic* MID : FormMIDs)
+	{
+		if (!MID)
+		{
+			continue;
+		}
+		MID->SetScalarParameterValue(TEXT("Dissolve"), Alpha);
+		MID->SetScalarParameterValue(TEXT("FormHeight"), 190.f * BaseScale);
+		MID->SetVectorParameterValue(TEXT("EdgeColor"), Edge);
+		MID->SetScalarParameterValue(TEXT("EdgeGlow"), Glow);
+		MID->SetScalarParameterValue(TEXT("ArcAmount"), Arcs);
+		MID->SetScalarParameterValue(TEXT("EdgeDark"), Dark);
+	}
+}
+
+void AFixHimHunk::PlayEntranceFx(const FVector& At, bool bIn)
+{
+	const UFixHimSfxSubsystem* Sfx = UFixHimSfxSubsystem::Get(this);
+	// The cue, falling back to a generic hunk sound if the new one has not been imported.
+	const auto Play = [&](const char* Cue, const char* Fallback, float Volume)
+	{
+		FixHim::SfxAt(this, Sfx && Sfx->Has(Cue) ? FName(Cue) : FName(Fallback), At, Volume, 0.03f);
+	};
+	switch (bIn ? Enter : Leave)
+	{
+	case EEntrance::Surge:
+		AFixHimPuffFx::Spawn(GetWorld(), At, GlowColor, bIn ? EFixHimPuffStyle::SurgeIn : EFixHimPuffStyle::SurgeOut, BaseScale);
+		Play(bIn ? "SurgeIn" : "SurgeOut", bIn ? "Zap" : "HunkLeave", 1.f);
+		break;
+	case EEntrance::Sparkle:
+		AFixHimPuffFx::Spawn(GetWorld(), At, GlowColor, bIn ? EFixHimPuffStyle::SparkleIn : EFixHimPuffStyle::SparkleOut, BaseScale);
+		if (bIn)
+		{
+			Play("HunkAppear", "HunkPop", 0.9f);
+		}
+		else
+		{
+			Play("SparkleOut", "HunkLeave", 0.9f);
+		}
+		break;
+	case EEntrance::Spores:
+		AFixHimPuffFx::Spawn(GetWorld(), At, GlowColor, bIn ? EFixHimPuffStyle::SporesIn : EFixHimPuffStyle::SporesOut, BaseScale);
+		Play(bIn ? "SporesIn" : "SporesOut", bIn ? "HunkPop" : "HunkLeave", 1.f);
+		break;
+	default:
+		AFixHimPuffFx::Spawn(GetWorld(), At, GlowColor, bIn ? EFixHimPuffStyle::Appear : EFixHimPuffStyle::BubblePop, bIn ? 1.f : BaseScale);
+		Play(bIn ? "HunkAppear" : "BubblePop", bIn ? "HunkPop" : "HunkLeave", bIn ? 0.9f : 1.f);
+		break;
+	}
 }
 
 void AFixHimHunk::SetPortraitLive(bool bLive)
@@ -224,10 +337,13 @@ void AFixHimHunk::CapturePortraitNow(bool bAsStill)
 		const FVector Saved = GetActorScale3D();
 		SetActorScale3D(FVector(BaseScale));
 		const bool bWasHidden = IsHidden();
+		const float SavedForm = FormAlpha;
+		SetForm(1.f, Enter);
 		SetActorHiddenInGame(false);
 		GetMesh()->RefreshBoneTransforms();
 		PortraitCapture->CaptureScene();
 		SetActorHiddenInGame(bWasHidden);
+		SetForm(SavedForm, Enter);
 		SetActorScale3D(Saved);
 	}
 }
@@ -262,44 +378,34 @@ void AFixHimHunk::Tick(float DeltaSeconds)
 
 	if (PopAnim == EPopAnim::Appear)
 	{
+		// Built in place by the transition shader (no scaling): the front sweeps from his feet to his head.
 		PopTime += DeltaSeconds;
-		const float T = (PopTime - AppearDelay) / AppearGrowSeconds;
+		const float T = (PopTime - AppearDelay) / InSeconds(static_cast<int32>(Enter));
 		if (T > 0.f && IsHidden())
 		{
 			SetActorHiddenInGame(false);
 		}
-		const float U = FMath::Clamp(T, 0.f, 1.f);
-		// Soft ease-out with a barely-there overshoot (much gentler than ease-out-back's 10%).
-		const float Ease = 1.f - FMath::Pow(1.f - U, 3.f);
-		const float Settle = 1.f + 0.035f * FMath::Sin(U * PI) * U;
-		SetActorScale3D(FVector(BaseScale * FMath::Max(0.01f, Ease * Settle)));
-		// Drift from the fixture to his spot, slightly ahead of the growth so he never clips through it.
-		const float Move = 1.f - FMath::Pow(1.f - FMath::Clamp(T * 1.25f, 0.f, 1.f), 2.f);
-		SetActorLocation(FMath::Lerp(AppearFrom, AppearTo, Move));
+		SetForm(FMath::Clamp(T, 0.f, 1.f), Enter);
 		if (T >= 1.f)
 		{
 			PopAnim = EPopAnim::None;
-			SetActorScale3D(FVector(BaseScale));
-			SetActorLocation(AppearTo);
+			SetForm(1.f, Enter);
 		}
 	}
 	else if (PopAnim == EPopAnim::Pop)
 	{
-		// A quick swell (like a bubble stretching), then gone with a burst.
-		constexpr float Swell = 0.16f;
+		// Taken apart in place: the effect starts at once and the shader removes him from the head down.
 		PopTime += DeltaSeconds;
-		if (PopTime < Swell)
+		if (!bLeaveFxPlayed)
 		{
-			const float U = PopTime / Swell;
-			SetActorScale3D(FVector(BaseScale * (1.f + 0.14f * FMath::Sin(U * HALF_PI))));
+			bLeaveFxPlayed = true;
+			PlayEntranceFx(GetActorLocation(), false);
 		}
-		else
+		const float U = FMath::Clamp(PopTime / OutSeconds(static_cast<int32>(Leave)), 0.f, 1.f);
+		SetForm(LeaveStartForm * (1.f - U), Leave);
+		if (U >= 1.f)
 		{
-			const FVector Center = GetActorLocation() + FVector(0.f, 0.f, 40.f * BaseScale);
-			AFixHimPuffFx::Spawn(GetWorld(), Center, GlowColor, EFixHimPuffStyle::BubblePop, BaseScale);
-			FixHim::SfxAt(this, UFixHimSfxSubsystem::Get(this) && UFixHimSfxSubsystem::Get(this)->Has("BubblePop") ? FName("BubblePop") : FName("HunkLeave"), Center, 1.f, 0.04f);
 			SetPresentImmediate(false);
 		}
 	}
-
 }

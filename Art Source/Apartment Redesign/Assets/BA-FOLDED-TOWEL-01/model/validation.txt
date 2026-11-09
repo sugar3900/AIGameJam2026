@@ -1,0 +1,1 @@
+meshes=1 vertices=536 triangles=1060 bounds_m=[0.30000004172325134, 0.19800005108118057, 0.07799999415874481]; finite coordinates and UVs, UV layers present, no degenerate geometry triangles

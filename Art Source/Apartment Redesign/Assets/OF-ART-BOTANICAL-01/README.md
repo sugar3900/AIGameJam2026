@@ -1,0 +1,13 @@
+# OF-ART-BOTANICAL-01 — office botanical print
+
+Provisional Blender asset for the office east wall (`P-ART-OF-E`); no Unreal import or in-room review has been performed. An original fern-and-forget-me-not illustration on warm aged paper gives the study a distinct botanical print from the bedroom's rose picture.
+
+- `concepts/fern-artwork-v1.png` is the full-bleed original generated artwork, also supplied as `textures/botanical_print.png`. `references/framed-multiview.png` is generated front/back/left/right/perspective guidance; dimensions and model construction below govern the actual export.
+- Frame: mitered aged walnut and muted brass inner fillet, with flat print, backing board and small rear mounting plate. There is no modeled glass or animated interaction. `textures/walnut_painterly.png` is reused from the reviewed bedroom picture for stylistic continuity. Both textures are embedded in the Blender source and provided separately; reconnect the sRGB textures and brass material in Unreal, since FBX does not carry the full Blender material graph.
+- Size **0.450 × 0.035 × 0.550 m**. Blender coordinates: X width, Z up, front toward −Y, rear at Y=0 and lower edge at Z=0. FBX exports **−Y forward, Z up**. Verify the Unreal axis conversion, orientation and origin on import; set the frame's rear against the office east wall without collision artifacts. Placement is provisional pending the assembled room.
+- `model/OF-ART-BOTANICAL-01.blend` and `model/OF-ART-BOTANICAL-01.fbx` are editable source and static export. `model/build.py` reproduces the model and studio previews; `model/validate.py` reimports the FBX. `previews/art-front.png`, `art-three-quarter.png`, and `art-side.png` show the asset; the background wall, camera and studio lights are not in the FBX.
+- Blender 5.2.3 headless reimport checks passed: 6 meshes, 122 triangles, finite vertices and UVs, nondegenerate geometry/UV triangles and bounds 0.450 × 0.035 × 0.550 m. Results are in `model/validation.txt`. Unreal materials, axis conversion, mounting, collision and in-room lighting are untested.
+
+## Image generation
+
+Generated with the built-in imagegen tool. Artwork prompt: “Full-bleed vertical vintage botanical illustration of fern fronds and small pale blue forget-me-not flowers on warm aged ivory paper, detailed hand-painted brushwork and muted sage, ochre and blue; flat straight-on, no frame, border, lettering or people, distinct from pink rose art,” guided by the painterly fixer-upper environment reference. Reference prompt: “The same 45 × 55 cm framed illustration from front, back, left, right and three-quarter perspective, simple aged warm walnut mitered frame with slim muted brass fillet and solid backing, painterly, neutral background.”

@@ -1,0 +1,13 @@
+# BR-WAINSCOT-01 — bedroom wainscot and lead-paint state
+
+A reusable 1.00 m wide × 1.10 m high module, with recessed panels, a chair rail and baseboard. Z is up; the bottom-left floor corner is the origin, X runs along the wall and the front faces −Y. The 0.035 m end stiles become a 0.07 m stile when modules meet. Geometry projects up to 0.072 m forward from the back wall. This is intended as a wall module, not an entire room.
+
+`model/BR_Wainscot_Module.fbx` contains the panel and profiles. `model/BR_Wainscot_Damage.fbx` is a separate 0.31 × 0.22 m plane with its origin aligned to the module's origin; hide it after repair. The plane uses the PNG color and alpha from `textures/paint-damage-selected.png`. Unreal must build a correctly alpha-masked or translucent material using that image, verify sorting/z-fighting and ensure it does not block movement or visibility traces; attach it to the repair actor, and do not put the visual paint loss into the intact base. No Unreal integration or lead-paint gameplay has been performed in this folder.
+
+`model/BR-WAINSCOT-01.blend` contains source, separately named pieces, an example room backdrop and camera. Only asset meshes were exported; preview wall, floor, lights and camera are not part of the FBX. Rebuild with `/Applications/Blender.app/Contents/MacOS/Blender -b --python model/build_wainscot.py`. Run `model/validate_fbx.py` with Blender to reimport and check finite positions, UVs, zero-area triangles and overlay placement. Both FBXs passed these checks in Blender 5.2.3 LTS.
+
+`previews/wainscot-before.png` shows localized old paint loss and `previews/wainscot-after.png` shows the intact panel. The damage overlay is color/alpha, not thick physical paint; its image contains a small amount of illustrated shading and should be assessed under final game lighting. Place the panel at BR-E per the elevation and confirm in-room interaction framing and lead-paint gameplay independently.
+
+## Texture explorations
+
+Four independent generated texture candidates are retained for review. A baked vertical panel lines into the albedo, B baked trim/panels into it, and C had broad warm beige marks that competed with the intended white. D (`candidate-d-brush-ivory.png`) was selected for its subtler off-white and cool/warm brush variation without baked grooves; the meshes supply the panel shapes. The small-patch alternate `paint-damage-overlay.png` had true alpha but looked too small in the module render; `paint-damage-selected.png` produced a readable localized repair target without a rectangular halo in Blender. The final image textures remain standalone files, and texture seams/repetition must be reviewed in Unreal when assembled across a wall.

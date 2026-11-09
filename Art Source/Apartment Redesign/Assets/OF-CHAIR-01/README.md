@@ -1,0 +1,9 @@
+# OF-CHAIR-01 — office chair
+
+An aged walnut, slatted-back office armchair with a padded sage floral seat, developed against `concepts/chair-multiview-v1.png`. The concept contains front, rear, both sides and perspective. The coherent model has a seat frame, three slats, crest, armrests and supports, splayed legs, and stretchers. It is a static prop; sitting is a possible future interaction, not an animation included here.
+
+- Editable source: `model/OF-CHAIR-01.blend`; reproducible generator: `model/build_chair.py` (Blender background mode).
+- Export: `model/OF_CHAIR_01.fbx`, one mesh with walnut, fabric and piping slots. Origin at floor center, Z up, front faces -Y. Bounds 0.555 × 0.513 × 0.898 m, seat top approximately 0.50 m; arm top approximately 0.68 m. Verify fit under the desk and player clearance in the actual scene.
+- `previews/` contains perspective and four orthographic views. Textures are base color; Unreal material setup and lighting are not yet tested.
+- Two independent floral alternatives were generated after the first fabric proved too subdued. `fabric-candidate-a.png` was selected as `fabric.png` for a softer and less repetitive design; the initial swatch and second candidate remain for review. The revised `walnut-aged.png` reuses the office daybed’s generated worn walnut candidate for a darker, more cohesive finish; the earlier swatch remains as `wood.png`. Grain is aligned along the rails, arms and uprights. Blender wood roughness is 0.84; reproduce that material setting in Unreal.
+- FBX reimport validation with `model/validate_fbx.py`: 6,396 vertices, 12,208 triangles, UVs present, zero degenerate triangles and no nonfinite vertex, normal or UV values. Collision, import scale, material seams, interaction and in-room appearance remain unverified in Unreal.

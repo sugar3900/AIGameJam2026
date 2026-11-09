@@ -428,6 +428,84 @@ def hunk_appear(rng, v):
     return y * env(n, 0.004, 0.25, 1.5), 0.45
 
 
+def sparkle_out(rng, v):
+    """Wyatt leaving: the arrival's celesta run in reverse (a falling arpeggio), an airy sigh, and fading glints."""
+    dur = 1.0
+    n = int(dur * SR)
+    x = t(dur)
+    sigh_env = np.exp(-x * 3.0) * np.minimum(1, x / 0.02)
+    air = lowpass(bandpass(noise(dur, rng), 900, np.linspace(5200, 1500, n)), 6000) * sigh_env
+    arp = [(celesta(note(s) * j(rng, 0.002), 0.8, 4.8), i * 0.07, 0.55 - 0.05 * i)
+           for i, s in enumerate((26, 23, 19, 14, 11, 7))]
+    glints = [(bell(note(s), 0.3, 12), st, 0.12) for s, st in ((31, 0.05), (28, 0.17), (24, 0.3))]
+    y = mix((air, 0, 0.3), *arp, *glints, length=n)
+    return y * env(n, 0.003, 0.3, 1.6), 0.45
+
+
+def spores_in(rng, v):
+    """Malcolm arriving: a soft, damp billow. Low muffled swell, wet grainy hiss, a few tiny dry ticks (spores landing)."""
+    dur = 1.3
+    n = int(dur * SR)
+    x = t(dur)
+    swell = np.sin(0.5 * np.pi * np.minimum(1, x / 0.45)) ** 2 * np.exp(-np.maximum(0, x - 0.45) * 2.2)
+    body = lowpass(noise(dur, rng), np.linspace(500, 900, n)) * swell
+    hiss = lowpass(highpass(noise(dur, rng), 2500), 6500) * swell * (0.5 + 0.5 * rng.random(n)) * 0.5
+    thump = tone(note(-31), 0.5, (1, 0.5), rate=5)
+    ticks = [(highpass(noise(0.03, rng), 3500) * decay(0.03, 12), 0.35 + rng.random() * 0.7, 0.08) for _ in range(7)]
+    y = mix((body, 0, 0.9), (hiss, 0, 0.35), (thump, 0.1, 0.35), *ticks, length=n)
+    return y * env(n, 0.01, 0.3, 1.5), 0.5
+
+
+def spores_out(rng, v):
+    """Malcolm leaving: a muffled puff of spores. Dull burst, fast fading dusty hiss, low sink."""
+    dur = 0.9
+    n = int(dur * SR)
+    x = t(dur)
+    puff = lowpass(noise(dur, rng), np.linspace(1400, 250, n)) * decay(dur, 6)
+    dust = lowpass(highpass(noise(dur, rng), 2200), 5500) * decay(dur, 5) * (0.4 + 0.6 * rng.random(n))
+    low = sweep(160, 55, 0.35, rate=7)
+    ticks = [(highpass(noise(0.025, rng), 3000) * decay(0.025, 12), 0.1 + rng.random() * 0.5, 0.07) for _ in range(6)]
+    y = mix((puff, 0, 0.9), (dust, 0, 0.3), (low, 0, 0.5), *ticks, length=n)
+    return y * env(n, 0.003, 0.25, 1.4), 0.5
+
+
+def _crackle(dur, rng, density, lo=1800, hi=7500):
+    """Random electrical snaps: gated high-passed noise, denser where `density` (0..1 per sample) is high."""
+    n = int(dur * SR)
+    gate = (rng.random(n) < density).astype(float)
+    gate = np.convolve(gate, np.ones(int(0.0016 * SR)), mode="same").clip(0, 1)
+    return bandpass(noise(dur, rng), lo, hi) * gate
+
+
+def surge_in(rng, v):
+    """Wyatt forming out of electricity: a rising buzz and snapping crackle that builds to a bright zing, then a soft hum."""
+    dur = 1.0
+    n = int(dur * SR)
+    x = t(dur)
+    rise = np.minimum(1, x / 0.7) ** 1.5
+    buzz = tone(110, dur, (1, 0.7, 0.5, 0.35), rate=0.0) * rise * np.exp(-np.maximum(0, x - 0.75) * 9)
+    crack = _crackle(dur, rng, 0.0009 + 0.006 * rise) * (0.4 + 0.6 * rise)
+    zap_ = sweep(300, 2600, 0.7, rate=3.0) * rise[:int(0.7 * SR)] * 0.6
+    zing = bell(note(31), 0.35, 9)
+    hum_ = tone(60, 0.5, (1, 0.5), rate=5)
+    y = mix((buzz, 0, 0.35), (crack, 0, 0.8), (zap_, 0, 0.3), (zing, 0.68, 0.35), (hum_, 0.7, 0.25), length=n)
+    return y * env(n, 0.01, 0.15, 1.3), 0.5
+
+
+def surge_out(rng, v):
+    """Wyatt torn apart by the surge: a falling zap under hard crackle, ending in a low pop."""
+    dur = 0.8
+    n = int(dur * SR)
+    x = t(dur)
+    fall = np.exp(-x * 4.0)
+    crack = _crackle(dur, rng, 0.012 * fall + 0.0005) * (0.5 + 0.5 * fall)
+    zap_ = sweep(2400, 140, 0.5, rate=5.0)
+    pop = tone(note(-24), 0.2, (1, 0.5), rate=18)
+    buzz = tone(110, dur, (1, 0.7, 0.5), rate=0.0) * fall * 0.5
+    y = mix((crack, 0, 0.9), (zap_, 0, 0.4), (buzz, 0, 0.3), (pop, 0.42, 0.7), length=n)
+    return y * env(n, 0.002, 0.2, 1.5), 0.5
+
+
 def react_happy(rng, v):
     return mix(*[(bell(note(s), 0.7, 5.5), i * 0.09, 1.0) for i, s in enumerate((0, 4, 7, 12))],
                (highpass(noise(0.6, rng), 6500) * decay(0.6, 6) * (rng.random(int(0.6 * SR)) > 0.7), 0.15, 0.12)), 0.5
@@ -498,6 +576,7 @@ SOUNDS = [
     ("FixComplete", fix_complete, 1), ("RepairFail", repair_fail, 1), ("ErrorBuzz", error_buzz, 1),
     ("Footstep", footstep, 4), ("DayEnd", day_end, 1), ("DayStart", day_start, 1),
     ("HunkPop", hunk_pop, 1), ("HunkLeave", hunk_leave, 1), ("HunkAppear", hunk_appear, 1),
+    ("SparkleOut", sparkle_out, 1), ("SurgeIn", surge_in, 1), ("SurgeOut", surge_out, 1), ("SporesIn", spores_in, 1), ("SporesOut", spores_out, 1),
     ("ReactHappy", react_happy, 1), ("ReactHearts", react_hearts, 1), ("ReactAngry", react_angry, 1),
     ("ReactSad", react_sad, 1), ("ReactSurprise", react_surprise, 1),
     ("EndingRomance", ending_romance, 1), ("EndingFriend", ending_friend, 1), ("EndingFail", ending_fail, 1),

@@ -1,0 +1,68 @@
+{
+  "BODY": {
+    "mesh": "KI_FRIDGE_02_BODY",
+    "origin_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "closed_bounds_min": [
+      -0.375,
+      -0.35199999809265137,
+      0.007500000298023224
+    ],
+    "closed_bounds_max": [
+      0.3969999849796295,
+      0.3426496684551239,
+      1.6799999475479126
+    ],
+    "determinant": 1.0,
+    "vertices": 7656,
+    "uv_layers": 1,
+    "collision_hulls": 13
+  },
+  "DOOR": {
+    "mesh": "KI_FRIDGE_02_DOOR",
+    "origin_m": [
+      0.3799999952316284,
+      -0.33500000834465027,
+      0.0
+    ],
+    "closed_bounds_min": [
+      -0.36000001430511475,
+      -0.4035000205039978,
+      0.14000000059604645
+    ],
+    "closed_bounds_max": [
+      0.3610000014305115,
+      -0.12799999117851257,
+      1.649999976158142
+    ],
+    "determinant": 1.0,
+    "vertices": 4536,
+    "uv_layers": 1,
+    "collision_hulls": 15
+  },
+  "animation": {
+    "door_axis": "local Z",
+    "source_closed_degrees": 0,
+    "source_open_degrees": 105,
+    "body_origin": [
+      0,
+      0,
+      0
+    ],
+    "door_pivot_offset_from_body": [
+      0.38,
+      -0.335,
+      0
+    ]
+  },
+  "export": {
+    "axis_forward": "-Z",
+    "axis_up": "Y",
+    "unit": "metres",
+    "geometry_mirrored_axis": "source world X",
+    "positive_scale": true
+  }
+}

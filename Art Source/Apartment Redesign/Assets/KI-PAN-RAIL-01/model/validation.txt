@@ -1,0 +1,9 @@
+FBX version: 7400
+KI_Pan_Rail_Assembly.fbx meshes 13 vertices 4448 triangles 8796 bounds [0.5920000076293945, 0.0672812709103372, 0.1047897357493639]
+FBX version: 7400
+KI_Pan_Rail_Body.fbx meshes 9 vertices 1344 triangles 2652 bounds [0.5920000076293945, 0.05100002377136015, 0.052000002935528755]
+FBX version: 7400
+KI_Pan_Rail_Hooks.fbx meshes 4 vertices 3104 triangles 6144 bounds [0.45559999346733093, 0.046043168753385544, 0.10016179457306862]
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:31:22)
+
+Blender quit

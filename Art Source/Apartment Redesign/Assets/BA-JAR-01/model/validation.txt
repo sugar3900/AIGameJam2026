@@ -1,0 +1,8 @@
+FBX version: 7400
+BA_Jar_Body.fbx meshes 1 verts 2400 triangles 4476 location (0.0, 0.0, 0.0) dimensions (0.122, 0.122, 0.091)
+FBX version: 7400
+BA_Jar_Lid.fbx meshes 1 verts 1520 triangles 3032 location (0.0, 0.0, 0.089) dimensions (0.11, 0.11, 0.043)
+PASS finite geometry, UVs and nonzero geometry triangle area
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:31:22)
+
+Blender quit

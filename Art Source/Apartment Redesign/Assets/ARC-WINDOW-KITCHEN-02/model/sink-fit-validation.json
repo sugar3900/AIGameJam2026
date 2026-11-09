@@ -1,0 +1,62 @@
+{
+  "status": "PASS",
+  "sink_placement_y": -0.4605000913143158,
+  "sink_source_front": "-Y",
+  "sink_northmost_y": -0.15000000596046448,
+  "faucet_northmost_above_apron_y": -0.1957566887140274,
+  "window_sill_front_y": -0.17,
+  "faucet_to_sill_depth_gap_m": 0.025756688714027393,
+  "checks": [
+    {
+      "lower_sash_rise_m": 0,
+      "intersecting_triangle_pairs": {
+        "ARC_Window_Kitchen_frame": 0,
+        "ARC_Window_Kitchen_lower_glass": 0,
+        "ARC_Window_Kitchen_lower_sash": 0,
+        "ARC_Window_Kitchen_upper_glass": 0,
+        "ARC_Window_Kitchen_upper_sash": 0
+      }
+    },
+    {
+      "lower_sash_rise_m": 0.12,
+      "intersecting_triangle_pairs": {
+        "ARC_Window_Kitchen_frame": 0,
+        "ARC_Window_Kitchen_lower_glass": 0,
+        "ARC_Window_Kitchen_lower_sash": 0,
+        "ARC_Window_Kitchen_upper_glass": 0,
+        "ARC_Window_Kitchen_upper_sash": 0
+      }
+    },
+    {
+      "lower_sash_rise_m": 0.24,
+      "intersecting_triangle_pairs": {
+        "ARC_Window_Kitchen_frame": 0,
+        "ARC_Window_Kitchen_lower_glass": 0,
+        "ARC_Window_Kitchen_lower_sash": 0,
+        "ARC_Window_Kitchen_upper_glass": 0,
+        "ARC_Window_Kitchen_upper_sash": 0
+      }
+    },
+    {
+      "lower_sash_rise_m": 0.36,
+      "intersecting_triangle_pairs": {
+        "ARC_Window_Kitchen_frame": 0,
+        "ARC_Window_Kitchen_lower_glass": 0,
+        "ARC_Window_Kitchen_lower_sash": 0,
+        "ARC_Window_Kitchen_upper_glass": 0,
+        "ARC_Window_Kitchen_upper_sash": 0
+      }
+    },
+    {
+      "lower_sash_rise_m": 0.48,
+      "intersecting_triangle_pairs": {
+        "ARC_Window_Kitchen_frame": 0,
+        "ARC_Window_Kitchen_lower_glass": 0,
+        "ARC_Window_Kitchen_lower_sash": 0,
+        "ARC_Window_Kitchen_upper_glass": 0,
+        "ARC_Window_Kitchen_upper_sash": 0
+      }
+    }
+  ],
+  "limitations": "Mesh-surface intersection check only; excludes room shell, player, individual tap controls and engine collision inflation."
+}

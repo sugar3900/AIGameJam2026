@@ -1,0 +1,7 @@
+FBX version: 7400
+VALID KI_Pan_Body: meshes=4 vertices=2068 triangles=4120 bounds_m=[0.3015, 0.26, 0.064] degenerate_uv_triangles=0
+FBX version: 7400
+VALID KI_Pan_Handle: meshes=1 vertices=414 triangles=828 bounds_m=[0.215, 0.033, 0.024] degenerate_uv_triangles=0
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:31:22)
+
+Blender quit

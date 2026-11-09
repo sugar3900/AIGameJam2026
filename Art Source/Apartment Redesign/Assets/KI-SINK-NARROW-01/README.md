@@ -1,0 +1,17 @@
+# KI-SINK-NARROW-01 — standalone kitchen sink fit variant
+
+**Status: candidate for visual and in-engine review.** This is an alternative to the 2.37 m `KI-SINK-01` assembly, not an additional overlapping sink. It reuses that asset's generated [before/after concept](concepts/sink-states-v1.png), multi-view guide and painted materials, but removes both flanking cabinets and adds four sage-painted support legs and side stretchers. The reused concept depicts the full assembly; the renders show this narrower variant.
+
+## Geometry and fit
+
+- Body measures **1.05 × 0.65 × 1.343 m** including the faucet; the ceramic rim is at approximately 0.90 m. Adjacent counters in the original full assembly have a 0.91 m top. The basin, upper enamel backsplash, supports, rear panel, exposed drain and bucket are in `models/KI_SINK_NARROW_body.fbx`.
+- Front faces local −Y, X is the width, Z is up; dimensions are metres. The body and damage origins are at the assembly floor centre. Place centered at the plan's sink x=8.485 m; the basin then spans x=7.96–9.01 m, leaving the neighboring plan counter footprints available for separate cabinets. Allow construction tolerances and confirm actual cabinet/door clearance.
+- Two tap controls are separate `KI_SINK_NARROW_L_tap.fbx` and `KI_SINK_NARROW_R_tap.fbx`, with pivots at `(−0.25, 0.21, 1.075)` and `(0.25, 0.21, 1.075)` m relative to body origin. Import axes and rotation behavior need Unreal confirmation. The removed flanking cabinet doors and drawers are intentionally absent; use the separate cabinet kit if needed.
+- `KI_SINK_NARROW_damage.fbx` contains drips and puddle, with floor-centre origin. Show it before repair and hide it afterward; the bucket, trap and sink remain. `previews/leaking-three-quarter.png` and `previews/repaired-three-quarter.png` depict both states. Puddle uses opaque studio material; Unreal needs suitable water treatment and the actual repair/save lifecycle.
+- **Existing window conflict is not solved:** the planned narrow window opening sill is 0.90 m, while its modeled sill extends around 0.872–0.917 m and this sink's rim is 0.90 m with the back upstand extending to ~1.135 m and faucet to ~1.34 m. Check the frame, apron, upstand, faucet and sash together in the constructed room; resolve vertical placement and update the plan/window schedule rather than clipping. The existence of this narrower model does not authorize changing the floor plan or imply the aperture is clear.
+
+## Materials, source and checks
+
+The basin and other textures are inherited from `KI-SINK-01`; the support paint uses the exact `KI-PANTRY-01` mix: `sage-B.png` blended with 28% `sage-A.png`. These textures are included in `textures/` and packed in the blend; recreate the mix in Unreal. The galvanized bucket now has a 48-segment body with smooth side shading. The aged chrome, water and puddle are Blender materials. Recreate materials in Unreal; the FBX does not transfer the complete Blender shader graph. The sage legs still need in-room color assessment alongside `KI-CABINET-01`.
+
+`build_sink.py` regenerates the Blender source, four FBXs and previews using headless Blender. `validate_fbx.py` reimports all four, checking finite vertex and UV values, UV presence and zero-area faces; `validation.txt` records the results. `verify_pivots.py` reimports and compares the four origins with the positions above; results are in `pivot-validation.txt`. Neither validates Unreal transforms, collision, lighting, water, scene adjacency or play behavior. No Unreal editor was launched for this variant.

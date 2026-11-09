@@ -1,0 +1,8 @@
+{
+  "status": "approved",
+  "approval_date": "2026-11-09",
+  "floor_plan": "kitchen-dining-study/approved-plan.svg",
+  "coordinates": "kitchen-dining-study/approved-plan.json",
+  "elevations": "kitchen-dining-study/elevations/",
+  "engine_validation": "pending"
+}

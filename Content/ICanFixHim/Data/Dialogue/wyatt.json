@@ -8,7 +8,7 @@
     "look": {
         "mesh": "/Game/ICanFixHim/Characters/FaultyWiring/SK_FaultyWiring",
         "idle": "/Game/ICanFixHim/Characters/FaultyWiring/A_FaultyWiring_Idle",
-        "portrait": "/Game/ICanFixHim/UI/Portraits/T_Portrait_Wyatt",
+        "entrance": "surge",
         "skin": "#F1D3BC",
         "shirt": "#C68E5A",
         "pants": "#7A5235",

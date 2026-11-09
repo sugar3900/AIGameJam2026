@@ -38,6 +38,7 @@
 #include "InputMappingContext.h"
 #include "InputModifiers.h"
 #include "EngineUtils.h"
+#include "GameFramework/PlayerStart.h"
 #include "Engine/World.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -617,12 +618,26 @@ void AFixHimPlayerController::SetHovered(AFixHimInteractable* NewHovered)
 
 void AFixHimPlayerController::PlacePlayerAtDoor()
 {
-	// Just inside the front door (living room's south wall), looking into the apartment.
-	if (APawn* P = GetPawn())
+	APawn* P = GetPawn();
+	if (!P)
 	{
-		P->TeleportTo(FVector(190.f, 120.f, P->GetActorLocation().Z), FRotator(0.f, 75.f, 0.f));
-		SetControlRotation(FRotator(0.f, 75.f, 0.f));
+		return;
 	}
+	// A level can mark its own spot just inside the front door with a PlayerStart tagged "DoorStart"
+	// (the redesigned apartment's entry is on the east hall wall).
+	for (TActorIterator<APlayerStart> It(GetWorld()); It; ++It)
+	{
+		if (It->ActorHasTag(TEXT("DoorStart")))
+		{
+			const FRotator Facing(0.f, It->GetActorRotation().Yaw, 0.f);
+			P->TeleportTo(It->GetActorLocation(), Facing);
+			SetControlRotation(Facing);
+			return;
+		}
+	}
+	// Original apartment: just inside the front door (living room's south wall), looking into the apartment.
+	P->TeleportTo(FVector(190.f, 120.f, P->GetActorLocation().Z), FRotator(0.f, 75.f, 0.f));
+	SetControlRotation(FRotator(0.f, 75.f, 0.f));
 }
 
 void AFixHimPlayerController::BeginPlaying(bool bFromSave)
@@ -707,9 +722,37 @@ void AFixHimPlayerController::ContinueGame()
 	}
 	if (APawn* P = GetPawn(); P && Save->Data().bHasPlayerTransform)
 	{
-		P->SetActorLocation(Save->Data().PlayerLocation, false, nullptr, ETeleportType::TeleportPhysics);
-		SetControlRotation(FRotator(-10.f, Save->Data().PlayerYaw, 0.f));
-		P->SetActorRotation(FRotator(0.f, Save->Data().PlayerYaw, 0.f));
+		// Only restore a position that lies in one of this map's rooms; a save from another layout (or a stale
+		// position) falls back to the front door, keeping all story and repair progress.
+		// Inclusive with a small tolerance: rooms share edges (doorways), and a position exactly on a shared
+		// edge must still count. (AFixHimRoom::ContainsPoint is strict, so it isn't used here.)
+		bool bInsideRoom = false;
+		const FVector2D Saved2D(Save->Data().PlayerLocation);
+		for (TActorIterator<AFixHimRoom> It(GetWorld()); It; ++It)
+		{
+			const FBox2D Rect = It->GetFloorRect().ExpandBy(2.f);
+			if (Saved2D.X >= Rect.Min.X && Saved2D.X <= Rect.Max.X && Saved2D.Y >= Rect.Min.Y && Saved2D.Y <= Rect.Max.Y)
+			{
+				bInsideRoom = true;
+				break;
+			}
+		}
+		// Also require that the pawn actually fits there (a save made in another layout can land inside a wall
+		// or furniture even when it is within a room's rectangle). TeleportTo with bIsATest only tests.
+		const FRotator SavedFacing(0.f, Save->Data().PlayerYaw, 0.f);
+		const bool bFits = bInsideRoom && P->TeleportTo(Save->Data().PlayerLocation, SavedFacing, /*bIsATest*/ true);
+		if (bFits)
+		{
+			P->SetActorLocation(Save->Data().PlayerLocation, false, nullptr, ETeleportType::TeleportPhysics);
+			SetControlRotation(FRotator(-10.f, Save->Data().PlayerYaw, 0.f));
+			P->SetActorRotation(SavedFacing);
+		}
+		else
+		{
+			UE_LOG(LogFixHim, Warning, TEXT("Saved position %s is %s; starting at the front door"),
+				*Save->Data().PlayerLocation.ToString(), bInsideRoom ? TEXT("blocked") : TEXT("outside every room"));
+			PlacePlayerAtDoor();
+		}
 	}
 	BeginPlaying(true);
 }
@@ -1017,7 +1060,13 @@ void AFixHimPlayerController::HandleConversationEnded(const FString& HunkId, con
 	RefreshRepairs();
 	if (Malady)
 	{
-		// He says goodbye with a bubble pop once the dialogue box is gone (unless you've already clicked him again).
+		// Neither he nor his fixture can be clicked while he says goodbye (the pause, the transition and a beat more).
+		Malady->LockInteraction(2.4f);
+		if (AFixHimHunk* Leaving = Malady->GetHunk())
+		{
+			Leaving->SetActorEnableCollision(false);
+		}
+		// He says goodbye once the dialogue box is gone.
 		TWeakObjectPtr<AFixHimPlayerController> WeakSelf(this);
 		TWeakObjectPtr<AFixHimMalady> WeakMalady(Malady);
 		FTimerHandle PopTimer;
@@ -1097,6 +1146,19 @@ void AFixHimPlayerController::NotifyLeftRoom(AFixHimRoom* Room)
 	if (!Room)
 	{
 		return;
+	}
+	const APawn* Pawn = GetPawn();
+	if (Pawn)
+	{
+		// Still inside another volume of the same room (e.g. stepping between a bedroom and its walk-in closet):
+		// the player hasn't left, so nothing changes.
+		for (TActorIterator<AFixHimRoom> It(GetWorld()); It; ++It)
+		{
+			if (*It != Room && It->RoomId == Room->RoomId && It->ContainsPoint(Pawn->GetActorLocation()))
+			{
+				return;
+			}
+		}
 	}
 	// He only exists while you're in his room: walk out and he's gone until you summon him again.
 	for (TActorIterator<AFixHimMalady> It(GetWorld()); It; ++It)
@@ -1524,6 +1586,11 @@ void AFixHimPlayerController::FixHimNewGame(const FString& PlayerName)
 	BeginNewGame(PlayerName.IsEmpty() ? FString(TEXT("Rosie")) : PlayerName);
 }
 
+void AFixHimPlayerController::FixHimContinue()
+{
+	ContinueGame();
+}
+
 void AFixHimPlayerController::FixHimTalk(const FString& HunkId)
 {
 	for (TActorIterator<AFixHimMalady> It(GetWorld()); It; ++It)
@@ -1716,7 +1783,7 @@ void AFixHimPlayerController::FixHimGoto(const FString& RoomId)
 {
 	for (TActorIterator<AFixHimRoom> It(GetWorld()); It; ++It)
 	{
-		if (It->RoomId.Equals(RoomId, ESearchCase::IgnoreCase))
+		if (!It->bSubVolume && It->RoomId.Equals(RoomId, ESearchCase::IgnoreCase))
 		{
 			if (State == EFixHimState::Playing)
 			{

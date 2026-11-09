@@ -1,0 +1,4 @@
+Imported basin: /Users/davidwallin/Developer/AIGameJam2026-environment/Art Source/Apartment Redesign/Assets/BA-TUB-01/model/BA_Tub.fbx
+Water level: 0.430 m; radial inset: 0.018 m; samples: 128
+Basin radial hit min/max: 0.244531/0.736100 m
+Water bounds x/y: -0.718094..0.718094, -0.229175..0.229175 m

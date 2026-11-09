@@ -1,0 +1,45 @@
+{
+  "asset": "ARC-ENTRY-DOOR-02",
+  "units": "metres",
+  "up": "Z",
+  "front": "-Y",
+  "export_axes": {
+    "forward": "-Z",
+    "up": "Y"
+  },
+  "rough_opening": [
+    1.05,
+    2.14
+  ],
+  "clear_opening": [
+    0.99,
+    2.11
+  ],
+  "frame_floor_origin": [
+    0,
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "file": "model/ARC_Entry_Door02_Frame.fbx",
+      "offset": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "model/ARC_Entry_Door02_Leaf.fbx",
+      "offset": [
+        -0.495,
+        -0.035,
+        0
+      ],
+      "pivot": "barrel axis",
+      "source_open_degrees_z": -80
+    }
+  ],
+  "collision": "Three separate frame UCX members; single leaf slab UCX",
+  "validation": "model/validation.json"
+}
