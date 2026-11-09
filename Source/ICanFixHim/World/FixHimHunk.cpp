@@ -12,6 +12,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/SceneCaptureComponent2D.h"
 #include "Engine/SkeletalMesh.h"
+#include "Engine/Texture.h"
 #include "Engine/TextureRenderTarget2D.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
@@ -19,6 +20,9 @@
 #include "Animation/AnimSequenceBase.h"
 #include "Misc/PackageName.h"
 #include "TimerManager.h"
+#if WITH_EDITOR
+#include "TextureCompiler.h"
+#endif
 
 AFixHimHunk::AFixHimHunk()
 {
@@ -119,6 +123,7 @@ void AFixHimHunk::ApplyDefinition(const FHunkDefinition& Def)
 				UE_LOG(LogFixHim, Warning, TEXT("Hunk '%s': no idle animation ('%s'); he'll hold his rest pose."), *Def.Id, *Def.Idle);
 			}
 			SetActorScale3D(FVector(BaseScale));
+			PreloadTextures();
 			return;
 		}
 		UE_LOG(LogFixHim, Warning, TEXT("Hunk '%s': mesh '%s' not found, falling back to the mannequin."), *Def.Id, *Def.Mesh);
@@ -141,6 +146,45 @@ void AFixHimHunk::ApplyDefinition(const FHunkDefinition& Def)
 	}
 
 	SetActorScale3D(FVector(BaseScale));
+	PreloadTextures();
+}
+
+void AFixHimHunk::PreloadTextures()
+{
+	// Warm up while the character is still hidden, including materials on fallback outfit props.
+	TArray<UTexture*> Textures;
+	TInlineComponentArray<UMeshComponent*> Meshes(this);
+	for (UMeshComponent* Mesh : Meshes)
+	{
+		for (UMaterialInterface* Material : Mesh->GetMaterials())
+		{
+			if (!Material)
+			{
+				continue;
+			}
+			TArray<UTexture*> UsedTextures;
+			Material->GetUsedTextures(UsedTextures);
+			for (UTexture* Texture : UsedTextures)
+			{
+				if (Texture)
+				{
+					Textures.AddUnique(Texture);
+				}
+			}
+		}
+	}
+	// Loaded objects may still have asynchronous texture builds pending in the editor.
+#if WITH_EDITOR
+	FTextureCompilingManager::Get().FinishCompilation(Textures);
+#endif
+	for (UTexture* Texture : Textures)
+	{
+		Texture->SetForceMipLevelsToBeResident(30.f);
+	}
+	for (UTexture* Texture : Textures)
+	{
+		Texture->WaitForStreaming();
+	}
 }
 
 void AFixHimHunk::SetPresentImmediate(bool bVisible)
@@ -159,6 +203,9 @@ void AFixHimHunk::Appear(const FVector& From)
 	{
 		return;
 	}
+	// Hidden characters can have their mips evicted between visits. Finish reloading before
+	// starting the dissolve, sound, portrait timer, or the caller's encounter timer.
+	PreloadTextures();
 	bPresent = true;
 	PopAnim = EPopAnim::Appear;
 	PopTime = 0.f;
