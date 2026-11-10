@@ -1,0 +1,150 @@
+{
+  "status": "Reviewed source release for engine import; no global git settlement",
+  "fixes": [
+    "FIX-001",
+    "FIX-002",
+    "FIX-003"
+  ],
+  "files": [
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BR-MOLD-02/README.md",
+      "bytes": 4971,
+      "sha256": "9a5255b2da67c236403a74e44e2c2c9ed4dbd7e44593ee889269b8c5fbe2a7b6"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BR-MOLD-02/assembly.json",
+      "bytes": 2152,
+      "sha256": "bb2f3a1f4405999cbda3516e53ea87ebe9a232e821712229416bde0cc65eeeed"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BR-MOLD-02/model/BR_Mold02_Back.fbx",
+      "bytes": 15548,
+      "sha256": "0f3f6ff28e826b4fa58fef3e7a60bdc469a8a07671287315611d7cb437b98eac"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BR-MOLD-02/model/BR_Mold02_Return.fbx",
+      "bytes": 15660,
+      "sha256": "08dad43941b88e8ea926c30182620dadd69bf8f06e5a9fde56fcb84134ec3d6a"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BR-MOLD-02/model/validation.json",
+      "bytes": 1485,
+      "sha256": "9f44d4585abd9f7c26274b2f928e37f7eb024d037328c84ff1d5f57da4c60397"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BR-MOLD-02/textures/mold-colonies-rgba.png",
+      "bytes": 1494669,
+      "sha256": "a654c5faae46a0f74af714d003d27df92f447d7dc49ae9d86ad5ead52ddbc35f"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BR-CLOSET-STORAGE-03/README.md",
+      "bytes": 6350,
+      "sha256": "52cd9b60296fa5b1f1d1ba80b40c741ccec9d1e97f9a4e2189d4f27f7c235d00"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BR-CLOSET-STORAGE-03/assembly.json",
+      "bytes": 1532,
+      "sha256": "964fd18984149bd956913697df239c1361a05aa875c1de1636a87ec7cfbd18a4"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BR-CLOSET-STORAGE-03/model/BR_ClosetStorage03_East.fbx",
+      "bytes": 239244,
+      "sha256": "ccc9c4d126d0bfe79209130abcec3ea898f4666370a64a4bfefdeca6e8523b36"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BR-CLOSET-STORAGE-03/model/BR_ClosetStorage03_West.fbx",
+      "bytes": 239228,
+      "sha256": "b2d3a528ca13811088f9dc56bf00d2c86a03429d9e6cbd17c4a5a3ada377454e"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BR-CLOSET-STORAGE-03/model/validation.json",
+      "bytes": 1517,
+      "sha256": "82cd7c4dfc0e46f7bdf8eabe7996ec6ca2843769bb5088bc2b814e9cdc02ae48"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BR-CLOSET-STORAGE-03/textures/hanger-wood.png",
+      "bytes": 2116141,
+      "sha256": "e666e33e2b6c0a530c2cac8238d9935824f9ae942ebaed62388f2bae031c07ef"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BR-CLOSET-STORAGE-03/textures/white-wood.png",
+      "bytes": 2608758,
+      "sha256": "40864fb94abc7fb47fc586f0fe0d592bfc226d999fefd6ef2706f72c2f551bb9"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/KI-LEAK-02/README.md",
+      "bytes": 7998,
+      "sha256": "a72d78141aa003410f68cbeb0449584a4aa2ba210e4e09ee46057f0e71abe6c7"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/KI-LEAK-02/fbx-validation.json",
+      "bytes": 2045,
+      "sha256": "c55ff0b93587795d7e9eb60c460167fdd7590250752c341ae30a96434eb2a02f"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/KI-LEAK-02/models/KI_LEAK_02_bucket.fbx",
+      "bytes": 439308,
+      "sha256": "0e82cfecdc8cfac75312fc049dd344714a46783f8629f653992f0efa8da2669d"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/KI-LEAK-02/models/KI_LEAK_02_bucket_water.fbx",
+      "bytes": 17964,
+      "sha256": "44efc4c2bfc656f5fd3aea162d0b7859d3c802531bf5aea011329cd4340b5e3a"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/KI-LEAK-02/models/KI_LEAK_02_puddle.fbx",
+      "bytes": 22316,
+      "sha256": "2dc4edc9b0703bd3f55b36d1a6d75a4cb78ad556a126d22117d251b925d6ef99"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/KI-LEAK-02/models/KI_LEAK_02_sink_body.fbx",
+      "bytes": 202236,
+      "sha256": "7ef4495081a2b1be3dd152ea0654d520ddf9cdf3a3424ab40bd399bae754cd63"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/KI-LEAK-02/textures/Sink_EnamelPainterly-v3.png",
+      "bytes": 2258737,
+      "sha256": "5ee086472e3a868f5df19f4a004a142c45df2e40541685e9465a43efd6e274a1"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/KI-LEAK-02/textures/Sink_ToeTint-v2.png",
+      "bytes": 1314136,
+      "sha256": "0a7fee5cb635015c8540cfdc5f055f4a99cb0f20d1a4a99dcd8e184591280d81"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/KI-LEAK-02/textures/T_Bucket_Zinc_BaseColor.png",
+      "bytes": 2507416,
+      "sha256": "c9d7862492e07fc451ca707de84c176187d64c83cf8ef6e59ba1c871febbea69"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/KI-LEAK-02/textures/T_Bucket_Zinc_Metallic.png",
+      "bytes": 23736,
+      "sha256": "923067610be79984ed3ee8b50b168ee607ba489dd8bc272bb49efc4161ea438c"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/KI-LEAK-02/textures/T_Bucket_Zinc_Roughness.png",
+      "bytes": 947823,
+      "sha256": "ba664ca959f74870998699ca9277fae13b940d4e8c41c11b009da9b72e4d3a97"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/KI-LEAK-02/textures/T_Leak_Puddle_Mask.png",
+      "bytes": 452094,
+      "sha256": "b40b4d14fbc09eda1fcec3a5c4a2606d2dbec0f01f9ab607360c3d88778f928b"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/KI-LEAK-02/textures/sage-A.png",
+      "bytes": 2431513,
+      "sha256": "ee41e451ec8fe269a033aba733e317ee082cf6b2e735207f8d7c845067dbef21"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/KI-LEAK-02/textures/sage-B.png",
+      "bytes": 2131399,
+      "sha256": "df73457582effa388d682dceca218556109164b9984fd1269f18d5730966a4ba"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/KI-LEAK-02/validation.json",
+      "bytes": 3291,
+      "sha256": "f77c1d315825784f5439f3077720cefec2948afba64baaf45805e32743ec44d6"
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "parts": [
+    {
+      "part": "Frame",
+      "roundtrip": "PASS",
+      "same_bounds_as02": true,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "bounds_m": [
+        [
+          -0.5950000286102295,
+          -0.09099964052438736,
+          -1.3440955015653344e-08
+        ],
+        [
+          0.5950000286102295,
+          0.09100035578012466,
+          2.2189998626708984
+        ]
+      ],
+      "uv_loops": 5344,
+      "vertices": 1504,
+      "faces": 1208,
+      "ucx": 3,
+      "ucx_centers_and_sizes_match02": true,
+      "material_slot_order": [
+        "Painted warm ivory",
+        "Muted aged brass",
+        "Recess darkness"
+      ],
+      "strike_pocket_ray_hits": [
+        [
+          0.5195000171661377,
+          0.0,
+          1.024999976158142
+        ],
+        [
+          0.5195000171661377,
+          0.0,
+          1.2000000476837158
+        ]
+      ]
+    },
+    {
+      "part": "Leaf",
+      "roundtrip": "PASS",
+      "same_bounds_as02": true,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "bounds_m": [
+        [
+          -0.00700002908706665,
+          -0.058999814093112946,
+          -9.123557909163083e-09
+        ],
+        [
+          0.9830000400543213,
+          0.12900015711784363,
+          2.0940001010894775
+        ]
+      ],
+      "uv_loops": 21128,
+      "vertices": 5756,
+      "faces": 4894,
+      "ucx": 1,
+      "ucx_centers_and_sizes_match02": true,
+      "material_slot_order": [
+        "Aged walnut entrance leaf",
+        "Muted aged brass",
+        "Edge rub, warm timber",
+        "Recess darkness"
+      ],
+      "strike_pocket_ray_hits": null
+    }
+  ],
+  "latch_and_deadbolt_axes_match_strikes": true,
+  "retracted_bolts_within_old_envelope": true,
+  "hardware_fits_stile": true,
+  "original02_source_unchanged": true
+}

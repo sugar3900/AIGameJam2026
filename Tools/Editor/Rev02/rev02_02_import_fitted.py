@@ -33,12 +33,113 @@ KITS = {
     'KI_WallTable02': ('KI-WALL-TABLE-02/model', ['KI_WALL_TABLE_02']),
     'KI_Stool02': ('KI-STOOL-02/model', ['KI_STOOL_02']),
     'ARC_ClosetStorage02': ('ARC-CLOSET-STORAGE-02/model', ['ARC_ClosetStorage02']),
+    # Feedback source release 001-003 (FIX-001 mold planes, FIX-002 closet side storage, FIX-003 clean sink + pail).
+    'BR_Mold02': ('BR-MOLD-02/model', ['BR_Mold02_Back', 'BR_Mold02_Return']),
+    'BR_ClosetStorage03': ('BR-CLOSET-STORAGE-03/model', ['BR_ClosetStorage03_West', 'BR_ClosetStorage03_East']),
+    'KI_Leak02': ('KI-LEAK-02/models', ['KI_LEAK_02_sink_body', 'KI_LEAK_02_bucket', 'KI_LEAK_02_bucket_water']),
+    # FIX-005: rebuilt sofa, same floor-centre origin/-Y front/envelope as LV-SOFA-01; 13 UCX hulls.
+    'LV_Sofa02': ('LV-SOFA-02/model', ['LV-SOFA-02']),
+    # FIX-020: fitted 5 m runner + fringe, floor-centre origin, long axis X; no collision (the floor supplies it).
+    'HA_Runner02': ('HA-RUNNER-02/model', ['HA_RUNNER_02']),
+    # FIX-008: closed opal shade + hardware + bulb, same wall-plate origin as HA-SCONCE-01.
+    'HA_Sconce02': ('HA-SCONCE-02/models', ['HA_Sconce02_Hardware', 'HA_Sconce02_Shade', 'HA_Sconce02_Bulb']),
+    # FIX-016: one pair of slippers (two meshes, common floor-centre origin), no collision.
+    'HA_Slippers01': ('HA-SLIPPERS-01/model', ['HA_SLIPPERS_01']),
+    # FIX-010: entry door hardware moved onto the lock stile + latch/strike plates; same pivots, bounds and UCX as 02.
+    'ARC_EntryDoor03': ('ARC-ENTRY-DOOR-03/model', ['ARC_Entry_Door03_Frame', 'ARC_Entry_Door03_Leaf']),
+    # FIX-013: rebuilt armchair, LV-CHAIR-01's origin/facing/envelope; 15 UCX hulls.
+    'LV_Armchair02': ('LV-ARMCHAIR-02/model', ['LV-ARMCHAIR-02']),
+    # FIX-014: outward closed leaves, upward soil, closed pot; original pot origin; one convex pot UCX, no foliage collision.
+    'LV_Plant02': ('LV-PLANT-02/model', ['LV_Plant02']),
+    # FIX-018: dining chair with corrected concave back slats; KI-CHAIR-01 envelope/UVs; 26 UCX hulls.
+    'KI_Chair02': ('KI-CHAIR-02/model', ['KI_CHAIR_02']),
+    # FIX-019: six fitted office wainscot runs at the common office origin; decorative, no collision (complex only).
+    'OF_Wainscot02': ('OF-WAINSCOT-02/model', ['OF_Wainscot02_' + k for k in ('N', 'CS', 'WF', 'E', 'S', 'W')]),
+    # FIX-007: split tub fixtures (west-wall plumbing; rod and drain stay on the original fixture transform) and the
+    # brass hand-towel ring + folded towel. All decorative, placed NoCollision.
+    'BA_TubFixtures02': ('BA-TUB-FIXTURES-02/model', ['BA_TubFixture02_Plumbing', 'BA_TubFixture02_CurtainRod', 'BA_TubFixture02_Drain']),
+    'BA_Ring02': ('BA-HAND-TOWEL-RING-02/model', ['BA_Ring02_Hardware', 'BA_Ring02_Towel']),
+    # FIX-025: ARC-TRIM-01's door casing (never imported by A+), for the kitchen portal surround.
+    'ARC_Trim01': ('ARC-TRIM-01/model', ['Casing_1m']),
+    # FIX-023: rebuilt toilet (21 UCX body, 1 UCX lid with hinge stored in assembled space, static bowl water).
+    'BA_Toilet02': ('BA-TOILET-02/model', ['BA_Toilet02_Body', 'BA_Toilet02_Lid', 'BA_Toilet02_Water']),
+    # FIX-027: faucet-only rebuild of the clean sink body + coaxial L/R taps (1 UCX each), assembled-space pivots.
+    'KI_Faucet02': ('KI-FAUCET-02/models', ['KI_FAUCET_02_sink_body', 'KI_FAUCET_02_L_tap', 'KI_FAUCET_02_R_tap']),
+    # FIX-024: outside-corner mitre pairs (decorative, no collision); Trim_Cream assigned at placement.
+    'ARC_Trim02': ('ARC-TRIM-02/model', ['Baseboard_Outside_End', 'Baseboard_Outside_Start', 'Crown_Outside_End', 'Crown_Outside_Start']),
+    # FIX-030: aged-interior fuse shell (replaces only LV_FUSE_01_Shell; door and repair wires stay LV-FUSE-01).
+    'LV_Fuse02': ('LV-FUSE-02/models', ['LV_Fuse02_Shell']),
+    # FIX-029: pull-chain closet pendant; functional-pivot local exports (ceiling mount / chain top), chain has 1 UCX.
+    'BR_ClosetLight01': ('BR-CLOSET-LIGHT-01/models', ['BR_ClosetLight01_Hardware', 'BR_ClosetLight01_Glass',
+                                                       'BR_ClosetLight01_Filament', 'BR_ClosetLight01_Chain']),
+    # FIX-035: KI-TABLE-01 with apron-only UV relayout (continuous lengthwise boards); geometry/other UVs identical.
+    'KI_Table02': ('KI-TABLE-02/models', ['KI_TABLE_02']),
+    # FIX-031/032: exact original stand + separate tabletop housing + one CRT screen, all on the LV-TV-01 floor origin.
+    'LV_TV02': ('LV-TV-02/models', ['LV_TV02_Stand', 'LV_TV02_Housing', 'LV_TV02_Screen']),
+    # FIX-033 single-leaf patch: narrowed 0775 left leaf (hinge back to the old 271.7 line) + fixed hinge-side filler.
+    'Joinery03': ('CABINET-JOINERY-03/models', ['KI_Cab04_0775_door_L', 'KI_Cab04_0775_Filler']),
+    # FIX-033/034/036: true-frame doors, new hinge pivots (pivot-local), retained carcasses, shared sage/ivory finishes.
+    'Joinery02': ('CABINET-JOINERY-02/models', [f'KI_Cab03_{w}_{p}' for w, ps in (('0425', ('Body', 'door', 'drawer')), ('0450', ('Body', 'door', 'drawer')),
+                                                                                  ('0775', ('Body', 'door_L', 'door_R', 'drawer_L', 'drawer_R'))) for p in ps]
+                  + ['KI_Upper02_Body', 'KI_Upper02_LeftDoor', 'KI_Upper02_RightDoor', 'KI_Pantry02_Body', 'KI_Pantry02_LeftDoor',
+                     'KI_Pantry02_RightDoor', 'BA_Linen02_Body', 'BA_Linen02_LowerDoor', 'BA_Linen02_UpperDoor']),
 }
+# FIX-006: the 17 unique framed paintings (ART-REV02-001..017), one kit each, listed by the wall-art inventory.
+import json as _json
+ART_INV = os.path.join(ROOT, 'docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-006/wall-art-inventory.json')
+ART = [it['source_art'] for it in _json.load(open(ART_INV))['items']]
+for sa in ART:
+    KITS[sa['asset'].replace('-', '_')] = (sa['asset'] + '/models', [sa['asset']])
+# Loose textures for engine-built materials: (kit folder, source path, sRGB).
+TEXTURES = {
+    'BR_Mold02': [('BR-MOLD-02/textures/mold-colonies-rgba.png', False)],
+    'LV_Sofa02': [('LV-SOFA-02/textures/sofa-floral.png', True), ('LV-SOFA-02/textures/pillow-teal-needlepoint.png', True),
+                  ('LV-SOFA-02/textures/pillow-coral-embroidery.png', True), ('LV-SOFA-02/textures/throw-wool.png', True)],
+    'HA_Runner02': [('HA-RUNNER-02/textures/runner-albedo.png', True)],
+    'HA_Sconce02': [('HA-SCONCE-02/textures/aged-brass.png', True), ('HA-SCONCE-02/textures/opal-glass.png', True)],
+    'HA_Slippers01': [('HA-SLIPPERS-01/textures/T_Slipper_Quilt.png', True), ('HA-SLIPPERS-01/textures/T_Slipper_Velvet.png', True)],
+    'OF_Wainscot02': [('OF-WAINSCOT-02/textures/painted-ivory.png', True)],
+    'BA_Ring02': [('BA-HAND-TOWEL-RING-02/textures/aged-brass.png', True), ('BA-HAND-TOWEL-RING-02/textures/terry.png', True)],
+    'BA_Toilet02': [('BA-TOILET-02/textures/painted-ivory.png', True)],
+    'KI_Chair02': [('KI-CHAIR-02/textures/wood-selected-v2.png', True), ('KI-CHAIR-02/textures/vinyl.png', True)],
+    'LV_Plant02': [('LV-PLANT-02/textures/terracotta.png', True), ('LV-PLANT-02/textures/pothos-leaf.png', True)],
+    'LV_Armchair02': [('LV-ARMCHAIR-02/textures/rust-jacquard.png', True), ('LV-ARMCHAIR-02/textures/walnut-painted.png', True),
+                      ('LV-ARMCHAIR-02/textures/ivory-thread.png', True)],
+    # FIX-038 glaze data maps (linear; the normal is DirectX tangent space) + BA-TILE-01 candidate-b glaze colour field
+    'BA_TileGlaze02': [('BA-TILE-GLAZE-02/textures/T_BathGlaze_NormalDX.png', False), ('BA-TILE-GLAZE-02/textures/T_BathGlaze_Roughness.png', False),
+                       ('BA-TILE-01/textures/candidate-b.png', True, 'T_BathTile_GlazeB')],
+    'Joinery02': [('CABINET-JOINERY-02/textures/T_Joinery_Sage.png', True), ('CABINET-JOINERY-02/textures/T_Joinery_Ivory.png', True),
+                  ('CABINET-JOINERY-02/textures/T_Joinery_Interior.png', True), ('CABINET-JOINERY-02/textures/toe-dark.png', True, 'T_Joinery_ToeDark'),
+                  ('CABINET-JOINERY-02/textures/ivory-enamel.png', True, 'T_Joinery_IvoryEnamel')],
+    'LV_TV02': [('LV-TV-02/textures/T_TV02_Walnut.png', True), ('LV-TV-02/textures/T_TV02_SpeakerWeave.png', True),
+                ('LV-TV-01/textures/walnut-painted.png', True, 'T_TV01_WalnutPainted')],  # name clashes with the FBX's Walnut_Painted material
+    'LV_Fuse02': [('LV-FUSE-02/textures/T_Fuse02_Interior.png', True), ('LV-FUSE-02/textures/T_Fuse02_Bakelite.png', True),
+                  ('LV-FUSE-02/textures/T_Fuse02_AgedCeramic.png', True), ('LV-FUSE-02/textures/T_Fuse02_Cloth.png', True)],
+    'KI_Leak02': [('KI-LEAK-02/textures/T_Leak_Puddle_Mask.png', False),
+                  ('KI-LEAK-02/textures/T_Bucket_Zinc_BaseColor.png', True),
+                  ('KI-LEAK-02/textures/T_Bucket_Zinc_Metallic.png', False),
+                  ('KI-LEAK-02/textures/T_Bucket_Zinc_Roughness.png', False)],
+}
+for sa in ART:
+    TEXTURES[sa['asset'].replace('-', '_')] = sorted({(sa['asset'] + '/' + m['base_color_texture'], bool(m.get('texture_srgb', True)))
+                                                    for m in sa['materials'] if m.get('base_color_texture')})
+# The mold planes fade their outer edge through vertex-colour alpha (BR-MOLD-02 README): import colours as Replace.
+VERTEX_COLOR_REPLACE = {'BR_Mold02_Back', 'BR_Mold02_Return'}
 # Sources exported without UCX hulls. The legacy importer still gives these one generated box, which would seal
 # the basin and block clicks on Lukey's leak, so their simple collision is replaced by complex-as-simple. The
 # closet bulb and mold also have no UCX; their placed actors use NoCollision.
 NO_UCX = {'KI_SINK_NARROW_body', 'KI_SINK_NARROW_L_tap', 'KI_SINK_NARROW_R_tap', 'KI_SINK_NARROW_damage',
-          'BR_Closet02_Bulb', 'BR_Closet02_Mold'}
+          'BR_Closet02_Bulb', 'BR_Closet02_Mold',
+          # FIX-003: the clean body keeps the narrow sink's complex-as-simple policy; the pail water has no collision
+          # (placed NoCollision). The mold planes are NoCollision art. The pail itself carries 13 UCX hulls.
+          'KI_LEAK_02_sink_body', 'KI_LEAK_02_bucket_water', 'BR_Mold02_Back', 'BR_Mold02_Return', 'HA_RUNNER_02',
+          # sconce parts keep the old sconce policy (the shade is the click body); slippers are placed NoCollision
+          'HA_Sconce02_Hardware', 'HA_Sconce02_Shade', 'HA_Sconce02_Bulb', 'HA_SLIPPERS_01'} | {'OF_Wainscot02_' + k for k in ('N', 'CS', 'WF', 'E', 'S', 'W')} \
+         | {'BA_TubFixture02_Plumbing', 'BA_TubFixture02_CurtainRod', 'BA_TubFixture02_Drain', 'BA_Ring02_Hardware', 'BA_Ring02_Towel', 'Casing_1m', 'BA_Toilet02_Water', 'KI_FAUCET_02_sink_body',
+                                                  'Baseboard_Outside_End', 'Baseboard_Outside_Start', 'Crown_Outside_End', 'Crown_Outside_Start',
+                                                  # FIX-030 shell keeps LV-FUSE-01's complex-as-simple policy; FIX-029
+                                                  # hardware/glass/filament are placed NoCollision (only the chain has a UCX)
+                                                  'LV_Fuse02_Shell', 'KI_TABLE_02', 'KI_Upper02_Body', 'KI_Pantry02_Body', 'BA_Linen02_Body', 'LV_TV02_Stand', 'LV_TV02_Housing', 'LV_TV02_Screen', 'BR_ClosetLight01_Hardware', 'BR_ClosetLight01_Glass', 'BR_ClosetLight01_Filament'}
 ONLY = globals().get('ONLY')            # optional subset of kit names, e.g. --set "ONLY=['KI_Fridge02']"
 
 def collision_elems(m):
@@ -55,16 +156,18 @@ try:
       for part in parts:
           src = os.path.join(SRC, sub, part + '.fbx')
           assert os.path.isfile(src), src
-          t = unreal.AssetImportTask(); t.filename = src; t.destination_path = folder; t.destination_name = part
+          t = unreal.AssetImportTask(); t.filename = src; t.destination_path = folder; t.destination_name = part.replace('-', '_')
           t.automated = True; t.replace_existing = True; t.save = True
           o = unreal.FbxImportUI(); o.import_mesh = True; o.import_as_skeletal = False
           o.import_materials = True; o.import_textures = True
           o.static_mesh_import_data.combine_meshes = True
           o.static_mesh_import_data.auto_generate_collision = False     # use the authored UCX hulls
           o.static_mesh_import_data.one_convex_hull_per_ucx = True
+          if part in VERTEX_COLOR_REPLACE:
+              o.static_mesh_import_data.vertex_color_import_option = unreal.VertexColorImportOption.REPLACE
           t.options = o
           tools.import_asset_tasks([t])
-          m = EAL.load_asset(folder + '/' + part)
+          m = EAL.load_asset(folder + '/' + part.replace('-', '_'))
           assert isinstance(m, unreal.StaticMesh), 'import failed: ' + src
           # the import result must be this source file (never a stale asset of the same name)
           ad = m.get_editor_property('asset_import_data')
@@ -78,6 +181,21 @@ try:
           unreal.log('[Rev02 import] %s/%s min=(%.1f,%.1f,%.1f) max=(%.1f,%.1f,%.1f) collision=%d%s mats=%s' % (
               kit, part, b.min.x, b.min.y, b.min.z, b.max.x, b.max.y, b.max.z, collision_elems(m), ' (complex)' if part in NO_UCX else '',
               [str(s.material_slot_name) for s in m.static_materials]))
+  for kit, texs in TEXTURES.items():
+      if ONLY and kit not in ONLY: continue
+      for rel, srgb, *dest in texs:
+          src = os.path.join(SRC, rel); assert os.path.isfile(src), src
+          name = dest[0] if dest else os.path.splitext(os.path.basename(src))[0].replace('-', '_')
+          t = unreal.AssetImportTask(); t.filename = src; t.destination_path = DST + kit; t.destination_name = name
+          t.automated = True; t.replace_existing = True; t.save = False
+          tools.import_asset_tasks([t])
+          tex = EAL.load_asset(DST + kit + '/' + name); assert isinstance(tex, unreal.Texture2D), src
+          tex.set_editor_property('srgb', srgb)
+          if not srgb:
+              tex.set_editor_property('compression_settings', unreal.TextureCompressionSettings.TC_NORMALMAP if 'Normal' in name
+                                      else unreal.TextureCompressionSettings.TC_DEFAULT)
+          assert EAL.save_loaded_asset(tex, False), name
+          unreal.log('[Rev02 import] texture %s/%s srgb=%s' % (kit, name, srgb))
   # LV-BOOK-01's shelf books are many separate objects (README: "intentionally detachable"). Imported uncombined,
   # each book is its own mesh in the bookcase's model space, so rev02_04b can lay out new runs on other shelves.
   if not ONLY or 'LV_BookParts' in ONLY:

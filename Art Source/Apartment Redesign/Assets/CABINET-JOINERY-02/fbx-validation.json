@@ -1,0 +1,258 @@
+{
+  "fresh_imports": [
+    {
+      "file": "KI_Cab03_0425_Body.fbx",
+      "bounds_error_m": 1.4901161193847656e-07,
+      "ucx": 11,
+      "uv_layers": 1,
+      "degenerate_faces": 0,
+      "open_edges": 0,
+      "failures": []
+    },
+    {
+      "file": "KI_Cab03_0425_door.fbx",
+      "bounds_error_m": 8.940696716308594e-08,
+      "ucx": 1,
+      "uv_layers": 1,
+      "degenerate_faces": 0,
+      "open_edges": 40,
+      "failures": []
+    },
+    {
+      "file": "KI_Cab03_0425_drawer.fbx",
+      "bounds_error_m": 1.341104507446289e-07,
+      "ucx": 5,
+      "uv_layers": 1,
+      "degenerate_faces": 0,
+      "open_edges": 40,
+      "failures": []
+    },
+    {
+      "file": "KI_Cab03_0775_Body.fbx",
+      "bounds_error_m": 1.4901161193847656e-07,
+      "ucx": 14,
+      "uv_layers": 1,
+      "degenerate_faces": 0,
+      "open_edges": 0,
+      "failures": []
+    },
+    {
+      "file": "KI_Cab03_0775_door_L.fbx",
+      "bounds_error_m": 8.940696716308594e-08,
+      "ucx": 1,
+      "uv_layers": 1,
+      "degenerate_faces": 0,
+      "open_edges": 40,
+      "failures": []
+    },
+    {
+      "file": "KI_Cab03_0775_drawer_L.fbx",
+      "bounds_error_m": 1.341104507446289e-07,
+      "ucx": 5,
+      "uv_layers": 1,
+      "degenerate_faces": 0,
+      "open_edges": 40,
+      "failures": []
+    },
+    {
+      "file": "KI_Cab03_0775_door_R.fbx",
+      "bounds_error_m": 8.940696716308594e-08,
+      "ucx": 1,
+      "uv_layers": 1,
+      "degenerate_faces": 0,
+      "open_edges": 40,
+      "failures": []
+    },
+    {
+      "file": "KI_Cab03_0775_drawer_R.fbx",
+      "bounds_error_m": 1.341104507446289e-07,
+      "ucx": 5,
+      "uv_layers": 1,
+      "degenerate_faces": 0,
+      "open_edges": 40,
+      "failures": []
+    },
+    {
+      "file": "KI_Cab03_0450_Body.fbx",
+      "bounds_error_m": 1.4901161193847656e-07,
+      "ucx": 12,
+      "uv_layers": 1,
+      "degenerate_faces": 0,
+      "open_edges": 0,
+      "failures": []
+    },
+    {
+      "file": "KI_Cab03_0450_door.fbx",
+      "bounds_error_m": 8.940696716308594e-08,
+      "ucx": 1,
+      "uv_layers": 1,
+      "degenerate_faces": 0,
+      "open_edges": 40,
+      "failures": []
+    },
+    {
+      "file": "KI_Cab03_0450_drawer.fbx",
+      "bounds_error_m": 1.341104507446289e-07,
+      "ucx": 5,
+      "uv_layers": 1,
+      "degenerate_faces": 0,
+      "open_edges": 40,
+      "failures": []
+    },
+    {
+      "file": "KI_Upper02_Body.fbx",
+      "bounds_error_m": 8.940696716308594e-08,
+      "ucx": 0,
+      "uv_layers": 1,
+      "degenerate_faces": 0,
+      "open_edges": 0,
+      "failures": []
+    },
+    {
+      "file": "KI_Upper02_LeftDoor.fbx",
+      "bounds_error_m": 2.9802322387695312e-08,
+      "ucx": 1,
+      "uv_layers": 1,
+      "degenerate_faces": 0,
+      "open_edges": 0,
+      "failures": []
+    },
+    {
+      "file": "KI_Upper02_RightDoor.fbx",
+      "bounds_error_m": 2.9802322387695312e-08,
+      "ucx": 1,
+      "uv_layers": 1,
+      "degenerate_faces": 0,
+      "open_edges": 0,
+      "failures": []
+    },
+    {
+      "file": "KI_Pantry02_Body.fbx",
+      "bounds_error_m": 3.2782554626464844e-07,
+      "ucx": 0,
+      "uv_layers": 1,
+      "degenerate_faces": 0,
+      "open_edges": 0,
+      "failures": []
+    },
+    {
+      "file": "KI_Pantry02_LeftDoor.fbx",
+      "bounds_error_m": 8.940696716308594e-08,
+      "ucx": 1,
+      "uv_layers": 1,
+      "degenerate_faces": 0,
+      "open_edges": 0,
+      "failures": []
+    },
+    {
+      "file": "KI_Pantry02_RightDoor.fbx",
+      "bounds_error_m": 8.940696716308594e-08,
+      "ucx": 1,
+      "uv_layers": 1,
+      "degenerate_faces": 0,
+      "open_edges": 0,
+      "failures": []
+    },
+    {
+      "file": "BA_Linen02_Body.fbx",
+      "bounds_error_m": 2.682209014892578e-07,
+      "ucx": 0,
+      "uv_layers": 1,
+      "degenerate_faces": 0,
+      "open_edges": 0,
+      "failures": []
+    },
+    {
+      "file": "BA_Linen02_LowerDoor.fbx",
+      "bounds_error_m": 2.9802322387695312e-08,
+      "ucx": 1,
+      "uv_layers": 1,
+      "degenerate_faces": 0,
+      "open_edges": 0,
+      "failures": []
+    },
+    {
+      "file": "BA_Linen02_UpperDoor.fbx",
+      "bounds_error_m": 2.9802322387695312e-08,
+      "ucx": 1,
+      "uv_layers": 1,
+      "degenerate_faces": 0,
+      "open_edges": 0,
+      "failures": []
+    }
+  ],
+  "door_carcass_sweeps": [
+    {
+      "door": "KI_Cab03_0425_door.fbx",
+      "body": "KI_Cab03_0425_Body.fbx",
+      "samples": 101,
+      "max_angle_deg": 100,
+      "intersections": []
+    },
+    {
+      "door": "KI_Cab03_0775_door_L.fbx",
+      "body": "KI_Cab03_0775_Body.fbx",
+      "samples": 101,
+      "max_angle_deg": 100,
+      "intersections": []
+    },
+    {
+      "door": "KI_Cab03_0775_door_R.fbx",
+      "body": "KI_Cab03_0775_Body.fbx",
+      "samples": 101,
+      "max_angle_deg": 100,
+      "intersections": []
+    },
+    {
+      "door": "KI_Cab03_0450_door.fbx",
+      "body": "KI_Cab03_0450_Body.fbx",
+      "samples": 101,
+      "max_angle_deg": 100,
+      "intersections": []
+    },
+    {
+      "door": "KI_Upper02_LeftDoor.fbx",
+      "body": "KI_Upper02_Body.fbx",
+      "samples": 101,
+      "max_angle_deg": 100,
+      "intersections": []
+    },
+    {
+      "door": "KI_Upper02_RightDoor.fbx",
+      "body": "KI_Upper02_Body.fbx",
+      "samples": 101,
+      "max_angle_deg": 100,
+      "intersections": []
+    },
+    {
+      "door": "KI_Pantry02_LeftDoor.fbx",
+      "body": "KI_Pantry02_Body.fbx",
+      "samples": 101,
+      "max_angle_deg": 100,
+      "intersections": []
+    },
+    {
+      "door": "KI_Pantry02_RightDoor.fbx",
+      "body": "KI_Pantry02_Body.fbx",
+      "samples": 101,
+      "max_angle_deg": 100,
+      "intersections": []
+    },
+    {
+      "door": "BA_Linen02_LowerDoor.fbx",
+      "body": "BA_Linen02_Body.fbx",
+      "samples": 101,
+      "max_angle_deg": 60,
+      "intersections": []
+    },
+    {
+      "door": "BA_Linen02_UpperDoor.fbx",
+      "body": "BA_Linen02_Body.fbx",
+      "samples": 101,
+      "max_angle_deg": 90,
+      "intersections": []
+    }
+  ],
+  "passed": true,
+  "limits": "Triangle surface intersections against own carcass only; Unreal must verify installed neighbours, collision, clicking, materials and complete opening/closing."
+}

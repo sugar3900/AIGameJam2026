@@ -1,0 +1,82 @@
+{
+  "asset": "BA-TOILET-02",
+  "fix": "FIX-023",
+  "path_base": "asset folder containing this manifest",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 5294,
+      "sha256": "fae6b47267fa7cde03666c78868aedcf058aa7a8189bf07b47b0dbeb8012e7ea"
+    },
+    {
+      "path": "assembly.json",
+      "bytes": 3047,
+      "sha256": "93fd603c0ca222a7b36544358b5e4a0f7db9ed3424a193047fba7d9e8fa7c51b"
+    },
+    {
+      "path": "model/BA-TOILET-02.blend",
+      "bytes": 442099,
+      "sha256": "53dd21cbf8d53698cbc3b359510c83b35e887785268ecdde46c8c492d18589fe"
+    },
+    {
+      "path": "model/BA_Toilet02_Body.fbx",
+      "bytes": 380140,
+      "sha256": "7b3df3853e9242bee74b7dfe85c36b8cc800b41f323065e56218821dc9be375d"
+    },
+    {
+      "path": "model/BA_Toilet02_Lid.fbx",
+      "bytes": 95660,
+      "sha256": "57ed536261b9e4f65ea00d524fda8a55bab98be1a863e2bb3beb8ce09cbc3a80"
+    },
+    {
+      "path": "model/BA_Toilet02_Water.fbx",
+      "bytes": 21788,
+      "sha256": "7583e786bd2edf4ca9b2723cfdc02de6a55f566bd253496d0374aacf0a354b3c"
+    },
+    {
+      "path": "model/build_toilet.py",
+      "bytes": 12482,
+      "sha256": "a59194317982e43ad03caadd3405b8334679e8e6d47e5f5781079351a8621b84"
+    },
+    {
+      "path": "model/validate_fbx.py",
+      "bytes": 2325,
+      "sha256": "e30610f172c0cf8b885e28bfe155598ac47f8ee4038aa141d72ed705379d4f72"
+    },
+    {
+      "path": "previews/toilet-closed.png",
+      "bytes": 669052,
+      "sha256": "c14d0c9648df775dde116093fd266fa12bb8fc4860e8605548d6fad474b6a41c"
+    },
+    {
+      "path": "previews/toilet-open.png",
+      "bytes": 676267,
+      "sha256": "b7da35071ef84d9bd0771cfccd15548461d6349943d37d4d0bd7468bc2e451f1"
+    },
+    {
+      "path": "previews/toilet-side-open.png",
+      "bytes": 661109,
+      "sha256": "d1f7771e16d385d742c0c3f641209cac87eb4b70cbab1dd8a03144a870f7dd37"
+    },
+    {
+      "path": "previews/toilet-top-open.png",
+      "bytes": 652027,
+      "sha256": "d8894dfb63ade5dc416d910d11ed7176e7975f2f10e1b5bfc36796478886ec6e"
+    },
+    {
+      "path": "textures/painted-ivory.png",
+      "bytes": 2299053,
+      "sha256": "5ae7f2954c9267e604a1f4bda83633c78665d9ff51df2c31778849243d135bc9"
+    },
+    {
+      "path": "validation/build-report.json",
+      "bytes": 9381,
+      "sha256": "78f7206072bf26e64e8f3612be1d4fb8531ff55e78743feeb9ff050889a7a9c6"
+    },
+    {
+      "path": "validation/fbx-roundtrip.json",
+      "bytes": 2069,
+      "sha256": "5d79514638fd4f036f352a9289a89a8368cdcd7db9ba8db1350386fbdeadf571"
+    }
+  ]
+}

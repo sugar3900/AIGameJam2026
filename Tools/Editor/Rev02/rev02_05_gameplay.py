@@ -101,13 +101,19 @@ acts['Fridge_Door'].set_editor_property('prompt_off', 'Open fridge'); acts['Frid
 tap = interactable('Sink_Tap', bounds_center('Art_KI_SinkNarrow_L_tap'), 0, 'kitchen', T.REVEAL, 'Turn on the tap', 'Turn off the tap')
 body_from_art(tap, 'Art_KI_SinkNarrow_L_tap')
 # Measured from the KI_SINK_NARROW_body mesh: spout tip at body-local (0, +4, 122) cm, basin floor ~69 cm under it.
-SPOUT = (215, 46.05 + 4, 121)
+SPOUT = (215, 46.05 + 4, 123)   # FIX-027: KI-FAUCET-02 outlet (0,-0.040,1.230) m at the installed sink origin (215,46.05,0)
 BASIN = 70
 rp = tap.get_editor_property('reveal_part'); rp.set_static_mesh(CYL)
 h = SPOUT[2] - BASIN
 rp.set_world_location(unreal.Vector(SPOUT[0], SPOUT[1], BASIN + h / 2), False, False); rp.set_world_rotation(rot(0), False, False)
 rp.set_world_scale3d(unreal.Vector(0.014, 0.014, h / 100.0)); rp.set_cast_shadow(False)
 tap.set_editor_property('reveal_color', unreal.LinearColor(0.55, 0.78, 0.9, 1)); tap.set_editor_property('reveal_opacity', 0.55)
+
+# FIX-008: the hall sconces' click bodies were copied from the old shade; re-bind them to the (swapped) art shade and
+# keep each light at its bulb. Same lamp identities, labels and actions.
+for lab, art in (('Sconce_Hall_1', 'Art_HA_Sconce01_HA_Sconce_%s'), ('Sconce_Hall_2', 'Art_HA_Sconce02_HA_Sconce_%s')):
+    h = actor(lab); h.modify(); body_from_art(h, art % 'Shade')
+    h.get_editor_property('light').set_world_location(unreal.Vector(*bounds_center(art % 'Bulb')), False, False)
 
 # Breakfast sconce (rev02_04b dressing): clickable like the two hall sconces.
 sc = interactable('Sconce_Kitchen', bounds_center('Art_HA_Sconce01_HA_Sconce_Bulb_Kitchen'), 0, 'kitchen', T.LIGHT, 'Turn on sconce', 'Turn off sconce')
@@ -157,14 +163,43 @@ room('Room_bedroom_closet', 'bedroom', 'Closet', (0, 380, 220, 560), (110, 520, 
 # from the sofa and Lukey's on the new wall table (player capsule radius 38 cm). These replacements were found by
 # a capsule search: clear of a 48 cm capsule, inside the malady's room, 130-175 cm from the hunk, with a clear sight
 # line to his head; the closest qualifying spot to the original was taken. Hunk spawns already clear.
-for label, (x, y) in {'Malady_FuseBox': (942, 343), 'Malady_Sink': (185, 275)}.items():
+# FIX-004 moved Wyatt's fuse box to the north wall. The rigid move left his hunk spawn on the armchair (10 cm clear),
+# so a 48 cm capsule search re-derived it: (1105, 120), 1 m in front of the box, clear of plant, armchair and TV. The
+# carried-over talk spot (1075, 278) still passes the talk search against it (161 cm, clear, sight line to his head).
+fb = actor('Malady_FuseBox'); fb.modify(); hz = fb.get_editor_property('hunk_spawn').get_world_location().z
+fb.get_editor_property('hunk_spawn').set_world_location(unreal.Vector(1105, 120, hz), False, False)
+TALK_FUSE = (1075, 278)
+for label, (x, y) in {'Malady_Sink': (185, 275), 'Malady_FuseBox': TALK_FUSE}.items():
     ts = actor(label).get_editor_property('talk_spot'); z = ts.get_world_location().z
     actor(label).modify(); ts.set_world_location(unreal.Vector(x, y, z), False, False)
 
-# Malcolm's glow light sits on the malady root, ~1.5 cm from the closet's back wall, which blows a white hotspot
-# into the mold; 35 cm out into the closet (local +X) it lights the mold evenly.
+# FIX-001: Malcolm's root, hunk spawn, talk spot and camera stay put; only the invisible inspect proxy moves onto the
+# BR-MOLD-02 growth (dense coverage x 1.65-2.13, z 1.85-2.62 on the back plane; texture analysis of the source mask),
+# a 3 cm-thick box just proud of the plane - no larger than the visible growth. The glow light sits ~0.5 m out from
+# the corner growth, so it lights the patch without a hotspot.
 mg = actor('Malady_Mold'); mg.modify()
-mg.get_editor_property('glow_light').set_relative_location(unreal.Vector(35, 0, 0), False, False)
+pb = mg.get_editor_property('body')
+pb.set_world_location(unreal.Vector(189, 386.3 + 1.6, 223.5), False, False)
+pb.set_relative_scale3d(unreal.Vector(0.03, 0.48, 0.77))          # root yaw 90: local X = depth, Y = width, Z = height
+# The proxy's inflated hover-outline shell read as a pink strip under the crown (art decision: option a). Only this
+# invisible proxy skips the shell; trace, click, prompt and glow are unchanged.
+mg.set_editor_property('hover_outline', False)
+# FIX-001/029 follow-up: the breathing-glow overlay on this invisible proxy drew a pale rectangle over the mold
+# (obvious with the closet light off). Only the overlay is suppressed; glow light, prompt, inspect, repair unchanged.
+mg.set_editor_property('body_glow_overlay', False)
+mg.get_editor_property('glow_light').set_world_location(unreal.Vector(185, 436, 215), False, False)
+
+# FIX-003: an authored leak (Art_KI_SINK_damage carries AuthoredLeakDamage). The drop forms under the P-trap and falls
+# 12.8 cm into the pail water (KI-LEAK-02 assembly-space points, sink origin, yaw 0), converted to malady-local.
+SINK = (215, 46.05, 0)
+ms = actor('Malady_Sink'); ms.modify(); xf = ms.get_actor_transform()
+local = lambda p: xf.inverse_transform_location(unreal.Vector(SINK[0] + p[0], SINK[1] + p[1], SINK[2] + p[2]))
+ms.set_editor_property('leak_drip_start', local((-10, 0, 24.3)))
+ms.set_editor_property('leak_drip_landing', local((-10, 0, 11.5)))
+ms.set_editor_property('leak_drop_material', unreal.load_asset('/Game/ICanFixHim/Environment/Rev02/Materials/MI_Rev02_LeakDrop'))
+ms.set_editor_property('leak_ripple_material', unreal.load_asset('/Game/ICanFixHim/Environment/Rev02/Materials/M_Rev02_LeakRipple'))
+ms.set_editor_property('leak_ripple_diameter', 14.0)
+assert 'AuthoredLeakDamage' in [str(t) for t in actor('Art_KI_SINK_damage').tags]
 
 # ---------------- front door, door start, title camera ----------------
 fd = actor('FrontDoor'); fd.modify(); fd.set_actor_location(unreal.Vector(1192, 452.5, 0), False, True)

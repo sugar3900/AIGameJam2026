@@ -1,0 +1,68 @@
+{
+  "asset_id": "BR-CLOSET-STORAGE-03",
+  "units": "metres",
+  "source_up": "+Z",
+  "source_front": "-Y",
+  "plan_origin": [
+    1.1,
+    4.7,
+    0
+  ],
+  "mapping": "planX=1.10+sourceX; planY=4.70-sourceY; planZ=sourceZ",
+  "shelf_top": 1.88,
+  "shelf_thickness": 0.035,
+  "shelf_depth": 0.4,
+  "shelf_length": 1.67,
+  "rail_z": 1.73,
+  "rail_wall_offset": 0.28,
+  "hanger_hook": "open curved steel hook, internal apex tangent to 28mm diameter rail; triangle bodies perpendicular to rail",
+  "exports": [
+    {
+      "file": "model/BR_ClosetStorage03_West.fbx",
+      "mesh": "BR_ClosetStorage03_West",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "bounds": {
+        "min": [
+          -1.0399999618530273,
+          -0.8349999785423279,
+          1.4863426685333252
+        ],
+        "max": [
+          -0.5467623472213745,
+          0.8349999785423279,
+          1.8799999952316284
+        ]
+      },
+      "ucx_hulls": 14
+    },
+    {
+      "file": "model/BR_ClosetStorage03_East.fbx",
+      "mesh": "BR_ClosetStorage03_East",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "bounds": {
+        "min": [
+          0.5467623472213745,
+          -0.8349999785423279,
+          1.4863426685333252
+        ],
+        "max": [
+          1.0399999618530273,
+          0.8349999785423279,
+          1.8799999952316284
+        ]
+      },
+      "ucx_hulls": 14
+    }
+  ],
+  "clear_central_aisle": 1.093524694442749,
+  "capsule_radius": 0.38,
+  "centered_capsule_side_margin": 0.1667623472213745
+}

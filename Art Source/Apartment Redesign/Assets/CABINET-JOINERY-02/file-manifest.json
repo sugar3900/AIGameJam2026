@@ -1,0 +1,250 @@
+{
+  "asset": "CABINET-JOINERY-02",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "6cb05d32ea3ab4fe65937623da2b7d52795aef68bf1742e306786f09beeae4d3",
+      "bytes": 4603
+    },
+    {
+      "path": "assembly.json",
+      "sha256": "aad616dd857377b895594b0ed9ee3cc9aac3eea5f378f059780f6a27aaae3049",
+      "bytes": 15680
+    },
+    {
+      "path": "build_joinery.py",
+      "sha256": "0d8a09eeb0fbf32f2c7b748bd37685b4323d89ffeedc17299d7fd0291e99323f",
+      "bytes": 15480
+    },
+    {
+      "path": "fbx-validation.json",
+      "sha256": "f2e91f4422c6679d249c0b12c2f0aea644d580a06109a883ba2c8775739f50cc",
+      "bytes": 6198
+    },
+    {
+      "path": "material-contract.json",
+      "sha256": "f22edd15baf637a8245ee521a8cd593cdcd5c63a1165f18514df7a47f49cc329",
+      "bytes": 1580
+    },
+    {
+      "path": "models/BA_Linen02_Body.fbx",
+      "sha256": "5f0f8ebc90aa5bb5d6bf3490b4fa055540e3ed9772a966372a8500a82d69bcc5",
+      "bytes": 50972
+    },
+    {
+      "path": "models/BA_Linen02_LowerDoor.fbx",
+      "sha256": "d34e73e35f88e70e15c5afa31be7c8ce50313edb415e7afdef7c53a6c9015144",
+      "bytes": 121900
+    },
+    {
+      "path": "models/BA_Linen02_UpperDoor.fbx",
+      "sha256": "a8aec617187797d6a808db54ae3ae3d12729c91832fe55cc825624da1c60a73e",
+      "bytes": 120684
+    },
+    {
+      "path": "models/Base0425.blend",
+      "sha256": "2ef6a77f635f3a168b4884c44b1c4533e32cbe697761927c481b269065c4d19f",
+      "bytes": 7586771
+    },
+    {
+      "path": "models/Base0450.blend",
+      "sha256": "3343c99aee2a2f5ecb76d329be14252110d5c9f6aa51d0d9e6679beac0f5169d",
+      "bytes": 7591146
+    },
+    {
+      "path": "models/Base0775.blend",
+      "sha256": "bcbf5c830474d1c2549baa1356513d3b11714269ded9a010f222f118f5e37efd",
+      "bytes": 7625828
+    },
+    {
+      "path": "models/KI_Cab03_0425_Body.fbx",
+      "sha256": "89b12f4ab9e02490b6d0c89172d43c8bb061167929f4ca245fcd82bccff59376",
+      "bytes": 96348
+    },
+    {
+      "path": "models/KI_Cab03_0425_door.fbx",
+      "sha256": "4aad806b9b46e8ad0a753be76a79d9d645d0aba721d9a68f4594214a8faf0928",
+      "bytes": 120748
+    },
+    {
+      "path": "models/KI_Cab03_0425_drawer.fbx",
+      "sha256": "161524164e41575789bf1ea8901b6fe85e966886c29286b62213b25c6f675b5c",
+      "bytes": 95148
+    },
+    {
+      "path": "models/KI_Cab03_0450_Body.fbx",
+      "sha256": "482d104615b0522198b56749a2c8b8081a8d78fcec727406d3c09628f1b3bf86",
+      "bytes": 102924
+    },
+    {
+      "path": "models/KI_Cab03_0450_door.fbx",
+      "sha256": "508652d9a36bcb4a5d6981a8b4d892f7249a9bc9961fedd5be8b675df2a6bde8",
+      "bytes": 120476
+    },
+    {
+      "path": "models/KI_Cab03_0450_drawer.fbx",
+      "sha256": "dbdcc586cfe3555f7cdafa960e6e1bb7924b9366d0757581ed182f4fa608d299",
+      "bytes": 95964
+    },
+    {
+      "path": "models/KI_Cab03_0775_Body.fbx",
+      "sha256": "e04877caea38601bc2964d26cc55f823218b50d3b00b6feddeb872b38e9d5fed",
+      "bytes": 116444
+    },
+    {
+      "path": "models/KI_Cab03_0775_door_L.fbx",
+      "sha256": "9491682e7113cbf00a9fe666dfb7ba524431ec3075cc49556e6aa70f1129f116",
+      "bytes": 120364
+    },
+    {
+      "path": "models/KI_Cab03_0775_door_R.fbx",
+      "sha256": "32a5789784309d52827add11c50cede9be44214eba865c9bdea62fb5377a2e48",
+      "bytes": 120428
+    },
+    {
+      "path": "models/KI_Cab03_0775_drawer_L.fbx",
+      "sha256": "20914ce448beedc251b5a312ea744a9941cea4910efe6d423d1817531735caf4",
+      "bytes": 95804
+    },
+    {
+      "path": "models/KI_Cab03_0775_drawer_R.fbx",
+      "sha256": "579b8acb6a7d490873707077ebe89dbaeadd0fbefc98372c5289ce362bb21c33",
+      "bytes": 95964
+    },
+    {
+      "path": "models/KI_Pantry02_Body.fbx",
+      "sha256": "57c338145b6edd87faa698079ae2122ef6a1ad013c3e3931e0365364335ee3f6",
+      "bytes": 61132
+    },
+    {
+      "path": "models/KI_Pantry02_LeftDoor.fbx",
+      "sha256": "62c32ffa2c4658d5dd9daf1433704af5d6cfdb78aa29be89b162c52af30000ca",
+      "bytes": 145580
+    },
+    {
+      "path": "models/KI_Pantry02_RightDoor.fbx",
+      "sha256": "9a083fae4a66bb1b3f36c89af5741a71c6afb1d475904f6d81f66486d08d8d62",
+      "bytes": 146076
+    },
+    {
+      "path": "models/KI_Upper02_Body.fbx",
+      "sha256": "0e499e7826fde9d39c06ac6e8ca500be5dee059125de7ae8334d6fca393cfe33",
+      "bytes": 58428
+    },
+    {
+      "path": "models/KI_Upper02_LeftDoor.fbx",
+      "sha256": "351e83ea1b9fb70aebd8bf0a0fa1b45fe4e449fdf5f01f95cd4bc6209c91b332",
+      "bytes": 121356
+    },
+    {
+      "path": "models/KI_Upper02_RightDoor.fbx",
+      "sha256": "d96b1b3cdeb5568f3769dc616ec3ae8cdb3b650aa791a2ff524443d71b1e0494",
+      "bytes": 121612
+    },
+    {
+      "path": "models/Linen.blend",
+      "sha256": "e89eb5e779603951972242629db4f7d07c0e1862c5ac4f696c612b90e62457ec",
+      "bytes": 1674370
+    },
+    {
+      "path": "models/Pantry.blend",
+      "sha256": "4805dbce58f993d357b23b863df25cfb588d619490a0aefef51d2f44327c196b",
+      "bytes": 4159238
+    },
+    {
+      "path": "models/Upper.blend",
+      "sha256": "e3a12218a41d1b7bab8da73a6b12112a1aa88668f4fe474d656c17f25c64d275",
+      "bytes": 4145940
+    },
+    {
+      "path": "previews/Base0425-closed.png",
+      "sha256": "5fd2a5cb303b27a1bee1054fbbfc19195c2f8a67a78283a7f0c749d79e568c32",
+      "bytes": 1081402
+    },
+    {
+      "path": "previews/Base0425-open.png",
+      "sha256": "6c35e2969f84a489e6bc6e66989ad8d688fcef043f8c459ebf08f7a5743fa83a",
+      "bytes": 1054813
+    },
+    {
+      "path": "previews/Base0450-closed.png",
+      "sha256": "dca9e2bf9e62b518b20a6831272d2892aadac4a3d289fccad6624cdb97a6f2e4",
+      "bytes": 1080567
+    },
+    {
+      "path": "previews/Base0450-open.png",
+      "sha256": "8f15ad439240ad866acef81c8ef5a0556844ab5d28d170298637af2b18c4dfca",
+      "bytes": 1052622
+    },
+    {
+      "path": "previews/Base0775-closed.png",
+      "sha256": "d685210258baa63ba7e52b9fe0c75535d95e40eefc94e18b7bdc61638dde20a8",
+      "bytes": 1152005
+    },
+    {
+      "path": "previews/Base0775-open.png",
+      "sha256": "b6cd17dc2b89ce9be91bdf0df06a7a479800eadff95c6520a965c99eda24ba5e",
+      "bytes": 1089858
+    },
+    {
+      "path": "previews/Linen-closed.png",
+      "sha256": "24c92e7356c209884601f62863f8885616b681cb47b023ca6bb2a3d98ba14ed7",
+      "bytes": 944957
+    },
+    {
+      "path": "previews/Linen-open.png",
+      "sha256": "44add501d339b1a85f17860db501ee2f9d21a6ca7307bcc349baef4ec0a9994b",
+      "bytes": 940629
+    },
+    {
+      "path": "previews/Pantry-closed.png",
+      "sha256": "d1565034617378877abb1fd2844c2e6008b318e372662ce500c59264e38b02da",
+      "bytes": 1049549
+    },
+    {
+      "path": "previews/Pantry-open.png",
+      "sha256": "b6f24bb85fad030fc16e5e05f2433b2a3e9ab63454f1c137024c1858a50be9b6",
+      "bytes": 1027027
+    },
+    {
+      "path": "previews/Upper-closed.png",
+      "sha256": "790a8f5cef855e3e938354d3285a946fa45bcdb9ac23d1d40338501cb2285974",
+      "bytes": 999054
+    },
+    {
+      "path": "previews/Upper-open.png",
+      "sha256": "42440741ee8a1e32d6196cd5ec14bcf04d991ea8f25e015fd45470cab216e311",
+      "bytes": 980774
+    },
+    {
+      "path": "textures/T_Joinery_Interior.png",
+      "sha256": "100ca5495b651dbcce7a28537aa217a7df3ba46290c3a5bc864b4a5871fa4fd2",
+      "bytes": 1809508
+    },
+    {
+      "path": "textures/T_Joinery_Ivory.png",
+      "sha256": "bcaf8a077925e9d6f30276ccde24ae3c90d8af3f71d21ee65d30396c2bca6e2f",
+      "bytes": 1469794
+    },
+    {
+      "path": "textures/T_Joinery_Sage.png",
+      "sha256": "97cdafef151a5ce47f0146c83b1f3223805d73cc8e2fbfa1f8fd2e150545b165",
+      "bytes": 2118921
+    },
+    {
+      "path": "textures/ivory-enamel.png",
+      "sha256": "1f2a1a7d120a9807df7559e3abad7693b1da717724bf258d1d613f1fa462e570",
+      "bytes": 2234826
+    },
+    {
+      "path": "textures/toe-dark.png",
+      "sha256": "0a7fee5cb635015c8540cfdc5f055f4a99cb0f20d1a4a99dcd8e184591280d81",
+      "bytes": 1314136
+    },
+    {
+      "path": "validate_fbx.py",
+      "sha256": "cb61f88ffb549eeb2ef9997832945415866a36c7a7f7972dd6729bae638b47c5",
+      "bytes": 3094
+    }
+  ]
+}

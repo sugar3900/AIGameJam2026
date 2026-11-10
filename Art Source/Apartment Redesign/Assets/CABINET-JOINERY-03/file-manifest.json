@@ -1,0 +1,54 @@
+{
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "8675177dd139dc145493d2c4548869fe86a6afc859c0ebe194102a3d289b8c51",
+      "bytes": 2652
+    },
+    {
+      "path": "assembly.json",
+      "sha256": "9e09c5061b6b69d1ed25e805a89f84b5487b3793df26c65b4cb6c9887f5de944",
+      "bytes": 1685
+    },
+    {
+      "path": "build_patch.py",
+      "sha256": "d15da562a1c9fcbeadfe98a77a23a323975825836e870913767078c27d0040f5",
+      "bytes": 4722
+    },
+    {
+      "path": "models/KI_Cab04_0775_Filler.fbx",
+      "sha256": "d4890516b79faa8d56ddcf5b0a3e7faed513a5a89e9fd0b1db8e38696ee09473",
+      "bytes": 27436
+    },
+    {
+      "path": "models/KI_Cab04_0775_door_L.fbx",
+      "sha256": "4e246293d220d2ecad608df62d27fd9420612d0bbdf1aae581e28e2870a038bd",
+      "bytes": 120204
+    },
+    {
+      "path": "models/SinkLeftCorrection.blend",
+      "sha256": "7e021f9933fa6000963bf91ca79553e503c2c018101c8c9cc1913c3ba7658d87",
+      "bytes": 265771
+    },
+    {
+      "path": "previews/SinkLeftCorrection-closed.png",
+      "sha256": "fffa3499cb2883b272c63bb15059e755f4e94fab31dd4f808b587825f3f5651f",
+      "bytes": 1149796
+    },
+    {
+      "path": "previews/SinkLeftCorrection-open.png",
+      "sha256": "d58d9c38d6cb23189ce98f7532a115eb7ea92774eb020e1ef8a0a953c688fd69",
+      "bytes": 1091318
+    },
+    {
+      "path": "textures/T_Joinery_Sage.png",
+      "sha256": "97cdafef151a5ce47f0146c83b1f3223805d73cc8e2fbfa1f8fd2e150545b165",
+      "bytes": 2118921
+    },
+    {
+      "path": "validation.json",
+      "sha256": "85898ee574bcb4a3004569692e4e1a53a5ff4a82f705748ada46bbe5390beee2",
+      "bytes": 376
+    }
+  ]
+}

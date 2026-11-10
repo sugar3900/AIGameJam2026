@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "samples": 101,
+  "range_deg": [
+    0,
+    100
+  ],
+  "source_swing_sign": -1,
+  "engine_swing_sign": 1,
+  "intersections": [],
+  "door_ucx": 1,
+  "filler_ucx": 1,
+  "uv_present": true,
+  "limits": "Exact source triangle tests using measured installed origins, not engine gameplay/collision tests. Engine must repeat neighbour sweep and real clicks."
+}

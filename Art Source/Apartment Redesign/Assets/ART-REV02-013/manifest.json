@@ -1,0 +1,140 @@
+{
+  "asset": "ART-REV02-013",
+  "instance": "OF-ART-LANDSCAPE-01:070",
+  "title": "Hillside farm in spring",
+  "frame": "Dark oak sloping rail with warm paper mount",
+  "dimensions_m": [
+    0.65,
+    0.035,
+    0.5
+  ],
+  "bounds_m": {
+    "min": [
+      -0.32499998807907104,
+      -0.03500000014901161,
+      0.0
+    ],
+    "max": [
+      0.32499998807907104,
+      0.0,
+      0.5
+    ]
+  },
+  "origin": "bottom-center rear wall plane; front -Y; Z up",
+  "planned_rect": [
+    8.5,
+    5.659999999999999,
+    0.65,
+    0.035
+  ],
+  "bottom_z": 1.47,
+  "front": "south",
+  "fbx": "models/ART-REV02-013.fbx",
+  "art_texture": "textures/T_Artwork.png",
+  "art_sha256": "6b38d48e3c0a2b93fd8b1744a89f4877aef39f909baf1404f27017d98d05ff85",
+  "crop": {
+    "u_span": 0.9991557181579845,
+    "v_span": 1,
+    "source_aspect": 1.4155597722960152,
+    "aperture_aspect": 1.414364640883978,
+    "mode": "center crop; uniform pixel scale; no stretch"
+  },
+  "frame_material": {
+    "wood_color_linear": [
+      0.12,
+      0.085,
+      0.045
+    ],
+    "roughness": 0.64,
+    "grain_map": "textures/T_Frame_Grain.png",
+    "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+    "base_color_map": "textures/T_Frame_BaseColor.png"
+  },
+  "ucx": 1,
+  "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+  "engine_placement": {
+    "wall_datum_center_plan_m": [
+      8.825,
+      5.659999999999999,
+      1.47
+    ],
+    "ue_local_yaw_degrees": 0,
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+  },
+  "materials": [
+    {
+      "slot": 0,
+      "name": "ART-REV02-013_Frame",
+      "base_color_linear": [
+        0.12,
+        0.085,
+        0.045
+      ],
+      "roughness": 0.64,
+      "metallic": 0.0,
+      "opacity": 1,
+      "two_sided": false,
+      "base_color_texture": "textures/T_Frame_BaseColor.png",
+      "texture_srgb": true
+    },
+    {
+      "slot": 1,
+      "name": "ART-REV02-013_Inner_Slip",
+      "base_color_linear": [
+        0.48,
+        0.37,
+        0.23
+      ],
+      "roughness": 0.7,
+      "metallic": 0.0,
+      "opacity": 1,
+      "two_sided": false
+    },
+    {
+      "slot": 2,
+      "name": "ART-REV02-013_Mount",
+      "base_color_linear": [
+        0.72,
+        0.67,
+        0.55
+      ],
+      "roughness": 0.9,
+      "metallic": 0.0,
+      "opacity": 1,
+      "two_sided": false
+    },
+    {
+      "slot": 3,
+      "name": "ART-REV02-013_Backboard",
+      "base_color_linear": [
+        0.12,
+        0.085,
+        0.055
+      ],
+      "roughness": 0.9,
+      "metallic": 0.0,
+      "opacity": 1,
+      "two_sided": false
+    },
+    {
+      "slot": 4,
+      "name": "ART-REV02-013_Artwork",
+      "base_color_linear": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "roughness": 0.86,
+      "metallic": 0.0,
+      "opacity": 1,
+      "two_sided": false,
+      "base_color_texture": "textures/T_Artwork.png",
+      "texture_srgb": true
+    }
+  ]
+}

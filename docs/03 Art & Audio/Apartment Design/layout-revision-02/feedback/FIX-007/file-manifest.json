@@ -1,0 +1,1976 @@
+{
+  "fix": "FIX-007",
+  "scope": "Current released source kits and design documents, refreshed for FIX-025 kitchen portal lining and switch clearance. No engine files.",
+  "files": [
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-HAND-TOWEL-RING-02/README.md",
+      "bytes": 2410,
+      "sha256": "239200ea05132728e5e2bd58df38ec8c977e0db14d50c779f6152aaea7a2c3d6"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-HAND-TOWEL-RING-02/assembly.json",
+      "bytes": 1821,
+      "sha256": "52a238c2f482f51b8ace8b601368e4cdfac878d2677c75ca119eda535e56abc5"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-HAND-TOWEL-RING-02/concepts/prompt.md",
+      "bytes": 821,
+      "sha256": "70ba8209c60730dab8222bb34011ae2536901e02de93a4ba98f2a61a0244d3e8"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-HAND-TOWEL-RING-02/concepts/ring-concept.png",
+      "bytes": 2279136,
+      "sha256": "d780c30368c0918c0f4c394810db981340b9d520f768b01df4b43a49be27d6f0"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-HAND-TOWEL-RING-02/model/BA-HAND-TOWEL-RING-02.blend",
+      "bytes": 8233749,
+      "sha256": "9e29b8d8136189a91afce3ebf6ddc7b2ee303076e8a24f911fe064580602dbf1"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-HAND-TOWEL-RING-02/model/BA_Ring02_Hardware.fbx",
+      "bytes": 121292,
+      "sha256": "0688dcbd90301be34e1219c8e4765153217bbc5855c39b097f497b4f50fbd1ba"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-HAND-TOWEL-RING-02/model/BA_Ring02_Towel.fbx",
+      "bytes": 422396,
+      "sha256": "8d97085cb845338e9452a77d177c2a3aa2563c0da299e1598a0bb71e1b7e03c6"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-HAND-TOWEL-RING-02/model/build_ring.py",
+      "bytes": 8455,
+      "sha256": "821c39c912142a8094a97bada648ba2555b51879a59c07906256617c70ee987a"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-HAND-TOWEL-RING-02/previews/front.png",
+      "bytes": 1415369,
+      "sha256": "70bc394e198992af31d68402212e6e20521749fbc3fa9e8245734daf287f1496"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-HAND-TOWEL-RING-02/previews/three-quarter.png",
+      "bytes": 1394752,
+      "sha256": "c6e6f51bb4135403cac60d1477764411266d57837f2bfee496543fa0c53851d7"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-HAND-TOWEL-RING-02/textures/aged-brass.png",
+      "bytes": 2100959,
+      "sha256": "0dfccc080c1337d1eeb601e665c756bbe14ff303840cab5ef561c9ec84ca75fd"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-HAND-TOWEL-RING-02/textures/terry.png",
+      "bytes": 2946152,
+      "sha256": "8b59d40ae51da6dae2d1d87f011f7f643cfd3f434c125488af9c247007fd64db"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-HAND-TOWEL-RING-02/validation.json",
+      "bytes": 1213,
+      "sha256": "4574c3ac1a7fbd62bcb9ac31ac5d18c20222a41be82151cc810593c4f04a0b67"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-TUB-FIXTURES-02/README.md",
+      "bytes": 3890,
+      "sha256": "88cb024a86a85543a58313c21507e60e18b776bc750334df38899913cee9d07e"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-TUB-FIXTURES-02/assembly.json",
+      "bytes": 3473,
+      "sha256": "db339695775c1323b02abb2a038375ef824f8e2717f1e6a798424645693865ee"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-TUB-FIXTURES-02/model/BA-TUB-FIXTURES-02-drain.blend",
+      "bytes": 99977,
+      "sha256": "c5bd47c272a8c1cf474f7c3f4ed28aca5fb6d46e143a0df0e6a3c9c4deaf2b2f"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-TUB-FIXTURES-02/model/BA-TUB-FIXTURES-02.blend",
+      "bytes": 9713807,
+      "sha256": "8ad7daa66a73a05de1a56e0bc3e3b4c49e423b9900a36f644f88aa2790d3ab35"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-TUB-FIXTURES-02/model/BA_TubFixture02_CurtainRod.fbx",
+      "bytes": 36268,
+      "sha256": "5c8deb640855135dc979450865394f6821194b6aa4deebb9a5f7379b6d0ce515"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-TUB-FIXTURES-02/model/BA_TubFixture02_Drain.fbx",
+      "bytes": 20060,
+      "sha256": "6f61d8e71c8fec8d41625f96a32674cf3173a3886265f01a22f7e2937ddadea6"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-TUB-FIXTURES-02/model/BA_TubFixture02_Plumbing.fbx",
+      "bytes": 124652,
+      "sha256": "4003ed723e75b48c80f9478b12891db7afe52af444fd1e411cfc61821f244413"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-TUB-FIXTURES-02/model/build_split.py",
+      "bytes": 5709,
+      "sha256": "35c885158f2cfebc348f9a67ee60f2067d7feef36f5b3f91dcc656da02ce5aeb"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-TUB-FIXTURES-02/model/drain-validation.json",
+      "bytes": 611,
+      "sha256": "d0a2b5f12addd0871845a6fa25001bcff1b4d3ec5b7d829df0889309313daef9"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-TUB-FIXTURES-02/model/export_drain.py",
+      "bytes": 3618,
+      "sha256": "a9f7ebbf0de65ffd44c95fcd04520bf6746a1a19d9ec878c72507d2d060413c8"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-TUB-FIXTURES-02/previews/west-end-context.png",
+      "bytes": 1224003,
+      "sha256": "a042bc3d590a42618c8ab64b2236f32dc0c29e22784a37e4c1a9674b04d1abe4"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/BA-TUB-FIXTURES-02/validation.json",
+      "bytes": 1575,
+      "sha256": "e497f0d02071b812833a1afa45aecda203a6c6012fbff9a477b6bda6ad2cc35c"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/Inventory reconciliation.md",
+      "bytes": 20056,
+      "sha256": "97d1152cc5aa9e870d00a5e002525274a404317a366d25874f172199029455a0"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/elevations/generate_elevations.py",
+      "bytes": 57683,
+      "sha256": "4dc5e30ca71521260577997f69ac74b7f28b76e953350e567c8928992a587d26"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/elevations/package_review.py",
+      "bytes": 12414,
+      "sha256": "2d942297d6f890860b4fa0539c8830112c2965dc1c0a350e4ef4221aeb838fc4"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/Bathroom handoff.md",
+      "bytes": 8846,
+      "sha256": "f55ba0b122659033798019502ad00d96bc7cdf96a7ce37bc2806c3b28e714e8a"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/bathroom_layout.py",
+      "bytes": 11105,
+      "sha256": "046838bcb031c5450a9f80880755c93f717e27ad54171eb1b4a6c99b9984ede0"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/current-basin-wall.png",
+      "bytes": 4283652,
+      "sha256": "6f5813e0136b78129054fab7e2611de56e971e5757f740940754a24cd4f8a6a4"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/current-shower-corner.png",
+      "bytes": 4270389,
+      "sha256": "a3bb100a81e5fae042bc70478562e83bdf01f34a94f467bf235f7f41ab24922e"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/current-toilet-wall.png",
+      "bytes": 4268313,
+      "sha256": "2a4ac7d1cfa72b91b7a7deb818ffceba5161516e3296ff4a783b6b335df32d19"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/approved-plan.json",
+      "bytes": 30064,
+      "sha256": "591ef858593a326fb598b569fbbd5decc039ac06a2167dc6b91701c51f81349e"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/approved-plan.svg",
+      "bytes": 21902,
+      "sha256": "623d6d0b49d89fd91dde23851c1590d54ddee509a5703b636d387a4d431ba960"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/bathroom_patch.py",
+      "bytes": 9650,
+      "sha256": "ad9845739158abdf3acd5c821e2e1781ba9358945dcd3627b0fa76a9ef5cc482"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/build_draft.py",
+      "bytes": 252,
+      "sha256": "5ad5eba3870364a0ddd8177d49b74dd3b943838d619b70477dfc7d0d4c01f285"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/current-plan-comparison.svg",
+      "bytes": 21475,
+      "sha256": "872c02a6e0fc5c7ecae540f0212662814ac4e8e1a80651e4a40f631e675071f6"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ba-e-drawing.svg",
+      "bytes": 17360,
+      "sha256": "221f66e14451c846ae1169256037449bca69cf0dadebb20a7f59a566fff02542"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ba-e-projected-drawing.svg",
+      "bytes": 20765,
+      "sha256": "6ec7de1459f85f6f4b918a0dc51552c72aa8523e5fb2e60dc27fd4ddc26e951f"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ba-e-projected.svg",
+      "bytes": 20763,
+      "sha256": "5cd61989a941c83b51867166d7663b01f8a04026b93170f4299fe455739cc81f"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ba-e.svg",
+      "bytes": 17358,
+      "sha256": "829b9f6b88184b735614278b1d34ab6a64edc1889c450532072fd088c28da093"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ba-elevations.svg",
+      "bytes": 57672,
+      "sha256": "84672323b27652105cb1f9779a80aea3381b1669d3563ed9f0166fad4a381f13"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ba-n-drawing.svg",
+      "bytes": 10042,
+      "sha256": "01fdd6d18c2559dab50e26b6af16a18e810f5db7e740943ac3846e1eb35f18d3"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ba-n-projected-drawing.svg",
+      "bytes": 14247,
+      "sha256": "fc871d3afe54423c618cfbaf07b2e02dbc1cac86e40ed4172a574526f97ca929"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ba-n-projected.svg",
+      "bytes": 14245,
+      "sha256": "138ad3468e15e3d533186fef0b4803ad6f0c6d081c5fb67b6d91b92f75aec568"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ba-n.svg",
+      "bytes": 10040,
+      "sha256": "c753a750d49ef388729f99418a4bd84b2507d78deba898beb462a200ac7622f9"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ba-s-drawing.svg",
+      "bytes": 12907,
+      "sha256": "fecdb3cc9ab776444b788ddfad51ab205f8a6b4a8bdbbea03c962f09087e5dac"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ba-s-projected-drawing.svg",
+      "bytes": 16396,
+      "sha256": "3597153b060ad630fd45b578e3fded6d4c8c495b53d9138f18f745874825ae92"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ba-s-projected.svg",
+      "bytes": 16394,
+      "sha256": "db9003e4cd6548b9700c1a7e99d115869ca8c7586cbef3b076278604bf064939"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ba-s-repaired.svg",
+      "bytes": 10862,
+      "sha256": "0a46574b4464e3c4d133737716f0ff74b1a3dcf9ef4919908b69fd593cf5f035"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ba-s.svg",
+      "bytes": 12905,
+      "sha256": "8deac7092066df0f6aae3fc5221c117ff8e3fe7ae4c9dce664f839d3956b7243"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ba-w-drawing.svg",
+      "bytes": 17561,
+      "sha256": "90ee5b2ee2b8ba66a678e298bf7db1bbded0fe44e559fb57169e1c2e78ca740a"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ba-w-projected-drawing.svg",
+      "bytes": 19705,
+      "sha256": "9029e767740288f5f49b06e91878c1d650c2991f87942b9d50360fb35b5f9744"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ba-w-projected.svg",
+      "bytes": 19703,
+      "sha256": "c2ecbb9010d875ed2897f1e55b8cf634108b29522dd8288401ed5a9c2915ed1d"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ba-w.svg",
+      "bytes": 17559,
+      "sha256": "3e7128e75d72fb2249fa952c6f9550f7e8ebf93e13c30bfc178b0613f2fc9509"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/bc-e-drawing.svg",
+      "bytes": 15950,
+      "sha256": "c96d3380b8f06a56364eae896c0cd149c107fc990c07e020c712691b35b41249"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/bc-e-projected-drawing.svg",
+      "bytes": 16715,
+      "sha256": "424ce1b96b7dda2df176d7e0f497b8cf613c16a53555eabfe0a14e323efc2577"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/bc-e-projected.svg",
+      "bytes": 16717,
+      "sha256": "f539e5ba43702f42d963b43439255fc500495d7e8a44a9905332152b318794cb"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/bc-e-repaired.svg",
+      "bytes": 5790,
+      "sha256": "67e384a9f98b75ad92a7848bcdb4f530b87ba8661c85b2db4313608596a261b6"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/bc-e.svg",
+      "bytes": 15952,
+      "sha256": "fcad99b6466e73e4b3e5c739067a1cd1b2afaeff9dd8f315ce36267bc65d23d6"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/bc-elevations.svg",
+      "bytes": 44111,
+      "sha256": "c3f35e6bce21f99410ba35ac72a6ec50abd45f48e2e8cb90c1076959e77a3fb4"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/bc-n-drawing.svg",
+      "bytes": 14799,
+      "sha256": "97675b1b0fb32aa903dc783d9b86780346c873d8545e6b41071078c3f501f197"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/bc-n-projected-drawing.svg",
+      "bytes": 14799,
+      "sha256": "97675b1b0fb32aa903dc783d9b86780346c873d8545e6b41071078c3f501f197"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/bc-n-projected.svg",
+      "bytes": 14801,
+      "sha256": "6f5f1bb217d52ce245ccb5e9b7b603cb57a69dc17a79898adccc0f1e66b00eda"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/bc-n-repaired.svg",
+      "bytes": 5378,
+      "sha256": "bf8aa9b76c35302a1477e66498f9e346e1d223bd6de680e8e2edf5f41d69cb00"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/bc-n.svg",
+      "bytes": 14801,
+      "sha256": "6f5f1bb217d52ce245ccb5e9b7b603cb57a69dc17a79898adccc0f1e66b00eda"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/bc-s-drawing.svg",
+      "bytes": 6973,
+      "sha256": "39e8e88a33913cc04648c8c758636503a0b3e47c1d830bbb00290e1dbcc9f26a"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/bc-s-projected-drawing.svg",
+      "bytes": 6973,
+      "sha256": "39e8e88a33913cc04648c8c758636503a0b3e47c1d830bbb00290e1dbcc9f26a"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/bc-s-projected.svg",
+      "bytes": 6975,
+      "sha256": "03c0b1ec953a8449154b29179bd2096d18b1c3cba3c30868a2e0a10ebc02d987"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/bc-s.svg",
+      "bytes": 6975,
+      "sha256": "03c0b1ec953a8449154b29179bd2096d18b1c3cba3c30868a2e0a10ebc02d987"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/bc-w-drawing.svg",
+      "bytes": 6571,
+      "sha256": "60520b1abb40b0607db6226507fa2485712441bb5af5b5f541918fafad893498"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/bc-w-projected-drawing.svg",
+      "bytes": 7343,
+      "sha256": "30738bf444f498a5a5dc854dfd59b280768979efc31988142d281d820a73bbee"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/bc-w-projected.svg",
+      "bytes": 7345,
+      "sha256": "b8cc69bd93b3a784a1a6c1f456ac8efdd1cc73f6f49b643a2b8142c34f4a8abb"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/bc-w.svg",
+      "bytes": 6573,
+      "sha256": "d9953129e9c79dfd7a51f4d049ca7a550b28e3ec43823045cc35fb278cfe30f2"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/br-e-drawing.svg",
+      "bytes": 6243,
+      "sha256": "e5cb037655b4c4355a3c02029e3c7b32e2ede3e8ccad6d8f78a587c10d61243e"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/br-e-projected-drawing.svg",
+      "bytes": 12382,
+      "sha256": "098413ceec106da7dd0ea4d242ee488b30c4ddbc2148c5146d38903cb55a074d"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/br-e-projected.svg",
+      "bytes": 12380,
+      "sha256": "7f01f4abbc47d2263acaaf78afb05edc0ed6740a2a2463ed24cc23600ee81a11"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/br-e.svg",
+      "bytes": 6241,
+      "sha256": "f3c9df23f39629227f27e2fbc57301a4750618c1aeac4ce2236aa3e154bb5e63"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/br-elevations.svg",
+      "bytes": 34749,
+      "sha256": "c638c174e61daa2ddc9bf6016ec149466521cb80f65d5b298690850e6b9f81f3"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/br-n-drawing.svg",
+      "bytes": 6638,
+      "sha256": "8e8921ec80b8e2dd78bbd92e280ef74fbaf50b782482c25210adead6b0187d7a"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/br-n-projected-drawing.svg",
+      "bytes": 14000,
+      "sha256": "0ae984d8a0b0455db600ed320ffe474a6be110d556b915049c06a39ff9ecf92e"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/br-n-projected.svg",
+      "bytes": 13998,
+      "sha256": "5f8fe01f273b2dac47eddd138ad70e7486bdc086b9a2587b9512580bba81209b"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/br-n.svg",
+      "bytes": 6636,
+      "sha256": "3904763705343ee27ccad41ae18168df2f538cb9dcd3070e02781bd916288b58"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/br-s-drawing.svg",
+      "bytes": 10887,
+      "sha256": "27c8aa6f7c179614361e91fc9bd9b3b63c7a0c78f185fe3dc512ce7962f1d133"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/br-s-projected-drawing.svg",
+      "bytes": 13588,
+      "sha256": "08668182286616ff230ab94ed42778a3e14a122aefad59770e9600c51cded593"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/br-s-projected.svg",
+      "bytes": 13586,
+      "sha256": "45fca3806bd9385420cb43b4db45984d6726b4b906fd71881c22f5816a9f2732"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/br-s.svg",
+      "bytes": 10885,
+      "sha256": "7d5801a20dce0574cfa106e9578fefb7312ed9e3a0b0983e32698967f0d44af7"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/br-w-drawing.svg",
+      "bytes": 11179,
+      "sha256": "0654414dd39e45262f727dd2ac3aa455e3d899fa26499bce35ba34e7b04da3ab"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/br-w-projected-drawing.svg",
+      "bytes": 17138,
+      "sha256": "011e2bc7e6085eecd700121f8c3bd6069f8357ab0b8f9c5d565487d89d5d9489"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/br-w-projected.svg",
+      "bytes": 17136,
+      "sha256": "1085bf9e63cc03aa62954fd0ef4ccd66b4f1258488163a49cd002fa12f4b100d"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/br-w.svg",
+      "bytes": 11177,
+      "sha256": "c52fd3e405963517fbc492d2be6163032ae53879f14a1bcca0c09f4a4d6e6454"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ct-e-drawing.svg",
+      "bytes": 1556,
+      "sha256": "6ea54a2a77174d45a7363ad950da8ca03e74be7da70cfda36d59d2141d372947"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ct-e-projected-drawing.svg",
+      "bytes": 1556,
+      "sha256": "6ea54a2a77174d45a7363ad950da8ca03e74be7da70cfda36d59d2141d372947"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ct-e-projected.svg",
+      "bytes": 1558,
+      "sha256": "a8f793d8a1ae4ded69ae4795f47213977198c62c78e9c83f33e299b6f2bf4400"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ct-e.svg",
+      "bytes": 1558,
+      "sha256": "a8f793d8a1ae4ded69ae4795f47213977198c62c78e9c83f33e299b6f2bf4400"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ct-elevations.svg",
+      "bytes": 9641,
+      "sha256": "d1c8077e748ab3bc4346cacdb3eb773d0b0e18426b18c7c634f881fc96420bbc"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ct-n-drawing.svg",
+      "bytes": 2981,
+      "sha256": "c4d224ca9e4b1bcaa78177048fb96d3296e1a97f6b144f803a795764fc210b5f"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ct-n-projected-drawing.svg",
+      "bytes": 2981,
+      "sha256": "c4d224ca9e4b1bcaa78177048fb96d3296e1a97f6b144f803a795764fc210b5f"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ct-n-projected.svg",
+      "bytes": 2983,
+      "sha256": "ce3d56c972c571fbc3f6880c04a8539d27e2779ca8408d3807ef4023cb463d65"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ct-n.svg",
+      "bytes": 2983,
+      "sha256": "ce3d56c972c571fbc3f6880c04a8539d27e2779ca8408d3807ef4023cb463d65"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ct-s-drawing.svg",
+      "bytes": 3722,
+      "sha256": "7c6d682167e19bddf2efad3d6fd172df7841888881beab0357681bb90aed6688"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ct-s-projected-drawing.svg",
+      "bytes": 3722,
+      "sha256": "7c6d682167e19bddf2efad3d6fd172df7841888881beab0357681bb90aed6688"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ct-s-projected.svg",
+      "bytes": 3724,
+      "sha256": "32e419f32676400dc0e9b6b625bafbfaad7e1f874983eb06ca24ac93e28800c6"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ct-s.svg",
+      "bytes": 3724,
+      "sha256": "32e419f32676400dc0e9b6b625bafbfaad7e1f874983eb06ca24ac93e28800c6"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ct-w-drawing.svg",
+      "bytes": 1564,
+      "sha256": "ff3b833b27c6f19b399f40b515ab705f004fb7f99e57c5104ed275719fed4dcb"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ct-w-projected-drawing.svg",
+      "bytes": 1564,
+      "sha256": "ff3b833b27c6f19b399f40b515ab705f004fb7f99e57c5104ed275719fed4dcb"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ct-w-projected.svg",
+      "bytes": 1566,
+      "sha256": "b196d284564c2bd2ba0239f4d7348abd46d3bbb5c4d3b6dacb5c9fbb3b995594"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ct-w.svg",
+      "bytes": 1566,
+      "sha256": "b196d284564c2bd2ba0239f4d7348abd46d3bbb5c4d3b6dacb5c9fbb3b995594"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/elevation-schedule.json",
+      "bytes": 129679,
+      "sha256": "92df4d5f5626d6dd30efaf27f54d3fe37e7bb0112bc77db277811cdda9434d5b"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ha-e-drawing.svg",
+      "bytes": 2566,
+      "sha256": "6dc5c797e57d5e0228b8b0b42a87d548b0e9097b219f1bf2d59cc0453f8966ea"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ha-e-projected-drawing.svg",
+      "bytes": 5343,
+      "sha256": "df8f6ba81126813477e1594ab9ae9a5c6ca556a30b71b46725e80c290de94c8a"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ha-e-projected.svg",
+      "bytes": 5345,
+      "sha256": "8c18985d2e0c528bb5c29606b47af0e673de6ad29cfe6e908e140303cfa624f3"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ha-e.svg",
+      "bytes": 2568,
+      "sha256": "0148476cff58ac6a9bbb3fd20271793c5aa77e6b9565d4cf9414e15ef5eef54b"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ha-elevations.svg",
+      "bytes": 24488,
+      "sha256": "d042e862110bef0dfa74938286a400b119174a6783c1df1ba4492db976add8d1"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ha-n-drawing.svg",
+      "bytes": 6989,
+      "sha256": "75b2d48f369b459f90312c2c59684770c2e7001bd2f89ee4d6e6ab9b6aa52260"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ha-n-projected-drawing.svg",
+      "bytes": 8666,
+      "sha256": "49e98ae65e74013eac076e9eff0034a4f8247b694ef6fbb8473a8e906091c1f2"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ha-n-projected.svg",
+      "bytes": 8662,
+      "sha256": "d20e8029beb9291c61472be7e9604a9998ce41d08758404e91376aa69858c575"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ha-n.svg",
+      "bytes": 6985,
+      "sha256": "459f4dfdbc44b40eea4043ac71af3a4c5627cc5fd70ab82e04d725e803eb0031"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ha-s-drawing.svg",
+      "bytes": 11057,
+      "sha256": "c3dc563c88c1719a14827b703bbd26ff6f91ad2ccd6360aafd1dbc08725e186b"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ha-s-projected-drawing.svg",
+      "bytes": 11987,
+      "sha256": "ce434858c7150f5eb6a7e3b61a15d1d19061bea0f1f7fa5d95e1477cc9054879"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ha-s-projected.svg",
+      "bytes": 11983,
+      "sha256": "9049c071f1e56faf94ebf6dedeaed5e10d1da21623ceb55b0c01a6ab2de5683e"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ha-s.svg",
+      "bytes": 11053,
+      "sha256": "eafadf683f789ba2588a97a752c3db5e8a2b43f7f968a3e61d7824d4219748d1"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ha-w-drawing.svg",
+      "bytes": 4070,
+      "sha256": "62dc410cc38cc576ca9a6877c5308aaadf76818e489f3e481aa9d119b18abb5b"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ha-w-projected-drawing.svg",
+      "bytes": 5750,
+      "sha256": "cd534f478b229e0c6c4d41f50853fb3673361b4d4befe81027bb1898521d893f"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ha-w-projected.svg",
+      "bytes": 5752,
+      "sha256": "0242f69dc919d194c0e671f8c2e8ad5a7bcc982c3a96720cf7b3786d0f8bbcad"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ha-w.svg",
+      "bytes": 4072,
+      "sha256": "4a67dc91e080a534afd41b8c22015608416d2f64f53f1df82489d54fe212920d"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ki-e-drawing.svg",
+      "bytes": 7604,
+      "sha256": "7fb557db193c9f2e9d94dffcb8644b2b6870c5a603afbc47d862b7cf58eb007a"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ki-e-projected-drawing.svg",
+      "bytes": 16685,
+      "sha256": "a610b0c3101dfb16a8af03db008a6edc26ec9a5c83ae4e57fd5b5451b5da3d76"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ki-e-projected.svg",
+      "bytes": 16683,
+      "sha256": "4230344df59e4f49979d656169704b8fb4edfa0f0a311d489d59b6285ac7821b"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ki-e.svg",
+      "bytes": 7602,
+      "sha256": "2f501df413fd77d152e2ea30f19edacd44353b502a79b1e4c69ed29400a5c886"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ki-elevations.svg",
+      "bytes": 44409,
+      "sha256": "7b46d7739abec0c6f9eeb72127da237c402f9fb533323aa28b50cda402c21dee"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ki-n-drawing.svg",
+      "bytes": 27013,
+      "sha256": "372b471f058645c28133bfca724a1b7915983cdfac2a671a90fb3bc3a654a1f7"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ki-n-projected-drawing.svg",
+      "bytes": 29263,
+      "sha256": "09c1029666b472eecfd0de2d411bc4daced1c7c9b79d5235094783ecccdc5731"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ki-n-projected.svg",
+      "bytes": 29261,
+      "sha256": "992b0948caccd6edd11627afdd0bdd72e522fdebbd942236474760caba5fc804"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ki-n-repaired.svg",
+      "bytes": 23178,
+      "sha256": "9cebcab0a218cc23bd3e0045dae77808aa4acd4b5cd7ef797c99877a6a547429"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ki-n.svg",
+      "bytes": 27011,
+      "sha256": "ba8e4132521b0265c01e7c5d04bfa29eca8c1482db49d3119d74457ee6abf6b4"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ki-s-drawing.svg",
+      "bytes": 6779,
+      "sha256": "7ab2ab2ee1d3afaff18cd3ba318dd54c6537a04cc1e87c977d9fc6e220b6964f"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ki-s-projected-drawing.svg",
+      "bytes": 16161,
+      "sha256": "8082fbcf3f84345444ef910ae889c1340451ad2fabef9964731c305de400def0"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ki-s-projected.svg",
+      "bytes": 16159,
+      "sha256": "a8e47dd3d333a69b5a4db5cfd07656d8a51d15e23180822697d727ee5aa29e48"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ki-s.svg",
+      "bytes": 6777,
+      "sha256": "deb3c76e3a78458ac23cf9c7ad327bb68a595f3b1797233f92cbe48aa32a1691"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ki-w-drawing.svg",
+      "bytes": 3211,
+      "sha256": "323c39383bab3769ddb074b112316b981a65d98caa6b9179f6e4db71a14be0b7"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ki-w-projected-drawing.svg",
+      "bytes": 13451,
+      "sha256": "e15b926f19d9f99f97bd1fe07476329b31fdeaf7ffcccfa65fb976c9d807b4d3"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ki-w-projected.svg",
+      "bytes": 13449,
+      "sha256": "2c43acab572c23daf9a9b19fc741a4b98810ffef9d10f45d9b2081bfdd280352"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/ki-w.svg",
+      "bytes": 3209,
+      "sha256": "4d89b622c22ba87593a0a8557200ba5b981850fc2f6e7cbf3fa7aa54df4d6300"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/lv-e-drawing.svg",
+      "bytes": 9704,
+      "sha256": "0f5d4376f5a9f51ff5a1be3c97e1fa96566689b004753c97492e5f94bd44a9e4"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/lv-e-projected-drawing.svg",
+      "bytes": 20453,
+      "sha256": "57a704cd3795a35797905bf7214754b6fa9561a65502394b775f16105d20bda7"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/lv-e-projected.svg",
+      "bytes": 20427,
+      "sha256": "5fb9a21ffc249d538c7c2cf10f5444a432d169e9bc73c1551d69223cfdc24ebe"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/lv-e.svg",
+      "bytes": 9678,
+      "sha256": "55feb430d443eb8ee7313a5f0888eec7487408aba5525cf331c60c950bac2853"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/lv-elevations.svg",
+      "bytes": 41525,
+      "sha256": "b21bd93cd6aa18d0e5b29908f6982e9c7e03751f1a7a02dbfea23c8b65adf0b9"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/lv-n-drawing.svg",
+      "bytes": 12630,
+      "sha256": "0a5e9fbd16be12270ceb1e5e5eb74861873aa9ed9c68f2141171bbe4c8210b1c"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/lv-n-projected-drawing.svg",
+      "bytes": 22477,
+      "sha256": "c3b63585d77920f56c875e7111b59d358dc257ed24beee65cd05f3dfd8d9c421"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/lv-n-projected.svg",
+      "bytes": 22473,
+      "sha256": "c04a02f8eb76d902ccfda24522f73b6e45d5450b8432bb46a56f091de71aa15c"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/lv-n.svg",
+      "bytes": 12626,
+      "sha256": "e1bb006e1eacd271942458ed753c8ec7ee397cb52dc97f4db6d7706d50f37609"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/lv-s-drawing.svg",
+      "bytes": 7873,
+      "sha256": "726fe494e68010971c4265afd6d6be05df709bf9dbcd1e99b3d6c3af8a197773"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/lv-s-projected-drawing.svg",
+      "bytes": 20601,
+      "sha256": "327d89cc523c5ab3ace15c0940d4ab157087fd848d52a375def7293f29ba87de"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/lv-s-projected.svg",
+      "bytes": 20597,
+      "sha256": "4106bdaee2596efbfb477ff5dc91bfc35ae12ac95168eaf7638a5335a358ac3b"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/lv-s.svg",
+      "bytes": 7869,
+      "sha256": "7f8d94c6ad1efbee1b1e361522b70af652f048dfc352896029e12840b678de68"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/lv-w-drawing.svg",
+      "bytes": 11568,
+      "sha256": "7e1dbbe975ec72d6eb84c1c9bc308227cb39722c9f0bf23c379e4871ae2aa441"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/lv-w-projected-drawing.svg",
+      "bytes": 25452,
+      "sha256": "23b2e071b9d99e70f78149dbf4e34a4c0051270ce6ab810018c166147f8994e3"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/lv-w-projected.svg",
+      "bytes": 25426,
+      "sha256": "2d56babe3fc05ce6d748d31e4a6768944fcb009f7210dc3ec6f1bd9a1941f9ef"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/lv-w.svg",
+      "bytes": 11542,
+      "sha256": "74e85e7dd29b32e0105db5ca3788a55a4c71682dbe4b0852ad8156349402be53"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/of-e-drawing.svg",
+      "bytes": 10616,
+      "sha256": "96f0e1d204745760cadc18fb2611668fbb718d5c7e1f27baa5e9268e937de54b"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/of-e-projected-drawing.svg",
+      "bytes": 15044,
+      "sha256": "59d7bc451edde7e1240fca9757ce3e5ee3962791f10af38070c1d0c3e17c3ec2"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/of-e-projected.svg",
+      "bytes": 15042,
+      "sha256": "0d103ff03c2cee440b1f6ba230ed233e6073caf91a129675c8898a5741c9e46f"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/of-e.svg",
+      "bytes": 10614,
+      "sha256": "c75bd45ed3fa6a4a369d4767ed163b60308189b6b9ab0e82636555057e26e3aa"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/of-elevations.svg",
+      "bytes": 41310,
+      "sha256": "6ec93c1acdde7fffbd682fe5c9d1ecefa9cfb695e5c597f179ca8ebdc3a79efa"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/of-n-drawing.svg",
+      "bytes": 11034,
+      "sha256": "ffcceb2a141623d78097db85599015c2cc957855d14603f06536ec269b0f0f63"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/of-n-projected-drawing.svg",
+      "bytes": 16329,
+      "sha256": "765088c77d99593e9536a2bdb5cf8252384489e05e4f560f2e294422d1f51520"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/of-n-projected.svg",
+      "bytes": 16303,
+      "sha256": "4d93a339e6eabbf19b79ec25a44a9a2aba92cf7e4679adb4dffcac07c1bce432"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/of-n-repaired.svg",
+      "bytes": 8516,
+      "sha256": "2db332949a73b7bd68fbf40979c4fab1b53d0e8a899d9f1a2254c6168dacbf38"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/of-n.svg",
+      "bytes": 11008,
+      "sha256": "bca89a3e4a50d8ac31059f392d3fefcba558bb8983de39823a703e78f1c2ffcd"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/of-s-drawing.svg",
+      "bytes": 9407,
+      "sha256": "78784f9d009b73d817806f2fed119737736f87d3f93f23116d2d30fbd29ab660"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/of-s-projected-drawing.svg",
+      "bytes": 12313,
+      "sha256": "56584de68e90b3506b2885ea2fe0142501c37ad785c8dd280ee527cc23b48960"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/of-s-projected.svg",
+      "bytes": 12287,
+      "sha256": "d93985832f61d684292beb85838f4fd337267f925a2e48876e184c4ed42f20df"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/of-s.svg",
+      "bytes": 9381,
+      "sha256": "3fc3041234e4742b31b8d5c79ac25cb6ba806ac7b2539ebf5eeeb4cc622ed86b"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/of-w-drawing.svg",
+      "bytes": 10499,
+      "sha256": "5845d185fb410a37b6d7ac467debcc98940de10af22b37e54a02dd132935be15"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/of-w-projected-drawing.svg",
+      "bytes": 14291,
+      "sha256": "be5021053d17c59154e5cb173e54c6386563c3135e39d3c8a17d6985f4d13d71"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/of-w-projected.svg",
+      "bytes": 14289,
+      "sha256": "56928bf4dac570577b080fda86735dcf963dbca8ee0ff0293651f1f7334038c8"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/of-w.svg",
+      "bytes": 10497,
+      "sha256": "8e8f6fba234048c2780f540021defc7e09dbaf3787fc1934a35c90c15514d3a0"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/wg-e-drawing.svg",
+      "bytes": 1545,
+      "sha256": "d6dd57432e10565a6a6d8028954ff314ccaaf3d4a9e7bb889ca759d6e9641076"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/wg-e-projected-drawing.svg",
+      "bytes": 1545,
+      "sha256": "d6dd57432e10565a6a6d8028954ff314ccaaf3d4a9e7bb889ca759d6e9641076"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/wg-e-projected.svg",
+      "bytes": 1547,
+      "sha256": "f76121e676d1d79bcf5d55d39d81594c28186b34eca5213f7e572c9dfd23c811"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/wg-e.svg",
+      "bytes": 1547,
+      "sha256": "f76121e676d1d79bcf5d55d39d81594c28186b34eca5213f7e572c9dfd23c811"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/wg-elevations.svg",
+      "bytes": 9584,
+      "sha256": "93e5d0ef35ff510a1412de0010b5ac2a7ddd0828668d2a8e6b71320f52b32e8a"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/wg-n-drawing.svg",
+      "bytes": 3661,
+      "sha256": "2bbc206c3b53da30098c5eea14830ed6ea7b459b56b3b0c7bf0249339e7a0bce"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/wg-n-projected-drawing.svg",
+      "bytes": 3661,
+      "sha256": "2bbc206c3b53da30098c5eea14830ed6ea7b459b56b3b0c7bf0249339e7a0bce"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/wg-n-projected.svg",
+      "bytes": 3663,
+      "sha256": "09b8d60c557e7d4c801de46d1c91cb2909c7fa431ae76971f3802de1b3e2fcad"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/wg-n.svg",
+      "bytes": 3663,
+      "sha256": "09b8d60c557e7d4c801de46d1c91cb2909c7fa431ae76971f3802de1b3e2fcad"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/wg-s-drawing.svg",
+      "bytes": 3007,
+      "sha256": "5bd11549100b9e2f0a910985982ebb85988cc7a188974a228c7c7e58cc3a4212"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/wg-s-projected-drawing.svg",
+      "bytes": 3007,
+      "sha256": "5bd11549100b9e2f0a910985982ebb85988cc7a188974a228c7c7e58cc3a4212"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/wg-s-projected.svg",
+      "bytes": 3009,
+      "sha256": "bf0c5d59bdd64e0442d65aad851634da3989f636a708fb44f0cd1391474adb34"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/wg-s.svg",
+      "bytes": 3009,
+      "sha256": "bf0c5d59bdd64e0442d65aad851634da3989f636a708fb44f0cd1391474adb34"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/wg-w-drawing.svg",
+      "bytes": 1553,
+      "sha256": "db5a3bbad24c7194a058e1fd331dfd832f2ae74fea9e8dc46b62a3e68a49c702"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/wg-w-projected-drawing.svg",
+      "bytes": 1553,
+      "sha256": "db5a3bbad24c7194a058e1fd331dfd832f2ae74fea9e8dc46b62a3e68a49c702"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/wg-w-projected.svg",
+      "bytes": 1555,
+      "sha256": "54637d26cc45fb51b18ef96560fce8c94015b59357843aeca3b51e5ee3733581"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/elevations/wg-w.svg",
+      "bytes": 1555,
+      "sha256": "54637d26cc45fb51b18ef96560fce8c94015b59357843aeca3b51e5ee3733581"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/inspect_sources.py",
+      "bytes": 1440,
+      "sha256": "74a2af28a1c86d3c6eb28d6e3e384f853be42fd01a2677896ee183eee57f4921"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/layout-validation.json",
+      "bytes": 2303,
+      "sha256": "c198eae81b524a75d39feb2d85f4629bf30d0b801ee7626f1b8d8661a291b797"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/placement-contract.json",
+      "bytes": 12944,
+      "sha256": "aefd26c3dd5f2bbe7e34b9564a3228e032f7d93e81bb7db7b6f4e96e78508b5b"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/pre-fix007-plan.json",
+      "bytes": 24319,
+      "sha256": "7b39e866e81f19638ebdf31a929decf7f7c93b31c82073e44f4ee2ca88dbe5d9"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/pre-fix007-schedule.json",
+      "bytes": 124869,
+      "sha256": "fe1d4b30b6d092d140bf0eef3d718634dfb077f715d858d8c9c64280efc23a1a"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/previews/approved-plan.svg.png",
+      "bytes": 281506,
+      "sha256": "28a44c01b7d6567fa6570e60c5fd59fbaf9cadf327d4eeb3b6b9a6287075786a"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/previews/ba-e-drawing.svg.png",
+      "bytes": 196815,
+      "sha256": "44e206dc75f087da5ccb5ff32b29b51c862151a591334e702c4737b5e841b1fc"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/previews/ba-n-drawing.svg.png",
+      "bytes": 165580,
+      "sha256": "c20ff2505399f7b15e218904dce2a6eb1b3411e7b8db96b91db53ff9bd2e4e3b"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/previews/ba-s-drawing.svg.png",
+      "bytes": 170497,
+      "sha256": "d801a5f3392cf47488ad34441b137660db0e61c8704540ad0e90dbc687afe006"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/previews/ba-w-drawing.svg.png",
+      "bytes": 187632,
+      "sha256": "2dc0314da349d6b3e1c9bd35fc1257cb7ffd0f9422d32cacd42bcb02e901e432"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/proposed-plan.json",
+      "bytes": 30064,
+      "sha256": "591ef858593a326fb598b569fbbd5decc039ac06a2167dc6b91701c51f81349e"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/proposed-plan.svg",
+      "bytes": 21902,
+      "sha256": "623d6d0b49d89fd91dde23851c1590d54ddee509a5703b636d387a4d431ba960"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/review.html",
+      "bytes": 46713,
+      "sha256": "c48e2eb65489c37f92ca5d86119543e7962fb265003f2782d018e50e70f27c6d"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/source-bounds.json",
+      "bytes": 37547,
+      "sha256": "50a63081c34bc3ad5a8f45ca9cefe4e79658d3c41c635553866b0ec323b23897"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/draft/validate_layout.py",
+      "bytes": 3396,
+      "sha256": "3716a70e9ea6706876e6e3df6f7195f1762c93189d70e0555b03aa4a8a4a7a4d"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/layout-validation.json",
+      "bytes": 2309,
+      "sha256": "e5c95eb270a8b0ed6f191277a00187a9c32e211933c7929a2f4be9595adb2b80"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/placement-contract.json",
+      "bytes": 13627,
+      "sha256": "9e803a89478d50ccacaac4bc72e1914acd69568947164e4d67ec79cfaead0b84"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/previews/approved-plan.svg.png",
+      "bytes": 285084,
+      "sha256": "43ce7f3a0968ccfbc04c6d4e3b726ab8ca2e69244c50b537e088b6b6cc448aa8"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/previews/ba-e-drawing.svg.png",
+      "bytes": 196815,
+      "sha256": "44e206dc75f087da5ccb5ff32b29b51c862151a591334e702c4737b5e841b1fc"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/previews/ba-n-drawing.svg.png",
+      "bytes": 165580,
+      "sha256": "c20ff2505399f7b15e218904dce2a6eb1b3411e7b8db96b91db53ff9bd2e4e3b"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/previews/ba-s-drawing.svg.png",
+      "bytes": 170497,
+      "sha256": "d801a5f3392cf47488ad34441b137660db0e61c8704540ad0e90dbc687afe006"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/previews/ba-w-drawing.svg.png",
+      "bytes": 187632,
+      "sha256": "2dc0314da349d6b3e1c9bd35fc1257cb7ffd0f9422d32cacd42bcb02e901e432"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/source-bounds.json",
+      "bytes": 37547,
+      "sha256": "50a63081c34bc3ad5a8f45ca9cefe4e79658d3c41c635553866b0ec323b23897"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/validate_layout.py",
+      "bytes": 3417,
+      "sha256": "7e178cd2a121e2f2296ab9222eeaf315bec068389c2f2450a1122fabd704fe6a"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-007/validate_source_exports.py",
+      "bytes": 1893,
+      "sha256": "e0c8ad74f1ff1729594f532a9746efa4e7cece110c70e1f3f51335d9c09c834f"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/generate_plan.py",
+      "bytes": 34787,
+      "sha256": "bef69175a7b4b0034b64ccdc489e06e7d0cd1c6a158fe2ecdf314d4a3bef918b"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/inventory-reconciliation.json",
+      "bytes": 50938,
+      "sha256": "7f629bd6a37abc471b3a4d532ebb3e010b573ac53711adcb48492320722dc9c5"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/README.md",
+      "bytes": 2890,
+      "sha256": "12a1170c1623400a2a3819f4da7014d3823955c07a41e0da38055ca605f98044"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/approved-plan.json",
+      "bytes": 30361,
+      "sha256": "fb4e6cba26a47f624f93b902e03178acef8b0c23f12b68a142ce7361e4e5fba0"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/approved-plan.svg",
+      "bytes": 22130,
+      "sha256": "1bac567b6d0c7c7f572e13139234a082347fe28836f82fc90b22034be898fd57"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/current-plan-comparison.svg",
+      "bytes": 21475,
+      "sha256": "872c02a6e0fc5c7ecae540f0212662814ac4e8e1a80651e4a40f631e675071f6"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/Asset schedule.md",
+      "bytes": 5959,
+      "sha256": "bc5779d5a500e7268b44704a50825d38ce5054b6bc6cce2ad7f5824849b17b4a"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/README.md",
+      "bytes": 6657,
+      "sha256": "bc3c88bc1488ab1625901f3f177fb166a31de2ab143c209b9a922a5ab85c1973"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ba-e-drawing.svg",
+      "bytes": 17360,
+      "sha256": "06d6c080fb916e7fd1381735ee4c6d96c3387c0a270673697d79dce58621e3b1"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ba-e-projected-drawing.svg",
+      "bytes": 20765,
+      "sha256": "71a8b0ccf3975a4d55aa0b75bcdebdf4e2a90f71829f43da916c3f64c109d28e"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ba-e-projected.svg",
+      "bytes": 20763,
+      "sha256": "82540f49a64f0a856ef9e69c542f36b4886d72955cffa60f45a6a2db6bf43be2"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ba-e.svg",
+      "bytes": 17358,
+      "sha256": "95df245af9762d5c033a23fd6579fc8edcf6f9a172f3cd9446998f50d8fc4aa3"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ba-elevations.svg",
+      "bytes": 57677,
+      "sha256": "b3abec983d50a04a94cc911c767c49deee6e51d9398672c175cc0c1213546585"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ba-n-drawing.svg",
+      "bytes": 10047,
+      "sha256": "7a2e51f14c02ccea120a89075c36504fa3e382b4c2d8ebec16f649ed4d0337eb"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ba-n-projected-drawing.svg",
+      "bytes": 14252,
+      "sha256": "09e00adc1c428b15e5bc505cbf901a6aa36bd3f4d118caa2a6fb898d75d1bc71"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ba-n-projected.svg",
+      "bytes": 14250,
+      "sha256": "d4de3f8fcc6ee3b507aae05e9cfeb8a2611c76d708de3282585480b89632ee4a"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ba-n.svg",
+      "bytes": 10045,
+      "sha256": "b53ec2ba8be9c4a61550bac9ae49d40a43af05cd2506b46cd29fae2909ad76e3"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ba-s-drawing.svg",
+      "bytes": 12907,
+      "sha256": "fecdb3cc9ab776444b788ddfad51ab205f8a6b4a8bdbbea03c962f09087e5dac"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ba-s-projected-drawing.svg",
+      "bytes": 16396,
+      "sha256": "3597153b060ad630fd45b578e3fded6d4c8c495b53d9138f18f745874825ae92"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ba-s-projected.svg",
+      "bytes": 16394,
+      "sha256": "db9003e4cd6548b9700c1a7e99d115869ca8c7586cbef3b076278604bf064939"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ba-s-repaired.svg",
+      "bytes": 10862,
+      "sha256": "0a46574b4464e3c4d133737716f0ff74b1a3dcf9ef4919908b69fd593cf5f035"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ba-s.svg",
+      "bytes": 12905,
+      "sha256": "8deac7092066df0f6aae3fc5221c117ff8e3fe7ae4c9dce664f839d3956b7243"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ba-w-drawing.svg",
+      "bytes": 17561,
+      "sha256": "90ee5b2ee2b8ba66a678e298bf7db1bbded0fe44e559fb57169e1c2e78ca740a"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ba-w-projected-drawing.svg",
+      "bytes": 19705,
+      "sha256": "9029e767740288f5f49b06e91878c1d650c2991f87942b9d50360fb35b5f9744"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ba-w-projected.svg",
+      "bytes": 19703,
+      "sha256": "c2ecbb9010d875ed2897f1e55b8cf634108b29522dd8288401ed5a9c2915ed1d"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ba-w.svg",
+      "bytes": 17559,
+      "sha256": "3e7128e75d72fb2249fa952c6f9550f7e8ebf93e13c30bfc178b0613f2fc9509"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/bc-e-drawing.svg",
+      "bytes": 15950,
+      "sha256": "c96d3380b8f06a56364eae896c0cd149c107fc990c07e020c712691b35b41249"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/bc-e-projected-drawing.svg",
+      "bytes": 16715,
+      "sha256": "424ce1b96b7dda2df176d7e0f497b8cf613c16a53555eabfe0a14e323efc2577"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/bc-e-projected.svg",
+      "bytes": 16717,
+      "sha256": "f539e5ba43702f42d963b43439255fc500495d7e8a44a9905332152b318794cb"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/bc-e-repaired.svg",
+      "bytes": 5790,
+      "sha256": "67e384a9f98b75ad92a7848bcdb4f530b87ba8661c85b2db4313608596a261b6"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/bc-e.svg",
+      "bytes": 15952,
+      "sha256": "fcad99b6466e73e4b3e5c739067a1cd1b2afaeff9dd8f315ce36267bc65d23d6"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/bc-elevations.svg",
+      "bytes": 44111,
+      "sha256": "c3f35e6bce21f99410ba35ac72a6ec50abd45f48e2e8cb90c1076959e77a3fb4"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/bc-n-drawing.svg",
+      "bytes": 14799,
+      "sha256": "97675b1b0fb32aa903dc783d9b86780346c873d8545e6b41071078c3f501f197"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/bc-n-projected-drawing.svg",
+      "bytes": 14799,
+      "sha256": "97675b1b0fb32aa903dc783d9b86780346c873d8545e6b41071078c3f501f197"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/bc-n-projected.svg",
+      "bytes": 14801,
+      "sha256": "6f5f1bb217d52ce245ccb5e9b7b603cb57a69dc17a79898adccc0f1e66b00eda"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/bc-n-repaired.svg",
+      "bytes": 5378,
+      "sha256": "bf8aa9b76c35302a1477e66498f9e346e1d223bd6de680e8e2edf5f41d69cb00"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/bc-n.svg",
+      "bytes": 14801,
+      "sha256": "6f5f1bb217d52ce245ccb5e9b7b603cb57a69dc17a79898adccc0f1e66b00eda"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/bc-s-drawing.svg",
+      "bytes": 6973,
+      "sha256": "39e8e88a33913cc04648c8c758636503a0b3e47c1d830bbb00290e1dbcc9f26a"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/bc-s-projected-drawing.svg",
+      "bytes": 6973,
+      "sha256": "39e8e88a33913cc04648c8c758636503a0b3e47c1d830bbb00290e1dbcc9f26a"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/bc-s-projected.svg",
+      "bytes": 6975,
+      "sha256": "03c0b1ec953a8449154b29179bd2096d18b1c3cba3c30868a2e0a10ebc02d987"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/bc-s.svg",
+      "bytes": 6975,
+      "sha256": "03c0b1ec953a8449154b29179bd2096d18b1c3cba3c30868a2e0a10ebc02d987"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/bc-w-drawing.svg",
+      "bytes": 6571,
+      "sha256": "60520b1abb40b0607db6226507fa2485712441bb5af5b5f541918fafad893498"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/bc-w-projected-drawing.svg",
+      "bytes": 7343,
+      "sha256": "30738bf444f498a5a5dc854dfd59b280768979efc31988142d281d820a73bbee"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/bc-w-projected.svg",
+      "bytes": 7345,
+      "sha256": "b8cc69bd93b3a784a1a6c1f456ac8efdd1cc73f6f49b643a2b8142c34f4a8abb"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/bc-w.svg",
+      "bytes": 6573,
+      "sha256": "d9953129e9c79dfd7a51f4d049ca7a550b28e3ec43823045cc35fb278cfe30f2"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/br-e-drawing.svg",
+      "bytes": 6243,
+      "sha256": "e5cb037655b4c4355a3c02029e3c7b32e2ede3e8ccad6d8f78a587c10d61243e"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/br-e-projected-drawing.svg",
+      "bytes": 12382,
+      "sha256": "098413ceec106da7dd0ea4d242ee488b30c4ddbc2148c5146d38903cb55a074d"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/br-e-projected.svg",
+      "bytes": 12380,
+      "sha256": "7f01f4abbc47d2263acaaf78afb05edc0ed6740a2a2463ed24cc23600ee81a11"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/br-e.svg",
+      "bytes": 6241,
+      "sha256": "f3c9df23f39629227f27e2fbc57301a4750618c1aeac4ce2236aa3e154bb5e63"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/br-elevations.svg",
+      "bytes": 34754,
+      "sha256": "e250859a8dfb4197668d71ad80afe2035831785a77b677d266324aee1055af10"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/br-n-drawing.svg",
+      "bytes": 6643,
+      "sha256": "383e0039eb3074b0a713883e86397f5097b03dc2240d7c4cfadaf283b70970df"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/br-n-projected-drawing.svg",
+      "bytes": 14005,
+      "sha256": "c9bd152040013847c330b5b36c34159246c09b8e8dfd9eb8138bb56fe5d029a4"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/br-n-projected.svg",
+      "bytes": 14003,
+      "sha256": "b2f5eb17855f84946397569ad7fead001445054271c44dabf36b06c5272f37f5"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/br-n.svg",
+      "bytes": 6641,
+      "sha256": "fc7d19db08af673dffc872b6187d5f999e798a4981ad073f206de1f2444ec914"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/br-s-drawing.svg",
+      "bytes": 10887,
+      "sha256": "27c8aa6f7c179614361e91fc9bd9b3b63c7a0c78f185fe3dc512ce7962f1d133"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/br-s-projected-drawing.svg",
+      "bytes": 13588,
+      "sha256": "08668182286616ff230ab94ed42778a3e14a122aefad59770e9600c51cded593"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/br-s-projected.svg",
+      "bytes": 13586,
+      "sha256": "45fca3806bd9385420cb43b4db45984d6726b4b906fd71881c22f5816a9f2732"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/br-s.svg",
+      "bytes": 10885,
+      "sha256": "7d5801a20dce0574cfa106e9578fefb7312ed9e3a0b0983e32698967f0d44af7"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/br-w-drawing.svg",
+      "bytes": 11179,
+      "sha256": "0654414dd39e45262f727dd2ac3aa455e3d899fa26499bce35ba34e7b04da3ab"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/br-w-projected-drawing.svg",
+      "bytes": 17138,
+      "sha256": "011e2bc7e6085eecd700121f8c3bd6069f8357ab0b8f9c5d565487d89d5d9489"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/br-w-projected.svg",
+      "bytes": 17136,
+      "sha256": "1085bf9e63cc03aa62954fd0ef4ccd66b4f1258488163a49cd002fa12f4b100d"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/br-w.svg",
+      "bytes": 11177,
+      "sha256": "c52fd3e405963517fbc492d2be6163032ae53879f14a1bcca0c09f4a4d6e6454"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ct-e-drawing.svg",
+      "bytes": 1556,
+      "sha256": "6ea54a2a77174d45a7363ad950da8ca03e74be7da70cfda36d59d2141d372947"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ct-e-projected-drawing.svg",
+      "bytes": 1556,
+      "sha256": "6ea54a2a77174d45a7363ad950da8ca03e74be7da70cfda36d59d2141d372947"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ct-e-projected.svg",
+      "bytes": 1558,
+      "sha256": "a8f793d8a1ae4ded69ae4795f47213977198c62c78e9c83f33e299b6f2bf4400"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ct-e.svg",
+      "bytes": 1558,
+      "sha256": "a8f793d8a1ae4ded69ae4795f47213977198c62c78e9c83f33e299b6f2bf4400"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ct-elevations.svg",
+      "bytes": 9641,
+      "sha256": "d1c8077e748ab3bc4346cacdb3eb773d0b0e18426b18c7c634f881fc96420bbc"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ct-n-drawing.svg",
+      "bytes": 2981,
+      "sha256": "c4d224ca9e4b1bcaa78177048fb96d3296e1a97f6b144f803a795764fc210b5f"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ct-n-projected-drawing.svg",
+      "bytes": 2981,
+      "sha256": "c4d224ca9e4b1bcaa78177048fb96d3296e1a97f6b144f803a795764fc210b5f"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ct-n-projected.svg",
+      "bytes": 2983,
+      "sha256": "ce3d56c972c571fbc3f6880c04a8539d27e2779ca8408d3807ef4023cb463d65"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ct-n.svg",
+      "bytes": 2983,
+      "sha256": "ce3d56c972c571fbc3f6880c04a8539d27e2779ca8408d3807ef4023cb463d65"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ct-s-drawing.svg",
+      "bytes": 3722,
+      "sha256": "7c6d682167e19bddf2efad3d6fd172df7841888881beab0357681bb90aed6688"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ct-s-projected-drawing.svg",
+      "bytes": 3722,
+      "sha256": "7c6d682167e19bddf2efad3d6fd172df7841888881beab0357681bb90aed6688"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ct-s-projected.svg",
+      "bytes": 3724,
+      "sha256": "32e419f32676400dc0e9b6b625bafbfaad7e1f874983eb06ca24ac93e28800c6"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ct-s.svg",
+      "bytes": 3724,
+      "sha256": "32e419f32676400dc0e9b6b625bafbfaad7e1f874983eb06ca24ac93e28800c6"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ct-w-drawing.svg",
+      "bytes": 1564,
+      "sha256": "ff3b833b27c6f19b399f40b515ab705f004fb7f99e57c5104ed275719fed4dcb"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ct-w-projected-drawing.svg",
+      "bytes": 1564,
+      "sha256": "ff3b833b27c6f19b399f40b515ab705f004fb7f99e57c5104ed275719fed4dcb"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ct-w-projected.svg",
+      "bytes": 1566,
+      "sha256": "b196d284564c2bd2ba0239f4d7348abd46d3bbb5c4d3b6dacb5c9fbb3b995594"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ct-w.svg",
+      "bytes": 1566,
+      "sha256": "b196d284564c2bd2ba0239f4d7348abd46d3bbb5c4d3b6dacb5c9fbb3b995594"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/elevation-schedule.json",
+      "bytes": 131940,
+      "sha256": "f2236b05645ce11c0c05323d7c941f31695ec4f0f785c3b19d10a30f22ac2941"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ha-e-drawing.svg",
+      "bytes": 2566,
+      "sha256": "6dc5c797e57d5e0228b8b0b42a87d548b0e9097b219f1bf2d59cc0453f8966ea"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ha-e-projected-drawing.svg",
+      "bytes": 5343,
+      "sha256": "df8f6ba81126813477e1594ab9ae9a5c6ca556a30b71b46725e80c290de94c8a"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ha-e-projected.svg",
+      "bytes": 5345,
+      "sha256": "8c18985d2e0c528bb5c29606b47af0e673de6ad29cfe6e908e140303cfa624f3"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ha-e.svg",
+      "bytes": 2568,
+      "sha256": "0148476cff58ac6a9bbb3fd20271793c5aa77e6b9565d4cf9414e15ef5eef54b"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ha-elevations.svg",
+      "bytes": 24488,
+      "sha256": "d042e862110bef0dfa74938286a400b119174a6783c1df1ba4492db976add8d1"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ha-n-drawing.svg",
+      "bytes": 6989,
+      "sha256": "75b2d48f369b459f90312c2c59684770c2e7001bd2f89ee4d6e6ab9b6aa52260"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ha-n-projected-drawing.svg",
+      "bytes": 8666,
+      "sha256": "49e98ae65e74013eac076e9eff0034a4f8247b694ef6fbb8473a8e906091c1f2"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ha-n-projected.svg",
+      "bytes": 8662,
+      "sha256": "d20e8029beb9291c61472be7e9604a9998ce41d08758404e91376aa69858c575"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ha-n.svg",
+      "bytes": 6985,
+      "sha256": "459f4dfdbc44b40eea4043ac71af3a4c5627cc5fd70ab82e04d725e803eb0031"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ha-s-drawing.svg",
+      "bytes": 11057,
+      "sha256": "c3dc563c88c1719a14827b703bbd26ff6f91ad2ccd6360aafd1dbc08725e186b"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ha-s-projected-drawing.svg",
+      "bytes": 11987,
+      "sha256": "ce434858c7150f5eb6a7e3b61a15d1d19061bea0f1f7fa5d95e1477cc9054879"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ha-s-projected.svg",
+      "bytes": 11983,
+      "sha256": "9049c071f1e56faf94ebf6dedeaed5e10d1da21623ceb55b0c01a6ab2de5683e"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ha-s.svg",
+      "bytes": 11053,
+      "sha256": "eafadf683f789ba2588a97a752c3db5e8a2b43f7f968a3e61d7824d4219748d1"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ha-w-drawing.svg",
+      "bytes": 4070,
+      "sha256": "62dc410cc38cc576ca9a6877c5308aaadf76818e489f3e481aa9d119b18abb5b"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ha-w-projected-drawing.svg",
+      "bytes": 5750,
+      "sha256": "cd534f478b229e0c6c4d41f50853fb3673361b4d4befe81027bb1898521d893f"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ha-w-projected.svg",
+      "bytes": 5752,
+      "sha256": "0242f69dc919d194c0e671f8c2e8ad5a7bcc982c3a96720cf7b3786d0f8bbcad"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ha-w.svg",
+      "bytes": 4072,
+      "sha256": "4a67dc91e080a534afd41b8c22015608416d2f64f53f1df82489d54fe212920d"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ki-e-drawing.svg",
+      "bytes": 7609,
+      "sha256": "630cc3ec4eb43222e65fda7d84d9180a0150a0f05c8d842ff4a369e2579cd98b"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ki-e-projected-drawing.svg",
+      "bytes": 16690,
+      "sha256": "9f54a269432c5d0007cb8747b3829e5124c9ba69341ffb64f6c481b8d0b77b9a"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ki-e-projected.svg",
+      "bytes": 16688,
+      "sha256": "513d421ff9646e84b58ab7c28e3839699f15f92255cc1413bdd5479e6d7002f5"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ki-e.svg",
+      "bytes": 7607,
+      "sha256": "88a2a4e18c49eb8a99e8f8ac280de702d2716df44d0709cf791dede3da42fc42"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ki-elevations.svg",
+      "bytes": 44414,
+      "sha256": "e593243f47594c3cc628bbf2f409bc9bcfdf32ef57513e838866dfc50682e075"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ki-n-drawing.svg",
+      "bytes": 27013,
+      "sha256": "372b471f058645c28133bfca724a1b7915983cdfac2a671a90fb3bc3a654a1f7"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ki-n-projected-drawing.svg",
+      "bytes": 29263,
+      "sha256": "09c1029666b472eecfd0de2d411bc4daced1c7c9b79d5235094783ecccdc5731"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ki-n-projected.svg",
+      "bytes": 29261,
+      "sha256": "992b0948caccd6edd11627afdd0bdd72e522fdebbd942236474760caba5fc804"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ki-n-repaired.svg",
+      "bytes": 23178,
+      "sha256": "9cebcab0a218cc23bd3e0045dae77808aa4acd4b5cd7ef797c99877a6a547429"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ki-n.svg",
+      "bytes": 27011,
+      "sha256": "ba8e4132521b0265c01e7c5d04bfa29eca8c1482db49d3119d74457ee6abf6b4"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ki-s-drawing.svg",
+      "bytes": 6779,
+      "sha256": "7ab2ab2ee1d3afaff18cd3ba318dd54c6537a04cc1e87c977d9fc6e220b6964f"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ki-s-projected-drawing.svg",
+      "bytes": 16161,
+      "sha256": "8082fbcf3f84345444ef910ae889c1340451ad2fabef9964731c305de400def0"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ki-s-projected.svg",
+      "bytes": 16159,
+      "sha256": "a8e47dd3d333a69b5a4db5cfd07656d8a51d15e23180822697d727ee5aa29e48"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ki-s.svg",
+      "bytes": 6777,
+      "sha256": "deb3c76e3a78458ac23cf9c7ad327bb68a595f3b1797233f92cbe48aa32a1691"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ki-w-drawing.svg",
+      "bytes": 3211,
+      "sha256": "323c39383bab3769ddb074b112316b981a65d98caa6b9179f6e4db71a14be0b7"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ki-w-projected-drawing.svg",
+      "bytes": 13451,
+      "sha256": "e15b926f19d9f99f97bd1fe07476329b31fdeaf7ffcccfa65fb976c9d807b4d3"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ki-w-projected.svg",
+      "bytes": 13449,
+      "sha256": "2c43acab572c23daf9a9b19fc741a4b98810ffef9d10f45d9b2081bfdd280352"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/ki-w.svg",
+      "bytes": 3209,
+      "sha256": "4d89b622c22ba87593a0a8557200ba5b981850fc2f6e7cbf3fa7aa54df4d6300"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/lv-e-drawing.svg",
+      "bytes": 9704,
+      "sha256": "0f5d4376f5a9f51ff5a1be3c97e1fa96566689b004753c97492e5f94bd44a9e4"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/lv-e-projected-drawing.svg",
+      "bytes": 20453,
+      "sha256": "57a704cd3795a35797905bf7214754b6fa9561a65502394b775f16105d20bda7"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/lv-e-projected.svg",
+      "bytes": 20427,
+      "sha256": "5fb9a21ffc249d538c7c2cf10f5444a432d169e9bc73c1551d69223cfdc24ebe"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/lv-e.svg",
+      "bytes": 9678,
+      "sha256": "55feb430d443eb8ee7313a5f0888eec7487408aba5525cf331c60c950bac2853"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/lv-elevations.svg",
+      "bytes": 41525,
+      "sha256": "6c86175d378a3fadcffcd1b43e61791e5ad7c4ab71e4bf6007959d794cda4246"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/lv-n-drawing.svg",
+      "bytes": 12630,
+      "sha256": "0a5e9fbd16be12270ceb1e5e5eb74861873aa9ed9c68f2141171bbe4c8210b1c"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/lv-n-projected-drawing.svg",
+      "bytes": 22477,
+      "sha256": "c3b63585d77920f56c875e7111b59d358dc257ed24beee65cd05f3dfd8d9c421"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/lv-n-projected.svg",
+      "bytes": 22473,
+      "sha256": "c04a02f8eb76d902ccfda24522f73b6e45d5450b8432bb46a56f091de71aa15c"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/lv-n.svg",
+      "bytes": 12626,
+      "sha256": "e1bb006e1eacd271942458ed753c8ec7ee397cb52dc97f4db6d7706d50f37609"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/lv-s-drawing.svg",
+      "bytes": 7873,
+      "sha256": "726fe494e68010971c4265afd6d6be05df709bf9dbcd1e99b3d6c3af8a197773"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/lv-s-projected-drawing.svg",
+      "bytes": 20601,
+      "sha256": "327d89cc523c5ab3ace15c0940d4ab157087fd848d52a375def7293f29ba87de"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/lv-s-projected.svg",
+      "bytes": 20597,
+      "sha256": "4106bdaee2596efbfb477ff5dc91bfc35ae12ac95168eaf7638a5335a358ac3b"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/lv-s.svg",
+      "bytes": 7869,
+      "sha256": "7f8d94c6ad1efbee1b1e361522b70af652f048dfc352896029e12840b678de68"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/lv-w-drawing.svg",
+      "bytes": 11568,
+      "sha256": "f54da0270972a3b746968f4ddc3445765dc3e2d5020d057c81e523382d2e03c6"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/lv-w-projected-drawing.svg",
+      "bytes": 25452,
+      "sha256": "bbd0724fd97716c4faa6d63ca23a023119fc651e7197888f604d07202b41d196"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/lv-w-projected.svg",
+      "bytes": 25426,
+      "sha256": "a5853312a9958fdb5ad1076eb775b6535a6de8656bb282a4e8b5bdab01460c5d"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/lv-w.svg",
+      "bytes": 11542,
+      "sha256": "77ed5c6097db1c49a59633a69673bc8befb7dce2c2d58e488e662bf4bf50a358"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/of-e-drawing.svg",
+      "bytes": 10894,
+      "sha256": "a30d859eeffd177133ae489ddd400a329382ea3f7efc3bdaeedeaf2ca8f09b90"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/of-e-projected-drawing.svg",
+      "bytes": 15322,
+      "sha256": "c7c8e4a21d59afc2764ba389118e378e249c2daa41c0498b1c36984794adb09e"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/of-e-projected.svg",
+      "bytes": 15320,
+      "sha256": "7f7366832c096efe157b2eaddff7eafb833d7c86dfc9db67bd30bc2b1a7991a9"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/of-e.svg",
+      "bytes": 10892,
+      "sha256": "f50e54fa9024fe7eb900e73de86ead409c27bc219ab7e4c3a6656a50444ee740"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/of-elevations.svg",
+      "bytes": 42874,
+      "sha256": "0227811d13ce49d7feff620c88f001333fa7ea190031b8c1b8e6584e6fd8f218"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/of-n-drawing.svg",
+      "bytes": 11150,
+      "sha256": "e199bd1fbcf434b6f156d2935db6bf70448c8583995865e3f9ad1e683c0e0dc1"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/of-n-projected-drawing.svg",
+      "bytes": 16445,
+      "sha256": "baf09153646062f12f8470725171a43681a2acafbf8591cd555e1c5b156a1eae"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/of-n-projected.svg",
+      "bytes": 16419,
+      "sha256": "c05255d74b346dee1e89acf34f6c291449eccd3b3b7347fb04891d895bf01e6f"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/of-n-repaired.svg",
+      "bytes": 8521,
+      "sha256": "149a9326e2723d0cfa69734d8683f916441be8e024e1c0a25a25dea20f1df401"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/of-n.svg",
+      "bytes": 11124,
+      "sha256": "a805ecdf65b98eeba962e00ab1fdd5821a2e14759e7e9980368fd850d0217545"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/of-s-drawing.svg",
+      "bytes": 10326,
+      "sha256": "d3441e81af833748a8da84aca19b3ab43b94514f00fb4d95d006f3ca9cff372b"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/of-s-projected-drawing.svg",
+      "bytes": 13232,
+      "sha256": "bbe8c6c6ea48dc65b824af7cffe53a38bb0799c936cf94197452b87442d7289f"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/of-s-projected.svg",
+      "bytes": 13206,
+      "sha256": "5781b612e795e7346976b1a25aef0d02698f04f4416a50410a905bbcb942d7d2"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/of-s.svg",
+      "bytes": 10300,
+      "sha256": "4086a50a3f3a535de2325fd9de77fef51da71ded97040f6a0dbd341bface291b"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/of-w-drawing.svg",
+      "bytes": 10750,
+      "sha256": "ab0c8f6160c273604cd569b8451115b82f26fb716f932b55e822f2919c210990"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/of-w-projected-drawing.svg",
+      "bytes": 14542,
+      "sha256": "804e30ca1b4ea94bffc6ec1724096d8848a31b89d41dd00f4be72cb6126ce2a5"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/of-w-projected.svg",
+      "bytes": 14540,
+      "sha256": "42a37548fbf09e9f91eaca18c3343a9b58dcbe7d98dfb5e4148b2c7b72e4c8ef"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/of-w.svg",
+      "bytes": 10748,
+      "sha256": "ad61bf9ac995a7cd451397952f3ab40b3dc0efa428a57b094b844b268010c385"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/review.html",
+      "bytes": 66684,
+      "sha256": "c2c3bb2d253c173f5c7c0c7c627520d300640ba634fd7749b6eb74a4c5d60ad8"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/wg-e-drawing.svg",
+      "bytes": 1545,
+      "sha256": "d6dd57432e10565a6a6d8028954ff314ccaaf3d4a9e7bb889ca759d6e9641076"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/wg-e-projected-drawing.svg",
+      "bytes": 1545,
+      "sha256": "d6dd57432e10565a6a6d8028954ff314ccaaf3d4a9e7bb889ca759d6e9641076"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/wg-e-projected.svg",
+      "bytes": 1547,
+      "sha256": "f76121e676d1d79bcf5d55d39d81594c28186b34eca5213f7e572c9dfd23c811"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/wg-e.svg",
+      "bytes": 1547,
+      "sha256": "f76121e676d1d79bcf5d55d39d81594c28186b34eca5213f7e572c9dfd23c811"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/wg-elevations.svg",
+      "bytes": 9584,
+      "sha256": "93e5d0ef35ff510a1412de0010b5ac2a7ddd0828668d2a8e6b71320f52b32e8a"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/wg-n-drawing.svg",
+      "bytes": 3661,
+      "sha256": "2bbc206c3b53da30098c5eea14830ed6ea7b459b56b3b0c7bf0249339e7a0bce"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/wg-n-projected-drawing.svg",
+      "bytes": 3661,
+      "sha256": "2bbc206c3b53da30098c5eea14830ed6ea7b459b56b3b0c7bf0249339e7a0bce"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/wg-n-projected.svg",
+      "bytes": 3663,
+      "sha256": "09b8d60c557e7d4c801de46d1c91cb2909c7fa431ae76971f3802de1b3e2fcad"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/wg-n.svg",
+      "bytes": 3663,
+      "sha256": "09b8d60c557e7d4c801de46d1c91cb2909c7fa431ae76971f3802de1b3e2fcad"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/wg-s-drawing.svg",
+      "bytes": 3007,
+      "sha256": "5bd11549100b9e2f0a910985982ebb85988cc7a188974a228c7c7e58cc3a4212"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/wg-s-projected-drawing.svg",
+      "bytes": 3007,
+      "sha256": "5bd11549100b9e2f0a910985982ebb85988cc7a188974a228c7c7e58cc3a4212"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/wg-s-projected.svg",
+      "bytes": 3009,
+      "sha256": "bf0c5d59bdd64e0442d65aad851634da3989f636a708fb44f0cd1391474adb34"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/wg-s.svg",
+      "bytes": 3009,
+      "sha256": "bf0c5d59bdd64e0442d65aad851634da3989f636a708fb44f0cd1391474adb34"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/wg-w-drawing.svg",
+      "bytes": 1553,
+      "sha256": "db5a3bbad24c7194a058e1fd331dfd832f2ae74fea9e8dc46b62a3e68a49c702"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/wg-w-projected-drawing.svg",
+      "bytes": 1553,
+      "sha256": "db5a3bbad24c7194a058e1fd331dfd832f2ae74fea9e8dc46b62a3e68a49c702"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/wg-w-projected.svg",
+      "bytes": 1555,
+      "sha256": "54637d26cc45fb51b18ef96560fce8c94015b59357843aeca3b51e5ee3733581"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/elevations/wg-w.svg",
+      "bytes": 1555,
+      "sha256": "54637d26cc45fb51b18ef96560fce8c94015b59357843aeca3b51e5ee3733581"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/proposed-plan.json",
+      "bytes": 30361,
+      "sha256": "fb4e6cba26a47f624f93b902e03178acef8b0c23f12b68a142ce7361e4e5fba0"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/proposed-plan.svg",
+      "bytes": 22130,
+      "sha256": "1bac567b6d0c7c7f572e13139234a082347fe28836f82fc90b22034be898fd57"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/kitchen-dining-study/review.html",
+      "bytes": 46941,
+      "sha256": "358491519fe9d31cf0b3814a6d8922b1ec341969226ad469adfbe1c247096e95"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/reconcile_inventory.py",
+      "bytes": 11686,
+      "sha256": "1d0cd8e5fe1fc7c0dd7dfcbd2402b9a546954c399cf9798be1265f9cf283b534"
+    }
+  ]
+}

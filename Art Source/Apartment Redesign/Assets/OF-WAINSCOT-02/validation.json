@@ -1,0 +1,110 @@
+{
+  "status": "PASS source geometry and context fits; Unreal validation pending",
+  "exports": [
+    {
+      "boundary_edges": 0,
+      "file": "model/OF_Wainscot02_N.fbx",
+      "vertices": 188,
+      "triangles": 360,
+      "finite_uvs": true,
+      "zero_area_triangles": 0,
+      "bound_error_m": 4.0978193283081055e-07,
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "boundary_edges": 0,
+      "file": "model/OF_Wainscot02_CS.fbx",
+      "vertices": 158,
+      "triangles": 300,
+      "finite_uvs": true,
+      "zero_area_triangles": 0,
+      "bound_error_m": 4.1211023926734924e-07,
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "boundary_edges": 0,
+      "file": "model/OF_Wainscot02_WF.fbx",
+      "vertices": 70,
+      "triangles": 132,
+      "finite_uvs": true,
+      "zero_area_triangles": 0,
+      "bound_error_m": 4.76837158203125e-07,
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "boundary_edges": 0,
+      "file": "model/OF_Wainscot02_E.fbx",
+      "vertices": 190,
+      "triangles": 360,
+      "finite_uvs": true,
+      "zero_area_triangles": 0,
+      "bound_error_m": 7.152557373046875e-07,
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "boundary_edges": 0,
+      "file": "model/OF_Wainscot02_S.fbx",
+      "vertices": 374,
+      "triangles": 740,
+      "finite_uvs": true,
+      "zero_area_triangles": 0,
+      "bound_error_m": 7.152557373046875e-07,
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "boundary_edges": 0,
+      "file": "model/OF_Wainscot02_W.fbx",
+      "vertices": 286,
+      "triangles": 540,
+      "finite_uvs": true,
+      "zero_area_triangles": 0,
+      "bound_error_m": 5.781184881925583e-07,
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "actual_imported_casing_window_mesh_intersections": [],
+  "context_meshes_checked": 3,
+  "fits": {
+    "max_projection_m": 0.022,
+    "door_casing_gap_m": 0.002,
+    "wardrobe_casing_gap_m": 0.002,
+    "window_casing_gap_m": 0.002,
+    "window_sill_notch_gap_m": 0.002,
+    "window_apron_gap_m": 0.005,
+    "lead_recess_x": [
+      8.662,
+      9.296
+    ],
+    "lead_patch_expected_bounds_x": [
+      8.69405,
+      9.15595
+    ],
+    "lead_plane_plan_y": 5.668,
+    "lead_face_offset_m": 0.001,
+    "corner_profiles": "45-degree matching depth-dependent endpoints; continuous per-run rails, fixed60mm full stiles; no X/Z scaling"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "status": "PASS source FBX roundtrip; engine acceptance pending",
+  "exports": [
+    {
+      "file": "model/BA_Ring02_Hardware.fbx",
+      "vertices": 2976,
+      "triangles": 5932,
+      "uv_layers": 1,
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "min": [
+        -0.1120000034570694,
+        -0.06700002402067184,
+        -0.23199999332427979
+      ],
+      "max": [
+        0.1119999885559082,
+        5.351191489921803e-09,
+        0.03500000014901161
+      ],
+      "max_bound_error_m": 1.4901161193847656e-08,
+      "zero_area_triangles": 0,
+      "tile_cap_clearance_m": 0.01699998074769974
+    },
+    {
+      "file": "model/BA_Ring02_Towel.fbx",
+      "vertices": 9594,
+      "triangles": 19184,
+      "uv_layers": 1,
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "min": [
+        -0.13078245520591736,
+        -0.09699887037277222,
+        -0.5374426245689392
+      ],
+      "max": [
+        0.13078266382217407,
+        -0.034195806831121445,
+        -0.20195983350276947
+      ],
+      "max_bound_error_m": 1.4901161193847656e-08,
+      "zero_area_triangles": 0,
+      "tile_cap_clearance": "No triangle intersects world Z1.00..1.05"
+    }
+  ]
+}

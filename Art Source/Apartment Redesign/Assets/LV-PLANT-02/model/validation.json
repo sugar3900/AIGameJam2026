@@ -1,0 +1,145 @@
+{
+  "status": "PASS",
+  "real_fbx_roundtrip": true,
+  "visual_parts": 5,
+  "ucx_parts": 1,
+  "maximum_bounds_error_m": 1.4901161193847656e-08,
+  "parts": {
+    "LV_Plant02_Decoration": {
+      "bounds": {
+        "min": [
+          -0.08774812519550323,
+          -0.08774953335523605,
+          0.13285186886787415
+        ],
+        "max": [
+          0.08774995058774948,
+          0.08774953335523605,
+          0.14114947617053986
+        ]
+      },
+      "vertices": 2056,
+      "faces": 2048,
+      "materials": [
+        "Worn cream slip decoration"
+      ],
+      "nonmanifold_edges": 16,
+      "signed_volume": 6.691825141845873e-07
+    },
+    "LV_Plant02_Leaves": {
+      "bounds": {
+        "min": [
+          -0.21358343958854675,
+          -0.21931926906108856,
+          0.0336807519197464
+        ],
+        "max": [
+          0.21694278717041016,
+          0.19827984273433685,
+          0.367855429649353
+        ]
+      },
+      "vertices": 12610,
+      "faces": 15600,
+      "materials": [
+        "Variegated pothos painted leaf"
+      ],
+      "nonmanifold_edges": 0,
+      "signed_volume": 0.00010533538885044524
+    },
+    "LV_Plant02_Pot": {
+      "bounds": {
+        "min": [
+          -0.0989999994635582,
+          -0.0989999994635582,
+          0.004999999888241291
+        ],
+        "max": [
+          0.0989999994635582,
+          0.0989999994635582,
+          0.19499999284744263
+        ]
+      },
+      "vertices": 512,
+      "faces": 449,
+      "materials": [
+        "Painted weathered terracotta"
+      ],
+      "nonmanifold_edges": 64,
+      "signed_volume": 0.0025903916492160594
+    },
+    "LV_Plant02_Soil": {
+      "bounds": {
+        "min": [
+          -0.08100000023841858,
+          -0.08100000023841858,
+          0.17599999904632568
+        ],
+        "max": [
+          0.08100000023841858,
+          0.08100000023841858,
+          0.17599999904632568
+        ]
+      },
+      "vertices": 128,
+      "faces": 64,
+      "materials": [
+        "Dark potting soil"
+      ],
+      "nonmanifold_edges": 128,
+      "signed_volume": 0.0012071111477381267
+    },
+    "LV_Plant02_Stems": {
+      "bounds": {
+        "min": [
+          -0.1822187602519989,
+          -0.1922544240951538,
+          0.078926682472229
+        ],
+        "max": [
+          0.19000884890556335,
+          0.17100055515766144,
+          0.33661913871765137
+        ]
+      },
+      "vertices": 6056,
+      "faces": 5192,
+      "materials": [
+        "Olive green stems"
+      ],
+      "nonmanifold_edges": 2304,
+      "signed_volume": 4.893893788367609e-05
+    },
+    "UCX_LV_Plant02_Pot_00": {
+      "bounds": {
+        "min": [
+          -0.0989999994635582,
+          -0.0989999994635582,
+          0.005000002682209015
+        ],
+        "max": [
+          0.0989999994635582,
+          0.0989999994635582,
+          0.19499999284744263
+        ]
+      },
+      "vertices": 24,
+      "faces": 14,
+      "materials": [],
+      "nonmanifold_edges": 0,
+      "signed_volume": 0.003931289722447905
+    }
+  },
+  "underside_raycast": {
+    "hit": true,
+    "height": 0.005,
+    "outward_normal": "-Z"
+  },
+  "notes": [
+    "Leaf shells manifold with positive volume before and after FBX",
+    "Finite UVs on all five visual groups",
+    "Original pot outer surface retained exactly; added underside face only",
+    "Soil positions and UV mapping preserved, face winding corrected upward; cream unchanged; source origins unchanged",
+    "Engine instance wall/fuse clearance and material import remain integration checks"
+  ]
+}

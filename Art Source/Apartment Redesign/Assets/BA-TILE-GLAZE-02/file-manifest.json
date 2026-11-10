@@ -1,0 +1,60 @@
+{
+  "asset": "BA-TILE-GLAZE-02",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "ad2c21a8174bdcef8db2db440ce253c91341df2d2c1a0c9a1fb9acab7567f7ab",
+      "bytes": 3803
+    },
+    {
+      "path": "build_maps.py",
+      "sha256": "e5209a689a031aae7ba403443b34b89b9c32ccd81fb7d8e0b40de0b4a35ff8cf",
+      "bytes": 2973
+    },
+    {
+      "path": "map-validation.json",
+      "sha256": "6e67913536c9c4bb850163e4bdbdfe0e672fc1b4f1de2fa97d27374999c4d798",
+      "bytes": 705
+    },
+    {
+      "path": "png-validation.json",
+      "sha256": "925590353e38d7f574cfc0a71858430e60fda60b56095bbdf0f517bdb9df1775",
+      "bytes": 253
+    },
+    {
+      "path": "preview_material.py",
+      "sha256": "8daddf443f79c8fbd1b609391f962da69944b7de12ed3fd2c5146acba17a1d80",
+      "bytes": 2973
+    },
+    {
+      "path": "previews/glaze-after.png",
+      "sha256": "60f630f4da4a3bb451e9ee461a45b9d69845feb20b5feaf9cef15c34de240a55",
+      "bytes": 937892
+    },
+    {
+      "path": "previews/glaze-before.png",
+      "sha256": "7b721ded9f53acd6561bc7ad74a7a0a7557c8e17cde9ba22583cab5ddba96228",
+      "bytes": 946495
+    },
+    {
+      "path": "textures/T_BathGlaze_Height16.png",
+      "sha256": "6f704b619abc994735c482fb872f2060e8d9a1866cb2b0f7492c5db46ea8b343",
+      "bytes": 2043739
+    },
+    {
+      "path": "textures/T_BathGlaze_NormalDX.png",
+      "sha256": "de3899fbe91209d5d2b6740464d441edb7b3d7edebbb74cb069277d612c86e79",
+      "bytes": 148996
+    },
+    {
+      "path": "textures/T_BathGlaze_Roughness.png",
+      "sha256": "c8cc508bb08bd40895416410bb99cb2ab5ee2592b9a0fad10add40e8a172ea69",
+      "bytes": 110149
+    },
+    {
+      "path": "validate_maps.py",
+      "sha256": "1bae924fd85042527d36ae566396f340f50745e69d662a83785f8bc11874754a",
+      "bytes": 1692
+    }
+  ]
+}

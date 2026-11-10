@@ -1,0 +1,85 @@
+{
+  "asset": "LV-TV-02",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "f783932837b98b915f2bdaba7d15a8c0b874311dc8e7cfdec7327e3daba19286",
+      "bytes": 4521
+    },
+    {
+      "path": "build_tv.py",
+      "sha256": "7c456c18456a9741833384b5ba0fda13d4b682969035e62fdd4434bbef07a389",
+      "bytes": 14004
+    },
+    {
+      "path": "fbx-validation.json",
+      "sha256": "d1fcd2c0cb31d1ce0d315215544adb6e79631ff80d972117979c471358f21b20",
+      "bytes": 1667
+    },
+    {
+      "path": "geometry.json",
+      "sha256": "830674fb63cc6f875060ef81898a5d9a11d763aef251157b508f7ab36d81b2b4",
+      "bytes": 1187
+    },
+    {
+      "path": "models/LV-TV-02.blend",
+      "sha256": "10e167b23a2365094f69d46a8f644b7a1960049e13743ac9f508874932704810",
+      "bytes": 4345776
+    },
+    {
+      "path": "models/LV_TV02_Housing.fbx",
+      "sha256": "525ab713f22cb3eb6b0495675a00c2c95354520b7cedc20bbbb3ca5b1d765d0f",
+      "bytes": 687244
+    },
+    {
+      "path": "models/LV_TV02_Screen.fbx",
+      "sha256": "80903bc43bc8457e0b9ee8c419a5ffa493d1f7e385f49411f91d7758c3e5775c",
+      "bytes": 62348
+    },
+    {
+      "path": "models/LV_TV02_Stand.fbx",
+      "sha256": "146ad40cb0fa5047a0bd09191e9cd60add48afe25012e17fff84d53939539761",
+      "bytes": 68316
+    },
+    {
+      "path": "previews/face-depth.png",
+      "sha256": "0d052fe003119e0b17d36785abb64665708d339a5ef502e70e86be95250d6475",
+      "bytes": 1491481
+    },
+    {
+      "path": "previews/front.png",
+      "sha256": "b166523479a007d6e1b33f02d3dd1c8edcb7a2639b729d7a65cf1e7aaf076d85",
+      "bytes": 1390481
+    },
+    {
+      "path": "previews/off.png",
+      "sha256": "989762df449ea5a1c278b2b5a5564d9ebafd23992c9d18ed40e3385c40119c25",
+      "bytes": 1521096
+    },
+    {
+      "path": "previews/on.png",
+      "sha256": "be6bfb262730a75fa6ee4424d6643aad540166abf5b32a4283a2791609718783",
+      "bytes": 1510173
+    },
+    {
+      "path": "textures/T_TV02_SpeakerWeave.png",
+      "sha256": "d5fea8f79cc6c19e41b05e9bcd3b693e1ccf845c91250d328d8d14012e2bee13",
+      "bytes": 4054
+    },
+    {
+      "path": "textures/T_TV02_Walnut.png",
+      "sha256": "278064674e66350154b61aea462f77bba78deb108df7ec1486524d12962ce887",
+      "bytes": 1695334
+    },
+    {
+      "path": "textures/walnut-painted.png",
+      "sha256": "f2f2354266cd00b5f9f7df38a30bf162a996624cae6624a70fe77edb7ac65926",
+      "bytes": 2093573
+    },
+    {
+      "path": "validate_fbx.py",
+      "sha256": "f39000218d505ef2004645c39b4ca07f76d8dcb196ec4312d62d1c169e4ce0f4",
+      "bytes": 2471
+    }
+  ]
+}

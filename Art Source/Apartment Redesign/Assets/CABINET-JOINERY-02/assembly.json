@@ -1,0 +1,660 @@
+{
+  "units": "metres; source -Y front; X stays X, Y flips in Unreal",
+  "export": "all meshes pivot-local identity. Place at transformed pivot_source_m relative to current assembly origin, no double translation",
+  "frame_thickness_m": 0.022,
+  "panel_thickness_m": 0.006,
+  "panel_front_recess_m": 0.014,
+  "pull_mount_centres_m": 0.096,
+  "parts": [
+    {
+      "file": "KI_Cab03_0425_Body.fbx",
+      "kit": "Base0425",
+      "pivot_source_m": [
+        0,
+        0,
+        0
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        -0.21250000596046448,
+        -0.32499998807907104,
+        0.0
+      ],
+      "assembly_max": [
+        0.21250000596046448,
+        0.32499998807907104,
+        0.9099999666213989
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_Interior",
+        "Toe_Dark",
+        "Counter_Ivory"
+      ],
+      "ucx": 11,
+      "triangles": 2068,
+      "replaces": "KI-CABINET-02/model/KI_CAB_0425_body.fbx"
+    },
+    {
+      "file": "KI_Cab03_0425_door.fbx",
+      "kit": "Base0425",
+      "pivot_source_m": [
+        -0.20249999999999999,
+        -0.253,
+        0
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        -0.20800000429153442,
+        -0.31367525458335876,
+        0.1354999840259552
+      ],
+      "assembly_max": [
+        0.1964999884366989,
+        -0.2474999874830246,
+        0.6505000591278076
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_AgedBrass"
+      ],
+      "ucx": 1,
+      "triangles": 4052,
+      "engine_swing_sign": 1,
+      "source_swing_sign": -1,
+      "max_angle_deg": 100,
+      "replaces": "KI-CABINET-02/model/KI_CAB_0425_door.fbx"
+    },
+    {
+      "file": "KI_Cab03_0425_drawer.fbx",
+      "kit": "Base0425",
+      "pivot_source_m": [
+        0,
+        0,
+        0
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        -0.16249999403953552,
+        -0.31389549374580383,
+        0.6749999523162842
+      ],
+      "assembly_max": [
+        0.16249999403953552,
+        0.23500001430511475,
+        0.8550000190734863
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_Interior",
+        "Joinery_AgedBrass"
+      ],
+      "ucx": 5,
+      "triangles": 2916,
+      "replaces": "KI-CABINET-02/model/KI_CAB_0425_drawer.fbx"
+    },
+    {
+      "file": "KI_Cab03_0775_Body.fbx",
+      "kit": "Base0775",
+      "pivot_source_m": [
+        0,
+        0,
+        0
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        -0.38749998807907104,
+        -0.32499998807907104,
+        0.0
+      ],
+      "assembly_max": [
+        0.38749998807907104,
+        0.32499998807907104,
+        0.9099999666213989
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_Interior",
+        "Toe_Dark",
+        "Counter_Ivory"
+      ],
+      "ucx": 14,
+      "triangles": 2632,
+      "replaces": "KI-CABINET-02/model/KI_CAB_0775_body.fbx"
+    },
+    {
+      "file": "KI_Cab03_0775_door_L.fbx",
+      "kit": "Base0775",
+      "pivot_source_m": [
+        -0.3775,
+        -0.253,
+        0
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        -0.382999986410141,
+        -0.31367525458335876,
+        0.1354999840259552
+      ],
+      "assembly_max": [
+        -0.023000001907348633,
+        -0.2474999874830246,
+        0.6505000591278076
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_AgedBrass"
+      ],
+      "ucx": 1,
+      "triangles": 4052,
+      "engine_swing_sign": 1,
+      "source_swing_sign": -1,
+      "max_angle_deg": 100,
+      "replaces": "KI-CABINET-02/model/KI_CAB_0775_door_l.fbx"
+    },
+    {
+      "file": "KI_Cab03_0775_drawer_L.fbx",
+      "kit": "Base0775",
+      "pivot_source_m": [
+        0,
+        0,
+        0
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        -0.3375000059604645,
+        -0.31389549374580383,
+        0.6749999523162842
+      ],
+      "assembly_max": [
+        -0.023000001907348633,
+        0.23500001430511475,
+        0.8550000190734863
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_Interior",
+        "Joinery_AgedBrass"
+      ],
+      "ucx": 5,
+      "triangles": 2916,
+      "replaces": "KI-CABINET-02/model/KI_CAB_0775_drawer_l.fbx"
+    },
+    {
+      "file": "KI_Cab03_0775_door_R.fbx",
+      "kit": "Base0775",
+      "pivot_source_m": [
+        0.33749999999999997,
+        -0.253,
+        0
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        -0.0169999897480011,
+        -0.31367525458335876,
+        0.1354999840259552
+      ],
+      "assembly_max": [
+        0.34299999475479126,
+        -0.2474999874830246,
+        0.6505000591278076
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_AgedBrass"
+      ],
+      "ucx": 1,
+      "triangles": 4052,
+      "engine_swing_sign": -1,
+      "source_swing_sign": 1,
+      "max_angle_deg": 100,
+      "replaces": "KI-CABINET-02/model/KI_CAB_0775_door_r.fbx"
+    },
+    {
+      "file": "KI_Cab03_0775_drawer_R.fbx",
+      "kit": "Base0775",
+      "pivot_source_m": [
+        0,
+        0,
+        0
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        -0.017000004649162292,
+        -0.31389549374580383,
+        0.6749999523162842
+      ],
+      "assembly_max": [
+        0.29750001430511475,
+        0.23500001430511475,
+        0.8550000190734863
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_Interior",
+        "Joinery_AgedBrass"
+      ],
+      "ucx": 5,
+      "triangles": 2916,
+      "replaces": "KI-CABINET-02/model/KI_CAB_0775_drawer_r.fbx"
+    },
+    {
+      "file": "KI_Cab03_0450_Body.fbx",
+      "kit": "Base0450",
+      "pivot_source_m": [
+        0,
+        0,
+        0
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        -0.22499999403953552,
+        -0.32499998807907104,
+        0.0
+      ],
+      "assembly_max": [
+        0.22499999403953552,
+        0.32499998807907104,
+        0.9099999666213989
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_Interior",
+        "Toe_Dark",
+        "Counter_Ivory"
+      ],
+      "ucx": 12,
+      "triangles": 2256,
+      "replaces": "KI-CABINET-02/model/KI_CAB_0450_body.fbx"
+    },
+    {
+      "file": "KI_Cab03_0450_door.fbx",
+      "kit": "Base0450",
+      "pivot_source_m": [
+        -0.17500000000000002,
+        -0.253,
+        0
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        -0.18050000071525574,
+        -0.31367525458335876,
+        0.1354999840259552
+      ],
+      "assembly_max": [
+        0.20900000631809235,
+        -0.2474999874830246,
+        0.6505000591278076
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_AgedBrass"
+      ],
+      "ucx": 1,
+      "triangles": 4052,
+      "engine_swing_sign": 1,
+      "source_swing_sign": -1,
+      "max_angle_deg": 100,
+      "replaces": "KI-CABINET-02/model/KI_CAB_0450_door.fbx"
+    },
+    {
+      "file": "KI_Cab03_0450_drawer.fbx",
+      "kit": "Base0450",
+      "pivot_source_m": [
+        0,
+        0,
+        0
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        -0.13500000536441803,
+        -0.31389549374580383,
+        0.6749999523162842
+      ],
+      "assembly_max": [
+        0.17499999701976776,
+        0.23500001430511475,
+        0.8550000190734863
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_Interior",
+        "Joinery_AgedBrass"
+      ],
+      "ucx": 5,
+      "triangles": 2916,
+      "replaces": "KI-CABINET-02/model/KI_CAB_0450_drawer.fbx"
+    },
+    {
+      "file": "KI_Upper02_Body.fbx",
+      "kit": "Upper",
+      "pivot_source_m": [
+        0,
+        0,
+        0
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        -0.5,
+        -0.16349999606609344,
+        0.004500001668930054
+      ],
+      "assembly_max": [
+        0.5,
+        0.1599999964237213,
+        0.550000011920929
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_Interior",
+        "Exposed worn edges"
+      ],
+      "ucx": 0,
+      "triangles": 2052,
+      "replaces": "KI-UPPER-01/model/KI_Upper_Body.fbx"
+    },
+    {
+      "file": "KI_Upper02_LeftDoor.fbx",
+      "kit": "Upper",
+      "pivot_source_m": [
+        -0.472,
+        -0.167,
+        0.265
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        -0.47749999165534973,
+        -0.22099998593330383,
+        0.0299999862909317
+      ],
+      "assembly_max": [
+        -0.003999978303909302,
+        -0.1614999920129776,
+        0.5
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_AgedBrass",
+        "Joinery_KnobIvory"
+      ],
+      "ucx": 1,
+      "triangles": 4176,
+      "engine_swing_sign": 1,
+      "source_swing_sign": -1,
+      "max_angle_deg": 100,
+      "replaces": "KI-UPPER-01/model/KI_Upper_LeftDoor.fbx"
+    },
+    {
+      "file": "KI_Upper02_RightDoor.fbx",
+      "kit": "Upper",
+      "pivot_source_m": [
+        0.472,
+        -0.167,
+        0.265
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        0.0040000081062316895,
+        -0.22099998593330383,
+        0.0299999862909317
+      ],
+      "assembly_max": [
+        0.47749999165534973,
+        -0.1614999920129776,
+        0.5
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_AgedBrass",
+        "Joinery_KnobIvory"
+      ],
+      "ucx": 1,
+      "triangles": 4176,
+      "engine_swing_sign": -1,
+      "source_swing_sign": 1,
+      "max_angle_deg": 100,
+      "replaces": "KI-UPPER-01/model/KI_Upper_RightDoor.fbx"
+    },
+    {
+      "file": "KI_Pantry02_Body.fbx",
+      "kit": "Pantry",
+      "pivot_source_m": [
+        0,
+        0,
+        0
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        -0.5,
+        -0.3410000205039978,
+        0.0
+      ],
+      "assembly_max": [
+        0.5,
+        0.33500000834465027,
+        1.9759999513626099
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_Interior",
+        "Small wood wear"
+      ],
+      "ucx": 0,
+      "triangles": 2196,
+      "replaces": "KI-PANTRY-01/model/KI_Pantry_Body.fbx"
+    },
+    {
+      "file": "KI_Pantry02_LeftDoor.fbx",
+      "kit": "Pantry",
+      "pivot_source_m": [
+        -0.47,
+        -0.318,
+        1.02
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        -0.4754999876022339,
+        -0.3720000088214874,
+        0.19499999284744263
+      ],
+      "assembly_max": [
+        -0.007999986410140991,
+        -0.3125,
+        1.8450000286102295
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_AgedBrass",
+        "Joinery_KnobIvory"
+      ],
+      "ucx": 1,
+      "triangles": 5120,
+      "engine_swing_sign": 1,
+      "source_swing_sign": -1,
+      "max_angle_deg": 100,
+      "replaces": "KI-PANTRY-01/model/KI_Pantry_LeftDoor.fbx"
+    },
+    {
+      "file": "KI_Pantry02_RightDoor.fbx",
+      "kit": "Pantry",
+      "pivot_source_m": [
+        0.47,
+        -0.318,
+        1.02
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        0.007999986410140991,
+        -0.3720000088214874,
+        0.19499999284744263
+      ],
+      "assembly_max": [
+        0.4754999876022339,
+        -0.3125,
+        1.8450000286102295
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_AgedBrass",
+        "Joinery_KnobIvory"
+      ],
+      "ucx": 1,
+      "triangles": 5120,
+      "engine_swing_sign": -1,
+      "source_swing_sign": 1,
+      "max_angle_deg": 100,
+      "replaces": "KI-PANTRY-01/model/KI_Pantry_RightDoor.fbx"
+    },
+    {
+      "file": "BA_Linen02_Body.fbx",
+      "kit": "Linen",
+      "pivot_source_m": [
+        0,
+        0,
+        0
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        -0.30000001192092896,
+        -0.30000001192092896,
+        -5.960464477539063e-08
+      ],
+      "assembly_max": [
+        0.30000001192092896,
+        0.30000001192092896,
+        1.7415000200271606
+      ],
+      "slots": [
+        "Joinery_Ivory"
+      ],
+      "ucx": 0,
+      "triangles": 1880,
+      "replaces": "BA-LINEN-01/model/BA_Linen_Body.fbx"
+    },
+    {
+      "file": "BA_Linen02_LowerDoor.fbx",
+      "kit": "Linen",
+      "pivot_source_m": [
+        -0.278,
+        -0.305,
+        0.565
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        -0.28349998593330383,
+        -0.35899999737739563,
+        0.22499999403953552
+      ],
+      "assembly_max": [
+        0.2724999785423279,
+        -0.2995000183582306,
+        0.9049999713897705
+      ],
+      "slots": [
+        "Joinery_Ivory",
+        "Joinery_AgedBrass",
+        "Joinery_KnobIvory"
+      ],
+      "ucx": 1,
+      "triangles": 4176,
+      "engine_swing_sign": 1,
+      "source_swing_sign": -1,
+      "max_angle_deg": 60,
+      "replaces": "BA-LINEN-01/model/BA_Linen_LowerDoor.fbx"
+    },
+    {
+      "file": "BA_Linen02_UpperDoor.fbx",
+      "kit": "Linen",
+      "pivot_source_m": [
+        -0.278,
+        -0.305,
+        1.295
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        -0.28349998593330383,
+        -0.35899999737739563,
+        0.9549999237060547
+      ],
+      "assembly_max": [
+        0.2724999785423279,
+        -0.2995000183582306,
+        1.6349999904632568
+      ],
+      "slots": [
+        "Joinery_Ivory",
+        "Joinery_AgedBrass",
+        "Joinery_KnobIvory"
+      ],
+      "ucx": 1,
+      "triangles": 4176,
+      "engine_swing_sign": 1,
+      "source_swing_sign": -1,
+      "max_angle_deg": 90,
+      "replaces": "BA-LINEN-01/model/BA_Linen_UpperDoor.fbx"
+    }
+  ],
+  "materials": {
+    "Joinery_Sage": {
+      "sRGB_texture": "T_Joinery_Sage.png",
+      "linear_tint": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.78,
+      "metallic": 0,
+      "note": "Same finish for all sage base, upper and pantry parts; source .75 tint already baked."
+    },
+    "Joinery_Ivory": {
+      "sRGB_texture": "T_Joinery_Ivory.png",
+      "linear_tint": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.72,
+      "metallic": 0
+    },
+    "Joinery_Interior": {
+      "sRGB_texture": "T_Joinery_Interior.png",
+      "linear_tint": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.8,
+      "metallic": 0
+    },
+    "Joinery_AgedBrass": {
+      "linear_base_color": [
+        0.32,
+        0.22,
+        0.085
+      ],
+      "roughness": 0.42,
+      "metallic": 0.65
+    },
+    "Joinery_KnobIvory": {
+      "linear_base_color": [
+        0.63,
+        0.59,
+        0.48
+      ],
+      "roughness": 0.32,
+      "metallic": 0
+    },
+    "Counter_Ivory": {
+      "sRGB_texture": "ivory-enamel.png",
+      "roughness": 0.78,
+      "metallic": 0,
+      "note": "Original surface and UVs preserved; retain installed engine finish if it overrides this source."
+    },
+    "Toe_Dark": {
+      "sRGB_texture": "toe-dark.png",
+      "roughness": 0.78,
+      "metallic": 0
+    }
+  },
+  "limits": "Source sweep tests against own carcass passed; installed neighbouring meshes and gameplay must be checked by engine owner. Body collision for Upper/Pantry/Linen is existing engine complex collision; original FBXs had no UCX."
+}

@@ -1,0 +1,127 @@
+{
+  "asset": "ART-REV02-004",
+  "instance": "HA-ART-09:056",
+  "title": "Footbridge after the rain",
+  "frame": "Mahogany scoop, brass bead and small corner rosettes",
+  "dimensions_m": [
+    0.9,
+    0.035,
+    0.65
+  ],
+  "bounds_m": {
+    "min": [
+      -0.44999998807907104,
+      -0.03500000014901161,
+      0.0
+    ],
+    "max": [
+      0.44999998807907104,
+      0.0,
+      0.6499999761581421
+    ]
+  },
+  "origin": "bottom-center rear wall plane; front -Y; Z up",
+  "planned_rect": [
+    2.2600000000000002,
+    4.24,
+    0.035,
+    0.9
+  ],
+  "bottom_z": 1.3,
+  "front": "east",
+  "fbx": "models/ART-REV02-004.fbx",
+  "art_texture": "textures/T_Artwork.png",
+  "art_sha256": "2e0abf96b6374f7889b8213367974266b23b1df80b4f9744217c0d55be61cae6",
+  "crop": {
+    "u_span": 0.9634377967711302,
+    "v_span": 1,
+    "source_aspect": 1.5,
+    "aperture_aspect": 1.4451566951566952,
+    "mode": "center crop; uniform pixel scale; no stretch"
+  },
+  "frame_material": {
+    "wood_color_linear": [
+      0.2,
+      0.065,
+      0.035
+    ],
+    "roughness": 0.64,
+    "grain_map": "textures/T_Frame_Grain.png",
+    "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+    "base_color_map": "textures/T_Frame_BaseColor.png"
+  },
+  "ucx": 1,
+  "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+  "engine_placement": {
+    "wall_datum_center_plan_m": [
+      2.2600000000000002,
+      4.69,
+      1.3
+    ],
+    "ue_local_yaw_degrees": -90,
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+  },
+  "materials": [
+    {
+      "slot": 0,
+      "name": "ART-REV02-004_Frame",
+      "base_color_linear": [
+        0.2,
+        0.065,
+        0.035
+      ],
+      "roughness": 0.64,
+      "metallic": 0.12,
+      "opacity": 1,
+      "two_sided": false,
+      "base_color_texture": "textures/T_Frame_BaseColor.png",
+      "texture_srgb": true
+    },
+    {
+      "slot": 1,
+      "name": "ART-REV02-004_Aged_Gilt",
+      "base_color_linear": [
+        0.38,
+        0.26,
+        0.095
+      ],
+      "roughness": 0.48,
+      "metallic": 0.64,
+      "opacity": 1,
+      "two_sided": false
+    },
+    {
+      "slot": 2,
+      "name": "ART-REV02-004_Backboard",
+      "base_color_linear": [
+        0.12,
+        0.085,
+        0.055
+      ],
+      "roughness": 0.9,
+      "metallic": 0.0,
+      "opacity": 1,
+      "two_sided": false
+    },
+    {
+      "slot": 3,
+      "name": "ART-REV02-004_Artwork",
+      "base_color_linear": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "roughness": 0.86,
+      "metallic": 0.0,
+      "opacity": 1,
+      "two_sided": false,
+      "base_color_texture": "textures/T_Artwork.png",
+      "texture_srgb": true
+    }
+  ]
+}

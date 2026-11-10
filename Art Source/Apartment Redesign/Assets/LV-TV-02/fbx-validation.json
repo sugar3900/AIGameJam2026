@@ -1,0 +1,75 @@
+{
+  "status": "passed",
+  "checks": [
+    "exact original stand face positions/UVs/material slots within10um",
+    "fresh FBX imports",
+    "finite UVs and nondegenerate faces",
+    "cabinet rests64.75cm and fits stand/art envelope",
+    "screen closed positive volume and outward front normals",
+    "screen fully behind front bezel"
+  ],
+  "exports": [
+    {
+      "mesh": "LV_TV02_Stand",
+      "min": [
+        -0.550000011920929,
+        -0.22999989986419678,
+        0.0029999890830367804
+      ],
+      "max": [
+        0.550000011920929,
+        0.2300001084804535,
+        0.6475000381469727
+      ],
+      "slots": [
+        "Walnut_Painted",
+        "Back_Panel",
+        "Warm_Wood_Trim",
+        "Aged_Brass"
+      ],
+      "triangles": 1860
+    },
+    {
+      "mesh": "LV_TV02_Housing",
+      "min": [
+        -0.5174999833106995,
+        -0.22299982607364655,
+        0.6474999785423279
+      ],
+      "max": [
+        0.5174999833106995,
+        0.2100002020597458,
+        1.3140000104904175
+      ],
+      "slots": [
+        "TV02_EndGrainTrim",
+        "TV02_WalnutVeneer",
+        "TV02_BackBoard",
+        "TV02_VentDark",
+        "TV02_AgedChampagneMetal",
+        "TV02_Bakelite",
+        "TV02_CRTSeal",
+        "TV02_DialIvory",
+        "TV02_SpeakerCloth"
+      ],
+      "triangles": 29216
+    },
+    {
+      "mesh": "LV_TV02_Screen",
+      "min": [
+        -0.40400001406669617,
+        -0.18299983441829681,
+        0.7850000262260437
+      ],
+      "max": [
+        0.1940000057220459,
+        -0.13199980556964874,
+        1.1990000009536743
+      ],
+      "slots": [
+        "TV02_CRTGlass"
+      ],
+      "triangles": 2494
+    }
+  ]
+}

@@ -121,7 +121,7 @@ if STUDY:
  wall('ARC-WALL-SHELF-01','shelf','Breakfast mugs / pottery','KI','S',3.35,1.65,.65,.145,children=['KI-MUG-01','KI-POTTERY-01'])
  wall('HA-SCONCE-01','sconce','Breakfast sconce','KI','S',1.50,1.75,.16,.30,state='light')
  wall('KI-PAN-RAIL-01','pans','Pan rail','KI','E',1.40,1.65,.60,.48,children=['KI-PAN-01'])
- wall('BA-SWITCH-01','switch','Kitchen switch','KI','E',3.65,1.08,.10,.12,state='light')
+ wall('BA-SWITCH-01','switch','Kitchen switch','KI','E',3.61,1.08,.10,.12,state='decorative',note='FIX-009/025: recentered after kitchen casing; y3.61..3.71 leaves3cm each side between casing3.58 and corner3.74. Decorative plate/toggle only; no bound interaction.')
  # Hall north opens earlier; gallery pieces are fitted on the shorter wall.
  for o in ITEMS:
   if o['name']=='Hall warm sconce':o['rect'][0]=4.45
@@ -144,6 +144,7 @@ for d in PLAN['swing_doors']:
 OPEN += [dict(room='HA',side='E',kind='door',u=.2,width=1.05,head=2.14,name='Entry / outward'),dict(room='KI',side='E',kind='portal',u=2.35,width=1.2,head=2.30,name='To living'),dict(room='LV',side='W',kind='portal',u=2.35,width=1.2,head=2.30,name='To kitchen'),dict(room='LV',side='W',kind='open',u=3.8,width=1.8,head=2.45,name='Hall continuation'),dict(room='HA',side='N',kind='open',u=3.3,width=6.5,head=2.45,name='Open to living'),dict(room='BR',side='N',kind='paired',u=.55,width=1.1,head=2.14,name='Mold closet'),dict(room='BC',side='S',kind='paired',u=.55,width=1.1,head=2.14,name='Bedroom'),dict(room='LV',side='S',kind='sliding',u=10.90-5.5,width=.96,head=2.18,name='Coat closet'),dict(room='HA',side='S',kind='sliding',u=10.90-2.2,width=.96,head=2.18,name='Coat closet')]
 if STUDY:
  for o in OPEN:
+  if o['kind']=='portal' and o['room'] in ('KI','LV'):o.update(rough_u=2.35,rough_width=1.20,rough_head=2.30,u=2.40,width=1.10,head=2.25,finished_clear=True,note='FIX-025: finished opening after5cm jamb/head lining; casing both faces.')
   if o['room']=='HA' and o['side']=='N' and o['kind']=='open':o.update(u=2.6,width=7.2)
   if o['room']=='LV' and o['side']=='S' and o['kind']=='sliding':o['u']=10.90-4.8
  OPEN[0]['note']='Counter-height kitchen window requires shortened sash/apron; verify faucet and sill depth.'
@@ -168,6 +169,64 @@ if STUDY:
   if o['asset']=='ARC-SLIDING-CLOSET-01':o['asset']='ARC-SLIDING-CLOSET-02'
 for o in ITEMS:
  if o['name']=='Low west box':o['rect'][0]=.0835
+# Source-feedback replacements happen after legacy records are allocated, preserving
+# every existing instance key. Extra physical pieces append unique new keys.
+RETIRED=[]
+if STUDY:
+ ASSETS=BASE.parents[3]/'Art Source/Apartment Redesign/Assets'
+ def fitted_record(record,asset,mesh,manifest,side):
+  export=next(e for e in manifest['exports'] if e['mesh']==mesh)
+  bounds=export.get('source_bounds')
+  if bounds is None:bounds=[export['bounds']['min'],export['bounds']['max']]
+  lo,hi=bounds;origin=manifest.get('plan_origin_m',manifest.get('plan_origin'))
+  record.update(asset=asset,rect=[round(origin[0]+lo[0],6),round(origin[1]-hi[1],6),round(hi[0]-lo[0],6),round(hi[1]-lo[1],6)],z=round(lo[2],6),h=round(hi[2]-lo[2],6),assembly_origin_plan=origin,source_mesh=mesh,source_export=f'Art Source/Apartment Redesign/Assets/{asset}/'+export['file'],source_up='+Z',source_front='-Y',source_to_plan='X kept; Y flipped; Z kept',assembly_rotation_plan_deg=[0,0,0],assembly_scale=[1,1,1],show=side,front={'N':'south','E':'west','W':'east'}[side[0]])
+  return record
+ mold=json.loads((ASSETS/'BR-MOLD-02/assembly.json').read_text())
+ storage=json.loads((ASSETS/'BR-CLOSET-STORAGE-03/assembly.json').read_text())
+ back=next(o for o in ITEMS if o['instance']=='BR-CLOSET-01:089')
+ west=next(o for o in ITEMS if o['instance']=='BR-CLOSET-01:090')
+ for old in (back,west):
+  RETIRED.append(dict(instance=old['instance'],old_asset=old['asset'],old_name=old['name'],disposition='Source component retired; stable instance key reassigned to replacement. Do not place legacy mesh.'))
+ fitted_record(back,'BR-MOLD-02','BR_Mold02_Back',mold,'N')
+ back.update(name='Upper-right charcoal mold / back',state='Malcolm repair: hide both overlays',note='Stable :089 replaces old central green patch. Neutral charcoal; coverage includes texture alpha, luminance and vertex alpha. Preserve encounter child transforms.',repair_tags=['RepairDamage','AuthoredMoldDamage'],inspect_target_plan=mold['suggested_inspect_world_m'])
+ fitted_record(west,'BR-CLOSET-STORAGE-03','BR_ClosetStorage03_West',storage,'WNS')
+ west.update(name='West full-length shelf / rail / hangers',children=['hooked empty hangers'],note='Stable :090 replaces old high short shelf. Full 1.67 m side run, 0.40 m board depth; hanger envelope included in footprint.',shelf_top=storage['shelf_top'],shelf_thickness=storage['shelf_thickness'],rail_z=storage['rail_z'])
+ ret=add('BR-MOLD-02','mold','Corner charcoal mold / east return','BC',[0,0,0,0],0,state=back['state'],note='Second plane wraps corner; fades out through vertex alpha. Remove together with :089.',tone='#252423')
+ fitted_record(ret,'BR-MOLD-02','BR_Mold02_Return',mold,'E');ret['repair_tags']=back['repair_tags']
+ east=add('BR-CLOSET-STORAGE-03','closetshelf','East full-length shelf / rail / hangers','BC',[0,0,0,0],0,children=['hooked empty hangers'],note='Both assemblies share floor origin; do not recenter individual bounds.')
+ fitted_record(east,'BR-CLOSET-STORAGE-03','BR_ClosetStorage03_East',storage,'ENS')
+ east.update(shelf_top=storage['shelf_top'],shelf_thickness=storage['shelf_thickness'],rail_z=storage['rail_z'])
+ # FIX-003: retain the sink record and tap identities; split the old baked bucket out.
+ leak=json.loads((ASSETS/'KI-LEAK-02/validation.json').read_text())
+ leak_manifest={'plan_origin':[2.15,.4605,0],'exports':[dict(mesh=mesh,file='models/'+mesh+'.fbx',bounds=bounds) for mesh,bounds in leak['exports'].items()]}
+ sink=next(o for o in ITEMS if o['instance']=='KI-SINK-NARROW-01:029')
+ fitted_record(sink,'KI-LEAK-02','KI_LEAK_02_sink_body',leak_manifest,'NESW')
+ sink.update(children=['faucet'],note='FIX-003: unchanged sink assembly transform; old embedded bucket removed. Preserve original taps, Sink_Tap identity, materials and Lukey state. No static beads.',retained_taps={side:dict(source_export='Art Source/Apartment Redesign/Assets/KI-SINK-NARROW-01/models/KI_SINK_NARROW_'+side+'.fbx',source_pivot=pivot) for side,pivot in leak['tap_pivots'].items()},runtime_effects=dict(kind='intermittent falling drops into pail',source_start=leak['leak_point'],source_catch=leak['bucket_catch_point'],plan_start=[2.05,.4605,.243],plan_catch=[2.05,.4605,.115],repair_behavior='stop and hide on Lukey repair; ordinary Sink_Tap water unchanged'))
+ RETIRED.append(dict(instance=sink['instance'],old_asset='KI-SINK-NARROW-01',old_mesh='KI_SINK_NARROW_body embedded bucket + KI_SINK_NARROW_damage',disposition='Replace body, retain original tap controls; retire entire static damage mesh and authored-leak runtime BuildBrokenFx cylinder/drop fallback.'))
+ for mesh,kind,name,state in [('KI_LEAK_02_bucket','bucket','Vintage galvanized leak pail','persistent after repair'),('KI_LEAK_02_bucket_water','water','Water inside leak pail','optional water; stop ripple/hide on Lukey repair'),('KI_LEAK_02_puddle','water','Residual floor spill','optional mesh OR decal; hide on Lukey repair')]:
+  record=add('KI-LEAK-02',kind,name,'KI',[0,0,0,0],0,state=state)
+  fitted_record(record,'KI-LEAK-02',mesh,leak_manifest,'NESW')
+  record['collision']='legacy UCX, 13 hulls' if kind=='bucket' else 'none'
+  record['note']='Same floor assembly origin as sink; position already baked into geometry. Do not add bounds center offset.'
+  if mesh.endswith('puddle'):record.update(decal_alternative=leak['puddle_mask'],note='Use optional mesh OR padded alpha-mask decal, never both. Transparent water, no white albedo or static drops. Residual spill predates bucket.')
+ # FIX-004: move existing sets; all gameplay/asset identities remain stable.
+ fuse=next(o for o in ITEMS if o['instance']=='LV-FUSE-01:043')
+ fuse.update(name='North-wall fusebox / Wyatt',rect=[10.825,.06,.45,.14],z=1.40,h=.58,front='south',show='N',assembly_origin_plan=[11.05,.06,1.40],assembly_rotation_plan_deg=[0,0,0],assembly_scale=[1,1,1],note='FIX-004: move complete shell/door/damaged wire/repaired wire/plaster damage set; preserve pivots and labels. Box over corner plant, source shell lower-edge origin. Re-derive Wyatt talk/camera in engine; pending click/door/capsule validation.')
+ hooks=next(o for o in ITEMS if o['instance']=='HA-HOOKS-01:042')
+ hooks.update(rect=[11.873,2.94,.067,.72],note='FIX-004: measured source rail0.72 m centered y3.30 between TV and entry; move existing coat with rack, retain relative/vertical anchor. Validate actual bounds and casing in engine.')
+ for record in ITEMS:
+  if record['kind']=='art':record['note']+=((' ' if record['note'] else '')+'FIX-006 pending: unique image and frame per physical instance; preserve this instance ID for forthcoming art assignment.')
+  if record['instance']=='HA-ART-02:058':
+   record.update(rect=[4.50,5.505,1.30,.035],z=1.12,h=.90)
+   record['note']+=' FIX-006 target outer frame1.30x0.90 m, centerX5.15 between casing edges4.11 and6.19;0.39 m side margins. Back-plane wall datumY5.54; actual new frame depth from source handoff. Asset assignment pending.'
+ assert len({o['instance'] for o in ITEMS})==len(ITEMS)
+if STUDY:
+ sys.path.insert(0,str(BASE/'feedback/FIX-007'))
+ from bathroom_layout import apply_items
+ ITEMS=apply_items(ITEMS)
+ for record in ITEMS:
+  if record['kind']=='switch':record['state']='decorative'
+ RETIRED.append(dict(instance='BA-TOWEL-RAIL-01:078',disposition='FIX-007 intentional duplicate rail removal; record retained but inactive.'))
 # Ceiling fixtures are listed once per physical room, not duplicated through wall projections.
 CEILING=[dict(room=r,asset='ARC-CEILING-LIGHT-01',position=[sum((ROOMS[r][1][0],ROOMS[r][1][2]/2)),sum((ROOMS[r][1][1],ROOMS[r][1][3]/2)),2.75],note='Warm low-glare ceiling light; keep pendant bottom above 2.20 m.') for r in ('LV','KI','BR','BA','OF')]
 CEILING.append(dict(room='HA',asset='ARC-CEILING-LIGHT-01',position=[4.55,4.7,2.75],note='Hall fixture; living fixture covers open eastern zone.'))
@@ -182,8 +241,17 @@ class View:
   self.text_px(65,row*560+58,f'{self.width:.2f} m nominal wall span · 2.75 m ceiling · '+('east → west' if side=='S' else 'south → north' if side=='W' else 'west → east' if side=='N' else 'north → south'),12)
   self.R(0,0,self.width,2.75,self.room[2],sw=2)
   self.R(0,0,self.width,.13,'#d8c3a8',sw=.6);self.R(0,2.65,self.width,.10,IVORY,sw=.6)
-  if rid=='OF':self.panels(0,self.width)
-  if rid=='BA':self.tiles(0,self.width,1.15 if side!='S' else 1.5)
+  if rid=='OF':
+   if STUDY and side=='S':
+    self.panels(0,1.7105);self.panels(1.7105,1.579,.778);self.panels(3.2895,self.width-3.2895)
+   else:self.panels(0,self.width)
+  if rid=='BA' and not STUDY:self.tiles(0,self.width,1.15 if side!='S' else 1.5)
+  if rid=='BA' and STUDY:
+   self.bath_tiles(0,self.width,2.75 if side=='S' else 1.05,cap=side!='S')
+   if side in 'EW':
+    self.bath_tiles(2.95,self.width-2.95,2.75,cap=False)
+    self.R(2.90,1.00,.05,1.75,'#a47871',sw=.5)
+
   if rid=='KI' and ((STUDY and side=='N') or (not STUDY and side=='W')):
    lo,hi=(1.0,4.65) if STUDY else (.85,3.65)
    for i in range(math.ceil((hi-lo)/.15)):
@@ -199,17 +267,23 @@ class View:
   self.a.append(f'<rect x="{self.ox+left*self.scale:.2f}" y="{self.yp(z+h):.2f}" width="{w*self.scale:.2f}" height="{h*self.scale:.2f}" fill="{fill}" stroke="{stroke}" stroke-width="{sw}" rx="{rx}" {extra}/>')
  def L(self,u,z,v,zz,color=INK,sw=1,extra=''):self.a.append(f'<line x1="{self.xp(u):.2f}" y1="{self.yp(z):.2f}" x2="{self.xp(v):.2f}" y2="{self.yp(zz):.2f}" stroke="{color}" stroke-width="{sw}" {extra}/>')
  def C(self,u,z,r,fill,stroke=INK):self.a.append(f'<circle cx="{self.xp(u):.2f}" cy="{self.yp(z):.2f}" r="{r*self.scale:.2f}" fill="{fill}" stroke="{stroke}" stroke-width="1"/>')
- def panels(self,u,w):
-  self.R(u,0,w,1.1,'#f2eadc',sw=.6)
+ def panels(self,u,w,h=1.1):
+  self.R(u,0,w,h,'#f2eadc',sw=.6)
   n=max(1,round(w/.52));pw=w/n
-  for i in range(n):self.R(u+i*pw+.055,.19,pw-.11,.75,'#e3d9c7',sw=.7);self.R(u+i*pw+.08,.215,pw-.16,.70,'#f2eadc',sw=.5)
-  self.R(u,1.04,w,.06,'#fff5e5',sw=.7)
+  for i in range(n):self.R(u+i*pw+.055,.19,pw-.11,h-.35,'#e3d9c7',sw=.7);self.R(u+i*pw+.08,.215,pw-.16,h-.40,'#f2eadc',sw=.5)
+  self.R(u,h-.06,w,.06,'#fff5e5',sw=.7)
  def tiles(self,u,w,h):
   self.R(u,0,w,h,'#cfa29d',sw=.6)
   for i in range(1,math.ceil(w/.20)):self.L(u+i*.2,0,u+i*.2,h,'#e8ccc1',.7)
   for z in (.2,.4,.6,.8,1.,1.2,1.4):
    if z<h:self.L(u,z,u+w,z,'#e8ccc1',.7)
   self.R(u,h-.05,w,.05,'#a47871',sw=.7)
+ def bath_tiles(self,u,w,h,cap=True):
+  field=h-.05 if cap else h
+  self.R(u,0,w,field,'#cfa29d',sw=.5)
+  for i in range(1,math.ceil(w/.10)):self.L(u+i*.1,0,u+i*.1,field,'#e8ccc1',.4)
+  for i in range(1,math.ceil(field/.10)):self.L(u,i*.1,u+w,i*.1,'#e8ccc1',.4)
+  if cap:self.R(u,field,w,.05,'#a47871',sw=.5)
  def mark(self,u,z,num):
   z=min(2.5,max(.18,z));self.C(u,z,.075,'#fbf5e8');self.text_px(self.xp(u),self.yp(z)+4,num,10,'middle',weight='bold')
  def opening(self,o):
@@ -255,7 +329,7 @@ class View:
   # Background furniture appears in muted projection; full wall-attached elevations stay opaque.
   ghost=(dist>.85 and o['show']=='NESW')
   if ghost and not projections:return
-  if repaired and k in ('mold','lead','crack','stain'):return
+  if repaired and (k in ('mold','lead','crack','stain') or (o['asset']=='KI-LEAK-02' and k=='water')):return
   self.a.append('<g'+(' opacity=".47"' if ghost else '')+'>')
   if k in ('cabinet','pantry','dresser','fridge','upper','bookcase','tv','wardrobe'):
    color=SAGE if o['asset'].startswith('KI') else WOOD
@@ -318,8 +392,17 @@ class View:
    for i in range(4):self.C(u+.12+i*(w-.24)/3,z+.79,.024,'#b09569')
    if face:self.vase(u+w*.55,z+.95,.16,.18)
   elif k=='sink':
-   self.R(u,z,w,.77,SAGE);self.R(u,z+.77,w,.14,IVORY,rx=6);self.R(u+.04,z+.91,w-.08,.225,IVORY,sw=.7);self.L(u+w*.65,z+1.075,u+w*.65,z+1.343,'#8f948c',4);self.L(u+w*.65,z+1.343,u+w*.45,z+1.343,'#8f948c',4)
-   if face:self.R(u+.08,.03,.20,.25,'#a6b1a8',rx=5);self.L(u+w*.6,.65,u+w*.6,.26,'#938d74',3)
+   if o['asset']=='KI-LEAK-02':
+    self.R(u+.03,z,.045,.77,SAGE);self.R(u+w-.075,z,.045,.77,SAGE)
+    self.R(u,z+.70,w,.07,SAGE);self.L(u+w*.40,.75,u+w*.40,.26,'#938d74',3)
+   else:self.R(u,z,w,.77,SAGE)
+   self.R(u,z+.77,w,.14,IVORY,rx=6);self.R(u+.04,z+.91,w-.08,.225,IVORY,sw=.7);self.L(u+w*.65,z+1.075,u+w*.65,z+1.343,'#8f948c',4);self.L(u+w*.65,z+1.343,u+w*.45,z+1.343,'#8f948c',4)
+   if face and o['asset']!='KI-LEAK-02':self.R(u+.08,.03,.20,.25,'#a6b1a8',rx=5);self.L(u+w*.6,.65,u+w*.6,.26,'#938d74',3)
+  elif k=='bucket':
+   self.R(u,z,w,h,'#a5b1b4',rx=5);self.R(u-.008,z+h-.018,w+.016,.018,'#c0c8ca',sw=.5)
+   for frac in (.25,.60):self.L(u+.015,z+h*frac,u+w-.015,z+h*frac,'#7b898d',1)
+  elif k=='water':
+   self.R(u,z,w,.006,'#8ca6a9',sw=.4,extra='opacity=".45"')
   elif k=='radiator':
    self.R(u,z+.06,w,h-.08,'#e0d3b8',rx=5)
    for i in range(max(2,int(w/.09))):self.L(u+.04+i*.09,z+.1,u+.04+i*.09,z+h-.04,'#aa9d84',2)
@@ -345,13 +428,36 @@ class View:
     self.L(u+.08,z+h*.35,u+w*.45,z+h*.52,'#7e956f',7);self.L(u+w*.45,z+h*.52,u+w-.08,z+h*.31,'#a18d66',7)
     self.L(u+w*.2,z+.09,u+w*.6,z+h*.42,'#d4c7a2',3)
   elif k=='closetshelf':
-   self.R(u,z,w,.05,WOOD);self.L(u+.04,z-.14,u+w-.04,z-.14,'#a48a66',2)
-   for i in range(3):
-    mid=u+.18+i*.25;self.L(mid,z-.14,mid-.10,z-.30,'#9b866b',1.5);self.L(mid-.10,z-.30,mid+.10,z-.30,'#9b866b',1.5);self.L(mid+.10,z-.30,mid,z-.14,'#9b866b',1.5)
+   if o['asset']=='BR-CLOSET-STORAGE-03':
+    top=o['shelf_top'];thick=o['shelf_thickness'];rail=o['rail_z']
+    # Shelf footprint is 0.40 m; remaining inward reach belongs to hangers.
+    board_u=u if o['front']=='east' or self.side in 'EW' else u+w-.40
+    board_w=w if self.side in 'EW' else .40
+    self.R(board_u,top-thick,board_w,thick,WOOD,sw=.6)
+    if self.side in 'EW':
+     self.L(u+.025,rail,u+w-.025,rail,'#806b54',2)
+     for i in range(6):
+      mid=u+.15+i*(w-.30)/5
+      self.C(mid,rail-.025,.022,'none',stroke='#75644e')
+      self.L(mid,rail-.047,mid,rail-.09,'#75644e',1)
+      self.L(mid,rail-.09,mid-.055,rail-.22,WOOD,2);self.L(mid-.055,rail-.22,mid+.055,rail-.22,WOOD,2);self.L(mid+.055,rail-.22,mid,rail-.09,WOOD,2)
+    else:
+     mid=board_u+(.28 if o['front']=='east' else .12)
+     self.C(mid,rail,.014,'#806b54');self.L(mid,rail-.02,mid,rail-.07,'#75644e',1)
+     self.L(mid,rail-.07,u+.01,rail-.22,WOOD,2);self.L(u+.01,rail-.22,u+w-.01,rail-.22,WOOD,2);self.L(u+w-.01,rail-.22,mid,rail-.07,WOOD,2)
+   else:
+    self.R(u,z,w,.05,WOOD);self.L(u+.04,z-.14,u+w-.04,z-.14,'#a48a66',2)
+    for i in range(3):
+     mid=u+.18+i*.25;self.L(mid,z-.14,mid-.10,z-.30,'#9b866b',1.5);self.L(mid-.10,z-.30,mid+.10,z-.30,'#9b866b',1.5);self.L(mid+.10,z-.30,mid,z-.14,'#9b866b',1.5)
   elif k=='shelf':
    self.R(u,z-.04,w,.04,WOOD);self.R(u+.08,z-.145,.035,.11,WOOD);self.R(u+w-.115,z-.145,.035,.11,WOOD)
    for i in range(3):self.R(u+.05+i*.07,z,.055,.18+(i%2)*.04,['#ad8265','#a9a984','#d4be92'][i],sw=.5)
    self.vase(u+w-.20,z,.14,.20,any('PLANT' in x for x in o['children']))
+  elif k=='mirror' and self.rid=='BA' and STUDY:
+   mid=u+w/2;mw=.578
+   self.R(mid-mw/2,z,mw,h,'#a4aea4',stroke='#927655',sw=4,rx=15)
+   for xx in (mid-.43,mid+.43):
+    self.C(xx,1.65,.035,'#ad8a5e');self.L(xx,1.65,xx,1.78,'#ad8a5e',3);self.C(xx,1.825,.077,'#f2e3be')
   elif k=='mirror':
    self.R(u,z,w,h,'#a4aea4',stroke='#927655',sw=4,rx=15)
    for xx in (u-.10,u+w+.10):self.C(xx,z+h*.7,.07,'#f2e3be')
@@ -366,6 +472,14 @@ class View:
   elif k=='pans':
    self.L(u,z+h,u+w,z+h,'#806a54',3)
    for xx in (u+w*.28,u+w*.72):self.L(xx,z+h,xx,z+.23,'#806a54',3);self.C(xx,z+.16,.12,'#9c8b70')
+  elif k=='towelring':
+   mid=u+w/2;mount=1.15
+   self.C(mid,mount,.035,'#ad8a5e');self.C(mid,mount-.120,.105,'none',stroke='#ad8a5e')
+   self.R(mid-.13,.615,.26,.31,'#e7d7bd',rx=4)
+   for zz in (.655,.675):self.L(mid-.12,zz,mid+.12,zz,'#bb8b86',2)
+  elif o['instance']=='BA-TOWEL-RAIL-01:084' and STUDY:
+   self.L(u,1.25,u+w,1.25,'#ae8d61',3)
+   self.R(7.931-self.y,.584,.432,.687,'#e7d7bd',rx=3)
   elif k in ('towel','roll'):
    self.L(u,z+h,u+w,z+h,'#ae8d61',3);self.R(u+.03,z,w-.06,h-.035,'#e7d7bd',rx=3)
    for xx in (u+w*.3,u+w*.6):self.L(xx,z+.04,xx,z+h-.06,'#bca58a',1)
@@ -376,9 +490,18 @@ class View:
     self.R(u+.08,z+.10,w-.16,h-.20,'#b69c78',sw=0,rx=18,extra='opacity=".22"')
     for i in range(7):self.L(u+.10+i*.07,z+.12,u+.13+i*.07,z+h-.13,'#b49d7f',.5)
    elif k=='mold':
-    for i in range(17):
-     xx=u+.09+(i*37%83)/100*(w-.14);zz=z+.08+(i*29%79)/100*(h-.14)
-     self.C(xx,zz,.045+(i%3)*.025,'#596a53' if k=='mold' else '#ad9474',stroke='none')
+    if o['asset']=='BR-MOLD-02':
+     # Schematic colony stippling follows upper corner rather than a central mass.
+     for i in range(110):
+      a=((i*37)%109)/109;b=((i*67+19)%113)/113
+      t=1-a*a if self.side=='N' else a*a
+      v=1-b*b
+      if (self.side=='N' and t<.45 and v<.68) or (self.side=='E' and t>.70 and v<.48):continue
+      self.C(u+.012+t*(w-.024),z+.02+v*(h-.04),.006+(i%5)*.005,'#292826',stroke='none')
+    else:
+     for i in range(17):
+      xx=u+.09+(i*37%83)/100*(w-.14);zz=z+.08+(i*29%79)/100*(h-.14)
+      self.C(xx,zz,.045+(i%3)*.025,'#596a53',stroke='none')
    elif k=='lead':
     for i in range(12):self.R(u+.03+(i*13%40)/100,z+.02+(i*7%20)/100,.055,.04,'#ac9c84',sw=.4)
    else:
@@ -417,9 +540,25 @@ NOTES={
 NOTES['CT']={s:'Coat storage opens north into entry. Hanging rail/shelf and boxes are contained behind sliding doors; back wall is shared with guest wardrobe.' for s in 'NESW'}
 NOTES['WG']={s:'Guest wardrobe opens south into office. Target 0.60 m usable depth after tracks/trim; no duplicated wall between the two storage volumes.' for s in 'NESW'}
 if STUDY:
- NOTES['KI'].update(N='Fridge beside prep on north wall. Sink centred below window; sill1.25/head2.40 requires a shortened counter-height window and apron. Faucet top1.343 stays in front of glass, not inside sill.',W='Pantry faces east from west wall. Fridge is now on north wall facing south, with0.29 m hinge-side wall clearance. Prep starts x=1.20; validate open-door sweeps.',S='Small wall table and tucked stool replace the full dining table here. Main dining is between the kitchen and sofa.',E='Upper cupboard on east return, not over burners. Portal opens directly to the expanded dining/living area.')
+ NOTES['LV']['N']='FIX-004: fuse box now faces south above corner plant, center x11.05, box bottom1.40 m. Move all wire/door/damage states; validate click and Wyatt approach. Window/chair unchanged.'
+ NOTES['LV']['E']='TV and existing pictures retained. Coat rack shifts right/south to center y3.30, actual0.72 m rail y2.94..3.66. Former fusebox area is clear; entry casing remains untouched.'
+ NOTES['LV']['S']+=' FIX-006: unique artwork/frame assignments pending, preserve every physical instance ID.'
+ NOTES['HA']['E']='Entry remains outward-opening; fuse box moved to north living wall above corner plant. Coat rack shifted in freed east-wall space.'
+ NOTES['HA']['S']+=' FIX-006: :058 grows to1.30x0.90 m, centerX5.15, bottomZ1.12 between bedroom/bath casings; unique artwork/frame assignments pending.'
+ NOTES['BC'].update(N='Charcoal mold rises into upper-right north/east corner, top 2.64 m below crown. Both side shelves project into this view at 1.88 m; central 1.094 m hanger-to-hanger aisle stays open.',E='Full-length east shelf: 1.67 m run, 0.40 m depth, 35 mm board at 1.88 m. Rail at 1.73 m with hooked hanging hangers. Narrow mold return remains visible above and behind storage.',W='Matching full-length west shelf and rail at the same lower heights; no tall fascia. Existing low box retained. Keep encounter and door routes clear.',S='Paired doors conceal Malcolm; both side shelves stop at sidewall ends. Retain single dangling bulb. Repair removes both corner overlays, preserving storage.')
+ NOTES['KI'].update(N='Fridge beside prep on north wall. Sink centred below window; sill1.25/head2.40 requires a shortened counter-height window and apron. Faucet top1.343 stays in front of glass. FIX-003 replaces only sink body/bucket; preserve taps and Lukey identity. Intermittent drops land inside pail, no static beads.',W='Pantry faces east from west wall. Fridge is now on north wall facing south, with0.29 m hinge-side wall clearance. Prep starts x=1.20; validate open-door sweeps.',S='Small wall table and tucked stool replace the full dining table here. Main dining is between the kitchen and sofa.',E='Upper cupboard on east return, not over burners. Portal opens directly to the expanded dining/living area.')
  NOTES['LV']['W']='Kitchen partition shifted west0.70 m. Bookcase follows it; dining table stands between this wall and the floating sofa, with end chairs north/south.'
  NOTES['HA']['N']='Gallery wall now ends at x=4.80; opening to living/dining spans7.20 m. Keep artwork and sconce on the remaining plaster.'
+if STUDY:
+ NOTES['OF']['N']+=' FIX-019: fitted22mm trim stops2mm from actual casing; lead overlay remains centeredX8.925/Z.70 on planeY5.668.'
+ NOTES['OF']['E']+=' FIX-019: tight wardrobe corner has7mm plain return, capped east run startsY7.239,2mm beyond casing face. Verify shell quadrant in kit README.'
+ NOTES['OF']['S']+=' FIX-019: purpose-built under-apron cap top.778m; actual apron bottom.783. Fixed-size profiles, continuous lower rails,2mm sill/casing relief; use OF-WAINSCOT-02 manifest.'
+ NOTES['OF']['W']+=' FIX-019: fitted continuous rails and mitred corners,22mm maximum wall projection; existing paint texture retained.'
+if STUDY:NOTES['BA']={
+'N':'FIX-007: toilet west/left of doorway; switch centered east/right of casing. Loaded paper holder is on west wall within reach. Lower tile field1.00+cap.05. Door opening stays unchanged.',
+'E':'Basin at former toilet area, mirror and paired lights centeredY7.925. Two toiletries shelves top1.25; real hand-towel ring below shelf :077. Linen stays southeast but faces north;90-degree doors. High tile startsY8.55.',
+'S':'Tub, bath water, Tyler repair and existing window unchanged. Full-height tile wraps shower corner and fits window aperture. Curtain and rod remain aligned; no south-wall plumbing now.',
+'W':'Single source-size1.13m bath rail at bar1.25, one ivory bath towel; extra rail/rose towel retired. Lower folded-towel shelf. Shower/faucet moved here atY9.07. High tile beginsY8.55, cap transition finished vertically.'}
 VIEWS={};coverage={};REVIEW=[]
 for rid in ROOMS:
  rows=[];coverage[rid]={}
@@ -434,10 +573,15 @@ for rid in ROOMS:
     u,w,dist=v.project(o)
     if u>=-.01 and u+w<=v.width+.01:selected.append((dist,num,o))
    for _,num,o in sorted(selected,key=lambda a:a[0]):v.item(o,num,projection)
-   if rid=='BA' and side=='S':
+   if rid=='BA' and side=='W' and STUDY:
+    v.L(3.47,.79,3.47,2.13,'#8c938d',3);v.R(3.375,2.01,.19,.08,'#a99b81',sw=.8)
+    v.L(3.38,.96,3.56,.96,'#8c938d',3);v.C(3.38,.96,.035,'#ad9a7f');v.C(3.56,.96,.035,'#ad9a7f')
+    v.legend.append('Separate west-end plumbing atY9.07; taps retain original pivots/action. Curtain rod stays with curtain.')
+   if rid=='BA' and side=='S' and not STUDY:
     v.L(.24,.58,.24,2.12,'#8c938d',4);v.L(.24,2.12,.48,2.12,'#8c938d',4)
+   if rid=='BA' and side=='S':
     v.L(.15,2.22,1.95,2.22,'#8c938d',2);v.R(1.73,.45,.20,1.72,'#b59185',sw=.6)
-    v.legend.append('Tub fixtures + curtain: parked east; keep repair patch visible.')
+    v.legend.append('Tub and curtain unchanged; plumbing moved to west wall. Separate rod replaces old combined fixture. Full-height tile cut around existing window.' if STUDY else 'Tub fixtures + curtain: parked east; keep repair patch visible.')
    if rid in ('KI','BR','BA','OF','LV') and side=='N':
     v.L(v.width/2,2.75,v.width/2,2.52,'#947d61',1.5);v.R(v.width/2-.16,2.42,.32,.13,'#ead3a2',rx=8)
     v.legend.append('Ceiling: ARC-CEILING-LIGHT-01; one physical fixture, not a copy per wall.')
@@ -451,16 +595,17 @@ for rid in ROOMS:
  width=1410;height=4*560+60
  doc=f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}"><rect width="100%" height="100%" fill="#f7f1e5"/>'+''.join(rows)+f'<text x="65" y="{height-22}" font-family="Arial" font-size="12" fill="#655347">Revision02 / living A · walls and nearby furniture shown; optional projected views show floating/opposite furniture.</text></svg>'
  (P/f'{rid.lower()}-elevations.svg').write_text(doc);VIEWS[rid]=doc
-(P/'elevation-schedule.json').write_text(json.dumps(dict(status='Approved compact kitchen/dining; fitted source kits reconciled; engine validation pending' if STUDY else 'Reworked elevations from approved revision02; engine fit checks pending',architectural_assignments=json.loads((BASE/'architectural-assignments.json').read_text()) if STUDY else {},rooms=ROOMS,items=ITEMS,openings=OPEN,ceiling_fixtures=CEILING,coverage=coverage,review=REVIEW),indent=2)+'\n')
+(P/'elevation-schedule.json').write_text(json.dumps(dict(status='Approved compact kitchen/dining; fitted source kits reconciled; engine validation pending' if STUDY else 'Reworked elevations from approved revision02; engine fit checks pending',architectural_assignments=json.loads((BASE/'architectural-assignments.json').read_text()) if STUDY else {},rooms=ROOMS,items=ITEMS,retired_components=RETIRED,openings=OPEN,ceiling_fixtures=CEILING,coverage=coverage,review=REVIEW),indent=2)+'\n')
 # Repaired interior comparison: same room geometry, damage overlay omitted.
-for rid,side in [('BC','N'),('OF','N'),('BA','S')]:
+for rid,side in [('BC','N'),('OF','N'),('BA','S')]+([('BC','E'),('KI','N')] if STUDY else []):
  v=View(rid,side,0)
  for o in OPEN:
   if o['room']==rid and o['side']==side:v.opening(o)
  for num,o in enumerate(ITEMS,1):
   if rid in o['rooms'] and side in o['show']:v.item(o,num,False,True)
  if rid=='BA':
-  v.L(.24,.58,.24,2.12,'#8c938d',4);v.L(.24,2.12,.48,2.12,'#8c938d',4);v.L(.15,2.22,1.95,2.22,'#8c938d',2);v.R(1.73,.45,.20,1.72,'#b59185',sw=.6)
+  if not STUDY:v.L(.24,.58,.24,2.12,'#8c938d',4);v.L(.24,2.12,.48,2.12,'#8c938d',4)
+  v.L(.15,2.22,1.95,2.22,'#8c938d',2);v.R(1.73,.45,.20,1.72,'#b59185',sw=.6)
  if rid=='OF':v.L(v.width/2,2.75,v.width/2,2.52,'#947d61',1.5);v.R(v.width/2-.16,2.42,.32,.13,'#ead3a2',rx=8)
  body=v.finish(0,'Repaired-state design: remove only the localized damage. Preserve room surfaces and storage. No gameplay implementation is implied.')
  (P/f'{rid.lower()}-{side.lower()}-repaired.svg').write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1410 560"><rect width="1410" height="560" fill="#f7f1e5"/>'+body+'</svg>')

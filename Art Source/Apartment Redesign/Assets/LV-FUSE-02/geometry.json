@@ -1,0 +1,36 @@
+{
+  "mesh": "LV_Fuse02_Shell",
+  "triangles": 27207,
+  "slots": [
+    "Painted_Olive_Metal",
+    "Interior_Dark_Brown",
+    "Inset_Gasket",
+    "Patinated_Brass",
+    "Edge_Wear_Ochre",
+    "Bakelite_Dark_Brown",
+    "Ivory_Ceramic",
+    "Wire_Brick_Red",
+    "Wire_Navy",
+    "Wire_Cloth",
+    "Fuse02_AgedCloth",
+    "Fuse02_DarkCloth",
+    "Fuse02_TarnishedTerminal"
+  ],
+  "retained_original_faces": 7477,
+  "removed_old_wire_vertices": 7080,
+  "added_bounds": [
+    [
+      -0.19325615465641022,
+      -0.09255137294530869,
+      0.019721444696187973
+    ],
+    [
+      0.19431982934474945,
+      -0.039748288691043854,
+      0.5637567043304443
+    ]
+  ],
+  "case_and_hinge": "original non-wire faces/UVs retained; unchanged",
+  "repair_wires": "use original LV_FUSE_01_Wire_Damaged/Repaired unchanged",
+  "external_stubs": "removed"
+}

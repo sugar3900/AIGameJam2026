@@ -1,0 +1,493 @@
+{
+  "units": "metres",
+  "source_front": "-Y",
+  "body_origin": [
+    0,
+    0,
+    0
+  ],
+  "lid_pivot": [
+    0,
+    0.11,
+    0.516
+  ],
+  "lid_axis": "local X",
+  "closed_degrees": 0,
+  "open_degrees": -85,
+  "water_z": 0.275,
+  "bounds": {
+    "BA_Toilet02_Body": {
+      "min": [
+        -0.2549999952316284,
+        -0.36800000071525574,
+        0.0
+      ],
+      "max": [
+        0.2549999952316284,
+        0.3449999988079071,
+        0.9210000038146973
+      ]
+    },
+    "BA_Toilet02_Lid": {
+      "min": [
+        -0.2329999953508377,
+        -0.3659999966621399,
+        0.4959999620914459
+      ],
+      "max": [
+        0.2329999953508377,
+        0.12049999833106995,
+        0.5339999794960022
+      ]
+    },
+    "BA_Toilet02_Water": {
+      "min": [
+        -0.08799999952316284,
+        -0.18400000035762787,
+        0.2745000123977661
+      ],
+      "max": [
+        0.08799999952316284,
+        0.03400000184774399,
+        0.2750000059604645
+      ]
+    }
+  },
+  "ucx_counts": {
+    "body": 21,
+    "lid": 1,
+    "water": 0
+  },
+  "sweep": [
+    {
+      "degrees": 0,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12049999833106995
+    },
+    {
+      "degrees": -1,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12049839645624161
+    },
+    {
+      "degrees": -2,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12049360573291779
+    },
+    {
+      "degrees": -3,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12048561125993729
+    },
+    {
+      "degrees": -4,
+      "tank_aabb_hits": 0,
+      "max_y": 0.1204744204878807
+    },
+    {
+      "degrees": -5,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12046004086732864
+    },
+    {
+      "degrees": -6,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12045595049858093
+    },
+    {
+      "degrees": -7,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12047111988067627
+    },
+    {
+      "degrees": -8,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12048310786485672
+    },
+    {
+      "degrees": -9,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12049189954996109
+    },
+    {
+      "degrees": -10,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12049749493598938
+    },
+    {
+      "degrees": -11,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12049989402294159
+    },
+    {
+      "degrees": -12,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12049909681081772
+    },
+    {
+      "degrees": -13,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12049509584903717
+    },
+    {
+      "degrees": -14,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12048789858818054
+    },
+    {
+      "degrees": -15,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12047751247882843
+    },
+    {
+      "degrees": -16,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12046393007040024
+    },
+    {
+      "degrees": -17,
+      "tank_aabb_hits": 0,
+      "max_y": 0.1204516664147377
+    },
+    {
+      "degrees": -18,
+      "tank_aabb_hits": 0,
+      "max_y": 0.1204676404595375
+    },
+    {
+      "degrees": -19,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12048041820526123
+    },
+    {
+      "degrees": -20,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12049001455307007
+    },
+    {
+      "degrees": -21,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12049640715122223
+    },
+    {
+      "degrees": -22,
+      "tank_aabb_hits": 0,
+      "max_y": 0.1204996109008789
+    },
+    {
+      "degrees": -23,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12049960345029831
+    },
+    {
+      "degrees": -24,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12049640715122223
+    },
+    {
+      "degrees": -25,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12049001455307007
+    },
+    {
+      "degrees": -26,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12048041820526123
+    },
+    {
+      "degrees": -27,
+      "tank_aabb_hits": 0,
+      "max_y": 0.1204676404595375
+    },
+    {
+      "degrees": -28,
+      "tank_aabb_hits": 0,
+      "max_y": 0.1204516664147377
+    },
+    {
+      "degrees": -29,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12046395242214203
+    },
+    {
+      "degrees": -30,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12047752737998962
+    },
+    {
+      "degrees": -31,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12048792093992233
+    },
+    {
+      "degrees": -32,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12049511075019836
+    },
+    {
+      "degrees": -33,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12049911171197891
+    },
+    {
+      "degrees": -34,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12049990892410278
+    },
+    {
+      "degrees": -35,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12049751728773117
+    },
+    {
+      "degrees": -36,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12049192190170288
+    },
+    {
+      "degrees": -37,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12048313021659851
+    },
+    {
+      "degrees": -38,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12047114223241806
+    },
+    {
+      "degrees": -39,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12045596539974213
+    },
+    {
+      "degrees": -40,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12046002596616745
+    },
+    {
+      "degrees": -41,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12047440558671951
+    },
+    {
+      "degrees": -42,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12055806815624237
+    },
+    {
+      "degrees": -43,
+      "tank_aabb_hits": 0,
+      "max_y": 0.1208132654428482
+    },
+    {
+      "degrees": -44,
+      "tank_aabb_hits": 0,
+      "max_y": 0.1210651770234108
+    },
+    {
+      "degrees": -45,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12131371349096298
+    },
+    {
+      "degrees": -46,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12155880779027939
+    },
+    {
+      "degrees": -47,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12180037796497345
+    },
+    {
+      "degrees": -48,
+      "tank_aabb_hits": 0,
+      "max_y": 0.1220383495092392
+    },
+    {
+      "degrees": -49,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12227266281843185
+    },
+    {
+      "degrees": -50,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12250323593616486
+    },
+    {
+      "degrees": -51,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12272999435663223
+    },
+    {
+      "degrees": -52,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12295287847518921
+    },
+    {
+      "degrees": -53,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12317181378602982
+    },
+    {
+      "degrees": -54,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12338674068450928
+    },
+    {
+      "degrees": -55,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12359759211540222
+    },
+    {
+      "degrees": -56,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12380429357290268
+    },
+    {
+      "degrees": -57,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12400680035352707
+    },
+    {
+      "degrees": -58,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12420503795146942
+    },
+    {
+      "degrees": -59,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12439894676208496
+    },
+    {
+      "degrees": -60,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12458846718072891
+    },
+    {
+      "degrees": -61,
+      "tank_aabb_hits": 0,
+      "max_y": 0.1247735396027565
+    },
+    {
+      "degrees": -62,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12495411932468414
+    },
+    {
+      "degrees": -63,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12513014674186707
+    },
+    {
+      "degrees": -64,
+      "tank_aabb_hits": 0,
+      "max_y": 0.1253015547990799
+    },
+    {
+      "degrees": -65,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12546831369400024
+    },
+    {
+      "degrees": -66,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12563034892082214
+    },
+    {
+      "degrees": -67,
+      "tank_aabb_hits": 0,
+      "max_y": 0.1257876306772232
+    },
+    {
+      "degrees": -68,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12594009935855865
+    },
+    {
+      "degrees": -69,
+      "tank_aabb_hits": 0,
+      "max_y": 0.1260877251625061
+    },
+    {
+      "degrees": -70,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12623043358325958
+    },
+    {
+      "degrees": -71,
+      "tank_aabb_hits": 0,
+      "max_y": 0.1263682097196579
+    },
+    {
+      "degrees": -72,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12650099396705627
+    },
+    {
+      "degrees": -73,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12662875652313232
+    },
+    {
+      "degrees": -74,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12675143778324127
+    },
+    {
+      "degrees": -75,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12686903774738312
+    },
+    {
+      "degrees": -76,
+      "tank_aabb_hits": 0,
+      "max_y": 0.1269814819097519
+    },
+    {
+      "degrees": -77,
+      "tank_aabb_hits": 0,
+      "max_y": 0.1270887702703476
+    },
+    {
+      "degrees": -78,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12719084322452545
+    },
+    {
+      "degrees": -79,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12728768587112427
+    },
+    {
+      "degrees": -80,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12737925350666046
+    },
+    {
+      "degrees": -81,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12746553122997284
+    },
+    {
+      "degrees": -82,
+      "tank_aabb_hits": 0,
+      "max_y": 0.127546489238739
+    },
+    {
+      "degrees": -83,
+      "tank_aabb_hits": 0,
+      "max_y": 0.1276220977306366
+    },
+    {
+      "degrees": -84,
+      "tank_aabb_hits": 0,
+      "max_y": 0.1276923418045044
+    },
+    {
+      "degrees": -85,
+      "tank_aabb_hits": 0,
+      "max_y": 0.12775719165802002
+    }
+  ]
+}

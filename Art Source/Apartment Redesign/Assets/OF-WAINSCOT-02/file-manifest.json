@@ -1,0 +1,91 @@
+{
+  "asset": "OF-WAINSCOT-02",
+  "status": "Parent-reviewed source ready; engine integration acceptance pending",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 5384,
+      "sha256": "100f8559de00fcdddaf60923856d69849389af30d8f4dceb82c4fae26ddaef7e"
+    },
+    {
+      "path": "assembly.json",
+      "bytes": 5199,
+      "sha256": "43f22750b1d178d5cb4757cf8bd7bf60669ee5d3ba1acbf622a846b1b2e60996"
+    },
+    {
+      "path": "model/OF-WAINSCOT-02.blend",
+      "bytes": 8782838,
+      "sha256": "e6a4cc56291c2272fd5aa153a7a1afa0fbf4c25f4195e1ca637a4355ab049a22"
+    },
+    {
+      "path": "model/OF_Wainscot02_CS.fbx",
+      "bytes": 22556,
+      "sha256": "780312fb28c625a52a02c79c0b91e04b38eec11f833e2e0f199ed088eba3deb5"
+    },
+    {
+      "path": "model/OF_Wainscot02_E.fbx",
+      "bytes": 22940,
+      "sha256": "64bdae72b3a04c6d48b3c673f47689a4b8a097d702c13af39141872d2a25626c"
+    },
+    {
+      "path": "model/OF_Wainscot02_N.fbx",
+      "bytes": 23212,
+      "sha256": "6a64ce2cc49f1af2899e5ac7461c0953d5df737125015a1babe229dc06811442"
+    },
+    {
+      "path": "model/OF_Wainscot02_S.fbx",
+      "bytes": 29916,
+      "sha256": "c0e249b17d915f4a177803760af82156a349cad07a558dfc9cc65b45db7e71ba"
+    },
+    {
+      "path": "model/OF_Wainscot02_W.fbx",
+      "bytes": 25068,
+      "sha256": "4cf64dc9e1f4ad4d0c2794b13f386efe8dfcd5eb16c4506ffcaff8ad4af66c59"
+    },
+    {
+      "path": "model/OF_Wainscot02_WF.fbx",
+      "bytes": 20540,
+      "sha256": "31b8dd1a3b4ff138578d8e211bfea0896e3af71a90879f35b3c80182babd6d0b"
+    },
+    {
+      "path": "model/build_fitted.py",
+      "bytes": 14401,
+      "sha256": "90e2c88d9cb0a6eb9afb00f8f1f4b9d31cd4eba9c436c2d352fc20cd45cbb6d0"
+    },
+    {
+      "path": "model/validate_fitted.py",
+      "bytes": 2715,
+      "sha256": "c906fb3f73df113582ae142bd4ffe3d5c9e85e6a155c35a5ce51b26a401424f5"
+    },
+    {
+      "path": "previews/north-door-corner.png",
+      "bytes": 1493349,
+      "sha256": "93028d6fdc98f09c179be6f7916398990d59acee1b2b1cd6bcfc2d52fb705af7"
+    },
+    {
+      "path": "previews/tight-wardrobe-corner.png",
+      "bytes": 1351521,
+      "sha256": "458a229781265231ce2f46f8d82ede56756ba81acf73a95573fd9a43ad6e6796"
+    },
+    {
+      "path": "previews/under-window.png",
+      "bytes": 1473284,
+      "sha256": "20446ec1750a389acc4bc4e9b70ea3bed83e9bfaa853568edb0978afd2a65467"
+    },
+    {
+      "path": "previews/wardrobe-outside-corner.png",
+      "bytes": 1483264,
+      "sha256": "2f9ec20be04bb46d96d9f6d2c02428a7709f1529ce5f5fbe9c66d52e134076dc"
+    },
+    {
+      "path": "textures/painted-ivory.png",
+      "bytes": 2255070,
+      "sha256": "70df603738a21f0522e2fb94e03928127d0de154e88e73d9f8652a685cf160e7"
+    },
+    {
+      "path": "validation.json",
+      "bytes": 2531,
+      "sha256": "01b161af49e3930c805096bf52b607b6ccea8ed1066ecdb23ecc51802f876c49"
+    }
+  ]
+}

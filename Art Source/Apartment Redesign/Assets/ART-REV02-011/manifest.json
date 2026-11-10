@@ -1,0 +1,127 @@
+{
+  "asset": "ART-REV02-011",
+  "instance": "BR-ART-FLORAL-01:066",
+  "title": "Anemones in the blue jug",
+  "frame": "Oxblood convex lacquer and fine gold fillet",
+  "dimensions_m": [
+    0.55,
+    0.035,
+    0.5
+  ],
+  "bounds_m": {
+    "min": [
+      -0.2750000059604645,
+      -0.03500000014901161,
+      0.0
+    ],
+    "max": [
+      0.2750000059604645,
+      0.0,
+      0.5
+    ]
+  },
+  "origin": "bottom-center rear wall plane; front -Y; Z up",
+  "planned_rect": [
+    4.705,
+    6.1,
+    0.035,
+    0.55
+  ],
+  "bottom_z": 1.45,
+  "front": "west",
+  "fbx": "models/ART-REV02-011.fbx",
+  "art_texture": "textures/T_Artwork.png",
+  "art_sha256": "7138618e310738af8b124c5984f24296dbef1c38b20110022576c6e1a53de30b",
+  "crop": {
+    "u_span": 1,
+    "v_span": 0.953019218169906,
+    "source_aspect": 1.0633223684210527,
+    "aperture_aspect": 1.115740740740741,
+    "mode": "center crop; uniform pixel scale; no stretch"
+  },
+  "frame_material": {
+    "wood_color_linear": [
+      0.23,
+      0.035,
+      0.035
+    ],
+    "roughness": 0.64,
+    "grain_map": "textures/T_Frame_Grain.png",
+    "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+    "base_color_map": "textures/T_Frame_BaseColor.png"
+  },
+  "ucx": 1,
+  "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+  "engine_placement": {
+    "wall_datum_center_plan_m": [
+      4.74,
+      6.375,
+      1.45
+    ],
+    "ue_local_yaw_degrees": 90,
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+  },
+  "materials": [
+    {
+      "slot": 0,
+      "name": "ART-REV02-011_Frame",
+      "base_color_linear": [
+        0.23,
+        0.035,
+        0.035
+      ],
+      "roughness": 0.64,
+      "metallic": 0.12,
+      "opacity": 1,
+      "two_sided": false,
+      "base_color_texture": "textures/T_Frame_BaseColor.png",
+      "texture_srgb": true
+    },
+    {
+      "slot": 1,
+      "name": "ART-REV02-011_Aged_Gilt",
+      "base_color_linear": [
+        0.38,
+        0.26,
+        0.095
+      ],
+      "roughness": 0.48,
+      "metallic": 0.64,
+      "opacity": 1,
+      "two_sided": false
+    },
+    {
+      "slot": 2,
+      "name": "ART-REV02-011_Backboard",
+      "base_color_linear": [
+        0.12,
+        0.085,
+        0.055
+      ],
+      "roughness": 0.9,
+      "metallic": 0.0,
+      "opacity": 1,
+      "two_sided": false
+    },
+    {
+      "slot": 3,
+      "name": "ART-REV02-011_Artwork",
+      "base_color_linear": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "roughness": 0.86,
+      "metallic": 0.0,
+      "opacity": 1,
+      "two_sided": false,
+      "base_color_texture": "textures/T_Artwork.png",
+      "texture_srgb": true
+    }
+  ]
+}

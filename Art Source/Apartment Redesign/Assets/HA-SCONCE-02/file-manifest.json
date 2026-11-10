@@ -1,0 +1,90 @@
+{
+  "manifest_sha256": "87c26e79c10c2bbf9fca6591747e438e88a3fc3e3b4be20201e7c456d82f3102",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 5234,
+      "sha256": "f185e8ce9852205a23106dff93acc2e9ab639fa10f8155611795b249df2d775e"
+    },
+    {
+      "path": "build_sconce.py",
+      "bytes": 13704,
+      "sha256": "39a09442c291efa56da666c25274a4e39e5e46edfe8be789ce6a3c0f06f28ea8"
+    },
+    {
+      "path": "manifest.json",
+      "bytes": 3896,
+      "sha256": "87c26e79c10c2bbf9fca6591747e438e88a3fc3e3b4be20201e7c456d82f3102"
+    },
+    {
+      "path": "models/HA-SCONCE-02.blend",
+      "bytes": 4213197,
+      "sha256": "6a2908eb05238e0ce4f0cd07774458bf5a44c4f8b7a5ba7eac8b21f21f51f018"
+    },
+    {
+      "path": "models/HA_Sconce02_Bulb.fbx",
+      "bytes": 49980,
+      "sha256": "2feff05f5230e85fc23bfb1d304568fa7e3ca293596c43cf421f27c09df2fd25"
+    },
+    {
+      "path": "models/HA_Sconce02_Hardware.fbx",
+      "bytes": 301548,
+      "sha256": "7d1deb33fb445c87d9793b0c725481fa19890cec574a8927492ba579aea766f7"
+    },
+    {
+      "path": "models/HA_Sconce02_Shade.fbx",
+      "bytes": 280380,
+      "sha256": "d7668b4af4ee8d019f9c3db09eaac0e7819bf497a5fc8fac6c70fe85cd5f5962"
+    },
+    {
+      "path": "previews/sconce-front.png",
+      "bytes": 642707,
+      "sha256": "2dcab9c9717dbac8bfdd6fadffdb1f0527bbef20186b77a2d1fa81905dcbb604"
+    },
+    {
+      "path": "previews/sconce-off.png",
+      "bytes": 657459,
+      "sha256": "e045c13a521d9c6ce0b292de821157f0528ecea481a4e390784dc7d67fd02d4f"
+    },
+    {
+      "path": "previews/sconce-on.png",
+      "bytes": 671806,
+      "sha256": "832ea29f8d0ee9466172aaae1e8606d0548c4926dba7de4636ef9e189866d8ec"
+    },
+    {
+      "path": "previews/sconce-side.png",
+      "bytes": 493149,
+      "sha256": "787089439ac26cecb4c7578d7f388444d3dc37ab5536350eae4d55f4000f9ad9"
+    },
+    {
+      "path": "previews/sconce-underside.png",
+      "bytes": 671174,
+      "sha256": "968533d2dad98bba1b2b7fe1126ab9940eb926fd505b436b1a45da67b10b9c27"
+    },
+    {
+      "path": "source-audit.json",
+      "bytes": 907,
+      "sha256": "fb5390e61df5ef6cfbd56e3b407823f31529a2d1b9d9847b6063c9d7cad7e01b"
+    },
+    {
+      "path": "textures/aged-brass.png",
+      "bytes": 2100959,
+      "sha256": "0dfccc080c1337d1eeb601e665c756bbe14ff303840cab5ef561c9ec84ca75fd"
+    },
+    {
+      "path": "textures/opal-glass.png",
+      "bytes": 1818052,
+      "sha256": "5106208894ebb8143268e5d4b33fcd3e4c3a35c287b7bfb6033cb1421f45f938"
+    },
+    {
+      "path": "validate_exports.py",
+      "bytes": 1410,
+      "sha256": "858e5b086e13bc4f738c23f2183c6892b8ac9fba57d6434f126eb0935ef0cc74"
+    },
+    {
+      "path": "validation.json",
+      "bytes": 1542,
+      "sha256": "7faf3fa32bd2e7f9d40c9ee97102caad85d20da6c0151b48183ba251a973ee32"
+    }
+  ]
+}

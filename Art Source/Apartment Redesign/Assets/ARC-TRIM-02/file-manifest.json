@@ -1,0 +1,82 @@
+{
+  "asset": "ARC-TRIM-02",
+  "fix": "FIX-024",
+  "path_resolution": "Paths relative to this asset folder",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 3779,
+      "sha256": "d3b010c7f788036980621c90fc2421419ba68612073595bf334898caa41a4885"
+    },
+    {
+      "path": "assembly.json",
+      "bytes": 1243,
+      "sha256": "1776b9da313bd072b4257b0b69addcb690e37ec5af10b6d1b46f3e8875649fa3"
+    },
+    {
+      "path": "model/ARC-TRIM-02.blend",
+      "bytes": 104772,
+      "sha256": "83b675905ca139289b7ebb00d6530e82d584cfda01a49c72c127920976892868"
+    },
+    {
+      "path": "model/Baseboard_Outside_End.fbx",
+      "bytes": 15532,
+      "sha256": "b38b9f8a0ab7907255cf12d594c7164aa544412b8c59d23fa1b21396f2b4b5fe"
+    },
+    {
+      "path": "model/Baseboard_Outside_Start.fbx",
+      "bytes": 15532,
+      "sha256": "3e2ee3687de5856bbe387ee9cc0c3183bd480c2dc4aeb435ba29183fe1b1ae1f"
+    },
+    {
+      "path": "model/Crown_Outside_End.fbx",
+      "bytes": 15932,
+      "sha256": "287d3a56d9b3923977079c2fc22374ed7dfbdf0959eafee5efb77eb95b3d4418"
+    },
+    {
+      "path": "model/Crown_Outside_Start.fbx",
+      "bytes": 15900,
+      "sha256": "d53018a5a71982f6db51a6ca5a9d521f7618e0b926bbb442ee16e631f1db2f82"
+    },
+    {
+      "path": "model/build_outside.py",
+      "bytes": 5359,
+      "sha256": "7dcea9f5a2c9f2411861d57422542b21b2505fc3cf78d6aa22bd6cee42ffb4b9"
+    },
+    {
+      "path": "model/validate_outside.py",
+      "bytes": 3611,
+      "sha256": "7b3b688ee00864f54c2026d44e6d2507a44cec07bb38eea5ca1783a65deb08db"
+    },
+    {
+      "path": "previews/baseboard-outside-close.png",
+      "bytes": 438636,
+      "sha256": "8d1d8fc4a868c6c6c697f12388d9b0f5c9a3af00a1dd98534bdd2de5d3dd7d5c"
+    },
+    {
+      "path": "previews/crown-outside-close.png",
+      "bytes": 425431,
+      "sha256": "2580a2510bb561c56c98e842fcd62b50c3ed64ce86f1474e6110e0cfc572c1c8"
+    },
+    {
+      "path": "previews/outside-junction.png",
+      "bytes": 433925,
+      "sha256": "90629534b22b00114b45cf0a264c417ebba21d25597eea15c14af51ce6e2643b"
+    },
+    {
+      "path": "profiles.json",
+      "bytes": 1163,
+      "sha256": "1b0219e37538e8ad32aca82d343681412b7dddd3e97a9686c359c7877395d462"
+    },
+    {
+      "path": "textures/paint-selected.png",
+      "bytes": 2070314,
+      "sha256": "8ca1c5b1a3e9ddd6d243bfe60e50e0cebe25b23e448b298dc1d802f876612c38"
+    },
+    {
+      "path": "validation.json",
+      "bytes": 2882,
+      "sha256": "a0ba0e4766a1af46a26322551257fc4760e7d497c08d91f05be148dc4f83c0b7"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "export": "model/BA_TubFixture02_Drain.fbx",
+  "bounds_m": {
+    "min": [
+      -0.5419999957084656,
+      -0.041999999433755875,
+      0.18400000035762787
+    ],
+    "max": [
+      -0.4580000042915344,
+      0.041999999433755875,
+      0.19200000166893005
+    ]
+  },
+  "vertices": 128,
+  "triangles": 248,
+  "degenerate_triangles": 0,
+  "materials": [
+    "Aged_chrome",
+    "Drain_dark"
+  ],
+  "max_bounds_error_m": 0.0,
+  "origin": [
+    0,
+    0,
+    0
+  ],
+  "collision": "none",
+  "placement": "Exact original tub/combined-fixture transform; never west-wall plumbing transform."
+}

@@ -1,0 +1,124 @@
+{
+  "asset": "HA-SLIPPERS-01",
+  "fix": "FIX-016",
+  "units": "metres",
+  "origin": "pair floor center",
+  "up": "+Z",
+  "front_toes": "-Y",
+  "fbx_forward": "-Y",
+  "bounds": {
+    "min": [
+      -0.12771691381931305,
+      -0.14893841743469238,
+      0.0010000000474974513
+    ],
+    "max": [
+      0.12771685421466827,
+      0.14886784553527832,
+      0.07255885004997253
+    ]
+  },
+  "parts": [
+    {
+      "name": "HA_Slipper_Left",
+      "materials": [
+        "Slipper_LeatherSole",
+        "Slipper_QuiltedOatmeal",
+        "Slipper_WornBurgundy",
+        "Slipper_RoseBinding",
+        "Slipper_FadedFlaxThread",
+        "Slipper_Embroidery"
+      ]
+    },
+    {
+      "name": "HA_Slipper_Right",
+      "materials": [
+        "Slipper_LeatherSole",
+        "Slipper_QuiltedOatmeal",
+        "Slipper_WornBurgundy",
+        "Slipper_RoseBinding",
+        "Slipper_FadedFlaxThread",
+        "Slipper_Embroidery"
+      ]
+    }
+  ],
+  "materials": {
+    "Slipper_LeatherSole": {
+      "base_color_linear": [
+        0.12999999523162842,
+        0.06499999761581421,
+        0.029999999329447746
+      ],
+      "roughness": 0.88,
+      "base_color_texture": null
+    },
+    "Slipper_QuiltedOatmeal": {
+      "base_color_linear": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "roughness": 0.88,
+      "base_color_texture": "textures/T_Slipper_Quilt.png"
+    },
+    "Slipper_WornBurgundy": {
+      "base_color_linear": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "roughness": 0.88,
+      "base_color_texture": "textures/T_Slipper_Velvet.png"
+    },
+    "Slipper_RoseBinding": {
+      "base_color_linear": [
+        0.28999999165534973,
+        0.11999999731779099,
+        0.10000000149011612
+      ],
+      "roughness": 0.88,
+      "base_color_texture": null
+    },
+    "Slipper_FadedFlaxThread": {
+      "base_color_linear": [
+        0.5299999713897705,
+        0.36000001430511475,
+        0.1899999976158142
+      ],
+      "roughness": 0.88,
+      "base_color_texture": null
+    },
+    "Slipper_Embroidery": {
+      "base_color_linear": [
+        0.6299999952316284,
+        0.4699999988079071,
+        0.27000001072883606
+      ],
+      "roughness": 0.88,
+      "base_color_texture": null
+    }
+  },
+  "collision": "none; decorative floor textile",
+  "placement": "Replace old shoes and tray with ONE pair near entry; preserve doorway/bench clearance. Source pair center and floor datum, no old shoe-specific pivot offsets.",
+  "proposed_placement": {
+    "unreal_location_cm": [
+      1170,
+      362,
+      0
+    ],
+    "yaw_degrees": 90,
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "retire_old_display_parts": [
+      "HA_ShoeTray",
+      "HA_Oxford_1",
+      "HA_Oxford_2",
+      "HA_SlipOn_1",
+      "HA_SlipOn_2"
+    ],
+    "engine_verification": "bench/entry clearance and visual review pending"
+  }
+}

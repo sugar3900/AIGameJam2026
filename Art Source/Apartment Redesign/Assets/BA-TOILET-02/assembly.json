@@ -1,0 +1,139 @@
+{
+  "asset": "BA-TOILET-02",
+  "fix": "FIX-023",
+  "supersedes": "BA-TOILET-01",
+  "units": "metres",
+  "front": "-Y",
+  "up": "+Z",
+  "assembly_origin": [
+    0,
+    0,
+    0
+  ],
+  "placement": {
+    "source_to_plan": "(5.55+sourceX,6.03-sourceY,sourceZ)",
+    "body_water_ue_location_cm": [
+      555,
+      603,
+      0
+    ],
+    "ue_yaw": 0,
+    "preserve_bounds_center": false
+  },
+  "parts": [
+    {
+      "file": "model/BA_Toilet02_Body.fbx",
+      "name": "BA_Toilet02_Body",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "ucx": 21,
+      "role": "static body including fixed seat, tank, front lever and fixed hinge cheeks"
+    },
+    {
+      "file": "model/BA_Toilet02_Lid.fbx",
+      "name": "BA_Toilet02_Lid",
+      "origin": [
+        0,
+        0.11,
+        0.516
+      ],
+      "ucx": 1,
+      "preserve_action_label": "Toilet_Lid",
+      "axis": "source local X",
+      "closed_angle_degrees": 0,
+      "open_angle_degrees": -85,
+      "ue_pivot_cm": [
+        555,
+        592,
+        51.6
+      ],
+      "source_endpoint_example": {
+        "closed": [
+          0,
+          -0.366,
+          0.516
+        ],
+        "open": [
+          0,
+          0.06851386645211473,
+          0.990188676291671
+        ]
+      },
+      "binding_note": "FBX mesh is in assembled source space with stored hinge origin. Rebase action body to hinge as needed; never double-apply its translation. Choose imported rotation sign from front-edge-rise test."
+    },
+    {
+      "file": "model/BA_Toilet02_Water.fbx",
+      "name": "BA_Toilet02_Water",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "ucx": 0,
+      "top_z": 0.275,
+      "surface_center": [
+        0,
+        -0.075,
+        0.275
+      ],
+      "surface_radii": [
+        0.088,
+        0.109
+      ],
+      "role": "static bowl water; no collision, no click, no repair-hide tags"
+    }
+  ],
+  "materials": {
+    "Painted_Ivory_Enamel": {
+      "base_color_texture": "textures/painted-ivory.png",
+      "srgb": true,
+      "roughness": 0.36,
+      "metallic": 0,
+      "tint": "none; use texture directly"
+    },
+    "Aged_Brass": {
+      "base_color_linear": [
+        0.4,
+        0.25,
+        0.11
+      ],
+      "roughness": 0.32,
+      "metallic": 0.72
+    },
+    "Trap_Interior": {
+      "base_color_linear": [
+        0.1,
+        0.087,
+        0.065
+      ],
+      "roughness": 0.6,
+      "metallic": 0
+    },
+    "Ivory_Rubber_Bumpers": {
+      "base_color_linear": [
+        0.57,
+        0.54,
+        0.46
+      ],
+      "roughness": 0.8,
+      "metallic": 0
+    },
+    "Toilet_Standing_Water": {
+      "role": "Unreal clear still-water material; existing bucket-water setup preferred",
+      "roughness": 0.09,
+      "ior": 1.333,
+      "emissive": 0,
+      "collision": false
+    }
+  },
+  "validation": "validation/fbx-roundtrip.json",
+  "engine_acceptance_pending": [
+    "real lid open/close clicks",
+    "full lid body/tank/room-door sweep",
+    "bathroom capsule routes",
+    "lit Lumen water and interior review"
+  ]
+}

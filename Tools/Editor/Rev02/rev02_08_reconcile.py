@@ -22,7 +22,8 @@ SPARSE = ('intentional sparse dressing: LV-BOOK-01 book parts are placed on the 
 # instance -> (anchor labels, {child: labels | 'omitted: reason'})
 M = {
  'BA-TUB-01:001': (['Art_BA_Tub_BA_Tub'], {'BA-TUB-WATER-01': ['Tub_Faucet'], 'taps': ['Art_BA_Tub_BA_TapLeft', 'Art_BA_Tub_BA_TapRight'],
-                   'shower riser': ['Art_BA_Tub_BA_TubFixtures'], 'curtain': ['Art_BA_Tub_BA_BA_Curtain', 'Shower_Curtain']}),
+                   'shower riser': ['Art_BA_TubFixture02_Plumbing'], 'curtain': ['Art_BA_Tub_BA_BA_Curtain', 'Shower_Curtain'],
+                   'BA-TUB-FIXTURES-02': ['Art_BA_TubFixture02_Plumbing', 'Art_BA_TubFixture02_CurtainRod', 'Art_BA_TubFixture02_Drain']}),
  'BA-BASIN-01:002': (['Art_BA_Basin_BA_BasinBody'], {'taps': ['Art_BA_Basin_BA_BA_BasinTap_L', 'Art_BA_Basin_BA_BA_BasinTap_R', 'Basin_Tap']}),
  'BA-TOILET-01:003': (['Art_BA_Toilet_BA_ToiletBody'], {}),
  'BA-LINEN-01:004': (['Art_BA_Linen_BA_Linen_Body'], {}),
@@ -34,7 +35,8 @@ M = {
  'BA-BIN-01:009': (['Art_BA_Bin_Bin_body'], {}),
  'LV-LAMP-01:010': (['Art_OF_FloorLamp_LV_LampBody'], {}),
  'OF-CABINET-01:011': (['Art_OF_Cabinet_OF_CABINET_BODY'], {'box': 'omitted: would sit inside the closed cabinet, never visible'}),
- 'HA-BENCH-01:012': (['Art_HA_Bench_HA_BENCH_01'], {'HA-SHOES-01': ['Art_HA_Shoes_HA_ShoeTray', 'Art_HA_Shoes_HA_Oxford_1', 'Art_HA_Shoes_HA_Oxford_2', 'Art_HA_Shoes_HA_SlipOn_1', 'Art_HA_Shoes_HA_SlipOn_2']}),
+ 'HA-BENCH-01:012': (['Art_HA_Bench_HA_BENCH_01'], {'HA-SHOES-01': ['Art_HA_Slippers01'] if 'Art_HA_Slippers01' in acts else ['Art_HA_Shoes_HA_ShoeTray', 'Art_HA_Shoes_HA_Oxford_1', 'Art_HA_Shoes_HA_Oxford_2', 'Art_HA_Shoes_HA_SlipOn_1', 'Art_HA_Shoes_HA_SlipOn_2'],
+                                                 'HA-SLIPPERS-01': ['Art_HA_Slippers01'] if 'Art_HA_Slippers01' in acts else 'pending FIX-016 import'}),
  'HA-CABINET-01:013': (['Art_HA_EndCabinet_HA_CABINET_BODY'], {'HA-VASE-02': ['Art_HA_Vase02_HA_VASE_02']}),
  'HA-CONSOLE-01:014': (['Art_HA_Console_HA_CONSOLE_BODY'], {'HA-VASE-01': ['Art_HA_Vase'], 'HA-FLOWERS-01': ['Art_HA_Flowers']}),
  'OF-BOOKCASE-01:015': (['Art_OF_Bookcase_OF_BOOKCASE_BODY'], {'books': [l for l in acts if l.startswith(('Art_Book_OFLow_', 'Art_Book_OFHigh_'))],
@@ -45,14 +47,20 @@ M = {
  'BR-DRESSER-01:019': (['Art_BR_Dresser_BR_Dresser_body'], {'BR-PERFUME-01': ['Art_BR_Perfume_BR_Perfume_Body'], 'tray': NO_ASSET}),
  'LV-SOFA-01:020': (['Art_LV_Sofa'], {'cushions': 'part of the LV-SOFA-01 mesh', 'floral throw': 'part of the LV-SOFA-01 mesh'}),
  'LV-COFFEE-01:021': (['Art_LV_Coffee_04'], {'books': SPARSE, 'KI-MUG-01': ['Art_KI_Mug_KI_Mug_01_Coffee']}),
- 'LV-TV-01:022': (['Art_LV_TV_LV_TV_body', 'TV'], {}),
+ 'LV-TV-01:022': (['Art_LV_TV02_Housing', 'TV'] if 'Art_LV_TV02_Housing' in acts else ['Art_LV_TV_LV_TV_body', 'TV'], {}),
+ # FIX-031/032: the kept stand (rev02_05g relabels the old combined body) with its two bound cabinet doors
+ 'LV-TV-STAND-01:103': (['Art_LV_TV02_Stand'], {'TVCabinet_Door_L': ['TVCabinet_Door_L'], 'TVCabinet_Door_R': ['TVCabinet_Door_R']}),
  'LV-CHAIR-01:023': (['Art_LV_Chair_03'], {}),
  'LV-BOOK-01:024': (['Art_LV_Book_LV_BOOK_CASE'], {'shelf books': ['Art_LV_Book_LV_BOOK_BOOKS'], 'plant': ['Art_LV_Book_LV_BOOK_PLANT'], 'tin': ['Art_LV_Book_LV_BOOK_TIN']}),
  'LV-SIDE-TABLE-01:025': (['Art_LV_SideTable_LV_SIDE_TABLE_BODY'], {'LV-TABLE-LAMP-01': ['Art_LV_TableLamp_LV_TableLampBody', 'FloorLamp']}),
  'LV-PLANT-01:026': (['Art_HA_Plant'], {'LV-PLANT-STAND-01': ['Art_HA_PlantStand_LV_Plant_Stand', 'Art_HA_PlantStand_Riser']}),
  'LV-RADIATOR-01:027': (['Art_LV_Radiator'], {}),
  'KI-CABINET-02:028': (['Art_KI_Cab0425_body'], {'KI-JAR-01': ['Art_KI_Jar_KI_Jar_Body']}),
- 'KI-SINK-NARROW-01:029': (['Art_KI_SinkNarrow_body', 'Malady_Sink'], {'faucet': 'part of the KI_SINK_NARROW_body mesh', 'KI-BUCKET-01': 'part of the KI_SINK_NARROW_body mesh'}),
+ 'KI-SINK-NARROW-01:029': (['Art_KI_SinkNarrow_body', 'Malady_Sink'], {'faucet': 'part of the KI_LEAK_02_sink_body mesh'}),
+ # FIX-003 additions (KI-LEAK-02): the pail and its still water stay after repair; the spill decal is Lukey's damage.
+ 'KI-LEAK-02:100': (['Art_KI_Leak_Bucket'], {}),
+ 'KI-LEAK-02:101': (['Art_KI_Leak_BucketWater'], {}),
+ 'KI-LEAK-02:102': (['Art_KI_SINK_damage'], {}),                      # + Art_KI_SINK_damage_Wet (sheen layer, same mask)
  'KI-CABINET-02:030': (['Art_KI_Cab0775_body'], {'KI-BOWL-01': ['Art_KI_Bowl_KI_Bowl_Counter']}),
  'KI-RANGE-01:031': (['Art_KI_Range_Body'], {'KI-KETTLE-01': ['Art_KI_Kettle_KI_Kettle_Body'], 'KI-RANGE-FLAME-01': ['Stove_Burner'],
                      'KI-PAN-01': 'omitted on the range: both pan props hang on the scheduled pan rail (KI-PAN-RAIL-01:085)'}),
@@ -98,9 +106,10 @@ M = {
  'BA-SWITCH-01:079': (['Art_BA_Switch_BA_Switch_Plate'], {}),
  'ARC-WALL-SHELF-01:080': (['Art_BA_WallShelf_ARC_WALL_SHELF_01_S080'], {'BA-JAR-01': ['Art_BA_Jar_BA_Jar_Body'], 'BA-SOAP-01': ['Art_BA_Soap_BA_SoapDish_080']}),
  'BA-ART-01:081': (['Art_BA_Art01_BA_ART_01'], {}),
- 'BA-HOOK-01:082': (['Art_BA_Hook_BA_Hook_01'], {'BA-HAND-TOWEL-01': ['Art_BA_HandTowel_BA_Hand_Towel']}),
+ 'BA-HOOK-01:082': (['Art_BA_Ring02_Hardware'], {'BA-HAND-TOWEL-01': ['Art_BA_Ring02_Towel']}),        # FIX-007 ring replaces hook
  'BA-ROLL-01:083': (['Art_BA_Roll_BA_Roll_Holder'], {}),
- 'BA-TOWEL-RAIL-01:084': (['Art_BA_TowelRail_BA_Towel_Rail'], {'BA-HAND-TOWEL-01': ['Art_BA_TowelRail_BA_Towel_Ivory', 'Art_BA_TowelRail_BA_Towel_Rose']}),
+ 'BA-TOWEL-RAIL-01:084': (['Art_BA_TowelRail_BA_Towel_Rail'], {'BA-HAND-TOWEL-01': ['Art_BA_TowelRail_BA_Towel_Ivory'],
+                                                               'BA_Towel_Ivory.fbx': ['Art_BA_TowelRail_BA_Towel_Ivory']}),
  'ARC-WALL-SHELF-01:085': (['Art_BA_WallShelf_ARC_WALL_SHELF_01_S085'], {'BA-FOLDED-TOWEL-01': ['Art_BA_FoldedTowel_BA_Folded_Towel'], 'BA-TIN-01': ['Art_BA_Tin_BA_Tin_Body']}),
  'BA-TILE-01:086': (['Damage_BA_CrackedTile', 'Malady_PinkTile'], {}),
  'KI-WALL-STAIN-01:078': (['Art_KI_Wall_Stain'], {}),
@@ -114,10 +123,12 @@ M = {
  'BA-SWITCH-01:086': (['Art_BA_Switch_BA_Switch_Plate_S086'], {}),
  'ARC-SLIDING-CLOSET-01:087': (['Art_OfficeCloset_Frame', 'Art_OfficeCloset_LeftPanel', 'Art_OfficeCloset_RightPanel'], {}),
  'ARC-CLOSET-RETURN:088': ([l for l in acts if l.startswith('ClosetSide_')], {}),
- 'BR-CLOSET-01:089': (['Art_BR_Closet_Mold', 'Malady_Mold'], {}),
- 'BR-CLOSET-01:090': (['Art_BR_Closet02_Shelf'], {'empty hangers': 'part of the BR_Closet02_Shelf mesh'}),
+ 'BR-CLOSET-01:089': (['Art_BR_Closet_Mold', 'Malady_Mold'], {}),                      # BR-MOLD-02 back plane (FIX-001)
+ 'BR-MOLD-02:098': (['Art_BR_Closet_Mold_Return'], {}),                                  # BR-MOLD-02 east return
+ 'BR-CLOSET-01:090': (['Art_BR_ClosetStorage03_West'], {'hooked empty hangers': 'part of the BR_ClosetStorage03_West mesh'}),
+ 'BR-CLOSET-STORAGE-03:099': (['Art_BR_ClosetStorage03_East'], {'hooked empty hangers': 'part of the BR_ClosetStorage03_East mesh'}),
  'BR-CLOSET-BOX-01:091': (['Art_BR_ClosetBox_BR_BOX_BODY'], {}),
- 'BR-CLOSET-01:092': (['Art_BR_Closet02_Bulb', 'Bulb_Closet'], {}),
+ 'BR-CLOSET-01:092': (['Art_BR_ClosetLight01_Hardware', 'Light_Closet'] if 'Light_Closet' in acts else ['Art_BR_Closet02_Bulb', 'Bulb_Closet'], {}),
  'CHAR-MALCOLM:093': ([], {}),
  'ARC-CLOSET-STORAGE-02:094': (['Art_CoatCloset_Storage'], {'hangers': 'part of the ARC_ClosetStorage02 mesh'}),
  'BR-CLOSET-BOX-01:095': (['Art_BR_ClosetBox_BR_BOX_BODY_S095'], {}),
@@ -130,11 +141,16 @@ M = {
 #              (shelf board), while the mesh bounds include hangers, so only xy is compared
 #   front_edge:the rect is the closet footprint; the actor is its front frame, which must sit on the rect's front edge
 #   patch:     the overlay mesh is the damage patch itself; its centre must be on the scheduled patch centre (6 cm)
-MODE = {'BA-TOWEL-RAIL-01:078': 'with_kids', 'BA-TOWEL-RAIL-01:084': 'with_kids', 'BA-HOOK-01:082': 'with_kids',
-        'KI-PAN-RAIL-01:085': 'with_kids', 'BR-CLOSET-01:090': 'kit', 'ARC-CLOSET-STORAGE-02:094': 'kit',
+MODE = {'ARC-WALL-SHELF-01:077': 'top', 'ARC-WALL-SHELF-01:080': 'top', 'ARC-WALL-SHELF-01:085': 'top',
+        'BA-TOWEL-RAIL-01:078': 'with_kids', 'BA-TOWEL-RAIL-01:084': 'with_kids', 'BA-HOOK-01:082': 'with_kids',
+        'KI-PAN-RAIL-01:085': 'with_kids', 'BR-CLOSET-01:090': 'kit', 'BR-CLOSET-STORAGE-03:099': 'kit', 'ARC-CLOSET-STORAGE-02:094': 'kit',
         'ARC-CLOSET-STORAGE-02:096': 'kit', 'ARC-SLIDING-CLOSET-01:087': 'front_edge', 'BR-WAINSCOT-01:069': 'patch'}
 DEVIATION = {'ARC-CLOSET-RETURN:088': 'closet return built on the 10.75 m centre-line (face 10.81). Centred on the rect '
-             '(10.81) its face would be at 10.87 m and collide with the sliding frame (ARC-SLIDING-CLOSET-02 outer 10.84 m).'}
+             '(10.81) its face would be at 10.87 m and collide with the sliding frame (ARC-SLIDING-CLOSET-02 outer 10.84 m).',
+             'LV-FUSE-01:043': 'FIX-030 (approved): the case is recessed 10 cm into the north wall (back y -0.04 m) and LV-FUSE-02 '
+                               'removed the external wire stubs, so the union bottom is the case bottom 1.522 m instead of the old stub end.',
+             'BR-CLOSET-01:092': 'FIX-029 (approved): BR-CLOSET-LIGHT-01 short pendant (canopy 2.75 m, glass bottom 2.46 m, chain to '
+                                 '2.015 m) replaces the old 0.69 m drop pendant.'}
 OMIT = {'CHAR-MALCOLM:093': 'not an actor: standing-clearance reference for Malcolm; checked as the Malady_Mold hunk spawn/talk clearance'}
 
 def ubox(labels):
@@ -150,6 +166,8 @@ def ubox(labels):
 rows, problems, used = [], [], set()
 for it in sched:
     inst = it['instance']
+    if it.get('active') is False:                     # intentionally retired records (FIX-007 :078) are not placed
+        rows.append('| %s | %s | — | retired record: %s |' % (inst, it['name'], it.get('note', ''))); continue
     if inst in OMIT:
         rows.append('| %s | %s | — | intentional: %s |' % (inst, it['name'], OMIT[inst])); continue
     assert inst in M, 'unmapped schedule instance ' + inst
@@ -177,6 +195,10 @@ for it in sched:
             dzc = (mn[2] + mx[2]) / 2 - (it.get('z', 0) + it['h'] / 2) * 100
             ok = abs(dx) <= 6 and abs(dy) <= 6 and abs(dzc) <= 6
             txt = 'patch centre Δ (%+.0f, %+.0f, %+.0f) cm; overlay x %.0f..%.0f, z %.0f..%.0f' % (dx, dy, dzc, mn[0], mx[0], mn[2], mx[2])
+        elif mode == 'top':
+            dzt = mx[2] - it.get('z', 0) * 100
+            ok = abs(dx) <= tol and abs(dy) <= tol and abs(dzt) <= 3
+            txt = 'Δxy (%+.0f, %+.0f) cm, Δtop %+.1f cm (schedule z is the shelf-top datum)' % (dx, dy, dzt)
         else:
             ok = abs(dx) <= tol and abs(dy) <= tol and (not wall or abs(dz) <= 12)
             txt = 'Δxy (%+.0f, %+.0f) cm%s%s' % (dx, dy, ', Δbottom %+.0f cm' % dz if wall else '',
@@ -223,7 +245,7 @@ for lab, a in sorted(acts.items()):
         groups['fixtures'].append('`%s`: %s ceiling fixture, %.0f cm from its scheduled position' % (lab, near['room'], d))
     elif any(k in lab for k in ('Rug', 'Runner', 'Mat_', 'Curtain')):
         groups['textiles'].append('`%s`' % lab)
-    elif asset_key(lab) in used_keys or lab in ('Art_KI_SINK_damage', 'Art_BR_Closet02_Trim', 'Art_KI_SinkNarrow_R_tap') or lab.startswith('Art_KI_Backsplash_End'):
+    elif asset_key(lab) in used_keys or lab in ('Art_BR_Closet02_Trim', 'Art_KI_SinkNarrow_R_tap', 'Art_KI_SINK_damage_Wet', 'Art_BA_Toilet02_Water') or lab.startswith('Art_KI_Backsplash_End'):
         groups['parts'].append('`%s`' % lab)
     else:
         groups['other'].append('`%s` (%s)' % (lab, fp))
@@ -231,7 +253,7 @@ rug = next(i for i in plan['decorative_floor_items'] if i['asset_id'] == 'LV-RUG
 ro, re_ = acts['Art_LV_Rug_LV_RUG_01'].get_actor_bounds(False)
 rx, ry, rw, rd = [v * 100 for v in rug['rect']]
 extra = (['**Members of scheduled assemblies** (lids, stoppers, toggles, bulbs, handles, doors, ends, kit trim, the second '
-          'narrow-sink tap, and Lukey\'s sink-damage overlay): ' + ', '.join(groups['parts']), '',
+          'narrow-sink tap): ' + ', '.join(groups['parts']), '',
           '**Click actions and maladies** (each moves with the assembly it belongs to; bodies are the hidden source art): ' + ', '.join(groups['actions']), '',
           '**Ceiling fixtures** (elevation schedule `ceiling_fixtures`):'] + ['  - ' + f for f in groups['fixtures']] +
          ['', '**Textiles / surfaces** ("surface / textile; see floor plan" in the asset schedule): ' + ', '.join(groups['textiles']) +

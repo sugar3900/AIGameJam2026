@@ -1,0 +1,54 @@
+{
+  "status": "Source-built and independently FBX-reimport-validated; Unreal integration pending",
+  "families": {
+    "Baseboard": {
+      "matched_profile_vertices": 8,
+      "max_gap": 0.0,
+      "ue_corner_cm": [
+        486,
+        386
+      ],
+      "ue_end_origin_cm": [
+        386,
+        386,
+        0
+      ],
+      "ue_start_origin_cm": [
+        486,
+        386,
+        0
+      ],
+      "ue_end_yaw": 0,
+      "ue_start_yaw": -90,
+      "full_projection_cm": 3.0
+    },
+    "Crown": {
+      "matched_profile_vertices": 11,
+      "max_gap": 0.0,
+      "ue_corner_cm": [
+        486,
+        386
+      ],
+      "ue_end_origin_cm": [
+        386,
+        386,
+        0
+      ],
+      "ue_start_origin_cm": [
+        486,
+        386,
+        0
+      ],
+      "ue_end_yaw": 0,
+      "ue_start_yaw": -90,
+      "full_projection_cm": 3.5000000000000004
+    }
+  },
+  "validation": "validation.json",
+  "source_units": "metres",
+  "source_projection": "negative Y",
+  "source_end_pair": "End(0,0,Z) yaw0; Start(1,0,Z) yaw+90 degrees",
+  "collision": "none: decorative trim; retain shell collision",
+  "material_slot": "AgedIvoryPaint",
+  "engine_material": "Explicit matching Trim_Cream; do not use auto-import flat FBX fallback"
+}

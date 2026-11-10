@@ -1,0 +1,1023 @@
+{
+  "units": "metres",
+  "origin": "intersection of north and west exterior wall nominal centre-lines; +x east, +y south",
+  "wall_coordinates": "nominal centre-lines; thickness deducted at later detailed construction",
+  "envelope": [
+    12,
+    9.55
+  ],
+  "ceiling_height_assumption": 2.75,
+  "rooms": [
+    {
+      "id": "LV",
+      "name": "Living / dining",
+      "rect": [
+        4.8,
+        0,
+        7.2,
+        3.8
+      ]
+    },
+    {
+      "id": "KI",
+      "name": "Kitchen",
+      "rect": [
+        0,
+        0,
+        4.8,
+        3.8
+      ]
+    },
+    {
+      "id": "HA",
+      "name": "Open entry and short private hall",
+      "rect": [
+        2.2,
+        3.8,
+        9.8,
+        1.8
+      ]
+    },
+    {
+      "id": "BR",
+      "name": "Bedroom",
+      "rect": [
+        0,
+        5.6,
+        4.8,
+        3.95
+      ]
+    },
+    {
+      "id": "BA",
+      "name": "Bath",
+      "rect": [
+        4.8,
+        5.6,
+        3.1,
+        3.95
+      ]
+    },
+    {
+      "id": "OF",
+      "name": "Office / guest",
+      "rect": [
+        7.9,
+        5.6,
+        4.1,
+        3.95
+      ]
+    },
+    {
+      "id": "BC",
+      "name": "Bedroom walk-in closet",
+      "rect": [
+        0,
+        3.8,
+        2.2,
+        1.8
+      ]
+    }
+  ],
+  "swing_doors": [
+    {
+      "room": "BR",
+      "axis": "h",
+      "x": 3.0,
+      "y": 5.6,
+      "width": 1.05,
+      "opens": "down",
+      "hinge": "east",
+      "width_semantics": "rough",
+      "clear_width": 0.99,
+      "rough_head": 2.14,
+      "frame_asset": "ARC-DOOR-02"
+    },
+    {
+      "room": "BA",
+      "axis": "h",
+      "x": 6.25,
+      "y": 5.6,
+      "width": 1.05,
+      "opens": "down",
+      "width_semantics": "rough",
+      "clear_width": 0.99,
+      "rough_head": 2.14,
+      "frame_asset": "ARC-DOOR-02"
+    },
+    {
+      "room": "OF",
+      "axis": "h",
+      "x": 9.45,
+      "y": 5.6,
+      "width": 1.05,
+      "opens": "down",
+      "width_semantics": "rough",
+      "clear_width": 0.99,
+      "rough_head": 2.14,
+      "frame_asset": "ARC-DOOR-02"
+    },
+    {
+      "room": "ENTRY",
+      "axis": "v",
+      "x": 12,
+      "y": 4.0,
+      "width": 1.05,
+      "opens": "right",
+      "width_semantics": "rough",
+      "clear_width": 0.99,
+      "rough_head": 2.14,
+      "frame_asset": "ARC-ENTRY-DOOR-02"
+    }
+  ],
+  "windows": [
+    {
+      "room": "KI",
+      "axis": "h",
+      "x": 1.35,
+      "y": 0,
+      "width": 1.6,
+      "sill_height": 1.25,
+      "head_height": 2.4,
+      "note": "New counter-height window variant: short apron stays above 1.18 m; sill projects no more than 0.12 m from finished wall. Keep faucet in front of glazing, verify sash travel."
+    },
+    {
+      "room": "LV",
+      "axis": "h",
+      "x": 7.75,
+      "y": 0,
+      "width": 1.6,
+      "sill_height": 0.9,
+      "head_height": 2.3
+    },
+    {
+      "room": "BR",
+      "axis": "h",
+      "x": 3.3,
+      "y": 9.55,
+      "width": 1.1,
+      "sill_height": 0.9,
+      "head_height": 2.3
+    },
+    {
+      "room": "BA",
+      "axis": "h",
+      "x": 5.25,
+      "y": 9.55,
+      "width": 1.15,
+      "sill_height": 1.5,
+      "head_height": 2.3
+    },
+    {
+      "room": "OF",
+      "axis": "h",
+      "x": 9.7,
+      "y": 9.55,
+      "width": 1.4,
+      "sill_height": 0.9,
+      "head_height": 2.3
+    }
+  ],
+  "fitted_closets": [
+    {
+      "name": "Bedroom hall-end walk-in",
+      "rect": [
+        0,
+        3.8,
+        2.2,
+        1.8
+      ],
+      "opening_width": 1.1,
+      "opening_x": 0.55,
+      "door_type": "paired outward-hinged leaves; target 1.00 m finished clear total",
+      "door_swing_radius": 0.5,
+      "interior_repair": "Diffuse charcoal mold at upper-right north/back corner, wrapping onto east wall; BR-MOLD-02 separate repair overlays.",
+      "ceiling_height": 2.75,
+      "light": "single dangling bare bulb",
+      "note": "New shell and wider doors needed; do not stretch existing assembly indiscriminately."
+    },
+    {
+      "name": "Guestroom hanging wardrobe",
+      "rect": [
+        10.75,
+        6.4,
+        1.25,
+        0.75
+      ],
+      "sliding_opening_x": 10.93,
+      "opening_width": 0.9,
+      "front": "south",
+      "door_type": "bypass sliding doors",
+      "usable_depth_target": 0.6,
+      "note": "0.75 m nominal depth gives about 0.63 m between wall faces before trim/tracks; retain at least 0.60 m usable hanging depth when detailing."
+    },
+    {
+      "name": "Entry coat closet",
+      "rect": [
+        10.75,
+        5.6,
+        1.25,
+        0.8
+      ],
+      "sliding_opening_x": 10.93,
+      "opening_width": 0.9,
+      "front": "north",
+      "door_type": "bypass sliding doors",
+      "note": "Opens into entry; shared back partition with guest wardrobe at y=6.40. Remove original living-side coat enclosure."
+    }
+  ],
+  "objects": [
+    {
+      "name": "Tub / crack",
+      "rect": [
+        4.95,
+        8.72,
+        1.7,
+        0.7
+      ],
+      "room": "BA"
+    },
+    {
+      "name": "Basin",
+      "rect": [
+        4.95,
+        6.95,
+        0.65,
+        0.65
+      ],
+      "room": "BA"
+    },
+    {
+      "name": "WC",
+      "rect": [
+        7.05,
+        7.55,
+        0.7,
+        0.75
+      ],
+      "room": "BA"
+    },
+    {
+      "name": "Linen",
+      "rect": [
+        7.15,
+        8.75,
+        0.6,
+        0.6
+      ],
+      "room": "BA"
+    },
+    {
+      "name": "Daybed",
+      "rect": [
+        8.05,
+        7.25,
+        0.8,
+        1.9
+      ],
+      "room": "OF"
+    },
+    {
+      "name": "Desk",
+      "rect": [
+        9.7,
+        8.8,
+        1.75,
+        0.6
+      ],
+      "room": "OF"
+    },
+    {
+      "name": "Chair",
+      "rect": [
+        10.1,
+        8.15,
+        0.5,
+        0.5
+      ],
+      "room": "OF"
+    },
+    {
+      "name": "Towel basket",
+      "room": "BA",
+      "rect": [
+        4.95,
+        5.75,
+        0.5,
+        0.4
+      ]
+    },
+    {
+      "name": "Bath mat",
+      "room": "BA",
+      "rect": [
+        5.45,
+        8.25,
+        0.55,
+        0.4
+      ]
+    },
+    {
+      "name": "Pedal bin",
+      "room": "BA",
+      "rect": [
+        7.5,
+        5.75,
+        0.25,
+        0.3
+      ]
+    },
+    {
+      "name": "Office floor lamp",
+      "room": "OF",
+      "rect": [
+        11.6,
+        8.2,
+        0.28,
+        0.28
+      ]
+    },
+    {
+      "name": "Office storage cabinet",
+      "room": "OF",
+      "rect": [
+        8.05,
+        5.96,
+        0.3,
+        0.75
+      ]
+    },
+    {
+      "name": "Fusebox / Wyatt",
+      "rect": [
+        10.825,
+        0.06,
+        0.45,
+        0.14
+      ],
+      "room": "LV",
+      "facing": "south",
+      "asset_id": "LV-FUSE-01",
+      "z": 1.4,
+      "assembly_origin_plan": [
+        11.05,
+        0.06,
+        1.4
+      ],
+      "note": "FIX-004: north wall above corner plant; move door, both wire states and plaster damage with shell; preserve labels. Engine validates open lid/click reach and re-derives Wyatt spots."
+    },
+    {
+      "name": "Entry bench",
+      "rect": [
+        11.6,
+        2.7,
+        0.25,
+        0.65
+      ],
+      "room": "HA"
+    },
+    {
+      "name": "Hall end cabinet",
+      "rect": [
+        2.28,
+        4.19,
+        0.2475,
+        1.02
+      ],
+      "room": "HA",
+      "asset_id": "HA-CABINET-01",
+      "facing": "east",
+      "note": "Preserve at new hallway terminus against relocated bedroom closet wall; retain picture and vase grouping."
+    },
+    {
+      "name": "Hall side console",
+      "rect": [
+        7.85,
+        5.27,
+        1.05,
+        0.25
+      ],
+      "room": "HA",
+      "asset_id": "HA-CONSOLE-01",
+      "facing": "north",
+      "note": "Hall-facing wall between bathroom and office doorways; 0.55 m nominal gap to either doorway."
+    },
+    {
+      "name": "Bookcase from office",
+      "rect": [
+        0.15,
+        6.45,
+        0.3,
+        1.1
+      ],
+      "room": "BR"
+    },
+    {
+      "name": "Bed",
+      "rect": [
+        1.6,
+        7.4,
+        1.5,
+        1.9
+      ],
+      "room": "BR"
+    },
+    {
+      "name": "Nightstand",
+      "rect": [
+        1.0,
+        8.85,
+        0.45,
+        0.45
+      ],
+      "room": "BR"
+    },
+    {
+      "name": "Nightstand",
+      "rect": [
+        3.25,
+        8.85,
+        0.45,
+        0.45
+      ],
+      "room": "BR"
+    },
+    {
+      "name": "Dresser / mirror",
+      "rect": [
+        4.25,
+        7.35,
+        0.4,
+        1.15
+      ],
+      "room": "BR"
+    },
+    {
+      "name": "Sofa",
+      "rect": [
+        8.1,
+        1.2,
+        0.84,
+        2.04
+      ],
+      "room": "LV",
+      "facing": "east"
+    },
+    {
+      "name": "Coffee table",
+      "rect": [
+        9.4,
+        1.75,
+        0.6,
+        1.2
+      ],
+      "room": "LV",
+      "facing": null
+    },
+    {
+      "name": "TV / console",
+      "rect": [
+        11.42,
+        1.5,
+        0.46,
+        1.1
+      ],
+      "room": "LV",
+      "facing": "west"
+    },
+    {
+      "name": "Armchair",
+      "rect": [
+        9.4,
+        0.6,
+        0.749,
+        0.689
+      ],
+      "room": "LV",
+      "facing": "south"
+    },
+    {
+      "name": "Bookcase",
+      "rect": [
+        4.95,
+        0.3,
+        0.4,
+        1.25
+      ],
+      "room": "LV",
+      "facing": "east"
+    },
+    {
+      "name": "Side table",
+      "rect": [
+        8.3,
+        3.4,
+        0.37,
+        0.351
+      ],
+      "room": "LV",
+      "facing": null
+    },
+    {
+      "name": "Plant",
+      "rect": [
+        10.85,
+        0.3,
+        0.4,
+        0.4
+      ],
+      "room": "LV",
+      "facing": null
+    },
+    {
+      "name": "Radiator",
+      "rect": [
+        8.279,
+        0.15,
+        0.542,
+        0.254
+      ],
+      "room": "LV",
+      "facing": null
+    },
+    {
+      "name": "Prep",
+      "room": "KI",
+      "rect": [
+        1.2,
+        0.15,
+        0.425,
+        0.65
+      ],
+      "facing": "south"
+    },
+    {
+      "name": "Sink / leak",
+      "room": "KI",
+      "rect": [
+        1.625,
+        0.15,
+        1.05,
+        0.65
+      ],
+      "facing": "south",
+      "asset_id": "KI-LEAK-02",
+      "assembly_origin_plan": [
+        2.15,
+        0.4605,
+        0
+      ],
+      "note": "Replace body only at current transform; preserve original tap controls. Separate vintage bucket persists; authored water stops/hides on Lukey repair."
+    },
+    {
+      "name": "Counter",
+      "room": "KI",
+      "rect": [
+        2.675,
+        0.15,
+        0.775,
+        0.65
+      ],
+      "facing": "south",
+      "asset_id": "KI-CABINET-02",
+      "module_width": 0.775,
+      "carcass_width": 0.735,
+      "carcass_offset_x": -0.02,
+      "range_filler_width": 0.04,
+      "range_filler_side": "east",
+      "note": "Continuous full-width worktop; recessed filler clears range-neighbour door swing. Use final source manifest pivots."
+    },
+    {
+      "name": "Range",
+      "room": "KI",
+      "rect": [
+        3.45,
+        0.15,
+        0.75,
+        0.732
+      ],
+      "facing": "south",
+      "closed_handle_front_y": 0.926,
+      "note": "Rectangle is body planning footprint; actual oven handle projects to planY=.926. Keep body rear alignedY=.15; do not recenter from handle bounds."
+    },
+    {
+      "name": "Prep / uppers",
+      "room": "KI",
+      "rect": [
+        4.2,
+        0.15,
+        0.45,
+        0.65
+      ],
+      "facing": "south",
+      "asset_id": "KI-CABINET-02",
+      "module_width": 0.45,
+      "carcass_width": 0.41,
+      "carcass_offset_x": 0.02,
+      "range_filler_width": 0.04,
+      "range_filler_side": "west",
+      "note": "Continuous full-width worktop; recessed filler clears range-neighbour door swing. Use final source manifest pivots."
+    },
+    {
+      "name": "Fridge",
+      "room": "KI",
+      "rect": [
+        0.35,
+        0.15,
+        0.77,
+        0.75
+      ],
+      "facing": "south"
+    },
+    {
+      "name": "Pantry",
+      "room": "KI",
+      "rect": [
+        0.15,
+        2.35,
+        0.678,
+        1.0
+      ],
+      "facing": "east"
+    },
+    {
+      "name": "Wall table",
+      "room": "KI",
+      "rect": [
+        2.0,
+        3.23,
+        0.9,
+        0.45
+      ],
+      "facing": "north"
+    },
+    {
+      "name": "Tucked stool",
+      "room": "KI",
+      "rect": [
+        2.3,
+        3.35,
+        0.3,
+        0.3
+      ],
+      "facing": "north"
+    },
+    {
+      "name": "Dining table",
+      "room": "LV",
+      "rect": [
+        6.1,
+        1.75,
+        0.85,
+        1.5
+      ],
+      "facing": null
+    },
+    {
+      "name": "Dining chair",
+      "room": "LV",
+      "rect": [
+        6.275,
+        1.15,
+        0.5,
+        0.5
+      ],
+      "facing": "south"
+    },
+    {
+      "name": "Dining chair",
+      "room": "LV",
+      "rect": [
+        6.275,
+        3.35,
+        0.5,
+        0.5
+      ],
+      "facing": "north"
+    },
+    {
+      "name": "West shelf / hangers",
+      "room": "BC",
+      "rect": [
+        0.06,
+        3.865,
+        0.493238,
+        1.67
+      ],
+      "asset_id": "BR-CLOSET-STORAGE-03",
+      "assembly_origin_plan": [
+        1.1,
+        4.7,
+        0
+      ],
+      "source_mesh": "BR_ClosetStorage03_West",
+      "shelf_top": 1.88,
+      "note": "Overhead storage: 35 mm board, full sidewall length; rail z1.73. Rect includes hanging hanger envelope."
+    },
+    {
+      "name": "East shelf / hangers",
+      "room": "BC",
+      "rect": [
+        1.646762,
+        3.865,
+        0.493238,
+        1.67
+      ],
+      "asset_id": "BR-CLOSET-STORAGE-03",
+      "assembly_origin_plan": [
+        1.1,
+        4.7,
+        0
+      ],
+      "source_mesh": "BR_ClosetStorage03_East",
+      "shelf_top": 1.88,
+      "note": "Overhead storage; same assembly origin as west side. Keep central 1.094 m aisle clear."
+    },
+    {
+      "name": "Corner mold / Malcolm",
+      "room": "BC",
+      "rect": [
+        0.55,
+        3.863,
+        1.587,
+        0.005
+      ],
+      "asset_id": "BR-MOLD-02",
+      "assembly_origin_plan": [
+        1.1,
+        4.7,
+        0
+      ],
+      "source_mesh": "BR_Mold02_Back",
+      "z_range": [
+        1.12,
+        2.64
+      ],
+      "note": "Upper-right back wall; scattered charcoal colonies, removable on repair."
+    },
+    {
+      "name": "Mold corner return",
+      "room": "BC",
+      "rect": [
+        2.137,
+        3.863,
+        0.003,
+        0.637
+      ],
+      "asset_id": "BR-MOLD-02",
+      "assembly_origin_plan": [
+        1.1,
+        4.7,
+        0
+      ],
+      "source_mesh": "BR_Mold02_Return",
+      "z_range": [
+        1.12,
+        2.64
+      ],
+      "note": "Narrow east-wall return; remove together with back overlay."
+    }
+  ],
+  "repairs": {
+    "LV": "Wyatt: north wall above corner plant, box centre x=11.05, wall y=.06, lower edge z=1.40, facing south; same living identity and wire-state repair.",
+    "KI": "Lukey: north-wall sink centred at x=2.15 under the window; clear approach from open kitchen centre.",
+    "BA": "Tyler: south wall above tub, unchanged.",
+    "BR": "Malcolm: upper-right north/east interior corner of walk-in, with both BR-MOLD-02 overlays hidden on repair. Preserve identity, spawn, talk spot and camera world transforms.",
+    "OF_LEAD": "Separate lead-paint condition on office / guestroom white wainscoting; north wall between storage cabinet and room doorway, x=8.65\u20139.20 m. Keep approach clear of door swing."
+  },
+  "clearance_notes": [
+    "White wainscoting and its associated lead-paint feature move from bedroom to office / guestroom per user direction. Detail panels around office window, closet and doorway after layout approval.",
+    "Nominal 0.12 m centre-line walls; clearance dimensions below deduct these where relevant but not trim, frame stops, protrusions or camera/capsule.",
+    "New closet interior approximately 2.08 x 1.68 m before trim; Both full-length side shelves are 0.40 m deep with tops at 1.88 m and 35 mm boards; hooked hangers leave 1.094 m central aisle. 1.10 m rough opening targets approximately 1.00 m clear with paired leaves.",
+    "Measured closet hinge axis is y=5.678 and open-leaf tips reach y=6.181. Cross-bedroom route uses y=6.65; the 0.38 m radius player clears leaves by 0.089 m and actual bed north edge y=7.399 by 0.369 m. Real PIE movement tested in both directions. Main bedroom entry has a separate approach east of closet.",
+    "Bed east edge x=3.10 to dresser front x=4.25 gives 1.15 m nominal aisle. Bed west edge x=1.60 to west wall face x=0.06 gives 1.54 m, except localized nightstand near headboard.",
+    "Private hall remains 1.68 m clear before trim; end cabinet occupies x=2.28\u20132.5275 at the new west terminus. Side console is on the south wall between bath/office doors at x=7.85\u20138.90, with 0.55 m nominal to either doorway and 0.02 m rear gap to wall face; closed front leaves 1.41 m to the former north-wall face (living is open here). Coat closet now opens north into the entry from the office-side footprint. Entry bench moves to the east wall north of the front door.",
+    "Bedroom, bath and office rough openings enlarged to 1.05 m; entry also proposed 1.05 m. Final clear widths depend on chosen frames.",
+    "Living window widened to 1.60 m at the existing opening centre; former living window retained for kitchen. Bedroom window shifted 0.25 m west to avoid east-wall trim collision.",
+    "Living/kitchen exchange requires new flooring, wall finishes, lighting, repair/room volumes and transforms. Existing furniture dimensions are approximate source footprints, not collision guarantees.",
+    "Bathroom and office room boundaries remain. Guest wardrobe moves 0.80 m south and reduces nominal depth from 1.20 to 0.75 m. Coat and guest closets share a back partition; bypass doors avoid floor sweeps. Guest wardrobe has a reserved 0.90 m front approach.",
+    "Office doorway shifts 0.15 m west, leaving 0.25 m nominal between its east jamb and the coat closet side. Check casing before construction.",
+    "Office bookcase moves to bedroom west wall at x=0.15, y=6.45. Its front is 1.15 m from the bed west edge where their lengths overlap; the closet approach remains clear.",
+    "Living furniture option A selected by user and incorporated; other revision-02 decisions preserved. User authorized revised elevations after selecting A; engine reservation remains in force.",
+    "Living option A uses source-sized sofa, chair, TV, coffee table, bookcase and end table; sofa faces east, TV faces west, chair faces south. Seat-to-screen approximately 2.90 m; sofa-to-table gap 0.46 m. Keep the existing rug at 2.50 x 1.80 m, rotated north-south.",
+    "Kitchen/living partition shifts 0.70 m west to x=4.80. Kitchen doorway stays y=2.35\u20133.55, and the open hall span grows to 7.20 m.",
+    "Kitchen worktop runs along north wall from x=1.20 to4.65. Fridge faces south beside prep at x=.35, with .29 m to west finished wall and .08 m to prep. Left-hinge door has nominal space for105 degrees; verify shelves, handle and collision in3D. Pantry remains west-facing east. Sink stays centred x=2.15 under window.",
+    "The sink upstand reaches about1.135 m and faucet1.343 m. Proposed sill1.25/head2.40 with short apron bottom>=1.18 and sill projection<=0.12 m requires a new window variant, not merely raising the existing kit. Validate faucet/glass/sash depths in 3D.",
+    "Dining table rotates north-south in the expanded living/dining space. West side gap to kitchen wall face1.24 m; east side gap to sofa back1.15 m. Chairs are at north/south ends, not in those side aisles.",
+    "South dining chair ends y=3.85 parked; a0.40 m pullback reaches4.25, leaving0.40 m to the primary route centreline4.65. Verify actual capsule and chair sweeps.",
+    "Optional wall table0.90x0.45 m has a stool tucked under it; this is an intentional overlap below the tabletop. It is a new small table/stool variant, not the full dining table scaled down.",
+    "Upper cupboard moves to east return y=.25\u20131.25, bottom1.60. Keep its depth and doors clear of range and window trim.",
+    "FIX-004: fuse box moves above north-wall corner plant. Lower edge1.40 leaves about0.184 m above planned plant top1.216. Entire source wire/damage envelope must clear crown. Coat rack moves right/south on east wall, centered y=3.30, using measured0.72 m source width (y=2.94..3.66); preserve coat offset. Engine click, door sweep and Wyatt encounter validation pending.",
+    "FIX-005: living rug moves0.15 m east toward coffee table (rect8.95,.90,1.80,2.50); decorative/no collision. Sofa footprint/facing and all circulation paths remain unchanged pending source replacement."
+  ],
+  "status": "APPROVED DESIGN \u2014 compact kitchen/dining with north-wall fridge; user approval 2026-11-09; engine validation pending",
+  "revision": "02-KD \u2014 compact kitchen / dining between kitchen and sofa",
+  "open_portals": [
+    {
+      "rooms": [
+        "LV",
+        "HA"
+      ],
+      "axis": "h",
+      "x": 4.8,
+      "y": 3.8,
+      "width": 7.2,
+      "note": "Full-width opening after moving coat closet south of entry; retain overhead header and west return."
+    },
+    {
+      "rooms": [
+        "KI",
+        "LV"
+      ],
+      "axis": "v",
+      "x": 4.8,
+      "y": 2.35,
+      "width": 1.2,
+      "note": "Doorless cased kitchen doorway, approximately 1.10 m finished clear."
+    }
+  ],
+  "selected_living_option": {
+    "id": "A",
+    "status": "selected by user",
+    "description": "Floating sofa faces east; east-wall TV faces west; chair faces south at north end of rug."
+  },
+  "decorative_floor_items": [
+    {
+      "name": "Living rug",
+      "rect": [
+        8.95,
+        0.9,
+        1.8,
+        2.5
+      ],
+      "asset_id": "LV-RUG-01",
+      "blocking": false,
+      "note": "FIX-005: +0.15 m east toward coffee table; sofa stays fixed."
+    }
+  ],
+  "wall_finishes": {
+    "BR": "Painterly aged plaster with baseboard and crown; no wainscoting.",
+    "OF": "White wainscoting with painterly plaster above; localized lead-paint condition on north wall.",
+    "BC": "Closet interior plaster with separate concealed mold."
+  },
+  "circulation_paths": [
+    [
+      [
+        12,
+        4.65
+      ],
+      [
+        9.7,
+        4.65
+      ],
+      [
+        6.8,
+        4.65
+      ],
+      [
+        3.55,
+        4.65
+      ],
+      [
+        3.55,
+        6.65
+      ],
+      [
+        1.1,
+        6.65
+      ],
+      [
+        1.1,
+        4.75
+      ]
+    ],
+    [
+      [
+        5.5,
+        4.65
+      ],
+      [
+        5.5,
+        2.9
+      ],
+      [
+        3.45,
+        2.9
+      ],
+      [
+        3.45,
+        1.5
+      ],
+      [
+        2.15,
+        1.5
+      ]
+    ],
+    [
+      [
+        7.5,
+        4.65
+      ],
+      [
+        7.5,
+        0.7
+      ],
+      [
+        6.5,
+        0.7
+      ]
+    ],
+    [
+      [
+        6.8,
+        4.65
+      ],
+      [
+        6.8,
+        6.8
+      ]
+    ],
+    [
+      [
+        9.975,
+        4.65
+      ],
+      [
+        9.975,
+        6.95
+      ]
+    ],
+    [
+      [
+        11.35,
+        4.65
+      ],
+      [
+        11.35,
+        5.15
+      ]
+    ],
+    [
+      [
+        10.8,
+        4.65
+      ],
+      [
+        10.8,
+        2.2
+      ]
+    ],
+    [
+      [
+        11.2,
+        4.65
+      ],
+      [
+        11.2,
+        3.7
+      ]
+    ]
+  ],
+  "approach_zones": [
+    {
+      "name": "Guest wardrobe access",
+      "rect": [
+        10.75,
+        7.21,
+        1.19,
+        0.9
+      ],
+      "note": "Keep free of furniture; bypass doors do not swing into this zone."
+    }
+  ],
+  "wall_mounted_fittings": [
+    {
+      "asset_id": "KI-UPPER-01",
+      "wall": "KI-E",
+      "u": 0.25,
+      "z": 1.6,
+      "width": 1.0,
+      "height": 0.5455,
+      "note": "Cupboard on east return; clear of range footprint, no cupboard directly over burners."
+    },
+    {
+      "asset_id": "HA-HOOKS-01",
+      "wall": "LV-E",
+      "u": 2.94,
+      "z": 1.52,
+      "width": 0.72,
+      "height": 0.12,
+      "note": "FIX-004: centered in span between TV and entry; move coat together, preserve existing vertical anchor."
+    }
+  ],
+  "dining_zone": {
+    "rect": [
+      5.2,
+      1.0,
+      2.7,
+      3.0
+    ],
+    "note": "Shared living/dining space, not an enclosed room. Table rotates 90 degrees; end chairs pull north/south."
+  },
+  "approval_date": "2026-11-09"
+}

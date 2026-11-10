@@ -1,0 +1,234 @@
+{
+  "status": "PASS source preservation, bounds and specified hardware alignment",
+  "source_blend_sha256": "f12a9f3ac52575f8cbe53be29552002385523d0c0d7e462e314526dc04391589",
+  "removed_faucet_islands": [
+    {
+      "vertices": 810,
+      "min": [
+        -0.01600000262260437,
+        -0.05155351758003235,
+        1.0399999618530273
+      ],
+      "max": [
+        0.016000032424926758,
+        0.266384482383728,
+        1.343217372894287
+      ]
+    },
+    {
+      "vertices": 48,
+      "min": [
+        -0.2199999988079071,
+        0.21900001168251038,
+        1.0189999341964722
+      ],
+      "max": [
+        0.2200000286102295,
+        0.26100003719329834,
+        1.0609999895095825
+      ]
+    },
+    {
+      "vertices": 48,
+      "min": [
+        -0.2879999876022339,
+        0.2199999988079071,
+        1.0019999742507935
+      ],
+      "max": [
+        -0.2120000123977661,
+        0.25999999046325684,
+        1.0779999494552612
+      ]
+    },
+    {
+      "vertices": 48,
+      "min": [
+        -0.2980000078678131,
+        0.23399999737739563,
+        0.9919999837875366
+      ],
+      "max": [
+        -0.2019999921321869,
+        0.2460000216960907,
+        1.087999939918518
+      ]
+    },
+    {
+      "vertices": 48,
+      "min": [
+        0.2120000123977661,
+        0.2199999988079071,
+        1.0019999742507935
+      ],
+      "max": [
+        0.2879999876022339,
+        0.25999999046325684,
+        1.0779999494552612
+      ]
+    },
+    {
+      "vertices": 48,
+      "min": [
+        0.20200002193450928,
+        0.23399999737739563,
+        0.9919999837875366
+      ],
+      "max": [
+        0.2979999780654907,
+        0.2460000216960907,
+        1.087999939918518
+      ]
+    }
+  ],
+  "non_faucet_face_count": 2364,
+  "non_faucet_face_uv_material_sha256": "543b860395000a92f63baf2af9bda2a6ecb0d32c84546353c8e1f20d4ecda516",
+  "non_faucet_preservation": true,
+  "body_slot_names": [
+    "Sink_SagePaint",
+    "Sink_AgedEnamel",
+    "Aged_Chrome"
+  ],
+  "tap_pivots": {
+    "L": {
+      "source_pivot": [
+        -0.25,
+        0.20000000298023224,
+        1.0750000476837158
+      ],
+      "axis": "source Z (UE local +Z); horizontal cross rotates in XY plane",
+      "closed_pose_degrees": 0,
+      "nominal_travel_degrees": 90,
+      "note": "Preserve toggle identity and adapt pivot. See explicit2cm stream-start mismatch below."
+    },
+    "R": {
+      "source_pivot": [
+        0.25,
+        0.20000000298023224,
+        1.0750000476837158
+      ],
+      "axis": "source Z (UE local +Z); horizontal cross rotates in XY plane",
+      "closed_pose_degrees": 0,
+      "nominal_travel_degrees": 90,
+      "note": "Preserve toggle identity and adapt pivot. See explicit2cm stream-start mismatch below."
+    }
+  },
+  "upstand_actual_front_y": 0.2345,
+  "escutcheon_back_y": 0.2365,
+  "escutcheon_embed_m": 0.002,
+  "escutcheon_front_y": 0.2255,
+  "shank_embed_m": 0.0055,
+  "bridge_axis_yz": [
+    0.2,
+    1.04
+  ],
+  "handle_lowest_z": 1.148,
+  "upstand_top_z": 1.135,
+  "handle_upstand_vertical_gap_m": 0.013,
+  "joins": [
+    {
+      "name": "L shank/valve",
+      "overlap_m": 0.022
+    },
+    {
+      "name": "L bridge/valve",
+      "overlap_m": 0.027
+    },
+    {
+      "name": "L stem/bonnet",
+      "overlap_m": 0.03
+    },
+    {
+      "name": "R shank/valve",
+      "overlap_m": 0.022
+    },
+    {
+      "name": "R bridge/valve",
+      "overlap_m": 0.027
+    },
+    {
+      "name": "R stem/bonnet",
+      "overlap_m": 0.03
+    }
+  ],
+  "outlet_center_source": [
+    0,
+    -0.04,
+    1.23
+  ],
+  "outlet_lip_bottom": 1.227,
+  "outlet_axis_source": [
+    0,
+    0,
+    -1
+  ],
+  "existing_stream_ue_cm": [
+    215,
+    50.05,
+    121
+  ],
+  "stream_note": "READ-ONLY SCRIPT FINDING: rev02_04_furnish.py installs body at UE(215,46.05,0), yaw0. Requested outlet therefore maps to UE(215,50.05,123), while rev02_05_gameplay.py uses stream start Z121. Explicit 2cm mismatch. Recommend engine owner update stream START toZ123 only, keeping BASIN70, label/toggle and body transform unchanged. No engine change was made in this package.",
+  "exports": {
+    "KI_FAUCET_02_sink_body": {
+      "min": [
+        -0.525,
+        -0.34,
+        0.0
+      ],
+      "max": [
+        0.525,
+        0.3105,
+        1.3407569
+      ],
+      "vertices": 5834,
+      "faces": 5306,
+      "materials": [
+        "Sink_SagePaint",
+        "Sink_AgedEnamel",
+        "Aged_Chrome"
+      ]
+    },
+    "KI_FAUCET_02_L_tap": {
+      "min": [
+        -0.303,
+        0.147,
+        1.075
+      ],
+      "max": [
+        -0.197,
+        0.253,
+        1.175
+      ],
+      "vertices": 1384,
+      "faces": 1322,
+      "materials": [
+        "Aged_Chrome",
+        "Sink_AgedEnamel"
+      ]
+    },
+    "KI_FAUCET_02_R_tap": {
+      "min": [
+        0.197,
+        0.147,
+        1.075
+      ],
+      "max": [
+        0.303,
+        0.253,
+        1.175
+      ],
+      "vertices": 1384,
+      "faces": 1322,
+      "materials": [
+        "Aged_Chrome",
+        "Sink_AgedEnamel"
+      ]
+    }
+  },
+  "source_outlet_world_from_script_ue_cm": [
+    215,
+    50.05,
+    123
+  ],
+  "stream_start_vertical_gap_cm": 2
+}

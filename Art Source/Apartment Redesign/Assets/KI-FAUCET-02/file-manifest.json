@@ -1,0 +1,92 @@
+{
+  "asset": "KI-FAUCET-02",
+  "algorithm": "sha256",
+  "paths_relative_to": "asset folder",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 5734,
+      "sha256": "b4058e7e93881ddd9f2bbc04f6b9dc2fce1a6a00042bfb26af56442513e56a4f"
+    },
+    {
+      "path": "assembly.json",
+      "bytes": 2974,
+      "sha256": "07987a395135715f645f20dd6ba55581483529ddfa5660240a3e518a300696b7"
+    },
+    {
+      "path": "build_faucet.py",
+      "bytes": 13214,
+      "sha256": "9003b1d691c895fcdc188120c967450aa646942f30ec1b7eb1c7debce8a6446a"
+    },
+    {
+      "path": "fbx-validation.json",
+      "bytes": 3636,
+      "sha256": "a0d0d77f0c01e55fe6b7464fa0ae03cfb0f8c82122e24a9147bc82305e790141"
+    },
+    {
+      "path": "models/KI_FAUCET_02_L_tap.fbx",
+      "bytes": 2320876,
+      "sha256": "ed80da1f3d9b6c817df13d12293274636f57d00c80e86155dcd8fedfef8bc8d9"
+    },
+    {
+      "path": "models/KI_FAUCET_02_R_tap.fbx",
+      "bytes": 2320876,
+      "sha256": "a22dba6b0500209e90cb8d9a873ce2bf5acc1dd1a543b1a1a6e097db3db1e5a9"
+    },
+    {
+      "path": "models/KI_FAUCET_02_assembly.blend",
+      "bytes": 12428387,
+      "sha256": "79641605a306a73a33e2fa9237b4763d5d9d89f9fdc5a05e7d640e6e01fef71d"
+    },
+    {
+      "path": "models/KI_FAUCET_02_sink_body.fbx",
+      "bytes": 4623308,
+      "sha256": "85712e9ce21df1da09e4a79295ae71594ae1ca3d68e5b0abba512897aef80edc"
+    },
+    {
+      "path": "previews/context.png",
+      "bytes": 544899,
+      "sha256": "a2c159ad905ff14de1210acb73e896f44bd274a6c53c382f37f0b02f83f47ab8"
+    },
+    {
+      "path": "previews/front.png",
+      "bytes": 504015,
+      "sha256": "d8fc3d956c34cd572efb749ce9afaff30ac06308c5fdb080d6cd3a5612c40b11"
+    },
+    {
+      "path": "previews/side.png",
+      "bytes": 540752,
+      "sha256": "5601ab92c5858ed463f8c337a70c5f1b0058c8be38e80f06731308ef67bbee34"
+    },
+    {
+      "path": "textures/Sink_EnamelPainterly-v3.png",
+      "bytes": 2258737,
+      "sha256": "5ee086472e3a868f5df19f4a004a142c45df2e40541685e9465a43efd6e274a1"
+    },
+    {
+      "path": "textures/Sink_SageDirect.png",
+      "bytes": 2082448,
+      "sha256": "ec2b127e9f8810c7d6c3dc5b2805121660f3f3e841d333516bdf191617f0d88c"
+    },
+    {
+      "path": "textures/sage-A.png",
+      "bytes": 2431513,
+      "sha256": "ee41e451ec8fe269a033aba733e317ee082cf6b2e735207f8d7c845067dbef21"
+    },
+    {
+      "path": "textures/sage-B.png",
+      "bytes": 2131399,
+      "sha256": "df73457582effa388d682dceca218556109164b9984fd1269f18d5730966a4ba"
+    },
+    {
+      "path": "validate_fbx.py",
+      "bytes": 5433,
+      "sha256": "cba2249d07769555f64a7bb72a416a3c7c1d6f197e6d6451374bf806b2ad26f8"
+    },
+    {
+      "path": "validation.json",
+      "bytes": 5122,
+      "sha256": "74f0cc4bc336d1d2c2c8985f6aadcdf39282c6be894f5082c34000f4a42a8a5b"
+    }
+  ]
+}

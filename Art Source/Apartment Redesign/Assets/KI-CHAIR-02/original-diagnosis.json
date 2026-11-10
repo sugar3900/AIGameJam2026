@@ -1,0 +1,82 @@
+{
+  "source": "KI-CHAIR-01/model/KI_CHAIR_01.fbx",
+  "source_front": "-Y",
+  "bounds": {
+    "min": [
+      -0.23000000417232513,
+      -0.23772238194942474,
+      0.012379639782011509
+    ],
+    "max": [
+      0.23000000417232513,
+      0.2750001549720764,
+      0.9099999070167542
+    ]
+  },
+  "slats": [
+    {
+      "bounds": {
+        "min": [
+          -0.1850000023841858,
+          0.18533341586589813,
+          0.5824999213218689
+        ],
+        "max": [
+          0.1850000023841858,
+          0.23142534494400024,
+          0.6474999189376831
+        ]
+      },
+      "centre_z": 0.614999920129776,
+      "centre_y_mean": 0.19757301112016043,
+      "edge_y_mean": 0.21980890848984322,
+      "centre_minus_edge_y": -0.02223589736968279,
+      "upper_minus_lower_y": 1.4901161193847656e-08,
+      "measured_recline_degrees": 1.6108937446382472e-05,
+      "vertices": 336
+    },
+    {
+      "bounds": {
+        "min": [
+          -0.1850000023841858,
+          0.1986667811870575,
+          0.6824999451637268
+        ],
+        "max": [
+          0.1850000023841858,
+          0.2447586953639984,
+          0.747499942779541
+        ]
+      },
+      "centre_z": 0.7149999439716339,
+      "centre_y_mean": 0.21090636340280375,
+      "edge_y_mean": 0.2331422564263145,
+      "centre_minus_edge_y": -0.022235893023510755,
+      "upper_minus_lower_y": 1.1175870895385742e-08,
+      "measured_recline_degrees": 1.2081703084786995e-05,
+      "vertices": 336
+    },
+    {
+      "bounds": {
+        "min": [
+          -0.1850000023841858,
+          0.21466679871082306,
+          0.7824999690055847
+        ],
+        "max": [
+          0.1850000023841858,
+          0.26075872778892517,
+          0.8874999284744263
+        ]
+      },
+      "centre_z": 0.8349999487400055,
+      "centre_y_mean": 0.22690638775626817,
+      "edge_y_mean": 0.24914227441574135,
+      "centre_minus_edge_y": -0.02223588665947318,
+      "upper_minus_lower_y": 1.4901161193847656e-08,
+      "measured_recline_degrees": 9.180365788628462e-06,
+      "vertices": 336
+    }
+  ],
+  "interpretation": "Negative centre-minus-edge Y means slats bulge toward the sitter (convex front); desired concave front requires positive Y at centre. Individual slats are vertical despite their stepped centre positions."
+}

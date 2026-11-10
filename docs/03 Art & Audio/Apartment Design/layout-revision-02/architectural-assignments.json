@@ -11,7 +11,7 @@
   "kitchen_plaster": "ARC-KITCHEN-PLASTER-01",
   "sky": "ENV-SKY-01",
   "portal_and_header": "Engine plaster returns + ARC-TRIM-01 casing",
-  "office_wainscot": "BR-WAINSCOT-01 fitted per opening in engine",
+  "office_wainscot": "OF-WAINSCOT-02 fitted common-origin runs; retain BR-WAINSCOT-01 damage overlay",
   "bedroom_closet": "BR-CLOSET-02 interior plus engine shell",
   "entry_guest_closets": "ARC-SLIDING-CLOSET-02 fronts plus shared engine shell",
   "entry_guest_storage": "ARC-CLOSET-STORAGE-02"

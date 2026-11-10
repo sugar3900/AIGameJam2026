@@ -1,0 +1,125 @@
+{
+  "asset": "KI-FAUCET-02",
+  "feedback": "FIX-027",
+  "source_units": "metres",
+  "front": "-Y",
+  "up": "+Z",
+  "body_origin": [
+    0,
+    0,
+    0
+  ],
+  "replace_body": "KI_LEAK_02_sink_body",
+  "tap_pivots": {
+    "L": {
+      "source_pivot": [
+        -0.25,
+        0.20000000298023224,
+        1.0750000476837158
+      ],
+      "axis": "source Z (UE local +Z); horizontal cross rotates in XY plane",
+      "closed_pose_degrees": 0,
+      "nominal_travel_degrees": 90,
+      "note": "Preserve toggle identity and adapt pivot. See explicit2cm stream-start mismatch below."
+    },
+    "R": {
+      "source_pivot": [
+        0.25,
+        0.20000000298023224,
+        1.0750000476837158
+      ],
+      "axis": "source Z (UE local +Z); horizontal cross rotates in XY plane",
+      "closed_pose_degrees": 0,
+      "nominal_travel_degrees": 90,
+      "note": "Preserve toggle identity and adapt pivot. See explicit2cm stream-start mismatch below."
+    }
+  },
+  "outlet": {
+    "center": [
+      0,
+      -0.04,
+      1.23
+    ],
+    "direction": [
+      0,
+      0,
+      -1
+    ],
+    "lip_bottom_z": 1.227
+  },
+  "exports": {
+    "KI_FAUCET_02_sink_body": {
+      "min": [
+        -0.525,
+        -0.34,
+        0.0
+      ],
+      "max": [
+        0.525,
+        0.3105,
+        1.3407569
+      ],
+      "vertices": 5834,
+      "faces": 5306,
+      "materials": [
+        "Sink_SagePaint",
+        "Sink_AgedEnamel",
+        "Aged_Chrome"
+      ]
+    },
+    "KI_FAUCET_02_L_tap": {
+      "min": [
+        -0.303,
+        0.147,
+        1.075
+      ],
+      "max": [
+        -0.197,
+        0.253,
+        1.175
+      ],
+      "vertices": 1384,
+      "faces": 1322,
+      "materials": [
+        "Aged_Chrome",
+        "Sink_AgedEnamel"
+      ]
+    },
+    "KI_FAUCET_02_R_tap": {
+      "min": [
+        0.197,
+        0.147,
+        1.075
+      ],
+      "max": [
+        0.303,
+        0.253,
+        1.175
+      ],
+      "vertices": 1384,
+      "faces": 1322,
+      "materials": [
+        "Aged_Chrome",
+        "Sink_AgedEnamel"
+      ]
+    }
+  },
+  "preserve": [
+    "Installed body actor transform",
+    "Sink_Tap label and toggle behavior",
+    "Original non-faucet body geometry, UVs, material slots",
+    "KI-LEAK-02 pail, water, drip, decals and repair behavior"
+  ],
+  "engine_stream_cm": [
+    215,
+    50.05,
+    121
+  ],
+  "engine_stream_note": "READ-ONLY SCRIPT FINDING: rev02_04_furnish.py installs body at UE(215,46.05,0), yaw0. Requested outlet therefore maps to UE(215,50.05,123), while rev02_05_gameplay.py uses stream start Z121. Explicit 2cm mismatch. Recommend engine owner update stream START toZ123 only, keeping BASIN70, label/toggle and body transform unchanged. No engine change was made in this package.",
+  "source_outlet_world_from_script_ue_cm": [
+    215,
+    50.05,
+    123
+  ],
+  "engine_action_type": "Sink_Tap is currently REVEAL (no tap rotation); preserve behavior. New pivots support correct source-Z rotation if later requested."
+}

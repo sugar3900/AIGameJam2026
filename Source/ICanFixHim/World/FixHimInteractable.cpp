@@ -6,6 +6,7 @@
 #include "Audio/FixHimSfxSubsystem.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/PointLightComponent.h"
+#include "Components/LightComponent.h"
 #include "Engine/StaticMesh.h"
 #include "Materials/MaterialInstanceDynamic.h"
 
@@ -51,8 +52,53 @@ void AFixHimInteractable::BeginPlay()
 	ApplyLook();
 	BuildOutline();
 	BuildShine();
+	BuildGlow();
 	ToggleAlpha = bIsOn ? 1.f : 0.f;
 	ApplyToggleAlpha(ToggleAlpha);
+}
+
+void AFixHimInteractable::BuildGlow()
+{
+	ExtraLights.Reset();
+	ExtraLightOnValues.Reset();
+	for (const TSoftObjectPtr<AActor>& Soft : ToggleLightActors)
+	{
+		if (AActor* Actor = Soft.Get())
+		{
+			TArray<ULightComponent*> Lights;
+			Actor->GetComponents(Lights);
+			for (ULightComponent* L : Lights)
+			{
+				ExtraLights.Add(L);
+				ExtraLightOnValues.Add(L->Intensity);
+			}
+		}
+	}
+	GlowMIDs.Reset();
+	GlowOnValues.Reset();
+	for (const TSoftObjectPtr<AActor>& Soft : GlowActors)
+	{
+		AActor* Actor = Soft.Get();
+		if (!Actor)
+		{
+			continue;
+		}
+		TArray<UStaticMeshComponent*> Meshes;
+		Actor->GetComponents(Meshes);
+		for (UStaticMeshComponent* Mesh : Meshes)
+		{
+			for (int32 Index = 0; Index < Mesh->GetNumMaterials(); ++Index)
+			{
+				UMaterialInterface* Material = Mesh->GetMaterial(Index);
+				float OnValue = 0.f;
+				if (Material && Material->GetScalarParameterValue(FHashedMaterialParameterInfo(GlowParam), OnValue))
+				{
+					GlowMIDs.Add(Mesh->CreateAndSetMaterialInstanceDynamic(Index));
+					GlowOnValues.Add(OnValue);
+				}
+			}
+		}
+	}
 }
 
 void AFixHimInteractable::ApplyLook()
@@ -83,6 +129,10 @@ void AFixHimInteractable::ApplyLook()
 
 void AFixHimInteractable::BuildOutline()
 {
+	if (!bHoverOutline)
+	{
+		return;
+	}
 	// Inverted-hull outline: a slightly larger copy of each body mesh rendered with reverse culling
 	// in an unlit colour. Works well for the convex primitives the apartment is built from.
 	TArray<UStaticMeshComponent*> Sources;
@@ -179,6 +229,21 @@ void AFixHimInteractable::Tick(float DeltaSeconds)
 		ApplyToggleAlpha(ToggleAlpha);
 	}
 
+	if (PullAge >= 0.f)
+	{
+		PullAge += DeltaSeconds;
+		const float Phase = PullAge / FMath::Max(PullSeconds, 0.01f);
+		if (Phase >= 1.f)
+		{
+			PullAge = -1.f;
+			Pivot->SetRelativeLocation(FVector::ZeroVector);
+		}
+		else
+		{
+			Pivot->SetRelativeLocation(PullOffset * FMath::Sin(PI * Phase));
+		}
+	}
+
 	if (ShineMID && bShine && bEnabled)
 	{
 		// A shine takes ShineDuration to cross the object, then the next one is a few seconds away.
@@ -210,6 +275,20 @@ void AFixHimInteractable::ApplyToggleAlpha(float Alpha)
 		{
 			BodyMID->SetVectorParameterValue(TEXT("Emissive"), OnEmissive * Smooth);
 		}
+		for (int32 Index = 0; Index < ExtraLights.Num(); ++Index)
+		{
+			if (ExtraLights[Index])
+			{
+				ExtraLights[Index]->SetIntensity(ExtraLightOnValues[Index] * Smooth);
+			}
+		}
+		for (int32 Index = 0; Index < GlowMIDs.Num(); ++Index)
+		{
+			if (GlowMIDs[Index])
+			{
+				GlowMIDs[Index]->SetScalarParameterValue(GlowParam, GlowOnValues[Index] * Smooth);
+			}
+		}
 		// Optional "lit" part (e.g. a stove's gas flame) shown only while on.
 		if (RevealPart && RevealPart->GetStaticMesh())
 		{
@@ -235,6 +314,10 @@ void AFixHimInteractable::Interact(AFixHimPlayerController* Player)
 	if (Toggle != EInteractToggle::None)
 	{
 		SetOn(!bIsOn);
+	}
+	if (bPullOnClick && (Toggle == EInteractToggle::Light || Toggle == EInteractToggle::None))
+	{
+		PullAge = 0.f;
 	}
 	PlayInteractSfx();
 }

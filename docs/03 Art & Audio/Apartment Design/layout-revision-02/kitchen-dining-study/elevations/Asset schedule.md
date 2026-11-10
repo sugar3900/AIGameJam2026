@@ -21,8 +21,8 @@ This is the drawing schedule, not an export-readiness list. Inspect the producti
 | BA-CUP-01 | child of Basin toiletries shelf |
 | BA-FLOOR-01 | surface / textile; see floor plan |
 | BA-FOLDED-TOWEL-01 | child of Folded towel and tin |
-| BA-HAND-TOWEL-01 | child of Hand towel rail; child of Hook + hand towel; child of Bath towel rail |
-| BA-HOOK-01 | Hook + hand towel (BA) |
+| BA-HAND-TOWEL-01 | child of Hand towel rail |
+| BA-HAND-TOWEL-RING-02 | Hand-towel ring / folded cloth (BA) |
 | BA-JAR-01 | child of North toiletries shelf |
 | BA-LINEN-01 | Linen (BA) |
 | BA-MAT-01 | surface / textile; see floor plan |
@@ -35,13 +35,16 @@ This is the drawing schedule, not an export-readiness list. Inspect the producti
 | BA-TOILET-01 | WC (BA) |
 | BA-TOWEL-RAIL-01 | Hand towel rail (BA); Bath towel rail (BA) |
 | BA-TUB-01 | Tub / crack (BA) |
+| BA-TUB-FIXTURES-02 | child of Tub / crack |
 | BA-TUB-WATER-01 | child of Tub / crack |
 | BR-ART-FLORAL-01 | Floral print between doors (BR); Botanical above moved bookcase (BR); Print near dresser (BR); Headboard picture (BR) |
 | BR-BED-01 | Bed (BR) |
-| BR-CLOSET-02 | Malcolm mold on back wall (BC); High side shelf / hangers (BC); Single bare bulb (BC) |
+| BR-CLOSET-02 | Single bare bulb (BC) |
 | BR-CLOSET-BOX-01 | Low west box (BC); Storage box (CT); Storage box (WG) |
+| BR-CLOSET-STORAGE-03 | West full-length shelf / rail / hangers (BC); East full-length shelf / rail / hangers (BC) |
 | BR-DRESSER-01 | Dresser / mirror (BR) |
 | BR-LAMP-01 | child of Nightstand |
+| BR-MOLD-02 | Upper-right charcoal mold / back (BC); Corner charcoal mold / east return (BC) |
 | BR-NIGHTSTAND-01 | Nightstand (BR) |
 | BR-PERFUME-01 | child of Dresser / mirror |
 | BR-WAINSCOT-01 | Lead-paint condition (OF) |
@@ -63,12 +66,12 @@ This is the drawing schedule, not an export-readiness list. Inspect the producti
 | KI-ART-01 | Breakfast still life (KI) |
 | KI-BACKSPLASH-01 | North counter backsplash left (KI); North counter backsplash right (KI) |
 | KI-BOWL-01 | child of Counter; child of Dining table |
-| KI-BUCKET-01 | child of Sink / leak |
 | KI-CABINET-02 | Prep (KI); Counter (KI); Prep / uppers (KI) |
 | KI-CHAIR-01 | Dining chair (LV) |
 | KI-FRIDGE-01 | Fridge (KI) |
 | KI-JAR-01 | child of Prep |
 | KI-KETTLE-01 | child of Range |
+| KI-LEAK-02 | Sink / leak (KI); Vintage galvanized leak pail (KI); Water inside leak pail (KI); Residual floor spill (KI) |
 | KI-MUG-01 | child of Coffee table; child of Prep / uppers; child of Breakfast mugs / pottery |
 | KI-PAN-01 | child of Range; child of Pan rail |
 | KI-PAN-RAIL-01 | Pan rail (KI) |
@@ -77,7 +80,6 @@ This is the drawing schedule, not an export-readiness list. Inspect the producti
 | KI-POTTERY-01 | child of Prep / uppers; child of Display shelf + pottery; child of Breakfast mugs / pottery |
 | KI-RANGE-01 | Range (KI) |
 | KI-RANGE-FLAME-01 | child of Range |
-| KI-SINK-NARROW-01 | Sink / leak (KI) |
 | KI-STOOL-02 | Tucked stool (KI) |
 | KI-TABLE-01 | Dining table (LV) |
 | KI-TILE-01 | surface / textile; see floor plan |
@@ -88,8 +90,8 @@ This is the drawing schedule, not an export-readiness list. Inspect the producti
 | LV-BOOK-01 | Bookcase (LV) |
 | LV-CHAIR-01 | Armchair (LV) |
 | LV-COFFEE-01 | Coffee table (LV) |
-| LV-FUSE-01 | Entry fusebox / Wyatt (LV) |
-| LV-FUSE-DAMAGE-01 | child of Entry fusebox / Wyatt |
+| LV-FUSE-01 | North-wall fusebox / Wyatt (LV) |
+| LV-FUSE-DAMAGE-01 | child of North-wall fusebox / Wyatt |
 | LV-LAMP-01 | Office floor lamp (OF) |
 | LV-PLANT-01 | Plant (LV) |
 | LV-PLANT-STAND-01 | child of Plant |
@@ -108,3 +110,4 @@ This is the drawing schedule, not an export-readiness list. Inspect the producti
 | OF-DESK-01 | Desk (OF) |
 | OF-DESK-LAMP-01 | child of Desk |
 | OF-PAPERS-01 | child of Desk |
+| OF-WAINSCOT-02 | FIX-019 fitted office runs; original BR-WAINSCOT-01 remains damage-overlay source only |

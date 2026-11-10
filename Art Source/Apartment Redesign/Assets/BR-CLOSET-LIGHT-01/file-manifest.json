@@ -1,0 +1,75 @@
+{
+  "asset": "BR-CLOSET-LIGHT-01",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "6237e6ff3cc8b630a42658fa3ef3ed06c13e0701e1baadafcc019d47b4af514a",
+      "bytes": 3571
+    },
+    {
+      "path": "assembly.json",
+      "sha256": "1150b5262aa882581121ab542cdb9b274c5204eca97432fd960db149ea85fd4b",
+      "bytes": 2245
+    },
+    {
+      "path": "build_light.py",
+      "sha256": "8da3e7dca0a65ee7ea8bdda21d96a59bfb4f133ba006dc848c8afa15faa28411",
+      "bytes": 10656
+    },
+    {
+      "path": "fbx-validation.json",
+      "sha256": "30500781a481da4142d38e96504af3020fa54c3fa424a267e5920bf62597030a",
+      "bytes": 2276
+    },
+    {
+      "path": "geometry.json",
+      "sha256": "798f26a65cf85f7f13b6f8b01639bae4edfceacaced65b00f886f4eddecd7b27",
+      "bytes": 1783
+    },
+    {
+      "path": "models/BR-CLOSET-LIGHT-01.blend",
+      "sha256": "ad3e8df387c39da46f8f178ecf3d431d67e5d1e1104d444bc9a85bce658c28ec",
+      "bytes": 940629
+    },
+    {
+      "path": "models/BR_ClosetLight01_Chain.fbx",
+      "sha256": "ff32714040b30b850f16538221cf5b6b1b6099b5947eb98c01ef24473e29cae8",
+      "bytes": 288956
+    },
+    {
+      "path": "models/BR_ClosetLight01_Filament.fbx",
+      "sha256": "b17a02e6696428225df9bb1321c7179b4f48a5842a8baa5cd7c77c93b4d70e07",
+      "bytes": 106476
+    },
+    {
+      "path": "models/BR_ClosetLight01_Glass.fbx",
+      "sha256": "cbe3da9db20624f124ce95e95d4f21e769483e457ec1e97b585b09faef88c3bc",
+      "bytes": 67660
+    },
+    {
+      "path": "models/BR_ClosetLight01_Hardware.fbx",
+      "sha256": "44147a3e1547eaafa8c3a7a2e4dc52a7f87444dcece8cf5f7c0837ed7d6a35cb",
+      "bytes": 403084
+    },
+    {
+      "path": "previews/assembly.png",
+      "sha256": "9138aca3a90df432a43c7d8e8b56d1ee7b9e61e635f0f41fea58d6f817182171",
+      "bytes": 655989
+    },
+    {
+      "path": "previews/off.png",
+      "sha256": "21583e0fa175c488a72a1d0acbcb97e2260aa805c747fce40f751bc6e5281132",
+      "bytes": 648439
+    },
+    {
+      "path": "previews/socket-chain.png",
+      "sha256": "569c55202d512e6985b4020df6aad389cbb3233ff74128abc526fa39385005ec",
+      "bytes": 714145
+    },
+    {
+      "path": "validate_fbx.py",
+      "sha256": "a9ada58d8151b6e93cab23ed1b1d79465b1987abec904e841795a75382cde7fb",
+      "bytes": 2786
+    }
+  ]
+}

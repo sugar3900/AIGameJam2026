@@ -1,0 +1,140 @@
+{
+  "asset": "ART-REV02-007",
+  "instance": "HA-ART-02:060",
+  "title": "Swallows and hawthorn",
+  "frame": "Ebony half-round with ivory mount and pencil fillet",
+  "dimensions_m": [
+    0.42,
+    0.035,
+    0.55
+  ],
+  "bounds_m": {
+    "min": [
+      -0.20999999344348907,
+      -0.03500000014901161,
+      0.0
+    ],
+    "max": [
+      0.20999999344348907,
+      0.0,
+      0.550000011920929
+    ]
+  },
+  "origin": "bottom-center rear wall plane; front -Y; Z up",
+  "planned_rect": [
+    2.68,
+    3.86,
+    0.42,
+    0.035
+  ],
+  "bottom_z": 1.43,
+  "front": "south",
+  "fbx": "models/ART-REV02-007.fbx",
+  "art_texture": "textures/T_Artwork.png",
+  "art_sha256": "9c4325d2316e1cdce937ccabbff71d94ff671b41726165ac6c8487246e028b40",
+  "crop": {
+    "u_span": 1,
+    "v_span": 0.9842665884882242,
+    "source_aspect": 0.6666666666666666,
+    "aperture_aspect": 0.6773232724384433,
+    "mode": "center crop; uniform pixel scale; no stretch"
+  },
+  "frame_material": {
+    "wood_color_linear": [
+      0.04,
+      0.045,
+      0.04
+    ],
+    "roughness": 0.64,
+    "grain_map": "textures/T_Frame_Grain.png",
+    "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+    "base_color_map": "textures/T_Frame_BaseColor.png"
+  },
+  "ucx": 1,
+  "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+  "engine_placement": {
+    "wall_datum_center_plan_m": [
+      2.89,
+      3.86,
+      1.43
+    ],
+    "ue_local_yaw_degrees": 0,
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+  },
+  "materials": [
+    {
+      "slot": 0,
+      "name": "ART-REV02-007_Frame",
+      "base_color_linear": [
+        0.04,
+        0.045,
+        0.04
+      ],
+      "roughness": 0.64,
+      "metallic": 0.0,
+      "opacity": 1,
+      "two_sided": false,
+      "base_color_texture": "textures/T_Frame_BaseColor.png",
+      "texture_srgb": true
+    },
+    {
+      "slot": 1,
+      "name": "ART-REV02-007_Inner_Slip",
+      "base_color_linear": [
+        0.48,
+        0.37,
+        0.23
+      ],
+      "roughness": 0.7,
+      "metallic": 0.0,
+      "opacity": 1,
+      "two_sided": false
+    },
+    {
+      "slot": 2,
+      "name": "ART-REV02-007_Mount",
+      "base_color_linear": [
+        0.72,
+        0.67,
+        0.55
+      ],
+      "roughness": 0.9,
+      "metallic": 0.0,
+      "opacity": 1,
+      "two_sided": false
+    },
+    {
+      "slot": 3,
+      "name": "ART-REV02-007_Backboard",
+      "base_color_linear": [
+        0.12,
+        0.085,
+        0.055
+      ],
+      "roughness": 0.9,
+      "metallic": 0.0,
+      "opacity": 1,
+      "two_sided": false
+    },
+    {
+      "slot": 4,
+      "name": "ART-REV02-007_Artwork",
+      "base_color_linear": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "roughness": 0.86,
+      "metallic": 0.0,
+      "opacity": 1,
+      "two_sided": false,
+      "base_color_texture": "textures/T_Artwork.png",
+      "texture_srgb": true
+    }
+  ]
+}

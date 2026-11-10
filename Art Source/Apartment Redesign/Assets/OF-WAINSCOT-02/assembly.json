@@ -1,0 +1,262 @@
+{
+  "asset": "OF-WAINSCOT-02",
+  "units": "metres",
+  "up": "+Z",
+  "source_to_plan": "(7.96+sourceX,5.66-sourceY,sourceZ)",
+  "common_origin_plan": [
+    7.96,
+    5.66,
+    0
+  ],
+  "ue_import": "X kept / Y flipped; all six exports at (796,566,0)cm, yaw0, scale1",
+  "max_projection_m": 0.022,
+  "wardrobe_east_corner": {
+    "plain_return_x": [
+      11.922,
+      11.94
+    ],
+    "plain_return_depth": 0.007,
+    "east_run_start_y": 7.239,
+    "casing_front_y": 7.237,
+    "gap": 0.002,
+    "note": "22mm full cap cannot fit the20mm casing-to-wall sliver; plain backing return and casing-aware east termination avoid overlap."
+  },
+  "exports": [
+    {
+      "file": "model/OF_Wainscot02_N.fbx",
+      "wall": "N",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "min": [
+        0.0010000000474974513,
+        -0.02199999988079071,
+        0.0
+      ],
+      "max": [
+        2.7290000915527344,
+        -0.0010000000474974513,
+        1.100000023841858
+      ]
+    },
+    {
+      "file": "model/OF_Wainscot02_CS.fbx",
+      "wall": "CS",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "min": [
+        2.7079999446868896,
+        -1.5720000267028809,
+        0.0
+      ],
+      "max": [
+        2.7290000915527344,
+        -0.0010000000474974513,
+        1.100000023841858
+      ]
+    },
+    {
+      "file": "model/OF_Wainscot02_WF.fbx",
+      "wall": "WF",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "min": [
+        2.7079999446868896,
+        -1.5720000267028809,
+        0.0
+      ],
+      "max": [
+        3.9790000915527344,
+        -1.5509999990463257,
+        1.100000023841858
+      ]
+    },
+    {
+      "file": "model/OF_Wainscot02_E.fbx",
+      "wall": "E",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "min": [
+        3.9579999446868896,
+        -3.8289999961853027,
+        0.0
+      ],
+      "max": [
+        3.9790000915527344,
+        -1.5789999961853027,
+        1.100000023841858
+      ]
+    },
+    {
+      "file": "model/OF_Wainscot02_S.fbx",
+      "wall": "S",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "min": [
+        0.0010000000474974513,
+        -3.8289999961853027,
+        0.0
+      ],
+      "max": [
+        3.9790000915527344,
+        -3.808000087738037,
+        1.100000023841858
+      ]
+    },
+    {
+      "file": "model/OF_Wainscot02_W.fbx",
+      "wall": "W",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "min": [
+        0.0010000000474974513,
+        -3.8289999961853027,
+        0.0
+      ],
+      "max": [
+        0.02199999988079071,
+        -0.0010000000474974513,
+        1.100000023841858
+      ]
+    }
+  ],
+  "wall_faces": {
+    "N": {
+      "axis": "x",
+      "plane": 5.66,
+      "normal": 1,
+      "a": 7.96,
+      "b": 10.69,
+      "start": 1,
+      "end": -1
+    },
+    "CS": {
+      "axis": "y",
+      "plane": 10.69,
+      "normal": -1,
+      "a": 5.66,
+      "b": 7.21,
+      "start": 1,
+      "end": 1
+    },
+    "WF": {
+      "axis": "x",
+      "plane": 7.21,
+      "normal": 1,
+      "a": 10.69,
+      "b": 11.94,
+      "start": -1,
+      "end": -1
+    },
+    "E": {
+      "axis": "y",
+      "plane": 11.94,
+      "normal": -1,
+      "a": 7.21,
+      "b": 9.49,
+      "start": 1,
+      "end": -1
+    },
+    "S": {
+      "axis": "x",
+      "plane": 9.49,
+      "normal": -1,
+      "a": 7.96,
+      "b": 11.94,
+      "start": 1,
+      "end": -1
+    },
+    "W": {
+      "axis": "y",
+      "plane": 7.96,
+      "normal": 1,
+      "a": 5.66,
+      "b": 9.49,
+      "start": 1,
+      "end": -1
+    }
+  },
+  "door_casing_x": [
+    9.39,
+    10.56
+  ],
+  "wardrobe_casing_x": [
+    10.84,
+    11.92
+  ],
+  "window_casing_x": [
+    9.6125,
+    11.1875
+  ],
+  "window_sill_x": [
+    9.59,
+    11.21
+  ],
+  "window_sill_z": [
+    0.8715,
+    0.9165
+  ],
+  "window_apron_bottom_z": 0.783,
+  "under_window_cap_z": 0.778,
+  "gaps": {
+    "casing": 0.002,
+    "sill": 0.002,
+    "apron": 0.005
+  },
+  "lead_paint": {
+    "preserve_label": "Damage_BR_LeadPaint",
+    "center_plan": [
+      8.925,
+      5.668,
+      0.7
+    ],
+    "surface_plane_y": 5.667,
+    "overlay_offset_m": 0.001,
+    "clear_recess_x": [
+      8.662,
+      9.296
+    ],
+    "expected_patch_width_m": 0.4619,
+    "expected_patch_height_m": 0.22,
+    "preserve": "Existing overlay texture, alpha material, tags and identity; only reproject to thinner north face. Source patch width/height and current engine scale remain."
+  },
+  "collision": "No new blocking collision; existing structural wall supplies collision.",
+  "material": {
+    "texture": "textures/painted-ivory.png",
+    "srgb": true,
+    "base_color": "direct texture; no multiply",
+    "roughness": 0.8,
+    "metallic": 0
+  },
+  "end_treatment": "Closed painted profile end caps at casing gaps; no open extrusion ends.",
+  "engine_corner_shell_check": {
+    "bounds_plan_min": [
+      10.69,
+      7.15,
+      0
+    ],
+    "bounds_plan_max": [
+      10.75,
+      7.21,
+      2.75
+    ],
+    "note": "Existing Rev02 shell generator leaves this60mm outer quadrant uncovered; verify current map and extend one wall or fill with matching plaster. Source trim assumes square corner at10.69,7.21."
+  }
+}

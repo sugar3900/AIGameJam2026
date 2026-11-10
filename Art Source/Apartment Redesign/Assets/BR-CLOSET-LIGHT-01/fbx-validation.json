@@ -1,0 +1,98 @@
+{
+  "status": "passed",
+  "checks": [
+    "fresh FBX import",
+    "functional pivots at identity exports",
+    "bounds within 0.05mm",
+    "finite UVs and nondegenerate faces",
+    "closed meshes after coincident vertex weld",
+    "positive volumes",
+    "one convex chain query hull",
+    "15mm pull bottom >=200cm",
+    "glass bottom246cm",
+    "chain radial bulb clearance >3cm"
+  ],
+  "exports": [
+    {
+      "mesh": "BR_ClosetLight01_Hardware",
+      "pivot_local_min": [
+        -0.05400000140070915,
+        -0.06737678498029709,
+        -0.17627906799316406
+      ],
+      "pivot_local_max": [
+        0.05400000140070915,
+        0.05400000140070915,
+        8.47187475727651e-09
+      ],
+      "slots": [
+        "Closet_AgedBrass",
+        "Closet_BrassEdge",
+        "Closet_BraidedCord",
+        "Closet_Ceramic",
+        "Closet_SupportWire"
+      ],
+      "triangles": 12980,
+      "closed_after_weld": true,
+      "ucx": 0
+    },
+    {
+      "mesh": "BR_ClosetLight01_Glass",
+      "pivot_local_min": [
+        -0.03500000014901161,
+        -0.035000041127204895,
+        -0.28999996185302734
+      ],
+      "pivot_local_max": [
+        0.03500000014901161,
+        0.03499995917081833,
+        -0.15400004386901855
+      ],
+      "slots": [
+        "Closet_ClearAmberGlass"
+      ],
+      "triangles": 2332,
+      "closed_after_weld": true,
+      "ucx": 0
+    },
+    {
+      "mesh": "BR_ClosetLight01_Filament",
+      "pivot_local_min": [
+        -0.011053130030632019,
+        -0.015250963158905506,
+        -0.2665445804595947
+      ],
+      "pivot_local_max": [
+        0.015576220117509365,
+        0.015250875614583492,
+        -0.1759624481201172
+      ],
+      "slots": [
+        "Closet_Filament"
+      ],
+      "triangles": 3108,
+      "closed_after_weld": true,
+      "ucx": 0
+    },
+    {
+      "mesh": "BR_ClosetLight01_Chain",
+      "pivot_local_min": [
+        -0.010999999940395355,
+        -0.011000096797943115,
+        -0.6299998760223389
+      ],
+      "pivot_local_max": [
+        0.010999999940395355,
+        0.010999899357557297,
+        0.001650094985961914
+      ],
+      "slots": [
+        "Closet_AgedBrass",
+        "Closet_BrassEdge"
+      ],
+      "triangles": 12072,
+      "closed_after_weld": true,
+      "ucx": 1
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "geometry_faces_unchanged": true,
+  "non_apron_uvs_unchanged": true,
+  "fresh_fbx_roundtrip_unchanged": true,
+  "maximum_position_or_protected_uv_error": 1.2056129605753085e-07,
+  "tolerance": 1e-06,
+  "boards": [
+    {
+      "length_axis": "X",
+      "length_m": 1.2799999713897705,
+      "length_m_per_U": 3.0,
+      "height_m_per_V": 1.7,
+      "faces": 54
+    },
+    {
+      "length_axis": "X",
+      "length_m": 1.2799999713897705,
+      "length_m_per_U": 3.0,
+      "height_m_per_V": 1.7,
+      "faces": 54
+    },
+    {
+      "length_axis": "Y",
+      "length_m": 0.6200000047683716,
+      "length_m_per_U": 3.0,
+      "height_m_per_V": 1.7,
+      "faces": 54
+    },
+    {
+      "length_axis": "Y",
+      "length_m": 0.6200000047683716,
+      "length_m_per_U": 3.0,
+      "height_m_per_V": 1.7,
+      "faces": 54
+    }
+  ],
+  "limits": "Engine must retain installed collision and materials; use identity UV on apron slot, no former UV swap/scale."
+}

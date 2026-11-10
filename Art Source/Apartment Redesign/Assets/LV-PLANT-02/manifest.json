@@ -1,0 +1,175 @@
+{
+  "asset": "LV-PLANT-02",
+  "source_axes": {
+    "front": "-Y",
+    "up": "+Z",
+    "units": "metres"
+  },
+  "origin": "Original pot origin unchanged; base is Z +0.005 m",
+  "fbx": "model/LV_Plant02.fbx",
+  "parts": [
+    {
+      "node": "LV_Plant02_Pot",
+      "material": "Painted weathered terracotta",
+      "slot": 0,
+      "base_color_linear": [
+        0.550000011920929,
+        0.25999999046325684,
+        0.14000000059604645,
+        1.0
+      ],
+      "roughness": 0.8700000047683716,
+      "metallic": 0.0,
+      "base_color_texture": "textures/terracotta.png",
+      "bounds": {
+        "min": [
+          -0.0989999994635582,
+          -0.0989999994635582,
+          0.004999999888241291
+        ],
+        "max": [
+          0.0989999994635582,
+          0.0989999994635582,
+          0.19499999284744263
+        ]
+      },
+      "triangles": 958,
+      "collision": "UCX_LV_Plant02_Pot_00"
+    },
+    {
+      "node": "LV_Plant02_Leaves",
+      "material": "Variegated pothos painted leaf",
+      "slot": 0,
+      "base_color_linear": [
+        0.25,
+        0.3799999952316284,
+        0.09000000357627869,
+        1.0
+      ],
+      "roughness": 0.7200000286102295,
+      "metallic": 0.0,
+      "base_color_texture": "textures/pothos-leaf.png",
+      "bounds": {
+        "min": [
+          -0.21358345448970795,
+          -0.21931926906108856,
+          0.0336807519197464
+        ],
+        "max": [
+          0.21694278717041016,
+          0.19827985763549805,
+          0.367855429649353
+        ]
+      },
+      "triangles": 24960,
+      "collision": null
+    },
+    {
+      "node": "LV_Plant02_Stems",
+      "material": "Olive green stems",
+      "slot": 0,
+      "base_color_linear": [
+        0.23999999463558197,
+        0.3100000023841858,
+        0.06499999761581421,
+        1.0
+      ],
+      "roughness": 0.8999999761581421,
+      "metallic": 0.0,
+      "base_color_texture": null,
+      "bounds": {
+        "min": [
+          -0.1822187751531601,
+          -0.1922544240951538,
+          0.078926682472229
+        ],
+        "max": [
+          0.19000884890556335,
+          0.17100054025650024,
+          0.33661913871765137
+        ]
+      },
+      "triangles": 9520,
+      "collision": null
+    },
+    {
+      "node": "LV_Plant02_Soil",
+      "material": "Dark potting soil",
+      "slot": 0,
+      "base_color_linear": [
+        0.07500000298023224,
+        0.041999999433755875,
+        0.024000000208616257,
+        1.0
+      ],
+      "roughness": 1.0,
+      "metallic": 0.0,
+      "base_color_texture": null,
+      "bounds": {
+        "min": [
+          -0.08100000023841858,
+          -0.08100000023841858,
+          0.17599999904632568
+        ],
+        "max": [
+          0.08100000023841858,
+          0.08100000023841858,
+          0.17599999904632568
+        ]
+      },
+      "triangles": 128,
+      "collision": null
+    },
+    {
+      "node": "LV_Plant02_Decoration",
+      "material": "Worn cream slip decoration",
+      "slot": 0,
+      "base_color_linear": [
+        0.6800000071525574,
+        0.5400000214576721,
+        0.36000001430511475,
+        1.0
+      ],
+      "roughness": 0.9200000166893005,
+      "metallic": 0.0,
+      "base_color_texture": null,
+      "bounds": {
+        "min": [
+          -0.08774812519550323,
+          -0.08774953335523605,
+          0.13285186886787415
+        ],
+        "max": [
+          0.08774995058774948,
+          0.08774953335523605,
+          0.14114947617053986
+        ]
+      },
+      "triangles": 4096,
+      "collision": null
+    }
+  ],
+  "stand_fit": {
+    "stand": "LV-PLANT-STAND-01",
+    "stand_top_z": 0.48,
+    "riser_top_z": 0.516,
+    "plant_origin_z_for_exact_seating": 0.511,
+    "delta_from_old_documented_placement_m": -0.005,
+    "pot_base_radius": 0.065,
+    "riser_radius": 0.078,
+    "lowest_leaf_above_stand_top_m": 0.06468075191974643
+  },
+  "bounds": {
+    "min": [
+      -0.21358345448970795,
+      -0.21931926906108856,
+      0.004999999888241291
+    ],
+    "max": [
+      0.21694278717041016,
+      0.19827985763549805,
+      0.367855429649353
+    ]
+  },
+  "engine_material_contract": "Opaque leaf shells, alpha 1, transmission 0. No Two Sided workaround needed. No leaf/stem collision. Preserve original painted texture colour; do not multiply texture by base fallback colour."
+}

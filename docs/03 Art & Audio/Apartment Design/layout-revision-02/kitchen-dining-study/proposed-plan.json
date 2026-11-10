@@ -191,7 +191,7 @@
       "opening_x": 0.55,
       "door_type": "paired outward-hinged leaves; target 1.00 m finished clear total",
       "door_swing_radius": 0.5,
-      "interior_repair": "black mold on north/back wall",
+      "interior_repair": "Diffuse charcoal mold at upper-right north/back corner, wrapping onto east wall; BR-MOLD-02 separate repair overlays.",
       "ceiling_height": 2.75,
       "light": "single dangling bare bulb",
       "note": "New shell and wider doors needed; do not stretch existing assembly indiscriminately."
@@ -240,32 +240,52 @@
     {
       "name": "Basin",
       "rect": [
-        4.95,
-        6.95,
-        0.65,
-        0.65
+        7.262,
+        7.605,
+        0.56,
+        0.64
       ],
-      "room": "BA"
+      "room": "BA",
+      "facing": "west",
+      "assembly_origin_plan": [
+        7.542,
+        7.925,
+        0
+      ]
     },
     {
       "name": "WC",
       "rect": [
-        7.05,
-        7.55,
-        0.7,
-        0.75
+        5.23,
+        5.685,
+        0.578,
+        0.713
       ],
-      "room": "BA"
+      "room": "BA",
+      "facing": "south",
+      "assembly_origin_plan": [
+        5.55,
+        6.03,
+        0
+      ]
     },
     {
       "name": "Linen",
       "rect": [
         7.15,
-        8.75,
+        8.671,
         0.6,
-        0.6
+        0.679
       ],
-      "room": "BA"
+      "room": "BA",
+      "facing": "north",
+      "assembly_origin_plan": [
+        7.45,
+        9.05,
+        0
+      ],
+      "door_open_degrees": 90,
+      "note": "Same southeast-corner floor origin. North-facing; door knob included in planning footprint. Stop at90 degrees to clear east tile."
     },
     {
       "name": "Daybed",
@@ -301,11 +321,17 @@
       "name": "Towel basket",
       "room": "BA",
       "rect": [
-        4.95,
-        5.75,
-        0.5,
-        0.4
-      ]
+        4.8868,
+        8.009,
+        0.4664,
+        0.342
+      ],
+      "assembly_origin_plan": [
+        5.12,
+        8.18,
+        0
+      ],
+      "note": "Moved under west towel rail; clears toilet approach."
     },
     {
       "name": "Bath mat",
@@ -350,12 +376,21 @@
     {
       "name": "Fusebox / Wyatt",
       "rect": [
-        11.82,
-        3.4,
-        0.12,
-        0.45
+        10.825,
+        0.06,
+        0.45,
+        0.14
       ],
-      "room": "HA"
+      "room": "LV",
+      "facing": "south",
+      "asset_id": "LV-FUSE-01",
+      "z": 1.4,
+      "assembly_origin_plan": [
+        11.05,
+        0.06,
+        1.4
+      ],
+      "note": "FIX-004: north wall above corner plant; move door, both wire states and plaster damage with shell; preserve labels. Engine validates open lid/click reach and re-derives Wyatt spots."
     },
     {
       "name": "Entry bench",
@@ -442,26 +477,6 @@
         1.15
       ],
       "room": "BR"
-    },
-    {
-      "name": "High shelf",
-      "rect": [
-        0.12,
-        4.0,
-        0.3,
-        1.1
-      ],
-      "room": "BC"
-    },
-    {
-      "name": "Mold / Malcolm",
-      "rect": [
-        0.65,
-        3.89,
-        0.9,
-        0.04
-      ],
-      "room": "BC"
     },
     {
       "name": "Sofa",
@@ -571,7 +586,14 @@
         1.05,
         0.65
       ],
-      "facing": "south"
+      "facing": "south",
+      "asset_id": "KI-LEAK-02",
+      "assembly_origin_plan": [
+        2.15,
+        0.4605,
+        0
+      ],
+      "note": "Replace body only at current transform; preserve original tap controls. Separate vintage bucket persists; authored water stops/hides on Lukey repair."
     },
     {
       "name": "Counter",
@@ -698,19 +720,101 @@
         0.5
       ],
       "facing": "north"
+    },
+    {
+      "name": "West shelf / hangers",
+      "room": "BC",
+      "rect": [
+        0.06,
+        3.865,
+        0.493238,
+        1.67
+      ],
+      "asset_id": "BR-CLOSET-STORAGE-03",
+      "assembly_origin_plan": [
+        1.1,
+        4.7,
+        0
+      ],
+      "source_mesh": "BR_ClosetStorage03_West",
+      "shelf_top": 1.88,
+      "note": "Overhead storage: 35 mm board, full sidewall length; rail z1.73. Rect includes hanging hanger envelope."
+    },
+    {
+      "name": "East shelf / hangers",
+      "room": "BC",
+      "rect": [
+        1.646762,
+        3.865,
+        0.493238,
+        1.67
+      ],
+      "asset_id": "BR-CLOSET-STORAGE-03",
+      "assembly_origin_plan": [
+        1.1,
+        4.7,
+        0
+      ],
+      "source_mesh": "BR_ClosetStorage03_East",
+      "shelf_top": 1.88,
+      "note": "Overhead storage; same assembly origin as west side. Keep central 1.094 m aisle clear."
+    },
+    {
+      "name": "Corner mold / Malcolm",
+      "room": "BC",
+      "rect": [
+        0.55,
+        3.863,
+        1.587,
+        0.005
+      ],
+      "asset_id": "BR-MOLD-02",
+      "assembly_origin_plan": [
+        1.1,
+        4.7,
+        0
+      ],
+      "source_mesh": "BR_Mold02_Back",
+      "z_range": [
+        1.12,
+        2.64
+      ],
+      "note": "Upper-right back wall; scattered charcoal colonies, removable on repair."
+    },
+    {
+      "name": "Mold corner return",
+      "room": "BC",
+      "rect": [
+        2.137,
+        3.863,
+        0.003,
+        0.637
+      ],
+      "asset_id": "BR-MOLD-02",
+      "assembly_origin_plan": [
+        1.1,
+        4.7,
+        0
+      ],
+      "source_mesh": "BR_Mold02_Return",
+      "z_range": [
+        1.12,
+        2.64
+      ],
+      "note": "Narrow east-wall return; remove together with back overlay."
     }
   ],
   "repairs": {
-    "LV": "Wyatt: east wall immediately north of the apartment entry, x=11.82, y=3.40\u20133.85 m; faces west. Preserve living/Wyatt gameplay identity despite entry-side placement.",
+    "LV": "Wyatt: north wall above corner plant, box centre x=11.05, wall y=.06, lower edge z=1.40, facing south; same living identity and wire-state repair.",
     "KI": "Lukey: north-wall sink centred at x=2.15 under the window; clear approach from open kitchen centre.",
     "BA": "Tyler: south wall above tub, unchanged.",
-    "BR": "Malcolm: north interior wall of relocated walk-in closet; paired doors conceal him.",
+    "BR": "Malcolm: upper-right north/east interior corner of walk-in, with both BR-MOLD-02 overlays hidden on repair. Preserve identity, spawn, talk spot and camera world transforms.",
     "OF_LEAD": "Separate lead-paint condition on office / guestroom white wainscoting; north wall between storage cabinet and room doorway, x=8.65\u20139.20 m. Keep approach clear of door swing."
   },
   "clearance_notes": [
     "White wainscoting and its associated lead-paint feature move from bedroom to office / guestroom per user direction. Detail panels around office window, closet and doorway after layout approval.",
     "Nominal 0.12 m centre-line walls; clearance dimensions below deduct these where relevant but not trim, frame stops, protrusions or camera/capsule.",
-    "New closet interior approximately 2.08 x 1.68 m before trim; 0.30 m high side shelving leaves central floor open. 1.10 m rough opening targets approximately 1.00 m clear with paired leaves.",
+    "New closet interior approximately 2.08 x 1.68 m before trim; Both full-length side shelves are 0.40 m deep with tops at 1.88 m and 35 mm boards; hooked hangers leave 1.094 m central aisle. 1.10 m rough opening targets approximately 1.00 m clear with paired leaves.",
     "Measured closet hinge axis is y=5.678 and open-leaf tips reach y=6.181. Cross-bedroom route uses y=6.65; the 0.38 m radius player clears leaves by 0.089 m and actual bed north edge y=7.399 by 0.369 m. Real PIE movement tested in both directions. Main bedroom entry has a separate approach east of closet.",
     "Bed east edge x=3.10 to dresser front x=4.25 gives 1.15 m nominal aisle. Bed west edge x=1.60 to west wall face x=0.06 gives 1.54 m, except localized nightstand near headboard.",
     "Private hall remains 1.68 m clear before trim; end cabinet occupies x=2.28\u20132.5275 at the new west terminus. Side console is on the south wall between bath/office doors at x=7.85\u20138.90, with 0.55 m nominal to either doorway and 0.02 m rear gap to wall face; closed front leaves 1.41 m to the former north-wall face (living is open here). Coat closet now opens north into the entry from the office-side footprint. Entry bench moves to the east wall north of the front door.",
@@ -719,7 +823,6 @@
     "Living/kitchen exchange requires new flooring, wall finishes, lighting, repair/room volumes and transforms. Existing furniture dimensions are approximate source footprints, not collision guarantees.",
     "Bathroom and office room boundaries remain. Guest wardrobe moves 0.80 m south and reduces nominal depth from 1.20 to 0.75 m. Coat and guest closets share a back partition; bypass doors avoid floor sweeps. Guest wardrobe has a reserved 0.90 m front approach.",
     "Office doorway shifts 0.15 m west, leaving 0.25 m nominal between its east jamb and the coat closet side. Check casing before construction.",
-    "Fusebox moves to east wall immediately north of entry; bench ends y=3.35 and fusebox spans y=3.40\u20133.85. Resolve casing and separable damage extents in elevation, preserving a clear west-facing interaction approach and living/Wyatt gameplay identity.",
     "Office bookcase moves to bedroom west wall at x=0.15, y=6.45. Its front is 1.15 m from the bed west edge where their lengths overlap; the closet approach remains clear.",
     "Living furniture option A selected by user and incorporated; other revision-02 decisions preserved. User authorized revised elevations after selecting A; engine reservation remains in force.",
     "Living option A uses source-sized sofa, chair, TV, coffee table, bookcase and end table; sofa faces east, TV faces west, chair faces south. Seat-to-screen approximately 2.90 m; sofa-to-table gap 0.46 m. Keep the existing rug at 2.50 x 1.80 m, rotated north-south.",
@@ -729,7 +832,9 @@
     "Dining table rotates north-south in the expanded living/dining space. West side gap to kitchen wall face1.24 m; east side gap to sofa back1.15 m. Chairs are at north/south ends, not in those side aisles.",
     "South dining chair ends y=3.85 parked; a0.40 m pullback reaches4.25, leaving0.40 m to the primary route centreline4.65. Verify actual capsule and chair sweeps.",
     "Optional wall table0.90x0.45 m has a stool tucked under it; this is an intentional overlap below the tabletop. It is a new small table/stool variant, not the full dining table scaled down.",
-    "Upper cupboard moves to east return y=.25\u20131.25, bottom1.60. Keep its depth and doors clear of range and window trim."
+    "Upper cupboard moves to east return y=.25\u20131.25, bottom1.60. Keep its depth and doors clear of range and window trim.",
+    "FIX-004: fuse box moves above north-wall corner plant. Lower edge1.40 leaves about0.184 m above planned plant top1.216. Entire source wire/damage envelope must clear crown. Coat rack moves right/south on east wall, centered y=3.30, using measured0.72 m source width (y=2.94..3.66); preserve coat offset. Engine click, door sweep and Wyatt encounter validation pending.",
+    "FIX-005: living rug moves0.15 m east toward coffee table (rect8.95,.90,1.80,2.50); decorative/no collision. Sofa footprint/facing and all circulation paths remain unchanged pending source replacement."
   ],
   "status": "APPROVED DESIGN \u2014 compact kitchen/dining with north-wall fridge; user approval 2026-11-09; engine validation pending",
   "revision": "02-KD \u2014 compact kitchen / dining between kitchen and sofa",
@@ -754,7 +859,14 @@
       "x": 4.8,
       "y": 2.35,
       "width": 1.2,
-      "note": "Doorless cased kitchen doorway, approximately 1.10 m finished clear."
+      "note": "FIX-025: 1.20 x2.30 rough;5cm jamb/head linings give1.10 x2.25 finished clear. Casing both faces, no leaf.",
+      "rough_height": 2.3,
+      "finished_clear_width": 1.1,
+      "finished_clear_height": 2.25,
+      "finished_clear_y": [
+        2.4,
+        3.5
+      ]
     }
   ],
   "selected_living_option": {
@@ -766,13 +878,14 @@
     {
       "name": "Living rug",
       "rect": [
-        8.8,
+        8.95,
         0.9,
         1.8,
         2.5
       ],
       "asset_id": "LV-RUG-01",
-      "blocking": false
+      "blocking": false,
+      "note": "FIX-005: +0.15 m east toward coffee table; sofa stays fixed."
     }
   ],
   "wall_finishes": {
@@ -896,6 +1009,68 @@
         11.2,
         3.7
       ]
+    ],
+    [
+      [
+        6.775,
+        5.35
+      ],
+      [
+        6.775,
+        6.9
+      ],
+      [
+        6.775,
+        7.1
+      ]
+    ],
+    [
+      [
+        6.775,
+        7.1
+      ],
+      [
+        5.55,
+        7.1
+      ],
+      [
+        5.55,
+        6.9
+      ]
+    ],
+    [
+      [
+        6.775,
+        7.1
+      ],
+      [
+        6.8,
+        7.925
+      ]
+    ],
+    [
+      [
+        6.775,
+        7.1
+      ],
+      [
+        5.8,
+        7.1
+      ],
+      [
+        5.8,
+        8.2
+      ]
+    ],
+    [
+      [
+        6.775,
+        7.1
+      ],
+      [
+        6.85,
+        8.35
+      ]
     ]
   ],
   "approach_zones": [
@@ -919,6 +1094,15 @@
       "width": 1.0,
       "height": 0.5455,
       "note": "Cupboard on east return; clear of range footprint, no cupboard directly over burners."
+    },
+    {
+      "asset_id": "HA-HOOKS-01",
+      "wall": "LV-E",
+      "u": 2.94,
+      "z": 1.52,
+      "width": 0.72,
+      "height": 0.12,
+      "note": "FIX-004: centered in span between TV and entry; move coat together, preserve existing vertical anchor."
     }
   ],
   "dining_zone": {
@@ -930,5 +1114,227 @@
     ],
     "note": "Shared living/dining space, not an enclosed room. Table rotates 90 degrees; end chairs pull north/south."
   },
-  "approval_date": "2026-11-09"
+  "approval_date": "2026-11-09",
+  "bathroom_feedback": {
+    "id": "FIX-007",
+    "status": "integrated; engine routes, sweeps and listed click actions verified; art review recorded in Feedback fixes.md",
+    "tile_treatment": {
+      "general_field_top": 1.0,
+      "general_cap_top": 1.05,
+      "ceiling": 2.75,
+      "pitch": 0.1,
+      "tile_depth": 0.018,
+      "cap_depth": 0.036,
+      "high_transition_y": 8.55,
+      "vertical_transition_trim_y": [
+        8.5,
+        8.55
+      ],
+      "panels": [
+        {
+          "wall": "N",
+          "plane": 5.66,
+          "span": [
+            4.86,
+            6.25
+          ],
+          "z": [
+            0,
+            1.0
+          ],
+          "front": "south"
+        },
+        {
+          "wall": "N",
+          "plane": 5.66,
+          "span": [
+            7.3,
+            7.84
+          ],
+          "z": [
+            0,
+            1.0
+          ],
+          "front": "south"
+        },
+        {
+          "wall": "W",
+          "plane": 4.86,
+          "span": [
+            5.66,
+            8.55
+          ],
+          "z": [
+            0,
+            1.0
+          ],
+          "front": "east"
+        },
+        {
+          "wall": "E",
+          "plane": 7.84,
+          "span": [
+            5.66,
+            8.55
+          ],
+          "z": [
+            0,
+            1.0
+          ],
+          "front": "west"
+        },
+        {
+          "wall": "W",
+          "plane": 4.86,
+          "span": [
+            8.55,
+            9.49
+          ],
+          "z": [
+            0,
+            2.75
+          ],
+          "front": "east"
+        },
+        {
+          "wall": "E",
+          "plane": 7.84,
+          "span": [
+            8.55,
+            9.49
+          ],
+          "z": [
+            0,
+            2.75
+          ],
+          "front": "west"
+        },
+        {
+          "wall": "S",
+          "plane": 9.49,
+          "span": [
+            4.86,
+            7.84
+          ],
+          "z": [
+            0,
+            1.5
+          ],
+          "front": "north"
+        },
+        {
+          "wall": "S",
+          "plane": 9.49,
+          "span": [
+            4.86,
+            5.25
+          ],
+          "z": [
+            1.5,
+            2.3
+          ],
+          "front": "north"
+        },
+        {
+          "wall": "S",
+          "plane": 9.49,
+          "span": [
+            6.4,
+            7.84
+          ],
+          "z": [
+            1.5,
+            2.3
+          ],
+          "front": "north"
+        },
+        {
+          "wall": "S",
+          "plane": 9.49,
+          "span": [
+            4.86,
+            7.84
+          ],
+          "z": [
+            2.3,
+            2.75
+          ],
+          "front": "north"
+        }
+      ],
+      "notes": [
+        "Crop tile cells at boundaries; preserve100mm pitch and per-tileUVs rather than nonuniformly stretching1.10m source module. General field removes one100mmrow; original50mmcap reused at1.00.",
+        "Full-height field has no cap at1.00/1.50; terminate neatly at ceiling/crown. Vertical bullnose transition occupiesY8.50..8.55, Z1.00..2.75.",
+        "South window apertureX5.25..6.40,Z1.50..2.30 is preserved. Do not tile across glass or frame opening.",
+        "Keep continuous grout rows inZ,18mm wall projection; cap projects36mm. Clip mitres/perpendicular edges to avoid visible overlaps.",
+        "SW seam: ensure structural west/south wall volumes overlap at X4.74..4.86,Y9.49..9.61; tile facing intersects cleanly, no open slit. Diagnose geometry vs lighting in engine before adding any blocker."
+      ]
+    },
+    "capsule_radius": 0.38,
+    "local_routes": {
+      "entry": [
+        [
+          6.775,
+          5.35
+        ],
+        [
+          6.775,
+          6.9
+        ],
+        [
+          6.775,
+          7.1
+        ]
+      ],
+      "toilet": [
+        [
+          6.775,
+          7.1
+        ],
+        [
+          5.55,
+          7.1
+        ],
+        [
+          5.55,
+          6.9
+        ]
+      ],
+      "basin": [
+        [
+          6.775,
+          7.1
+        ],
+        [
+          6.8,
+          7.925
+        ]
+      ],
+      "tub": [
+        [
+          6.775,
+          7.1
+        ],
+        [
+          5.8,
+          7.1
+        ],
+        [
+          5.8,
+          8.2
+        ]
+      ],
+      "cabinet": [
+        [
+          6.775,
+          7.1
+        ],
+        [
+          6.85,
+          8.35
+        ]
+      ]
+    },
+    "note": "No shell layout/opening changes; source-sized fixtures moved; linen remains same southeast corner."
+  }
 }

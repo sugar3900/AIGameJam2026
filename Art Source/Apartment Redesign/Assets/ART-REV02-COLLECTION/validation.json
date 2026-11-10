@@ -1,0 +1,465 @@
+{
+  "items": [
+    {
+      "asset": "ART-REV02-001",
+      "roundtrip": "PASS",
+      "visual_meshes": 1,
+      "ucx": 1,
+      "vertices": 132,
+      "faces": 127,
+      "origin_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds_m": [
+        [
+          -0.36000001430511475,
+          -0.03500005230307579,
+          0.0
+        ],
+        [
+          0.36000001430511475,
+          5.43584910417394e-08,
+          0.5199999809265137
+        ]
+      ],
+      "uv_loops": 508,
+      "artwork_unchanged": true
+    },
+    {
+      "asset": "ART-REV02-002",
+      "roundtrip": "PASS",
+      "visual_meshes": 1,
+      "ucx": 1,
+      "vertices": 112,
+      "faces": 107,
+      "origin_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds_m": [
+        [
+          -0.20999999344348907,
+          -0.035000029951334,
+          0.0
+        ],
+        [
+          0.20999999344348907,
+          3.1709117109812723e-08,
+          0.550000011920929
+        ]
+      ],
+      "uv_loops": 428,
+      "artwork_unchanged": true
+    },
+    {
+      "asset": "ART-REV02-003",
+      "roundtrip": "PASS",
+      "visual_meshes": 1,
+      "ucx": 1,
+      "vertices": 116,
+      "faces": 111,
+      "origin_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds_m": [
+        [
+          -0.2750000059604645,
+          -0.035000041127204895,
+          0.0
+        ],
+        [
+          0.2750000059604645,
+          4.1523847471580666e-08,
+          0.5
+        ]
+      ],
+      "uv_loops": 444,
+      "artwork_unchanged": true
+    },
+    {
+      "asset": "ART-REV02-004",
+      "roundtrip": "PASS",
+      "visual_meshes": 1,
+      "ucx": 1,
+      "vertices": 460,
+      "faces": 495,
+      "origin_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds_m": [
+        [
+          -0.44999998807907104,
+          -0.035000067204236984,
+          0.0
+        ],
+        [
+          0.44999998807907104,
+          6.794810758492531e-08,
+          0.6499999761581421
+        ]
+      ],
+      "uv_loops": 1884,
+      "artwork_unchanged": true
+    },
+    {
+      "asset": "ART-REV02-005",
+      "roundtrip": "PASS",
+      "visual_meshes": 1,
+      "ucx": 1,
+      "vertices": 136,
+      "faces": 131,
+      "origin_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds_m": [
+        [
+          -0.32499998807907104,
+          -0.03500004857778549,
+          0.0
+        ],
+        [
+          0.32499998807907104,
+          4.907363404527132e-08,
+          0.5199999809265137
+        ]
+      ],
+      "uv_loops": 524,
+      "artwork_unchanged": true
+    },
+    {
+      "asset": "ART-REV02-006",
+      "roundtrip": "PASS",
+      "visual_meshes": 1,
+      "ucx": 1,
+      "vertices": 1176,
+      "faces": 1291,
+      "origin_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds_m": [
+        [
+          -0.6499999761581421,
+          -0.055000096559524536,
+          0.0
+        ],
+        [
+          0.6499999761581421,
+          9.814726809054264e-08,
+          0.8999999761581421
+        ]
+      ],
+      "uv_loops": 4876,
+      "artwork_unchanged": true
+    },
+    {
+      "asset": "ART-REV02-007",
+      "roundtrip": "PASS",
+      "visual_meshes": 1,
+      "ucx": 1,
+      "vertices": 144,
+      "faces": 139,
+      "origin_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds_m": [
+        [
+          -0.20999999344348907,
+          -0.035000029951334,
+          0.0
+        ],
+        [
+          0.20999999344348907,
+          3.1709117109812723e-08,
+          0.550000011920929
+        ]
+      ],
+      "uv_loops": 556,
+      "artwork_unchanged": true
+    },
+    {
+      "asset": "ART-REV02-008",
+      "roundtrip": "PASS",
+      "visual_meshes": 1,
+      "ucx": 1,
+      "vertices": 128,
+      "faces": 123,
+      "origin_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds_m": [
+        [
+          -0.32499998807907104,
+          -0.03500004857778549,
+          0.0
+        ],
+        [
+          0.32499998807907104,
+          4.907363404527132e-08,
+          0.5199999809265137
+        ]
+      ],
+      "uv_loops": 492,
+      "artwork_unchanged": true
+    },
+    {
+      "asset": "ART-REV02-009",
+      "roundtrip": "PASS",
+      "visual_meshes": 1,
+      "ucx": 1,
+      "vertices": 5456,
+      "faces": 6071,
+      "origin_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds_m": [
+        [
+          -0.28999999165534973,
+          -0.035000041127204895,
+          0.0
+        ],
+        [
+          0.28999999165534973,
+          4.378878060151692e-08,
+          0.550000011920929
+        ]
+      ],
+      "uv_loops": 22796,
+      "artwork_unchanged": true
+    },
+    {
+      "asset": "ART-REV02-010",
+      "roundtrip": "PASS",
+      "visual_meshes": 1,
+      "ucx": 1,
+      "vertices": 132,
+      "faces": 127,
+      "origin_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds_m": [
+        [
+          -0.28999999165534973,
+          -0.035000044852495193,
+          0.0
+        ],
+        [
+          0.28999999165534973,
+          4.378878060151692e-08,
+          0.550000011920929
+        ]
+      ],
+      "uv_loops": 508,
+      "artwork_unchanged": true
+    },
+    {
+      "asset": "ART-REV02-011",
+      "roundtrip": "PASS",
+      "visual_meshes": 1,
+      "ucx": 1,
+      "vertices": 108,
+      "faces": 103,
+      "origin_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds_m": [
+        [
+          -0.2750000059604645,
+          -0.035000041127204895,
+          0.0
+        ],
+        [
+          0.2750000059604645,
+          4.1523847471580666e-08,
+          0.5
+        ]
+      ],
+      "uv_loops": 412,
+      "artwork_unchanged": true
+    },
+    {
+      "asset": "ART-REV02-012",
+      "roundtrip": "PASS",
+      "visual_meshes": 1,
+      "ucx": 1,
+      "vertices": 1825,
+      "faces": 1730,
+      "origin_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds_m": [
+        [
+          -0.36000001430511475,
+          -0.03500005230307579,
+          0.0
+        ],
+        [
+          0.36000001430511475,
+          5.466900532269392e-08,
+          0.5199999809265137
+        ]
+      ],
+      "uv_loops": 7008,
+      "artwork_unchanged": true
+    },
+    {
+      "asset": "ART-REV02-013",
+      "roundtrip": "PASS",
+      "visual_meshes": 1,
+      "ucx": 1,
+      "vertices": 116,
+      "faces": 111,
+      "origin_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds_m": [
+        [
+          -0.32499998807907104,
+          -0.03500004857778549,
+          0.0
+        ],
+        [
+          0.32499998807907104,
+          4.907363404527132e-08,
+          0.5
+        ]
+      ],
+      "uv_loops": 444,
+      "artwork_unchanged": true
+    },
+    {
+      "asset": "ART-REV02-014",
+      "roundtrip": "PASS",
+      "visual_meshes": 1,
+      "ucx": 1,
+      "vertices": 152,
+      "faces": 147,
+      "origin_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds_m": [
+        [
+          -0.30000001192092896,
+          -0.035000044852495193,
+          0.0
+        ],
+        [
+          0.30000001192092896,
+          4.529874431113967e-08,
+          0.6000000238418579
+        ]
+      ],
+      "uv_loops": 588,
+      "artwork_unchanged": true
+    },
+    {
+      "asset": "ART-REV02-015",
+      "roundtrip": "PASS",
+      "visual_meshes": 1,
+      "ucx": 1,
+      "vertices": 136,
+      "faces": 131,
+      "origin_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds_m": [
+        [
+          -0.2750000059604645,
+          -0.035000041127204895,
+          0.0
+        ],
+        [
+          0.2750000059604645,
+          4.1523847471580666e-08,
+          0.5799999833106995
+        ]
+      ],
+      "uv_loops": 524,
+      "artwork_unchanged": true
+    },
+    {
+      "asset": "ART-REV02-016",
+      "roundtrip": "PASS",
+      "visual_meshes": 1,
+      "ucx": 1,
+      "vertices": 4440,
+      "faces": 4935,
+      "origin_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds_m": [
+        [
+          -0.23000000417232513,
+          -0.0350000336766243,
+          0.0
+        ],
+        [
+          0.23000000417232513,
+          3.472903387091719e-08,
+          0.5
+        ]
+      ],
+      "uv_loops": 18540,
+      "artwork_unchanged": true
+    },
+    {
+      "asset": "ART-REV02-017",
+      "roundtrip": "PASS",
+      "visual_meshes": 1,
+      "ucx": 1,
+      "vertices": 460,
+      "faces": 495,
+      "origin_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bounds_m": [
+        [
+          -0.32499998807907104,
+          -0.03500004857778549,
+          0.0
+        ],
+        [
+          0.32499998807907104,
+          4.907363404527132e-08,
+          0.5
+        ]
+      ],
+      "uv_loops": 1884,
+      "artwork_unchanged": true
+    }
+  ],
+  "unique_artwork_sha256_count": 17,
+  "original_artwork_pngs_preserved": true
+}

@@ -1,0 +1,126 @@
+{
+  "asset": "LV-ARMCHAIR-02",
+  "replaces": "LV-CHAIR-01",
+  "status": "source reviewed; files settled; engine integration pending",
+  "created_utc": "2026-11-09T16:39:48.016319+00:00",
+  "index_scope": "Every asset file except release-manifest.json itself",
+  "validated_fbx_sha256": "29bdd0cbba6598c3fd99885beabec587477f2aea06022d376f071d4c02dcf053",
+  "validated_blend_sha256": "ee0431192977cc3267552f09dbaa3a2d7a0babf28ff37f2f3d6347a6001128e0",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 5956,
+      "sha256": "70412dae8c31d3ee8b200bebf92f388486ec0e609f9bf9d1734080ae19fadfd1"
+    },
+    {
+      "path": "assembly.json",
+      "bytes": 3508,
+      "sha256": "914bf6a7fadd460665687d1987b1761eec7d0bf11c195e8a826f006990e2584f"
+    },
+    {
+      "path": "concepts/armchair-tailored-rust.png",
+      "bytes": 2654567,
+      "sha256": "2ea9fda37bc5ece7a5caf19e829fe76a02a53eeb2dfcd5207b8a96e191fcaea0"
+    },
+    {
+      "path": "concepts/generation-prompts.md",
+      "bytes": 2556,
+      "sha256": "f2c8b34eb82fde5e5c751f2b11c0beb39c3a43e4bdb388cba68d773c71dfc05d"
+    },
+    {
+      "path": "model/LV-ARMCHAIR-02.blend",
+      "bytes": 12024755,
+      "sha256": "ee0431192977cc3267552f09dbaa3a2d7a0babf28ff37f2f3d6347a6001128e0"
+    },
+    {
+      "path": "model/LV-ARMCHAIR-02.fbx",
+      "bytes": 6382076,
+      "sha256": "29bdd0cbba6598c3fd99885beabec587477f2aea06022d376f071d4c02dcf053"
+    },
+    {
+      "path": "model/build_armchair.py",
+      "bytes": 18650,
+      "sha256": "93f66e6f48e2a144188e18727daf5d73d485a8c864a8af12faf73f9e874bd4bb"
+    },
+    {
+      "path": "model/render_views.py",
+      "bytes": 1185,
+      "sha256": "db2ef76ebc96e0c9d0860b67ae22f6905e18df67e93226afa889461d0e07df09"
+    },
+    {
+      "path": "model/validate.py",
+      "bytes": 3111,
+      "sha256": "f9b471943ebbd41d02d49fd363f229233e71309cfb14c28a96b2b132f69da6e7"
+    },
+    {
+      "path": "model/validation.json",
+      "bytes": 1128,
+      "sha256": "7bc1ec90c4bf6e14e2e1595b645b11533e256c5b6b07b047b533c528319dff67"
+    },
+    {
+      "path": "previews/archive/armchair-pass01.png",
+      "bytes": 2115146,
+      "sha256": "9c9dbe3d2c1db84bd95cfdbed733c31f6fb647d826c5986cc2f48c8060e94212"
+    },
+    {
+      "path": "previews/archive/armchair-pass02.png",
+      "bytes": 2121345,
+      "sha256": "2804351423f3f152bbc0ba61a588b3796659413aa2144695aaea980f7364af1a"
+    },
+    {
+      "path": "previews/archive/armchair-pass03.png",
+      "bytes": 2076903,
+      "sha256": "54d297eab8d9a95c7b70d179432991f5d4be9bde8738eb88932dd91137353a08"
+    },
+    {
+      "path": "previews/armchair-back.png",
+      "bytes": 1500862,
+      "sha256": "8116c74d0b0af8cbebb92debd96d624eb839e29f027cc1664fc98db4ab29a80a"
+    },
+    {
+      "path": "previews/armchair-context.png",
+      "bytes": 2080288,
+      "sha256": "8a2ed21a0ff2d72494dfe787991358dd243269a42de98daf57529e99bd7188fd"
+    },
+    {
+      "path": "previews/armchair-front.png",
+      "bytes": 1597862,
+      "sha256": "18bbfe4a553c25bc74679bfc55cecc3927b324b67e884acf5fae3a677b815ec5"
+    },
+    {
+      "path": "previews/armchair-lace-detail.png",
+      "bytes": 2030070,
+      "sha256": "560f1f568210d910c3e3ffd99debb01c054a3d1685a6861e36ac1ecc63d2a6ed"
+    },
+    {
+      "path": "previews/armchair-left.png",
+      "bytes": 1233239,
+      "sha256": "cd19a3131bf1eda2d0db0b6c909cba5cf966cc9d88f161a8ceea96a2571095f7"
+    },
+    {
+      "path": "previews/armchair-right.png",
+      "bytes": 1261950,
+      "sha256": "d103c4efc46763f4c553776e69e8afce410efc32933742126141ef4dcc8007f2"
+    },
+    {
+      "path": "previews/armchair-seat-detail.png",
+      "bytes": 2538332,
+      "sha256": "193498a4a962f9d4d59981364d3153bf7fa19f771754f0d53b57f85112bc35a0"
+    },
+    {
+      "path": "textures/ivory-thread.png",
+      "bytes": 3271544,
+      "sha256": "c6c7851e4dcd46924fed7bb8950a6e04ce5b672a30e5ec7fde80b9386e44fc60"
+    },
+    {
+      "path": "textures/rust-jacquard.png",
+      "bytes": 3302793,
+      "sha256": "f93f34238e947adc8ba114d774d47fc94d27ba12e53041b5fd754b096c267b18"
+    },
+    {
+      "path": "textures/walnut-painted.png",
+      "bytes": 2116141,
+      "sha256": "e666e33e2b6c0a530c2cac8238d9935824f9ae942ebaed62388f2bae031c07ef"
+    }
+  ]
+}

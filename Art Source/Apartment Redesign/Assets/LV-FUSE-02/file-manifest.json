@@ -1,0 +1,90 @@
+{
+  "asset": "LV-FUSE-02",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "f26eafd9c638868b5041c5c34b28bd708466317ad34c98db5d59ada82b4991ad",
+      "bytes": 3394
+    },
+    {
+      "path": "build_fuse.py",
+      "sha256": "fcc5946459b02108babd14d18e595f6f7104cb771448af055a21b1360579cf18",
+      "bytes": 12093
+    },
+    {
+      "path": "fbx-validation.json",
+      "sha256": "002b4533ae78cd482fdb152558b78fdfed76c76450a687d3426d78086b270048",
+      "bytes": 535
+    },
+    {
+      "path": "geometry.json",
+      "sha256": "23fd2bd1038935955f71f932b67d2064527e768423bc674ab87e77edc28bd038",
+      "bytes": 841
+    },
+    {
+      "path": "models/LV-FUSE-02.blend",
+      "sha256": "161f7b678441a57bf46b0a040ae3bfc992de3cab6d221c4347123cd05c6771f4",
+      "bytes": 6377664
+    },
+    {
+      "path": "models/LV_Fuse02_Shell.fbx",
+      "sha256": "f07b48c8d0b9b7fedb15909d0aeda2ec23960e6bd10ea0dea546d4bef7bf9545",
+      "bytes": 572844
+    },
+    {
+      "path": "previews/interior.png",
+      "sha256": "dbee33e1a60a7b37ba78a82532342f3db5680553a42fc828882226085ef7a8a5",
+      "bytes": 1334955
+    },
+    {
+      "path": "previews/open-damaged.png",
+      "sha256": "6dcc082241af4ec2c1fc4163e6801e90dd695db099f6e93ffe38e77453267c79",
+      "bytes": 1284208
+    },
+    {
+      "path": "previews/open-repaired.png",
+      "sha256": "0669a21c9c7954a5498f0ed1b74b93fd1c27fc4926b369921eab51fcf5f3a743",
+      "bytes": 1283295
+    },
+    {
+      "path": "textures/T_Fuse02_AgedCeramic.png",
+      "sha256": "3296145d535ce6e44786d7b8ecb07921b4bb47a1d52f6c4dc544485e48aaa11c",
+      "bytes": 332652
+    },
+    {
+      "path": "textures/T_Fuse02_Bakelite.png",
+      "sha256": "0d4bdb789e15d8fab5870e8948b1c0318cd172ddaa53e9f922ac23e7cd6c7e03",
+      "bytes": 263753
+    },
+    {
+      "path": "textures/T_Fuse02_Cloth.png",
+      "sha256": "e0e1d0174235d729c1350901d16d98610ca6a4533a0aebb0ccd470a6cc4c13ad",
+      "bytes": 334740
+    },
+    {
+      "path": "textures/T_Fuse02_Interior.png",
+      "sha256": "252fc58b6436e0c48f3c875840a959a1f3c19792363fb880536e63245561470b",
+      "bytes": 301274
+    },
+    {
+      "path": "textures/T_Fusebox_AgedBrass.png",
+      "sha256": "a0eb3a355e3e869d420ccca474f90c8134eb7a1b0fad7c5f44e6a1b791b65f1b",
+      "bytes": 337283
+    },
+    {
+      "path": "textures/T_Fusebox_Ceramic_Painterly_v2.png",
+      "sha256": "f21532566cd1675f4aac1c124748023998cdebdae3eac427d0f1203455d726da",
+      "bytes": 2329892
+    },
+    {
+      "path": "textures/T_Fusebox_GrayGreen_Painterly_v2.png",
+      "sha256": "9dd30164367743cbe1b959869cc991f43cf4dd3d58534768f68da2f156ea25d5",
+      "bytes": 1963489
+    },
+    {
+      "path": "validate_fbx.py",
+      "sha256": "f57a91f9ebc7c808f1c3bae78a99d8cf6aaebe8330c1fdd4f2b2c52cec56d49a",
+      "bytes": 2593
+    }
+  ]
+}

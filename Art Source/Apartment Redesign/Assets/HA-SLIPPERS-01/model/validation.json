@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "parts": [
+    {
+      "name": "HA_Slipper_Left",
+      "vertices": 11778,
+      "triangles": 22260,
+      "degenerate_triangles": 0,
+      "materials": [
+        "Slipper_LeatherSole",
+        "Slipper_QuiltedOatmeal",
+        "Slipper_WornBurgundy",
+        "Slipper_RoseBinding",
+        "Slipper_FadedFlaxThread",
+        "Slipper_Embroidery"
+      ]
+    },
+    {
+      "name": "HA_Slipper_Right",
+      "vertices": 11778,
+      "triangles": 22260,
+      "degenerate_triangles": 0,
+      "materials": [
+        "Slipper_LeatherSole",
+        "Slipper_QuiltedOatmeal",
+        "Slipper_WornBurgundy",
+        "Slipper_RoseBinding",
+        "Slipper_FadedFlaxThread",
+        "Slipper_Embroidery"
+      ]
+    }
+  ],
+  "bounds_m": {
+    "min": [
+      -0.12771692872047424,
+      -0.1489384025335312,
+      0.0010000000474974513
+    ],
+    "max": [
+      0.12771685421466827,
+      0.14886783063411713,
+      0.07255885004997253
+    ]
+  },
+  "checks": [
+    "two slippers only, no tray",
+    "finite geometry/UVs",
+    "nonzero triangle areas",
+    "roundtrip bounds match",
+    "visual rear opening and lining reviewed"
+  ],
+  "engine": "placement, import and door clearance pending"
+}

@@ -1,0 +1,112 @@
+{
+  "asset": "KI-CHAIR-02",
+  "feedback": "FIX-018",
+  "status": "Source reviewed; files settled; ready for engine import",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 5084,
+      "sha256": "5a12fcbe996b82b8ec1735b40854cc962dc579999640c0cf4baa1b4393f1bc4c"
+    },
+    {
+      "path": "assembly.json",
+      "bytes": 4253,
+      "sha256": "6bc1ef791d4cda94500346454fa3cb658041a78cfc6747968528b257ed0b8942"
+    },
+    {
+      "path": "materials.json",
+      "bytes": 913,
+      "sha256": "79b3a498928395605bc8ed2632fe597b36fcd64c47cca9ecd3468fc0def18d72"
+    },
+    {
+      "path": "model/KI-CHAIR-02.blend",
+      "bytes": 4821338,
+      "sha256": "332f892a21e03c21041ae8d203273ae77a852234c2bffa30c34a8584d012a1ac"
+    },
+    {
+      "path": "model/KI_CHAIR_02.fbx",
+      "bytes": 425964,
+      "sha256": "c132e28f86c17ca5a418fd678531c7e590abab3141cd3e082845cac092163e0e"
+    },
+    {
+      "path": "model/build_chair.py",
+      "bytes": 12515,
+      "sha256": "04cf44a3c38e794c00eec569aa8d64f0c3906528f9af3a34832a84ce0e0f4d56"
+    },
+    {
+      "path": "model/diagnose_original.py",
+      "bytes": 2078,
+      "sha256": "890425dbc9eded954ed021b658c4b0b3c05a253b426ff06718010743977f154a"
+    },
+    {
+      "path": "model/render_views.py",
+      "bytes": 1018,
+      "sha256": "3016a367250236772745d619948ae98bc492c3be4476f0186f5bb29d79993cf2"
+    },
+    {
+      "path": "model/validate_export.py",
+      "bytes": 6802,
+      "sha256": "c7c0a74b24ec6a76d694212100c9e39cd2c341959bfdcfc821f70cb562a92496"
+    },
+    {
+      "path": "original-diagnosis.json",
+      "bytes": 2286,
+      "sha256": "bcae83509cedb6e0b63cf1e7e9c78b288e4dfad55b51d1454538e2c2ad0e1e53"
+    },
+    {
+      "path": "previews/chair-back.png",
+      "bytes": 1293888,
+      "sha256": "ca03bd0f3e928378061152ec2f85db8c2a90719c04412b4b8e3c169fa3bf76f5"
+    },
+    {
+      "path": "previews/chair-context.png",
+      "bytes": 1374035,
+      "sha256": "06bd92e44456731bbaacab766973cc8f68303a05b6299fcba048ebb0b0bff386"
+    },
+    {
+      "path": "previews/chair-front.png",
+      "bytes": 1286620,
+      "sha256": "cb169313bfd873d5b150d7b8898956cf196bbe5de497026cb73c7296bcf6402e"
+    },
+    {
+      "path": "previews/chair-left.png",
+      "bytes": 1242907,
+      "sha256": "c2f0beddf0b8138cf0557cf9a4b37230bd614d7327ea622ff05ff79d81d0224c"
+    },
+    {
+      "path": "previews/chair-rear-detail.png",
+      "bytes": 1451181,
+      "sha256": "38463fccc8df06911c187a987a3255035c1b58bdc84ebc12974f9a81b4f431b8"
+    },
+    {
+      "path": "previews/chair-right.png",
+      "bytes": 1246287,
+      "sha256": "adf86f90a95096832896a8c2f38b1a799248cb75f8e87179080a9340aa41519a"
+    },
+    {
+      "path": "previews/chair-seated-eye.png",
+      "bytes": 1394764,
+      "sha256": "67498503b2c05cd62236a9940a522f1be6ae7eb6c9acb84c34fde33b2a65b60a"
+    },
+    {
+      "path": "previews/chair-slat-detail.png",
+      "bytes": 1353797,
+      "sha256": "332bf269c94711da87f243c36949f482b208fed27142b3191a29f226c158d5c4"
+    },
+    {
+      "path": "textures/vinyl.png",
+      "bytes": 2640789,
+      "sha256": "7e5958647f9ffae49c78f57907821a31d360f955e059e24e5f9248a94c40d825"
+    },
+    {
+      "path": "textures/wood-selected-v2.png",
+      "bytes": 2070290,
+      "sha256": "760923f77d6a36f34d11f8a49496a94c91e6d5b5d88d0add248fd6344dab6fd5"
+    },
+    {
+      "path": "validation.json",
+      "bytes": 4326,
+      "sha256": "0a40b372167332dd3d919515bbd9e3ec90674eb83aaeef309803471f41ef84de"
+    }
+  ]
+}

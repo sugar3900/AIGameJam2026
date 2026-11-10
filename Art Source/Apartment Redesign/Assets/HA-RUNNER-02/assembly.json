@@ -1,0 +1,95 @@
+{
+  "asset": "HA-RUNNER-02",
+  "fix": "FIX-020",
+  "units": "metres",
+  "origin": "floor center",
+  "long_axis": "+X",
+  "up": "+Z",
+  "fbx_forward": "-Y",
+  "body_length": 5.0,
+  "body_width": 0.8,
+  "fringe_length_range": [
+    0.048,
+    0.068
+  ],
+  "bounds": {
+    "min": [
+      -2.565983533859253,
+      -0.40209996700286865,
+      0.0008125654421746731
+    ],
+    "max": [
+      2.566131591796875,
+      0.40209996700286865,
+      0.007524890825152397
+    ]
+  },
+  "collision": "none; underlying floor supplies collision",
+  "texture_uv": "Long axis samples original artwork at 6m scale, centered crop; width samples original .8m scale. No motif stretch.",
+  "placement": {
+    "origin_plan_m": [
+      5.234,
+      4.7,
+      0.00118546
+    ],
+    "yaw_degrees": 0,
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "expected_fringe_x_extent_m": [
+      2.668,
+      7.8
+    ],
+    "cabinet_front_x_m": 2.5275,
+    "minimum_gap_m": 0.1405,
+    "evidence": "Existing dressing pipeline places 6m runner at (4.80,4.70); Rev02 leaves it unchanged. New east fringe endpoint preserves7.80m. Verify actual bounds in engine before acceptance."
+  },
+  "materials": [
+    {
+      "slot": 0,
+      "name": "Runner02_Painterly",
+      "base_color_linear": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "roughness": 0.96,
+      "base_color_texture": "textures/runner-albedo.png"
+    },
+    {
+      "slot": 1,
+      "name": "Runner02_LinenBacking",
+      "base_color_linear": [
+        0.28999999165534973,
+        0.23000000417232513,
+        0.1599999964237213
+      ],
+      "roughness": 0.96,
+      "base_color_texture": null
+    },
+    {
+      "slot": 2,
+      "name": "Runner02_FadedRoseBinding",
+      "base_color_linear": [
+        0.27000001072883606,
+        0.14000000059604645,
+        0.10499999672174454
+      ],
+      "roughness": 0.96,
+      "base_color_texture": null
+    },
+    {
+      "slot": 3,
+      "name": "Runner02_FlaxFringe",
+      "base_color_linear": [
+        0.550000011920929,
+        0.46000000834465027,
+        0.3100000023841858
+      ],
+      "roughness": 0.96,
+      "base_color_texture": null
+    }
+  ]
+}
