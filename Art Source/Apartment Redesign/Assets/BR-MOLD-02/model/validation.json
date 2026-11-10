@@ -1,0 +1,73 @@
+{
+  "asset": "BR-MOLD-02",
+  "exports": [
+    {
+      "file": "model/BR_Mold02_Back.fbx",
+      "mesh_count": 1,
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vertices": 4,
+      "triangles": 2,
+      "smallest_triangle_area_m2": 1.2061200205292761,
+      "world_bounds": [
+        [
+          -0.5499998927116394,
+          0.8369998335838318,
+          1.1200000047683716
+        ],
+        [
+          1.037000060081482,
+          0.8370000720024109,
+          2.640000104904175
+        ]
+      ],
+      "uv_layers": 1,
+      "vertex_color_alpha_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "file": "model/BR_Mold02_Return.fbx",
+      "mesh_count": 1,
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vertices": 6,
+      "triangles": 4,
+      "smallest_triangle_area_m2": 0.07600001975736863,
+      "world_bounds": [
+        [
+          1.0369999408721924,
+          0.1999998390674591,
+          1.1200000047683716
+        ],
+        [
+          1.037000060081482,
+          0.8369998335838318,
+          2.640000104904175
+        ]
+      ],
+      "uv_layers": 1,
+      "vertex_color_alpha_range": [
+        0.0,
+        1.0
+      ]
+    }
+  ],
+  "texture": {
+    "file": "textures/mold-colonies-rgba.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "channels": 4,
+    "generated_alpha_preserved": true
+  },
+  "result": "PASS: two finite UV-mapped zero-origin overlay meshes, no shell or collision geometry."
+}

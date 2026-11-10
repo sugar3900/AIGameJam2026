@@ -76,7 +76,7 @@ if STUDY:
  new['rooms'][1]['rect']=[0,0,4.8,3.8]
  new['rooms'][1]['name']='Kitchen'
  new['open_portals'][0].update(x=4.8,width=7.2)
- new['open_portals'][1]['x']=4.8
+ new['open_portals'][1].update(x=4.8,rough_height=2.30,finished_clear_width=1.10,finished_clear_height=2.25,finished_clear_y=[2.40,3.50],note='FIX-025: 1.20 x2.30 rough;5cm jamb/head linings give1.10 x2.25 finished clear. Casing both faces, no leaf.')
  new['objects']=[o for o in new['objects'] if o['room']!='KI']
  for o in new['objects']:
   if o['room']=='LV' and o['name']=='Bookcase':o['rect'][0]=4.95
@@ -108,7 +108,30 @@ if STUDY:
  new['status']='APPROVED DESIGN — compact kitchen/dining with north-wall fridge; user approval 2026-11-09; engine validation pending'
  new['approval_date']='2026-11-09'
  for door in new['swing_doors']:door.update(width_semantics='rough',clear_width=.99,rough_head=2.14,frame_asset='ARC-ENTRY-DOOR-02' if door['room']=='ENTRY' else 'ARC-DOOR-02')
+ # FIX-001/002: current approved plan only; archived earlier layouts remain unchanged.
+ new['objects']=[o for o in new['objects'] if o['name'] not in ('High shelf','Mold / Malcolm')]
+ new['objects'] += [
+ dict(name='West shelf / hangers',room='BC',rect=[.06,3.865,.493238,1.67],asset_id='BR-CLOSET-STORAGE-03',assembly_origin_plan=[1.10,4.70,0],source_mesh='BR_ClosetStorage03_West',shelf_top=1.88,note='Overhead storage: 35 mm board, full sidewall length; rail z1.73. Rect includes hanging hanger envelope.'),
+ dict(name='East shelf / hangers',room='BC',rect=[1.646762,3.865,.493238,1.67],asset_id='BR-CLOSET-STORAGE-03',assembly_origin_plan=[1.10,4.70,0],source_mesh='BR_ClosetStorage03_East',shelf_top=1.88,note='Overhead storage; same assembly origin as west side. Keep central 1.094 m aisle clear.'),
+ dict(name='Corner mold / Malcolm',room='BC',rect=[.55,3.863,1.587,.005],asset_id='BR-MOLD-02',assembly_origin_plan=[1.10,4.70,0],source_mesh='BR_Mold02_Back',z_range=[1.12,2.64],note='Upper-right back wall; scattered charcoal colonies, removable on repair.'),
+ dict(name='Mold corner return',room='BC',rect=[2.137,3.863,.003,.637],asset_id='BR-MOLD-02',assembly_origin_plan=[1.10,4.70,0],source_mesh='BR_Mold02_Return',z_range=[1.12,2.64],note='Narrow east-wall return; remove together with back overlay.')]
+ new['fitted_closets'][0]['interior_repair']='Diffuse charcoal mold at upper-right north/back corner, wrapping onto east wall; BR-MOLD-02 separate repair overlays.'
+ new['repairs']['BR']='Malcolm: upper-right north/east interior corner of walk-in, with both BR-MOLD-02 overlays hidden on repair. Preserve identity, spawn, talk spot and camera world transforms.'
+ new['clearance_notes']=[n.replace('0.30 m high side shelving leaves central floor open.', 'Both full-length side shelves are 0.40 m deep with tops at 1.88 m and 35 mm boards; hooked hangers leave 1.094 m central aisle.') for n in new['clearance_notes']]
+ # FIX-003/004/005 source and placement refinements; room geometry is unchanged.
+ for obj in new['objects']:
+  if obj['name']=='Sink / leak':obj.update(asset_id='KI-LEAK-02',assembly_origin_plan=[2.15,.4605,0],note='Replace body only at current transform; preserve original tap controls. Separate vintage bucket persists; authored water stops/hides on Lukey repair.')
+  if obj['name']=='Fusebox / Wyatt':obj.update(room='LV',rect=[10.825,.06,.45,.14],facing='south',asset_id='LV-FUSE-01',z=1.40,assembly_origin_plan=[11.05,.06,1.40],note='FIX-004: north wall above corner plant; move door, both wire states and plaster damage with shell; preserve labels. Engine validates open lid/click reach and re-derives Wyatt spots.')
+ new['repairs']['LV']='Wyatt: north wall above corner plant, box centre x=11.05, wall y=.06, lower edge z=1.40, facing south; same living identity and wire-state repair.'
+ new['clearance_notes']=[n for n in new['clearance_notes'] if not n.startswith('Fusebox moves')]
+ new['clearance_notes'] += ['FIX-004: fuse box moves above north-wall corner plant. Lower edge1.40 leaves about0.184 m above planned plant top1.216. Entire source wire/damage envelope must clear crown. Coat rack moves right/south on east wall, centered y=3.30, using measured0.72 m source width (y=2.94..3.66); preserve coat offset. Engine click, door sweep and Wyatt encounter validation pending.', 'FIX-005: living rug moves0.15 m east toward coffee table (rect8.95,.90,1.80,2.50); decorative/no collision. Sofa footprint/facing and all circulation paths remain unchanged pending source replacement.']
+ new['wall_mounted_fittings'].append(dict(asset_id='HA-HOOKS-01',wall='LV-E',u=2.94,z=1.52,width=.72,height=.12,note='FIX-004: centered in span between TV and entry; move coat together, preserve existing vertical anchor.'))
+ new['decorative_floor_items'][0].update(rect=[8.95,.90,1.80,2.50],note='FIX-005: +0.15 m east toward coffee table; sofa stays fixed.')
  P=P/'kitchen-dining-study';P.mkdir(exist_ok=True)
+if STUDY:
+ sys.path.insert(0,str(Path(__file__).resolve().parent/'feedback/FIX-007'))
+ from bathroom_layout import apply_plan
+ new=apply_plan(new)
 (P/'proposed-plan.json').write_text(json.dumps(new,indent=2)+'\n')
 (P/'approved-plan.json').write_text(json.dumps(new,indent=2)+'\n')
 
@@ -158,7 +181,7 @@ def render(data,proposed=True):
   if n=='Range':
    for dx in (.2,.55):
     for dy in (.18,.5):out.append(f'<circle cx="{X(x+dx)}" cy="{Y(y+dy)}" r="6" fill="#746958"/>')
-  if (w>=.6 and h>=.35) or (STUDY and proposed and n=='Prep') or n in ('TV / console','Dresser / mirror','High shelf','Bookcase from office','Entry bench','Hall end cabinet','Hall side console','Bookcase'):
+  if (w>=.6 and h>=.35) or (STUDY and proposed and n=='Prep') or n in ('WC','Basin','TV / console','Dresser / mirror','High shelf','Bookcase from office','Entry bench','Hall end cabinet','Hall side console','Bookcase'):
    label={'Dining table':'Dining','Coffee table':'Coffee','Dresser / mirror':'Dresser','TV / console':'TV','Prep / uppers':'Prep + uppers','Sink / leak':'Sink','Tub / crack':'Tub','Office bookcase':'Books','Office storage cabinet':'Storage','Hall console':'Console','Bookcase from office':'Bookcase','Entry bench':'Bench','Hall end cabinet':'End cabinet','Hall side console':'Side console'}.get(n,n)
    if h>w*1.3:
     out.append(f'<text transform="translate({X(x+w/2):.2f} {Y(y+h/2):.2f}) rotate(-90)" text-anchor="middle" font-size="11" fill="#463b32">{E(label)}</text>')
@@ -218,11 +241,11 @@ def render(data,proposed=True):
    out.append(f'<polyline points="{pts}" marker-end="url(#arr)"/>')
   out.append('</g>')
   # Room titles are deliberately placed in free floor areas.
-  labels=[((2.5 if STUDY else 2.9),1.25,('KITCHEN' if STUDY else 'KITCHEN / DINING'),('4.80 × 3.80' if STUDY else '5.50 × 3.80')),(8.8,3.90,('LIVING / DINING + ENTRY' if STUDY else 'LIVING + OPEN ENTRY'),('7.20 × 5.60 gross zone' if STUDY else '6.50 × 5.60 gross zone')),(1.1,4.2,'WALK-IN','2.20 × 1.80'),(3.5,4.32,'PRIVATE HALL','closet ends the old corridor'),(2.65,7.0,'BEDROOM','aged plaster walls'),(6.35,6.55,'BATHROOM','existing layout'),(9.7,7.45,'OFFICE / GUEST','white wainscoting')]
+  labels=[((2.5 if STUDY else 2.9),1.25,('KITCHEN' if STUDY else 'KITCHEN / DINING'),('4.80 × 3.80' if STUDY else '5.50 × 3.80')),(8.8,3.90,('LIVING / DINING + ENTRY' if STUDY else 'LIVING + OPEN ENTRY'),('7.20 × 5.60 gross zone' if STUDY else '6.50 × 5.60 gross zone')),(1.1,4.2,'WALK-IN','2.20 × 1.80'),(3.5,4.32,'PRIVATE HALL','closet ends the old corridor'),(2.65,7.0,'BEDROOM','aged plaster walls'),(6.35,6.55,'BATHROOM',('FIX-007 revised layout' if STUDY else 'existing layout')),(9.7,7.45,'OFFICE / GUEST','white wainscoting')]
   for x,y,t,sub in labels:
    text(X(x),Y(y),t,14,weight='bold');text(X(x),Y(y)+17,sub,11)
   text(X(1.13),Y(5.2),'stand + single bulb',10)
-  text(X(.65),Y(3.72),'MOLD ON INSIDE BACK WALL',9,anchor='start')
+  text(X(.65),Y(3.72),'UPPER CORNER MOLD' if STUDY else 'MOLD ON INSIDE BACK WALL',9,anchor='start')
   text(X(1.1),Y(6.38),'1.00 m clear door target',10)
   text(X(3.67),Y(8.7),'1.15 m aisle',10)
   if not STUDY:text(X(2.8),Y(3.48),'1.04 m passage',10)
@@ -230,7 +253,7 @@ def render(data,proposed=True):
   text(X(11.345),Y(8.0),'0.90 m approach',9)
   text(X(split)+10,Y(2.2),'Kitchen entry',11,anchor='start')
   text(X(12)+8,Y(5.28),'ENTRY',12,anchor='start',weight='bold')
-  text(X(11.65),Y(3.75),'Fuse / Wyatt',10,anchor='end')
+  text(X(11.05) if STUDY else X(11.65),Y(.28) if STUDY else Y(3.75),'Fuse / Wyatt',10,anchor='middle' if STUDY else 'end')
   # Lead paint moves with the wainscoting to the office north wall.
   line(8.65,5.67,9.2,5.67,'#9a6d85',4)
   text(X(8.925),Y(5.95),'lead paint',10)

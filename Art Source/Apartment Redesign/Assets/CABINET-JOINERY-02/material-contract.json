@@ -1,0 +1,65 @@
+{
+  "materials": {
+    "Joinery_Sage": {
+      "sRGB_texture": "T_Joinery_Sage.png",
+      "linear_tint": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.78,
+      "metallic": 0,
+      "note": "Same finish for all sage base, upper and pantry parts; source .75 tint already baked."
+    },
+    "Joinery_Ivory": {
+      "sRGB_texture": "T_Joinery_Ivory.png",
+      "linear_tint": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.72,
+      "metallic": 0
+    },
+    "Joinery_Interior": {
+      "sRGB_texture": "T_Joinery_Interior.png",
+      "linear_tint": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.8,
+      "metallic": 0
+    },
+    "Joinery_AgedBrass": {
+      "linear_base_color": [
+        0.32,
+        0.22,
+        0.085
+      ],
+      "roughness": 0.42,
+      "metallic": 0.65
+    },
+    "Joinery_KnobIvory": {
+      "linear_base_color": [
+        0.63,
+        0.59,
+        0.48
+      ],
+      "roughness": 0.32,
+      "metallic": 0
+    },
+    "Counter_Ivory": {
+      "sRGB_texture": "ivory-enamel.png",
+      "roughness": 0.78,
+      "metallic": 0,
+      "note": "Original surface and UVs preserved; retain installed engine finish if it overrides this source."
+    },
+    "Toe_Dark": {
+      "sRGB_texture": "toe-dark.png",
+      "roughness": 0.78,
+      "metallic": 0
+    }
+  },
+  "limits": "Source sweep tests against own carcass passed; installed neighbouring meshes and gameplay must be checked by engine owner. Body collision for Upper/Pantry/Linen is existing engine complex collision; original FBXs had no UCX."
+}

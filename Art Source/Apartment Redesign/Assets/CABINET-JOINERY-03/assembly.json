@@ -1,0 +1,72 @@
+{
+  "parts": [
+    {
+      "file": "KI_Cab04_0775_door_L.fbx",
+      "kit": "Base0775",
+      "pivot_source_m": [
+        -0.3455,
+        -0.253,
+        0
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        -0.35099998116493225,
+        -0.31367525458335876,
+        0.1354999840259552
+      ],
+      "assembly_max": [
+        -0.025999993085861206,
+        -0.2474999874830246,
+        0.6505000591278076
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_AgedBrass"
+      ],
+      "ucx": 1,
+      "triangles": 4052,
+      "engine_swing_sign": 1,
+      "source_swing_sign": -1,
+      "max_angle_deg": 100,
+      "replaces": "CABINET-JOINERY-02/models/KI_Cab03_0775_door_L.fbx",
+      "gameplay_identity": "Sink_Door_L",
+      "world_pivot_cm": [
+        271.7,
+        72.8,
+        0
+      ]
+    },
+    {
+      "file": "KI_Cab04_0775_Filler.fbx",
+      "kit": "Base0775",
+      "pivot_source_m": [
+        0,
+        0,
+        0
+      ],
+      "export": "pivot-local vertices / identity object",
+      "assembly_min": [
+        -0.37449997663497925,
+        -0.25,
+        0.1355000138282776
+      ],
+      "assembly_max": [
+        -0.35199999809265137,
+        -0.2279999852180481,
+        0.6504999995231628
+      ],
+      "slots": [
+        "Joinery_Sage"
+      ],
+      "ucx": 1,
+      "triangles": 188,
+      "placement": "same assembly transform as 0775 body; static, never attach to rotating door",
+      "world_assembly_cm": [
+        306.25,
+        47.5,
+        0
+      ]
+    }
+  ],
+  "unchanged": "All other JOINERY-02 meshes/materials/interactions. Identity pivot-local door; assembly-origin filler."
+}

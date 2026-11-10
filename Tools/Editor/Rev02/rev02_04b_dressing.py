@@ -109,7 +109,9 @@ on_shelf(dup(['Art_KI_Pottery_KI_Pottery_01'], '083'), '083', 0.75)
 # ---------------- switches (BA-SWITCH-01) ----------------
 SW = ['Art_BA_Switch_BA_Switch_Plate', 'Art_BA_Switch_BA_Switch_Toggle']
 for inst, rect, z, front in [('068', [2.76, 5.66, 0.1, 0.035], 1.08, 'south'), ('075', [9.22, 5.66, 0.1, 0.035], 1.08, 'south'),
-                             ('086', [4.705, 3.65, 0.035, 0.1], 1.08, 'west')]:
+                             # 086 (FIX-009): centred on the 19 cm jamb face y 3.55-3.74 between the portal and the
+                             # hall-wall corner; the schedule rect y 3.65-3.75 put the plate into the corner wall.
+                             ('086', [4.705, 3.61, 0.035, 0.1], 1.08, 'west')]:
     labs = dup(SW, 'S' + inst); move(labs, rect_center(rect, z, 0.12), dyaw_to(labs[0], front))
 move(SW, rect_center([4.86, 5.75, 0.035, 0.1], 1.18, 0.12), dyaw_to(SW[0], 'east'))             # 079 bath switch
 

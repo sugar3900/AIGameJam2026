@@ -69,13 +69,32 @@ try:
         unreal.log('[Controls test] %s switch, light output, disabled ceiling click, isolation passed' % room)
 
     closet_switch = by['WallSwitch_closet']
-    bulb = next(a for a in unreal.GameplayStatics.get_all_actors_of_class(w, unreal.PointLight)
-                if a.get_actor_label() == 'Bulb_Closet')
-    component = bulb.get_component_by_class(unreal.PointLightComponent)
-    closet_switch.set_on(False, True)
-    assert not component.is_visible(), 'Closet light did not turn off (check PIE soft-reference resolution)'
-    closet_switch.interact(pc)
-    assert component.is_visible(), 'Closet light did not turn on'
+    if 'Light_Closet' in by:
+        # FIX-029/021: switch and pull chain share the closet circuit; pendant, C-50 doorway fill and glow follow it.
+        chain = by['Light_Closet']
+        lights = {a.get_actor_label(): a for a in unreal.GameplayStatics.get_all_actors_of_class(w, unreal.PointLight)}
+        fill = lights['Light_ClosetDoorFill'].get_component_by_class(unreal.PointLightComponent)
+        pendant = chain.get_editor_property('light')
+        before = states()
+        closet_switch.set_on(False, True)
+        assert not on(chain) and pendant.intensity == 0 and fill.intensity == 0, 'Closet switch did not turn the closet light off'
+        closet_switch.interact(pc)
+        assert on(chain) and on(closet_switch), 'Closet switch did not turn the closet light on'
+        chain.set_on(True, True)
+        assert pendant.intensity > 0 and fill.intensity > 0, 'Closet pendant/fill not lit when on'
+        chain.interact(pc)
+        assert not on(chain) and not on(closet_switch), 'Pull chain and wall switch disagree'
+        chain.interact(pc)
+        assert on(chain) and on(closet_switch), 'Pull chain did not relight the circuit'
+        unchanged_except(before, {closet_switch, chain})
+    else:
+        bulb = next(a for a in unreal.GameplayStatics.get_all_actors_of_class(w, unreal.PointLight)
+                    if a.get_actor_label() == 'Bulb_Closet')
+        component = bulb.get_component_by_class(unreal.PointLightComponent)
+        closet_switch.set_on(False, True)
+        assert not component.is_visible(), 'Closet light did not turn off (check PIE soft-reference resolution)'
+        closet_switch.interact(pc)
+        assert component.is_visible(), 'Closet light did not turn on'
 
     living_pos = by['WallSwitch_living'].get_actor_location()
     sconce_pos = by['WallSwitch_entry_sconce'].get_actor_location()

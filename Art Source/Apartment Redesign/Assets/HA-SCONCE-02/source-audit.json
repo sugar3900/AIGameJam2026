@@ -1,0 +1,35 @@
+{
+  "source_blend_sha256": "3b423202ee438f0b4868bb43ddd23baa759dfeb57ff0dc9a6dd81078dff50656",
+  "old_shell_radial_normal_dot_mean": -0.8933783417258686,
+  "old_open_boundary_edges": 128,
+  "old_hardware_shell_triangle_intersections": 65,
+  "old_crossing_components": [
+    {
+      "component_vertices": 384,
+      "crossing_faces": 27,
+      "z_range": [
+        -0.010496784001588821,
+        0.014496780931949615
+      ],
+      "y_range": [
+        -0.03199999779462814,
+        -0.013500000350177288
+      ]
+    },
+    {
+      "component_vertices": 876,
+      "crossing_faces": 14,
+      "z_range": [
+        0.0045835115015506744,
+        0.02417600527405739
+      ],
+      "y_range": [
+        -0.03821508586406708,
+        -0.027029044926166534
+      ]
+    }
+  ],
+  "old_bulb_max_z": 0.050999999046325684,
+  "old_socket_bottom_z": 0.079,
+  "old_bulb_socket_unsupported_gap_m": 0.028000000953674317
+}

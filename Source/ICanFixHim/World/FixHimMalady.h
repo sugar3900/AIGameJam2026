@@ -9,6 +9,7 @@
 class UArrowComponent;
 class UCameraComponent;
 class UPointLightComponent;
+class UMaterialInterface;
 class AFixHimHunk;
 
 /** Procedural "this is broken" dressing played until the malady is repaired. */
@@ -50,6 +51,37 @@ public:
 	/** Where the broken-fx emanate from, relative to the actor. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Malady", meta = (MakeEditWidget))
 	FVector FxOffset = FVector::ZeroVector;
+
+	/**
+	 * Leak only, opt-in: when an attached actor carries the AuthoredLeakDamage tag (level-authored spill art), the
+	 * procedural sphere drop and floor cylinder are not built. Instead a small drop forms at LeakDripStart, falls
+	 * under gravity to LeakDripLanding and leaves a restrained ripple there (both actor-local, cm).
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Malady|Authored Leak", meta = (MakeEditWidget))
+	FVector LeakDripStart = FVector::ZeroVector;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Malady|Authored Leak", meta = (MakeEditWidget))
+	FVector LeakDripLanding = FVector::ZeroVector;
+
+	/** Lit translucent drop material; the unlit translucent fallback is used when unset. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Malady|Authored Leak")
+	TObjectPtr<UMaterialInterface> LeakDropMaterial;
+
+	/** Ripple material on a unit plane, driven by the scalar parameter "Phase" (0..1, one expanding ring). */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Malady|Authored Leak")
+	TObjectPtr<UMaterialInterface> LeakRippleMaterial;
+
+	/** Ripple plane diameter at LeakDripLanding, cm. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Malady|Authored Leak")
+	float LeakRippleDiameter = 14.f;
+
+	/**
+	 * The breathing-glow overlay drawn on Body. Default on. Turn off only for an invisible inspect proxy whose glowing
+	 * faces would read as a stray pale shape (e.g. a box over authored mold art); the glow light, prompt, inspect and
+	 * repair are unaffected.
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Malady")
+	bool bBodyGlowOverlay = true;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UArrowComponent> HunkSpawn;
@@ -93,6 +125,7 @@ private:
 	FVector FindStandLocation(const FVector& Around, float Scale) const;
 
 	FVector HunkStandLocation = FVector::ZeroVector;
+	float HunkScale = 1.f;
 	float InteractLockedUntil = 0.f;
 
 	UPROPERTY(Transient)
@@ -106,6 +139,17 @@ private:
 
 	UPROPERTY(Transient)
 	TObjectPtr<UPointLightComponent> FxLight;
+
+	UPROPERTY(Transient)
+	TObjectPtr<UStaticMeshComponent> Ripple;
+
+	UPROPERTY(Transient)
+	TObjectPtr<UMaterialInstanceDynamic> RippleMID;
+
+	bool bAuthoredLeak = false;
+	float LeakCycleStart = 0.f;
+	float LeakCyclePeriod = 1.6f;
+	FRandomStream LeakRng;
 
 	FLinearColor GlowColor = FLinearColor(1.f, 0.4f, 0.7f);
 	FText HunkName;

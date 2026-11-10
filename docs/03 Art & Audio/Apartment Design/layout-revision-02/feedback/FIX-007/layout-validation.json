@@ -1,0 +1,62 @@
+{
+  "status": "PASS analytical source-layout checks; not PIE acceptance",
+  "capsule_radius": 0.38,
+  "sample_step_max": 0.005,
+  "method": "Conservative 2D source bounds expanded by circular capsule; open room door90deg and linen90deg. Conservative continuous bound subtracts2.5mm from sampled minimum, using1-Lipschitz distance and5mm max step. This is supporting design evidence, not engine collision/vertical-shape verification.",
+  "routes": {
+    "entry": {
+      "minimum_planar_clearance_after_capsule_radius_m": 0.095,
+      "continuous_clearance_lower_bound_m": 0.0925,
+      "nearest_proxy": "room door90deg",
+      "sample_point": [
+        6.7749999999999995,
+        5.654019292604501
+      ]
+    },
+    "toilet": {
+      "minimum_planar_clearance_after_capsule_radius_m": 0.109,
+      "continuous_clearance_lower_bound_m": 0.1065,
+      "nearest_proxy": "room door90deg",
+      "sample_point": [
+        6.286991869918699,
+        7.099999999999999
+      ]
+    },
+    "basin": {
+      "minimum_planar_clearance_after_capsule_radius_m": 0.082,
+      "continuous_clearance_lower_bound_m": 0.0795,
+      "nearest_proxy": "basin",
+      "sample_point": [
+        6.8,
+        7.925
+      ]
+    },
+    "tub": {
+      "minimum_planar_clearance_after_capsule_radius_m": 0.0668,
+      "continuous_clearance_lower_bound_m": 0.0643,
+      "nearest_proxy": "basket",
+      "sample_point": [
+        5.799999999999999,
+        8.104999999999999
+      ]
+    },
+    "cabinet": {
+      "minimum_planar_clearance_after_capsule_radius_m": 0.0375,
+      "continuous_clearance_lower_bound_m": 0.035,
+      "nearest_proxy": "basin",
+      "sample_point": [
+        6.845219123505975,
+        8.270318725099601
+      ]
+    }
+  },
+  "linen_east_clearance_at90_m": 0.029,
+  "linen95_deg": "reject: maxX7.833 exceeds tileface7.822",
+  "linen100_deg": "reject: maxX7.873 exceeds structuralwallface7.84",
+  "existing_ids_preserved": 102,
+  "active_records": 101,
+  "retired_id": "BA-TOWEL-RAIL-01:078",
+  "unchanged": "all nonbathroom records, room boundaries, openings, ceiling fixtures",
+  "source_bounds_evidence": "source-bounds.json",
+  "remaining": "Actual pawn routes, door and cabinet sweeps, faucet fill, loaded paper placement, all light/switch actions, Tyler camera and southwest seam diagnosis in engine."
+}

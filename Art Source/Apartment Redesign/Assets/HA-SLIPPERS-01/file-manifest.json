@@ -1,0 +1,71 @@
+{
+  "asset": "HA-SLIPPERS-01",
+  "status": "source released; engine acceptance pending",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "cf2b1475487e0c33e263c3e204c7cb2b13200a2e9e96d89c9612e85713c9853f",
+      "bytes": 2706
+    },
+    {
+      "path": "assembly.json",
+      "sha256": "f04c270d83e32cfe8feb8a32e50206139d915a525c31ba0b1a251c26a0a5e33a",
+      "bytes": 2845
+    },
+    {
+      "path": "concepts/prompts.md",
+      "sha256": "cd1c6f7beb9cbb426b46100cad48efb3d61ca1aef35dd90ebded61d570cc3d25",
+      "bytes": 1155
+    },
+    {
+      "path": "concepts/vintage-slippers.png",
+      "sha256": "7cf5c6a93dc9d33eda98024ecdc7848c977307481d07d3414c67afb0882254f0",
+      "bytes": 2375789
+    },
+    {
+      "path": "model/HA-SLIPPERS-01.blend",
+      "sha256": "95a8f6cea4d4d5d121e9cf17268356d8ed96c3c61d4efe4f333b2bea1cd6b792",
+      "bytes": 7248734
+    },
+    {
+      "path": "model/HA_SLIPPERS_01.fbx",
+      "sha256": "8dece296b434fc86517ae352f93715a3a2a24e7c9e6e2d88e3fb81fa225f607b",
+      "bytes": 1120172
+    },
+    {
+      "path": "model/build_slippers.py",
+      "sha256": "217b4a17586f6a0dc6ec0715167c206d5573bd9f709414183e58ca358249c679",
+      "bytes": 8600
+    },
+    {
+      "path": "model/validate_slippers.py",
+      "sha256": "a6289a56bf788525aea43488d936a1fafad2427907c613917339d6f38d609588",
+      "bytes": 1500
+    },
+    {
+      "path": "model/validation.json",
+      "sha256": "4f09017b8518ab2cbb701a81860b2d9129077d0b89a5ce809a2fd79fc5db91b4",
+      "bytes": 1212
+    },
+    {
+      "path": "previews/heel-openings.png",
+      "sha256": "0451dd6c8641b7f5cf29d4b82c9f880676757526000de3d3a1131bb381c66a82",
+      "bytes": 1191276
+    },
+    {
+      "path": "previews/pair.png",
+      "sha256": "f663a21037be869be997d74f7d3061af5b2b7256762e1e8ec77973285c752957",
+      "bytes": 1263684
+    },
+    {
+      "path": "textures/T_Slipper_Quilt.png",
+      "sha256": "8ea9b8dddd95a3cf913e24991ca98738627bd82f0b6ac371d5ded8d4c1902d45",
+      "bytes": 4062538
+    },
+    {
+      "path": "textures/T_Slipper_Velvet.png",
+      "sha256": "30bf23df30f3e666695b37678e71ebb0e863b72b8d28f8c2e6741962b055ca76",
+      "bytes": 2584415
+    }
+  ]
+}

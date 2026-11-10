@@ -1,0 +1,85 @@
+{
+  "id": "BR-MOLD-02",
+  "fix": "FIX-001",
+  "plan_origin_m": [
+    1.1,
+    4.7,
+    0
+  ],
+  "source_up": "+Z",
+  "source_front": "-Y",
+  "fbx_forward": "-Y",
+  "fbx_up": "Z",
+  "mapping": "plan=(1.10+sourceX,4.70-sourceY,sourceZ)",
+  "exports": [
+    {
+      "file": "model/BR_Mold02_Back.fbx",
+      "mesh": "BR_Mold02_Back",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "vertices": 4,
+      "triangles": 2,
+      "collision": "none; decoration only",
+      "source_bounds": [
+        [
+          -0.550000011920929,
+          0.8370000123977661,
+          1.1200000047683716
+        ],
+        [
+          1.0369999408721924,
+          0.8370000123977661,
+          2.640000104904175
+        ]
+      ]
+    },
+    {
+      "file": "model/BR_Mold02_Return.fbx",
+      "mesh": "BR_Mold02_Return",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "vertices": 6,
+      "triangles": 4,
+      "collision": "none; decoration only",
+      "source_bounds": [
+        [
+          1.0369999408721924,
+          0.20000000298023224,
+          1.1200000047683716
+        ],
+        [
+          1.0369999408721924,
+          0.8370000123977661,
+          2.640000104904175
+        ]
+      ]
+    }
+  ],
+  "material": {
+    "texture": "textures/mold-colonies-rgba.png",
+    "texture_srgb": false,
+    "base_color_linear": [
+      0.022,
+      0.021,
+      0.02
+    ],
+    "roughness": 1,
+    "metallic": 0,
+    "specular": 0,
+    "alpha_formula": "VertexColor.A * texture.A * pow(saturate((0.56-dot(texture.RGB,(0.2126,0.7152,0.0722)))/0.38),1.35)",
+    "recommended_unreal": "Masked + DitherTemporalAA for graded pigment coverage; opacity mask clip0.1, two-sided; do not reuse green Tint",
+    "mask_note": "Original generated alpha preserved. Material also suppresses pale RGB wash."
+  },
+  "suggested_inspect_world_m": [
+    1.82,
+    3.89,
+    2.16
+  ],
+  "runtime": "Retain existing Malcolm hunk identity/spawn/talk/camera world transforms. Attach both overlays to existing malady with RepairDamage + AuthoredMoldDamage tags; hide both after repair. Move inspect body to raised patch and verify real click reachability."
+}

@@ -1,0 +1,90 @@
+{
+  "assembly_manifest_sha256": "963650d1b5ee7e48f906e830f7eea425fb3c7dd569fcf516f5379efa1f008d97",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 5564,
+      "sha256": "8440730d3f69bd6230aeaf806153d095d1c11b63eac144b975be970d58e5b8b3"
+    },
+    {
+      "path": "assembly.json",
+      "bytes": 7251,
+      "sha256": "963650d1b5ee7e48f906e830f7eea425fb3c7dd569fcf516f5379efa1f008d97"
+    },
+    {
+      "path": "model/ARC-ENTRY-DOOR-03.blend",
+      "bytes": 4879640,
+      "sha256": "7475b311885ae96231e20b0317f64abe43c532e9e37d91eb8dcfbc77965d971e"
+    },
+    {
+      "path": "model/ARC_Entry_Door03_Frame.fbx",
+      "bytes": 73260,
+      "sha256": "7808154d6edfbdcfd4e210d730509db43f4bb33a0d1ac979d292ed5604073471"
+    },
+    {
+      "path": "model/ARC_Entry_Door03_Leaf.fbx",
+      "bytes": 252348,
+      "sha256": "ba0a519583f7115904e845df50bc731cdeaa398168bcf26bb7d6015630ec179f"
+    },
+    {
+      "path": "model/build_entry.py",
+      "bytes": 15229,
+      "sha256": "9535d0c0fdd9791fe681a99dab71e016b10ac24cf6f37ead15de5121a4d1673b"
+    },
+    {
+      "path": "model/validate_fbx.py",
+      "bytes": 3425,
+      "sha256": "144b9c69d4a6c3eaef2cf0fae583caba426ddd99c5a9737023754aa46c59ba4e"
+    },
+    {
+      "path": "model/validation.json",
+      "bytes": 1824,
+      "sha256": "c89fe78dab6f9ac71634d1f087d72c47696a884bc0b3c93ff85932540fee8a85"
+    },
+    {
+      "path": "previews/closed-exterior.png",
+      "bytes": 919796,
+      "sha256": "6fc809fc73bd6f91ef96856865fdd6ea6aa0b37c29bd1e1611395350cdba6a43"
+    },
+    {
+      "path": "previews/closed-interior.png",
+      "bytes": 904225,
+      "sha256": "bba31ed8ff26817c773937063b775c03bbfc3a7bbd983ea1433ed2c34fe2a6a5"
+    },
+    {
+      "path": "previews/hardware-mounted-detail.png",
+      "bytes": 1050620,
+      "sha256": "adb54a0e141d9c3adeb46b1324382bdc073d2e8554e026bcd4b4d7714672c842"
+    },
+    {
+      "path": "previews/jamb-strike-detail.png",
+      "bytes": 807035,
+      "sha256": "0f4d87d878a3699652224f3276969a9fafb86ae229189d522312d242f851bb42"
+    },
+    {
+      "path": "previews/leaf-edge-detail.png",
+      "bytes": 850907,
+      "sha256": "4b4d607f7905f1f1d9408bd030d07bb3090e2896c487824801059df6ba669f51"
+    },
+    {
+      "path": "previews/open-hinge-check.png",
+      "bytes": 651474,
+      "sha256": "a9005e0ee1d988da8798a066f86f03f024e45c540d7145625fa5769a78e227df"
+    },
+    {
+      "path": "source-audit.json",
+      "bytes": 864,
+      "sha256": "5e3932cd6bb1d795f17092283d55605c527d161e2e364a5bdc41d5ae9d97d669"
+    },
+    {
+      "path": "textures/paint-selected.png",
+      "bytes": 2496938,
+      "sha256": "37f01110e5f0c39515015802d4b4ebfe45673a6b9480758d259289f3b3aad7ab"
+    },
+    {
+      "path": "textures/walnut-aged.png",
+      "bytes": 2272965,
+      "sha256": "78b9015997c94194d2843d35a1db28262a5c83ce1ca240ff0226513f717756b3"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "asset": "HA-RUNNER-02",
+  "status": "source released; engine validation pending",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "359f0e55688def128208251da31a5070c43ede7f53d1c6241eab27825e932b87",
+      "bytes": 2812
+    },
+    {
+      "path": "assembly.json",
+      "sha256": "4102571ec799f2a29c1a6b458011b30b6e3ce399223f0a51971dae7c29a03e62",
+      "bytes": 2149
+    },
+    {
+      "path": "model/HA-RUNNER-02.blend",
+      "sha256": "9ca3f74ed94b1a2efe5bc02c0138097b5c7ed4c33fdfbfac44b513944215567d",
+      "bytes": 1616019
+    },
+    {
+      "path": "model/HA_RUNNER_02.fbx",
+      "sha256": "c075c2578372c1a66430326873a1ea66612c180e66ca56ffaf44c493a32775a7",
+      "bytes": 783884
+    },
+    {
+      "path": "model/build_runner.py",
+      "sha256": "b42b90a15f028366a28facbc35082882afcb3b052bb3bbac0271ae5eaa4e8630",
+      "bytes": 6515
+    },
+    {
+      "path": "model/validate_runner.py",
+      "sha256": "a045e5453942197b4a815c9e956dd37c478efa1c9a157f2d4a906f0690e01068",
+      "bytes": 1886
+    },
+    {
+      "path": "model/validation.json",
+      "sha256": "5635f30a98658b2271533615349e1499101bb957c95c68858da0902dc8a9598a",
+      "bytes": 1005
+    },
+    {
+      "path": "previews/fringe-closeup.png",
+      "sha256": "8b39222111be0e9ddedfd8676ca13170fe065c97eb9038b7c32e7666ae16fc40",
+      "bytes": 873144
+    },
+    {
+      "path": "previews/runner-perspective.png",
+      "sha256": "8c5bae522bcb8d28b48d16376bcde9c5a4224c57911e4400b74c6aa83a9b2190",
+      "bytes": 869107
+    },
+    {
+      "path": "textures/runner-albedo.png",
+      "sha256": "a269f16e4970e2f7b3d45ffe19bd655c134d01ec7bbc71d05bef02e68231976d",
+      "bytes": 907755
+    }
+  ]
+}

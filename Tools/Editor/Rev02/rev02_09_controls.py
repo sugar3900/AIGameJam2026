@@ -36,7 +36,11 @@ FIXTURES = {
     'bathroom': ('Bath', 'CeilingLight_Bath'),
     'office': ('Office', 'CeilingLight_Office'),
 }
-required = list(SWITCH_ART.values()) + ['Wardrobe_Door_L', 'Wardrobe_Door_R', 'Bulb_Closet',
+# FIX-029/021: the closet light is the pull-chain interactable Light_Closet (pendant + C-50 doorway fill + glass/filament
+# glow, all one toggle). The closet wall switch joins its circuit group instead of driving a standalone light, so the
+# switch and the chain always agree. Legacy maps without it still use the old always-on Bulb_Closet.
+CLOSET_INTERACTIVE = 'Light_Closet' in acts
+required = list(SWITCH_ART.values()) + ['Wardrobe_Door_L', 'Wardrobe_Door_R', 'Light_Closet' if CLOSET_INTERACTIVE else 'Bulb_Closet',
                                       'Art_BA_Switch_BA_Switch_Toggle', 'Sconce_Hall_2', 'Sconce_Hall_1', 'Sconce_Kitchen']
 required += ['Art_CeilingLight_%s_Glass' % name for name, _ in FIXTURES.values()]
 assert all(k in acts for k in required), 'Missing required Rev02 art or gameplay actors'
@@ -154,6 +158,10 @@ for a in acts.values():
                                   ('drawer', 'oven', 'pantry', 'cupboard', 'cabinet', 'fridge')))
 
 states['closet'] = True
+if CLOSET_INTERACTIVE:
+    lc = acts['Light_Closet']; lc.modify()
+    lc.set_editor_property('toggle_group', group('closet'))
+    states['closet'] = lc.get_editor_property('is_on')
 for room in list(FIXTURES) + ['closet', 'entry_sconce']:
     if room in SWITCH_ART:
         plate = acts[SWITCH_ART[room]]
@@ -183,7 +191,7 @@ for room in list(FIXTURES) + ['closet', 'entry_sconce']:
     a.set_editor_property('prompt_on', 'Turn off ' + target)
     a.set_editor_property('interact_sfx', unreal.Name('SwitchOn'))
     a.set_editor_property('interact_sfx_off', unreal.Name('SwitchOff'))
-    a.set_editor_property('controlled_lights', [acts['Bulb_Closet']] if room == 'closet' else [])
+    a.set_editor_property('controlled_lights', [acts['Bulb_Closet']] if room == 'closet' and not CLOSET_INTERACTIVE else [])
     a.set_folder_path('Gameplay/WallSwitches')
 
 assert L.save_all_dirty_levels()

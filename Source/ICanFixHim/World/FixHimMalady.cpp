@@ -11,6 +11,10 @@
 #include "Components/PointLightComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Engine/SkeletalMesh.h"
+#include "Engine/GameViewportClient.h"
+#include "Engine/Engine.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Engine/World.h"
 
@@ -48,6 +52,10 @@ AFixHimMalady::AFixHimMalady()
 void AFixHimMalady::BeginPlay()
 {
 	Super::BeginPlay();
+	if (!bBodyGlowOverlay && Body)
+	{
+		Body->SetOverlayMaterial(nullptr);
+	}
 
 	if (const UFixHimDialogueSubsystem* Dialogue = UFixHimDialogueSubsystem::Get(this))
 	{
@@ -59,6 +67,7 @@ void AFixHimMalady::BeginPlay()
 			FActorSpawnParameters Params;
 			Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 			Params.Owner = this;
+			HunkScale = Def->Scale;
 			HunkStandLocation = FindStandLocation(HunkSpawn->GetComponentLocation(), Def->Scale);
 			Hunk = GetWorld()->SpawnActor<AFixHimHunk>(AFixHimHunk::StaticClass(), HunkStandLocation, HunkSpawn->GetComponentRotation(), Params);
 			if (Hunk)
@@ -104,12 +113,51 @@ void AFixHimMalady::FrameCamera()
 {
 	// First-person framing: Rosie's eye height at the talk spot (a touch back so he fits), looking at his face.
 	const FVector Head = HunkStandLocation + FVector(0.f, 0.f, 62.f);
-	const bool bMalcolm = HunkId.Equals(TEXT("malcolm"), ESearchCase::IgnoreCase);
 	const FVector Talk = TalkSpot->GetComponentLocation();
 	FVector Dir = Head - Talk;
 	Dir.Z = 0.f;
 	Dir = Dir.GetSafeNormal();
-	FVector CamLoc = FVector(Talk.X, Talk.Y, HunkStandLocation.Z - 92.f + 160.f) - Dir * (bMalcolm ? 50.f : 40.f);
+	FVector CamLoc = FVector(Talk.X, Talk.Y, HunkStandLocation.Z - 92.f + 160.f) - Dir * 40.f;
+
+	// Head/hair top from the hunk's actual mesh (reference-pose bounds at his definition scale), not a fixed offset:
+	// tall hunks (Lukey 1.06) lost their hair and eyes above the frame. Pitch so the top sits a margin below the
+	// upper edge for the narrower of 16:9 and the live viewport (taller windows only gain headroom), then make sure
+	// the eyes stay above the dialogue panel, stepping back if needed.
+	float TopZ = HunkStandLocation.Z + 92.f * HunkScale + 6.f;
+	if (Hunk && Hunk->GetMesh() && Hunk->GetMesh()->GetSkeletalMeshAsset())
+	{
+		const FBoxSphereBounds B = Hunk->GetMesh()->GetSkeletalMeshAsset()->GetBounds();
+		const float MeshZ = Hunk->GetMesh()->GetRelativeLocation().Z;
+		TopZ = HunkStandLocation.Z + (MeshZ + B.Origin.Z + B.BoxExtent.Z) * HunkScale;
+	}
+	const float EyeZ = TopZ - 17.f * HunkScale;
+	float Aspect = 16.f / 9.f;
+	if (GEngine && GEngine->GameViewport)
+	{
+		FVector2D Size;
+		GEngine->GameViewport->GetViewportSize(Size);
+		if (Size.Y > 1.f)
+		{
+			Aspect = FMath::Max(Aspect, Size.X / Size.Y);
+		}
+	}
+	const float HalfV = FMath::Atan(FMath::Tan(FMath::DegreesToRadians(DialogueCamera->FieldOfView * 0.5f)) / Aspect);
+	const float TopMargin = 0.08f;          // of the frame height, above the hair
+	const float PanelTop = 0.34f;           // dialogue panel covers the lower third
+	float FramedPitch = 0.f;
+	for (int32 Step = 0; Step < 12; ++Step)
+	{
+		const float Dist = FMath::Max(40.f, FVector::Dist2D(CamLoc, HunkStandLocation));
+		// screen-space y (tan units) of a height z for a camera pitched by P: tan(atan((z-cz)/d) - P)
+		const float TopAng = FMath::Atan((TopZ - CamLoc.Z) / Dist);
+		FramedPitch = TopAng - FMath::Atan(FMath::Tan(HalfV) * (1.f - 2.f * TopMargin));
+		const float EyeScreen = FMath::Tan(FMath::Atan((EyeZ - CamLoc.Z) / Dist) - FramedPitch) / FMath::Tan(HalfV);
+		if (EyeScreen > -1.f + 2.f * PanelTop + 0.1f)
+		{
+			break;
+		}
+		CamLoc -= Dir * 10.f;
+	}
 
 	// Small rooms: if a wall is between his face and the ideal spot, slide the camera in front of the wall.
 	FHitResult Hit;
@@ -127,11 +175,14 @@ void AFixHimMalady::FrameCamera()
 	{
 		CamLoc = Hit.Location + (Head - CamLoc).GetSafeNormal() * 10.f;
 	}
-	// Malcolm gets a closer upper-body shot. The shorter camera distances in the other rooms need a
-	// wider lens and a higher aim point to leave room above the hair while keeping faces above the UI.
-	DialogueCamera->SetFieldOfView(bMalcolm ? 55.f : 65.f);
-	const FVector Aim = Head + FVector(0.f, 0.f, bMalcolm ? -30.f : -18.f);
-	DialogueCamera->SetWorldLocationAndRotation(CamLoc, (Aim - CamLoc).Rotation());
+	// the wall sweep above may have moved the camera in: re-derive the pitch for where it actually is
+	{
+		const float Dist = FMath::Max(40.f, FVector::Dist2D(CamLoc, HunkStandLocation));
+		FramedPitch = FMath::Atan((TopZ - CamLoc.Z) / Dist) - FMath::Atan(FMath::Tan(HalfV) * (1.f - 2.f * TopMargin));
+	}
+	FRotator Rot = (FVector(HunkStandLocation.X, HunkStandLocation.Y, CamLoc.Z) - CamLoc).Rotation();
+	Rot.Pitch = FMath::RadiansToDegrees(FramedPitch);
+	DialogueCamera->SetWorldLocationAndRotation(CamLoc, Rot);
 }
 
 void AFixHimMalady::BuildBrokenFx()
@@ -141,6 +192,36 @@ void AFixHimMalady::BuildBrokenFx()
 	{
 	case EMaladyStyle::Leak:
 	{
+		TArray<AActor*> AttachedActors;
+		GetAttachedActors(AttachedActors);
+		bAuthoredLeak = AttachedActors.ContainsByPredicate([](const AActor* Actor)
+			{ return Actor && Actor->ActorHasTag(TEXT("AuthoredLeakDamage")); });
+		if (bAuthoredLeak)
+		{
+			// The level supplies the spill (a decal) and the catch bucket; only the moving water is built here.
+			Drop = FixHim::Assets::AddShape(this, Root, TEXT("sphere"), LeakDripStart, FVector(1.f, 1.f, 1.3f), FLinearColor(0.7f, 0.8f, 0.85f));
+			Drop->SetCastShadow(false);
+			if (LeakDropMaterial)
+			{
+				Drop->SetMaterial(0, LeakDropMaterial);
+			}
+			else if (UMaterialInstanceDynamic* MID = FixHim::Assets::MakeTranslucent(Drop, FLinearColor(0.75f, 0.85f, 0.9f), 0.45f))
+			{
+				Drop->SetMaterial(0, MID);
+			}
+			BrokenFx.Add(Drop);
+			if (LeakRippleMaterial)     // the ring lives in the material; without one there is no ripple
+			{
+				Ripple = FixHim::Assets::AddShape(this, Root, TEXT("plane"), LeakDripLanding + FVector(0.f, 0.f, 0.1f),
+					FVector(LeakRippleDiameter, LeakRippleDiameter, 1.f), FLinearColor::White);
+				Ripple->SetCastShadow(false);
+				RippleMID = UMaterialInstanceDynamic::Create(LeakRippleMaterial, Ripple);
+				Ripple->SetMaterial(0, RippleMID);
+				BrokenFx.Add(Ripple);
+			}
+			LeakRng.Initialize(GetTypeHash(HunkId) + 3);
+			break;
+		}
 		Drop = FixHim::Assets::AddShape(this, Root, TEXT("sphere"), O, FVector(3.5f, 3.5f, 5.f), FLinearColor(0.5f, 0.8f, 1.f));
 		FixHim::Assets::PaintComponent(Drop, FLinearColor(0.5f, 0.8f, 1.f), FLinearColor(0.1f, 0.25f, 0.4f));
 		BrokenFx.Add(Drop);
@@ -229,6 +310,11 @@ void AFixHimMalady::RefreshRepairState()
 		{
 			Attached->SetActorHiddenInGame(bRepaired);
 		}
+		// Authored repaired-state art (e.g. the fuse box's mended wire) is the inverse: shown only once repaired.
+		else if (Attached && Attached->ActorHasTag(TEXT("RepairFixed")))
+		{
+			Attached->SetActorHiddenInGame(!bRepaired);
+		}
 	}
 }
 
@@ -261,7 +347,53 @@ void AFixHimMalady::TickBrokenFx(float DeltaSeconds)
 	switch (Style)
 	{
 	case EMaladyStyle::Leak:
-		if (Drop)
+		if (bAuthoredLeak && Drop)
+		{
+			// Intermittent drip: the drop swells at the pipe, falls freely (12.8 cm takes ~0.16 s) and leaves one
+			// small ring on the bucket water. Cycle lengths vary a little so it never reads as a metronome.
+			while (FxTime - LeakCycleStart >= LeakCyclePeriod)
+			{
+				LeakCycleStart += LeakCyclePeriod;
+				LeakCyclePeriod = LeakRng.FRandRange(1.3f, 2.2f);
+			}
+			const float T = FxTime - LeakCycleStart;
+			const float FormTime = 0.6f;
+			const float FallDist = FMath::Max(0.f, LeakDripStart.Z - LeakDripLanding.Z);
+			const float FallTime = FMath::Sqrt(2.f * FallDist / 980.f);
+			const float RippleTime = 0.7f;
+			if (T < FormTime)
+			{
+				// Swells from a bead to a full drop, sagging very slightly as it fills.
+				const float Grow = FMath::Lerp(0.25f, 1.f, FMath::SmoothStep(0.f, 1.f, T / FormTime));
+				Drop->SetVisibility(true);
+				Drop->SetRelativeLocation(LeakDripStart - FVector(0.f, 0.f, 0.4f * Grow));
+				Drop->SetRelativeScale3D(FVector(0.010f, 0.010f, 0.011f) * Grow);
+			}
+			else if (T < FormTime + FallTime)
+			{
+				const float Tf = T - FormTime;
+				const FVector From = LeakDripStart - FVector(0.f, 0.f, 0.4f);
+				const float Alpha = FallDist > 0.f ? FMath::Min(1.f, 0.5f * 980.f * Tf * Tf / FallDist) : 1.f;
+				Drop->SetVisibility(true);
+				Drop->SetRelativeLocation(FMath::Lerp(From, LeakDripLanding, Alpha));
+				Drop->SetRelativeScale3D(FVector(0.009f, 0.009f, 0.014f));     // stretched while falling
+			}
+			else
+			{
+				Drop->SetVisibility(false);
+			}
+			if (Ripple)
+			{
+				const float Tr = T - FormTime - FallTime;
+				const bool bRing = Tr >= 0.f && Tr < RippleTime;
+				Ripple->SetVisibility(bRing);
+				if (bRing && RippleMID)
+				{
+					RippleMID->SetScalarParameterValue(TEXT("Phase"), Tr / RippleTime);
+				}
+			}
+		}
+		else if (Drop)
 		{
 			const float Period = 1.1f;
 			const float T = FMath::Fmod(FxTime, Period) / Period;

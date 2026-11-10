@@ -100,10 +100,18 @@ void AFixHimPlayerController::BeginPlay()
 		if (It->ActorHasTag(TEXT("TitleCamera")))
 		{
 			TitleCamera = *It;
-			// The saved map's camera sits near the living room's corner and clips into the walls as it drifts;
-			// hold it further into the room instead.
-			TitleCameraBase = FTransform(FRotator(-11.f, -150.f, 0.f), FVector(600.f, 430.f, 185.f));
-			It->SetActorTransform(TitleCameraBase);
+			if (It->ActorHasTag(TEXT("TitleCameraAsPlaced")))
+			{
+				// The level placed this camera for its own layout (e.g. L_Apartment_Rev02): use it as is.
+				TitleCameraBase = It->GetActorTransform();
+			}
+			else
+			{
+				// The original L_Apartment's camera sits near the living room's corner and clips into the walls as
+				// it drifts; hold it further into that room instead.
+				TitleCameraBase = FTransform(FRotator(-11.f, -150.f, 0.f), FVector(600.f, 430.f, 185.f));
+				It->SetActorTransform(TitleCameraBase);
+			}
 			break;
 		}
 	}

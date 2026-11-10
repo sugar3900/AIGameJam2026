@@ -1,0 +1,80 @@
+{
+  "asset": "LV-PLANT-02",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 5060,
+      "sha256": "dbbf6ea2f4090c2af941d5deb157654367545d1b6bc6aa7fcc8e02791283f60e"
+    },
+    {
+      "path": "manifest.json",
+      "bytes": 4308,
+      "sha256": "1ea9f50bb8bf5cfde7b9e74df3aabec3777ee74c4573c7470d420f7884b98d57"
+    },
+    {
+      "path": "model/LV-PLANT-02.blend",
+      "bytes": 6458767,
+      "sha256": "d23613eb649ca7eaa56617ff34a0a020e6864a68767b29cca838ee6d85332197"
+    },
+    {
+      "path": "model/LV_Plant02.fbx",
+      "bytes": 963468,
+      "sha256": "63e42833d446746661d1f7cc5820298550c9be769b821b2a26f0353d4abb9add"
+    },
+    {
+      "path": "model/build_plant.py",
+      "bytes": 11992,
+      "sha256": "26678447725e4111f71c31f7f00230325af487885cdb9f349ee9725abbd6c270"
+    },
+    {
+      "path": "model/validate_fbx.py",
+      "bytes": 2823,
+      "sha256": "dbe0181e36163585967a90f26960477b473237b41c1c81cfe7f73739753c073a"
+    },
+    {
+      "path": "model/validation.json",
+      "bytes": 3542,
+      "sha256": "73d4cc25ca99b4741452c4de0b8380fbb642acc2217e1fd58667558c87395987"
+    },
+    {
+      "path": "previews/plant-side.png",
+      "bytes": 958012,
+      "sha256": "f18e2db6ae4a1b4296d02dc5d3abeae50ea85186b193881b1d4afa9742d4ae4a"
+    },
+    {
+      "path": "previews/plant-stand-context.png",
+      "bytes": 921844,
+      "sha256": "60a10f09a45fcdfad9138c2410e024f67509692b1e9dc43098c916a472475658"
+    },
+    {
+      "path": "previews/plant-three-quarter.png",
+      "bytes": 1019833,
+      "sha256": "a0cdd3eb8c752ca5f60def34bedf7f884f2d2985336514532f98872aa7517ed2"
+    },
+    {
+      "path": "previews/plant-top.png",
+      "bytes": 1139352,
+      "sha256": "1104980a6d0e3ffbe92f0371c05f13e9aa7f2e5a37572ddd8d30d28cb8eee313"
+    },
+    {
+      "path": "previews/plant-underside.png",
+      "bytes": 1008088,
+      "sha256": "5ad1faf287825e9632afed04ff24955e30a3b5ab66b3e66d05017d440cdad94c"
+    },
+    {
+      "path": "source-audit.json",
+      "bytes": 971,
+      "sha256": "dca595f7d30ab193bcf1583093dc0af7c99fdf395c7bfd8e124088d8d670877d"
+    },
+    {
+      "path": "textures/pothos-leaf.png",
+      "bytes": 2680667,
+      "sha256": "28bc5447c3aa3a9018de0db08654697510a6e1a6d067e74dd8bb3be8db1727c7"
+    },
+    {
+      "path": "textures/terracotta.png",
+      "bytes": 3016858,
+      "sha256": "946c99506922973348fe2bf8fe932ba9907bd6423a437a13b5b5cdc72f2b8266"
+    }
+  ]
+}

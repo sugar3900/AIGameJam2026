@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "checks": [
+    "fresh FBX import",
+    "all retained original case/fuse/hinge polygon positions and UVs match within10um",
+    "finite nondegenerate faces and UVs",
+    "external stubs absent",
+    "new wiring behind door/gasket and fuse faces"
+  ],
+  "retained_face_keys": 7477,
+  "polygons": 12757,
+  "triangles": 27207,
+  "min": [
+    -0.23899997770786285,
+    -0.13999997079372406,
+    1.955048345436694e-09
+  ],
+  "max": [
+    0.22500000894069672,
+    9.25389329609061e-08,
+    0.5799999833106995
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "old_preserved_groups": {
+    "Pot body and lip": "4ab666e2b7bcbe3489057a9cf717372df1e20d2a4464d9bcb85bb0c88ad8c4c2",
+    "Soil": "6eb5364161efb3f4b61748dada424231247035e4a5fa9fe36809459aad487ff9",
+    "Cream slip line": "ab7fb38a0a67596bf778d8bec2c634c990f5d2994ca14abd125dca0086995978"
+  },
+  "corrections": [
+    "Vines rise over rim before descending outside it",
+    "Every leaf has a closed 0.45 mm shell and outward normals",
+    "Pot underside capped; original visible vertices, polygons and UV coordinates retained",
+    "Source origin preserved; stand seating uses +0.511 m plant origin"
+  ],
+  "pot_added_bottom_faces": 1,
+  "soil_correction": "Original soil disk faced downward. Reversed face winding only, preserving vertex positions and per-corner UV mapping; now faces +Z.",
+  "leaf_pot_intersections": [],
+  "stem_pot_intersections": [],
+  "leaf_count": 65,
+  "lowest_leaf_z": 0.0336807519197464,
+  "largest_leaf_root_to_stem_surface_distance": 0.0
+}

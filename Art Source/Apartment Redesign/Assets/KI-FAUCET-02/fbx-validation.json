@@ -1,0 +1,151 @@
+{
+  "status": "PASS",
+  "fbx": {
+    "KI_FAUCET_02_sink_body": {
+      "bounds": {
+        "min": [
+          -0.5249999761581421,
+          -0.33999988436698914,
+          -4.39885781133853e-08
+        ],
+        "max": [
+          0.5249999761581421,
+          0.3105000853538513,
+          1.340756893157959
+        ]
+      },
+      "max_bounds_error_m": 1.1563301088868272e-07,
+      "UVs_finite": true,
+      "slots": [
+        "Sink_SagePaint",
+        "Sink_AgedEnamel",
+        "Aged_Chrome"
+      ],
+      "direct_basecolor_images": {
+        "Sink_SagePaint": [
+          "Sink_SageDirect"
+        ],
+        "Sink_AgedEnamel": [
+          "Sink_EnamelPainterly-v3.png"
+        ],
+        "Aged_Chrome": []
+      },
+      "UCX": [],
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "polygon_count": 5306
+    },
+    "KI_FAUCET_02_L_tap": {
+      "bounds": {
+        "min": [
+          -0.30300000309944153,
+          0.1469999998807907,
+          1.0750000476837158
+        ],
+        "max": [
+          -0.19699999690055847,
+          0.2529999911785126,
+          1.1749999523162842
+        ]
+      },
+      "max_bounds_error_m": 4.768371586472142e-08,
+      "UVs_finite": true,
+      "slots": [
+        "Aged_Chrome",
+        "Sink_AgedEnamel"
+      ],
+      "direct_basecolor_images": {
+        "Aged_Chrome": [],
+        "Sink_AgedEnamel": [
+          "Sink_EnamelPainterly-v3.png"
+        ]
+      },
+      "UCX": [
+        {
+          "name": "UCX_KI_FAUCET_02_L_tap_00",
+          "vertices": 272,
+          "closed": true,
+          "positive_volume_m3": 0.0003149465858120789
+        }
+      ],
+      "origin": [
+        -0.25,
+        0.19999998807907104,
+        1.0750000476837158
+      ],
+      "polygon_count": 1322
+    },
+    "KI_FAUCET_02_R_tap": {
+      "bounds": {
+        "min": [
+          0.19699999690055847,
+          0.1469999998807907,
+          1.0750000476837158
+        ],
+        "max": [
+          0.30300000309944153,
+          0.2529999911785126,
+          1.1749999523162842
+        ]
+      },
+      "max_bounds_error_m": 4.768371586472142e-08,
+      "UVs_finite": true,
+      "slots": [
+        "Aged_Chrome",
+        "Sink_AgedEnamel"
+      ],
+      "direct_basecolor_images": {
+        "Aged_Chrome": [],
+        "Sink_AgedEnamel": [
+          "Sink_EnamelPainterly-v3.png"
+        ]
+      },
+      "UCX": [
+        {
+          "name": "UCX_KI_FAUCET_02_R_tap_00",
+          "vertices": 272,
+          "closed": true,
+          "positive_volume_m3": 0.0003149465858120789
+        }
+      ],
+      "origin": [
+        0.25,
+        0.19999998807907104,
+        1.0750000476837158
+      ],
+      "polygon_count": 1322
+    }
+  },
+  "tap_source_checks": {
+    "L": {
+      "source_origin": [
+        -0.25,
+        0.20000000298023224,
+        1.0750000476837158
+      ],
+      "closed_shells": true,
+      "tap_sweep_0_to_90_min_upstand_clearance_m": 0.013000001907348624
+    },
+    "R": {
+      "source_origin": [
+        0.25,
+        0.20000000298023224,
+        1.0750000476837158
+      ],
+      "closed_shells": true,
+      "tap_sweep_0_to_90_min_upstand_clearance_m": 0.013000001907348624
+    }
+  },
+  "body_inherited_nonmanifold_edges": 20,
+  "original_body_nonmanifold_edges": 40,
+  "new_body_faucet_closed_positive_volume_islands": 24,
+  "engine_validation_pending": [
+    "Use existing body actor transform; verify source outlet against existing stream",
+    "Rebind tap Body/pivot/rotation axis without changing Sink_Tap identity",
+    "Real open/close/toggle and no stream jump in PIE",
+    "Recheck leak/repair and window clearance in integrated scene"
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "asset": "BA-HAND-TOWEL-RING-02",
+  "units": "metres",
+  "up": "+Z",
+  "front": "-Y",
+  "source_wall_plane": "Y=0",
+  "source_origin": "wall plate center",
+  "plan_mount": [
+    7.84,
+    7.1,
+    1.15
+  ],
+  "plan_facing": "west",
+  "source_to_plan": "(7.84+sourceY,7.10+sourceX,1.15+sourceZ)",
+  "exports": [
+    {
+      "file": "model/BA_Ring02_Hardware.fbx",
+      "mesh": "BA_Ring02_Hardware",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "min": [
+        -0.1119999960064888,
+        -0.06700000911951065,
+        -0.23199999332427979
+      ],
+      "max": [
+        0.1119999960064888,
+        1.3969838619232178e-09,
+        0.03500000014901161
+      ],
+      "triangles": 5932
+    },
+    {
+      "file": "model/BA_Ring02_Towel.fbx",
+      "mesh": "BA_Ring02_Towel",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "min": [
+        -0.13078244030475616,
+        -0.09699887782335281,
+        -0.5374426245689392
+      ],
+      "max": [
+        0.13078267872333527,
+        -0.03419579565525055,
+        -0.20195983350276947
+      ],
+      "triangles": 19184
+    }
+  ],
+  "cloth_vertex_to_ring_centerline_min": 0.009013477747334558,
+  "ring_wire_radius": 0.007,
+  "collision": "none; decorative, not moving interaction",
+  "materials": {
+    "Ring02_Aged_Brass": {
+      "texture": "textures/aged-brass.png",
+      "multiply": [
+        0.8,
+        0.75,
+        0.56
+      ],
+      "metallic": 0.68,
+      "roughness": 0.48
+    },
+    "Ring02_Ivory_Terry": {
+      "texture": "textures/terry.png",
+      "multiply": [
+        0.94,
+        0.91,
+        0.84
+      ],
+      "roughness": 0.94
+    },
+    "Ring02_Rose_Border": {
+      "texture": "textures/terry.png",
+      "multiply": [
+        0.61,
+        0.32,
+        0.3
+      ],
+      "roughness": 0.94
+    }
+  }
+}

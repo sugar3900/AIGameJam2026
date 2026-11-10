@@ -1,0 +1,141 @@
+{
+  "asset": "ART-REV02-014",
+  "instance": "OF-ART-BOTANICAL-01:071",
+  "title": "Woodland mushroom study",
+  "frame": "Slim antique brass double-round, terracotta mount edge",
+  "dimensions_m": [
+    0.6,
+    0.035,
+    0.6
+  ],
+  "bounds_m": {
+    "min": [
+      -0.30000001192092896,
+      -0.03500000014901161,
+      0.0
+    ],
+    "max": [
+      0.30000001192092896,
+      0.0,
+      0.6000000238418579
+    ]
+  },
+  "origin": "bottom-center rear wall plane; front -Y; Z up",
+  "planned_rect": [
+    7.96,
+    7.6499999999999995,
+    0.035,
+    0.6
+  ],
+  "bottom_z": 1.42,
+  "front": "east",
+  "fbx": "models/ART-REV02-014.fbx",
+  "art_texture": "textures/T_Artwork.png",
+  "art_sha256": "11538af1945ce9b11e8f246e9605f1a825be7a4127555b1e517e8ed0b19fa063",
+  "crop": {
+    "u_span": 1,
+    "v_span": 1,
+    "source_aspect": 1.0,
+    "aperture_aspect": 1.0,
+    "mode": "center crop; uniform pixel scale; no stretch"
+  },
+  "frame_material": {
+    "wood_color_linear": [
+      0.36,
+      0.26,
+      0.1
+    ],
+    "roughness": 0.64,
+    "grain_map": "textures/T_Frame_Grain.png",
+    "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+    "base_color_map": "textures/T_Frame_BaseColor.png",
+    "baked_material": "ART-REV02-014_Aged_Gilt"
+  },
+  "ucx": 1,
+  "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+  "engine_placement": {
+    "wall_datum_center_plan_m": [
+      7.96,
+      7.949999999999999,
+      1.42
+    ],
+    "ue_local_yaw_degrees": -90,
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+  },
+  "materials": [
+    {
+      "slot": 0,
+      "name": "ART-REV02-014_Aged_Gilt",
+      "base_color_linear": [
+        0.38,
+        0.26,
+        0.095
+      ],
+      "roughness": 0.48,
+      "metallic": 0.64,
+      "opacity": 1,
+      "two_sided": false,
+      "base_color_texture": "textures/T_Frame_BaseColor.png",
+      "texture_srgb": true
+    },
+    {
+      "slot": 1,
+      "name": "ART-REV02-014_Mount",
+      "base_color_linear": [
+        0.72,
+        0.67,
+        0.55
+      ],
+      "roughness": 0.9,
+      "metallic": 0.0,
+      "opacity": 1,
+      "two_sided": false
+    },
+    {
+      "slot": 2,
+      "name": "ART-REV02-014_Inner_Slip",
+      "base_color_linear": [
+        0.48,
+        0.37,
+        0.23
+      ],
+      "roughness": 0.7,
+      "metallic": 0.0,
+      "opacity": 1,
+      "two_sided": false
+    },
+    {
+      "slot": 3,
+      "name": "ART-REV02-014_Backboard",
+      "base_color_linear": [
+        0.12,
+        0.085,
+        0.055
+      ],
+      "roughness": 0.9,
+      "metallic": 0.0,
+      "opacity": 1,
+      "two_sided": false
+    },
+    {
+      "slot": 4,
+      "name": "ART-REV02-014_Artwork",
+      "base_color_linear": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "roughness": 0.86,
+      "metallic": 0.0,
+      "opacity": 1,
+      "two_sided": false,
+      "base_color_texture": "textures/T_Artwork.png",
+      "texture_srgb": true
+    }
+  ]
+}

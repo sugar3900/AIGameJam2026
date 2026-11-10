@@ -1,0 +1,90 @@
+{
+  "status": "PASS",
+  "files": {
+    "BA_Toilet02_Body": {
+      "vertices": 5166,
+      "triangles": 10252,
+      "material_slots": [
+        "Painted_Ivory_Enamel",
+        "Trap_Interior",
+        "Aged_Brass"
+      ],
+      "ucx_count": 21,
+      "zero_area_triangles": 0,
+      "world_bounds": {
+        "min": [
+          -0.2549999952316284,
+          -0.3679999113082886,
+          -4.610654968928429e-08
+        ],
+        "max": [
+          0.2549999952316284,
+          0.34500014781951904,
+          0.9210000038146973
+        ]
+      },
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "center_downward_ray_hit_z": 0.14600004255771637
+    },
+    "BA_Toilet02_Lid": {
+      "vertices": 1172,
+      "triangles": 2316,
+      "material_slots": [
+        "Painted_Ivory_Enamel",
+        "Aged_Brass",
+        "Ivory_Rubber_Bumpers"
+      ],
+      "ucx_count": 1,
+      "zero_area_triangles": 0,
+      "world_bounds": {
+        "min": [
+          -0.2329999953508377,
+          -0.3660000264644623,
+          0.4960000216960907
+        ],
+        "max": [
+          0.2329999953508377,
+          0.12049999833106995,
+          0.534000039100647
+        ]
+      },
+      "origin": [
+        0.0,
+        0.10999999940395355,
+        0.515999972820282
+      ]
+    },
+    "BA_Toilet02_Water": {
+      "vertices": 128,
+      "triangles": 252,
+      "material_slots": [
+        "Toilet_Standing_Water"
+      ],
+      "ucx_count": 0,
+      "zero_area_triangles": 0,
+      "world_bounds": {
+        "min": [
+          -0.08799999952316284,
+          -0.1839999556541443,
+          0.2745000123977661
+        ],
+        "max": [
+          0.08799999952316284,
+          0.03400004655122757,
+          0.27500003576278687
+        ]
+      },
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "center_downward_ray_hit_z": 0.27500003576278687
+    }
+  },
+  "scope": "Fresh Blender legacy FBX roundtrip. Source geometry/material appearance only; Unreal collision, materials, click binding and gameplay remain engine acceptance."
+}

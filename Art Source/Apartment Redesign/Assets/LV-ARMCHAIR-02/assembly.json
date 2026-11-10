@@ -1,0 +1,151 @@
+{
+  "asset": "LV-ARMCHAIR-02",
+  "replaces": "LV-CHAIR-01",
+  "units": "metres",
+  "up": "+Z",
+  "front": "-Y",
+  "origin": "same floor centre as LV-CHAIR-01; preserve actor transform",
+  "bounds": {
+    "min": [
+      -0.3700000047683716,
+      -0.335999995470047,
+      0.0
+    ],
+    "max": [
+      0.3700000047683716,
+      0.34245339035987854,
+      0.9142658114433289
+    ]
+  },
+  "render_vertices": 133098,
+  "ucx_hulls": 15,
+  "materials": [
+    {
+      "name": "Armchair02_RustJacquard",
+      "base_color_multiplier": [
+        0.83,
+        0.73,
+        0.65
+      ],
+      "albedo_texture": "textures/rust-jacquard.png",
+      "roughness": 0.8500000238418579,
+      "metallic": 0,
+      "blend_mode": "opaque",
+      "two_sided": false,
+      "albedo_srgb": true,
+      "base_color_linear": [
+        0.4,
+        0.16,
+        0.07
+      ]
+    },
+    {
+      "name": "Armchair02_RustWelt",
+      "base_color_multiplier": [
+        1,
+        1,
+        1
+      ],
+      "albedo_texture": null,
+      "roughness": 0.8500000238418579,
+      "metallic": 0,
+      "blend_mode": "opaque",
+      "two_sided": false,
+      "albedo_srgb": true,
+      "base_color_linear": [
+        0.23,
+        0.075,
+        0.026
+      ]
+    },
+    {
+      "name": "Armchair02_PaintedWalnut",
+      "base_color_multiplier": [
+        0.36,
+        0.28,
+        0.2
+      ],
+      "albedo_texture": "textures/walnut-painted.png",
+      "roughness": 0.6600000262260437,
+      "metallic": 0,
+      "blend_mode": "opaque",
+      "two_sided": false,
+      "albedo_srgb": true,
+      "base_color_linear": [
+        0.18,
+        0.07,
+        0.02
+      ]
+    },
+    {
+      "name": "Armchair02_IvoryCrochet",
+      "base_color_multiplier": [
+        0.78,
+        0.72,
+        0.61
+      ],
+      "albedo_texture": "textures/ivory-thread.png",
+      "roughness": 0.8500000238418579,
+      "metallic": 0,
+      "blend_mode": "opaque",
+      "two_sided": false,
+      "albedo_srgb": true,
+      "base_color_linear": [
+        0.72,
+        0.65,
+        0.5
+      ]
+    }
+  ],
+  "seam_contact": [
+    {
+      "seam": "Apron inset seam",
+      "radius": 0.0017,
+      "surface_offset": 0.0005099999999999999,
+      "max_target_snap": 0.005609412677586079
+    },
+    {
+      "seam": "Back fitted edge welt",
+      "radius": 0.0018,
+      "surface_offset": 0.00054,
+      "max_target_snap": 0.03911652788519859
+    },
+    {
+      "seam": "Seat upper fitted welt",
+      "radius": 0.0018,
+      "surface_offset": 0.00054,
+      "max_target_snap": 0.004720079712569714
+    },
+    {
+      "seam": "Seat lower fitted welt",
+      "radius": 0.0018,
+      "surface_offset": 0.00054,
+      "max_target_snap": 0.002623781096190214
+    },
+    {
+      "seam": "Left arm front welt",
+      "radius": 0.0018,
+      "surface_offset": 0.00054,
+      "max_target_snap": 0.0020151054486632347
+    },
+    {
+      "seam": "Left arm panel sewn outline",
+      "radius": 0.0015,
+      "surface_offset": 0.00045,
+      "max_target_snap": 0.008022066205739975
+    },
+    {
+      "seam": "Right arm front welt",
+      "radius": 0.0018,
+      "surface_offset": 0.00054,
+      "max_target_snap": 0.0020151054486632347
+    },
+    {
+      "seam": "Right arm panel sewn outline",
+      "radius": 0.0015,
+      "surface_offset": 0.00045,
+      "max_target_snap": 0.008022066205739975
+    }
+  ],
+  "lace": "opaque geometric openwork, front/crown/rear contact drape projected onto actual back; 3.7mm thread-centre offset; no alpha or cloth simulation"
+}

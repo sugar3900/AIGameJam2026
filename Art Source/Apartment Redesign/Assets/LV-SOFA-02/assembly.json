@@ -1,0 +1,129 @@
+{
+  "asset": "LV-SOFA-02",
+  "units": "metres",
+  "up": "+Z",
+  "front": "-Y",
+  "origin": "existing sofa floor centre; preserve actor transform",
+  "bounds": {
+    "min": [
+      -0.9925000071525574,
+      -0.42357876896858215,
+      0.0
+    ],
+    "max": [
+      1.0398398637771606,
+      0.39000001549720764,
+      0.9682592749595642
+    ]
+  },
+  "render_vertices": 95024,
+  "ucx_hulls": 13,
+  "materials": [
+    "Sofa02_PaintedFloral",
+    "Sofa02_OliveWelt",
+    "Sofa02_WornWalnut",
+    "Sofa02_TealNeedlepoint",
+    "Sofa02_AgedGoldCord",
+    "Sofa02_CoralEmbroidery",
+    "Sofa02_WovenThrow"
+  ],
+  "seam_contact": [
+    {
+      "seam": "Front apron sewn welt",
+      "radius": 0.0022,
+      "surface_offset": 0.00066,
+      "max_target_snap": 0.0065733203664422035
+    },
+    {
+      "seam": "Left inset arm face welt",
+      "radius": 0.0022,
+      "surface_offset": 0.00066,
+      "max_target_snap": 0.017573270946741104
+    },
+    {
+      "seam": "Left panel seam",
+      "radius": 0.0018,
+      "surface_offset": 0.00054,
+      "max_target_snap": 0.009271729737520218
+    },
+    {
+      "seam": "Right inset arm face welt",
+      "radius": 0.0022,
+      "surface_offset": 0.00066,
+      "max_target_snap": 0.017573270946741104
+    },
+    {
+      "seam": "Right panel seam",
+      "radius": 0.0018,
+      "surface_offset": 0.00054,
+      "max_target_snap": 0.009271729737520218
+    },
+    {
+      "seam": "Seat 1 upper welt",
+      "radius": 0.0022,
+      "surface_offset": 0.00066,
+      "max_target_snap": 0.0032970509491860867
+    },
+    {
+      "seam": "Seat 1 lower welt",
+      "radius": 0.0022,
+      "surface_offset": 0.00066,
+      "max_target_snap": 0.0023593225050717592
+    },
+    {
+      "seam": "Back 1 front welt",
+      "radius": 0.0022,
+      "surface_offset": 0.00066,
+      "max_target_snap": 0.03507276624441147
+    },
+    {
+      "seam": "Seat 2 upper welt",
+      "radius": 0.0022,
+      "surface_offset": 0.00066,
+      "max_target_snap": 0.0031372811645269394
+    },
+    {
+      "seam": "Seat 2 lower welt",
+      "radius": 0.0022,
+      "surface_offset": 0.00066,
+      "max_target_snap": 0.002359348349273205
+    },
+    {
+      "seam": "Back 2 front welt",
+      "radius": 0.0022,
+      "surface_offset": 0.00066,
+      "max_target_snap": 0.035255756229162216
+    },
+    {
+      "seam": "Seat 3 upper welt",
+      "radius": 0.0022,
+      "surface_offset": 0.00066,
+      "max_target_snap": 0.0036134349647909403
+    },
+    {
+      "seam": "Seat 3 lower welt",
+      "radius": 0.0022,
+      "surface_offset": 0.00066,
+      "max_target_snap": 0.0023593357764184475
+    },
+    {
+      "seam": "Back 3 front welt",
+      "radius": 0.0022,
+      "surface_offset": 0.00066,
+      "max_target_snap": 0.03516121953725815
+    },
+    {
+      "seam": "Teal needlepoint pillow antique cord",
+      "radius": 0.0025,
+      "surface_offset": 0.00075,
+      "max_target_snap": 0.04993728548288345
+    },
+    {
+      "seam": "Coral embroidered lumbar antique cord",
+      "radius": 0.0025,
+      "surface_offset": 0.00075,
+      "max_target_snap": 0.05117775499820709
+    }
+  ],
+  "throw": "hand-modeled nonperiodic contact drape; raycast-supported upper surface; gravity drop outside right arm; no cloth simulation claimed"
+}

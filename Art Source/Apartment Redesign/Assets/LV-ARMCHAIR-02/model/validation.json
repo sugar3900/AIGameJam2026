@@ -1,0 +1,46 @@
+{
+  "asset": "LV-ARMCHAIR-02",
+  "render_meshes": 1,
+  "ucx_members": 15,
+  "vertices": 133098,
+  "triangles": 259064,
+  "zero_area_triangles": 0,
+  "uv_finite": true,
+  "origin": [
+    0,
+    0,
+    0
+  ],
+  "bounds": {
+    "min": [
+      -0.37000006437301636,
+      -0.3360000252723694,
+      0.0
+    ],
+    "max": [
+      0.3699999451637268,
+      0.34245339035987854,
+      0.9142658114433289
+    ]
+  },
+  "previous_bounds": {
+    "min": [
+      -0.3746050298213959,
+      -0.3436999022960663,
+      -4.3499817081738e-08
+    ],
+    "max": [
+      0.3746050000190735,
+      0.34458619356155396,
+      0.9352781772613525
+    ]
+  },
+  "within_previous_bounds": true,
+  "lace_surface_intersections": {
+    "Shaped sloping back frame": 0,
+    "Stuffed tailored back": 0
+  },
+  "limits": "Source FBX roundtrip only. Unreal legacy-import UCX recognition, fitted material appearance and in-room clearance require integration verification.",
+  "validated_fbx_sha256": "29bdd0cbba6598c3fd99885beabec587477f2aea06022d376f071d4c02dcf053",
+  "validated_blend_sha256": "ee0431192977cc3267552f09dbaa3a2d7a0babf28ff37f2f3d6347a6001128e0"
+}

@@ -1,0 +1,96 @@
+{
+  "status": "PASS",
+  "units": "metres",
+  "files": {
+    "Baseboard_Outside_End": {
+      "bounds_min": [
+        -4.529873809389073e-09,
+        -0.030000153928995132,
+        0.0
+      ],
+      "bounds_max": [
+        1.0299999713897705,
+        0.0,
+        0.12999999523162842
+      ],
+      "triangles": 28,
+      "profile_vertices": 8,
+      "signed_volume": 0.0031219807313315126,
+      "closed_manifold_consistent_normals": true,
+      "material_slot": "AgedIvoryPaint",
+      "uv_layers": 1
+    },
+    "Baseboard_Outside_Start": {
+      "bounds_min": [
+        -0.030000003054738045,
+        -0.030000150203704834,
+        0.0
+      ],
+      "bounds_max": [
+        1.0,
+        0.0,
+        0.12999999523162842
+      ],
+      "triangles": 28,
+      "profile_vertices": 8,
+      "signed_volume": 0.0031219807325069972,
+      "closed_manifold_consistent_normals": true,
+      "material_slot": "AgedIvoryPaint",
+      "uv_layers": 1
+    },
+    "Crown_Outside_End": {
+      "bounds_min": [
+        -5.2848529996651905e-09,
+        -0.03500015661120415,
+        0.0
+      ],
+      "bounds_max": [
+        1.034999966621399,
+        0.0,
+        0.10000000149011612
+      ],
+      "triangles": 40,
+      "profile_vertices": 11,
+      "signed_volume": 0.0025022217168572313,
+      "closed_manifold_consistent_normals": true,
+      "material_slot": "AgedIvoryPaint",
+      "uv_layers": 1
+    },
+    "Crown_Outside_Start": {
+      "bounds_min": [
+        -0.03500000387430191,
+        -0.03500015288591385,
+        0.0
+      ],
+      "bounds_max": [
+        1.0,
+        0.0,
+        0.10000000149011612
+      ],
+      "triangles": 40,
+      "profile_vertices": 11,
+      "signed_volume": 0.0025022216952238488,
+      "closed_manifold_consistent_normals": true,
+      "material_slot": "AgedIvoryPaint",
+      "uv_layers": 1
+    }
+  },
+  "pairs": {
+    "Baseboard": {
+      "max_matching_profile_error_m": 1.51805579662323e-07,
+      "end_halfspace_max": -1.5099580252808664e-07,
+      "start_halfspace_min": -3.166496753692627e-08,
+      "zero_volumetric_overlap": "End x+y<=1 and transformed Start x+y>=1; intersection is only the matching mitre face",
+      "assembly": "End origin(0,0,z), Start origin(1,0,z) rotated+90deg about source Z",
+      "ue_example_cm": "End(386,386,Z) yaw0; Start(486,386,Z) yaw-90; verify expected sourceY flip in importer"
+    },
+    "Crown": {
+      "max_matching_profile_error_m": 1.9228597496169518e-07,
+      "end_halfspace_max": -9.499490261077881e-08,
+      "start_halfspace_min": -6.332993507385254e-08,
+      "zero_volumetric_overlap": "End x+y<=1 and transformed Start x+y>=1; intersection is only the matching mitre face",
+      "assembly": "End origin(0,0,z), Start origin(1,0,z) rotated+90deg about source Z",
+      "ue_example_cm": "End(386,386,Z) yaw0; Start(486,386,Z) yaw-90; verify expected sourceY flip in importer"
+    }
+  }
+}

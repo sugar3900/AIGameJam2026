@@ -1,0 +1,161 @@
+{
+  "units": "metres",
+  "source_blend_sha256": "eefdea960e7f36c72b25c6bc46ae53ae1b1b77bfc2499c1a1498d52a30407272",
+  "source_origin": [
+    0,
+    0,
+    0
+  ],
+  "source_axis": "Z up, front -Y; importer keeps X, flips Y",
+  "removed_original_bucket_components": [
+    {
+      "vertices": 192,
+      "min": [
+        -0.27000001072883606,
+        -0.20499999821186066,
+        0.034999996423721313
+      ],
+      "max": [
+        0.029999971389770508,
+        0.0949999988079071,
+        0.27000001072883606
+      ]
+    },
+    {
+      "vertices": 810,
+      "min": [
+        -0.26859062910079956,
+        -0.05900000035762787,
+        0.21874326467514038
+      ],
+      "max": [
+        0.028590679168701172,
+        -0.050999999046325684,
+        0.36380425095558167
+      ]
+    }
+  ],
+  "unchanged_sink_face_uv_material_sha256": "94870ef931fb162f79962c8e7497bc5f4e856d8be71a0bda47e191845fe7a290",
+  "preservation_verified": true,
+  "trap_intersections": 0,
+  "bucket_trap_nearest_vertex_gap_m": 0.036112,
+  "bucket_ucx_hulls": 13,
+  "exports": {
+    "KI_LEAK_02_sink_body": {
+      "min": [
+        -0.525,
+        -0.34,
+        0.0
+      ],
+      "max": [
+        0.525,
+        0.3105,
+        1.343217
+      ],
+      "vertices": 3492,
+      "faces": 3294,
+      "materials": [
+        "Sink_SagePaint",
+        "Sink_AgedEnamel",
+        "Aged_Chrome"
+      ]
+    },
+    "KI_LEAK_02_bucket": {
+      "min": [
+        -0.2783,
+        -0.2082,
+        0.006432
+      ],
+      "max": [
+        0.0383,
+        0.0982,
+        0.231043
+      ],
+      "vertices": 9380,
+      "faces": 9266,
+      "materials": [
+        "KI_LEAK_02_Painted_Zinc",
+        "KI_LEAK_02_Dark_Worn_Seams",
+        "KI_LEAK_02_Worn_Iron_Bail"
+      ]
+    },
+    "KI_LEAK_02_bucket_water": {
+      "min": [
+        -0.249,
+        -0.184,
+        0.115
+      ],
+      "max": [
+        0.009,
+        0.074,
+        0.115
+      ],
+      "vertices": 97,
+      "faces": 96,
+      "materials": [
+        "KI_LEAK_02_Water_REPLACE_IN_UE"
+      ]
+    },
+    "KI_LEAK_02_puddle": {
+      "min": [
+        -0.404097,
+        -0.70908,
+        0.004
+      ],
+      "max": [
+        0.238124,
+        0.112572,
+        0.004
+      ],
+      "vertices": 204,
+      "faces": 200,
+      "materials": [
+        "KI_LEAK_02_Water_REPLACE_IN_UE"
+      ]
+    }
+  },
+  "tap_pivots": {
+    "L_tap": [
+      -0.25,
+      0.20999999344348907,
+      1.0750000476837158
+    ],
+    "R_tap": [
+      0.25,
+      0.20999999344348907,
+      1.0750000476837158
+    ]
+  },
+  "leak_point": [
+    -0.1,
+    0,
+    0.243
+  ],
+  "bucket_catch_point": [
+    -0.1,
+    0,
+    0.115
+  ],
+  "bucket_floor_center": [
+    -0.12,
+    -0.055,
+    0.006
+  ],
+  "puddle_mask": {
+    "file": "textures/T_Leak_Puddle_Mask.png",
+    "center_m": [
+      -0.08298649999999999,
+      -0.298254,
+      0.004
+    ],
+    "size_m": [
+      0.682221,
+      0.8616520000000001
+    ],
+    "image_right": "+X",
+    "image_up": "+Y",
+    "channel": "RGBA white with feathered alpha; not an albedo",
+    "story": "Recently placed bucket catches active drips. Residual spill escaped earlier; no perpetual floor-impact rings."
+  },
+  "note": "No static drops exported. Replace both original damage FBX and runtime cylinder/drop. Water visual acceptance is engine-owned."
+}

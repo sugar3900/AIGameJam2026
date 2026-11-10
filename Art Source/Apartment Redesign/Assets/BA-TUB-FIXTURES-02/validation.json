@@ -1,0 +1,74 @@
+{
+  "status": "PASS source FBX roundtrip; engine acceptance pending",
+  "exports": [
+    {
+      "file": "model/BA_TubFixture02_Plumbing.fbx",
+      "vertices": 2860,
+      "triangles": 5580,
+      "uv_layers": 1,
+      "origin": [
+        0.0,
+        -2.9802322387695312e-08,
+        0.0
+      ],
+      "min": [
+        -0.8750000596046448,
+        0.05500027537345886,
+        0.7223973870277405
+      ],
+      "max": [
+        -0.6249999403953552,
+        0.41500014066696167,
+        2.144408941268921
+      ],
+      "max_bound_error_m": 3.0547380447387695e-07,
+      "zero_area_triangles": 0
+    },
+    {
+      "file": "model/BA_TubFixture02_CurtainRod.fbx",
+      "vertices": 580,
+      "triangles": 1148,
+      "uv_layers": 1,
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "min": [
+        -0.9589999914169312,
+        -0.3789999783039093,
+        2.1510000228881836
+      ],
+      "max": [
+        0.9589999914169312,
+        -0.32100000977516174,
+        2.2090001106262207
+      ],
+      "max_bound_error_m": 0.0,
+      "zero_area_triangles": 0
+    },
+    {
+      "file": "model/BA_TubFixture02_Drain.fbx",
+      "vertices": 128,
+      "triangles": 248,
+      "uv_layers": 1,
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "min": [
+        -0.5419999957084656,
+        -0.041999999433755875,
+        0.18400000035762787
+      ],
+      "max": [
+        -0.4580000042915344,
+        0.041999999433755875,
+        0.19200000166893005
+      ],
+      "max_bound_error_m": 0.0,
+      "zero_area_triangles": 0
+    }
+  ]
+}

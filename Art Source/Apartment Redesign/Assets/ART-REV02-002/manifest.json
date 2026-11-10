@@ -1,0 +1,127 @@
+{
+  "asset": "ART-REV02-002",
+  "instance": "HA-ART-02:041",
+  "title": "The reader in sage",
+  "frame": "Ebonized step frame, muted gold inner bead",
+  "dimensions_m": [
+    0.42,
+    0.035,
+    0.55
+  ],
+  "bounds_m": {
+    "min": [
+      -0.20999999344348907,
+      -0.03500000014901161,
+      0.0
+    ],
+    "max": [
+      0.20999999344348907,
+      0.0,
+      0.550000011920929
+    ]
+  },
+  "origin": "bottom-center rear wall plane; front -Y; Z up",
+  "planned_rect": [
+    11.905,
+    0.35,
+    0.035,
+    0.42
+  ],
+  "bottom_z": 1.4,
+  "front": "west",
+  "fbx": "models/ART-REV02-002.fbx",
+  "art_texture": "textures/T_Artwork.png",
+  "art_sha256": "d52378e7c2693a2112e0389e95d31d435ca3c778741d83cb4d4c0ba65b89f6c6",
+  "crop": {
+    "u_span": 0.9054956371838426,
+    "v_span": 1,
+    "source_aspect": 0.8130841121495327,
+    "aperture_aspect": 0.7362441162149,
+    "mode": "center crop; uniform pixel scale; no stretch"
+  },
+  "frame_material": {
+    "wood_color_linear": [
+      0.035,
+      0.028,
+      0.022
+    ],
+    "roughness": 0.64,
+    "grain_map": "textures/T_Frame_Grain.png",
+    "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+    "base_color_map": "textures/T_Frame_BaseColor.png"
+  },
+  "ucx": 1,
+  "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+  "engine_placement": {
+    "wall_datum_center_plan_m": [
+      11.94,
+      0.5599999999999999,
+      1.4
+    ],
+    "ue_local_yaw_degrees": 90,
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+  },
+  "materials": [
+    {
+      "slot": 0,
+      "name": "ART-REV02-002_Frame",
+      "base_color_linear": [
+        0.035,
+        0.028,
+        0.022
+      ],
+      "roughness": 0.64,
+      "metallic": 0.12,
+      "opacity": 1,
+      "two_sided": false,
+      "base_color_texture": "textures/T_Frame_BaseColor.png",
+      "texture_srgb": true
+    },
+    {
+      "slot": 1,
+      "name": "ART-REV02-002_Aged_Gilt",
+      "base_color_linear": [
+        0.38,
+        0.26,
+        0.095
+      ],
+      "roughness": 0.48,
+      "metallic": 0.64,
+      "opacity": 1,
+      "two_sided": false
+    },
+    {
+      "slot": 2,
+      "name": "ART-REV02-002_Backboard",
+      "base_color_linear": [
+        0.12,
+        0.085,
+        0.055
+      ],
+      "roughness": 0.9,
+      "metallic": 0.0,
+      "opacity": 1,
+      "two_sided": false
+    },
+    {
+      "slot": 3,
+      "name": "ART-REV02-002_Artwork",
+      "base_color_linear": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "roughness": 0.86,
+      "metallic": 0.0,
+      "opacity": 1,
+      "two_sided": false,
+      "base_color_texture": "textures/T_Artwork.png",
+      "texture_srgb": true
+    }
+  ]
+}

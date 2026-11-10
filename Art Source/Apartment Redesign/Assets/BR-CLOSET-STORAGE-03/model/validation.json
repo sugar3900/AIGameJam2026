@@ -1,0 +1,70 @@
+{
+  "asset": "BR-CLOSET-STORAGE-03",
+  "exports": [
+    {
+      "side": "West",
+      "render_meshes": 1,
+      "ucx_hulls": 14,
+      "bounds": [
+        [
+          -1.040000081062317,
+          -0.8349998593330383,
+          1.4863426685333252
+        ],
+        [
+          -0.5467622876167297,
+          0.8350001573562622,
+          1.8799999952316284
+        ]
+      ],
+      "vertices": 4988,
+      "uv_valid": true,
+      "nondegenerate": true
+    },
+    {
+      "side": "East",
+      "render_meshes": 1,
+      "ucx_hulls": 14,
+      "bounds": [
+        [
+          0.5467624068260193,
+          -0.8350001573562622,
+          1.4863426685333252
+        ],
+        [
+          1.040000081062317,
+          0.8349998593330383,
+          1.8799999952316284
+        ]
+      ],
+      "vertices": 4988,
+      "uv_valid": true,
+      "nondegenerate": true
+    }
+  ],
+  "central_aisle_width": 1.093524694442749,
+  "player_capsule_diameter": 0.76,
+  "centered_capsule_margin_per_side": 0.1667623472213745,
+  "door_sweeps": [
+    {
+      "door": "L",
+      "samples": 96,
+      "angles_degrees": [
+        0,
+        95
+      ],
+      "overlaps": 0
+    },
+    {
+      "door": "R",
+      "samples": 96,
+      "angles_degrees": [
+        0,
+        95
+      ],
+      "overlaps": 0
+    }
+  ],
+  "minimum_front_storage_to_door_y_gap": 0.03199992418289188,
+  "limits": "Source mesh sampled checks only; Unreal collision recognition, exact capsule, hook appearance and encounter visibility still need integrated review."
+}

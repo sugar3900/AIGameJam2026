@@ -82,11 +82,21 @@
     },
     {
       "asset": "ARC-ENTRY-DOOR-02",
-      "action": "new",
-      "destination": "Fitted .99clear/1.05rough walnut entrance leaf and ivory frame.",
+      "action": "replace",
+      "destination": "FIX-010 ARC-ENTRY-DOOR-03 preserves this fitted opening/envelope and placement while correcting hardware and casing joints.",
       "source_fbx": [
         "model/ARC_Entry_Door02_Frame.fbx",
         "model/ARC_Entry_Door02_Leaf.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ARC-ENTRY-DOOR-03",
+      "action": "source ready; engine pending",
+      "destination": "FIX-010 approved fitted entry hardware/frame correction; preserve existing02 actor transforms and exit action; original source kits retained.",
+      "source_fbx": [
+        "model/ARC_Entry_Door03_Frame.fbx",
+        "model/ARC_Entry_Door03_Leaf.fbx"
       ],
       "source_readme": true
     },
@@ -234,6 +244,166 @@
       "source_readme": true
     },
     {
+      "asset": "ART-REV02-001",
+      "action": "source ready; engine pending",
+      "destination": "FIX-006 all17 images/frames released and approved; exact mapping in feedback/FIX-006/wall-art-inventory.json and verified collection file-manifest.json. Preserve original physical instance IDs.",
+      "source_fbx": [
+        "models/ART-REV02-001.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ART-REV02-002",
+      "action": "source ready; engine pending",
+      "destination": "FIX-006 all17 images/frames released and approved; exact mapping in feedback/FIX-006/wall-art-inventory.json and verified collection file-manifest.json. Preserve original physical instance IDs.",
+      "source_fbx": [
+        "models/ART-REV02-002.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ART-REV02-003",
+      "action": "source ready; engine pending",
+      "destination": "FIX-006 all17 images/frames released and approved; exact mapping in feedback/FIX-006/wall-art-inventory.json and verified collection file-manifest.json. Preserve original physical instance IDs.",
+      "source_fbx": [
+        "models/ART-REV02-003.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ART-REV02-004",
+      "action": "source ready; engine pending",
+      "destination": "FIX-006 all17 images/frames released and approved; exact mapping in feedback/FIX-006/wall-art-inventory.json and verified collection file-manifest.json. Preserve original physical instance IDs.",
+      "source_fbx": [
+        "models/ART-REV02-004.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ART-REV02-005",
+      "action": "source ready; engine pending",
+      "destination": "FIX-006 all17 images/frames released and approved; exact mapping in feedback/FIX-006/wall-art-inventory.json and verified collection file-manifest.json. Preserve original physical instance IDs.",
+      "source_fbx": [
+        "models/ART-REV02-005.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ART-REV02-006",
+      "action": "source ready; engine pending",
+      "destination": "FIX-006 all17 images/frames released and approved; exact mapping in feedback/FIX-006/wall-art-inventory.json and verified collection file-manifest.json. Preserve original physical instance IDs.",
+      "source_fbx": [
+        "models/ART-REV02-006.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ART-REV02-007",
+      "action": "source ready; engine pending",
+      "destination": "FIX-006 all17 images/frames released and approved; exact mapping in feedback/FIX-006/wall-art-inventory.json and verified collection file-manifest.json. Preserve original physical instance IDs.",
+      "source_fbx": [
+        "models/ART-REV02-007.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ART-REV02-008",
+      "action": "source ready; engine pending",
+      "destination": "FIX-006 all17 images/frames released and approved; exact mapping in feedback/FIX-006/wall-art-inventory.json and verified collection file-manifest.json. Preserve original physical instance IDs.",
+      "source_fbx": [
+        "models/ART-REV02-008.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ART-REV02-009",
+      "action": "source ready; engine pending",
+      "destination": "FIX-006 all17 images/frames released and approved; exact mapping in feedback/FIX-006/wall-art-inventory.json and verified collection file-manifest.json. Preserve original physical instance IDs.",
+      "source_fbx": [
+        "models/ART-REV02-009.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ART-REV02-010",
+      "action": "source ready; engine pending",
+      "destination": "FIX-006 all17 images/frames released and approved; exact mapping in feedback/FIX-006/wall-art-inventory.json and verified collection file-manifest.json. Preserve original physical instance IDs.",
+      "source_fbx": [
+        "models/ART-REV02-010.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ART-REV02-011",
+      "action": "source ready; engine pending",
+      "destination": "FIX-006 all17 images/frames released and approved; exact mapping in feedback/FIX-006/wall-art-inventory.json and verified collection file-manifest.json. Preserve original physical instance IDs.",
+      "source_fbx": [
+        "models/ART-REV02-011.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ART-REV02-012",
+      "action": "source ready; engine pending",
+      "destination": "FIX-006 all17 images/frames released and approved; exact mapping in feedback/FIX-006/wall-art-inventory.json and verified collection file-manifest.json. Preserve original physical instance IDs.",
+      "source_fbx": [
+        "models/ART-REV02-012.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ART-REV02-013",
+      "action": "source ready; engine pending",
+      "destination": "FIX-006 all17 images/frames released and approved; exact mapping in feedback/FIX-006/wall-art-inventory.json and verified collection file-manifest.json. Preserve original physical instance IDs.",
+      "source_fbx": [
+        "models/ART-REV02-013.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ART-REV02-014",
+      "action": "source ready; engine pending",
+      "destination": "FIX-006 all17 images/frames released and approved; exact mapping in feedback/FIX-006/wall-art-inventory.json and verified collection file-manifest.json. Preserve original physical instance IDs.",
+      "source_fbx": [
+        "models/ART-REV02-014.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ART-REV02-015",
+      "action": "source ready; engine pending",
+      "destination": "FIX-006 all17 images/frames released and approved; exact mapping in feedback/FIX-006/wall-art-inventory.json and verified collection file-manifest.json. Preserve original physical instance IDs.",
+      "source_fbx": [
+        "models/ART-REV02-015.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ART-REV02-016",
+      "action": "source ready; engine pending",
+      "destination": "FIX-006 all17 images/frames released and approved; exact mapping in feedback/FIX-006/wall-art-inventory.json and verified collection file-manifest.json. Preserve original physical instance IDs.",
+      "source_fbx": [
+        "models/ART-REV02-016.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ART-REV02-017",
+      "action": "source ready; engine pending",
+      "destination": "FIX-006 all17 images/frames released and approved; exact mapping in feedback/FIX-006/wall-art-inventory.json and verified collection file-manifest.json. Preserve original physical instance IDs.",
+      "source_fbx": [
+        "models/ART-REV02-017.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "ART-REV02-COLLECTION",
+      "action": "reference",
+      "destination": "FIX-006 collection catalog; each physical frame is tracked by its dedicated ART-REV02 source folder and wall-art inventory. Source approval remains separate.",
+      "source_fbx": [],
+      "source_readme": true
+    },
+    {
       "asset": "BA-ART-01",
       "action": "reuse",
       "destination": "Small botanical (BA); Finish / surface schedule",
@@ -319,17 +489,27 @@
     },
     {
       "asset": "BA-HAND-TOWEL-01",
-      "action": "reuse",
-      "destination": "Hand towel rail (BA); Hook + hand towel (BA); Bath towel rail (BA); Finish / surface schedule",
+      "action": "omit",
+      "destination": "FIX-007: old hook-hung cloth replaced by folded ring towel; original source retained.",
       "source_fbx": [
         "model/BA_Hand_Towel.fbx"
       ],
       "source_readme": true
     },
     {
+      "asset": "BA-HAND-TOWEL-RING-02",
+      "action": "new",
+      "destination": "FIX-007: real ring and folded hand towel replace old hook assembly at stable :082; plate origin(7.84,7.10,1.15), west-facing. Source roundtrip and17mm tile-cap clearance verified.",
+      "source_fbx": [
+        "model/BA_Ring02_Towel.fbx",
+        "model/BA_Ring02_Hardware.fbx"
+      ],
+      "source_readme": true
+    },
+    {
       "asset": "BA-HOOK-01",
-      "action": "reuse",
-      "destination": "Hook + hand towel (BA); Finish / surface schedule",
+      "action": "omit",
+      "destination": "FIX-007: old bathroom hook replaced by BA-HAND-TOWEL-RING-02 at stable :082; original source retained.",
       "source_fbx": [
         "model/BA_Hook_01.fbx"
       ],
@@ -440,8 +620,8 @@
     },
     {
       "asset": "BA-TOWEL-RAIL-01",
-      "action": "reuse",
-      "destination": "Hand towel rail (BA); Bath towel rail (BA); Finish / surface schedule",
+      "action": "partial reuse",
+      "destination": "FIX-007: retain1.13m rail :084 with ivory cloth west of bath; retire duplicate :078 and rose cloth.",
       "source_fbx": [
         "model/BA_Towel_Ivory.fbx",
         "model/BA_Towel_Rose.fbx",
@@ -459,6 +639,16 @@
         "model/BA_Tub.fbx",
         "model/BA_Curtain.fbx",
         "model/BA_TapLeft.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BA-TUB-FIXTURES-02",
+      "action": "new",
+      "destination": "FIX-007: original combined fixture split into west-end plumbing and stationary curtain rod; preserve original tub/taps/curtain and bath-water sources.",
+      "source_fbx": [
+        "model/BA_TubFixture02_CurtainRod.fbx",
+        "model/BA_TubFixture02_Plumbing.fbx"
       ],
       "source_readme": true
     },
@@ -494,7 +684,7 @@
     {
       "asset": "BR-CLOSET-01",
       "action": "replace",
-      "destination": "Old undersized shell replaced by fitted BR-CLOSET-02 interior/door kit and new shell. Reuse mold texture, bulb and trim style; preserve Malcolm.",
+      "destination": "Old undersized shell replaced by fitted BR-CLOSET-02 interior/door kit and new shell. Retain bulb/trim style; superseded mold and short shelf replaced by BR-MOLD-02 and BR-CLOSET-STORAGE-03; preserve Malcolm.",
       "source_fbx": [
         "model/BR_Closet_Body.fbx",
         "model/BR_Closet_Door_R.fbx",
@@ -528,6 +718,16 @@
       "source_readme": true
     },
     {
+      "asset": "BR-CLOSET-STORAGE-03",
+      "action": "new",
+      "destination": "FIX-002: bilateral full-length side shelves/rails/hangers; common floor origin, shelf tops1.88m.",
+      "source_fbx": [
+        "model/BR_ClosetStorage03_West.fbx",
+        "model/BR_ClosetStorage03_East.fbx"
+      ],
+      "source_readme": true
+    },
+    {
       "asset": "BR-DRESSER-01",
       "action": "reuse",
       "destination": "Dresser / mirror (BR); Finish / surface schedule",
@@ -548,6 +748,16 @@
         "model/BR_LampBody.fbx",
         "model/BR_LampBulb.fbx",
         "model/BR_LampShade.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "BR-MOLD-02",
+      "action": "new",
+      "destination": "FIX-001: two charcoal corner overlays share closet floor origin; both hide on Malcolm repair.",
+      "source_fbx": [
+        "model/BR_Mold02_Back.fbx",
+        "model/BR_Mold02_Return.fbx"
       ],
       "source_readme": true
     },
@@ -573,8 +783,8 @@
     },
     {
       "asset": "BR-WAINSCOT-01",
-      "action": "modify",
-      "destination": "Relocate white panels and lead paint to office. Fit widths around door, closet return and window; bedroom uses plaster.",
+      "action": "partial reuse",
+      "destination": "FIX-019 replaces module runs with OF-WAINSCOT-02. Retain original lead-paint mesh/material/identity/scale; move its visible plane toY5.668 at centreX8.925,Z.70.",
       "source_fbx": [
         "model/BR_Wainscot_Damage.fbx",
         "model/BR_Wainscot_Module.fbx"
@@ -675,17 +885,26 @@
     },
     {
       "asset": "HA-RUNNER-01",
-      "action": "reuse",
-      "destination": "Finish / surface schedule",
+      "action": "replace",
+      "destination": "FIX-020 source-reviewed HA-RUNNER-02 shortens runner and adds soft binding/fringe; exact placement in new assembly.json.",
       "source_fbx": [
         "model/HA_RUNNER_01.fbx"
       ],
       "source_readme": true
     },
     {
+      "asset": "HA-RUNNER-02",
+      "action": "source ready; engine pending",
+      "destination": "FIX-020: approved5m runner, floor origin(5.234,4.70,.00118546), yaw0, fringeX2.668..7.80; source assembly.json is authoritative.",
+      "source_fbx": [
+        "model/HA_RUNNER_02.fbx"
+      ],
+      "source_readme": true
+    },
+    {
       "asset": "HA-SCONCE-01",
-      "action": "reuse",
-      "destination": "Entry sconce (LV); Hall warm sconce (HA); Breakfast sconce (KI); Finish / surface schedule",
+      "action": "replace",
+      "destination": "FIX-008 source-reviewed HA-SCONCE-02 replaces hardware/shade/bulb at unchanged origins; preserve light toggle labels.",
       "source_fbx": [
         "model/HA_Sconce_Bulb.fbx",
         "model/HA_Sconce_Hardware.fbx",
@@ -694,15 +913,35 @@
       "source_readme": true
     },
     {
+      "asset": "HA-SCONCE-02",
+      "action": "source ready; engine pending",
+      "destination": "FIX-008: corrected closed opal shade and connected hardware; replace original three parts at unchanged wall-plate origins, preserve all light toggles. Read refreshed manifest before import.",
+      "source_fbx": [
+        "models/HA_Sconce02_Bulb.fbx",
+        "models/HA_Sconce02_Hardware.fbx",
+        "models/HA_Sconce02_Shade.fbx"
+      ],
+      "source_readme": true
+    },
+    {
       "asset": "HA-SHOES-01",
-      "action": "reuse",
-      "destination": "Entry bench (HA/LV); Finish / surface schedule",
+      "action": "replace",
+      "destination": "FIX-016 source-reviewed HA-SLIPPERS-01 replaces four shoes plus tray; preserve hall bench and entry.",
       "source_fbx": [
         "model/HA_Oxford_2.fbx",
         "model/HA_Oxford_1.fbx",
         "model/HA_ShoeTray.fbx",
         "model/HA_SlipOn_2.fbx",
         "model/HA_SlipOn_1.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "HA-SLIPPERS-01",
+      "action": "source ready; engine pending",
+      "destination": "FIX-016 approved single pair, proposed(1170,362,0)cm/yaw90; replaces four shoes and tray, preserving bench/entry. Verify actual engine sweeps.",
+      "source_fbx": [
+        "model/HA_SLIPPERS_01.fbx"
       ],
       "source_readme": true
     },
@@ -760,8 +999,8 @@
     },
     {
       "asset": "KI-BUCKET-01",
-      "action": "reuse",
-      "destination": "Sink / leak (KI); Finish / surface schedule",
+      "action": "omit",
+      "destination": "Old sink child reference superseded by separate KI-LEAK-02 vintage pail; preserve unrelated copies only if explicitly reconciled.",
       "source_fbx": [
         "model/KI_Bucket_Water.fbx",
         "model/KI_Bucket_Handle.fbx",
@@ -801,10 +1040,19 @@
     },
     {
       "asset": "KI-CHAIR-01",
-      "action": "reuse",
-      "destination": "Dining chair (LV); Finish / surface schedule",
+      "action": "replace",
+      "destination": "FIX-018 parent-approved KI-CHAIR-02 replaces dining-chair source; retain original files and follow new assembly contract.",
       "source_fbx": [
         "model/KI_CHAIR_01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-CHAIR-02",
+      "action": "source ready; engine pending",
+      "destination": "FIX-018 parent-approved dining-chair replacement, all21 release-manifest hashes independently verified; preserve existing placement and follow source assembly/material contract.",
+      "source_fbx": [
+        "model/KI_CHAIR_02.fbx"
       ],
       "source_readme": true
     },
@@ -845,6 +1093,18 @@
       "source_fbx": [
         "model/KI_Kettle_Lid.fbx",
         "model/KI_Kettle_Body.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "KI-LEAK-02",
+      "action": "new",
+      "destination": "FIX-003: clean sink body, persistent galvanized pail, optional water/puddle and dynamic-drop handoff. Preserve tap/state identities.",
+      "source_fbx": [
+        "models/KI_LEAK_02_bucket_water.fbx",
+        "models/KI_LEAK_02_sink_body.fbx",
+        "models/KI_LEAK_02_puddle.fbx",
+        "models/KI_LEAK_02_bucket.fbx"
       ],
       "source_readme": true
     },
@@ -944,8 +1204,8 @@
     },
     {
       "asset": "KI-SINK-NARROW-01",
-      "action": "reuse",
-      "destination": "Sink / leak (KI); Finish / surface schedule",
+      "action": "partial replace",
+      "destination": "FIX-003: KI-LEAK-02 replaces body with old embedded bucket removed. Retain original L/R taps and Sink_Tap action; retire old damage beads/puddle.",
       "source_fbx": [
         "models/KI_SINK_NARROW_R_tap.fbx",
         "models/KI_SINK_NARROW_L_tap.fbx",
@@ -1013,6 +1273,15 @@
       "source_readme": true
     },
     {
+      "asset": "LV-ARMCHAIR-02",
+      "action": "source ready; engine pending",
+      "destination": "FIX-013 approved replacement for LV-CHAIR-01; preserve actor transform and original envelope, use validated fifteen UCX hulls.",
+      "source_fbx": [
+        "model/LV-ARMCHAIR-02.fbx"
+      ],
+      "source_readme": true
+    },
+    {
       "asset": "LV-ART-04",
       "action": "reuse",
       "destination": "Landscape over TV (LV); Landscape beside bookcase (LV); Finish / surface schedule",
@@ -1035,8 +1304,8 @@
     },
     {
       "asset": "LV-CHAIR-01",
-      "action": "reuse",
-      "destination": "Armchair (LV); Finish / surface schedule",
+      "action": "replace",
+      "destination": "FIX-013 source-reviewed LV-ARMCHAIR-02 replaces this chair at unchanged actor transform/envelope.",
       "source_fbx": [
         "model/LV-CHAIR-01.fbx"
       ],
@@ -1064,7 +1333,7 @@
     {
       "asset": "LV-FUSE-01",
       "action": "reuse",
-      "destination": "Entry fusebox / Wyatt (LV); Finish / surface schedule",
+      "destination": "North-wall fusebox / Wyatt (LV); Finish / surface schedule",
       "source_fbx": [
         "exports/LV_FUSE_01_Door.fbx",
         "exports/LV_FUSE_01_Wire_Damaged.fbx",
@@ -1076,7 +1345,7 @@
     {
       "asset": "LV-FUSE-DAMAGE-01",
       "action": "reuse",
-      "destination": "Entry fusebox / Wyatt (LV); Finish / surface schedule",
+      "destination": "North-wall fusebox / Wyatt (LV); Finish / surface schedule",
       "source_fbx": [
         "model/LV_Fuse_Plaster_Damage.fbx"
       ],
@@ -1095,10 +1364,19 @@
     },
     {
       "asset": "LV-PLANT-01",
-      "action": "reuse",
-      "destination": "Plant (LV); Finish / surface schedule",
+      "action": "replace",
+      "destination": "FIX-014 source-reviewed LV-PLANT-02 replaces plant geometry; stand/riser and placement remain.",
       "source_fbx": [
         "model/LV_Plant.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "LV-PLANT-02",
+      "action": "source ready; engine pending",
+      "destination": "FIX-014 approved rim-safe pothos; replace plant only, retain stand/riser and actor placement; exact material mapping in manifest.json.",
+      "source_fbx": [
+        "model/LV_Plant02.fbx"
       ],
       "source_readme": true
     },
@@ -1146,6 +1424,15 @@
       "destination": "Sofa (LV); Finish / surface schedule",
       "source_fbx": [
         "model/LV-SOFA-01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "LV-SOFA-02",
+      "action": "source ready; engine pending",
+      "destination": "FIX-005 approved replacement sofa; preserve current footprint/facing and consult source manifest for materials/collision.",
+      "source_fbx": [
+        "model/LV-SOFA-02.fbx"
       ],
       "source_readme": true
     },
@@ -1261,6 +1548,20 @@
       "destination": "Desk (OF); Finish / surface schedule",
       "source_fbx": [
         "model/OF_PAPERS_01.fbx"
+      ],
+      "source_readme": true
+    },
+    {
+      "asset": "OF-WAINSCOT-02",
+      "action": "source ready; engine pending",
+      "destination": "FIX-019: six fitted common-origin office runs, max22mm projection, fixed profiles, casing/mitre/sill fits. All at(796,566,0)cm/yaw0; keep old lead overlay at planeY5.668. Verify60mm shell quadrant from README.",
+      "source_fbx": [
+        "model/OF_Wainscot02_WF.fbx",
+        "model/OF_Wainscot02_CS.fbx",
+        "model/OF_Wainscot02_N.fbx",
+        "model/OF_Wainscot02_W.fbx",
+        "model/OF_Wainscot02_S.fbx",
+        "model/OF_Wainscot02_E.fbx"
       ],
       "source_readme": true
     }

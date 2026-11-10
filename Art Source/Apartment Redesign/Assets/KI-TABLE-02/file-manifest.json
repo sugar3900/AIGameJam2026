@@ -1,0 +1,34 @@
+{
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "3193b22a1774f84d3d7485b19912cf89f71f4c5f2db518e3079d24440ca13bc8",
+      "bytes": 2022
+    },
+    {
+      "path": "build_uv.py",
+      "sha256": "2fd1878e22b2e4a014069d1706dc744932b2af99b1478ae70372420f3f3c7400",
+      "bytes": 5430
+    },
+    {
+      "path": "models/KI_TABLE_02.fbx",
+      "sha256": "a0dfdadf4b4558b99fdc67aee65f392601d3060379b7ba3157072578e8c21beb",
+      "bytes": 46796
+    },
+    {
+      "path": "previews/apron-continuous.png",
+      "sha256": "4398521ca641334d8b20c4c0278c5ba0b71ab59e09c1464c80360b7b6abb22bf",
+      "bytes": 791570
+    },
+    {
+      "path": "textures/table-wood-v2.png",
+      "sha256": "761e1e11f835dd71663a5d8c9266a34a3b52a8c05bf649f08a0e3a256cdeccd9",
+      "bytes": 2228283
+    },
+    {
+      "path": "validation.json",
+      "sha256": "517f2dbed2978420b8ab5674257c04b628c05cf25ffd8df1cdaafecbf608df4e",
+      "bytes": 978
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "mesh": "KI_CHAIR_02",
+  "export": "model/KI_CHAIR_02.fbx",
+  "roughness": 0.65,
+  "metallic": 0,
+  "blend_mode": "Opaque",
+  "two_sided": false,
+  "materials": [
+    {
+      "slot": 0,
+      "name": "Chair_Walnut",
+      "base_color_texture": "textures/wood-selected-v2.png",
+      "texture_color_space": "sRGB",
+      "tint_multiplier": null
+    },
+    {
+      "slot": 1,
+      "name": "Chair_Rust_Vinyl",
+      "base_color_texture": "textures/vinyl.png",
+      "texture_color_space": "sRGB",
+      "tint_multiplier": null
+    },
+    {
+      "slot": 2,
+      "name": "Chair_Piping",
+      "base_color_linear": [
+        0.25,
+        0.075,
+        0.035
+      ]
+    }
+  ],
+  "provenance": "Wood and vinyl images copied byte-for-byte from KI-CHAIR-01. No new generated images. Existing frame, seat and leg UVs and material assignments are preserved; only replacement back slats and pegs receive new UVs."
+}

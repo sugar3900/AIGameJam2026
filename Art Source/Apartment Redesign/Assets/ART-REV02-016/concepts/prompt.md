@@ -1,0 +1,5 @@
+# ART-REV02-016
+
+Built-in image generation; selected output. No raster post-processing.
+
+Use case: illustration-story. Asset type: full-bleed flat watercolor artwork texture for a small vintage bathroom picture in a painterly apartment game. Subject: An intimate vintage watercolor botanical of a little tied bundle of lavender and sage, dusty violet blossoms and soft sage-green leaves, pale cream paper with gentle warmth. Vertical composition and generous margin, no writing, no labels. Fine twine ties the long stems, several slender lavender spikes tilt different ways, soft fuzzy sage leaves have translucent painterly highlights. Restraint, quiet elegance and an old lovingly kept herbal study. Delicate washes and confident drybrush, not photorealistic. Near-square portrait aspect width:height0.9:1, around1200px tall. Fill entire image with flat paper/art; no visible outer paper edge, no frame, mat, border, wall, cast shadow, signature or watermark. Leave10% breathing room around all stems and flower tips for physical framing.

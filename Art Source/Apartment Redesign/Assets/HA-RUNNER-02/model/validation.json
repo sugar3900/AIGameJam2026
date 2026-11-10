@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "checks": [
+    "one render mesh",
+    "finite geometry and UVs",
+    "nonzero triangles",
+    "FBX/source bounds match",
+    "four material slots match",
+    "minimum 14cm cabinet-front gap",
+    "east endpoint retained within1mm",
+    "floor clearance2mm",
+    "no UCX or blocking collision intended"
+  ],
+  "vertices": 19166,
+  "triangles": 35784,
+  "bounds_m": {
+    "min": [
+      -2.565983533859253,
+      -0.40209975838661194,
+      0.0008125654421746731
+    ],
+    "max": [
+      2.566131591796875,
+      0.4021002948284149,
+      0.007524890825152397
+    ]
+  },
+  "max_roundtrip_error_m": 3.2782554626464844e-07,
+  "world_bounds_m": {
+    "min": [
+      2.668016466140747,
+      4.297900241613388,
+      0.0019980254421746732
+    ],
+    "max": [
+      7.800131591796875,
+      5.102100294828415,
+      0.008710350825152396
+    ]
+  },
+  "cabinet_gap_m": 0.1405164661407472,
+  "engine_validation": "pending: actual cabinet feet, placement, route and grazing-angle review"
+}

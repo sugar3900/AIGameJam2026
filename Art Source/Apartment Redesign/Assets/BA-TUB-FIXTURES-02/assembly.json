@@ -1,0 +1,136 @@
+{
+  "asset": "BA-TUB-FIXTURES-02",
+  "units": "metres",
+  "up": "+Z",
+  "front": "-Y",
+  "source_origin": "unchanged BA-TUB-01 assembly floor origin",
+  "exports": [
+    {
+      "file": "model/BA_TubFixture02_Plumbing.fbx",
+      "mesh": "BA_TubFixture02_Plumbing",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "min": [
+        -0.8750000596046448,
+        0.05499996989965439,
+        0.7223974466323853
+      ],
+      "max": [
+        -0.6249999403953552,
+        0.4150000214576721,
+        2.144408941268921
+      ],
+      "materials": [
+        "Aged_chrome",
+        "Drain_dark"
+      ]
+    },
+    {
+      "file": "model/BA_TubFixture02_CurtainRod.fbx",
+      "mesh": "BA_TubFixture02_CurtainRod",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "min": [
+        -0.9589999914169312,
+        -0.3789999783039093,
+        2.1510000228881836
+      ],
+      "max": [
+        0.9589999914169312,
+        -0.32100000977516174,
+        2.2090001106262207
+      ],
+      "materials": [
+        "Aged_chrome"
+      ]
+    },
+    {
+      "file": "model/BA_TubFixture02_Drain.fbx",
+      "mesh": "BA_TubFixture02_Drain",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "min": [
+        -0.5419999957084656,
+        -0.041999999433755875,
+        0.18400000035762787
+      ],
+      "max": [
+        -0.4580000042915344,
+        0.041999999433755875,
+        0.19200000166893005
+      ],
+      "materials": [
+        "Aged_chrome",
+        "Drain_dark"
+      ]
+    }
+  ],
+  "plumbing_plan_origin": [
+    5.293,
+    8.32,
+    0
+  ],
+  "plumbing_mapping": "plan=(5.293-sourceY,8.32-sourceX,sourceZ)",
+  "plumbing_ue_yaw_degrees": -90,
+  "wall_mount_source_y": 0.415,
+  "wall_tile_face_x": 4.878,
+  "new_source_geometry": "Two25mm chrome standoff disks behind existing valve backplates; remaining original plumbing and rod geometry preserved.",
+  "rod_placement": "Use exact original Art_BA_Tub_BA_TubFixtures actor transform; rod remains aligned with unchanged curtain, not the new plumbing transform.",
+  "tap_parts": [
+    {
+      "file": "../BA-TUB-01/model/BA_TapLeft.fbx",
+      "source_pivot": [
+        -0.84,
+        0.29,
+        0.96
+      ],
+      "plan_pivot": [
+        5.003,
+        9.16,
+        0.96
+      ]
+    },
+    {
+      "file": "../BA-TUB-01/model/BA_TapRight.fbx",
+      "source_pivot": [
+        -0.66,
+        0.29,
+        0.96
+      ],
+      "plan_pivot": [
+        5.003,
+        8.98,
+        0.96
+      ]
+    }
+  ],
+  "tap_motion": "Preserve imported valve local axis and action; transform both pivot position and axis with plumbing. Valve axis line becomes world X; preserve the imported action sign and verify travel, since the source-to-plan mapping includes reflection.",
+  "fill_effect_plan_start": [
+    5.113,
+    9.07,
+    0.73
+  ],
+  "fill_effect_plan_end": [
+    5.113,
+    9.07,
+    0.44
+  ],
+  "preserve": [
+    "BA_Tub.fbx body",
+    "BA_Curtain.fbx and Shower_Curtain action",
+    "BA-TUB-WATER-01 fill mesh at existing tub transform",
+    "Tyler malady identity and repair overlay"
+  ],
+  "collision": "Decorative plumbing/rod: no new blocking collision; preserve interactable valve collision.",
+  "drain_placement": "Exact original tub/combined-fixture transform; never west-wall plumbing transform.",
+  "curtain_placement": "Reuse curtain source and Shower_Curtain identity; gather at east end, re-pose SLIDE endpoints and validate full travel against rod and linen cabinet."
+}

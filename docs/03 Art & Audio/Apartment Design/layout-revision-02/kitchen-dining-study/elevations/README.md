@@ -1,6 +1,6 @@
 # Approved compact kitchen + dining — elevation set
 
-Approved by the user on 2026-11-09. Compact kitchen with north-wall fridge beside prep, sink under the window, west-wall pantry and dining between kitchen and sofa. This is the current design handoff.
+Approved by the user on 2026-11-09. Compact kitchen with north-wall fridge beside prep, sink under the window, west-wall pantry and dining between kitchen and sofa. This is the current design handoff, including the approved FIX-007 bathroom placement revision; engine acceptance remains pending.
 
 ## Drawings
 
@@ -22,7 +22,7 @@ Approved by the user on 2026-11-09. Compact kitchen with north-wall fridge besid
 - Office/guest: white 1.10 m wainscoting; interrupt panels and rail around window/apron, doors and wardrobe. Reuse BR-WAINSCOT-01 under its stable asset ID. The separate lead-paint condition is on the office north wall.
 - Kitchen: muted sage cabinetry, cream enamel, restrained backsplash and warm checker floor. Worktops 0.91 m; sink upstand 1.135 m, faucet 1.343 m. Cabinet frontages need fitted variants, not nonuniform scaling of hardware.
 - Bathroom: pink tile with cream grout, localized Tyler damage; preserve the tub, fixtures, water reveal and operable parked curtain.
-- Bedroom closet: mold stays on north interior back wall, with a single bulb and clear standing space. Doors conceal it. Coat and guest closets are separate, back-to-back reach-in storage.
+- Bedroom closet: diffuse BR-MOLD-02 charcoal colonies wrap the upper-right north/east corner; both overlays disappear on repair. BR-CLOSET-STORAGE-03 adds full-length shelves on both sidewalls, 35 mm boards with tops at 1.88 m and hooked hangers under rails at 1.73 m. Clear hanger-to-hanger aisle is 1.094 m; retain single bulb and existing encounter transforms.
 - Damaged/repaired study SVGs: [mold closet](bc-n-repaired.svg), [office paint](of-n-repaired.svg), [bath tile](ba-s-repaired.svg). These depict removal of localized damage, not new gameplay implementation.
 
 ## Construction and export notes
@@ -40,6 +40,14 @@ Approved by the user on 2026-11-09. Compact kitchen with north-wall fridge besid
 - The clean sheets show walls and nearby furniture; the projected sheets also show the floating sofa, table and opposite-wall pieces. An object repeated across views is not an instruction to duplicate it.
 - No Unreal editor, source mesh, export, material or map was modified. These drawings require dimensional/collision/lighting validation during integration.
 - Do not re-open an obsolete A+ elevation for placement. Use this set together with its matching revision floor plan.
+
+## Feedback placement changes
+
+- FIX-007: revised bathroom fixtures and lower tile cap; toilet north, basin/mirror east, one source-size bath rail west, real hand-towel ring, split west-end tub plumbing and north-facing linen. See [Bathroom handoff](../../feedback/FIX-007/Bathroom%20handoff.md) and its exact placement contract. Original IDs retained; duplicate rail :078 is inactive. Engine interaction/traversal acceptance pending.
+- FIX-003: KI-LEAK-02 replaces the sink body and embedded bucket with a separate galvanized pail; original tap controls and Lukey identity remain. New water/puddle are optional transparent effects; retire old static beads/puddle and authored-leak fallback.
+- FIX-004: fuse box moves above the corner plant on the north wall, facing south, at lower-edge origin(11.05,0.06,1.40). Move door/wires/damage together; west hinge is retained. Coat rack centers at east-wall y 3.30; bench stays. Engine interaction and encounter checks remain pending.
+- FIX-005: rug shifts 0.15 m east toward the coffee table; sofa footprint remains unchanged pending its source replacement.
+- FIX-006: preserve all 17 wall-art instance IDs for unique images/frames. Hall :058 target is 1.30x 0.90 m centeredX 5.15, bottomZ 1.12 between bedroom and bathroom casings. Source assignments pending.
 
 ## New kitchen/dining fit requirements
 

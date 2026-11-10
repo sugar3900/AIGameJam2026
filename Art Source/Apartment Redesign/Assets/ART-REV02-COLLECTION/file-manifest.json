@@ -1,0 +1,821 @@
+{
+  "collection_manifest_sha256": "36dd0717971ecf509e6fde2638b996e352cd24f26d6ff1202748e2359acc57d2",
+  "file_count": 163,
+  "files": [
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-001/README.md",
+      "bytes": 2062,
+      "sha256": "f32e1713032ea8f2a59881f5e8669d9df4b8356f1cd3f1ee929b6c4d982705a6"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-001/concepts/prompt.md",
+      "bytes": 394,
+      "sha256": "c55273a9b162bfd25b4dc8ff520f1484e09c8b3d5d351348604a0defc75509c8"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-001/manifest.json",
+      "bytes": 3075,
+      "sha256": "4955b4b2125d185bf0da385ce8da85f0aca99ed9410c438d4ac783ff72ca506f"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-001/models/ART-REV02-001.blend",
+      "bytes": 5800032,
+      "sha256": "e6fa0200bc66f953128a5d7f30a640b3673f64ce1a0d5133e7bbbd1d6b83a416"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-001/models/ART-REV02-001.fbx",
+      "bytes": 33068,
+      "sha256": "6ca2cfd0c6db0c9f3e836efbbf0f8a8720a5e8e08a60d45417487b0ec969d5c1"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-001/previews/framed.png",
+      "bytes": 555938,
+      "sha256": "6e328c8ab9c46c17476998365e5519e68621763697f9acc5f7dae5616250920a"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-001/textures/T_Artwork.png",
+      "bytes": 3274892,
+      "sha256": "d7e15fc8c6981c784942236608bc1b71acb127be7da3ddedd84d704582a9ca28"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-001/textures/T_Frame_BaseColor.png",
+      "bytes": 161506,
+      "sha256": "2f3013f7ec661bfbee64882daaaf89019615526920cafc0d2f31a3ddb2e66c73"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-001/textures/T_Frame_Grain.png",
+      "bytes": 2417241,
+      "sha256": "da347670a23fc1585040b5a5518241ebfd396a1dd3943ee7cb99196672ddec63"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-002/README.md",
+      "bytes": 2067,
+      "sha256": "b64099255d77a6a9f517174ee3ad5ac25bc0bb5946d26670ca6691256975fcd6"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-002/concepts/prompt.md",
+      "bytes": 445,
+      "sha256": "7f3a12a9d3029341cd8854692d7141733d5a8b4ce83ae1bf1c3be164c139ea98"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-002/manifest.json",
+      "bytes": 2872,
+      "sha256": "2245df4c95b5ed16acf9500742f64f23eba1920e7448d719c9fe35e4b816f9e9"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-002/models/ART-REV02-002.blend",
+      "bytes": 5522414,
+      "sha256": "16d1fe4786d68f70a9196758a9680967362aaa015f017b4d183d2764d28e9cb0"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-002/models/ART-REV02-002.fbx",
+      "bytes": 30860,
+      "sha256": "4a3bc8a1900242fb1409292cf81027f52ac2d0d2e847bb9c60aa1caaef9dd2fb"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-002/previews/framed.png",
+      "bytes": 571033,
+      "sha256": "47d5b02c1c4d77ff0f9c8f3c6dafed9d4ea207dfce0ff0959ec8e011d610132a"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-002/textures/T_Artwork.png",
+      "bytes": 3008022,
+      "sha256": "d52378e7c2693a2112e0389e95d31d435ca3c778741d83cb4d4c0ba65b89f6c6"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-002/textures/T_Frame_BaseColor.png",
+      "bytes": 132345,
+      "sha256": "412608498f40c749aedb046470f29f45ceb03445afe94f3e18072a774a8e12f3"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-002/textures/T_Frame_Grain.png",
+      "bytes": 2417241,
+      "sha256": "da347670a23fc1585040b5a5518241ebfd396a1dd3943ee7cb99196672ddec63"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-003/README.md",
+      "bytes": 2069,
+      "sha256": "eaeef0743b76e2e8b161a1350834e6e0c2973ee629066f8ff82787aab3cadcb8"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-003/concepts/prompt.md",
+      "bytes": 399,
+      "sha256": "4ebbdb6a8ba9cce5610c0f3986c02990eeac87c677f8ca9eeb7811f8900ccec1"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-003/manifest.json",
+      "bytes": 3082,
+      "sha256": "576c3313b37cbdb59e278b3a7f25ba4e18bbd90483f1fc6bf1447f6ee2ecfc0d"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-003/models/ART-REV02-003.blend",
+      "bytes": 6042586,
+      "sha256": "9a215beeb6497836b927f5118574a6b815349ad10d7da586c257476b4707b149"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-003/models/ART-REV02-003.fbx",
+      "bytes": 32124,
+      "sha256": "31acc74b7a818803e7203403cba6e7c38cfec9f1fbe4a2e33cd7eb4e58f180f1"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-003/previews/framed.png",
+      "bytes": 584459,
+      "sha256": "3229c8da67db06fe07afcd4dfe4df7677ad0654f3987beeb9777da8164ff2b2e"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-003/textures/T_Artwork.png",
+      "bytes": 3502020,
+      "sha256": "1f5ffc416c36a336a937aeb567da532c9eb2de44ddd1c9600b3565d25b51f1ee"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-003/textures/T_Frame_BaseColor.png",
+      "bytes": 192599,
+      "sha256": "de0e962f60c413c2c905b7ed0cd629c429163289eee1b85f2df08becc558f2bb"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-003/textures/T_Frame_Grain.png",
+      "bytes": 2417241,
+      "sha256": "da347670a23fc1585040b5a5518241ebfd396a1dd3943ee7cb99196672ddec63"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-004/README.md",
+      "bytes": 2084,
+      "sha256": "32e9b5ea849ec45134e40e89ecf679046a56a1aec7467e6fb5ec7b074c8f6dbc"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-004/concepts/prompt.md",
+      "bytes": 404,
+      "sha256": "108fb809a2b75f354291a5ea51c68197c0e04ead2dbc48b772e71c95ff1b8991"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-004/manifest.json",
+      "bytes": 2884,
+      "sha256": "7eff46145282ddd9ea6d96d02696e1b0c81253ef7a06ea02b5eb06a841761516"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-004/models/ART-REV02-004.blend",
+      "bytes": 6195235,
+      "sha256": "f5d53f5196337ef0136efd16c90145d27f7aab74d22816839a7d20e3150661ca"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-004/models/ART-REV02-004.fbx",
+      "bytes": 43260,
+      "sha256": "9e5c6f37fb9be685b7ba4c532d6a77fd9652e9738077cd3ca0d626ce6543bc8e"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-004/previews/framed.png",
+      "bytes": 626614,
+      "sha256": "4e05c85a8eddbe4902fbdecb982949299ca04d16ff30f538d47de1f582ed4d4d"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-004/textures/T_Artwork.png",
+      "bytes": 3667875,
+      "sha256": "2e0abf96b6374f7889b8213367974266b23b1df80b4f9744217c0d55be61cae6"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-004/textures/T_Frame_BaseColor.png",
+      "bytes": 179283,
+      "sha256": "8c207a6c7a11627204f5dfaec4183539043ab5997774d9c98026cc184545c3ef"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-004/textures/T_Frame_Grain.png",
+      "bytes": 2417241,
+      "sha256": "da347670a23fc1585040b5a5518241ebfd396a1dd3943ee7cb99196672ddec63"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-005/README.md",
+      "bytes": 2064,
+      "sha256": "4614f0a8eb53ae52fa579c44870667c5bfc13f731754331480badd9ad1ced3b9"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-005/concepts/prompt.md",
+      "bytes": 406,
+      "sha256": "0b8cb7d86d31b64f9f3ec80ebd8cc0cf58ca96b35e085a0de4c40360dac6f2da"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-005/manifest.json",
+      "bytes": 3077,
+      "sha256": "fac2edc887a220f1459e222e83121cd61660821288097b1cae71c36481e17f02"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-005/models/ART-REV02-005.blend",
+      "bytes": 6036623,
+      "sha256": "8f8541ef57fa9159b08e49a90122b807d2e929a0d7ebecd0401fb60277e2677d"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-005/models/ART-REV02-005.fbx",
+      "bytes": 32940,
+      "sha256": "0538ce640f64f290146c7f2854b59961b47a1bf14581d9723a58ca79424bb838"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-005/previews/framed.png",
+      "bytes": 637311,
+      "sha256": "bedb1bad45e5e14f036ce9494accc4ab6ec1d3349378e47a51549c44e796d831"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-005/textures/T_Artwork.png",
+      "bytes": 3505211,
+      "sha256": "0b712aa06e129bde74cd17c59773d5f1d53cb2a0a0aed8ef572b7f89a7f99f82"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-005/textures/T_Frame_BaseColor.png",
+      "bytes": 161754,
+      "sha256": "bb65e79bddfc26852e3247c52c0879fb9a73ddb87a43f78941a39a653b2c28dc"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-005/textures/T_Frame_Grain.png",
+      "bytes": 2417241,
+      "sha256": "da347670a23fc1585040b5a5518241ebfd396a1dd3943ee7cb99196672ddec63"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-006/README.md",
+      "bytes": 2083,
+      "sha256": "237b3c3af1080886d45e76a17f26fe189adea57cfe264a9bdc006c98516a7cb5"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-006/concepts/prompt.md",
+      "bytes": 615,
+      "sha256": "d8f3721569d5e8627d6b09f5f95034efdcd6e62b17d7bf62efeb2e3ff0b9253f"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-006/manifest.json",
+      "bytes": 2855,
+      "sha256": "3995068dfaf1a2e70776290429c099ce9f700b16b78fefc7927283e5c93a32fb"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-006/models/ART-REV02-006.blend",
+      "bytes": 6123600,
+      "sha256": "5aa337bf833c34db219d665b09540bc7ecf6edb294988f2d41a2bf77c4fe7fb6"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-006/models/ART-REV02-006.fbx",
+      "bytes": 69932,
+      "sha256": "cce2a2ebad153c7045881256dfeba8900a8c203f7255cd843f5f092b55d485eb"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-006/previews/framed.png",
+      "bytes": 624399,
+      "sha256": "55ebcadc9a819d1f938e70b7b244f0dd7f812f45fed5c40cf42ca64664a70161"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-006/textures/T_Artwork.png",
+      "bytes": 3555474,
+      "sha256": "bbed0bf1ce8675ddd851ac9caac24b21d76ee2703fd8c4c07f3c94d3d424148b"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-006/textures/T_Frame_BaseColor.png",
+      "bytes": 178721,
+      "sha256": "76b7535dbfff3064a5bcd35937c3914d09c281fd0e5cb0b1fa8e2c77157c4e59"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-006/textures/T_Frame_Grain.png",
+      "bytes": 2417241,
+      "sha256": "da347670a23fc1585040b5a5518241ebfd396a1dd3943ee7cb99196672ddec63"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-007/README.md",
+      "bytes": 2079,
+      "sha256": "573a49b763f2c335a33a441aed38d130c76d03ca99fb0d9d294634377c8e92ca"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-007/concepts/prompt.md",
+      "bytes": 422,
+      "sha256": "b6199c9fe1eb2cb45a0726d112860240ea44a894507f294df8eead57cd63ccad"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-007/manifest.json",
+      "bytes": 3103,
+      "sha256": "147858c810c9e805cc08a05ccc612de06b98534bcecd329beb34aa32c4300d9a"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-007/models/ART-REV02-007.blend",
+      "bytes": 5471222,
+      "sha256": "a092e0cb524f6cccd4539415faa1a383e2f18d269999c9ef205d39e01c473780"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-007/models/ART-REV02-007.fbx",
+      "bytes": 33356,
+      "sha256": "7dc6d38416dda430131f366aa6a2746be75f6fe5c0aec8cd8f63576dfdeb0385"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-007/previews/framed.png",
+      "bytes": 510472,
+      "sha256": "c7628ab3f78a31b67254f9d77288b8470e2fa72109ba30e347fcba25889aa8c9"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-007/textures/T_Artwork.png",
+      "bytes": 2993812,
+      "sha256": "9c4325d2316e1cdce937ccabbff71d94ff671b41726165ac6c8487246e028b40"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-007/textures/T_Frame_BaseColor.png",
+      "bytes": 103955,
+      "sha256": "be89e69d241690f72ec0a9e8f89029f536d258d8c6cd68e3f137e6793ce13193"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-007/textures/T_Frame_Grain.png",
+      "bytes": 2417241,
+      "sha256": "da347670a23fc1585040b5a5518241ebfd396a1dd3943ee7cb99196672ddec63"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-008/README.md",
+      "bytes": 2069,
+      "sha256": "118521d199810bf1548589901080872c5b2e6952790fae6481e72bfaadb5721d"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-008/concepts/prompt.md",
+      "bytes": 402,
+      "sha256": "e279ba7b09e553f970244118db434e8ef0867bfb5f00c6c5e1c79a79d2909b46"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-008/manifest.json",
+      "bytes": 3080,
+      "sha256": "6ae1fe962f0e6942e51fdb9d1a95b52446573c1252f30908b264cd9321f78f44"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-008/models/ART-REV02-008.blend",
+      "bytes": 5988688,
+      "sha256": "36c1f73c0244e638c8ff266d58b4d33e455666893cd411e011a5b3508f8d4b79"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-008/models/ART-REV02-008.fbx",
+      "bytes": 32892,
+      "sha256": "2da220bfde321f8daeac9446d79e09256d9f165fb60608d6a43b90fe4e48276d"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-008/previews/framed.png",
+      "bytes": 593022,
+      "sha256": "94b4fca9dac2f5d67fbc0072eafc8860c3250eecd022cf5b5563ad2a5b6cb339"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-008/textures/T_Artwork.png",
+      "bytes": 3442324,
+      "sha256": "0b5e5eb0b8bc109944b4fb30db67eed9c1bf671fe3d8fad021fd70453e14872e"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-008/textures/T_Frame_BaseColor.png",
+      "bytes": 193401,
+      "sha256": "2d731b09a24b446282ae0c23ad060eea3890280fa8330ef6747ba9d45f275dc1"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-008/textures/T_Frame_Grain.png",
+      "bytes": 2417241,
+      "sha256": "da347670a23fc1585040b5a5518241ebfd396a1dd3943ee7cb99196672ddec63"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-009/README.md",
+      "bytes": 2079,
+      "sha256": "f3e1e367f62ef2e9ad1cade31324df35897117636837b785ce8e3d1bf0a636b6"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-009/concepts/prompt.md",
+      "bytes": 427,
+      "sha256": "844324df16c9a9a178434f9aa02c5fe96f36308c72bd2062dbc7c3aa0e362f89"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-009/manifest.json",
+      "bytes": 3124,
+      "sha256": "fc4c3a23bc768e453a8122a9fe7886a3b28c5d7076a67887644403f0599739c8"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-009/models/ART-REV02-009.blend",
+      "bytes": 5777142,
+      "sha256": "4f7a81ff937ffb005daab1d0eb6d6b172dcd1a4eb98c3df2d7d44a20777ce04a"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-009/models/ART-REV02-009.fbx",
+      "bytes": 181148,
+      "sha256": "abad6eac46f761a6b601b7256db10781bdfed76ea6b6e13954563ea4319e0659"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-009/previews/framed.png",
+      "bytes": 584502,
+      "sha256": "f0015a4769f80278bd11116ab2b009293b1c3ec1f8395d3763882d0e812ea76e"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-009/textures/T_Artwork.png",
+      "bytes": 3083733,
+      "sha256": "fdf22c09b283ecd64e3c326bd0b6c6c2cfddc89ae325061a10a6493c6be9ede8"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-009/textures/T_Frame_BaseColor.png",
+      "bytes": 219193,
+      "sha256": "71cf1482aa07e2ea3bac537bd2d56c77f65e5dd2f0cf73ead5d1328e62e43330"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-009/textures/T_Frame_Grain.png",
+      "bytes": 2417241,
+      "sha256": "da347670a23fc1585040b5a5518241ebfd396a1dd3943ee7cb99196672ddec63"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-010/README.md",
+      "bytes": 2081,
+      "sha256": "595c9a16d71c9e6abbcdea3c8801ed0d1f22d73a4d39d410b8c48d7edfdf26af"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-010/concepts/prompt.md",
+      "bytes": 1298,
+      "sha256": "71b7606e647629e09bb7f67fb93c8c0e15b5f1acd74f1633b05fdb172ed48221"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-010/manifest.json",
+      "bytes": 3103,
+      "sha256": "7b69fb6f064b8824821fb83c4e9170a2d06cfc19d9d3cff57148ac2423238789"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-010/models/ART-REV02-010.blend",
+      "bytes": 5867727,
+      "sha256": "eca62d3bb369656c33045427a91670d0b7b642f70ace9db670c699143eade7d5"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-010/models/ART-REV02-010.fbx",
+      "bytes": 32828,
+      "sha256": "4b63358c9cbc37f53b42b1574ed0b6cad9e5cffbf295691c61e9367f5631aef7"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-010/previews/framed.png",
+      "bytes": 563773,
+      "sha256": "a6f0672df5550781e24fa51894471278281a985d071bbc08e54f09dd8290dea6"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-010/textures/T_Artwork.png",
+      "bytes": 3280912,
+      "sha256": "a839c7ab209080c055a422c1088a77c426d69ad61d55e98e2a6ac9367782a218"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-010/textures/T_Frame_BaseColor.png",
+      "bytes": 196442,
+      "sha256": "872fdafad3dbb38549f910da17f26b4e95ea22bd7e269ef1a58c53f166e7726a"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-010/textures/T_Frame_Grain.png",
+      "bytes": 2417241,
+      "sha256": "da347670a23fc1585040b5a5518241ebfd396a1dd3943ee7cb99196672ddec63"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-011/README.md",
+      "bytes": 2081,
+      "sha256": "b1dfb6464ec14861db75712a533a113918e4c8b099a4f53111b52f02be81136b"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-011/concepts/prompt.md",
+      "bytes": 1204,
+      "sha256": "59faf84f45e32163c2e5a3e0178d21c57e35f665068c31b440ba6c2a290e3214"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-011/manifest.json",
+      "bytes": 2854,
+      "sha256": "0c558ecdfe04faa409c59a57c92710315b2231e4d77c9e7494387bdbaa1e7e70"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-011/models/ART-REV02-011.blend",
+      "bytes": 5793606,
+      "sha256": "f4abb91c1e824c0104ee980f0176be1471c668281e63480f907cccad68b621f4"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-011/models/ART-REV02-011.fbx",
+      "bytes": 30796,
+      "sha256": "82e3e12f951ee40e9f0828ffb3da50395b42cded991e8bf47da81f9eaa187d42"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-011/previews/framed.png",
+      "bytes": 615017,
+      "sha256": "af37765c157d38eefd830e81da9b6862ebb09706171a1a288e1ab3276855fdf3"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-011/textures/T_Artwork.png",
+      "bytes": 3272441,
+      "sha256": "7138618e310738af8b124c5984f24296dbef1c38b20110022576c6e1a53de30b"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-011/textures/T_Frame_BaseColor.png",
+      "bytes": 165724,
+      "sha256": "d599af8cb2603159c1dbbc89443520c886de907c1b13667ee0fa839130d8b5c4"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-011/textures/T_Frame_Grain.png",
+      "bytes": 2417241,
+      "sha256": "da347670a23fc1585040b5a5518241ebfd396a1dd3943ee7cb99196672ddec63"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-012/README.md",
+      "bytes": 2073,
+      "sha256": "9efb3b9f771a108cef1f79015b9913278f9a3018a8f9955bbf0cef89c6a100b0"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-012/concepts/prompt.md",
+      "bytes": 1671,
+      "sha256": "ce826b279f545cdaa0df72408826ccecfa51b00bae21e1026a0486d5c2ffd2ee"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-012/manifest.json",
+      "bytes": 3104,
+      "sha256": "2a51b646d8f4d26edfe2f47cd62f7c8b1552c5bd3a001327595328277a2592d6"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-012/models/ART-REV02-012.blend",
+      "bytes": 4841790,
+      "sha256": "2c5345ccf4fb2761a431974da7f509137084da6534d66f491ffa20b6fa1e502e"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-012/models/ART-REV02-012.fbx",
+      "bytes": 103052,
+      "sha256": "24594644cb44ed06cac1c04c5d654651820639baa5b1156e9ef8ed575e9cc12e"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-012/previews/framed.png",
+      "bytes": 522097,
+      "sha256": "f030b35c2515687692781aa9ab83bc62f7d82d53b6ca2e619b000b23184b5e51"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-012/textures/T_Artwork.png",
+      "bytes": 2276389,
+      "sha256": "c34d86c8690d32d86e4b48b01483e6c63c8116e252a29619a0f9756b8f20a146"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-012/textures/T_Frame_BaseColor.png",
+      "bytes": 183529,
+      "sha256": "1a2374211b5086baf745ad01fae1e8cc704140c389433cc3a25821b226a8b2ef"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-012/textures/T_Frame_Grain.png",
+      "bytes": 2417241,
+      "sha256": "da347670a23fc1585040b5a5518241ebfd396a1dd3943ee7cb99196672ddec63"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-013/README.md",
+      "bytes": 2083,
+      "sha256": "5056dc40067bf4a0706a838d6a34f550a39e04052bdd6e56e05e09bd6fcfa802"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-013/concepts/prompt.md",
+      "bytes": 1083,
+      "sha256": "14de4403edaed55c14c7dbd86e7a61c4cae74ee8f471fcc97166ff8772883ed4"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-013/manifest.json",
+      "bytes": 3119,
+      "sha256": "ae4f7f04ddefa7392e7df75518e97cddf40feaf6b89bbdb603ab1b448b495c98"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-013/models/ART-REV02-013.blend",
+      "bytes": 5713515,
+      "sha256": "61622299f9c8cff29d5a0d0dd3249c4827337d7af134d4e84e981c42f859d31d"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-013/models/ART-REV02-013.fbx",
+      "bytes": 32140,
+      "sha256": "da3d5dcdf8b7f06eb9670422200d6b9403cdeb12db6f3cf02e42cdeb5e41e92e"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-013/previews/framed.png",
+      "bytes": 574772,
+      "sha256": "6bece1f9af3d1cc57c909820381982b32963f8620220ab3382059ad72e11d092"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-013/textures/T_Artwork.png",
+      "bytes": 3189297,
+      "sha256": "6b38d48e3c0a2b93fd8b1744a89f4877aef39f909baf1404f27017d98d05ff85"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-013/textures/T_Frame_BaseColor.png",
+      "bytes": 143282,
+      "sha256": "abbfcaa90fa7c9406c31bbdbc6edab553b0c34a24f1e7f357de9105d2e2dca4f"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-013/textures/T_Frame_Grain.png",
+      "bytes": 2417241,
+      "sha256": "da347670a23fc1585040b5a5518241ebfd396a1dd3943ee7cb99196672ddec63"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-014/README.md",
+      "bytes": 2094,
+      "sha256": "4d6a49699974207788f858e9a2a0d63b2dc85e0c4c92533746585d1cb3ba5e3a"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-014/concepts/prompt.md",
+      "bytes": 1103,
+      "sha256": "777592f0ccbbcde8ec0f6262c1ab311366a938faddef5704f2a5f32bff39f421"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-014/manifest.json",
+      "bytes": 3149,
+      "sha256": "3cc6085054cf16e0f637d3425e28848588962e1e156b181f90ff1569971907eb"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-014/models/ART-REV02-014.blend",
+      "bytes": 3068491,
+      "sha256": "518c7c97e38771eafe24b075dced37c520836a0118b29574f776413c82fcef40"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-014/models/ART-REV02-014.fbx",
+      "bytes": 33628,
+      "sha256": "d379f4d7fe0d53bcf1c665da3a21fdba40183fb9d0c1dc7cf7062511841d5b5b"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-014/previews/framed.png",
+      "bytes": 580505,
+      "sha256": "8bb9de86da161687816c0042e474881c02e85665cb9f7da8dcc4f3ddf085863f"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-014/textures/T_Artwork.png",
+      "bytes": 2983824,
+      "sha256": "11538af1945ce9b11e8f246e9605f1a825be7a4127555b1e517e8ed0b19fa063"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-014/textures/T_Frame_BaseColor.png",
+      "bytes": 4590,
+      "sha256": "9096bf8a9fdbe49fe831ef467f90f3d0bf2298b1ccb47078103425c44f752087"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-014/textures/T_Frame_Grain.png",
+      "bytes": 2417241,
+      "sha256": "da347670a23fc1585040b5a5518241ebfd396a1dd3943ee7cb99196672ddec63"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-015/README.md",
+      "bytes": 2080,
+      "sha256": "e76a772cb302c58f28635bbb015b883f74f2433a4818f4be3e782ab8933a0d1f"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-015/concepts/prompt.md",
+      "bytes": 1159,
+      "sha256": "949d87a96f281f4a31573ebd0d1c39a109a2c1cbab720623cf25634e3d5aef3a"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-015/manifest.json",
+      "bytes": 3163,
+      "sha256": "d078c16fcfa02532cc916c63ab93edc8cb8494c7ea3562a7605d7df4cfcd9c61"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-015/models/ART-REV02-015.blend",
+      "bytes": 5776627,
+      "sha256": "2854c4e10bc1d8c4ee538bd0ba4e15858c374753b594b2bd1a850c6c3e0396d1"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-015/models/ART-REV02-015.fbx",
+      "bytes": 33180,
+      "sha256": "ca64f8fa186ec478893edc16a04ce95624acee43b049cfc7d86858ed17f6c46f"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-015/previews/framed.png",
+      "bytes": 589873,
+      "sha256": "c9076665de841ada82efb7f6214f33e46fc0b9cbc8909df4549df74ca952b468"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-015/textures/T_Artwork.png",
+      "bytes": 3209547,
+      "sha256": "d36b6e0a462c8c6cf5bbbab2e711749f535914e0c2dffc0ea405f42fb775c328"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-015/textures/T_Frame_BaseColor.png",
+      "bytes": 177884,
+      "sha256": "a6b0a6624ae87c521eaf25d0bf3319864e0fcb80a53080db1f9acf860ce1c816"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-015/textures/T_Frame_Grain.png",
+      "bytes": 2417241,
+      "sha256": "da347670a23fc1585040b5a5518241ebfd396a1dd3943ee7cb99196672ddec63"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-016/README.md",
+      "bytes": 2068,
+      "sha256": "3114c2c3071d7f39711959adc16f863b202089cd1a7d6b27d070a46920b23ffa"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-016/concepts/prompt.md",
+      "bytes": 1041,
+      "sha256": "5d7933e4bd69d4305f877d0200c313b802672701bd423719c74ca71c1c1da7b3"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-016/manifest.json",
+      "bytes": 3146,
+      "sha256": "e556f29997d2561c234d45b9a730d2a3d7002cbba3091dcfb55f673d48308e34"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-016/models/ART-REV02-016.blend",
+      "bytes": 5594678,
+      "sha256": "e2448235a978e2bda172e529b165b727d8b3a5bac8a81b42e9d4a436121a1d2e"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-016/models/ART-REV02-016.fbx",
+      "bytes": 153788,
+      "sha256": "f4a51fbea839d4fd90e65ea6a15ea0de4e6f3e06717324e544bfa9e73a3dc2d5"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-016/previews/framed.png",
+      "bytes": 530059,
+      "sha256": "4ca332d4fa96876c8672bac7cb9fb524e7fce088cbe692eea536a353398274c6"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-016/textures/T_Artwork.png",
+      "bytes": 2893796,
+      "sha256": "6ea254bb49147431beed8c73290a16cc2cb61149af08f48514f0209c3677e13d"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-016/textures/T_Frame_BaseColor.png",
+      "bytes": 207069,
+      "sha256": "fe25fcfde21ab3ffadc74d637c5705e0a57cd17ca509f9eabf9b2f158637968c"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-016/textures/T_Frame_Grain.png",
+      "bytes": 2417241,
+      "sha256": "da347670a23fc1585040b5a5518241ebfd396a1dd3943ee7cb99196672ddec63"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-017/README.md",
+      "bytes": 2089,
+      "sha256": "c41214aea2a087901c572b076d510327df7c799a4caa093953eee3dd0f4a5f25"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-017/concepts/prompt.md",
+      "bytes": 458,
+      "sha256": "3240d2d169010b08f3bfae8a36d1e2b73bb4123f7d751b76f1a51fe2f5f0a6e9"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-017/manifest.json",
+      "bytes": 3418,
+      "sha256": "155da37c73c8890ddfe16361f4ea41099ee9964e580cf31b8a7e41946bafa7a6"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-017/models/ART-REV02-017.blend",
+      "bytes": 5730919,
+      "sha256": "3ea4d2c2c45c8a7f2af2888d95f257bf8afa0866fc7cae2caf48a70e564df079"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-017/models/ART-REV02-017.fbx",
+      "bytes": 45596,
+      "sha256": "374c968cc64ef1ba491106c50def34298fd1a6d5b95a080d3693e49ad6669f98"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-017/previews/framed.png",
+      "bytes": 571692,
+      "sha256": "bb978502b99a55315c8e8b8bc5697eaa1f1537b2a37aa9273823d488b797c596"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-017/textures/T_Artwork.png",
+      "bytes": 3187206,
+      "sha256": "60e5743b9ee683c3856a49a827e38bcbddb46f31055ea9224bb8d9da3a185c3c"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-017/textures/T_Frame_BaseColor.png",
+      "bytes": 167547,
+      "sha256": "d76724006101e1009741ce9da0aed44498886c889a21a9ed7f61d6abbfd9d45f"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-017/textures/T_Frame_Grain.png",
+      "bytes": 2417241,
+      "sha256": "da347670a23fc1585040b5a5518241ebfd396a1dd3943ee7cb99196672ddec63"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-COLLECTION/README.md",
+      "bytes": 1063,
+      "sha256": "cc811a052d28a2b2efb19285a937ef9694606e70bb674dec6f57ec0d704f96fb"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-COLLECTION/build-manifest.json",
+      "bytes": 56918,
+      "sha256": "36dd0717971ecf509e6fde2638b996e352cd24f26d6ff1202748e2359acc57d2"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-COLLECTION/build_collection.py",
+      "bytes": 13100,
+      "sha256": "664587fbcb363ec8b2ff7a6d4c77e012e98cd2ef039703dd2efccc12354c4729"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-COLLECTION/catalog.json",
+      "bytes": 7879,
+      "sha256": "d6d628cc45f3163a01a4c438ebe64c36a82de4cb76df4a511efa9d2f81a373d5"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-COLLECTION/export_material_handoff.py",
+      "bytes": 1519,
+      "sha256": "6c6f4507eee7d8b40ecbd319f614ef04f78dd2786dabab38562fc4d0ead1d7ec"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-COLLECTION/finalize_collection.py",
+      "bytes": 10040,
+      "sha256": "597e32b0e3d6e4cbcc02b9e3c11de5feda90fa686a148fadba491c52074fdb36"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-COLLECTION/previews/contact-sheet.png",
+      "bytes": 4811145,
+      "sha256": "aed9f84595d0f952cda760162507d3eaa2fcefa17ffe0105c2f14c35b9bfc5e8"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ART-REV02-COLLECTION/validation.json",
+      "bytes": 8876,
+      "sha256": "de4193ba229eb30e835975b06e8dc4276f82fcf5671ead844f3f98369b391eb1"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-006/wall-art-inventory.json",
+      "bytes": 74833,
+      "sha256": "57abadad7c73346d71d02f86a6287e1735cebb668ba9d104e50e476328d2c0c8"
+    },
+    {
+      "path": "docs/03 Art & Audio/Apartment Design/layout-revision-02/feedback/FIX-006/README.md",
+      "bytes": 5454,
+      "sha256": "a5288e2aca8b415cf46edb87cb79416161df89fa884cf262327cd56760eb36c0"
+    }
+  ]
+}

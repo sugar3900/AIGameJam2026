@@ -1,0 +1,2347 @@
+[
+  {
+    "asset": "ART-REV02-001",
+    "instance": "LV-ART-04:040",
+    "title": "Tidal inlet at blue hour",
+    "frame": "Walnut cove, narrow chalk liner",
+    "dimensions_m": [
+      0.72,
+      0.035,
+      0.52
+    ],
+    "bounds_m": {
+      "min": [
+        -0.36000001430511475,
+        -0.03500000014901161,
+        0.0
+      ],
+      "max": [
+        0.36000001430511475,
+        0.0,
+        0.5199999809265137
+      ]
+    },
+    "origin": "bottom-center rear wall plane; front -Y; Z up",
+    "planned_rect": [
+      11.905,
+      1.65,
+      0.035,
+      0.72
+    ],
+    "bottom_z": 1.52,
+    "front": "west",
+    "fbx": "models/ART-REV02-001.fbx",
+    "art_texture": "textures/T_Artwork.png",
+    "art_sha256": "d7e15fc8c6981c784942236608bc1b71acb127be7da3ddedd84d704582a9ca28",
+    "crop": {
+      "u_span": 0.9816669816669816,
+      "v_span": 1,
+      "source_aspect": 1.5,
+      "aperture_aspect": 1.4725004725004724,
+      "mode": "center crop; uniform pixel scale; no stretch"
+    },
+    "frame_material": {
+      "wood_color_linear": [
+        0.16,
+        0.085,
+        0.04
+      ],
+      "roughness": 0.64,
+      "grain_map": "textures/T_Frame_Grain.png",
+      "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+      "base_color_map": "textures/T_Frame_BaseColor.png"
+    },
+    "ucx": 1,
+    "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+    "engine_placement": {
+      "wall_datum_center_plan_m": [
+        11.94,
+        2.01,
+        1.52
+      ],
+      "ue_local_yaw_degrees": 90,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+    },
+    "materials": [
+      {
+        "slot": 0,
+        "name": "ART-REV02-001_Frame",
+        "base_color_linear": [
+          0.16,
+          0.085,
+          0.04
+        ],
+        "roughness": 0.64,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Frame_BaseColor.png",
+        "texture_srgb": true
+      },
+      {
+        "slot": 1,
+        "name": "ART-REV02-001_Inner_Slip",
+        "base_color_linear": [
+          0.48,
+          0.37,
+          0.23
+        ],
+        "roughness": 0.7,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 2,
+        "name": "ART-REV02-001_Mount",
+        "base_color_linear": [
+          0.72,
+          0.67,
+          0.55
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 3,
+        "name": "ART-REV02-001_Backboard",
+        "base_color_linear": [
+          0.12,
+          0.085,
+          0.055
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 4,
+        "name": "ART-REV02-001_Artwork",
+        "base_color_linear": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "roughness": 0.86,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Artwork.png",
+        "texture_srgb": true
+      }
+    ]
+  },
+  {
+    "asset": "ART-REV02-002",
+    "instance": "HA-ART-02:041",
+    "title": "The reader in sage",
+    "frame": "Ebonized step frame, muted gold inner bead",
+    "dimensions_m": [
+      0.42,
+      0.035,
+      0.55
+    ],
+    "bounds_m": {
+      "min": [
+        -0.20999999344348907,
+        -0.03500000014901161,
+        0.0
+      ],
+      "max": [
+        0.20999999344348907,
+        0.0,
+        0.550000011920929
+      ]
+    },
+    "origin": "bottom-center rear wall plane; front -Y; Z up",
+    "planned_rect": [
+      11.905,
+      0.35,
+      0.035,
+      0.42
+    ],
+    "bottom_z": 1.4,
+    "front": "west",
+    "fbx": "models/ART-REV02-002.fbx",
+    "art_texture": "textures/T_Artwork.png",
+    "art_sha256": "d52378e7c2693a2112e0389e95d31d435ca3c778741d83cb4d4c0ba65b89f6c6",
+    "crop": {
+      "u_span": 0.9054956371838426,
+      "v_span": 1,
+      "source_aspect": 0.8130841121495327,
+      "aperture_aspect": 0.7362441162149,
+      "mode": "center crop; uniform pixel scale; no stretch"
+    },
+    "frame_material": {
+      "wood_color_linear": [
+        0.035,
+        0.028,
+        0.022
+      ],
+      "roughness": 0.64,
+      "grain_map": "textures/T_Frame_Grain.png",
+      "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+      "base_color_map": "textures/T_Frame_BaseColor.png"
+    },
+    "ucx": 1,
+    "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+    "engine_placement": {
+      "wall_datum_center_plan_m": [
+        11.94,
+        0.5599999999999999,
+        1.4
+      ],
+      "ue_local_yaw_degrees": 90,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+    },
+    "materials": [
+      {
+        "slot": 0,
+        "name": "ART-REV02-002_Frame",
+        "base_color_linear": [
+          0.035,
+          0.028,
+          0.022
+        ],
+        "roughness": 0.64,
+        "metallic": 0.12,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Frame_BaseColor.png",
+        "texture_srgb": true
+      },
+      {
+        "slot": 1,
+        "name": "ART-REV02-002_Aged_Gilt",
+        "base_color_linear": [
+          0.38,
+          0.26,
+          0.095
+        ],
+        "roughness": 0.48,
+        "metallic": 0.64,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 2,
+        "name": "ART-REV02-002_Backboard",
+        "base_color_linear": [
+          0.12,
+          0.085,
+          0.055
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 3,
+        "name": "ART-REV02-002_Artwork",
+        "base_color_linear": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "roughness": 0.86,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Artwork.png",
+        "texture_srgb": true
+      }
+    ]
+  },
+  {
+    "asset": "ART-REV02-003",
+    "instance": "LV-ART-04:045",
+    "title": "White horse in the meadow",
+    "frame": "Honey oak bevel with broad flax mount",
+    "dimensions_m": [
+      0.55,
+      0.035,
+      0.5
+    ],
+    "bounds_m": {
+      "min": [
+        -0.2750000059604645,
+        -0.03500000014901161,
+        0.0
+      ],
+      "max": [
+        0.2750000059604645,
+        0.0,
+        0.5
+      ]
+    },
+    "origin": "bottom-center rear wall plane; front -Y; Z up",
+    "planned_rect": [
+      4.859999999999999,
+      1.62,
+      0.035,
+      0.55
+    ],
+    "bottom_z": 1.44,
+    "front": "east",
+    "fbx": "models/ART-REV02-003.fbx",
+    "art_texture": "textures/T_Artwork.png",
+    "art_sha256": "1f5ffc416c36a336a937aeb567da532c9eb2de44ddd1c9600b3565d25b51f1ee",
+    "crop": {
+      "u_span": 1,
+      "v_span": 0.878640776699029,
+      "source_aspect": 1.0,
+      "aperture_aspect": 1.1381215469613262,
+      "mode": "center crop; uniform pixel scale; no stretch"
+    },
+    "frame_material": {
+      "wood_color_linear": [
+        0.4,
+        0.24,
+        0.1
+      ],
+      "roughness": 0.64,
+      "grain_map": "textures/T_Frame_Grain.png",
+      "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+      "base_color_map": "textures/T_Frame_BaseColor.png"
+    },
+    "ucx": 1,
+    "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+    "engine_placement": {
+      "wall_datum_center_plan_m": [
+        4.859999999999999,
+        1.895,
+        1.44
+      ],
+      "ue_local_yaw_degrees": -90,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+    },
+    "materials": [
+      {
+        "slot": 0,
+        "name": "ART-REV02-003_Frame",
+        "base_color_linear": [
+          0.4,
+          0.24,
+          0.1
+        ],
+        "roughness": 0.64,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Frame_BaseColor.png",
+        "texture_srgb": true
+      },
+      {
+        "slot": 1,
+        "name": "ART-REV02-003_Inner_Slip",
+        "base_color_linear": [
+          0.48,
+          0.37,
+          0.23
+        ],
+        "roughness": 0.7,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 2,
+        "name": "ART-REV02-003_Mount",
+        "base_color_linear": [
+          0.72,
+          0.67,
+          0.55
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 3,
+        "name": "ART-REV02-003_Backboard",
+        "base_color_linear": [
+          0.12,
+          0.085,
+          0.055
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 4,
+        "name": "ART-REV02-003_Artwork",
+        "base_color_linear": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "roughness": 0.86,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Artwork.png",
+        "texture_srgb": true
+      }
+    ]
+  },
+  {
+    "asset": "ART-REV02-004",
+    "instance": "HA-ART-09:056",
+    "title": "Footbridge after the rain",
+    "frame": "Mahogany scoop, brass bead and small corner rosettes",
+    "dimensions_m": [
+      0.9,
+      0.035,
+      0.65
+    ],
+    "bounds_m": {
+      "min": [
+        -0.44999998807907104,
+        -0.03500000014901161,
+        0.0
+      ],
+      "max": [
+        0.44999998807907104,
+        0.0,
+        0.6499999761581421
+      ]
+    },
+    "origin": "bottom-center rear wall plane; front -Y; Z up",
+    "planned_rect": [
+      2.2600000000000002,
+      4.24,
+      0.035,
+      0.9
+    ],
+    "bottom_z": 1.3,
+    "front": "east",
+    "fbx": "models/ART-REV02-004.fbx",
+    "art_texture": "textures/T_Artwork.png",
+    "art_sha256": "2e0abf96b6374f7889b8213367974266b23b1df80b4f9744217c0d55be61cae6",
+    "crop": {
+      "u_span": 0.9634377967711302,
+      "v_span": 1,
+      "source_aspect": 1.5,
+      "aperture_aspect": 1.4451566951566952,
+      "mode": "center crop; uniform pixel scale; no stretch"
+    },
+    "frame_material": {
+      "wood_color_linear": [
+        0.2,
+        0.065,
+        0.035
+      ],
+      "roughness": 0.64,
+      "grain_map": "textures/T_Frame_Grain.png",
+      "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+      "base_color_map": "textures/T_Frame_BaseColor.png"
+    },
+    "ucx": 1,
+    "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+    "engine_placement": {
+      "wall_datum_center_plan_m": [
+        2.2600000000000002,
+        4.69,
+        1.3
+      ],
+      "ue_local_yaw_degrees": -90,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+    },
+    "materials": [
+      {
+        "slot": 0,
+        "name": "ART-REV02-004_Frame",
+        "base_color_linear": [
+          0.2,
+          0.065,
+          0.035
+        ],
+        "roughness": 0.64,
+        "metallic": 0.12,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Frame_BaseColor.png",
+        "texture_srgb": true
+      },
+      {
+        "slot": 1,
+        "name": "ART-REV02-004_Aged_Gilt",
+        "base_color_linear": [
+          0.38,
+          0.26,
+          0.095
+        ],
+        "roughness": 0.48,
+        "metallic": 0.64,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 2,
+        "name": "ART-REV02-004_Backboard",
+        "base_color_linear": [
+          0.12,
+          0.085,
+          0.055
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 3,
+        "name": "ART-REV02-004_Artwork",
+        "base_color_linear": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "roughness": 0.86,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Artwork.png",
+        "texture_srgb": true
+      }
+    ]
+  },
+  {
+    "asset": "ART-REV02-005",
+    "instance": "HA-ART-03:057",
+    "title": "Courtyard laundry",
+    "frame": "Umber stepped rail, blue-grey inner slip",
+    "dimensions_m": [
+      0.65,
+      0.035,
+      0.52
+    ],
+    "bounds_m": {
+      "min": [
+        -0.32499998807907104,
+        -0.03500000014901161,
+        0.0
+      ],
+      "max": [
+        0.32499998807907104,
+        0.0,
+        0.5199999809265137
+      ]
+    },
+    "origin": "bottom-center rear wall plane; front -Y; Z up",
+    "planned_rect": [
+      8.0,
+      5.505,
+      0.65,
+      0.035
+    ],
+    "bottom_z": 1.35,
+    "front": "north",
+    "fbx": "models/ART-REV02-005.fbx",
+    "art_texture": "textures/T_Artwork.png",
+    "art_sha256": "0b712aa06e129bde74cd17c59773d5f1d53cb2a0a0aed8ef572b7f89a7f99f82",
+    "crop": {
+      "u_span": 0.8685551000124239,
+      "v_span": 1,
+      "source_aspect": 1.5,
+      "aperture_aspect": 1.3028326500186358,
+      "mode": "center crop; uniform pixel scale; no stretch"
+    },
+    "frame_material": {
+      "wood_color_linear": [
+        0.15,
+        0.12,
+        0.075
+      ],
+      "roughness": 0.64,
+      "grain_map": "textures/T_Frame_Grain.png",
+      "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+      "base_color_map": "textures/T_Frame_BaseColor.png"
+    },
+    "ucx": 1,
+    "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+    "engine_placement": {
+      "wall_datum_center_plan_m": [
+        8.325,
+        5.54,
+        1.35
+      ],
+      "ue_local_yaw_degrees": 180,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+    },
+    "materials": [
+      {
+        "slot": 0,
+        "name": "ART-REV02-005_Frame",
+        "base_color_linear": [
+          0.15,
+          0.12,
+          0.075
+        ],
+        "roughness": 0.64,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Frame_BaseColor.png",
+        "texture_srgb": true
+      },
+      {
+        "slot": 1,
+        "name": "ART-REV02-005_Inner_Slip",
+        "base_color_linear": [
+          0.13,
+          0.19,
+          0.18
+        ],
+        "roughness": 0.7,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 2,
+        "name": "ART-REV02-005_Mount",
+        "base_color_linear": [
+          0.72,
+          0.67,
+          0.55
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 3,
+        "name": "ART-REV02-005_Backboard",
+        "base_color_linear": [
+          0.12,
+          0.085,
+          0.055
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 4,
+        "name": "ART-REV02-005_Artwork",
+        "base_color_linear": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "roughness": 0.86,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Artwork.png",
+        "texture_srgb": true
+      }
+    ]
+  },
+  {
+    "asset": "ART-REV02-006",
+    "instance": "HA-ART-02:058",
+    "title": "The orchard gate",
+    "frame": "Broad aged gilt ogee with walnut outer edge and leaf corners",
+    "dimensions_m": [
+      1.3,
+      0.055,
+      0.9
+    ],
+    "bounds_m": {
+      "min": [
+        -0.6499999761581421,
+        -0.054999999701976776,
+        0.0
+      ],
+      "max": [
+        0.6499999761581421,
+        0.0,
+        0.8999999761581421
+      ]
+    },
+    "origin": "bottom-center rear wall plane; front -Y; Z up",
+    "planned_rect": [
+      4.5,
+      5.485,
+      1.3,
+      0.055
+    ],
+    "bottom_z": 1.12,
+    "front": "north",
+    "fbx": "models/ART-REV02-006.fbx",
+    "art_texture": "textures/T_Artwork.png",
+    "art_sha256": "bbed0bf1ce8675ddd851ac9caac24b21d76ee2703fd8c4c07f3c94d3d424148b",
+    "crop": {
+      "u_span": 1,
+      "v_span": 0.9849785407725322,
+      "source_aspect": 1.5,
+      "aperture_aspect": 1.522875816993464,
+      "mode": "center crop; uniform pixel scale; no stretch"
+    },
+    "frame_material": {
+      "wood_color_linear": [
+        0.28,
+        0.16,
+        0.055
+      ],
+      "roughness": 0.64,
+      "grain_map": "textures/T_Frame_Grain.png",
+      "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+      "base_color_map": "textures/T_Frame_BaseColor.png"
+    },
+    "ucx": 1,
+    "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+    "engine_placement": {
+      "wall_datum_center_plan_m": [
+        5.15,
+        5.54,
+        1.12
+      ],
+      "ue_local_yaw_degrees": 180,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+    },
+    "materials": [
+      {
+        "slot": 0,
+        "name": "ART-REV02-006_Aged_Gilt",
+        "base_color_linear": [
+          0.38,
+          0.26,
+          0.095
+        ],
+        "roughness": 0.48,
+        "metallic": 0.64,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 1,
+        "name": "ART-REV02-006_Frame",
+        "base_color_linear": [
+          0.28,
+          0.16,
+          0.055
+        ],
+        "roughness": 0.64,
+        "metallic": 0.12,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Frame_BaseColor.png",
+        "texture_srgb": true
+      },
+      {
+        "slot": 2,
+        "name": "ART-REV02-006_Backboard",
+        "base_color_linear": [
+          0.12,
+          0.085,
+          0.055
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 3,
+        "name": "ART-REV02-006_Artwork",
+        "base_color_linear": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "roughness": 0.86,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Artwork.png",
+        "texture_srgb": true
+      }
+    ]
+  },
+  {
+    "asset": "ART-REV02-007",
+    "instance": "HA-ART-02:060",
+    "title": "Swallows and hawthorn",
+    "frame": "Ebony half-round with ivory mount and pencil fillet",
+    "dimensions_m": [
+      0.42,
+      0.035,
+      0.55
+    ],
+    "bounds_m": {
+      "min": [
+        -0.20999999344348907,
+        -0.03500000014901161,
+        0.0
+      ],
+      "max": [
+        0.20999999344348907,
+        0.0,
+        0.550000011920929
+      ]
+    },
+    "origin": "bottom-center rear wall plane; front -Y; Z up",
+    "planned_rect": [
+      2.68,
+      3.86,
+      0.42,
+      0.035
+    ],
+    "bottom_z": 1.43,
+    "front": "south",
+    "fbx": "models/ART-REV02-007.fbx",
+    "art_texture": "textures/T_Artwork.png",
+    "art_sha256": "9c4325d2316e1cdce937ccabbff71d94ff671b41726165ac6c8487246e028b40",
+    "crop": {
+      "u_span": 1,
+      "v_span": 0.9842665884882242,
+      "source_aspect": 0.6666666666666666,
+      "aperture_aspect": 0.6773232724384433,
+      "mode": "center crop; uniform pixel scale; no stretch"
+    },
+    "frame_material": {
+      "wood_color_linear": [
+        0.04,
+        0.045,
+        0.04
+      ],
+      "roughness": 0.64,
+      "grain_map": "textures/T_Frame_Grain.png",
+      "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+      "base_color_map": "textures/T_Frame_BaseColor.png"
+    },
+    "ucx": 1,
+    "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+    "engine_placement": {
+      "wall_datum_center_plan_m": [
+        2.89,
+        3.86,
+        1.43
+      ],
+      "ue_local_yaw_degrees": 0,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+    },
+    "materials": [
+      {
+        "slot": 0,
+        "name": "ART-REV02-007_Frame",
+        "base_color_linear": [
+          0.04,
+          0.045,
+          0.04
+        ],
+        "roughness": 0.64,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Frame_BaseColor.png",
+        "texture_srgb": true
+      },
+      {
+        "slot": 1,
+        "name": "ART-REV02-007_Inner_Slip",
+        "base_color_linear": [
+          0.48,
+          0.37,
+          0.23
+        ],
+        "roughness": 0.7,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 2,
+        "name": "ART-REV02-007_Mount",
+        "base_color_linear": [
+          0.72,
+          0.67,
+          0.55
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 3,
+        "name": "ART-REV02-007_Backboard",
+        "base_color_linear": [
+          0.12,
+          0.085,
+          0.055
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 4,
+        "name": "ART-REV02-007_Artwork",
+        "base_color_linear": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "roughness": 0.86,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Artwork.png",
+        "texture_srgb": true
+      }
+    ]
+  },
+  {
+    "asset": "ART-REV02-008",
+    "instance": "HA-ART-03:061",
+    "title": "Boats at low tide",
+    "frame": "Weathered teal scotia with bleached wood slip",
+    "dimensions_m": [
+      0.65,
+      0.035,
+      0.52
+    ],
+    "bounds_m": {
+      "min": [
+        -0.32499998807907104,
+        -0.03500000014901161,
+        0.0
+      ],
+      "max": [
+        0.32499998807907104,
+        0.0,
+        0.5199999809265137
+      ]
+    },
+    "origin": "bottom-center rear wall plane; front -Y; Z up",
+    "planned_rect": [
+      3.44,
+      3.86,
+      0.65,
+      0.035
+    ],
+    "bottom_z": 1.48,
+    "front": "south",
+    "fbx": "models/ART-REV02-008.fbx",
+    "art_texture": "textures/T_Artwork.png",
+    "art_sha256": "0b5e5eb0b8bc109944b4fb30db67eed9c1bf671fe3d8fad021fd70453e14872e",
+    "crop": {
+      "u_span": 0.8733702219678179,
+      "v_span": 1,
+      "source_aspect": 1.5,
+      "aperture_aspect": 1.3100553329517268,
+      "mode": "center crop; uniform pixel scale; no stretch"
+    },
+    "frame_material": {
+      "wood_color_linear": [
+        0.11,
+        0.24,
+        0.215
+      ],
+      "roughness": 0.64,
+      "grain_map": "textures/T_Frame_Grain.png",
+      "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+      "base_color_map": "textures/T_Frame_BaseColor.png"
+    },
+    "ucx": 1,
+    "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+    "engine_placement": {
+      "wall_datum_center_plan_m": [
+        3.765,
+        3.86,
+        1.48
+      ],
+      "ue_local_yaw_degrees": 0,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+    },
+    "materials": [
+      {
+        "slot": 0,
+        "name": "ART-REV02-008_Frame",
+        "base_color_linear": [
+          0.11,
+          0.24,
+          0.215
+        ],
+        "roughness": 0.64,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Frame_BaseColor.png",
+        "texture_srgb": true
+      },
+      {
+        "slot": 1,
+        "name": "ART-REV02-008_Inner_Slip",
+        "base_color_linear": [
+          0.48,
+          0.37,
+          0.23
+        ],
+        "roughness": 0.7,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 2,
+        "name": "ART-REV02-008_Mount",
+        "base_color_linear": [
+          0.72,
+          0.67,
+          0.55
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 3,
+        "name": "ART-REV02-008_Backboard",
+        "base_color_linear": [
+          0.12,
+          0.085,
+          0.055
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 4,
+        "name": "ART-REV02-008_Artwork",
+        "base_color_linear": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "roughness": 0.86,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Artwork.png",
+        "texture_srgb": true
+      }
+    ]
+  },
+  {
+    "asset": "ART-REV02-009",
+    "instance": "BR-ART-FLORAL-01:062",
+    "title": "Rose stems and a bee",
+    "frame": "Ivory bead-and-reel, thin rosewood inner edge",
+    "dimensions_m": [
+      0.58,
+      0.035,
+      0.55
+    ],
+    "bounds_m": {
+      "min": [
+        -0.28999999165534973,
+        -0.03500000014901161,
+        0.0
+      ],
+      "max": [
+        0.28999999165534973,
+        0.0,
+        0.550000011920929
+      ]
+    },
+    "origin": "bottom-center rear wall plane; front -Y; Z up",
+    "planned_rect": [
+      1.98,
+      5.659999999999999,
+      0.58,
+      0.035
+    ],
+    "bottom_z": 1.4,
+    "front": "south",
+    "fbx": "models/ART-REV02-009.fbx",
+    "art_texture": "textures/T_Artwork.png",
+    "art_sha256": "fdf22c09b283ecd64e3c326bd0b6c6c2cfddc89ae325061a10a6493c6be9ede8",
+    "crop": {
+      "u_span": 1,
+      "v_span": 0.957953139179936,
+      "source_aspect": 1.0233870967741936,
+      "aperture_aspect": 1.0683060109289615,
+      "mode": "center crop; uniform pixel scale; no stretch"
+    },
+    "frame_material": {
+      "wood_color_linear": [
+        0.64,
+        0.57,
+        0.43
+      ],
+      "roughness": 0.64,
+      "grain_map": "textures/T_Frame_Grain.png",
+      "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+      "base_color_map": "textures/T_Frame_BaseColor.png"
+    },
+    "ucx": 1,
+    "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+    "engine_placement": {
+      "wall_datum_center_plan_m": [
+        2.27,
+        5.659999999999999,
+        1.4
+      ],
+      "ue_local_yaw_degrees": 0,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+    },
+    "materials": [
+      {
+        "slot": 0,
+        "name": "ART-REV02-009_Frame",
+        "base_color_linear": [
+          0.64,
+          0.57,
+          0.43
+        ],
+        "roughness": 0.64,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Frame_BaseColor.png",
+        "texture_srgb": true
+      },
+      {
+        "slot": 1,
+        "name": "ART-REV02-009_Inner_Slip",
+        "base_color_linear": [
+          0.48,
+          0.37,
+          0.23
+        ],
+        "roughness": 0.7,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 2,
+        "name": "ART-REV02-009_Mount",
+        "base_color_linear": [
+          0.72,
+          0.67,
+          0.55
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 3,
+        "name": "ART-REV02-009_Backboard",
+        "base_color_linear": [
+          0.12,
+          0.085,
+          0.055
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 4,
+        "name": "ART-REV02-009_Artwork",
+        "base_color_linear": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "roughness": 0.86,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Artwork.png",
+        "texture_srgb": true
+      }
+    ]
+  },
+  {
+    "asset": "ART-REV02-010",
+    "instance": "BR-ART-FLORAL-01:064",
+    "title": "Unfurling woodland fern",
+    "frame": "Pale oak flat frame, double ivory/sage mount",
+    "dimensions_m": [
+      0.58,
+      0.035,
+      0.55
+    ],
+    "bounds_m": {
+      "min": [
+        -0.28999999165534973,
+        -0.03500000014901161,
+        0.0
+      ],
+      "max": [
+        0.28999999165534973,
+        0.0,
+        0.550000011920929
+      ]
+    },
+    "origin": "bottom-center rear wall plane; front -Y; Z up",
+    "planned_rect": [
+      0.06,
+      6.5,
+      0.035,
+      0.58
+    ],
+    "bottom_z": 1.35,
+    "front": "east",
+    "fbx": "models/ART-REV02-010.fbx",
+    "art_texture": "textures/T_Artwork.png",
+    "art_sha256": "a839c7ab209080c055a422c1088a77c426d69ad61d55e98e2a6ac9367782a218",
+    "crop": {
+      "u_span": 1,
+      "v_span": 0.9999377942809022,
+      "source_aspect": 1.0778145695364238,
+      "aperture_aspect": 1.0778816199376944,
+      "mode": "center crop; uniform pixel scale; no stretch"
+    },
+    "frame_material": {
+      "wood_color_linear": [
+        0.49,
+        0.37,
+        0.21
+      ],
+      "roughness": 0.64,
+      "grain_map": "textures/T_Frame_Grain.png",
+      "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+      "base_color_map": "textures/T_Frame_BaseColor.png"
+    },
+    "ucx": 1,
+    "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+    "engine_placement": {
+      "wall_datum_center_plan_m": [
+        0.06,
+        6.79,
+        1.35
+      ],
+      "ue_local_yaw_degrees": -90,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+    },
+    "materials": [
+      {
+        "slot": 0,
+        "name": "ART-REV02-010_Frame",
+        "base_color_linear": [
+          0.49,
+          0.37,
+          0.21
+        ],
+        "roughness": 0.64,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Frame_BaseColor.png",
+        "texture_srgb": true
+      },
+      {
+        "slot": 1,
+        "name": "ART-REV02-010_Inner_Slip",
+        "base_color_linear": [
+          0.13,
+          0.19,
+          0.18
+        ],
+        "roughness": 0.7,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 2,
+        "name": "ART-REV02-010_Mount",
+        "base_color_linear": [
+          0.72,
+          0.67,
+          0.55
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 3,
+        "name": "ART-REV02-010_Backboard",
+        "base_color_linear": [
+          0.12,
+          0.085,
+          0.055
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 4,
+        "name": "ART-REV02-010_Artwork",
+        "base_color_linear": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "roughness": 0.86,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Artwork.png",
+        "texture_srgb": true
+      }
+    ]
+  },
+  {
+    "asset": "ART-REV02-011",
+    "instance": "BR-ART-FLORAL-01:066",
+    "title": "Anemones in the blue jug",
+    "frame": "Oxblood convex lacquer and fine gold fillet",
+    "dimensions_m": [
+      0.55,
+      0.035,
+      0.5
+    ],
+    "bounds_m": {
+      "min": [
+        -0.2750000059604645,
+        -0.03500000014901161,
+        0.0
+      ],
+      "max": [
+        0.2750000059604645,
+        0.0,
+        0.5
+      ]
+    },
+    "origin": "bottom-center rear wall plane; front -Y; Z up",
+    "planned_rect": [
+      4.705,
+      6.1,
+      0.035,
+      0.55
+    ],
+    "bottom_z": 1.45,
+    "front": "west",
+    "fbx": "models/ART-REV02-011.fbx",
+    "art_texture": "textures/T_Artwork.png",
+    "art_sha256": "7138618e310738af8b124c5984f24296dbef1c38b20110022576c6e1a53de30b",
+    "crop": {
+      "u_span": 1,
+      "v_span": 0.953019218169906,
+      "source_aspect": 1.0633223684210527,
+      "aperture_aspect": 1.115740740740741,
+      "mode": "center crop; uniform pixel scale; no stretch"
+    },
+    "frame_material": {
+      "wood_color_linear": [
+        0.23,
+        0.035,
+        0.035
+      ],
+      "roughness": 0.64,
+      "grain_map": "textures/T_Frame_Grain.png",
+      "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+      "base_color_map": "textures/T_Frame_BaseColor.png"
+    },
+    "ucx": 1,
+    "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+    "engine_placement": {
+      "wall_datum_center_plan_m": [
+        4.74,
+        6.375,
+        1.45
+      ],
+      "ue_local_yaw_degrees": 90,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+    },
+    "materials": [
+      {
+        "slot": 0,
+        "name": "ART-REV02-011_Frame",
+        "base_color_linear": [
+          0.23,
+          0.035,
+          0.035
+        ],
+        "roughness": 0.64,
+        "metallic": 0.12,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Frame_BaseColor.png",
+        "texture_srgb": true
+      },
+      {
+        "slot": 1,
+        "name": "ART-REV02-011_Aged_Gilt",
+        "base_color_linear": [
+          0.38,
+          0.26,
+          0.095
+        ],
+        "roughness": 0.48,
+        "metallic": 0.64,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 2,
+        "name": "ART-REV02-011_Backboard",
+        "base_color_linear": [
+          0.12,
+          0.085,
+          0.055
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 3,
+        "name": "ART-REV02-011_Artwork",
+        "base_color_linear": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "roughness": 0.86,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Artwork.png",
+        "texture_srgb": true
+      }
+    ]
+  },
+  {
+    "asset": "ART-REV02-012",
+    "instance": "BR-ART-FLORAL-01:067",
+    "title": "Magnolia at dusk",
+    "frame": "Oval walnut bolection with cream oval liner",
+    "dimensions_m": [
+      0.72,
+      0.035,
+      0.52
+    ],
+    "bounds_m": {
+      "min": [
+        -0.36000001430511475,
+        -0.03500000014901161,
+        0.0
+      ],
+      "max": [
+        0.36000001430511475,
+        1.1175870895385742e-08,
+        0.5199999809265137
+      ]
+    },
+    "origin": "bottom-center rear wall plane; front -Y; Z up",
+    "planned_rect": [
+      1.78,
+      9.455,
+      0.72,
+      0.035
+    ],
+    "bottom_z": 1.55,
+    "front": "north",
+    "fbx": "models/ART-REV02-012.fbx",
+    "art_texture": "textures/T_Artwork.png",
+    "art_sha256": "c34d86c8690d32d86e4b48b01483e6c63c8116e252a29619a0f9756b8f20a146",
+    "crop": {
+      "u_span": 0.9892889405084526,
+      "v_span": 1,
+      "source_aspect": 1.5,
+      "aperture_aspect": 1.483933410762679,
+      "mode": "center crop; uniform pixel scale; no stretch"
+    },
+    "frame_material": {
+      "wood_color_linear": [
+        0.19,
+        0.105,
+        0.05
+      ],
+      "roughness": 0.64,
+      "grain_map": "textures/T_Frame_Grain.png",
+      "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+      "base_color_map": "textures/T_Frame_BaseColor.png"
+    },
+    "ucx": 1,
+    "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+    "engine_placement": {
+      "wall_datum_center_plan_m": [
+        2.14,
+        9.49,
+        1.55
+      ],
+      "ue_local_yaw_degrees": 180,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+    },
+    "materials": [
+      {
+        "slot": 0,
+        "name": "ART-REV02-012_Frame",
+        "base_color_linear": [
+          0.19,
+          0.105,
+          0.05
+        ],
+        "roughness": 0.64,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Frame_BaseColor.png",
+        "texture_srgb": true
+      },
+      {
+        "slot": 1,
+        "name": "ART-REV02-012_Inner_Slip",
+        "base_color_linear": [
+          0.48,
+          0.37,
+          0.23
+        ],
+        "roughness": 0.7,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 2,
+        "name": "ART-REV02-012_Mount",
+        "base_color_linear": [
+          0.72,
+          0.67,
+          0.55
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 3,
+        "name": "ART-REV02-012_Backboard",
+        "base_color_linear": [
+          0.12,
+          0.085,
+          0.055
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 4,
+        "name": "ART-REV02-012_Artwork",
+        "base_color_linear": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "roughness": 0.86,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Artwork.png",
+        "texture_srgb": true
+      }
+    ]
+  },
+  {
+    "asset": "ART-REV02-013",
+    "instance": "OF-ART-LANDSCAPE-01:070",
+    "title": "Hillside farm in spring",
+    "frame": "Dark oak sloping rail with warm paper mount",
+    "dimensions_m": [
+      0.65,
+      0.035,
+      0.5
+    ],
+    "bounds_m": {
+      "min": [
+        -0.32499998807907104,
+        -0.03500000014901161,
+        0.0
+      ],
+      "max": [
+        0.32499998807907104,
+        0.0,
+        0.5
+      ]
+    },
+    "origin": "bottom-center rear wall plane; front -Y; Z up",
+    "planned_rect": [
+      8.5,
+      5.659999999999999,
+      0.65,
+      0.035
+    ],
+    "bottom_z": 1.47,
+    "front": "south",
+    "fbx": "models/ART-REV02-013.fbx",
+    "art_texture": "textures/T_Artwork.png",
+    "art_sha256": "6b38d48e3c0a2b93fd8b1744a89f4877aef39f909baf1404f27017d98d05ff85",
+    "crop": {
+      "u_span": 0.9991557181579845,
+      "v_span": 1,
+      "source_aspect": 1.4155597722960152,
+      "aperture_aspect": 1.414364640883978,
+      "mode": "center crop; uniform pixel scale; no stretch"
+    },
+    "frame_material": {
+      "wood_color_linear": [
+        0.12,
+        0.085,
+        0.045
+      ],
+      "roughness": 0.64,
+      "grain_map": "textures/T_Frame_Grain.png",
+      "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+      "base_color_map": "textures/T_Frame_BaseColor.png"
+    },
+    "ucx": 1,
+    "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+    "engine_placement": {
+      "wall_datum_center_plan_m": [
+        8.825,
+        5.659999999999999,
+        1.47
+      ],
+      "ue_local_yaw_degrees": 0,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+    },
+    "materials": [
+      {
+        "slot": 0,
+        "name": "ART-REV02-013_Frame",
+        "base_color_linear": [
+          0.12,
+          0.085,
+          0.045
+        ],
+        "roughness": 0.64,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Frame_BaseColor.png",
+        "texture_srgb": true
+      },
+      {
+        "slot": 1,
+        "name": "ART-REV02-013_Inner_Slip",
+        "base_color_linear": [
+          0.48,
+          0.37,
+          0.23
+        ],
+        "roughness": 0.7,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 2,
+        "name": "ART-REV02-013_Mount",
+        "base_color_linear": [
+          0.72,
+          0.67,
+          0.55
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 3,
+        "name": "ART-REV02-013_Backboard",
+        "base_color_linear": [
+          0.12,
+          0.085,
+          0.055
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 4,
+        "name": "ART-REV02-013_Artwork",
+        "base_color_linear": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "roughness": 0.86,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Artwork.png",
+        "texture_srgb": true
+      }
+    ]
+  },
+  {
+    "asset": "ART-REV02-014",
+    "instance": "OF-ART-BOTANICAL-01:071",
+    "title": "Woodland mushroom study",
+    "frame": "Slim antique brass double-round, terracotta mount edge",
+    "dimensions_m": [
+      0.6,
+      0.035,
+      0.6
+    ],
+    "bounds_m": {
+      "min": [
+        -0.30000001192092896,
+        -0.03500000014901161,
+        0.0
+      ],
+      "max": [
+        0.30000001192092896,
+        0.0,
+        0.6000000238418579
+      ]
+    },
+    "origin": "bottom-center rear wall plane; front -Y; Z up",
+    "planned_rect": [
+      7.96,
+      7.6499999999999995,
+      0.035,
+      0.6
+    ],
+    "bottom_z": 1.42,
+    "front": "east",
+    "fbx": "models/ART-REV02-014.fbx",
+    "art_texture": "textures/T_Artwork.png",
+    "art_sha256": "11538af1945ce9b11e8f246e9605f1a825be7a4127555b1e517e8ed0b19fa063",
+    "crop": {
+      "u_span": 1,
+      "v_span": 1,
+      "source_aspect": 1.0,
+      "aperture_aspect": 1.0,
+      "mode": "center crop; uniform pixel scale; no stretch"
+    },
+    "frame_material": {
+      "wood_color_linear": [
+        0.36,
+        0.26,
+        0.1
+      ],
+      "roughness": 0.64,
+      "grain_map": "textures/T_Frame_Grain.png",
+      "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+      "base_color_map": "textures/T_Frame_BaseColor.png",
+      "baked_material": "ART-REV02-014_Aged_Gilt"
+    },
+    "ucx": 1,
+    "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+    "engine_placement": {
+      "wall_datum_center_plan_m": [
+        7.96,
+        7.949999999999999,
+        1.42
+      ],
+      "ue_local_yaw_degrees": -90,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+    },
+    "materials": [
+      {
+        "slot": 0,
+        "name": "ART-REV02-014_Aged_Gilt",
+        "base_color_linear": [
+          0.38,
+          0.26,
+          0.095
+        ],
+        "roughness": 0.48,
+        "metallic": 0.64,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Frame_BaseColor.png",
+        "texture_srgb": true
+      },
+      {
+        "slot": 1,
+        "name": "ART-REV02-014_Mount",
+        "base_color_linear": [
+          0.72,
+          0.67,
+          0.55
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 2,
+        "name": "ART-REV02-014_Inner_Slip",
+        "base_color_linear": [
+          0.48,
+          0.37,
+          0.23
+        ],
+        "roughness": 0.7,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 3,
+        "name": "ART-REV02-014_Backboard",
+        "base_color_linear": [
+          0.12,
+          0.085,
+          0.055
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 4,
+        "name": "ART-REV02-014_Artwork",
+        "base_color_linear": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "roughness": 0.86,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Artwork.png",
+        "texture_srgb": true
+      }
+    ]
+  },
+  {
+    "asset": "ART-REV02-015",
+    "instance": "OF-ART-BOTANICAL-01:073",
+    "title": "Moths in the fern garden",
+    "frame": "Olive fluted wood with natural oak edge",
+    "dimensions_m": [
+      0.55,
+      0.035,
+      0.58
+    ],
+    "bounds_m": {
+      "min": [
+        -0.2750000059604645,
+        -0.03500000014901161,
+        0.0
+      ],
+      "max": [
+        0.2750000059604645,
+        0.0,
+        0.5799999833106995
+      ]
+    },
+    "origin": "bottom-center rear wall plane; front -Y; Z up",
+    "planned_rect": [
+      11.905,
+      7.699999999999999,
+      0.035,
+      0.55
+    ],
+    "bottom_z": 1.65,
+    "front": "west",
+    "fbx": "models/ART-REV02-015.fbx",
+    "art_texture": "textures/T_Artwork.png",
+    "art_sha256": "d36b6e0a462c8c6cf5bbbab2e711749f535914e0c2dffc0ea405f42fb775c328",
+    "crop": {
+      "u_span": 0.9900792448365325,
+      "v_span": 1,
+      "source_aspect": 0.9434546862896979,
+      "aperture_aspect": 0.9340949033391918,
+      "mode": "center crop; uniform pixel scale; no stretch"
+    },
+    "frame_material": {
+      "wood_color_linear": [
+        0.22,
+        0.26,
+        0.13
+      ],
+      "roughness": 0.64,
+      "grain_map": "textures/T_Frame_Grain.png",
+      "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+      "base_color_map": "textures/T_Frame_BaseColor.png",
+      "baked_material": "ART-REV02-015_Frame"
+    },
+    "ucx": 1,
+    "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+    "engine_placement": {
+      "wall_datum_center_plan_m": [
+        11.94,
+        7.975,
+        1.65
+      ],
+      "ue_local_yaw_degrees": 90,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+    },
+    "materials": [
+      {
+        "slot": 0,
+        "name": "ART-REV02-015_Frame",
+        "base_color_linear": [
+          0.22,
+          0.26,
+          0.13
+        ],
+        "roughness": 0.64,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Frame_BaseColor.png",
+        "texture_srgb": true
+      },
+      {
+        "slot": 1,
+        "name": "ART-REV02-015_Inner_Slip",
+        "base_color_linear": [
+          0.48,
+          0.37,
+          0.23
+        ],
+        "roughness": 0.7,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 2,
+        "name": "ART-REV02-015_Mount",
+        "base_color_linear": [
+          0.72,
+          0.67,
+          0.55
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 3,
+        "name": "ART-REV02-015_Backboard",
+        "base_color_linear": [
+          0.12,
+          0.085,
+          0.055
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 4,
+        "name": "ART-REV02-015_Artwork",
+        "base_color_linear": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "roughness": 0.86,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Artwork.png",
+        "texture_srgb": true
+      }
+    ]
+  },
+  {
+    "asset": "ART-REV02-016",
+    "instance": "BA-ART-01:081",
+    "title": "Lavender and sage",
+    "frame": "Chalk cream beaded pine with blue-grey mount",
+    "dimensions_m": [
+      0.46,
+      0.035,
+      0.5
+    ],
+    "bounds_m": {
+      "min": [
+        -0.23000000417232513,
+        -0.03500000014901161,
+        0.0
+      ],
+      "max": [
+        0.23000000417232513,
+        0.0,
+        0.5
+      ]
+    },
+    "origin": "bottom-center rear wall plane; front -Y; Z up",
+    "planned_rect": [
+      5.35,
+      5.659999999999999,
+      0.46,
+      0.035
+    ],
+    "bottom_z": 1.95,
+    "front": "south",
+    "fbx": "models/ART-REV02-016.fbx",
+    "art_texture": "textures/T_Artwork.png",
+    "art_sha256": "6ea254bb49147431beed8c73290a16cc2cb61149af08f48514f0209c3677e13d",
+    "crop": {
+      "u_span": 0.9866042746552516,
+      "v_span": 1,
+      "source_aspect": 0.9001512859304085,
+      "aperture_aspect": 0.8880931065353627,
+      "mode": "center crop; uniform pixel scale; no stretch"
+    },
+    "frame_material": {
+      "wood_color_linear": [
+        0.67,
+        0.63,
+        0.52
+      ],
+      "roughness": 0.64,
+      "grain_map": "textures/T_Frame_Grain.png",
+      "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+      "base_color_map": "textures/T_Frame_BaseColor.png",
+      "baked_material": "ART-REV02-016_Frame"
+    },
+    "ucx": 1,
+    "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+    "engine_placement": {
+      "wall_datum_center_plan_m": [
+        5.58,
+        5.659999999999999,
+        1.95
+      ],
+      "ue_local_yaw_degrees": 0,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+    },
+    "materials": [
+      {
+        "slot": 0,
+        "name": "ART-REV02-016_Frame",
+        "base_color_linear": [
+          0.67,
+          0.63,
+          0.52
+        ],
+        "roughness": 0.64,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Frame_BaseColor.png",
+        "texture_srgb": true
+      },
+      {
+        "slot": 1,
+        "name": "ART-REV02-016_Inner_Slip",
+        "base_color_linear": [
+          0.13,
+          0.19,
+          0.18
+        ],
+        "roughness": 0.7,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 2,
+        "name": "ART-REV02-016_Mount",
+        "base_color_linear": [
+          0.72,
+          0.67,
+          0.55
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 3,
+        "name": "ART-REV02-016_Backboard",
+        "base_color_linear": [
+          0.12,
+          0.085,
+          0.055
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 4,
+        "name": "ART-REV02-016_Artwork",
+        "base_color_linear": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "roughness": 0.86,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Artwork.png",
+        "texture_srgb": true
+      }
+    ]
+  },
+  {
+    "asset": "ART-REV02-017",
+    "instance": "KI-ART-01:082",
+    "title": "Pears by the coffee pot",
+    "frame": "Dark farmhouse walnut, chamfered edge and brass corner pins",
+    "dimensions_m": [
+      0.65,
+      0.035,
+      0.5
+    ],
+    "bounds_m": {
+      "min": [
+        -0.32499998807907104,
+        -0.03500000014901161,
+        0.0
+      ],
+      "max": [
+        0.32499998807907104,
+        0.0,
+        0.5
+      ]
+    },
+    "origin": "bottom-center rear wall plane; front -Y; Z up",
+    "planned_rect": [
+      2.12,
+      3.7049999999999996,
+      0.65,
+      0.035
+    ],
+    "bottom_z": 1.35,
+    "front": "north",
+    "fbx": "models/ART-REV02-017.fbx",
+    "art_texture": "textures/T_Artwork.png",
+    "art_sha256": "60e5743b9ee683c3856a49a827e38bcbddb46f31055ea9224bb8d9da3a185c3c",
+    "crop": {
+      "u_span": 0.9093851132686086,
+      "v_span": 1,
+      "source_aspect": 1.5,
+      "aperture_aspect": 1.364077669902913,
+      "mode": "center crop; uniform pixel scale; no stretch"
+    },
+    "frame_material": {
+      "wood_color_linear": [
+        0.11,
+        0.065,
+        0.035
+      ],
+      "roughness": 0.64,
+      "grain_map": "textures/T_Frame_Grain.png",
+      "shader": "Use baked sRGB base color directly; wood roughness0.64. Gilt/separate accents use manifest/README constants.",
+      "base_color_map": "textures/T_Frame_BaseColor.png",
+      "baked_material": "ART-REV02-017_Frame"
+    },
+    "ucx": 1,
+    "status": "Source collection reviewed and approved; Unreal installation/lighting review pending",
+    "engine_placement": {
+      "wall_datum_center_plan_m": [
+        2.4450000000000003,
+        3.7399999999999998,
+        1.35
+      ],
+      "ue_local_yaw_degrees": 180,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "note": "Source bottom/rear pivot. FBX import conversion keeps X/flips Y; confirm with installed frame front."
+    },
+    "materials": [
+      {
+        "slot": 0,
+        "name": "ART-REV02-017_Frame",
+        "base_color_linear": [
+          0.11,
+          0.065,
+          0.035
+        ],
+        "roughness": 0.64,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Frame_BaseColor.png",
+        "texture_srgb": true
+      },
+      {
+        "slot": 1,
+        "name": "ART-REV02-017_Inner_Slip",
+        "base_color_linear": [
+          0.48,
+          0.37,
+          0.23
+        ],
+        "roughness": 0.7,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 2,
+        "name": "ART-REV02-017_Mount",
+        "base_color_linear": [
+          0.72,
+          0.67,
+          0.55
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 3,
+        "name": "ART-REV02-017_Aged_Gilt",
+        "base_color_linear": [
+          0.38,
+          0.26,
+          0.095
+        ],
+        "roughness": 0.48,
+        "metallic": 0.64,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 4,
+        "name": "ART-REV02-017_Backboard",
+        "base_color_linear": [
+          0.12,
+          0.085,
+          0.055
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false
+      },
+      {
+        "slot": 5,
+        "name": "ART-REV02-017_Artwork",
+        "base_color_linear": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "roughness": 0.86,
+        "metallic": 0.0,
+        "opacity": 1,
+        "two_sided": false,
+        "base_color_texture": "textures/T_Artwork.png",
+        "texture_srgb": true
+      }
+    ]
+  }
+]

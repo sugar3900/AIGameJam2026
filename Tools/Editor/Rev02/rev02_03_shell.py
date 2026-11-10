@@ -88,6 +88,13 @@ WALLS = [('North', 'x', 0, 0, 1200), ('South', 'x', 955, 0, 1200), ('West', 'y',
          ('ClosetSide', 'y', 1075, 560, 715), ('CoatBack', 'x', 640, 1075, 1200), ('WardrobeFront', 'x', 715, 1075, 1200)]
 for name, axis, fixed, start, end in WALLS:
     wall(name, axis, fixed, start, end, hide=(480, 1200) if name == 'North' else None)   # living window wall kit replaces visuals
+# FIX-019: ClosetSide (x 1075, y 560-715) and WardrobeFront (y 715, x 1075-1200) are 12 cm walls that each stop at the
+# other's centre-line, so the outer corner quadrant x 1069-1075, y 715-721 was never built (a full-height 6 x 6 cm slit
+# into the office). A filler with the office finish closes it; the new fitted trim assumes the finished corner
+# (10.69, 7.21). Not an extension of either wall, which would put coplanar faces at y 721.
+FIX019_CORNER = True
+if FIX019_CORNER:
+    box('ClosetCorner_Filler', (1072, 718, 137.5), (6, 6, 275), zone(1065, 725))
 # The entry leaf never opens and is narrower than its jambs; this panel outside the east wall (behind the outer
 # casing) keeps exterior sky from showing through the gap.
 box('EntryBacker', (1214, 452.5, 112.5), (4, 125, 225), 'Plaster_Exterior')
@@ -170,12 +177,67 @@ def trims(room, faces, skip_base=(), skip_crown=()):
         if k not in skip_crown: strip('Trim_%s_%s_Crown' % (room, k), TR, crown, axis, plane, s, span, 265, 10, trim)
 
 # Room faces: (key, (axis, face plane, side, span)). Face planes sit 6 cm off the wall centre-lines.
-trims('KI', [('N', ('x', 6, 1, (6, 474))), ('W', ('y', 6, 1, (6, 374))), ('E', ('y', 474, -1, (6, 374))), ('S', ('x', 374, -1, (6, 474)))])
+# FIX-024/025: the kitchen-portal walls (KI E x474, LV W x486) take their base in casing-aware pieces and stop at
+# inside corners on the other run's front face (butt joints, no overlap); see the portal block below.
+trims('KI', [('N', ('x', 6, 1, (6, 474))), ('W', ('y', 6, 1, (6, 374))), ('S', ('x', 374, -1, (6, 474)))])
+strip('Trim_KI_E_Crown', TR, crown, 'y', 474, -1, (6, 370.5), 265, 10, trim)
+for k, sp in enumerate(((6, 232), (358, 371))):
+    strip('Trim_KI_E_Base%d' % k, TR, base, 'y', 474, -1, sp, 0, 13, trim)
 # Living/dining + entry share one open volume: the kit carries the north wall's base/crown; the 7.2 m opening's
 # header gets crown on both faces; the east wall runs past the opening to the hall end.
-trims('LV', [('W', ('y', 486, 1, (6, 374))), ('E', ('y', 1194, -1, (6, 554))), ('HDR', ('x', 374, -1, (480, 1194)))], skip_base=('HDR',))
-trims('HA', [('N', ('x', 386, 1, (226, 474))), ('W', ('y', 226, 1, (386, 554))), ('S', ('x', 554, -1, (226, 1194))),
-             ('HDR', ('x', 386, 1, (486, 1194)))], skip_base=('HDR',))
+trims('LV', [('E', ('y', 1194, -1, (6, 554))), ('HDR', ('x', 374, -1, (489.5, 1194)))], skip_base=('HDR',))
+strip('Trim_LV_W_Crown', TR, crown, 'y', 486, 1, (6, 374), 265, 10, trim)
+# LV W base runs past the hall corner to y 389 so its end covers the hall base's end (outside-corner mitre pending
+# ARC-TRIM-02; this exposed end is held for that release).
+strip('Trim_LV_W_Base0', TR, base, 'y', 486, 1, (6, 232), 0, 13, trim)
+# FIX-024 outside corner (486,386): ARC-TRIM-02 Baseboard_Outside End on the hall face (x 386-486, mitre + 30 mm
+# return to 489) and Start on the living face from the corner to the portal casing (y 386 -> 358). The Start is a 1 m
+# piece; a copy is plane-cut at its far square end to 28 cm (mitre/profile unscaled). The crown has no outside
+# corner here: at crown height the living header continues the hall face, so the hall crown runs straight through.
+G_ = unreal
+_end, _start = load(R2 + 'ARC_Trim02/Baseboard_Outside_End'), load(R2 + 'ARC_Trim02/Baseboard_Outside_Start')
+_cut = R2 + 'ARC_Trim02/Baseboard_Outside_Start_28'
+_dm = unreal.DynamicMesh()
+G_.GeometryScript_AssetUtils.copy_mesh_from_static_mesh(_start, _dm, G_.GeometryScriptCopyMeshFromAssetOptions(), G_.GeometryScriptMeshReadLOD())
+_o = G_.GeometryScriptMeshPlaneCutOptions(); _o.set_editor_property('fill_holes', True)
+G_.GeometryScript_MeshBooleans.apply_mesh_plane_cut(_dm, unreal.Transform(unreal.Vector(28, 0, 0), unreal.Rotator(pitch=-90, yaw=0, roll=0)), _o)
+if EAL.does_asset_exist(_cut): _cm = load(_cut)
+else:
+    _co = G_.GeometryScriptCreateNewStaticMeshAssetOptions(); _co.set_editor_property('enable_collision', False)
+    _cm, _ = G_.GeometryScript_NewAssetUtils.create_new_static_mesh_asset_from_mesh(_dm, _cut, _co)
+_cp = G_.GeometryScriptCopyMeshToAssetOptions(); _cp.set_editor_property('replace_materials', True); _cp.set_editor_property('new_materials', [MI['Trim_Cream']])
+G_.GeometryScript_AssetUtils.copy_mesh_to_static_mesh(_dm, _cm, _cp, G_.GeometryScriptMeshWriteLOD()); EAL.save_loaded_asset(_cm, False)
+spawn(_end, (386, 386, 0), 0, 'Trim_HA_N_Base_OutsideEnd', TR, trim)
+spawn(_cm, (486, 386, 0), -90, 'Trim_LV_W_Base_OutsideStart', TR, trim)
+# FIX-024: one continuous hall crown over the solid wall and the living header (was split at x 474/486); the north
+# base now reaches the outside corner at x 486.
+trims('HA', [('N', ('x', 386, 1, (226, 386))), ('W', ('y', 226, 1, (386, 554))), ('S', ('x', 554, -1, (226, 1194)))], skip_crown=('N',))
+strip('Trim_HA_N_Crown', TR, crown, 'x', 386, 1, (226, 1194), 265, 10, trim)
+
+# ---------------- FIX-024/025 kitchen portal (rough 1.20 x 2.30 -> finished clear 1.10 x 2.25) ----------------
+# The portal's jambs/soffit were bare wall-box ends (two plasters meeting mid-reveal) and the outer living/hall
+# corner block x480-486 / y380-386 was never built. A Trim_Cream lining (5 cm jambs/head through the full wall
+# depth) gives one clean reveal; ARC-TRIM-01 casings frame both faces; a filler closes the corner.
+box('KitchenPortal_Lining_N', (480, 237.5, 112.5), (12, 5, 225), 'Trim_Cream')
+box('KitchenPortal_Lining_S', (480, 352.5, 112.5), (12, 5, 225), 'Trim_Cream')
+box('KitchenPortal_Lining_Head', (480, 295, 227.5), (12, 120, 5), 'Trim_Cream')
+box('LivingHall_Corner_Filler', (483, 383, 122.5), (6, 6, 245), 'Plaster_Living')
+casing = load(R2 + 'ARC_Trim01/Casing_1m')
+def cas(label, origin, xdir, ydir, length):
+    r = unreal.MathLibrary.make_rot_from_xy(unreal.Vector(*xdir), unreal.Vector(*ydir))
+    a = A.spawn_actor_from_object(casing, unreal.Vector(*origin), r)
+    a.set_actor_label(label); a.set_folder_path(TR); a.set_actor_scale3d(unreal.Vector(length / 100.0, 1, 1))
+    c = a.static_mesh_component; c.set_collision_profile_name('NoCollision'); c.set_material(0, trim[0])
+for face, x, py in (('LV', 486, 1), ('KI', 474, -1)):         # py: projection direction (living +X, kitchen -X)
+    # legs: length up (+Z), width runs outward from the lining edge, back on the wall face
+    for side, y_in, y_out in (('N', 240, 232), ('S', 350, 358)):
+        wy = 1 if y_out > y_in else -1                           # width direction (local Z) = cross(X=+Z, Y=proj)
+        zdir = (0, py, 0)                                        # cross((0,0,1),(py,0,0)) = (0, py, 0)
+        start = y_in if zdir[1] == wy else y_out                 # origin edge so the 8 cm width spans y_in..y_out
+        cas('Casing_%s_%s' % (face, side), (x, start, 0), (0, 0, 1), (py, 0, 0), 225)
+    # head: length along y, width up (+Z), laid over the legs 225-233
+    hx = (0, -1, 0) if py > 0 else (0, 1, 0)
+    cas('Casing_%s_Head' % face, (x, 358 if py > 0 else 232, 225), hx, (py, 0, 0), 126)
 trims('BC', [('N', ('x', 386, 1, (6, 214))), ('W', ('y', 6, 1, (386, 554))), ('E', ('y', 214, -1, (386, 554))), ('S', ('x', 554, -1, (6, 214)))])
 trims('BR', [('N', ('x', 566, 1, (6, 474))), ('W', ('y', 6, 1, (566, 949))), ('E', ('y', 474, -1, (566, 949))), ('S', ('x', 949, -1, (6, 474)))])
 
@@ -183,9 +245,10 @@ trims('BR', [('N', ('x', 566, 1, (6, 474))), ('W', ('y', 6, 1, (566, 949))), ('E
 OFF = [('N', ('x', 566, 1, (796, 1069))), ('CS', ('y', 1069, -1, (566, 721))), ('WF', ('x', 721, 1, (1069, 1194))),
        ('E', ('y', 1194, -1, (721, 949))), ('S', ('x', 949, -1, (796, 1194))), ('W', ('y', 796, 1, (566, 949)))]
 wain = mesh('BR_Wainscot/BR_Wainscot_Module')
-north_mods = []
+north_mods, office_mods = [], []
 for k, (axis, plane, s, span) in OFF:
     mods = strip('Wainscot_OF_%s' % k, 'Redesign/Wall Finishes/Office', wain, axis, plane, s, span, 0, 110, under_sill=True)
+    office_mods += [m for m, u0, u1 in mods]
     if k == 'N': north_mods = mods
     strip('Trim_OF_%s_Crown' % k, TR, crown, axis, plane, s, span, 265, 10, trim)
 # Lead-paint condition: office north wall x 8.65-9.20 m (elevation schedule BR-WAINSCOT-01:069), on the module there.
@@ -200,6 +263,21 @@ if lead_mi: d.static_mesh_component.set_material(0, lead_mi)
 # The overlay mesh is the damaged patch itself; centre it on the scheduled patch (x 8.65-9.20, z 0.55-0.85 m).
 o, _ = d.get_actor_bounds(False); l = d.get_actor_location()
 d.set_actor_location(unreal.Vector(l.x + 892.5 - o.x, l.y, l.z + 70 - o.z), False, True)
+
+# FIX-019 (OF-WAINSCOT-02): six fitted office runs replace the stretched 1 m modules. Each FBX shares the office origin
+# (796, 566, 0); max 22 mm deep, 2 mm clear of casings/sill, under-apron cap top 0.778, 7 mm wardrobe return.
+# The lead-paint overlay keeps its mesh, material, tags, label and scale (taken from the old north module above);
+# only its visible plane moves to y 5.668, 1 mm proud of the new recessed field, centre x 8.925 / z 0.70 unchanged.
+if unreal.EditorAssetLibrary.does_asset_exist(R2 + 'OF_Wainscot02/OF_Wainscot02_N'):
+    for m in office_mods: A.destroy_actor(m)
+    ivory = load(R2 + 'Materials/MI_OF02_Painterly_Ivory')
+    for k in ('N', 'CS', 'WF', 'E', 'S', 'W'):
+        spawn(load(R2 + 'OF_Wainscot02/OF_Wainscot02_' + k), (796, 566, 0), 0, 'Wainscot02_OF_' + k, 'Redesign/Wall Finishes/Office', [ivory])
+    o, e = d.get_actor_bounds(False); l = d.get_actor_location()
+    d.set_actor_location(unreal.Vector(l.x + 892.5 - o.x, l.y + 566.8 - (o.y + e.y), l.z + 70 - o.z), False, True)
+    o, e = d.get_actor_bounds(False)
+    unreal.log('[Rev02 shell] OF-WAINSCOT-02 placed; lead paint x %.1f-%.1f y %.2f-%.2f z %.1f-%.1f' % (
+        o.x - e.x, o.x + e.x, o.y - e.y, o.y + e.y, o.z - e.z, o.z + e.z))
 
 # Bath (unchanged room): 1.10 m tile wainscot, 1.50 m tub surround on the south wall. Tyler's crack overlay
 # lives in the gameplay sublevel, attached to his malady, and is not touched here.
@@ -248,9 +326,17 @@ for room, cx, hinge in [('BR', 352.5, 'E'), ('BA', 677.5, 'W'), ('OF', 997.5, 'W
         spawn(DL, (cx - 49.5, 563.5, 0), 90, 'Door_%s_Leaf' % room, 'Redesign/Doors', [paint, brass, edge], collision=True)
     else:                 # plan: bedroom door hinged east; the leaf turned 180 so it extends west, opened south
         spawn(DL, (cx + 49.5, 556.5, 0), 90, 'Door_%s_Leaf' % room, 'Redesign/Doors', [paint, brass, edge], collision=True)
-EF, EL = load(R2 + 'ARC_EntryDoor02/ARC_Entry_Door02_Frame'), load(R2 + 'ARC_EntryDoor02/ARC_Entry_Door02_Leaf')
-spawn(EF, (1200, 452.5, 0), 90, 'Door_Entry_Frame', 'Redesign/Doors', [paint, brass], collision=True)
-spawn(EL, (1196.5, 403.0, 0), 90, 'Door_Entry_Leaf', 'Redesign/Doors', [walnut, brass, edge], collision=True)
+# FIX-010: ARC-ENTRY-DOOR-03 (hardware on the lock stile, latch/strike plates) when imported - same transforms, pivots and
+# UCX as 02; its one new slot per mesh is the dark latch/bolt recess.
+if unreal.EditorAssetLibrary.does_asset_exist(R2 + 'ARC_EntryDoor03/ARC_Entry_Door03_Frame'):
+    recess = load(R2 + 'Materials/MI_Rev02_DarkRecess')
+    EF, EL = load(R2 + 'ARC_EntryDoor03/ARC_Entry_Door03_Frame'), load(R2 + 'ARC_EntryDoor03/ARC_Entry_Door03_Leaf')
+    fmats, lmats = [paint, brass, recess], [walnut, brass, edge, recess]
+else:
+    EF, EL = load(R2 + 'ARC_EntryDoor02/ARC_Entry_Door02_Frame'), load(R2 + 'ARC_EntryDoor02/ARC_Entry_Door02_Leaf')
+    fmats, lmats = [paint, brass], [walnut, brass, edge]
+spawn(EF, (1200, 452.5, 0), 90, 'Door_Entry_Frame', 'Redesign/Doors', fmats, collision=True)
+spawn(EL, (1196.5, 403.0, 0), 90, 'Door_Entry_Leaf', 'Redesign/Doors', lmats, collision=True)
 
 # Sliding-closet frames (ARC-SLIDING-CLOSET-02). Coat closet opens north into the entry; guest wardrobe south.
 for room, y, yaw in [('Coat', 560, 180), ('Office', 715, 0)]:

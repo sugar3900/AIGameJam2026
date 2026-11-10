@@ -1,0 +1,327 @@
+{
+  "asset": "ARC-ENTRY-DOOR-03",
+  "units": "metres",
+  "up": "Z",
+  "front_and_interior": "-Y",
+  "export_axes": {
+    "forward": "-Z",
+    "up": "Y"
+  },
+  "rough_opening_m": [
+    1.05,
+    2.14
+  ],
+  "clear_opening_m": [
+    0.99,
+    2.11
+  ],
+  "leaf_slab_m": [
+    0.976,
+    0.05,
+    2.094
+  ],
+  "leaf_hinge_offset_source_m": [
+    -0.495,
+    -0.035,
+    0
+  ],
+  "new_hardware_x_source_frame_m": 0.435,
+  "latch_backset_m": 0.053,
+  "panel_bead_outer_x_m": 0.383,
+  "hardware_outer_x_m": [
+    0.41,
+    0.46
+  ],
+  "hardware_clearance_to_bead_m": 0.02699999999999997,
+  "hardware_clearance_to_leaf_edge_m": 0.02799999999999999,
+  "knob_and_plate_mounts": "Flush seated plates and connected stems on both faces; no panel overlap",
+  "parts": {
+    "Frame": {
+      "name": "ARC_Entry_Door03_Frame",
+      "fbx": "model/ARC_Entry_Door03_Frame.fbx",
+      "bounds_pivot_local_m": {
+        "min": [
+          -0.5950000286102295,
+          -0.09099999815225601,
+          0.0
+        ],
+        "max": [
+          0.5950000286102295,
+          0.09099999815225601,
+          2.2189998626708984
+        ]
+      },
+      "closed_offset_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ucx_hulls": 3,
+      "collision_specs_unchanged_from02": [
+        [
+          [
+            -0.51,
+            0,
+            1.055
+          ],
+          [
+            0.03,
+            0.12,
+            2.11
+          ]
+        ],
+        [
+          [
+            0.51,
+            0,
+            1.055
+          ],
+          [
+            0.03,
+            0.12,
+            2.11
+          ]
+        ],
+        [
+          [
+            0,
+            0,
+            2.125
+          ],
+          [
+            1.05,
+            0.12,
+            0.03
+          ]
+        ]
+      ],
+      "materials": [
+        {
+          "slot": 0,
+          "name": "Painted warm ivory",
+          "color_linear": [
+            0.7699999809265137,
+            0.6899999976158142,
+            0.5600000023841858
+          ],
+          "roughness": 0.7799999713897705,
+          "metallic": 0.0
+        },
+        {
+          "slot": 1,
+          "name": "Muted aged brass",
+          "color_linear": [
+            0.3100000023841858,
+            0.20499999821186066,
+            0.07500000298023224
+          ],
+          "roughness": 0.46000000834465027,
+          "metallic": 0.6800000071525574
+        },
+        {
+          "slot": 2,
+          "name": "Recess darkness",
+          "color_linear": [
+            0.02500000037252903,
+            0.017999999225139618,
+            0.012000000104308128
+          ],
+          "roughness": 0.949999988079071,
+          "metallic": 0.0
+        }
+      ]
+    },
+    "Leaf": {
+      "name": "ARC_Entry_Door03_Leaf",
+      "fbx": "model/ARC_Entry_Door03_Leaf.fbx",
+      "bounds_pivot_local_m": {
+        "min": [
+          -0.00700002908706665,
+          -0.058999981731176376,
+          0.0
+        ],
+        "max": [
+          0.9830000400543213,
+          0.1289999932050705,
+          2.0940001010894775
+        ]
+      },
+      "closed_offset_m": [
+        -0.4950000047683716,
+        -0.03500000014901161,
+        0.0
+      ],
+      "ucx_hulls": 1,
+      "collision_specs_unchanged_from02": [
+        [
+          [
+            0.495,
+            0.035,
+            1.047
+          ],
+          [
+            0.976,
+            0.05,
+            2.094
+          ]
+        ]
+      ],
+      "materials": [
+        {
+          "slot": 0,
+          "name": "Aged walnut entrance leaf",
+          "color_linear": [
+            0.2800000011920929,
+            0.12999999523162842,
+            0.07000000029802322
+          ],
+          "roughness": 0.8199999928474426,
+          "metallic": 0.0
+        },
+        {
+          "slot": 1,
+          "name": "Muted aged brass",
+          "color_linear": [
+            0.3100000023841858,
+            0.20499999821186066,
+            0.07500000298023224
+          ],
+          "roughness": 0.46000000834465027,
+          "metallic": 0.6800000071525574
+        },
+        {
+          "slot": 2,
+          "name": "Edge rub, warm timber",
+          "color_linear": [
+            0.4300000071525574,
+            0.28999999165534973,
+            0.1599999964237213
+          ],
+          "roughness": 0.8999999761581421,
+          "metallic": 0.0
+        },
+        {
+          "slot": 3,
+          "name": "Recess darkness",
+          "color_linear": [
+            0.02500000037252903,
+            0.017999999225139618,
+            0.012000000104308128
+          ],
+          "roughness": 0.949999988079071,
+          "metallic": 0.0
+        }
+      ]
+    }
+  },
+  "lock_alignment": [
+    {
+      "identity": "latch",
+      "knob_axis_source_frame_m": [
+        0.435,
+        0,
+        1.025
+      ],
+      "leaf_edge_source_frame_m": [
+        0.488,
+        0,
+        1.025
+      ],
+      "strike_plane_source_frame_m": [
+        0.495,
+        0,
+        1.025
+      ],
+      "strike_hole_size_yz_m": [
+        0.019,
+        0.022
+      ],
+      "edge_gap_m": 0.007,
+      "default_bolt_state": "flush/retracted",
+      "optional_throw_m": 0.012,
+      "extended_tip_x_m": 0.5,
+      "jamb_engagement_m": 0.005,
+      "axis_source": "+X",
+      "world_strike_cm_at_current_Rev02": [
+        1200,
+        502,
+        102.49999999999999
+      ]
+    },
+    {
+      "identity": "deadbolt",
+      "knob_axis_source_frame_m": [
+        0.435,
+        0,
+        1.2
+      ],
+      "leaf_edge_source_frame_m": [
+        0.488,
+        0,
+        1.2
+      ],
+      "strike_plane_source_frame_m": [
+        0.495,
+        0,
+        1.2
+      ],
+      "strike_hole_size_yz_m": [
+        0.022,
+        0.026
+      ],
+      "edge_gap_m": 0.007,
+      "default_bolt_state": "flush/retracted",
+      "optional_throw_m": 0.025,
+      "extended_tip_x_m": 0.513,
+      "jamb_engagement_m": 0.018000000000000002,
+      "axis_source": "+X",
+      "world_strike_cm_at_current_Rev02": [
+        1200,
+        502,
+        120.0
+      ]
+    }
+  ],
+  "engine_placement": {
+    "cause": "Source fit, not Rev02 mirroring",
+    "old_knob_and_deadbolt_x_m": 0.382,
+    "old_panel_bead_x_range_m": [
+      0.367,
+      0.383
+    ],
+    "old_molding_back_to_slab_gap_m": 0.0075,
+    "old_knob_plate_back_to_slab_gap_m": 0.0035,
+    "old_deadbolt_plate_gap_m": 0.004,
+    "old_strikes": "None authored",
+    "engine_frame_world_cm": [
+      1200,
+      452.5,
+      0
+    ],
+    "engine_frame_yaw": 90,
+    "engine_leaf_world_cm": [
+      1196.5,
+      403,
+      0
+    ],
+    "engine_leaf_yaw": 90,
+    "engine_scale": [
+      1,
+      1,
+      1
+    ],
+    "hinge_offset_source_m": [
+      -0.495,
+      -0.035,
+      0
+    ],
+    "hinge_offset_world_cm_after_Yflip_and_yaw90": [
+      -3.5,
+      -49.5,
+      0
+    ],
+    "placement_verdict": "Exactly matches fitted02 source hinge; no negative-scale mirror needed",
+    "original_source_sha256": "c6898ce40085482952cb62c271d0053aa1ca9510fe2d1864745313db7388c572"
+  },
+  "action_contract": "Replace Door_Entry_Leaf/Frame meshes only, preserve FrontDoor exit actor and existing hinge transforms. Both bolts flush/retracted by default; no new lock action. If a future animated lock is authored, extend/retract before swinging."
+}

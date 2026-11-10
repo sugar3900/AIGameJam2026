@@ -1,0 +1,9 @@
+{
+  "png_crc_and_dimensions": "pass",
+  "normal_vs_height_max_channel_error": 0.0040914552412742115,
+  "DirectX_green_matches_V_down_height_derivative": true,
+  "normal_srgb": false,
+  "roughness_srgb": false,
+  "height_srgb": false,
+  "passed": true
+}

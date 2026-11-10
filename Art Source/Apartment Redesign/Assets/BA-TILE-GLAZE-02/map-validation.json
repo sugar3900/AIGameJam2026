@@ -1,0 +1,30 @@
+{
+  "resolution": [
+    1024,
+    1024
+  ],
+  "uv_repeat_metres": 0.2425,
+  "height_peak_to_peak_m": 0.00018000000000000004,
+  "height_rms_m": 2.5006053616873444e-05,
+  "roughness_range": [
+    0.3744866464470427,
+    0.46628270539393724
+  ],
+  "normal_max_tilt_degrees": 1.3195310330472914,
+  "periodic_integer_fourier_modes": true,
+  "seam_checks": [
+    {
+      "axis": 0,
+      "seam_step_max_m": 2.687469429272627e-06,
+      "interior_step_max_m": 5.036935500674543e-06
+    },
+    {
+      "axis": 1,
+      "seam_step_max_m": 2.9756952224325924e-06,
+      "interior_step_max_m": 5.168227683733365e-06
+    }
+  ],
+  "finite": true,
+  "normal_length_max_error": 2.220446049250313e-16,
+  "passed": true
+}

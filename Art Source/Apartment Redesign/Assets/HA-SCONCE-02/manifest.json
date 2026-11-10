@@ -1,0 +1,155 @@
+{
+  "origin_m": [
+    0,
+    0,
+    0
+  ],
+  "front": "-Y",
+  "up": "+Z",
+  "units": "metres",
+  "replaces": {
+    "HA_Sconce_Hardware": "HA_Sconce02_Hardware",
+    "HA_Sconce_Shade": "HA_Sconce02_Shade",
+    "HA_Sconce_Bulb": "HA_Sconce02_Bulb"
+  },
+  "component_bounds": {
+    "HA_Sconce02_Hardware": {
+      "min": [
+        -0.041999999433755875,
+        -0.10300000011920929,
+        -0.041999999433755875
+      ],
+      "max": [
+        0.041999999433755875,
+        1.862645149230957e-09,
+        0.16249999403953552
+      ]
+    },
+    "HA_Sconce02_Shade": {
+      "min": [
+        -0.060499999672174454,
+        -0.1404999941587448,
+        -0.007000000216066837
+      ],
+      "max": [
+        0.060499999672174454,
+        -0.019500000402331352,
+        0.07900000363588333
+      ]
+    },
+    "HA_Sconce02_Bulb": {
+      "min": [
+        -0.01399998739361763,
+        -0.09399998933076859,
+        0.010000001639127731
+      ],
+      "max": [
+        0.013999996706843376,
+        -0.06599999964237213,
+        0.06300000101327896
+      ]
+    }
+  },
+  "material_contracts": {
+    "HA_Sconce02_Hardware": [
+      {
+        "slot": 0,
+        "name": "HA_Sconce02_AgedBrass",
+        "base_color_linear": [
+          0.30000001192092896,
+          0.20000000298023224,
+          0.09000000357627869
+        ],
+        "roughness": 0.5400000214576721,
+        "metallic": 0.6000000238418579,
+        "opacity": 1,
+        "blend_mode": "Opaque",
+        "two_sided": false,
+        "transmission": 0,
+        "base_color_texture": "textures/aged-brass.png"
+      },
+      {
+        "slot": 1,
+        "name": "HA_Sconce02_PorcelainHolder",
+        "base_color_linear": [
+          0.7400000095367432,
+          0.6899999976158142,
+          0.5799999833106995
+        ],
+        "roughness": 0.5699999928474426,
+        "metallic": 0.0,
+        "opacity": 1,
+        "blend_mode": "Opaque",
+        "two_sided": false,
+        "transmission": 0
+      }
+    ],
+    "HA_Sconce02_Shade": [
+      {
+        "slot": 0,
+        "name": "HA_Sconce02_OpalOpaque",
+        "base_color_linear": [
+          0.8700000047683716,
+          0.7900000214576721,
+          0.6499999761581421
+        ],
+        "roughness": 0.4300000071525574,
+        "metallic": 0.0,
+        "opacity": 1,
+        "blend_mode": "Opaque",
+        "two_sided": false,
+        "transmission": 0,
+        "base_color_texture": "textures/opal-glass.png"
+      }
+    ],
+    "HA_Sconce02_Bulb": [
+      {
+        "slot": 0,
+        "name": "HA_Sconce02_BulbIvory",
+        "base_color_linear": [
+          0.9200000166893005,
+          0.8199999928474426,
+          0.6800000071525574
+        ],
+        "roughness": 0.4000000059604645,
+        "metallic": 0.0,
+        "opacity": 1,
+        "blend_mode": "Opaque",
+        "two_sided": false,
+        "transmission": 0
+      }
+    ]
+  },
+  "shade_boundary_edges": 0,
+  "shade_volume_m3": 4.367176504321718e-05,
+  "shade_arm_triangle_intersections": 0,
+  "shade_hardware_triangle_intersections": [],
+  "shade_arm_nearest_vertex_gap_m": 0.004732482135295868,
+  "shade_wall_minimum_clearance_m": 0.0195,
+  "shade_thickness_m": 0.0025,
+  "bulb_holder_seating_overlap_m": 0.008,
+  "light_preview_position_m": [
+    0,
+    -0.08,
+    -0.012
+  ],
+  "toggle_contract": "Same transform for all3 meshes. Existinglight toggle actor controls unchanged lamp identity; shade/bulb emission + previewlight only change on/off. Hardware remains fixed.",
+  "original_source_sha256": "3b423202ee438f0b4868bb43ddd23baa759dfeb57ff0dc9a6dd81078dff50656",
+  "assembly_bounds_m": {
+    "min": [
+      -0.060499999672174454,
+      -0.1404999941587448,
+      -0.041999999433755875
+    ],
+    "max": [
+      0.060499999672174454,
+      1.862645149230957e-09,
+      0.16249999403953552
+    ]
+  },
+  "assembly_dimensions_m": [
+    0.12099999934434891,
+    0.14049999602138996,
+    0.2044999934732914
+  ]
+}

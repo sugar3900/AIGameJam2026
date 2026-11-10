@@ -1,0 +1,116 @@
+{
+  "asset": "BR-CLOSET-LIGHT-01",
+  "units": "metres; source X stays X, source Y flips to Unreal Y, multiply 100",
+  "assembly_root_world_cm": [
+    110,
+    470,
+    0
+  ],
+  "parts": [
+    {
+      "file": "models/BR_ClosetLight01_Hardware.fbx",
+      "pivot_baked_local": true,
+      "world_position_cm": [
+        114,
+        468,
+        275
+      ],
+      "root_relative_cm": [
+        4,
+        -2,
+        275
+      ],
+      "yaw": 0,
+      "slots": [
+        "Closet_AgedBrass",
+        "Closet_BrassEdge",
+        "Closet_BraidedCord",
+        "Closet_Ceramic",
+        "Closet_SupportWire"
+      ],
+      "ucx_count": 0
+    },
+    {
+      "file": "models/BR_ClosetLight01_Glass.fbx",
+      "pivot_baked_local": true,
+      "world_position_cm": [
+        114,
+        468,
+        275
+      ],
+      "root_relative_cm": [
+        4,
+        -2,
+        275
+      ],
+      "yaw": 0,
+      "slots": [
+        "Closet_ClearAmberGlass"
+      ],
+      "ucx_count": 0
+    },
+    {
+      "file": "models/BR_ClosetLight01_Filament.fbx",
+      "pivot_baked_local": true,
+      "world_position_cm": [
+        114,
+        468,
+        275
+      ],
+      "root_relative_cm": [
+        4,
+        -2,
+        275
+      ],
+      "yaw": 0,
+      "slots": [
+        "Closet_Filament"
+      ],
+      "ucx_count": 0
+    },
+    {
+      "file": "models/BR_ClosetLight01_Chain.fbx",
+      "pivot_baked_local": true,
+      "world_position_cm": [
+        118,
+        474,
+        264.5
+      ],
+      "root_relative_cm": [
+        8,
+        4,
+        264.5
+      ],
+      "yaw": 0,
+      "slots": [
+        "Closet_AgedBrass",
+        "Closet_BrassEdge"
+      ],
+      "ucx_count": 1
+    }
+  ],
+  "interaction": {
+    "label": "Light_Closet",
+    "prompt_on": "Pull chain",
+    "prompt_off": "Pull chain",
+    "initial_on": true,
+    "chain_pull_cm": 1.5,
+    "pull_return_seconds": 0.25,
+    "fade_seconds": 0.29,
+    "rest_bottom_cm": 201.5,
+    "pulled_bottom_cm": 200.0,
+    "collision": "chain UCX query only; others NoCollision"
+  },
+  "light": {
+    "lumens": 60,
+    "temperature_K": 2300,
+    "source_radius_cm": 8,
+    "specular_scale": 0.35,
+    "attenuation_cm": 260,
+    "suggested_world_cm": [
+      114,
+      468,
+      250
+    ]
+  }
+}

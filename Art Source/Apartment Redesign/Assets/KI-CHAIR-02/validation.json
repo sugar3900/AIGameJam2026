@@ -1,0 +1,166 @@
+{
+  "status": "PASS",
+  "fbx_sha256": "c132e28f86c17ca5a418fd678531c7e590abab3141cd3e082845cac092163e0e",
+  "original_fbx_sha256": "8ea38edad561ac122ada7f8592cdbade9444d27c954ef70a299450e260978059",
+  "render_meshes": 1,
+  "vertices": 7742,
+  "triangles": 15264,
+  "ucx_hulls": 26,
+  "render_bounds": {
+    "min": [
+      -0.23000003397464752,
+      -0.23772241175174713,
+      0.012379639782011509
+    ],
+    "max": [
+      0.23000003397464752,
+      0.2750001847743988,
+      0.9099999070167542
+    ]
+  },
+  "original_bounds": {
+    "min": [
+      -0.23000000417232513,
+      -0.23772238194942474,
+      0.012379639782011509
+    ],
+    "max": [
+      0.23000000417232513,
+      0.2750001549720764,
+      0.9099999070167542
+    ]
+  },
+  "collision_bounds": {
+    "min": [
+      -0.23000003397464752,
+      -0.23772236704826355,
+      0.012379639782011509
+    ],
+    "max": [
+      0.23000003397464752,
+      0.27500012516975403,
+      0.8944941759109497
+    ]
+  },
+  "preserved_vertices": 3668,
+  "preserved_geometry_uv_material_corners_match_within_1e6": true,
+  "maximum_preserved_position_error_m": 7.450580596923828e-08,
+  "maximum_preserved_uv_error": 0,
+  "preserved_corner_count": 14192,
+  "finite_positions_normals_uvs": true,
+  "zero_area_geometry_triangles": 0,
+  "zero_area_uv_triangles_in_new_slats": 0,
+  "inherited_zero_area_uv_triangles": 288,
+  "slats": [
+    {
+      "centre_z": 0.614999920129776,
+      "measured_centre_minus_outer_band_y_m": 0.011594249308109289,
+      "measured_recline_deg": 7.2798804104370705,
+      "bounds": {
+        "min": [
+          -0.18414488434791565,
+          0.18839141726493835,
+          0.5824999213218689
+        ],
+        "max": [
+          0.18414494395256042,
+          0.2276354283094406,
+          0.6474999189376831
+        ]
+      }
+    },
+    {
+      "centre_z": 0.7149999439716339,
+      "measured_centre_minus_outer_band_y_m": 0.011596541106700886,
+      "measured_recline_deg": 10.773807337995256,
+      "bounds": {
+        "min": [
+          -0.18900148570537567,
+          0.202096089720726,
+          0.6824999451637268
+        ],
+        "max": [
+          0.18900153040885925,
+          0.24507546424865723,
+          0.747499942779541
+        ]
+      }
+    },
+    {
+      "centre_z": 0.8349999487400055,
+      "measured_centre_minus_outer_band_y_m": 0.0077338144183158875,
+      "measured_recline_deg": 12.404648436410753,
+      "bounds": {
+        "min": [
+          -0.19867712259292603,
+          0.22225145995616913,
+          0.7824999690055847
+        ],
+        "max": [
+          0.1986772119998932,
+          0.27193978428840637,
+          0.8874999284744263
+        ]
+      }
+    }
+  ],
+  "source_joint_checks": [
+    {
+      "slat": "Concave lower back slat",
+      "post": "L",
+      "minimum_endpoint_embed_m": 0.006106076507421676,
+      "samples": 120
+    },
+    {
+      "slat": "Concave lower back slat",
+      "post": "R",
+      "minimum_endpoint_embed_m": 0.006106062181061134,
+      "samples": 120
+    },
+    {
+      "slat": "Concave middle back slat",
+      "post": "L",
+      "minimum_endpoint_embed_m": 0.006145276929601096,
+      "samples": 120
+    },
+    {
+      "slat": "Concave middle back slat",
+      "post": "R",
+      "minimum_endpoint_embed_m": 0.006145290186395869,
+      "samples": 120
+    },
+    {
+      "slat": "Concave upper broad slat",
+      "post": "L",
+      "minimum_endpoint_embed_m": 0.006267624092288315,
+      "samples": 120
+    },
+    {
+      "slat": "Concave upper broad slat",
+      "post": "R",
+      "minimum_endpoint_embed_m": 0.006267630582442507,
+      "samples": 120
+    }
+  ],
+  "material_slots": [
+    "Chair_Walnut",
+    "Chair_Rust_Vinyl",
+    "Chair_Piping"
+  ],
+  "textures": [
+    {
+      "file": "textures/wood-selected-v2.png",
+      "sha256": "760923f77d6a36f34d11f8a49496a94c91e6d5b5d88d0add248fd6344dab6fd5",
+      "matches_original": true
+    },
+    {
+      "file": "textures/vinyl.png",
+      "sha256": "7e5958647f9ffae49c78f57907821a31d360f955e059e24e5f9248a94c40d825",
+      "matches_original": true
+    }
+  ],
+  "limitations": [
+    "Source/FBX validation only; Unreal legacy importer and real-map collision still require integration verification.",
+    "Inherited chair lowest geometry is 0.01237964 m above origin; this revision intentionally preserves the old actor fit."
+  ]
+}
