@@ -237,7 +237,8 @@ for lab, a in sorted(acts.items()):
     fp = str(a.get_folder_path())
     if lab in used or fp.startswith(SKIP) or not fp or a.actor_has_tag('GameplayBodySource') or isinstance(a, unreal.Note): continue
     o, _ = a.get_actor_bounds(False, True)
-    if fp.startswith('Gameplay/Interactables') or fp.startswith('Gameplay/Structure') or fp.startswith('Gameplay/Maladies'):
+    # rev02_09_controls: room wall switches (incl. their duplicated plate/rocker art) and overhead-light fixtures are gameplay controls
+    if fp.startswith(('Gameplay/Interactables', 'Gameplay/Structure', 'Gameplay/Maladies', 'Gameplay/WallSwitches', 'Gameplay/OverheadLights')):
         groups['actions'].append('`%s`' % lab)
     elif lab.startswith('Art_CeilingLight_'):
         near = min(fixtures, key=lambda f: (f['position'][0] * 100 - o.x) ** 2 + (f['position'][1] * 100 - o.y) ** 2)
