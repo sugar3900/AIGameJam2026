@@ -166,6 +166,11 @@ void AFixHimMalady::FrameCamera()
 	{
 		Q.AddIgnoredActor(Hunk);
 	}
+	// Rosie stands between the face and the camera; her capsule must not push the camera toward him.
+	if (APlayerController* Player = GetWorld()->GetFirstPlayerController())
+	{
+		Q.AddIgnoredActor(Player->GetPawn());
+	}
 	if (GetWorld()->SweepSingleByChannel(Hit, Head, CamLoc, FQuat::Identity, ECC_Visibility, FCollisionShape::MakeSphere(18.f), Q))
 	{
 		CamLoc = Hit.Location + (Head - CamLoc).GetSafeNormal() * 10.f;
@@ -492,7 +497,18 @@ void AFixHimMalady::SummonHunk()
 	}
 	if (Hunk)
 	{
-		Hunk->SetActorLocationAndRotation(HunkStandLocation, HunkSpawn->GetComponentRotation());
+		FRotator Facing = HunkSpawn->GetComponentRotation();
+		if (HunkId.Equals(TEXT("wyatt"), ESearchCase::IgnoreCase))
+		{
+			// His talk spot is offset from the fuse box. Face the final camera position, including wall avoidance.
+			FVector ToCamera = DialogueCamera->GetComponentLocation() - HunkStandLocation;
+			ToCamera.Z = 0.f;
+			if (!ToCamera.IsNearlyZero())
+			{
+				Facing = ToCamera.Rotation();
+			}
+		}
+		Hunk->SetActorLocationAndRotation(HunkStandLocation, Facing);
 		// Grow out of the glowing fixture itself.
 		const FVector From = Body && Body->GetStaticMesh() ? Body->Bounds.Origin : GetActorLocation();
 		Hunk->Appear(From);

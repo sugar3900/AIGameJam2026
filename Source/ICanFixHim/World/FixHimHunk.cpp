@@ -12,6 +12,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/SceneCaptureComponent2D.h"
 #include "Engine/SkeletalMesh.h"
+#include "Engine/Texture.h"
 #include "Engine/TextureRenderTarget2D.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
@@ -19,12 +20,18 @@
 #include "Animation/AnimSequenceBase.h"
 #include "Misc/PackageName.h"
 #include "TimerManager.h"
+#if WITH_EDITOR
+#include "TextureCompiler.h"
+#endif
 
 AFixHimHunk::AFixHimHunk()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	AutoPossessAI = EAutoPossessAI::Disabled;
 	AIControllerClass = nullptr;
+	// Stay invisible from component registration onward, before BeginPlay loads any assets.
+	SetActorHiddenInGame(true);
+	SetActorEnableCollision(false);
 
 	GetCapsuleComponent()->InitCapsuleSize(38.f, 92.f);
 	GetCharacterMovement()->GravityScale = 0.f;
@@ -33,6 +40,12 @@ AFixHimHunk::AFixHimHunk()
 	GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -92.f));
 	GetMesh()->SetRelativeRotation(FRotator(0.f, -90.f, 0.f));
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	PortraitMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PortraitMesh"));
+	PortraitMesh->SetupAttachment(GetMesh());
+	PortraitMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	PortraitMesh->SetCastShadow(false);
+	PortraitMesh->SetVisibleInSceneCaptureOnly(true);
 
 	PortraitCapture = CreateDefaultSubobject<USceneCaptureComponent2D>(TEXT("PortraitCapture"));
 	PortraitCapture->SetupAttachment(GetCapsuleComponent());
@@ -49,6 +62,8 @@ AFixHimHunk::AFixHimHunk()
 void AFixHimHunk::BeginPlay()
 {
 	Super::BeginPlay();
+	SetActorHiddenInGame(true);
+	SetActorEnableCollision(false);
 
 	const UFixHimSettings* S = UFixHimSettings::Get();
 	if (USkeletalMesh* Mesh = S->HunkMesh.LoadSynchronous())
@@ -66,9 +81,9 @@ void AFixHimHunk::BeginPlay()
 	PortraitTarget->InitAutoFormat(512, 512);
 	PortraitTarget->UpdateResourceImmediate(true);
 	PortraitCapture->TextureTarget = PortraitTarget;
-	PortraitCapture->ShowOnlyActors.Add(this);
+	PortraitCapture->ShowOnlyComponent(PortraitMesh);
 
-	SetPresentImmediate(false);
+	// ApplyDefinition installs the final mesh and its fully dissolved materials while still hidden.
 }
 
 namespace
@@ -92,6 +107,15 @@ namespace
 
 void AFixHimHunk::ApplyDefinition(const FHunkDefinition& Def)
 {
+	SetActorHiddenInGame(true);
+	SetActorEnableCollision(false);
+	bPresent = false;
+	PopAnim = EPopAnim::None;
+	GetWorldTimerManager().ClearTimer(StillTimer);
+	bHasStill = false;
+	// A new definition must not inherit dynamic materials from the previous mesh.
+	GetMesh()->EmptyOverrideMaterials();
+	FormMIDs.Reset();
 	HunkId = Def.Id;
 	BaseScale = Def.Scale;
 	GlowColor = Def.GlowColor;
@@ -119,6 +143,9 @@ void AFixHimHunk::ApplyDefinition(const FHunkDefinition& Def)
 				UE_LOG(LogFixHim, Warning, TEXT("Hunk '%s': no idle animation ('%s'); he'll hold his rest pose."), *Def.Id, *Def.Idle);
 			}
 			SetActorScale3D(FVector(BaseScale));
+			SetForm(0.f, Enter);
+			SetupPortraitMesh();
+			PreloadTextures();
 			return;
 		}
 		UE_LOG(LogFixHim, Warning, TEXT("Hunk '%s': mesh '%s' not found, falling back to the mannequin."), *Def.Id, *Def.Mesh);
@@ -141,16 +168,62 @@ void AFixHimHunk::ApplyDefinition(const FHunkDefinition& Def)
 	}
 
 	SetActorScale3D(FVector(BaseScale));
+	SetForm(0.f, Enter);
+	SetupPortraitMesh();
+	PreloadTextures();
+}
+
+void AFixHimHunk::PreloadTextures()
+{
+	// Warm up while the character is still hidden, including materials on fallback outfit props.
+	TArray<UTexture*> Textures;
+	TInlineComponentArray<UMeshComponent*> Meshes(this);
+	for (UMeshComponent* Mesh : Meshes)
+	{
+		for (UMaterialInterface* Material : Mesh->GetMaterials())
+		{
+			if (!Material)
+			{
+				continue;
+			}
+			TArray<UTexture*> UsedTextures;
+			Material->GetUsedTextures(UsedTextures);
+			for (UTexture* Texture : UsedTextures)
+			{
+				if (Texture)
+				{
+					Textures.AddUnique(Texture);
+				}
+			}
+		}
+	}
+	// Loaded objects may still have asynchronous texture builds pending in the editor.
+#if WITH_EDITOR
+	FTextureCompilingManager::Get().FinishCompilation(Textures);
+#endif
+	for (UTexture* Texture : Textures)
+	{
+		Texture->SetForceMipLevelsToBeResident(30.f);
+	}
+	for (UTexture* Texture : Textures)
+	{
+		Texture->WaitForStreaming();
+	}
 }
 
 void AFixHimHunk::SetPresentImmediate(bool bVisible)
 {
 	bPresent = bVisible;
 	PopAnim = EPopAnim::None;
-	SetActorHiddenInGame(!bVisible);
+	if (!bVisible)
+	{
+		SetActorHiddenInGame(true);
+		GetWorldTimerManager().ClearTimer(StillTimer);
+	}
 	SetActorEnableCollision(bVisible);
 	SetActorScale3D(FVector(BaseScale));
-	SetForm(1.f, Enter);
+	SetForm(bVisible ? 1.f : 0.f, Enter);
+	SetActorHiddenInGame(!bVisible);
 }
 
 void AFixHimHunk::Appear(const FVector& From)
@@ -159,6 +232,9 @@ void AFixHimHunk::Appear(const FVector& From)
 	{
 		return;
 	}
+	// Hidden characters can have their mips evicted between visits. Finish reloading before
+	// starting the dissolve, sound, portrait timer, or the caller's encounter timer.
+	PreloadTextures();
 	bPresent = true;
 	PopAnim = EPopAnim::Appear;
 	PopTime = 0.f;
@@ -227,15 +303,17 @@ void AFixHimHunk::SetForm(float Alpha, EEntrance Style)
 	FormAlpha = Alpha;
 	if (FormMIDs.IsEmpty())
 	{
-		if (Alpha >= 1.f || !GetMesh())
+		if (!GetMesh())
 		{
-			return; // nothing to drive, and no need to swap materials until a dissolve is actually used
+			return;
 		}
 		for (int32 i = 0; i < GetMesh()->GetNumMaterials(); ++i)
 		{
 			if (UMaterialInterface* M = GetMesh()->GetMaterial(i))
 			{
 				UMaterialInstanceDynamic* MID = UMaterialInstanceDynamic::Create(M, this);
+				// Set the mask before attaching: the master material defaults to fully visible.
+				MID->SetScalarParameterValue(TEXT("Dissolve"), Alpha);
 				GetMesh()->SetMaterial(i, MID);
 				FormMIDs.Add(MID);
 			}
@@ -328,23 +406,38 @@ void AFixHimHunk::SetPortraitLive(bool bLive)
 	}
 }
 
+void AFixHimHunk::SetupPortraitMesh()
+{
+	PortraitMesh->SetSkeletalMesh(GetMesh()->GetSkeletalMeshAsset());
+	PortraitMesh->SetLeaderPoseComponent(GetMesh());
+	PortraitMesh->EmptyOverrideMaterials();
+	for (int32 i = 0; i < GetMesh()->GetNumMaterials(); ++i)
+	{
+		if (UMaterialInterface* Material = GetMesh()->GetMaterial(i))
+		{
+			// Independent parameters: capturing a fully formed face must never change the world dissolve.
+			const UMaterialInstanceDynamic* SourceMID = Cast<UMaterialInstanceDynamic>(Material);
+			UMaterialInterface* Parent = SourceMID ? SourceMID->Parent.Get() : Material;
+			UMaterialInstanceDynamic* MID = UMaterialInstanceDynamic::Create(Parent, this);
+			MID->CopyMaterialUniformParameters(Material);
+			MID->SetScalarParameterValue(TEXT("Dissolve"), 1.f);
+			PortraitMesh->SetMaterial(i, MID);
+		}
+	}
+}
+
 void AFixHimHunk::CapturePortraitNow(bool bAsStill)
 {
 	if (PortraitCapture && PortraitTarget)
 	{
 		bHasStill |= bAsStill;
-		// Capture at full size even mid-pop so silhouettes are never tiny.
-		const FVector Saved = GetActorScale3D();
-		SetActorScale3D(FVector(BaseScale));
+		// The portrait copy is visible only to scene captures. Never set the gameplay mesh's form to 1.
 		const bool bWasHidden = IsHidden();
-		const float SavedForm = FormAlpha;
-		SetForm(1.f, Enter);
 		SetActorHiddenInGame(false);
 		GetMesh()->RefreshBoneTransforms();
+		PortraitMesh->RefreshBoneTransforms();
 		PortraitCapture->CaptureScene();
 		SetActorHiddenInGame(bWasHidden);
-		SetForm(SavedForm, Enter);
-		SetActorScale3D(Saved);
 	}
 }
 
@@ -381,11 +474,12 @@ void AFixHimHunk::Tick(float DeltaSeconds)
 		// Built in place by the transition shader (no scaling): the front sweeps from his feet to his head.
 		PopTime += DeltaSeconds;
 		const float T = (PopTime - AppearDelay) / InSeconds(static_cast<int32>(Enter));
+		// Update the mask before exposing the mesh to the main view.
+		SetForm(FMath::Clamp(T, 0.f, 1.f), Enter);
 		if (T > 0.f && IsHidden())
 		{
 			SetActorHiddenInGame(false);
 		}
-		SetForm(FMath::Clamp(T, 0.f, 1.f), Enter);
 		if (T >= 1.f)
 		{
 			PopAnim = EPopAnim::None;

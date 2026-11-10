@@ -215,6 +215,9 @@ cam.tags = [unreal.Name('TitleCamera'), unreal.Name('TitleCameraAsPlaced')]
 # The hall's east ceiling light now hangs in the kitchen.
 acts['CeilingLight_HallEast'].set_editor_property('room_id', 'kitchen')
 
+# Preserve linked doors and room light circuits whenever gameplay is regenerated.
+import runpy
+runpy.run_path(os.path.join(os.path.dirname(__file__), 'rev02_09_controls.py'))
 assert L.save_all_dirty_levels()
 n = sum(1 for a in A.get_all_level_actors() if str(a.get_folder_path()).startswith('Gameplay'))
 unreal.log('[Rev02 gameplay] saved; gameplay actors=%d' % n)

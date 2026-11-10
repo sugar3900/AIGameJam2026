@@ -6,7 +6,7 @@ Creates / refreshes the procedural assets the game code expects (see Config/Defa
   /Game/ICanFixHim/Materials/M_Sparkle       unlit additive twinkle sprite for the hunks' appear / pop puffs, Color param
   /Game/ICanFixHim/Materials/M_Shine         additive overlay material: a shine band that wipes across a mesh + a soft rim glow
   /Game/ICanFixHim/Materials/M_UI_Portrait   UI material for scene-capture portraits
-  /Game/ICanFixHim/UI/T_Pointer, T_Heart, T_PlayerSilhouette   imported from SourceArt/Generated (Tools/Art/*.svg)
+  /Game/ICanFixHim/UI/T_Heart, T_PlayerSilhouette              imported from SourceArt/Generated (Tools/Art/*.svg)
 
 Run inside the editor (Python console, MCP, or -ExecutePythonScript). Idempotent.
 """
@@ -330,7 +330,7 @@ def build_portrait():
     finish(mat)
 
 
-UI_TEXTURES = ("T_Pointer", "T_Heart", "T_PlayerSilhouette")
+UI_TEXTURES = ("T_Heart", "T_PlayerSilhouette")
 
 
 def import_textures():

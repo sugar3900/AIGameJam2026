@@ -547,6 +547,19 @@ void AFixHimPlayerController::ApplyInputModeForState()
 		Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 		SetInputMode(Mode);
 	}
+	RefreshInteractionShine();
+}
+
+void AFixHimPlayerController::RefreshInteractionShine()
+{
+	bool bAllow = State == EFixHimState::Playing && !bPodcastPlaying;
+#if WITH_EDITOR || !UE_BUILD_SHIPPING
+	bAllow = bAllow && !bDebugPanelOpen;
+#endif
+	for (TActorIterator<AFixHimInteractable> It(GetWorld()); It; ++It)
+	{
+		It->SetInteractionShineEnabled(bAllow);
+	}
 }
 
 void AFixHimPlayerController::PlayerTick(float DeltaTime)
@@ -1280,12 +1293,15 @@ void AFixHimPlayerController::StartDay(bool bFromSave)
 		: (bFromSave ? TEXT("Welcome back, homeowner.") : TEXT("One week later..."));
 	EnterState(EFixHimState::Sleeping);
 	TWeakObjectPtr<AFixHimPlayerController> Self(this);
-	TransitionWidget->Play(FString::Printf(TEXT("Week %d"), Week), Sub, true, true, nullptr, [Self]()
+	TransitionWidget->Play(FString::Printf(TEXT("Week %d"), Week), Sub, true, true, nullptr, [Self, bFromSave]()
 	{
 		if (Self.IsValid())
 		{
 			Self->EnterState(EFixHimState::Playing);
-			Self->StartPodcast();
+			if (!bFromSave)
+			{
+				Self->StartPodcast();
+			}
 		}
 	});
 }
@@ -1298,6 +1314,7 @@ void AFixHimPlayerController::StartPodcast()
 	if (!Episode || !Show)
 	{
 		bPodcastPlaying = false;
+		RefreshInteractionShine();
 		return;
 	}
 	if (!RadioWidget)
@@ -1306,6 +1323,7 @@ void AFixHimPlayerController::StartPodcast()
 	}
 	ShowWidget(RadioWidget, 5);
 	bPodcastPlaying = true;
+	RefreshInteractionShine();
 	if (HUDWidget)
 	{
 		HUDWidget->ShowToast(TEXT("The radio's on. You can explore, but nobody's talking until the episode ends."), 4.f);
@@ -1316,6 +1334,7 @@ void AFixHimPlayerController::StartPodcast()
 		if (Self.IsValid())
 		{
 			Self->bPodcastPlaying = false;
+			Self->RefreshInteractionShine();
 			if (Self->HUDWidget)
 			{
 				Self->HUDWidget->ShowToast(TEXT("That's the episode. Go say hi."), 3.f);
@@ -1767,6 +1786,7 @@ void AFixHimPlayerController::FixHimSkipPodcast()
 		RadioWidget->Stop();
 	}
 	bPodcastPlaying = false;
+	RefreshInteractionShine();
 }
 
 void AFixHimPlayerController::FixHimNamePrompt()

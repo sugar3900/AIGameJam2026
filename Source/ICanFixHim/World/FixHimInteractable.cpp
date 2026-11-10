@@ -6,8 +6,12 @@
 #include "Audio/FixHimSfxSubsystem.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/PointLightComponent.h"
-#include "Components/LightComponent.h"
 #include "Engine/StaticMesh.h"
+#include "Engine/Light.h"
+#include "Components/LightComponent.h"
+#include "EngineUtils.h"
+#include "Kismet/GameplayStatics.h"
+#include "Player/FixHimPlayerController.h"
 #include "Materials/MaterialInstanceDynamic.h"
 
 AFixHimInteractable::AFixHimInteractable()
@@ -53,8 +57,7 @@ void AFixHimInteractable::BeginPlay()
 	BuildOutline();
 	BuildShine();
 	BuildGlow();
-	ToggleAlpha = bIsOn ? 1.f : 0.f;
-	ApplyToggleAlpha(ToggleAlpha);
+	SetOnLocal(bIsOn, true);
 }
 
 void AFixHimInteractable::BuildGlow()
@@ -129,7 +132,7 @@ void AFixHimInteractable::ApplyLook()
 
 void AFixHimInteractable::BuildOutline()
 {
-	if (!bHoverOutline)
+	if (!bEnabled || !bHoverOutline)
 	{
 		return;
 	}
@@ -174,6 +177,10 @@ void AFixHimInteractable::BuildOutline()
 
 void AFixHimInteractable::BuildShine()
 {
+	if (!bEnabled)
+	{
+		return;
+	}
 	UMaterialInterface* ShineMat = UFixHimSettings::Get()->ShineMaterial.LoadSynchronous();
 	if (!ShineMat)
 	{
@@ -222,6 +229,29 @@ void AFixHimInteractable::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 	Age += DeltaSeconds;
 
+	if (bAutoCloseOnWalkAway && bIsOn && (Toggle == EInteractToggle::Slide || Toggle == EInteractToggle::Rotate))
+	{
+		const AFixHimPlayerController* PC = Cast<AFixHimPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+		if (PC && PC->GetState() == EFixHimState::Playing && PC->GetPawn())
+		{
+			// Measure from the closed body's center, so the moving door cannot change the threshold.
+			const FVector Center = Body->GetStaticMesh()
+				? Body->GetRelativeTransform().TransformPosition(Body->GetStaticMesh()->GetBounds().Origin)
+				: FVector::ZeroVector;
+			const FVector ClosedCenter = GetActorTransform().TransformPosition(Center);
+			const float Distance = FVector::Dist2D(PC->GetPawn()->GetActorLocation(), ClosedCenter);
+			ClosestOpenDistance = FMath::Min(ClosestOpenDistance, Distance);
+			// Allow normal movement nearby, then close after a 60 cm retreat. Opening at long
+			// interaction range must still work without immediately snapping the door shut.
+			const float Range = FMath::Max(180.f, ClosestOpenDistance + 60.f);
+			if (Distance > Range)
+			{
+				SetOn(false);
+				PlayInteractSfx();
+			}
+		}
+	}
+
 	const float Target = bIsOn ? 1.f : 0.f;
 	if (!FMath::IsNearlyEqual(ToggleAlpha, Target))
 	{
@@ -244,10 +274,10 @@ void AFixHimInteractable::Tick(float DeltaSeconds)
 		}
 	}
 
-	if (ShineMID && bShine && bEnabled)
+	if (ShineMID && bShine && bEnabled && bInteractionShineEnabled)
 	{
 		// A shine takes ShineDuration to cross the object, then the next one is a few seconds away.
-		constexpr float ShineDuration = 0.9f;
+		constexpr float ShineDuration = 1.4f;
 		const float Progress = (Age - NextShineAt) / ShineDuration;
 		if (Progress >= 0.f && Progress <= 1.f)
 		{
@@ -259,6 +289,21 @@ void AFixHimInteractable::Tick(float DeltaSeconds)
 			NextShineAt = Age + FMath::FRandRange(ShineInterval.X, ShineInterval.Y);
 		}
 	}
+}
+
+void AFixHimInteractable::SetInteractionShineEnabled(bool bAllow)
+{
+	if (bInteractionShineEnabled == bAllow)
+	{
+		return;
+	}
+	bInteractionShineEnabled = bAllow;
+	if (ShineMID)
+	{
+		ShineMID->SetScalarParameterValue(TEXT("Sweep"), -1.f);
+	}
+	// Resume with a fresh delay, rather than continuing a sweep left over from before the conversation.
+	NextShineAt = Age + FMath::FRandRange(ShineInterval.X, ShineInterval.Y);
 }
 
 void AFixHimInteractable::ApplyToggleAlpha(float Alpha)
@@ -311,6 +356,10 @@ void AFixHimInteractable::ApplyToggleAlpha(float Alpha)
 
 void AFixHimInteractable::Interact(AFixHimPlayerController* Player)
 {
+	if (!CanInteract())
+	{
+		return;
+	}
 	if (Toggle != EInteractToggle::None)
 	{
 		SetOn(!bIsOn);
@@ -391,11 +440,38 @@ void AFixHimInteractable::PlayInteractSfx()
 
 void AFixHimInteractable::SetOn(bool bInOn, bool bInstant)
 {
+	SetOnLocal(bInOn, bInstant);
+	if (!ToggleGroup.IsNone() && GetWorld())
+	{
+		for (TActorIterator<AFixHimInteractable> It(GetWorld()); It; ++It)
+		{
+			if (*It != this && It->ToggleGroup == ToggleGroup)
+			{
+				// Assign the requested state, never toggle recursively. Disabled light fixtures still receive it.
+				It->SetOnLocal(bInOn, bInstant);
+			}
+		}
+	}
+}
+
+void AFixHimInteractable::SetOnLocal(bool bInOn, bool bInstant)
+{
+	if (bInOn != bIsOn)
+	{
+		ClosestOpenDistance = TNumericLimits<float>::Max();
+	}
 	bIsOn = bInOn;
 	if (bInstant)
 	{
 		ToggleAlpha = bIsOn ? 1.f : 0.f;
 		ApplyToggleAlpha(ToggleAlpha);
+	}
+	for (const TSoftObjectPtr<ALight>& Target : ControlledLights)
+	{
+		if (ALight* TargetLight = Target.Get())
+		{
+			TargetLight->GetLightComponent()->SetVisibility(bIsOn);
+		}
 	}
 }
 
@@ -406,6 +482,7 @@ FText AFixHimInteractable::GetPrompt() const
 
 void AFixHimInteractable::SetHovered(bool bInHovered)
 {
+	bInHovered &= CanInteract();
 	if (bHovered == bInHovered)
 	{
 		return;

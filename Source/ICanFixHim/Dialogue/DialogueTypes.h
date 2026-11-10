@@ -128,6 +128,8 @@ struct FHunkDefinition
 	FString Mesh;
 	/** Looping idle animation for Mesh (look.idle), retargeted onto its skeleton by Tools/Editor/import_characters.py. */
 	FString Idle;
+	/** Optional painted portrait texture (look.portrait); empty uses the scene capture. */
+	FString Portrait;
 	/** How he arrives / leaves (look.entrance, look.exit): bubble (default), sparkle, spores or surge. Empty exit = same as entrance. */
 	FString Entrance;
 	FString Exit;

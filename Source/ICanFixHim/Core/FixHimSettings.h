@@ -78,19 +78,15 @@ public:
 
 	// ---- UI ---------------------------------------------------------------
 
-	/** UI material for dialogue portraits rendered from a scene capture. Params: Portrait (texture), Silhouette (scalar). */
+	/** UI material for portraits rendered from a scene capture (intro cards; dialogue fallback when a hunk has no look.portrait). Params: Portrait (texture), Silhouette (scalar). */
 	UPROPERTY(Config, EditAnywhere, Category = "UI")
 	TSoftObjectPtr<UMaterialInterface> PortraitMaterial;
-
-	/** Reticle shown while hovering something interactable (pointing finger with painted nails). */
-	UPROPERTY(Config, EditAnywhere, Category = "UI")
-	TSoftObjectPtr<UTexture2D> PointerTexture;
 
 	/** Big heart icon used for romance meters and ending cards. */
 	UPROPERTY(Config, EditAnywhere, Category = "UI")
 	TSoftObjectPtr<UTexture2D> HeartTexture;
 
-	/** The heroine's dialogue portrait for "You:" lines (a bust silhouette, Tools/Art/player_silhouette.svg). */
+	/** The heroine's dialogue portrait for "You:" lines (a toon bust silhouette, Tools/Art/Portraits/player_portrait.py). */
 	UPROPERTY(Config, EditAnywhere, Category = "UI")
 	TSoftObjectPtr<UTexture2D> PlayerPortraitTexture;
 

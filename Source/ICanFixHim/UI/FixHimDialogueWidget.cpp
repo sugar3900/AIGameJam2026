@@ -1,6 +1,7 @@
 // I Can Fix Him - AI Game Jam 2026
 
 #include "UI/FixHimDialogueWidget.h"
+#include "ICanFixHim.h"
 #include "Player/FixHimPlayerController.h"
 #include "Audio/FixHimSfxSubsystem.h"
 #include "World/FixHimHunk.h"
@@ -28,6 +29,7 @@
 #include "Engine/Texture2D.h"
 #include "Engine/TextureRenderTarget2D.h"
 #include "Materials/MaterialInstanceDynamic.h"
+#include "Misc/PackageName.h"
 
 using namespace FixHimUI;
 
@@ -213,6 +215,25 @@ void UFixHimDialogueWidget::BindHunk(AFixHimHunk* Hunk, const FString& InHunkId)
 	}
 	HunkPortraitRT = Hunk->GetPortrait();
 	PortraitMID = nullptr;
+	HunkPortraitTexture = nullptr;
+	if (const UFixHimDialogueSubsystem* D = UFixHimDialogueSubsystem::Get(this))
+	{
+		const FHunkDefinition* Def = D->FindHunk(HunkId);
+		if (Def && !Def->Portrait.IsEmpty())
+		{
+			// Painted portrait from look.portrait: "/Game/Dir/Asset" or "/Game/Dir/Asset.Asset", like look.mesh.
+			FString ObjectPath = Def->Portrait;
+			if (!FPackageName::GetShortName(ObjectPath).Contains(TEXT(".")))
+			{
+				ObjectPath += TEXT(".") + FPackageName::GetShortName(ObjectPath);
+			}
+			HunkPortraitTexture = TSoftObjectPtr<UTexture2D>(FSoftObjectPath(ObjectPath)).LoadSynchronous();
+			if (!HunkPortraitTexture)
+			{
+				UE_LOG(LogFixHim, Warning, TEXT("Portrait '%s' for %s not found; using the scene capture"), *Def->Portrait, *HunkId);
+			}
+		}
+	}
 	if (!PlayerPortraitTexture)
 	{
 		// Load up front so the first "You:" line doesn't flash an empty frame.
@@ -269,8 +290,13 @@ void UFixHimDialogueWidget::ApplySpeakerPortrait(EDialogueSpeaker Speaker)
 			return;
 		}
 	}
-	// The hunk (and declared extra speakers, as before): his live portrait.
-	if (PortraitMID)
+	// The hunk (and declared extra speakers, as before): his painted portrait, else the scene-capture still.
+	if (HunkPortraitTexture)
+	{
+		Portrait->SetBrushFromTexture(HunkPortraitTexture);
+		Portrait->SetColorAndOpacity(FLinearColor::White);
+	}
+	else if (PortraitMID)
 	{
 		Portrait->SetBrushFromMaterial(PortraitMID);
 	}

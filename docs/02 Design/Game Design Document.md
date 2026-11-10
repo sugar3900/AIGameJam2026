@@ -103,7 +103,7 @@ Multiple romances are allowed and coexist (nobody in the house is exclusive). Ea
 Voices for every hunk: [[Voice Casting]]. The player is never voiced.
 
 ## Mechanics
-- **Interactables:** everything clickable sparkles faintly from a distance; on hover it gets an outline and the reticle becomes a pointing finger with painted nails. Ordinary objects toggle (lamp, TV, stove, fridge, drawers, wardrobe, faucet, toilet lid); clicking again reverts.
+- **Interactables:** everything clickable sparkles faintly from a distance; on hover it gets an outline and a prompt appears under the reticle (the reticle itself stays a plain white dot). Ordinary objects toggle (lamp, TV, stove, fridge, drawers, wardrobe, faucet, toilet lid); clicking again reverts.
 - **Malady fixtures:** glowing in the hunk's colour, with broken-state dressing (drips + puddle, mold blotches, sparks + flicker). Clicking summons the man. After the arc he's repaired: the dressing disappears and the glow becomes a soft heartbeat.
 - **Presence rule:** he only exists while you're in his room. Leave and he's gone until you click again.
 - **Intro card:** first meeting only. A swooping banner with the malady name, tagline and his silhouette.
@@ -114,7 +114,7 @@ Voices for every hunk: [[Voice Casting]]. The player is never voiced.
 - **Title:** I Can Fix Him. New Game, Continue, Options, Credits, Exit, over a drifting live view of the apartment.
 - **Pause (Esc):** Resume, Options, Main Menu.
 - **Options:** master volume, mouse sensitivity, text speed, invert Y, fullscreen.
-- **HUD:** centre reticle (dot → painted-nail pointer + prompt), room name, repairs counter, controls hint, "Saved" toast.
+- **HUD:** centre reticle (plain white dot, never changes) + hover prompt, room name, repairs counter, controls hint, "Saved" toast.
 - **Dialogue:** bottom quarter of the screen: live portrait, name plate, typewriter text, clickable highlighted words (one-way topics or one-off asides), choices (click or 1-5), relationship meters, floating "+1 Romance" pills, hearts, fade-to-black. There are no light effects (flicker etc. were cut); lights are described in narration.
 - **Ending card** after each arc, with ending type, title and epilogue.
 

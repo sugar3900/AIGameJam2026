@@ -1,2 +1,33 @@
-bin/
-obj/
+# .NET build output (includes generated Avalonia XAML and resource caches)
+[Bb]in/
+[Oo]bj/
+artifacts/
+publish/
+
+# Visual Studio / Rider per-user state
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.sln.iml
+*.DotSettings.user
+
+# Test results and coverage output
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+# Local NuGet packages
+*.nupkg
+*.snupkg
+
+# OS metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Keep .axaml, .cs, project/solution files, app.manifest, assets,
+# NuGet.config, and packages.lock.json under version control.
