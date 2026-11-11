@@ -457,3 +457,48 @@ Install named Light_ClosetDoorFill and tie its intensity to Light_Closet's pull-
 Reviewed all eight final C-50 captures: four settled UI-inclusive dialogue views (near, far, lateral, 16:9) and wide/close closet on/off pairs. Malcolm has consistent readable facial lighting, full hair/headroom and no chain intrusion into the dialogue frame. The selected warm appearance remains; this is not a neutral-colour or global-exposure change. The off views visibly remove the pendant/fill contribution while retaining independent mold glow. FIX-021 is accepted and closed.
 
 Engine verification reports opt-in ToggleLightActors used only by Light_Closet; real chain clicks fade pendant60lm/fill50lm/glass.25/filament6 to zero together over about0.29s, with pull-return intact. Reconcile remains103/0/0. Final editorPID57251. No further engine corrections requested for this batch; engine owner may release the editor slot to the coordinator after normal save/handoff. No git requested or performed.
+
+
+## New screenshot review batch — 2026-11-09 evening (OPEN)
+
+Prior FIX-001–038 merge does not close these new findings. Engine integration is awaiting the single editor slot; no new visual fix is accepted yet. Source work continues independently, one Blender process at a time.
+
+- Bathroom: crown crosses full-height pink tile; tile enters window frame; suspected corner light leak. Replace blocky plum borders with matching curved pink glazed bullnose. Metallic shower fixtures and a curved L shower rod, with curtain attachment/travel checked.
+- Closet: remove exaggerated fixture self-shadow spokes while retaining room shadows, warm pendant, chain and linked controls.
+- Windows: isolate artificial fill-light reflection disk, bedroom upper-pane ghosting, disconnected sash bars and exposed exterior-card edges. Check all windows from close left/right/downward views.
+- Interior doors: larger defined knobs, clear backplates on wider stiles and narrower panel fields; close 12.5 mm casing/header gaps. ARC-DOOR-03 source built, validation pending. Sliding closet frame has same gap.
+- Baseboards: reduce 30 mm depth to 14 mm, retain 130 mm height and matched inside/outside mitres; stop every run at outer casing edges.
+- Entry closets: replace baked triangular hangers with separate instances of bedroom hanger design. Shelf/rail and sliding-panel clearance unchanged.
+- Entry dressing: center white bench under full coat rack; slippers paired in front; rack painted wood grain and aged-metal hooks.
+- Kitchen switch: move to north/left side looking from kitchen into living, same height, target 10 cm plate-edge clearance. Engine scripts staged, not yet verified.
+- Pans: hooks physically engage handle holes; different pan sizes and natural hanging alignment.
+- Kitchen small table/stool: remaining green apron/stretchers to own matching wood; separate from completed living dining-table FIX-035.
+- Fridge: aged chrome handle/hinges/badge including interactive door materials.
+- Kitchen sink: metallic faucet/drain/trap and convincing translucent moving tap water; preserve leak/repair and tap controls.
+- Furniture textiles: softer shaped daybed mattress/pillows; better bedroom bedframe and painted wood texture; sewn, compressed pillows instead of lumps. Sofa throw must clear cushions, drape naturally, and use muted oatmeal woven fabric.
+- Bedroom shelf vase: smaller, fully supported and clear of wall.
+- Books and storage box: distinct covers, recessed page blocks and rounded spines; varied thickness/wear; textured box with lid seam.
+- Bookshelf plant: replace thick faceted disc leaves with curved thin varied foliage, natural branching and textured pot.
+- Mirrors: reopen previous acceptance; softly blurred recognizable room reflections, stable while moving, using local material/reflection changes first.
+
+Engine owner has these requests and screenshot paths. No git requested for this new batch. Completion requires source export validation where applicable plus installed visual/interaction evidence; queued requests are not completed fixes.
+
+
+## Autonomous completion pass — 2026-11-10
+
+The user explicitly requested autonomous completion and merge of all remaining environment work. This supersedes earlier “no git requested” notes. The authoritative current checklist is `completion-batch2.json` (30 screenshot findings); source release and installed acceptance remain separate.
+
+Source replacements preserve the original kits: CABINET-JOINERY-04, KI-BACKSPLASH-02, KI-RANGE-02, ARC-DOOR-03, FEEDBACK-ROOM-03, PROP-FIT-03 and LV-SOFA-03. Each kit records import/pivot/material instructions and fresh FBX checks. The engine owner handles material graphs, gameplay roots, collision recognition, room fit and final regression.
+
+Independent source review caught a missing fixed-curtain ring attachment and daybed quilt/mattress intersection. Seven header clips resolve the first; a support projection and explicit no-intersection check address the second. The existing storage-box source already includes cloth texture and lid seam; all four installed copies require material binding on both body and lid.
+
+Mirrors intentionally obscure character identity: soft room shapes and light are desired; sharper character reflection is not an acceptance target. Window dusk slits were isolated to exterior WindowSun lights remaining at full daytime strength. The bounded day-clock correction is part of the engine rebuild with opt-in tap water.
+
+No completion or merge is claimed by this source checkpoint. Final evidence and merge results must be recorded after engine checks pass.
+
+
+## Screenshot batch 2 final acceptance
+
+All 30 current findings are complete: source exports, installed visual review and applicable engine regression are accepted. The engine editor was saved and closed with both source and integration files settled. See [the completion checklist](completion-batch2.json), [engine acceptance and test limits](feedback/Batch2/Engine%20acceptance.md), and [source review](feedback/Batch2/Source%20review.md). The acceptance record distinguishes successful click/state reruns from failed test harness attempts, and preserves the generic auto-close validator's daybed-point limitation and obsolete wardrobe-label limitation. No unresolved high/medium production or visual issue remains.
+
+The mirrors intentionally blur player identity. The kitchen floor film retains visible tiles and restrained reflections, and now attaches to the repair actor so it hides after repair-state refresh and remains hidden through morning/load. Bed hover outlines only the rigid frame. The final sofa export unifies UV0 before joining and prevents the free corner from being projected onto the rear cushion; its material compiles on Metal and shows woven texture. Both closet boxes and separate bookcase/shelf tins have their respective textured finishes.

@@ -22,7 +22,7 @@ SPARSE = ('intentional sparse dressing: LV-BOOK-01 book parts are placed on the 
 # instance -> (anchor labels, {child: labels | 'omitted: reason'})
 M = {
  'BA-TUB-01:001': (['Art_BA_Tub_BA_Tub'], {'BA-TUB-WATER-01': ['Tub_Faucet'], 'taps': ['Art_BA_Tub_BA_TapLeft', 'Art_BA_Tub_BA_TapRight'],
-                   'shower riser': ['Art_BA_TubFixture02_Plumbing'], 'curtain': ['Art_BA_Tub_BA_BA_Curtain', 'Shower_Curtain'],
+                   'shower riser': ['Art_BA_TubFixture02_Plumbing'], 'curtain': ['Art_BA_Tub_BA_BA_Curtain', 'Shower_Curtain', 'Art_BA_Curtain03_FixedReturn'],
                    'BA-TUB-FIXTURES-02': ['Art_BA_TubFixture02_Plumbing', 'Art_BA_TubFixture02_CurtainRod', 'Art_BA_TubFixture02_Drain']}),
  'BA-BASIN-01:002': (['Art_BA_Basin_BA_BasinBody'], {'taps': ['Art_BA_Basin_BA_BA_BasinTap_L', 'Art_BA_Basin_BA_BA_BasinTap_R', 'Basin_Tap']}),
  'BA-TOILET-01:003': (['Art_BA_Toilet_BA_ToiletBody'], {}),
@@ -39,7 +39,7 @@ M = {
                                                  'HA-SLIPPERS-01': ['Art_HA_Slippers01'] if 'Art_HA_Slippers01' in acts else 'pending FIX-016 import'}),
  'HA-CABINET-01:013': (['Art_HA_EndCabinet_HA_CABINET_BODY'], {'HA-VASE-02': ['Art_HA_Vase02_HA_VASE_02']}),
  'HA-CONSOLE-01:014': (['Art_HA_Console_HA_CONSOLE_BODY'], {'HA-VASE-01': ['Art_HA_Vase'], 'HA-FLOWERS-01': ['Art_HA_Flowers']}),
- 'OF-BOOKCASE-01:015': (['Art_OF_Bookcase_OF_BOOKCASE_BODY'], {'books': [l for l in acts if l.startswith(('Art_Book_OFLow_', 'Art_Book_OFHigh_'))],
+ 'OF-BOOKCASE-01:015': (['Art_OF_Bookcase_OF_BOOKCASE_BODY'], {'books': [l for l in acts if l.startswith(('Art_Book_OFLow_', 'Art_Book_OFHigh_', 'Art_Book03_OFLow_', 'Art_Book03_OFHigh_'))],
                         'plant': ['Art_LV_Book_LV_BOOK_PLANT_OFTop'], 'storage box': ['Art_BR_ClosetBox_BR_BOX_BODY_OFTop']}),
  'BR-BED-01:016': (['Art_BR_Bed'], {'pillows': 'part of the BR-BED-01 mesh', 'floral quilt': 'part of the BR-BED-01 mesh'}),
  'BR-NIGHTSTAND-01:017': (['Art_BR_Nightstand_W_BR_NIGHTSTAND_BODY'], {'BR-LAMP-01': ['Art_BR_Lamp_W_BR_LampBody', 'BedLamp']}),
@@ -87,7 +87,7 @@ M = {
  'HA-ART-03:061': (['Art_HA_Art03_Gallery'], {}),
  'BR-ART-FLORAL-01:062': (['Art_BR_ArtFloral_BR_ART_FLORAL_01'], {}),
  'ARC-WALL-SHELF-01:063': (['Art_BA_WallShelf_ARC_WALL_SHELF_01_S063'], {'keepsake': ['Art_LV_Book_LV_BOOK_TIN_063'],
-                           'small books': [l for l in acts if l.startswith('Art_Book_S063_')]}),
+                           'small books': [l for l in acts if l.startswith(('Art_Book_S063_', 'Art_Book03_S063_'))]}),
  'BR-ART-FLORAL-01:064': (['Art_BR_ArtFloral_Bookcase'], {}),
  'ARC-WALL-SHELF-01:065': (['Art_BA_WallShelf_ARC_WALL_SHELF_01_S065'], {'books': SPARSE, 'HA-VASE-01': ['Art_HA_Vase_065']}),
  'BR-ART-FLORAL-01:066': (['Art_BR_ArtFloral_Dresser'], {}),
@@ -113,13 +113,13 @@ M = {
  'ARC-WALL-SHELF-01:085': (['Art_BA_WallShelf_ARC_WALL_SHELF_01_S085'], {'BA-FOLDED-TOWEL-01': ['Art_BA_FoldedTowel_BA_Folded_Towel'], 'BA-TIN-01': ['Art_BA_Tin_BA_Tin_Body']}),
  'BA-TILE-01:086': (['Damage_BA_CrackedTile', 'Malady_PinkTile'], {}),
  'KI-WALL-STAIN-01:078': (['Art_KI_Wall_Stain'], {}),
- 'KI-BACKSPLASH-01:079': (['Art_KI_Backsplash_Module_1m'], {}),
- 'KI-BACKSPLASH-01:080': (['Art_KI_Backsplash_Module_1', 'Art_KI_Backsplash_Module_2'], {}),
+ 'KI-BACKSPLASH-01:079': (['Art_KI_Backsplash02_A'], {}),                      # KI-BACKSPLASH-02 fitted band (batch 2)
+ 'KI-BACKSPLASH-01:080': (['Art_KI_Backsplash02_B', 'Art_KI_Backsplash02_Range', 'Art_KI_Backsplash02_C'], {}),
  'KI-UPPER-01:081': (['Art_KI_Upper_Body'], {}),
  'KI-ART-01:082': (['Art_KI_Art01_KI_ART_01'], {}),
  'ARC-WALL-SHELF-01:083': (['Art_BA_WallShelf_ARC_WALL_SHELF_01_S083'], {'KI-MUG-01': ['Art_KI_Mug_KI_Mug_01_083'], 'KI-POTTERY-01': ['Art_KI_Pottery_KI_Pottery_01_083']}),
  'HA-SCONCE-01:084': (['Art_HA_Sconce01_HA_Sconce_Hardware_Kitchen', 'Art_HA_Sconce01_HA_Sconce_Shade_Kitchen', 'Art_HA_Sconce01_HA_Sconce_Bulb_Kitchen'], {}),
- 'KI-PAN-RAIL-01:085': (['Art_KI_PanRail_KI_Pan_Rail_Assembly'], {'KI-PAN-01': ['Art_KI_Pan_A_KI_Pan_Body', 'Art_KI_Pan_A_KI_Pan_Handle', 'Art_KI_Pan_B_KI_Pan_Body', 'Art_KI_Pan_B_KI_Pan_Handle']}),
+ 'KI-PAN-RAIL-01:085': (['Art_KI_PanRail_KI_Pan_Rail_Assembly'], {'KI-PAN-01': ['Art_KI_PanPair03']}),    # PROP-FIT-03: both pans + engaged S-hooks on the rail body
  'BA-SWITCH-01:086': (['Art_BA_Switch_BA_Switch_Plate_S086'], {}),
  'ARC-SLIDING-CLOSET-01:087': (['Art_OfficeCloset_Frame', 'Art_OfficeCloset_LeftPanel', 'Art_OfficeCloset_RightPanel'], {}),
  'ARC-CLOSET-RETURN:088': ([l for l in acts if l.startswith('ClosetSide_')], {}),
@@ -130,9 +130,9 @@ M = {
  'BR-CLOSET-BOX-01:091': (['Art_BR_ClosetBox_BR_BOX_BODY'], {}),
  'BR-CLOSET-01:092': (['Art_BR_ClosetLight01_Hardware', 'Light_Closet'] if 'Light_Closet' in acts else ['Art_BR_Closet02_Bulb', 'Bulb_Closet'], {}),
  'CHAR-MALCOLM:093': ([], {}),
- 'ARC-CLOSET-STORAGE-02:094': (['Art_CoatCloset_Storage'], {'hangers': 'part of the ARC_ClosetStorage02 mesh'}),
+ 'ARC-CLOSET-STORAGE-02:094': (['Art_CoatCloset_Storage'], {'hangers': [l for l in acts if l.startswith('Art_HA_Hanger03_Coat_')]}),
  'BR-CLOSET-BOX-01:095': (['Art_BR_ClosetBox_BR_BOX_BODY_S095'], {}),
- 'ARC-CLOSET-STORAGE-02:096': (['Art_OfficeCloset_Storage'], {'hangers': 'part of the ARC_ClosetStorage02 mesh'}),
+ 'ARC-CLOSET-STORAGE-02:096': (['Art_OfficeCloset_Storage'], {'hangers': [l for l in acts if l.startswith('Art_HA_Hanger03_Office_')]}),
  'BR-CLOSET-BOX-01:097': (['Art_BR_ClosetBox_BR_BOX_BODY_S097'], {}),
 }
 # How an instance is measured when its rect does not describe the actor's own bounds:
@@ -150,7 +150,11 @@ DEVIATION = {'ARC-CLOSET-RETURN:088': 'closet return built on the 10.75 m centre
              'LV-FUSE-01:043': 'FIX-030 (approved): the case is recessed 10 cm into the north wall (back y -0.04 m) and LV-FUSE-02 '
                                'removed the external wire stubs, so the union bottom is the case bottom 1.522 m instead of the old stub end.',
              'BR-CLOSET-01:092': 'FIX-029 (approved): BR-CLOSET-LIGHT-01 short pendant (canopy 2.75 m, glass bottom 2.46 m, chain to '
-                                 '2.015 m) replaces the old 0.69 m drop pendant.'}
+                                 '2.015 m) replaces the old 0.69 m drop pendant.',
+             'HA-BENCH-01:012': 'batch 2 user feedback (approved): the shoe bench is centred under the full coat rack (HA-HOOKS-01 '
+                                'board centre y 3.30 m), slippers directly in front of it.',
+             'BA-SWITCH-01:086': 'batch 2 user feedback (approved): the kitchen switch moved to the left of the kitchen portal, '
+                                 'plate y 2.12-2.22 m, 10 cm clear of the north casing (rev02_09 KITCHEN_SWITCH_Y).'}
 OMIT = {'CHAR-MALCOLM:093': 'not an actor: standing-clearance reference for Malcolm; checked as the Malady_Mold hunk spawn/talk clearance'}
 
 def ubox(labels):
@@ -246,7 +250,7 @@ for lab, a in sorted(acts.items()):
         groups['fixtures'].append('`%s`: %s ceiling fixture, %.0f cm from its scheduled position' % (lab, near['room'], d))
     elif any(k in lab for k in ('Rug', 'Runner', 'Mat_', 'Curtain')):
         groups['textiles'].append('`%s`' % lab)
-    elif asset_key(lab) in used_keys or lab in ('Art_BR_Closet02_Trim', 'Art_KI_SinkNarrow_R_tap', 'Art_KI_SINK_damage_Wet', 'Art_BA_Toilet02_Water') or lab.startswith('Art_KI_Backsplash_End'):
+    elif asset_key(lab) in used_keys or lab in ('Art_BR_Closet02_Trim', 'Art_KI_SinkNarrow_R_tap', 'Art_KI_SINK_damage_Wet', 'Art_KI_SINK_damage_Film', 'Art_KI_SinkSplash', 'Art_BA_Toilet02_Water') or lab.startswith(('Art_KI_Backsplash_End', 'Art_KI_CounterFiller02_')):
         groups['parts'].append('`%s`' % lab)
     else:
         groups['other'].append('`%s` (%s)' % (lab, fp))

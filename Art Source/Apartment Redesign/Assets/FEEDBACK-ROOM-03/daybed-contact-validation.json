@@ -1,0 +1,8 @@
+{
+  "mattress_cloth_intersections": {
+    "Floral quilt drape": 0,
+    "Quilt stitched hem": 0
+  },
+  "supported_vertex_clearance_m": 0.012,
+  "hanging_section": "preserved outside mattress XY footprint"
+}

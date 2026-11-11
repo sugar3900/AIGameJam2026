@@ -1,0 +1,61 @@
+{
+  "fresh_fbx_imports": [
+    {
+      "file": "ARC_ClosetStorage03.fbx",
+      "bounds_m": [
+        [
+          -0.4750000536441803,
+          -0.30000007152557373,
+          1.7799999713897705
+        ],
+        [
+          0.4749999940395355,
+          7.127002277229622e-08,
+          1.9850000143051147
+        ]
+      ],
+      "vertices": 1680,
+      "uv": true,
+      "hulls": 2
+    },
+    {
+      "file": "HA_Hanger03.fbx",
+      "bounds_m": [
+        [
+          -0.009000039659440517,
+          -0.21327050030231476,
+          -0.24365739524364471
+        ],
+        [
+          0.009000040590763092,
+          0.21327050030231476,
+          0.018828697502613068
+        ]
+      ],
+      "vertices": 780,
+      "uv": true,
+      "hulls": 0
+    },
+    {
+      "file": "KI_PanPair03.fbx",
+      "bounds_m": [
+        [
+          -0.28139999508857727,
+          -0.10718745738267899,
+          -0.5210000276565552
+        ],
+        [
+          0.3100000023841858,
+          -0.019000016152858734,
+          0.010475830174982548
+        ]
+      ],
+      "vertices": 5924,
+      "uv": true,
+      "hulls": 0
+    }
+  ],
+  "pan_hole_engagement": "wire traverses bore on axis; min radial clearance2.38mm",
+  "hanger_hook_contact": "inner apex12mm equals rail radius12mm",
+  "limitations": "Source geometry tests; installed fit and appearance remain engine acceptance"
+}

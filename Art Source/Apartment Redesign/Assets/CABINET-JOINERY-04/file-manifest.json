@@ -1,0 +1,139 @@
+{
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1358,
+      "sha256": "9b240d993af91ffc927abd0224046fe8718cbf5390e01cf6f612e8d75b964c1e"
+    },
+    {
+      "path": "assembly.json",
+      "bytes": 6428,
+      "sha256": "66c65e5e94c98c7d49d5c498f0a9f47d2676f60e55a97bfc846f7d7883cee430"
+    },
+    {
+      "path": "build_patch.py",
+      "bytes": 4096,
+      "sha256": "7a9222c75113652994d984f99264819a04720a64c99442f76d04528f85e7d39d"
+    },
+    {
+      "path": "models/Base0425.blend",
+      "bytes": 6268011,
+      "sha256": "b9fda21d9ce61c90acaf91ec69cd01ab897b0e5d6e9538bd0b2ba723c596abe3"
+    },
+    {
+      "path": "models/Base0425.blend1",
+      "bytes": 6268181,
+      "sha256": "711362462baf954422fc246d700ea95e654f675507585c58c4804e7040623286"
+    },
+    {
+      "path": "models/Base0450.blend",
+      "bytes": 6272477,
+      "sha256": "4bb09f2c4701753884ec9011e83fc31474408501eff7cd34e09f190cf3459d66"
+    },
+    {
+      "path": "models/Base0450.blend1",
+      "bytes": 6272703,
+      "sha256": "091f9868a3966ef9d7f43917d7c1c789b7f4b82e8e0a982cffc27d7bf57263c0"
+    },
+    {
+      "path": "models/Base0775.blend",
+      "bytes": 10244477,
+      "sha256": "46f1f9d3a3cd29f96af0b70894a89b678699d59e242cb58ae64a4c8bf424e3b2"
+    },
+    {
+      "path": "models/Base0775.blend1",
+      "bytes": 10244691,
+      "sha256": "626588527b7b63abb6907ea7ba1e07c515f0b348299d2a3851498e7fef3a20ba"
+    },
+    {
+      "path": "models/KI_Cab05_0425_door.fbx",
+      "bytes": 120732,
+      "sha256": "0f2dd4aaf85ba2e4236d52b78ba86d4067ba0560955794b5280b7c11a1105454"
+    },
+    {
+      "path": "models/KI_Cab05_0425_drawer.fbx",
+      "bytes": 96396,
+      "sha256": "5cb3c0548ba034ca270c286df4c3a95f3734cb6200c7ae218b798a87d6c05f70"
+    },
+    {
+      "path": "models/KI_Cab05_0450_door.fbx",
+      "bytes": 120604,
+      "sha256": "90962f1772fefd79f6e329dc71ff507b8c204369e1db7093d22dd2118fd034e7"
+    },
+    {
+      "path": "models/KI_Cab05_0450_drawer.fbx",
+      "bytes": 97228,
+      "sha256": "998df1f53e635003c8192d71c3e770b4af61d60bc1267b607072aad8ae54d5f5"
+    },
+    {
+      "path": "models/KI_Cab05_0775_door_L.fbx",
+      "bytes": 120268,
+      "sha256": "22810d369c586ded4fb013ca02105af95fc93df030061d401c4e82da14b12e9a"
+    },
+    {
+      "path": "models/KI_Cab05_0775_door_R.fbx",
+      "bytes": 120508,
+      "sha256": "9073401ef61d5f1802a31d368c72eef9ae2acd21ab2471d42cc4d6369d3a038b"
+    },
+    {
+      "path": "models/KI_Cab05_0775_drawer_L.fbx",
+      "bytes": 97020,
+      "sha256": "09d3f073ca81a4f78fec1d5bae83548a64d6cc16b40c62fc617a0734542b364a"
+    },
+    {
+      "path": "models/KI_Cab05_0775_drawer_R.fbx",
+      "bytes": 97212,
+      "sha256": "784a7e4608ad22a2261ed761964523bca74a3e59bde357069090daf864325e8a"
+    },
+    {
+      "path": "previews/Base0425-closed.png",
+      "bytes": 1080957,
+      "sha256": "307afab934f5cfca7eedfcc81c82d0a533fbb51ef553fc4a9842a09a97caeeac"
+    },
+    {
+      "path": "previews/Base0425-open.png",
+      "bytes": 1057134,
+      "sha256": "71164bda9740d693638bac70517bfac59ddb9bc267927f5d9cf55d87a54d2e05"
+    },
+    {
+      "path": "previews/Base0450-closed.png",
+      "bytes": 1080452,
+      "sha256": "211762a8d2b8a344452b8a446dcf7883a4f362b6f76b9ce8f67adbe43351cfc5"
+    },
+    {
+      "path": "previews/Base0450-open.png",
+      "bytes": 1054187,
+      "sha256": "f44ce559ebafd545342b2f4e443782cb2b9269ecffdb185272753e1d0901659c"
+    },
+    {
+      "path": "previews/Base0775-closed.png",
+      "bytes": 1148477,
+      "sha256": "4ade7a0369f069689ec467da60a90ba35fbb612234a6a0b0bf4e816ad4dbc3c2"
+    },
+    {
+      "path": "previews/Base0775-open.png",
+      "bytes": 1082702,
+      "sha256": "05a4e40ce70639be2ca1ea333acbff627b25ac57a4160c18e8fc3251ae99565f"
+    },
+    {
+      "path": "textures/T_Joinery_Interior.png",
+      "bytes": 1809508,
+      "sha256": "100ca5495b651dbcce7a28537aa217a7df3ba46290c3a5bc864b4a5871fa4fd2"
+    },
+    {
+      "path": "textures/T_Joinery_Sage.png",
+      "bytes": 2118921,
+      "sha256": "97cdafef151a5ce47f0146c83b1f3223805d73cc8e2fbfa1f8fd2e150545b165"
+    },
+    {
+      "path": "validate_kitchen.py",
+      "bytes": 2785,
+      "sha256": "34a1602858add9db92c2ae67004de3ecb2cf567dcb934303f3fc8da7bd47a256"
+    },
+    {
+      "path": "validation.json",
+      "bytes": 1526,
+      "sha256": "c53e6b05c81512756ac4fb57f20268032e15d7678a0f15b6f7baaa0dc19430db"
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1539,
+      "sha256": "38e0abb1334352bcf66ba1c1c09a5f2cb3dac733a8124dc6fbae4878fede251b"
+    },
+    {
+      "path": "assembly.json",
+      "bytes": 5209,
+      "sha256": "df7ff16269bfed9eed0489703fa933ce9844c28efeec6eced8427c922d32be4b"
+    },
+    {
+      "path": "build_fitted.py",
+      "bytes": 5940,
+      "sha256": "265f9576c3b7faeeaa81b2614e084527904d2670b168e5efc4d27728bc1d31c1"
+    },
+    {
+      "path": "models/KI-BACKSPLASH-02.blend",
+      "bytes": 6275787,
+      "sha256": "e501a134c337b039287e872fad01bd38b5d85030cf778326b1774c6d2d193fac"
+    },
+    {
+      "path": "models/KI_Backsplash02_A.fbx",
+      "bytes": 55916,
+      "sha256": "907c7fbe087ecc7c1b84f3e1e4a5b6103b1114d1997b69208a4aeb2bed709bea"
+    },
+    {
+      "path": "models/KI_Backsplash02_B.fbx",
+      "bytes": 70380,
+      "sha256": "23195e68438e275134eb97487f5dd3fe675f7d0cf505d0c70807e427fe49e39a"
+    },
+    {
+      "path": "models/KI_Backsplash02_C.fbx",
+      "bytes": 54252,
+      "sha256": "72648cd9d65723023e2e40d6bf70a4ee82bc6181ca58cb4b6f828bf2224aaf3a"
+    },
+    {
+      "path": "models/KI_Backsplash02_Range.fbx",
+      "bytes": 50396,
+      "sha256": "887c12ecf328479aeefa01925dc21aaaf86b038056d9bfb819d594e1a00cbd10"
+    },
+    {
+      "path": "models/KI_CounterFiller02_EastEnd.fbx",
+      "bytes": 20860,
+      "sha256": "2768ad02b9fe129dc079a125551b33f4b7e1bf107a236bc3e22286e763da2801"
+    },
+    {
+      "path": "models/KI_CounterFiller02_FridgeExtension.fbx",
+      "bytes": 20748,
+      "sha256": "b03b17ea054e07a8ef9fd01c674baf90410fae67046cc6be4ffeb110380d5f3b"
+    },
+    {
+      "path": "models/KI_CounterFiller02_Rear0425.fbx",
+      "bytes": 20860,
+      "sha256": "896f494f9e2a92aa3a515d1a0b95bf462fdc63eb655dd25f420bd537fd286743"
+    },
+    {
+      "path": "models/KI_CounterFiller02_Rear0450.fbx",
+      "bytes": 20892,
+      "sha256": "8aef68bb8db6952bd84336e5b73d7e7430f9ff56a167ac5185d119b0e88ac0c6"
+    },
+    {
+      "path": "models/KI_CounterFiller02_Rear0775.fbx",
+      "bytes": 20892,
+      "sha256": "5fed02d3b13d9289ec3084f87f1b10a6c83b6005732e7c7388b3a67448f8861a"
+    },
+    {
+      "path": "previews/fitted-runs.png",
+      "bytes": 456250,
+      "sha256": "8efca7ade4cf29894b18ae024a1411722f8ef88369524d7e35b48f96109b95e9"
+    },
+    {
+      "path": "textures/glaze-ivory.png",
+      "bytes": 2115961,
+      "sha256": "892ed95bf9d84e4811d95ddc2dbcaf2c34eed00b8f08ece8ee7b0e607b88a78c"
+    },
+    {
+      "path": "textures/glaze-sage.png",
+      "bytes": 2077564,
+      "sha256": "d9e8de9108b8032aa457f3c1c0046fb6f6d0a2f5b0269b47f15eee3292e2bb7a"
+    },
+    {
+      "path": "textures/ivory-enamel.png",
+      "bytes": 2234826,
+      "sha256": "1f2a1a7d120a9807df7559e3abad7693b1da717724bf258d1d613f1fa462e570"
+    },
+    {
+      "path": "validation.json",
+      "bytes": 1624,
+      "sha256": "004f4e1dc975c297d1f802e7db0e3d2ba5d8bedbbfdcc0127867c56f4be45acc"
+    }
+  ]
+}

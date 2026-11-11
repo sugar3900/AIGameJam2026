@@ -1,0 +1,17 @@
+[Info] QSWEEP
+Cabinet_Door      yaw+100  swing 0..+100 in 5% steps: .....................  first-contact none with []
+Cabinet_Door_2    yaw+100  swing 0..+100 in 5% steps: .....................  first-contact none with []
+Sink_Door_L       yaw+100  swing 0..+100 in 5% steps: .....................  first-contact none with []
+Sink_Door_R       yaw-100  swing 0..-100 in 5% steps: .....................  first-contact none with []
+Cupboard_Door_L   yaw+100  swing 0..+100 in 5% steps: .....................  first-contact none with []
+Cupboard_Door_R   yaw-100  swing 0..-100 in 5% steps: .....................  first-contact none with []
+Pantry_Door_L     yaw+100  swing 0..+100 in 5% steps: .....................  first-contact none with []
+Pantry_Door_R     yaw-100  swing 0..-100 in 5% steps: .....................  first-contact none with []
+Linen_Door_Upper  yaw+90  swing 0..+90 in 5% steps: .....................  first-contact none with []
+Linen_Door_Lower  yaw+60  swing 0..+60 in 5% steps: .....................  first-contact none with []
+[Info] QSWEEP2
+Oven_Door toggle=<InteractToggle.ROTATE: 3> rot=(0.0, 0.0, 85.0) off=(40.0, 0.0, 0.0) : 111111............... ['Art_KI_Range_Body'] (missing [])
+Shower_Curtain toggle=<InteractToggle.SLIDE: 2> rot=(0.0, 100.0, 0.0) off=(-110.0, 0.0, 0.0) : 111111111111111111111 ['Art_BA_TubFixture02_CurtainRod'] (missing [])
+[Info] QSWEEP2_OLD
+Oven_Door toggle=<InteractToggle.ROTATE: 3> rot=(0.0, 0.0, 85.0) off=(40.0, 0.0, 0.0) : 111111............... ['Art_KI_Range_Body'] (missing [])
+Shower_Curtain toggle=<InteractToggle.SLIDE: 2> rot=(0.0, 100.0, 0.0) off=(-110.0, 0.0, 0.0) : 111111111111111111111 ['Art_BA_TubFixture02_CurtainRod'] (missing [])

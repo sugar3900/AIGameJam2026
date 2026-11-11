@@ -1,0 +1,78 @@
+{
+  "passed": true,
+  "files": [
+    {
+      "file": "KI_Backsplash02_A.fbx",
+      "passed": true,
+      "vertices": 1076,
+      "triangles": 2068,
+      "ucx": 0,
+      "uv_layers": 1
+    },
+    {
+      "file": "KI_Backsplash02_B.fbx",
+      "passed": true,
+      "vertices": 1550,
+      "triangles": 2984,
+      "ucx": 0,
+      "uv_layers": 1
+    },
+    {
+      "file": "KI_Backsplash02_Range.fbx",
+      "passed": true,
+      "vertices": 934,
+      "triangles": 1796,
+      "ucx": 0,
+      "uv_layers": 1
+    },
+    {
+      "file": "KI_Backsplash02_C.fbx",
+      "passed": true,
+      "vertices": 1046,
+      "triangles": 2012,
+      "ucx": 0,
+      "uv_layers": 1
+    },
+    {
+      "file": "KI_CounterFiller02_Rear0425.fbx",
+      "passed": true,
+      "vertices": 56,
+      "triangles": 108,
+      "ucx": 0,
+      "uv_layers": 1
+    },
+    {
+      "file": "KI_CounterFiller02_Rear0775.fbx",
+      "passed": true,
+      "vertices": 56,
+      "triangles": 108,
+      "ucx": 0,
+      "uv_layers": 1
+    },
+    {
+      "file": "KI_CounterFiller02_Rear0450.fbx",
+      "passed": true,
+      "vertices": 56,
+      "triangles": 108,
+      "ucx": 0,
+      "uv_layers": 1
+    },
+    {
+      "file": "KI_CounterFiller02_EastEnd.fbx",
+      "passed": true,
+      "vertices": 56,
+      "triangles": 108,
+      "ucx": 0,
+      "uv_layers": 1
+    },
+    {
+      "file": "KI_CounterFiller02_FridgeExtension.fbx",
+      "passed": true,
+      "vertices": 56,
+      "triangles": 108,
+      "ucx": 0,
+      "uv_layers": 1
+    }
+  ],
+  "limits": "FBX source round-trip only; engine materials, fit, collision and interactions pending."
+}

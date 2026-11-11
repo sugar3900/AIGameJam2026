@@ -1,0 +1,12 @@
+== validate_environment_pie
+FAILED: Traceback (most recent call last):
+KeyError: 'Wardrobe_Door'
+== validate_auto_close_pie
+RUNNING== validate_character_reveal_pie
+== validate_auto_close_pie (persistent ns)
+FAIL: OfficeCabinet_Door_L stayed open after walking away== validate_auto_close_pie run 1
+FAIL: OfficeCabinet_Door_L stayed open after walking away== validate_auto_close_pie run 2
+FAIL: OfficeCabinet_Door_L stayed open after walking away== validate_character_reveal_pie (persistent ns)
+[Character reveal test] PASS: 51 frames, 13 partially dissolved; portrait materials stay independent
+== validate_conversation_framing_pie (during Tyler dialogue)
+[Info] [Conversation framing] PASS tyler: crown 7.3%, face 20.7% from top

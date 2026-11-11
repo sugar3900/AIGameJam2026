@@ -1,0 +1,5 @@
+# Vintage range refinement
+
+Replaces KI-RANGE-01 body and door geometry with added rolled drip-bowl rims/dark wells, four-foot grate supports, control dial graduations, oven cooling louvres, backguard inset/ceramic badge and fitted inner door gasket/vent details. Painterly enamel, steel, dark iron, glass and gasket slots retain original names and texture. Existing body dimensions, outer door envelope and physical oven hinge are retained; no burner, flame, kettle, control or click root moves.
+
+Use same import convention and assembly component placement as original KI_RANGE_Body/KI_RANGE_Door. Body actor remains(382.5,50.03,0)cm. Keep interactive oven root(382.5,88.03,22)cm and current component-local attachment unchanged; this is a mesh replacement rather than a new pivot layout. The source door origin remains(0,-.363,.23)m exactly as original source. Preserve existing collision/interaction setup and repeat neighbour sweeps/oven clicks in Unreal. Source renders inspect closed/open82degree pose; fresh FBX UV and finite-bounds validation passes. No runtime acceptance claimed.

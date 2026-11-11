@@ -1,0 +1,244 @@
+{
+  "units": "metres; native meshes at identity, place using world_origin_cm with no scale",
+  "parts": [
+    {
+      "file": "KI_Backsplash02_A.fbx",
+      "role": "fitted backsplash",
+      "world_origin_cm": [
+        112.1,
+        6,
+        91
+      ],
+      "source_min": [
+        0.0,
+        -0.018000001087784767,
+        0.0
+      ],
+      "source_max": [
+        0.5040000081062317,
+        0.0,
+        0.26499998569488525
+      ],
+      "collision": "static decorative backsplash: no collision; fillers use simple boxes",
+      "source_front": "-Y; UE +Y",
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "file": "KI_Backsplash02_B.fbx",
+      "role": "fitted backsplash",
+      "world_origin_cm": [
+        267.5,
+        6,
+        91
+      ],
+      "source_min": [
+        0.0,
+        -0.018000001087784767,
+        0.0
+      ],
+      "source_max": [
+        0.7749999761581421,
+        0.0,
+        0.26499998569488525
+      ],
+      "collision": "static decorative backsplash: no collision; fillers use simple boxes",
+      "source_front": "-Y; UE +Y",
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "file": "KI_Backsplash02_Range.fbx",
+      "role": "fitted backsplash",
+      "world_origin_cm": [
+        345,
+        6,
+        107
+      ],
+      "source_min": [
+        0.0,
+        -0.018000001087784767,
+        0.0
+      ],
+      "source_max": [
+        0.75,
+        0.0,
+        0.10499999672174454
+      ],
+      "collision": "static decorative backsplash: no collision; fillers use simple boxes",
+      "source_front": "-Y; UE +Y",
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "file": "KI_Backsplash02_C.fbx",
+      "role": "fitted backsplash",
+      "world_origin_cm": [
+        420,
+        6,
+        91
+      ],
+      "source_min": [
+        0.0,
+        -0.018000001087784767,
+        0.0
+      ],
+      "source_max": [
+        0.5400000214576721,
+        0.0,
+        0.26499998569488525
+      ],
+      "collision": "static decorative backsplash: no collision; fillers use simple boxes",
+      "source_front": "-Y; UE +Y",
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "file": "KI_CounterFiller02_Rear0425.fbx",
+      "role": "counter infill top91cm",
+      "world_origin_cm": [
+        112.1,
+        6,
+        87
+      ],
+      "source_min": [
+        0.0,
+        -0.09000000357627869,
+        0.0
+      ],
+      "source_max": [
+        0.5040000081062317,
+        0.0,
+        0.03999999910593033
+      ],
+      "collision": "static decorative backsplash: no collision; fillers use simple boxes",
+      "source_front": "-Y; UE +Y",
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "file": "KI_CounterFiller02_Rear0775.fbx",
+      "role": "counter infill top91cm",
+      "world_origin_cm": [
+        267.5,
+        6,
+        87
+      ],
+      "source_min": [
+        0.0,
+        -0.09000000357627869,
+        0.0
+      ],
+      "source_max": [
+        0.7749999761581421,
+        0.0,
+        0.03999999910593033
+      ],
+      "collision": "static decorative backsplash: no collision; fillers use simple boxes",
+      "source_front": "-Y; UE +Y",
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "file": "KI_CounterFiller02_Rear0450.fbx",
+      "role": "counter infill top91cm",
+      "world_origin_cm": [
+        420,
+        6,
+        87
+      ],
+      "source_min": [
+        0.0,
+        -0.09000000357627869,
+        0.0
+      ],
+      "source_max": [
+        0.5400000214576721,
+        0.0,
+        0.03999999910593033
+      ],
+      "collision": "static decorative backsplash: no collision; fillers use simple boxes",
+      "source_front": "-Y; UE +Y",
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "file": "KI_CounterFiller02_EastEnd.fbx",
+      "role": "counter infill top91cm",
+      "world_origin_cm": [
+        465,
+        15,
+        87
+      ],
+      "source_min": [
+        0.0,
+        -0.6499999761581421,
+        0.0
+      ],
+      "source_max": [
+        0.09000000357627869,
+        0.0,
+        0.03999999910593033
+      ],
+      "collision": "static decorative backsplash: no collision; fillers use simple boxes",
+      "source_front": "-Y; UE +Y",
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "file": "KI_CounterFiller02_FridgeExtension.fbx",
+      "role": "counter infill top91cm",
+      "world_origin_cm": [
+        112.1,
+        15,
+        87
+      ],
+      "source_min": [
+        0.0,
+        -0.6499999761581421,
+        0.0
+      ],
+      "source_max": [
+        0.07900000363588333,
+        0.0,
+        0.03999999910593033
+      ],
+      "collision": "static decorative backsplash: no collision; fillers use simple boxes",
+      "source_front": "-Y; UE +Y",
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "top_cm": 117.5,
+  "window_apron_bottom_cm": 118,
+  "apron_clearance_cm": 0.5,
+  "tile_pitch_cm": 10,
+  "note": "Remove legacy backsplash modules and all end caps. No bottom bullnose. Top bullnose only plus exposed fridge-side end. Fillers top91cm, thickness4cm."
+}

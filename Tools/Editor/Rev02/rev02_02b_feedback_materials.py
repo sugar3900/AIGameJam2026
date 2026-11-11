@@ -147,7 +147,7 @@ MEL.connect_material_expressions(sparam(m, 'FlipV', 0.0, -1500, 400), '', flip, 
 MEL.connect_material_expressions(flip, '', mask, 'UVs')
 op = custom(m, 'return saturate(A * Strength);', ['A', 'Strength'], -550, 200)
 MEL.connect_material_expressions(mask, 'A', op, 'A')
-MEL.connect_material_expressions(sparam(m, 'Strength', 0.38, -900, 420), '', op, 'Strength')
+MEL.connect_material_expressions(sparam(m, 'Strength', 0.22, -900, 420), '', op, 'Strength')
 MEL.connect_material_property(op, '', MP.MP_OPACITY)
 MEL.connect_material_property(vparam(m, 'WetTint', (0.07, 0.05, 0.035, 1), -400, 0), '', MP.MP_BASE_COLOR)
 finish(m, MATS + 'M_Rev02_LeakPuddleDecal')
@@ -527,4 +527,228 @@ MEL.connect_material_expressions(sparam(m, 'MeanLum2', 0.0613, -1000, 700), '', 
 MEL.connect_material_property(rgh, '', MP.MP_ROUGHNESS)
 finish(m, MATS + 'M_Rev02_PaintedGrain')
 instance('MI_Rev02_WhitePaintGrain', EAL.load_asset(MATS + 'M_Rev02_PaintedGrain'), {'Var': 0.22, 'RoughVar': 0.10})
+# ---------------- batch 2: aged chrome hardware and aged mirror glass ----------------
+# Shared world-space value noise (low frequency) for restrained roughness/tint variation; no textures needed.
+NOISE = """
+float2 q = (W.xy + W.z * 0.37) * Freq; float n = 0.0; float amp = 0.5;
+for (int k = 0; k < 3; k++) {
+  float2 i = floor(q); float2 f = frac(q); f = f * f * (3.0 - 2.0 * f);
+  float a = frac(sin(dot(i, float2(127.1, 311.7))) * 43758.5453);
+  float b = frac(sin(dot(i + float2(1, 0), float2(127.1, 311.7))) * 43758.5453);
+  float c = frac(sin(dot(i + float2(0, 1), float2(127.1, 311.7))) * 43758.5453);
+  float d = frac(sin(dot(i + float2(1, 1), float2(127.1, 311.7))) * 43758.5453);
+  n += amp * lerp(lerp(a, b, f.x), lerp(c, d, f.x), f.y); q = q * 2.07 + 3.1; amp *= 0.5;
+}
+return n / 0.875;
+"""
+def aged_metal(name, base, rough, rvar, tvar, freq, metallic=1.0):
+    m = material(name)
+    nz = custom(m, NOISE, ['W', 'Freq'], -900, 300)
+    MEL.connect_material_expressions(MEL.create_material_expression(m, unreal.MaterialExpressionWorldPosition, -1200, 300), '', nz, 'W')
+    MEL.connect_material_expressions(sparam(m, 'NoiseFreq', freq, -1200, 400), '', nz, 'Freq')
+    col = custom(m, 'return Base * (1.0 + TVar * (N - 0.5));', ['Base', 'TVar', 'N'], -500, 0, out=unreal.CustomMaterialOutputType.CMOT_FLOAT3)
+    MEL.connect_material_expressions(vparam(m, 'BaseColor', base + (1,), -900, 0), '', col, 'Base')
+    MEL.connect_material_expressions(sparam(m, 'TintVar', tvar, -900, 120), '', col, 'TVar')
+    MEL.connect_material_expressions(nz, '', col, 'N')
+    MEL.connect_material_property(col, '', MP.MP_BASE_COLOR)
+    rg = custom(m, 'return saturate(R0 + RV * (N - 0.5));', ['R0', 'RV', 'N'], -500, 300)
+    MEL.connect_material_expressions(sparam(m, 'Roughness', rough, -900, 480), '', rg, 'R0')
+    MEL.connect_material_expressions(sparam(m, 'RoughVar', rvar, -900, 550), '', rg, 'RV')
+    MEL.connect_material_expressions(nz, '', rg, 'N')
+    MEL.connect_material_property(rg, '', MP.MP_ROUGHNESS)
+    MEL.connect_material_property(sparam(m, 'Metallic', metallic, -500, 500), '', MP.MP_METALLIC)
+    finish(m, MATS + name)
+# aged chrome: slightly warm nickel-chrome, restrained roughness breakup (fridge/sink/tap hardware)
+aged_metal('M_Rev02_AgedChrome', (0.62, 0.60, 0.56), 0.24, 0.16, 0.10, 0.35)
+# aged mirror: silvered glass with Lumen's existing reflections softened by roughness (~.22) and a faint warm,
+# uneven tint (old silvering); low-frequency variation so the blur reads as age, not noise
+aged_metal('M_Rev02_MirrorAged', (0.80, 0.77, 0.70), 0.30, 0.08, 0.08, 0.08)   # .30: user wants an indistinct low-pass room reflection (do not sharpen)
+# ---------------- batch 2: wide exterior view cards (no exposed card edges at oblique/downward window views) ----------------
+# Same unlit look and the controller-driven 'WindowBrightness' x 'BrightnessScale' as M_Redesign_WindowView. The card is
+# enlarged K-fold (CoverageU/V) by rev02_06; UVs are remapped (uv-0.5)*K+0.5 so the painted view keeps its exact world size and
+# position, and T_WindowView's mirror addressing fills only the outer band that oblique/downward views can reach.
+_tv = EAL.load_asset('/Game/ICanFixHim/Materials/Environment/T_WindowView')
+_tv.set_editor_property('address_x', unreal.TextureAddress.TA_MIRROR); _tv.set_editor_property('address_y', unreal.TextureAddress.TA_MIRROR)
+EAL.save_loaded_asset(_tv, False)
+m = material('M_Rev02_WindowViewWide')
+m.set_editor_property('shading_model', unreal.MaterialShadingModel.MSM_UNLIT)
+uvk = custom(m, 'return (UV - 0.5) * float2(KU, KV) + 0.5;', ['UV', 'KU', 'KV'], -900, 0, out=unreal.CustomMaterialOutputType.CMOT_FLOAT2)
+MEL.connect_material_expressions(MEL.create_material_expression(m, unreal.MaterialExpressionTextureCoordinate, -1200, 0), '', uvk, 'UV')
+MEL.connect_material_expressions(sparam(m, 'CoverageU', 1.4, -1200, 80), '', uvk, 'KU')
+MEL.connect_material_expressions(sparam(m, 'CoverageV', 1.6, -1200, 150), '', uvk, 'KV')
+smp = MEL.create_material_expression(m, unreal.MaterialExpressionTextureSample, -600, 0); smp.set_editor_property('texture', _tv)
+MEL.connect_material_expressions(uvk, '', smp, 'UVs')
+br = custom(m, 'return C * WB * BS;', ['C', 'WB', 'BS'], -300, 0, out=unreal.CustomMaterialOutputType.CMOT_FLOAT3)
+MEL.connect_material_expressions(smp, 'RGB', br, 'C')
+MEL.connect_material_expressions(sparam(m, 'WindowBrightness', 12.0, -600, 250), '', br, 'WB')
+MEL.connect_material_expressions(sparam(m, 'BrightnessScale', 0.0750, -600, 320), '', br, 'BS')
+MEL.connect_material_property(br, '', MP.MP_EMISSIVE_COLOR)
+finish(m, MATS + 'M_Rev02_WindowViewWide')
+_old = EAL.load_asset('/Game/ICanFixHim/Environment/Redesign/Finishes/MI_WindowView')
+instance('MI_Rev02_WindowViewWide', m, {'WindowBrightness': 12.0, 'BrightnessScale': MEL.get_material_instance_scalar_parameter_value(_old, 'BrightnessScale'),
+                                        'CoverageU': 1.4, 'CoverageV': 1.6})
+# ---------------- batch 2 sources: LV-BOOK-03 plant, LV-SOFA-03 throw, sink water (authored reveal) ----------------
+# Pothos leaves: thin single-sheet leaves need a two-sided lit material (README: keep double-sided in engine).
+m = material('M_Rev02_LeafTwoSided'); m.set_editor_property('two_sided', True)
+t = tex(m, EAL.load_asset(R2 + 'Room03/pothos-leaf'), -700, 0, param='BaseColorMap', linear=False)
+mul = MEL.create_material_expression(m, unreal.MaterialExpressionMultiply, -400, 0)
+MEL.connect_material_expressions(t, 'RGB', mul, 'A')
+MEL.connect_material_expressions(vparam(m, 'Tint', (1, 1, 1, 1), -700, 250), '', mul, 'B')
+MEL.connect_material_property(mul, '', MP.MP_BASE_COLOR)
+MEL.connect_material_property(sparam(m, 'Roughness', 0.55, -400, 200), '', MP.MP_ROUGHNESS)
+MEL.connect_material_property(const(m, 0.0, -400, 260), '', MP.MP_METALLIC)
+finish(m, MATS + 'M_Rev02_LeafTwoSided')
+leaf = EAL.load_asset(MATS + 'M_Rev02_LeafTwoSided')
+instance('MI_Plant03_Leaf', leaf, {'Roughness': 0.55}, textures={'BaseColorMap': EAL.load_asset(R2 + 'Room03/pothos-leaf')})
+instance('MI_Plant03_LeafLight', leaf, {'Roughness': 0.5}, textures={'BaseColorMap': EAL.load_asset(R2 + 'Room03/pothos-leaf_ncl1_1')})
+# pot: textured terracotta ceramic (the imported graph binds terracotta; built as PBR like the other kits), glaze band/soil
+instance('MI_Plant03_CeramicPot', texpbr, {'Roughness': 0.62, 'Metallic': 0.0}, textures={'BaseColorMap': EAL.load_asset(R2 + 'Room03/terracotta')})
+instance('MI_Plant03_PotBotanical', cpbr, {'Metallic': 0.0, 'Roughness': 0.45}, {'BaseColor': (0.42, 0.24, 0.12, 1)})
+instance('MI_Plant03_PotSoil', cpbr, {'Metallic': 0.0, 'Roughness': 0.95}, {'BaseColor': (0.10, 0.07, 0.035, 1)})
+
+# LV-SOFA-03 woven throw: throw-wool x linear (.58,.49,.36), roughness .90 and a fine over-under weave bump (procedural
+# tangent normal on the throw's UVs; WeaveFreq = threads per UV unit, WeaveStrength small so it reads as cloth, not ribs).
+m = material('M_Rev02_TexPBR_Weave')
+# LV-SOFA-03 (UV0 fixed at source: the throw shares the joined 'UVMap'): throw-wool on UV0 x UVScale, multiplied by Tint,
+# with a fine procedural over-under weave normal on the same UVs (WeaveFreq = threads per UV unit).
+uv0 = MEL.create_material_expression(m, unreal.MaterialExpressionTextureCoordinate, -1500, 0)
+uvs = custom(m, 'return UV * K;', ['UV', 'K'], -1200, 0, out=unreal.CustomMaterialOutputType.CMOT_FLOAT2)
+assert MEL.connect_material_expressions(uv0, '', uvs, 'UV')
+assert MEL.connect_material_expressions(sparam(m, 'UVScale', 1.0, -1500, 100), '', uvs, 'K')
+t = tex(m, EAL.load_asset(R2 + 'LV_Sofa02/throw_wool'), -900, 0, param='BaseColorMap', linear=False)
+assert MEL.connect_material_expressions(uvs, '', t, 'UVs')
+mul = MEL.create_material_expression(m, unreal.MaterialExpressionMultiply, -500, 0)
+assert MEL.connect_material_expressions(t, 'RGB', mul, 'A')
+assert MEL.connect_material_expressions(vparam(m, 'Tint', (1, 1, 1, 1), -900, 250), '', mul, 'B')
+MEL.connect_material_property(mul, '', MP.MP_BASE_COLOR)
+MEL.connect_material_property(sparam(m, 'Roughness', 0.9, -400, 200), '', MP.MP_ROUGHNESS)
+MEL.connect_material_property(const(m, 0.0, -400, 260), '', MP.MP_METALLIC)
+wv = custom(m, 'float2 p = UV * F * 6.28318;\n'
+               'float over = sign(sin(p.y * 0.5)) * sign(sin(p.x * 0.5));\n'
+               'float dx = cos(p.x) * (0.5 + 0.5 * over);\nfloat dy = cos(p.y) * (0.5 - 0.5 * over);\n'
+               'return normalize(float3(dx * S, dy * S, 1.0));',
+            ['UV', 'F', 'S'], -800, 500, out=unreal.CustomMaterialOutputType.CMOT_FLOAT3)
+assert MEL.connect_material_expressions(uvs, '', wv, 'UV')
+assert MEL.connect_material_expressions(sparam(m, 'WeaveFreq', 120.0, -1300, 600), '', wv, 'F')
+assert MEL.connect_material_expressions(sparam(m, 'WeaveStrength', 0.2, -1300, 680), '', wv, 'S')
+MEL.connect_material_property(wv, '', MP.MP_NORMAL)
+finish(m, MATS + 'M_Rev02_TexPBR_Weave')
+instance('MI_Sofa03_WovenThrow', EAL.load_asset(MATS + 'M_Rev02_TexPBR_Weave'), {'Roughness': 0.90, 'WeaveFreq': 120.0, 'WeaveStrength': 0.2, 'UVScale': 1.0},
+         {'Tint': (0.58, 0.49, 0.36, 1)}, {'BaseColorMap': EAL.load_asset(R2 + 'LV_Sofa02/throw_wool')})
+
+# Sink tap water (batch 2): authored reveal (FixHimInteractable bUseAuthoredRevealMaterial) - the stream keeps this lit
+# translucent water instead of the generic tinted reveal; 'RevealAlpha' (0..1) is driven by the tap's toggle fade.
+m = material('M_Rev02_WaterStream'); lit_translucent(m)
+# Review: a uniform cylinder read as a straight glass rod. Now: falling streaks (value noise panned down), Fresnel-weighted
+# opacity (thin bright edges, clearer core), a streak-driven normal breakup and a small time wobble that grows below the
+# spout (world position offset, max ~WobbleAmp cm), so the column shimmers instead of standing still.
+uv = MEL.create_material_expression(m, unreal.MaterialExpressionTextureCoordinate, -1300, 200)
+tm = MEL.create_material_expression(m, unreal.MaterialExpressionTime, -1300, 300)
+fr = MEL.create_material_expression(m, unreal.MaterialExpressionFresnel, -1300, 700)
+NOISE = ('float vn(float2 q) { float2 i = floor(q); float2 f = frac(q); f = f * f * (3.0 - 2.0 * f);\n'
+         ' float a = frac(sin(dot(i, float2(127.1, 311.7))) * 43758.5); float b = frac(sin(dot(i + float2(1, 0), float2(127.1, 311.7))) * 43758.5);\n'
+         ' float c = frac(sin(dot(i + float2(0, 1), float2(127.1, 311.7))) * 43758.5); float d = frac(sin(dot(i + float2(1, 1), float2(127.1, 311.7))) * 43758.5);\n'
+         ' return lerp(lerp(a, b, f.x), lerp(c, d, f.x), f.y); }\n')
+st = custom(m, 'float2 q = float2(UV.x * 8.0, UV.y * 7.0 - T * Speed);\n'
+               'float n = frac(sin(dot(floor(q), float2(127.1, 311.7))) * 43758.5);\n'
+               'float2 f = frac(q); f = f * f * (3.0 - 2.0 * f);\n'
+               'float n1 = lerp(lerp(frac(sin(dot(floor(q), float2(127.1,311.7)))*43758.5), frac(sin(dot(floor(q)+float2(1,0), float2(127.1,311.7)))*43758.5), f.x),\n'
+               '                lerp(frac(sin(dot(floor(q)+float2(0,1), float2(127.1,311.7)))*43758.5), frac(sin(dot(floor(q)+float2(1,1), float2(127.1,311.7)))*43758.5), f.x), f.y);\n'
+               'return saturate((Base * (0.45 + 1.1 * F) + Streak * (n1 - 0.5)) * RevealAlpha);',
+            ['UV', 'T', 'Speed', 'Base', 'Streak', 'RevealAlpha', 'F'], -700, 200)
+MEL.connect_material_expressions(uv, '', st, 'UV'); MEL.connect_material_expressions(tm, '', st, 'T'); MEL.connect_material_expressions(fr, '', st, 'F')
+spd = sparam(m, 'Speed', 2.2, -1300, 400)
+MEL.connect_material_expressions(spd, '', st, 'Speed')
+MEL.connect_material_expressions(sparam(m, 'Opacity', 0.42, -1300, 470), '', st, 'Base')
+MEL.connect_material_expressions(sparam(m, 'Streak', 0.35, -1300, 540), '', st, 'Streak')
+MEL.connect_material_expressions(sparam(m, 'RevealAlpha', 1.0, -1300, 610), '', st, 'RevealAlpha')
+MEL.connect_material_property(st, '', MP.MP_OPACITY)
+nb = custom(m, 'float2 q = float2(UV.x * 8.0, UV.y * 7.0 - T * Speed);\n'
+               'float s = sin(q.x * 6.2831 + sin(q.y * 1.7) * 2.0);\n'
+               'return normalize(float3(s * S, cos(q.y * 2.3) * S * 0.5, 1.0));',
+            ['UV', 'T', 'Speed', 'S'], -700, 800, out=unreal.CustomMaterialOutputType.CMOT_FLOAT3)
+MEL.connect_material_expressions(uv, '', nb, 'UV'); MEL.connect_material_expressions(tm, '', nb, 'T'); MEL.connect_material_expressions(spd, '', nb, 'Speed')
+MEL.connect_material_expressions(sparam(m, 'NormalBreakup', 0.45, -1300, 900), '', nb, 'S')
+MEL.connect_material_property(nb, '', MP.MP_NORMAL)
+wp = MEL.create_material_expression(m, unreal.MaterialExpressionWorldPosition, -1300, 1000)
+wo = custom(m, 'float k = saturate((TopZ - WP.z) / 40.0);\n'
+               'return float3(sin(WP.z * 0.45 + T * 13.0) * A * k, cos(WP.z * 0.37 + T * 11.0) * A * k, 0.0);',
+            ['WP', 'T', 'A', 'TopZ'], -700, 1000, out=unreal.CustomMaterialOutputType.CMOT_FLOAT3)
+MEL.connect_material_expressions(wp, '', wo, 'WP'); MEL.connect_material_expressions(tm, '', wo, 'T')
+MEL.connect_material_expressions(sparam(m, 'WobbleAmp', 0.12, -1300, 1100), '', wo, 'A')
+MEL.connect_material_expressions(sparam(m, 'TopZ', 123.0, -1300, 1170), '', wo, 'TopZ')
+MEL.connect_material_property(wo, '', MP.MP_WORLD_POSITION_OFFSET)
+MEL.connect_material_property(vparam(m, 'BaseColor', (0.05, 0.065, 0.07, 1), -400, 0), '', MP.MP_BASE_COLOR)
+MEL.connect_material_property(const(m, 0.03, -400, 320), '', MP.MP_ROUGHNESS)
+MEL.connect_material_property(const(m, 0.6, -400, 380), '', MP.MP_SPECULAR)
+MEL.connect_material_property(const(m, 0.0, -400, 440), '', MP.MP_METALLIC)
+finish(m, MATS + 'M_Rev02_WaterStream')
+instance('MI_Rev02_TapStream', EAL.load_asset(MATS + 'M_Rev02_WaterStream'), {'Opacity': 0.55, 'Streak': 0.55, 'Speed': 2.6, 'NormalBreakup': 0.45, 'WobbleAmp': 0.12, 'TopZ': 123.0},
+         {'BaseColor': (0.16, 0.2, 0.22, 1)})
+# splash where the stream lands: two continuously expanding rings (time-driven), faded by RevealAlpha
+m = material('M_Rev02_TapSplash'); lit_translucent(m)
+uv = MEL.create_material_expression(m, unreal.MaterialExpressionTextureCoordinate, -1100, 200)
+tm = MEL.create_material_expression(m, unreal.MaterialExpressionTime, -1100, 300)
+ring = custom(m, 'float d = length(UV - 0.5) * 2.0; float o = 0.0;\n'
+                 'for (int k = 0; k < 3; k++) { float ph = frac(T * Rate + k / 3.0);\n'
+                 '  float r = lerp(0.10, 0.95, ph); float w = lerp(0.10, 0.22, ph);\n'
+                 '  o += saturate(1.0 - abs(d - r) / w) * (1.0 - ph) * (1.0 - ph); }\n'
+                 'o += saturate(1.0 - d / 0.38) * 0.75;\n'
+                 'return saturate(o * step(d, 1.0) * Strength * RevealAlpha);',
+              ['UV', 'T', 'Rate', 'Strength', 'RevealAlpha'], -600, 200)
+MEL.connect_material_expressions(uv, '', ring, 'UV'); MEL.connect_material_expressions(tm, '', ring, 'T')
+MEL.connect_material_expressions(sparam(m, 'Rate', 2.6, -1100, 400), '', ring, 'Rate')
+MEL.connect_material_expressions(sparam(m, 'Strength', 0.55, -1100, 470), '', ring, 'Strength')
+MEL.connect_material_expressions(sparam(m, 'RevealAlpha', 1.0, -1100, 540), '', ring, 'RevealAlpha')
+MEL.connect_material_property(ring, '', MP.MP_OPACITY)
+spc = vparam(m, 'BaseColor', (0.30, 0.33, 0.35, 1), -400, 0)
+MEL.connect_material_property(spc, '', MP.MP_BASE_COLOR)
+gl = custom(m, 'return C * O * Glow;', ['C', 'O', 'Glow'], -300, 500, out=unreal.CustomMaterialOutputType.CMOT_FLOAT3)
+MEL.connect_material_expressions(spc, '', gl, 'C'); MEL.connect_material_expressions(ring, '', gl, 'O')
+MEL.connect_material_expressions(sparam(m, 'Glow', 0.6, -600, 560), '', gl, 'Glow')
+MEL.connect_material_property(gl, '', MP.MP_EMISSIVE_COLOR)
+MEL.connect_material_property(const(m, 0.03, -400, 300), '', MP.MP_ROUGHNESS)
+MEL.connect_material_property(const(m, 0.8, -400, 360), '', MP.MP_SPECULAR)
+finish(m, MATS + 'M_Rev02_TapSplash')
+instance('MI_Rev02_TapSplash', EAL.load_asset(MATS + 'M_Rev02_TapSplash'), {'Strength': 1.0, 'Rate': 2.4, 'Glow': 0.6}, {'BaseColor': (0.8, 0.85, 0.9, 1)})
+# ---------------- batch 2 leak puddle: dielectric wet film ----------------
+# The roughness-only DBuffer decal gave no visible sheen. A thin lit film on the floor carries the actual reflection:
+# masked + DitherTemporalAA (soft mask edges, partial coverage lets the tile show through), near-mirror roughness, dark
+# water colour. Its UVs come from world XY so it registers exactly with the stain decal's mask basis (README: image
+# right = +X, image up = -Y): u = (x - CX)/SX + .5, v = (y - CY)/SY + .5, with FlipU/FlipV for calibration.
+m = material('M_Rev02_PuddleFilm')
+m.set_editor_property('blend_mode', unreal.BlendMode.BLEND_MASKED)
+m.set_editor_property('dither_opacity_mask', True)
+wp = MEL.create_material_expression(m, unreal.MaterialExpressionWorldPosition, -1500, 200)
+wuv = custom(m, 'float2 uv = float2((WP.x - CX) / SX, (WP.y - CY) / SY) + 0.5;\n'
+                'return float2(lerp(uv.x, 1.0 - uv.x, FU), lerp(uv.y, 1.0 - uv.y, FV));',
+             ['WP', 'CX', 'CY', 'SX', 'SY', 'FU', 'FV'], -1200, 200, out=unreal.CustomMaterialOutputType.CMOT_FLOAT2)
+MEL.connect_material_expressions(wp, '', wuv, 'WP')
+for k, (n_, v) in enumerate((('CX', 206.7), ('CY', 75.9), ('SX', 68.2221), ('SY', 86.1652), ('FlipU', 0.0), ('FlipV', 0.0))):
+    MEL.connect_material_expressions(sparam(m, n_, v, -1500, 320 + 70 * k), '', wuv, {'FlipU': 'FU', 'FlipV': 'FV'}.get(n_, n_))
+mask = tex(m, EAL.load_asset(R2 + 'KI_Leak02/T_Leak_Puddle_Mask'), -900, 200, param='PuddleMask')
+MEL.connect_material_expressions(wuv, '', mask, 'UVs')
+# soft wet edge: 5x5 box blur of the mask alpha (R = UV step), eased; Strength caps coverage so the tile stays readable
+tob = MEL.create_material_expression(m, unreal.MaterialExpressionTextureObjectParameter, -900, 500)
+tob.set_editor_property('parameter_name', 'PuddleMaskObj'); tob.set_editor_property('texture', EAL.load_asset(R2 + 'KI_Leak02/T_Leak_Puddle_Mask'))
+op = custom(m, 'float a = 0.0;\nfor (int i = -2; i <= 2; i++) for (int j = -2; j <= 2; j++)\n'
+               '  a += Texture2DSample(Tex, TexSampler, U + float2(i, j) * R).a;\na /= 25.0;\n'
+               'float inside = (U.x > 0 && U.x < 1 && U.y > 0 && U.y < 1) ? 1.0 : 0.0;\n'
+               'return saturate(smoothstep(0.05, 0.95, a) * Strength) * inside;', ['Tex', 'U', 'R', 'Strength'], -550, 200)
+MEL.connect_material_expressions(tob, '', op, 'Tex'); MEL.connect_material_expressions(wuv, '', op, 'U')
+MEL.connect_material_expressions(sparam(m, 'EdgeBlur', 0.014, -900, 700), '', op, 'R')
+MEL.connect_material_expressions(sparam(m, 'Strength', 0.42, -900, 800), '', op, 'Strength')
+MEL.connect_material_property(op, '', MP.MP_OPACITY_MASK)
+MEL.connect_material_property(vparam(m, 'WaterColor', (0.10, 0.085, 0.07, 1), -400, 0), '', MP.MP_BASE_COLOR)
+MEL.connect_material_property(sparam(m, 'Roughness', 0.04, -400, 120), '', MP.MP_ROUGHNESS)
+MEL.connect_material_property(const(m, 0.5, -400, 180), '', MP.MP_SPECULAR)
+MEL.connect_material_property(const(m, 0.0, -400, 240), '', MP.MP_METALLIC)
+finish(m, MATS + 'M_Rev02_PuddleFilm')
+instance('MI_Rev02_PuddleFilm', EAL.load_asset(MATS + 'M_Rev02_PuddleFilm'), {'Strength': 0.42, 'EdgeBlur': 0.014, 'Roughness': 0.04}, {'WaterColor': (0.10, 0.085, 0.07, 1)})
+# BR-BED-03 frame: the README's painterly walnut image (was flat white Phong)
+instance('MI_Bed03_Walnut', texpbr, {'Roughness': 0.55, 'Metallic': 0.0}, textures={'BaseColorMap': EAL.load_asset(R2 + 'BR_Bed03/T_Bed_WalnutPainted')})
+# LV-BOOK-01 keepsake tin (bookcase + :063 shelf): its 'Ceramic_Pot' body/lid slot was flat cream FBX Phong. Painted
+# enamel tin: the joinery ivory-enamel image under a soft sage tint, slight metal sheen; knob/hinge -> aged brass (05m).
+instance('MI_Tin_PaintedEnamel', texpbr, {'Roughness': 0.34, 'Metallic': 0.15}, {'Tint': (0.46, 0.62, 0.50, 1)},
+         {'BaseColorMap': EAL.load_asset(R2 + 'Joinery02/T_Joinery_IvoryEnamel')})
 unreal.log('[Rev02 feedback materials] built')

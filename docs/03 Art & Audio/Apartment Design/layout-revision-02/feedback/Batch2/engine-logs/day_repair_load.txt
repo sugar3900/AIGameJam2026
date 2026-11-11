@@ -1,0 +1,25 @@
+PROBE start_day1 windowsun ['WindowSun_BR=13978', 'WindowSun_BA=13978', 'WindowSun_OF=13978'] film_hidden False stain_hidden False
+  State=1 Room=hall Hovered=None
+PROBE dusk_day1 windowsun ['WindowSun_BR=0', 'WindowSun_BA=0', 'WindowSun_OF=0'] film_hidden False stain_hidden False
+  State=1 Room=hall Hovered=None
+PROBE after_setfixed_lukey windowsun ['WindowSun_BR=0', 'WindowSun_BA=0', 'WindowSun_OF=0'] film_hidden False stain_hidden False
+  State=1 Room=hall Hovered=None
+PROBE morning_day2 windowsun ['WindowSun_BR=0', 'WindowSun_BA=0', 'WindowSun_OF=0'] film_hidden False stain_hidden False
+  State=1 Room=kitchen Hovered=None
+PROBE after_continue windowsun ['WindowSun_BR=13986', 'WindowSun_BA=13986', 'WindowSun_OF=13986'] film_hidden False stain_hidden True
+  State=1 Room=kitchen Hovered=None
+=== rerun after film attach fix
+PROBE start_day1 windowsun ['WindowSun_BR=13979', 'WindowSun_BA=13979', 'WindowSun_OF=13979'] film_hidden False stain_hidden False
+  State=1 Room=hall Hovered=None
+met lukey -> Playing
+met tyler -> Playing
+met wyatt -> Playing
+met malcolm -> Playing
+PROBE dusk_week1 windowsun ['WindowSun_BR=0', 'WindowSun_BA=0', 'WindowSun_OF=0'] film_hidden False stain_hidden False
+  State=1 Room=bedroom Hovered=None
+PROBE after_setfixed_lukey windowsun ['WindowSun_BR=0', 'WindowSun_BA=0', 'WindowSun_OF=0'] film_hidden False stain_hidden False
+  State=1 Room=bedroom Hovered=None
+PROBE morning_week2 windowsun ['WindowSun_BR=13883', 'WindowSun_BA=13883', 'WindowSun_OF=13883'] film_hidden True stain_hidden True
+  State=1 Room=hall Hovered=None
+PROBE after_continue windowsun ['WindowSun_BR=13992', 'WindowSun_BA=13992', 'WindowSun_OF=13992'] film_hidden True stain_hidden True
+  State=1 Room=kitchen Hovered=None

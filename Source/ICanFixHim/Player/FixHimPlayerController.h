@@ -29,6 +29,7 @@ class UFixHimNameEntryWidget;
 class UFixHimTransitionWidget;
 class UFixHimKeepsakeWidget;
 class ADirectionalLight;
+class ULightComponent;
 class UMaterialInstanceDynamic;
 class UUserWidget;
 
@@ -239,6 +240,8 @@ private:
 	UPROPERTY(Transient) TObjectPtr<UFixHimKeepsakeWidget> KeepsakeWidget;
 	UPROPERTY(Transient) TObjectPtr<ADirectionalLight> Sun;
 	UPROPERTY(Transient) TArray<TObjectPtr<UMaterialInstanceDynamic>> WindowViews;
+	UPROPERTY(Transient) TArray<TObjectPtr<ULightComponent>> WindowSunLights;
+	TArray<float> WindowSunBaseIntensities;
 
 	UPROPERTY(Transient) TObjectPtr<AFixHimInteractable> Hovered;
 	UPROPERTY(Transient) TObjectPtr<AFixHimMalady> ActiveMalady;
