@@ -163,8 +163,8 @@ All of section 8 passes in the redesign map, the parity table has no unexplained
 ## Revision 02 integration (2026-11-09)
 
 The approved revision 02 layout ([handoff](layout-revision-02/README.md)) is built as a separate map pair,
-`L_Apartment_Rev02` + `L_Apartment_Rev02_Gameplay`, by a re-runnable pipeline in `Tools/Editor/Rev02/`. The game's
-default map (`L_Apartment_Redesign_Blockout`) is unchanged until Rev02 is accepted.
+`L_Apartment_Rev02` + `L_Apartment_Rev02_Gameplay`, by a re-runnable pipeline in `Tools/Editor/Rev02/`. The
+game and editor default maps now point to `L_Apartment_Rev02`; the original `L_Apartment_Redesign_Blockout` remains available.
 
 **Pipeline** (run in order; 01 always starts from a fresh copy of the A+ maps, so the whole chain reproduces):
 1. `rev02_01_make_maps` — copy the A+ map pair to Rev02 and re-point the streamed gameplay sublevel.
@@ -185,6 +185,18 @@ default map (`L_Apartment_Redesign_Blockout`) is unchanged until Rev02 is accept
 7. `rev02_06_lighting` — fills, window-view cards and sun spot follow the new rooms/windows.
 8. `rev02_08_reconcile` — verification: writes [Rev02 engine reconciliation](Rev02%20engine%20reconciliation.md)
    (every elevation-schedule instance and child → actors or an intentional omission; every other placed actor classified).
+
+**Current feedback stages (screenshot batch 2):** the eight-stage list above is the original integration history, not the complete current rebuild recipe. Before rebuilding maps, compile the current C++ editor target and import all current kits with `rev02_02_import_fitted`, then build `rev02_02b_feedback_materials`. The importer uses legacy FBX for authored UCX. Never recreate the maps merely to import a source release.
+
+For a fresh map build, run 01, 03, 04, 04b and 04c (wall art), then 05 (gameplay, which invokes 09 controls), followed by the feedback stages in this order:
+
+1. 05b bathroom, 05c bath tile, 05d feedback placement, 05e fuse box, 05f closet light, 05g TV, 05h materials, 05i joinery.
+2. 05j second-batch materials/placements, 05k baseboard stops, 05l kitchen fronts/backsplash/fillers/range and box cloth, 05m room-source replacements.
+3. Reapply 05c after 05m so pink curved bullnose replaces the temporary plum caps; reapply 05h for tile glaze and 05k for casing stops. This late pass is required because earlier feedback stages may reconstruct those actors.
+4. 06 lighting (including `WindowSun` tags), 09 controls, then 05n authored tap water and synchronized splash, followed by 05o dielectric puddle film (retiring the ineffective wet-only decal).
+5. 08 reconciliation, followed by the applicable PIE controls, clicks, capsule routes, neighbour sweeps, encounter/repair-state checks and final lit room captures. Scripts completing is not gameplay acceptance.
+
+For an incremental source update, import the changed kit, rebuild affected material graphs, and run its matching feedback stage plus any dependent late stages. Preserve existing gameplay identities, pivots, repair bindings and saved states. Source kit READMEs document the axes, origins, material mappings and collision exceptions. Do not use auto-convex collision across door or closet openings.
 
 **C++:** `AFixHimRoom::bSubVolume` — an extra area of a room (the walk-in closet of the bedroom). Standing in it counts
 as being in that room; crossing between it and the main volume neither changes the room nor dismisses the room's

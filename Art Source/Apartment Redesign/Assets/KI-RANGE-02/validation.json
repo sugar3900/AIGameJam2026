@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "files": [
+    {
+      "file": "KI_RANGE02_Body.fbx",
+      "passed": true,
+      "vertices": 13880,
+      "triangles": 26804,
+      "ucx": 0,
+      "uv_layers": 1
+    },
+    {
+      "file": "KI_RANGE02_Door.fbx",
+      "passed": true,
+      "vertices": 2376,
+      "triangles": 4616,
+      "ucx": 0,
+      "uv_layers": 1
+    }
+  ],
+  "limits": "FBX source round-trip only; engine materials, fit, collision and interactions pending."
+}

@@ -7,6 +7,7 @@
 #include "FixHimInteractable.generated.h"
 
 class AFixHimPlayerController;
+class UStaticMesh;
 class UStaticMeshComponent;
 class UPointLightComponent;
 class UMaterialInstanceDynamic;
@@ -101,6 +102,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
 	bool bHoverOutline = true;
 
+	/**
+	 * Optional mesh for Body's inverted-hull outline shell, in Body's mesh space. The hull trick only works on
+	 * near-convex shapes; a body with folded soft goods (the bed's throw) shows broad shell faces through its folds.
+	 * Set this to the rigid part (e.g. the bed frame) to outline only that. Null keeps the Body mesh.
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
+	TObjectPtr<UStaticMesh> OutlineMeshOverride;
+
 	/** Emissive applied to Body while On (Light toggles). */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
 	FLinearColor OnEmissive = FLinearColor(4.f, 3.2f, 2.f);
@@ -110,6 +119,14 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
 	float RevealOpacity = 0.55f;
+
+	/** Preserve authored water/flame materials instead of applying the generic reveal material. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Reveal")
+	bool bUseAuthoredRevealMaterial = false;
+
+	/** Optional splash/other reveal art; visibility follows RevealPart, collision is authored separately. */
+	UPROPERTY(EditAnywhere, Category = "Reveal")
+	TArray<TObjectPtr<AActor>> RevealActors;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
 	FLinearColor OutlineColor = FLinearColor(1.f, 0.35f, 0.75f);
@@ -219,6 +236,11 @@ protected:
 	void BuildOutline();
 	void BuildShine();
 	void ApplyToggleAlpha(float Alpha);
+	void ApplyRevealAlpha(float Alpha);
+	bool IsRevealMesh(const UStaticMeshComponent* Mesh) const;
+
+	UPROPERTY(Transient)
+	TArray<TObjectPtr<UMaterialInstanceDynamic>> RevealMIDs;
 
 	UPROPERTY(Transient)
 	TArray<TObjectPtr<UStaticMeshComponent>> OutlineShells;

@@ -1,0 +1,71 @@
+Cabinet_Door: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_26 | click1 on=True | click2 on=True
+Cabinet_Door_2: aim -> State=1 Room=living Hovered=FixHimInteractable_11 | click1 on=True | click2 on=True
+Sink_Door_L: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_27 | click1 on=True | click2 on=True
+Sink_Door_R: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_28 | click1 on=True | click2 on=True
+Kitchen_Drawer: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_28 | click1 on=True | click2 on=False
+Kitchen_Drawer_2: aim -> State=1 Room=living Hovered=FixHimInteractable_12 | click1 on=True | click2 on=False
+Sink_Drawer_L: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_29 | click1 on=True | click2 on=False
+Sink_Drawer_R: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_30 | click1 on=True | click2 on=False
+Oven_Door: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_31 | click1 on=True | click2 on=True
+Stove_Burner: aim -> State=1 Room=kitchen Hovered=None | click1 on=False | click2 on=False
+Sink_Tap: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_32 | click1 on=True | click2 on=False
+Fridge_Door: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_2 | click1 on=True | click2 on=True
+Pantry_Door_L: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_2 | click1 on=True | click2 on=True
+Pantry_Door_R: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_23 | click1 on=True | click2 on=True
+Cupboard_Door_L: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_24 | click1 on=True | click2 on=True
+Cupboard_Door_R: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_25 | click1 on=True | click2 on=True
+Shower_Curtain: aim -> State=1 Room=bathroom Hovered=FixHimInteractable_52 | click1 on=True | click2 on=True
+Linen_Door_Upper: aim -> State=1 Room=bathroom Hovered=None | click1 on=False | click2 on=False
+Linen_Door_Lower: aim -> State=1 Room=bathroom Hovered=None | click1 on=False | click2 on=False
+CoatCloset_Left: aim -> State=1 Room=hall Hovered=FixHimInteractable_43 | click1 on=True | click2 on=True
+OfficeCloset_Left: aim -> State=1 Room=office Hovered=FixHimInteractable_53 | click1 on=True | click2 on=True
+Wardrobe_Door_L: aim -> State=1 Room=office Hovered=FixHimInteractable_53 | click1 on=False | click2 on=False
+Tub_Faucet: aim -> State=1 Room=bathroom Hovered=FixHimInteractable_5 | click1 on=True | click2 on=False
+Basin_Tap: aim -> State=1 Room=bathroom Hovered=FixHimInteractable_51 | click1 on=True | click2 on=False
+FuseBox_Door: aim -> State=1 Room=living Hovered=FixHimInteractable_34 | click1 on=True | click2 on=True
+--- close passes (re-aimed at swung leaf) and retries
+Cabinet_Door: aim -> State=2 Room=kitchen Hovered=None | click1 on=False
+Cabinet_Door_2: aim -> State=3 Room=living Hovered=None | click1 on=False
+Sink_Door_L: aim -> State=3 Room=kitchen Hovered=None | click1 on=False
+Sink_Door_R: aim -> State=3 Room=kitchen Hovered=None | click1 on=False
+Oven_Door: aim -> State=3 Room=kitchen Hovered=None | click1 on=False
+Fridge_Door: aim -> State=3 Room=kitchen Hovered=None | click1 on=False
+Pantry_Door_L: aim -> State=3 Room=kitchen Hovered=None | click1 on=False
+Pantry_Door_R: aim -> State=3 Room=kitchen Hovered=None | click1 on=False
+Cupboard_Door_L: aim -> State=3 Room=kitchen Hovered=None | click1 on=False
+Cupboard_Door_R: aim -> State=3 Room=kitchen Hovered=None | click1 on=False
+Shower_Curtain: aim -> State=3 Room=bathroom Hovered=None | click1 on=True
+CoatCloset_Left: aim -> State=3 Room=hall Hovered=None | click1 on=True
+OfficeCloset_Left: aim -> State=3 Room=office Hovered=None | click1 on=True
+FuseBox_Door: aim -> State=3 Room=living Hovered=None | click1 on=True
+Stove_Burner: aim -> State=3 Room=kitchen Hovered=None | click1 on=False
+Linen_Door_Upper: aim -> State=3 Room=bathroom Hovered=None | click1 on=False
+Linen_Door_Lower: aim -> State=3 Room=bathroom Hovered=None | click1 on=False
+Wardrobe_Door_L: aim -> State=3 Room=bedroom Hovered=None | click1 on=False
+--- fresh PIE: open (front) then close (re-aimed at swung leaf centre)
+Cabinet_Door: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_26 | click1 on=True | close on=False
+Cabinet_Door_2: aim -> State=1 Room=living Hovered=FixHimInteractable_11 | click1 on=True | close on=False
+Sink_Door_L: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_27 | click1 on=True | close on=False
+Sink_Door_R: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_27 | click1 on=True | close on=False
+Oven_Door: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_31 | click1 on=True | close on=False
+Fridge_Door: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_2 | click1 on=True | close on=False
+Pantry_Door_L: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_22 | click1 on=True | close on=False
+Pantry_Door_R: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_23 | click1 on=True | close on=False
+Cupboard_Door_L: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_24 | click1 on=True | close on=False
+Cupboard_Door_R: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_25 | click1 on=True | close on=False
+FuseBox_Door: aim -> State=1 Room=living Hovered=FixHimInteractable_34 | click1 on=True | close on=False
+[2026.11.11-04.34.45:996][676]LogFixHim: State=1 Room=living Hovered=None
+--- retries with closer aim (state logged per aim)
+Stove_Burner: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_3 | click1 on=True | click2 on=False
+Stove_Burner: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_3 | click1 on=True | click2 on=False
+Linen_Door_Upper: aim -> State=1 Room=bathroom Hovered=None | click1 on=False
+Linen_Door_Lower: aim -> State=1 Room=bathroom Hovered=None | click1 on=False
+Wardrobe_Door_L: aim -> State=1 Room=bedroom Hovered=FixHimInteractable_8 | click1 on=False
+Wardrobe_Door_R: aim -> State=1 Room=bedroom Hovered=FixHimInteractable_9 | click1 on=True
+Shower_Curtain: aim -> State=1 Room=bathroom Hovered=FixHimInteractable_52 | click1 on=True
+Shower_Curtain: aim -> State=1 Room=bathroom Hovered=FixHimInteractable_52 | click1 on=False
+CoatCloset_Left: aim -> State=1 Room=hall Hovered=FixHimInteractable_43 | click1 on=True
+CoatCloset_Left: aim -> State=1 Room=hall Hovered=FixHimInteractable_43 | click1 on=False
+Bed: aim -> State=1 Room=bedroom Hovered=FixHimBed_0 | click1 on=False | click0 on=False
+Linen_Door_Upper: aim -> State=6 Room=bathroom Hovered=FixHimBed_0 | click1 on=False | close on=False
+Linen_Door_Lower: aim -> State=6 Room=bathroom Hovered=None | click1 on=False | close on=False

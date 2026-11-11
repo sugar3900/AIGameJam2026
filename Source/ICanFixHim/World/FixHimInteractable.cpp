@@ -117,7 +117,30 @@ void AFixHimInteractable::ApplyLook()
 			}
 		}
 	}
-	if (RevealPart && RevealPart->GetStaticMesh())
+	RevealMIDs.Reset();
+	if (bUseAuthoredRevealMaterial)
+	{
+		auto CacheMaterials = [this](UStaticMeshComponent* Mesh)
+		{
+			if (!Mesh || !Mesh->GetStaticMesh()) return;
+			for (int32 Slot = 0; Slot < Mesh->GetNumMaterials(); ++Slot)
+			{
+				// Reuse an existing MID when construction runs again; avoid nested instances.
+				UMaterialInstanceDynamic* MID = Cast<UMaterialInstanceDynamic>(Mesh->GetMaterial(Slot));
+				if (!MID) MID = Mesh->CreateDynamicMaterialInstance(Slot);
+				if (MID) RevealMIDs.AddUnique(MID);
+			}
+		};
+		CacheMaterials(RevealPart);
+		for (AActor* Actor : RevealActors)
+		{
+			if (!IsValid(Actor) || Actor == this) continue;
+			TArray<UStaticMeshComponent*> Meshes;
+			Actor->GetComponents(Meshes);
+			for (UStaticMeshComponent* Mesh : Meshes) CacheMaterials(Mesh);
+		}
+	}
+	else if (RevealPart && RevealPart->GetStaticMesh())
 	{
 		if (UMaterialInstanceDynamic* MID = FixHim::Assets::MakeTranslucent(this, RevealColor, RevealOpacity))
 		{
@@ -142,7 +165,7 @@ void AFixHimInteractable::BuildOutline()
 	GetComponents<UStaticMeshComponent>(Sources);
 	for (UStaticMeshComponent* Src : Sources)
 	{
-		if (!Src || !Src->GetStaticMesh() || Src == RevealPart || OutlineShells.Contains(Src) || !Src->IsVisible())
+		if (!Src || !Src->GetStaticMesh() || IsRevealMesh(Src) || OutlineShells.Contains(Src) || !Src->IsVisible())
 		{
 			continue;
 		}
@@ -151,7 +174,9 @@ void AFixHimInteractable::BuildOutline()
 			continue;
 		}
 
-		const FBox LocalBox = Src->GetStaticMesh()->GetBoundingBox();
+		UStaticMesh* ShellMesh = Src->GetStaticMesh();
+		if (Src == Body && OutlineMeshOverride) ShellMesh = OutlineMeshOverride.Get();
+		const FBox LocalBox = ShellMesh->GetBoundingBox();
 		const FVector Size = LocalBox.GetSize() * Src->GetRelativeScale3D().GetAbs();
 		const FVector Center = LocalBox.GetCenter();
 		const FVector ScaleMul(
@@ -160,7 +185,7 @@ void AFixHimInteractable::BuildOutline()
 			Size.Z > KINDA_SMALL_NUMBER ? 1.f + 2.f * OutlineThickness / Size.Z : 1.f);
 
 		UStaticMeshComponent* Shell = NewObject<UStaticMeshComponent>(this);
-		Shell->SetStaticMesh(Src->GetStaticMesh());
+		Shell->SetStaticMesh(ShellMesh);
 		Shell->SetupAttachment(Src);
 		// Scale about the mesh bounds centre rather than its pivot.
 		Shell->SetRelativeScale3D(ScaleMul);
@@ -200,7 +225,7 @@ void AFixHimInteractable::BuildShine()
 	TArray<UStaticMeshComponent*> Targets;
 	for (UStaticMeshComponent* Mesh : Meshes)
 	{
-		if (!Mesh || !Mesh->GetStaticMesh() || Mesh == RevealPart || OutlineShells.Contains(Mesh) || !Mesh->IsVisible())
+		if (!Mesh || !Mesh->GetStaticMesh() || IsRevealMesh(Mesh) || OutlineShells.Contains(Mesh) || !Mesh->IsVisible())
 		{
 			continue;
 		}
@@ -306,6 +331,36 @@ void AFixHimInteractable::SetInteractionShineEnabled(bool bAllow)
 	NextShineAt = Age + FMath::FRandRange(ShineInterval.X, ShineInterval.Y);
 }
 
+bool AFixHimInteractable::IsRevealMesh(const UStaticMeshComponent* Mesh) const
+{
+	if (Mesh == RevealPart) return true;
+	return Mesh && RevealActors.ContainsByPredicate([Mesh](const TObjectPtr<AActor>& Actor)
+	{
+		return Actor.Get() == Mesh->GetOwner();
+	});
+}
+
+void AFixHimInteractable::ApplyRevealAlpha(float Alpha)
+{
+	const bool bVisible = Alpha > 0.05f;
+	RevealPart->SetVisibility(bVisible);
+	for (AActor* Actor : RevealActors)
+	{
+		if (!IsValid(Actor) || Actor == this) continue;
+		Actor->SetActorHiddenInGame(!bVisible);
+		TArray<UStaticMeshComponent*> Meshes;
+		Actor->GetComponents(Meshes);
+		for (UStaticMeshComponent* Mesh : Meshes) Mesh->SetVisibility(bVisible);
+	}
+	if (bUseAuthoredRevealMaterial)
+	{
+		for (UMaterialInstanceDynamic* MID : RevealMIDs)
+		{
+			if (IsValid(MID)) MID->SetScalarParameterValue(TEXT("RevealAlpha"), Alpha);
+		}
+	}
+}
+
 void AFixHimInteractable::ApplyToggleAlpha(float Alpha)
 {
 	const float Smooth = FMath::SmoothStep(0.f, 1.f, Alpha);
@@ -334,10 +389,10 @@ void AFixHimInteractable::ApplyToggleAlpha(float Alpha)
 				GlowMIDs[Index]->SetScalarParameterValue(GlowParam, GlowOnValues[Index] * Smooth);
 			}
 		}
-		// Optional "lit" part (e.g. a stove's gas flame) shown only while on.
-		if (RevealPart && RevealPart->GetStaticMesh())
+		// Optional lit art (e.g. a gas flame) follows the toggle, including external reveal art.
+		if ((RevealPart && RevealPart->GetStaticMesh()) || !RevealActors.IsEmpty())
 		{
-			RevealPart->SetVisibility(Alpha > 0.05f);
+			ApplyRevealAlpha(Alpha);
 		}
 		break;
 	case EInteractToggle::Slide:
@@ -347,7 +402,7 @@ void AFixHimInteractable::ApplyToggleAlpha(float Alpha)
 		Pivot->SetRelativeRotation(ToggleRotation * Smooth);
 		break;
 	case EInteractToggle::Reveal:
-		RevealPart->SetVisibility(Alpha > 0.05f);
+		ApplyRevealAlpha(Alpha);
 		break;
 	default:
 		break;

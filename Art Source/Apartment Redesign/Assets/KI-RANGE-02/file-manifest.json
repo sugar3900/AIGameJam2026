@@ -1,0 +1,54 @@
+{
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1090,
+      "sha256": "494b24a46da4fcd08d53315e72e007bba22163d59c8c3bbe9e3a24b568d8b8c3"
+    },
+    {
+      "path": "assembly.json",
+      "bytes": 1426,
+      "sha256": "17bd127494390a8e88b3c299b7bb6bfdb364b8c80d4c3eebe61f0a9f5b898450"
+    },
+    {
+      "path": "build_range.py",
+      "bytes": 5174,
+      "sha256": "60635e78b7933f62af07ef76f2d7cfbcf411ebd931e0e48a7f68cfedddc9070d"
+    },
+    {
+      "path": "models/KI-RANGE-02.blend",
+      "bytes": 2939311,
+      "sha256": "5c97e40e852150ba898b7cd86fa6c3d31ee646824bb422dae473979abeec5383"
+    },
+    {
+      "path": "models/KI_RANGE02_Body.fbx",
+      "bytes": 755692,
+      "sha256": "5e40e0a1a6d45ddb916b39fc500dc07706fbf118b4e2a73f5d4d05611d392cb9"
+    },
+    {
+      "path": "models/KI_RANGE02_Door.fbx",
+      "bytes": 148492,
+      "sha256": "f76c5d4c5fcfaaf63726abf6c7a85a4633a51ee61bf2aceffc17e2cc7a8ec6c8"
+    },
+    {
+      "path": "previews/range-closed.png",
+      "bytes": 777961,
+      "sha256": "20b5a345615a62f1bd284268535089fa4b70c0319c208ca20a6ef5de344a1cef"
+    },
+    {
+      "path": "previews/range-open.png",
+      "bytes": 793606,
+      "sha256": "35212eb6ff6dbb76eeeb11f11d246430d837c50bfcbcd3bb9afc513ad8b7a3b6"
+    },
+    {
+      "path": "textures/range-enamel-v2.png",
+      "bytes": 2401089,
+      "sha256": "aa8770d05e226961744843d9a119aefecee5cdd0b0bbb706aefbf2a3e3092568"
+    },
+    {
+      "path": "validation.json",
+      "bytes": 458,
+      "sha256": "0ff8bd1841dff6dc49e1c1fa012aa763e6b3d8d8232d69a831f1b35cae3ef3e7"
+    }
+  ]
+}

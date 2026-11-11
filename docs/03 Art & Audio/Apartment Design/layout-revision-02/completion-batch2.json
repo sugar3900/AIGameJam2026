@@ -1,0 +1,341 @@
+{
+  "authorization": "User requests autonomous completion and merge, 2026-11-10 America/New_York",
+  "acceptance": "Source validation plus installed appearance and applicable interactions/collision; no queued item counts as complete",
+  "items": [
+    {
+      "id": "B2-01",
+      "request": "Bath crown/tile top and window reveal",
+      "owner": "engine",
+      "status": "complete",
+      "evidence": [
+        "feedback/Batch2/accepted-views/fin_ba_return.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-02",
+      "request": "Pink curved bullnose",
+      "owner": "room_source",
+      "status": "complete",
+      "evidence": [
+        "Art Source/Apartment Redesign/Assets/FEEDBACK-ROOM-03",
+        "feedback/Batch2/accepted-views/fin_ba_bullnose_W.png",
+        "feedback/Batch2/accepted-views/fin_ba_cap_N.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-03",
+      "request": "Bath corner light leak",
+      "owner": "engine",
+      "status": "complete",
+      "evidence": [
+        "feedback/Batch2/accepted-views/fin_ba_return.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-04",
+      "request": "Metal fixtures and curved L rod/curtain",
+      "owner": "room_source+engine",
+      "status": "complete",
+      "evidence": [
+        "Art Source/Apartment Redesign/Assets/FEEDBACK-ROOM-03",
+        "feedback/Batch2/accepted-views/fin_ba_return.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-05",
+      "request": "Closet fixture shadows",
+      "owner": "engine",
+      "status": "complete",
+      "evidence": [
+        "feedback/Batch2/accepted-views/b2_closet_spokes_after_final.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-06",
+      "request": "Pan sizes and engaged hooks",
+      "owner": "parent",
+      "status": "complete",
+      "evidence": [
+        "Art Source/Apartment Redesign/Assets/PROP-FIT-03",
+        "feedback/Batch2/accepted-views/fin_ki_pans_close.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-07",
+      "request": "Daybed mattress/pillows",
+      "owner": "room_source",
+      "status": "complete",
+      "evidence": [
+        "Art Source/Apartment Redesign/Assets/FEEDBACK-ROOM-03",
+        "feedback/Batch2/accepted-views/fin2_of_daybed.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-08",
+      "request": "Shelf vase fit",
+      "owner": "engine",
+      "status": "complete",
+      "evidence": [
+        "feedback/Batch2/accepted-views/b2_vase_shelf065_side.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-09",
+      "request": "Sofa throw contact and oatmeal weave",
+      "owner": "parent",
+      "status": "complete",
+      "evidence": [
+        "Art Source/Apartment Redesign/Assets/LV-SOFA-03",
+        "feedback/Batch2/accepted-views/fin5_lv_sofa_front.png",
+        "feedback/Batch2/accepted-views/fin5_lv_sofa_throw_close.png",
+        "feedback/Batch2/accepted-views/fin5_lv_sofa_throw_low.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-10",
+      "request": "Window reflection disk",
+      "owner": "engine",
+      "status": "complete",
+      "evidence": [
+        "feedback/Batch2/accepted-views/b2_disk_isolate_fillspec0_living.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-11",
+      "request": "Door knobs/panel proportions/casing seams",
+      "owner": "room_source",
+      "status": "complete",
+      "evidence": [
+        "Art Source/Apartment Redesign/Assets/ARC-DOOR-03",
+        "feedback/Batch2/accepted-views/fin2_door_knob.png",
+        "feedback/Batch2/accepted-views/fin2_door_casing_joint.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-12",
+      "request": "Sliding closet casing seam",
+      "owner": "room_source",
+      "status": "complete",
+      "evidence": [
+        "Art Source/Apartment Redesign/Assets/FEEDBACK-ROOM-03",
+        "feedback/Batch2/accepted-views/fin_ha_coatcloset.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-13",
+      "request": "Bedroom-style entry closet hangers",
+      "owner": "parent",
+      "status": "complete",
+      "evidence": [
+        "Art Source/Apartment Redesign/Assets/PROP-FIT-03",
+        "feedback/Batch2/accepted-views/fin_ha_coatcloset.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-14",
+      "request": "Bench/slippers placement",
+      "owner": "engine",
+      "status": "complete",
+      "evidence": [
+        "feedback/Batch2/accepted-views/b2_entry_bench_rack.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-15",
+      "request": "Coat rack painted grain and metallic hooks",
+      "owner": "engine",
+      "status": "complete",
+      "evidence": [
+        "feedback/Batch2/accepted-views/b2_coatrack_close.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-16",
+      "request": "Window panes/muntins/exterior image coverage",
+      "owner": "engine",
+      "status": "complete",
+      "evidence": [
+        "feedback/Batch2/accepted-views/b2_final_night_BR_upper.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-17",
+      "request": "Books and textured storage box",
+      "owner": "room_source",
+      "status": "complete",
+      "evidence": [
+        "Art Source/Apartment Redesign/Assets/FEEDBACK-ROOM-03",
+        "feedback/Batch2/accepted-views/fin5_lv_tin.png",
+        "feedback/Batch2/accepted-views/fin5_br_tin063.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-18",
+      "request": "Bedroom nighttime competing images",
+      "owner": "engine",
+      "status": "complete",
+      "evidence": [
+        "feedback/Batch2/accepted-views/b2_final_night_BR.png",
+        "feedback/Batch2/accepted-views/b2_final_night_OF.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-19",
+      "request": "Low-pass mirrors; indistinct player while moving",
+      "owner": "engine",
+      "status": "complete",
+      "evidence": [
+        "feedback/Batch2/accepted-views/fin_mirror_BR_a.png",
+        "feedback/Batch2/accepted-views/fin_mirror_BA_a.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-20",
+      "request": "Bedroom bedframe/wood and sewn pillows",
+      "owner": "room_source",
+      "status": "complete",
+      "evidence": [
+        "Art Source/Apartment Redesign/Assets/FEEDBACK-ROOM-03",
+        "feedback/Batch2/accepted-views/fin2_br_bed_hover.png",
+        "feedback/Batch2/accepted-views/fin2_br_bed_nohover.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-21",
+      "request": "Slim baseboards meeting casings",
+      "owner": "room_source+engine",
+      "status": "complete",
+      "evidence": [
+        "Art Source/Apartment Redesign/Assets/FEEDBACK-ROOM-03",
+        "feedback/Batch2/accepted-views/fin_base_corner.png",
+        "feedback/Batch2/accepted-views/fin_base_casing.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-22",
+      "request": "Kitchen switch left side and click",
+      "owner": "engine",
+      "status": "complete",
+      "evidence": [
+        "feedback/Batch2/accepted-views/b2_kitchen_switch.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-23",
+      "request": "Kitchen table/stool wood grain",
+      "owner": "engine",
+      "status": "complete",
+      "evidence": [
+        "feedback/Batch2/accepted-views/b2_walltable_stool.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-24",
+      "request": "Fridge metallic hardware",
+      "owner": "engine",
+      "status": "complete",
+      "evidence": [
+        "feedback/Batch2/accepted-views/b2_fridge_chrome_offhover.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-25",
+      "request": "Sink metallic fittings and moving translucent water",
+      "owner": "engine",
+      "status": "complete",
+      "evidence": [
+        "feedback/Batch2/accepted-views/fin_tap_close.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-26",
+      "request": "Bookshelf plant thin curved foliage",
+      "owner": "room_source",
+      "status": "complete",
+      "evidence": [
+        "Art Source/Apartment Redesign/Assets/FEEDBACK-ROOM-03",
+        "feedback/Batch2/accepted-views/fin2_lv_plant.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-27",
+      "request": "Developed vintage stove",
+      "owner": "kitchen_source",
+      "status": "complete",
+      "evidence": [
+        "Art Source/Apartment Redesign/Assets/KI-RANGE-02",
+        "feedback/Batch2/accepted-views/fin_ki_range.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-28",
+      "request": "Cabinet front widths and closed gaps",
+      "owner": "kitchen_source",
+      "status": "complete",
+      "evidence": [
+        "Art Source/Apartment Redesign/Assets/CABINET-JOINERY-04",
+        "feedback/Batch2/accepted-views/fin_ki_fronts.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-29",
+      "request": "Square backsplash tiles/bullnose and counter fillers",
+      "owner": "kitchen_source",
+      "status": "complete",
+      "evidence": [
+        "Art Source/Apartment Redesign/Assets/KI-BACKSPLASH-02",
+        "feedback/Batch2/accepted-views/fin_ki_backsplash.png",
+        "feedback/Batch2/accepted-views/fin_ki_backsplash_E.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    },
+    {
+      "id": "B2-30",
+      "request": "Kitchen floor pooled-water reflection",
+      "owner": "engine",
+      "status": "complete",
+      "evidence": [
+        "feedback/Batch2/accepted-views/fin2_puddle_stand.png",
+        "feedback/Batch2/accepted-views/fin2_puddle_graze.png",
+        "feedback/Batch2/Engine acceptance.md"
+      ]
+    }
+  ],
+  "acceptance_report": "feedback/Batch2/Engine acceptance.md",
+  "visual_review": "30/30 accepted",
+  "source_review": "No unresolved high/medium findings after corrections and fresh exports",
+  "engine_reconciliation": {
+    "instances": 103,
+    "problems": 0,
+    "unaccounted": 0
+  },
+  "release_status": "complete"
+}

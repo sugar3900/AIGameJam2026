@@ -1,0 +1,38 @@
+LBL Linen_Door_Upper
+LBL Linen_Door_Lower
+HIT Linen_Door_Lower aimed-front(closed) state <FixHimState.PLAYING: 1> hit Linen_Door_Upper on False
+HIT Linen_Door_Lower after-click1 state <FixHimState.PLAYING: 1> hit Art_BA_Linen_BA_Linen_Body on False
+HIT Linen_Door_Lower re-aimed-swung-leaf state <FixHimState.PLAYING: 1> hit Linen_Door_Lower on False
+HIT Linen_Door_Lower after-click2 state <FixHimState.PLAYING: 1> hit Art_BA_Linen_BA_Linen_Body on True
+HIT Linen_Door_Upper aimed-front(closed) state <FixHimState.PLAYING: 1> hit South_6_0_N on True
+HIT Linen_Door_Upper after-click1 state <FixHimState.PLAYING: 1> hit South_6_0_N on True
+HIT Linen_Door_Upper re-aimed-swung-leaf state <FixHimState.PLAYING: 1> hit South_6_0_N on True
+HIT Linen_Door_Upper after-click2 state <FixHimState.PLAYING: 1> hit South_6_0_N on True
+=== explicit-aim pass (fresh state: both set closed first, setup only)
+HIT Linen_Door_Lower aim closed face state <FixHimState.PLAYING: 1> hit Linen_Door_Upper on False
+HIT Linen_Door_Lower after open click state <FixHimState.PLAYING: 1> hit Art_BA_Linen_BA_Linen_Body on False
+  swung leaf centre 745.5,872.1,56.5
+HIT Linen_Door_Lower aim swung leaf state <FixHimState.PLAYING: 1> hit Art_BA_Linen_BA_Linen_Body on False
+HIT Linen_Door_Lower after close click state <FixHimState.PLAYING: 1> hit Art_BA_Linen_BA_Linen_Body on False
+HIT Linen_Door_Upper aim closed face state <FixHimState.PLAYING: 1> hit Art_BA_Linen_BA_Linen_Body on True
+HIT Linen_Door_Upper after open click state <FixHimState.PLAYING: 1> hit Art_BA_Linen_BA_Linen_Body on True
+  swung leaf centre 775.2,847.2,129.5
+HIT Linen_Door_Upper aim swung leaf state <FixHimState.PLAYING: 1> hit Linen_Door_Upper on True
+HIT Linen_Door_Upper after close click state <FixHimState.PLAYING: 1> hit BathOffice_2_0_N on False
+=== low-eye pass for Linen_Door_Lower (pawn eye ~50 cm, level aim); Upper re-verified at standing height
+HIT Linen_Door_Lower low-eye aim closed face state <FixHimState.PLAYING: 1> hit Linen_Door_Lower on False
+HIT Linen_Door_Lower after open click state <FixHimState.PLAYING: 1> hit Linen_Door_Lower on True
+  swung leaf centre 761.3,849.7,56.5
+HIT Linen_Door_Lower low-eye aim swung leaf state <FixHimState.PLAYING: 1> hit Linen_Door_Lower on True
+HIT Linen_Door_Lower after close click state <FixHimState.PLAYING: 1> hit Linen_Door_Lower on False
+HIT Linen_Door_Upper aim closed face state <FixHimState.PLAYING: 1> hit Art_BA_Linen_BA_Linen_Body on False
+HIT Linen_Door_Upper after open click state <FixHimState.PLAYING: 1> hit Art_BA_Linen_BA_Linen_Body on False
+  swung leaf centre 745.5,872.1,129.5
+HIT Linen_Door_Upper aim swung leaf state <FixHimState.PLAYING: 1> hit Art_BA_Linen_BA_Linen_Body on False
+HIT Linen_Door_Upper after close click state <FixHimState.PLAYING: 1> hit Art_BA_Linen_BA_Linen_Body on False
+=== upper: scan aim heights at standing eye, click only when hit == Linen_Door_Upper
+HIT aim eye(746,790) z105 state <FixHimState.PLAYING: 1> hit Linen_Door_Upper on False
+HIT Linen_Door_Upper after open click state <FixHimState.PLAYING: 1> hit Art_BA_Linen_BA_Linen_Body on True
+  swung leaf centre 775.2,847.2,129.5
+HIT Linen_Door_Upper aim swung leaf state <FixHimState.PLAYING: 1> hit Linen_Door_Upper on True
+HIT Linen_Door_Upper after close click state <FixHimState.PLAYING: 1> hit BathOffice_2_0_N on False

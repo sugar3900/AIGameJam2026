@@ -31,6 +31,10 @@ def place(part, loc, level):
     a = A.spawn_actor_from_object(sm, unreal.Vector(*loc), unreal.Rotator(0, 0, 0))
     a.set_actor_label(label); a.set_folder_path('Redesign/Imported Art/Furnishing'); acts[label] = a
     c = a.static_mesh_component; c.set_collision_profile_name('NoCollision')
+    # The pendant light sits inside this fixture: as shadow casters its wires/socket/filament threw huge sharp
+    # radial spokes and a filament loop across the ceiling and walls. Fixture parts don't cast; the light still
+    # shadows the room.
+    c.set_cast_shadow(False)
     for i, s in enumerate(sm.static_materials): c.set_material(i, mat_for(str(s.material_slot_name)))
     return a
 
@@ -63,6 +67,7 @@ src = chain.static_mesh_component; body = a.get_editor_property('body')
 body.set_static_mesh(src.static_mesh)
 body.set_world_location_and_rotation(chain.get_actor_location(), chain.get_actor_rotation(), False, False)
 for i in range(src.get_num_materials()): body.set_material(i, src.get_material(i))
+body.set_cast_shadow(False)   # the chain hangs beside the bulb; same self-shadow reason as the fixture parts
 body.set_collision_enabled(unreal.CollisionEnabled.QUERY_ONLY)
 body.set_collision_response_to_all_channels(unreal.CollisionResponseType.ECR_IGNORE)
 body.set_collision_response_to_channel(unreal.CollisionChannel.ECC_VISIBILITY, unreal.CollisionResponseType.ECR_BLOCK)

@@ -20,6 +20,7 @@
 #include "UI/FixHimDayWidgets.h"
 #include "Debug/FixHimDebug.h"
 #include "Engine/DirectionalLight.h"
+#include "Engine/Light.h"
 #include "Engine/StaticMeshActor.h"
 #include "Components/StaticMeshComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
@@ -131,6 +132,21 @@ void AFixHimPlayerController::BeginPlay()
 		{
 			SunBaseIntensity = LC->Intensity;
 			SunBaseColor = LC->GetLightColor();
+		}
+	}
+
+	// Authored exterior window spots follow the same day curve as the painted views.
+	// Cache once, so restarting a day never mistakes the faded intensity for its authored value.
+	for (TActorIterator<ALight> It(GetWorld()); It; ++It)
+	{
+		if (It->ActorHasTag(TEXT("WindowSun")))
+		{
+			if (ULightComponent* LC = It->GetLightComponent())
+			{
+				LC->SetMobility(EComponentMobility::Movable);
+				WindowSunLights.Add(LC);
+				WindowSunBaseIntensities.Add(LC->Intensity);
+			}
 		}
 	}
 
@@ -1367,6 +1383,15 @@ void AFixHimPlayerController::UpdateDaylight(float DeltaTime)
 	for (UMaterialInstanceDynamic* View : WindowViews)
 	{
 		if (View) View->SetScalarParameterValue(TEXT("WindowBrightness"), WindowBrightness);
+	}
+
+	const float WindowSunFactor = T >= 1.f ? 0.f : FMath::Clamp((WindowBrightness - 0.35f) / (12.f - 0.35f), 0.f, 1.f);
+	for (int32 Index = 0; Index < WindowSunLights.Num(); ++Index)
+	{
+		if (IsValid(WindowSunLights[Index]))
+		{
+			WindowSunLights[Index]->SetIntensity(WindowSunBaseIntensities[Index] * WindowSunFactor);
+		}
 	}
 
 	if (!bLateToastShown && T >= S->LateWarningFraction && State == EFixHimState::Playing && HUDWidget)

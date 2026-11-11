@@ -1,0 +1,60 @@
+{
+  "units": "metres",
+  "parts": [
+    {
+      "file": "KI_RANGE02_Body.fbx",
+      "replaces": "KI_RANGE_Body.fbx",
+      "source_pivot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "source_min": [
+        -0.375,
+        -0.3815000057220459,
+        0.0
+      ],
+      "source_max": [
+        0.3750000298023224,
+        0.3499999940395355,
+        1.0699999332427979
+      ],
+      "slots": [
+        "Enamel_Painted",
+        "Oven_Dark",
+        "Burner_Cast_Iron",
+        "Aged_Steel",
+        "Gasket"
+      ],
+      "collision": "preserve existing range collision and interactive door settings"
+    },
+    {
+      "file": "KI_RANGE02_Door.fbx",
+      "replaces": "KI_RANGE_Door.fbx",
+      "source_pivot": [
+        0.0,
+        -0.3630000054836273,
+        0.23000000417232513
+      ],
+      "source_min": [
+        -0.33000001311302185,
+        -0.4259999990463257,
+        0.21599999070167542
+      ],
+      "source_max": [
+        0.33000001311302185,
+        -0.32349997758865356,
+        0.7200000286102295
+      ],
+      "slots": [
+        "Enamel_Painted",
+        "Gasket",
+        "Oven_Window",
+        "Oven_Dark",
+        "Aged_Steel"
+      ],
+      "collision": "preserve existing range collision and interactive door settings"
+    }
+  ],
+  "placement": "same body/door transforms and import settings as KI-RANGE-01; no changes to burner/flame/kettle coordinates or oven hinge/open angle"
+}

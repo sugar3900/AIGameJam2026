@@ -1,0 +1,54 @@
+{
+  "asset": "ARC-DOOR-03",
+  "units": "metres",
+  "up": "Z",
+  "front": "-Y",
+  "export_axes": {
+    "forward": "-Z",
+    "up": "Y"
+  },
+  "rough_opening": [
+    1.05,
+    2.14
+  ],
+  "clear_opening": [
+    0.99,
+    2.11
+  ],
+  "frame_floor_origin": [
+    0,
+    0,
+    0
+  ],
+  "parts": [
+    {
+      "file": "model/ARC_Door03_Frame.fbx",
+      "offset": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "model/ARC_Door03_Leaf.fbx",
+      "offset": [
+        -0.495,
+        -0.035,
+        0
+      ],
+      "pivot": "barrel axis",
+      "source_open_degrees_z": -80
+    }
+  ],
+  "collision": "Three separate frame UCX members; single leaf slab UCX",
+  "validation": "model/validation.json",
+  "changes": {
+    "casing_top_m": 2.1225,
+    "header_bottom_m": 2.1225,
+    "knob_diameter_m": 0.06,
+    "knob_axis_x_m": 0.416,
+    "panel_bead_outer_x_m": 0.343,
+    "plate_inner_x_m": 0.388,
+    "plate_to_bead_clearance_m": 0.045
+  }
+}

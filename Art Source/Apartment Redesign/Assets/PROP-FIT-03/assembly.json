@@ -1,0 +1,52 @@
+{
+  "entry_hangers": {
+    "storage": "ARC_ClosetStorage03.fbx",
+    "hanger": "HA_Hanger03.fbx",
+    "rail_datum_offsets": [
+      [
+        -0.3,
+        -0.27,
+        1.85
+      ],
+      [
+        0,
+        -0.27,
+        1.85
+      ],
+      [
+        0.3,
+        -0.27,
+        1.85
+      ]
+    ],
+    "hook_inner_apex": 0.012,
+    "rail_radius": 0.012,
+    "plane": "YZ; matches bedroom shoulder/hook construction; no old baked hangers"
+  },
+  "pans": {
+    "file": "KI_PanPair03.fbx",
+    "origin": "existing rail wall-centre at bar height; same actor yaw as rail",
+    "replace": "both existing pan body/handle pairs; keep rail BODY only, remove old hooks",
+    "diameters": [
+      0.2028,
+      0.26
+    ],
+    "hole_radius": [
+      0.00468,
+      0.006
+    ],
+    "wire_radius": 0.0023,
+    "hole_centres": [
+      [
+        -0.18,
+        -0.07,
+        -0.06
+      ],
+      [
+        0.18,
+        -0.07,
+        -0.06
+      ]
+    ]
+  }
+}

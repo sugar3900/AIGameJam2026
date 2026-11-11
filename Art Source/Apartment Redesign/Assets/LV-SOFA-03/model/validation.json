@@ -1,0 +1,49 @@
+{
+  "asset": "LV-SOFA-03",
+  "render_meshes": 1,
+  "ucx_members": 13,
+  "vertices": 95024,
+  "triangles": 187376,
+  "zero_area_triangles": 0,
+  "uv_finite": true,
+  "origin": [
+    0,
+    0,
+    0
+  ],
+  "bounds": {
+    "min": [
+      -0.9925000667572021,
+      -0.4235788583755493,
+      0.0
+    ],
+    "max": [
+      1.0340795516967773,
+      0.3900001645088196,
+      0.9682592749595642
+    ]
+  },
+  "previous_bounds": {
+    "min": [
+      -0.9963998198509216,
+      -0.44099998474121094,
+      0.0
+    ],
+    "max": [
+      1.0434000492095947,
+      0.38999998569488525,
+      0.9900000095367432
+    ]
+  },
+  "within_previous_bounds": true,
+  "throw_surface_intersections": {
+    "Right arm panel": 0,
+    "Right compact arm cap": 0,
+    "Seat cushion 3": 0,
+    "Back cushion 3": 0,
+    "Coral embroidered lumbar": 0,
+    "Teal needlepoint pillow": 0
+  },
+  "throw_max_height_m": 0.8534812927246094,
+  "limits": "Source FBX roundtrip only. Unreal legacy-import UCX recognition, fitted material appearance and in-room clearance require integration verification."
+}

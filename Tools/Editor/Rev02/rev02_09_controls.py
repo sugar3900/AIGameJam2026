@@ -142,10 +142,12 @@ for room, label in (('kitchen', 'Sconce_Kitchen'), ('hall', 'Sconce_Hall_1')):
     fixture.set_editor_property('is_on', states[room])
 
 # Absolute positions keep regeneration idempotent, including the visible rocker.
+KITCHEN_SWITCH_Y = 217.0
 for label in ('Art_BA_Switch_BA_Switch_Plate_S086', 'Art_BA_Switch_BA_Switch_Toggle_S086'):
     art = acts[label]
     art.modify()
-    art.set_actor_location(unreal.Vector(474.075, 360, 114), False, True)
+    # user correction: left of the kitchen portal (from the kitchen), 10 cm clear of the north casing (y 232)
+    art.set_actor_location(unreal.Vector(474.075, KITCHEN_SWITCH_Y, 114), False, True)
 
 for a in acts.values():
     if isinstance(a, unreal.FixHimInteractable):

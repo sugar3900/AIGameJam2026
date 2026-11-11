@@ -1,0 +1,72 @@
+{
+  "passed": true,
+  "files": [
+    {
+      "file": "KI_Cab05_0425_door.fbx",
+      "passed": true,
+      "vertices": 2070,
+      "triangles": 4052,
+      "ucx": 1,
+      "uv_layers": 1
+    },
+    {
+      "file": "KI_Cab05_0425_drawer.fbx",
+      "passed": true,
+      "vertices": 1494,
+      "triangles": 2916,
+      "ucx": 5,
+      "uv_layers": 1
+    },
+    {
+      "file": "KI_Cab05_0775_door_L.fbx",
+      "passed": true,
+      "vertices": 2070,
+      "triangles": 4052,
+      "ucx": 1,
+      "uv_layers": 1
+    },
+    {
+      "file": "KI_Cab05_0775_drawer_L.fbx",
+      "passed": true,
+      "vertices": 1494,
+      "triangles": 2916,
+      "ucx": 5,
+      "uv_layers": 1
+    },
+    {
+      "file": "KI_Cab05_0775_door_R.fbx",
+      "passed": true,
+      "vertices": 2070,
+      "triangles": 4052,
+      "ucx": 1,
+      "uv_layers": 1
+    },
+    {
+      "file": "KI_Cab05_0775_drawer_R.fbx",
+      "passed": true,
+      "vertices": 1494,
+      "triangles": 2916,
+      "ucx": 5,
+      "uv_layers": 1
+    },
+    {
+      "file": "KI_Cab05_0450_door.fbx",
+      "passed": true,
+      "vertices": 2070,
+      "triangles": 4052,
+      "ucx": 1,
+      "uv_layers": 1
+    },
+    {
+      "file": "KI_Cab05_0450_drawer.fbx",
+      "passed": true,
+      "vertices": 1494,
+      "triangles": 2916,
+      "ucx": 5,
+      "uv_layers": 1
+    }
+  ],
+  "door_sweep_samples_each": 101,
+  "sweep_hits": [],
+  "limits": "Source mesh round-trip and own carcass/sink/filler sweeps only. Engine must repeat all neighbours and real clicks."
+}

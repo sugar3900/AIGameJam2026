@@ -76,6 +76,24 @@ KITS = {
     'KI_Table02': ('KI-TABLE-02/models', ['KI_TABLE_02']),
     # FIX-031/032: exact original stand + separate tabletop housing + one CRT screen, all on the LV-TV-01 floor origin.
     'LV_TV02': ('LV-TV-02/models', ['LV_TV02_Stand', 'LV_TV02_Housing', 'LV_TV02_Screen']),
+    # batch 2 props/room: closet storage without baked hangers + single hanger + pan pair; sofa throw contact;
+    # room corrections (slim baseboards, sliding frame gap, curved L rod + fixed return, pink bullnose, bed/daybed
+    # bedding, books/plant); ARC-DOOR-03 (larger knobs, casing/header gap closed).
+    'PropFit03': ('PROP-FIT-03/model', ['ARC_ClosetStorage03', 'HA_Hanger03', 'KI_PanPair03']),
+    'LV_Sofa03': ('LV-SOFA-03/model', ['LV-SOFA-03']),
+    'Room03': ('FEEDBACK-ROOM-03/model', ['ARC_Sliding03_Frame', 'BA_Curtain03_FixedReturn', 'BA_CurvedL_Rod', 'BA_PinkBullnose_1m',
+                                         'BR_Bed03_Bedding', 'BR_Bed03_Frame', 'Baseboard_1m', 'Baseboard_Inside_End', 'Baseboard_Inside_Start',
+                                         'Baseboard_Outside_End', 'Baseboard_Outside_Start', 'LV_Book03_Books', 'LV_Book03_Plant', 'OF_Daybed03_Bedding']),
+    'ARC_Door03': ('ARC-DOOR-03/model', ['ARC_Door03_Frame', 'ARC_Door03_Leaf']),
+    # PROP-FIT-03 keeps only the pan rail body (the released assembly has the old hooks baked in).
+    'KI_PanRail01': ('KI-PAN-RAIL-01/model', ['KI_Pan_Rail_Body']),
+    # batch 2 kitchen: front fit (drawer = door widths, door tops .672), fitted backsplash bands + counter infills, range detail.
+    'Joinery05': ('CABINET-JOINERY-04/models', ['KI_Cab05_%s' % p for p in ('0425_door', '0425_drawer', '0450_door', '0450_drawer',
+                                                                         '0775_door_L', '0775_door_R', '0775_drawer_L', '0775_drawer_R')]),
+    'KI_Backsplash02': ('KI-BACKSPLASH-02/models', ['KI_Backsplash02_A', 'KI_Backsplash02_B', 'KI_Backsplash02_C', 'KI_Backsplash02_Range',
+                                                   'KI_CounterFiller02_EastEnd', 'KI_CounterFiller02_FridgeExtension', 'KI_CounterFiller02_Rear0425',
+                                                   'KI_CounterFiller02_Rear0450', 'KI_CounterFiller02_Rear0775']),
+    'KI_Range02': ('KI-RANGE-02/models', ['KI_RANGE02_Body', 'KI_RANGE02_Door']),
     # FIX-033 single-leaf patch: narrowed 0775 left leaf (hinge back to the old 271.7 line) + fixed hinge-side filler.
     'Joinery03': ('CABINET-JOINERY-03/models', ['KI_Cab04_0775_door_L', 'KI_Cab04_0775_Filler']),
     # FIX-033/034/036: true-frame doors, new hinge pivots (pivot-local), retained carcasses, shared sage/ivory finishes.
@@ -106,6 +124,12 @@ TEXTURES = {
     'LV_Armchair02': [('LV-ARMCHAIR-02/textures/rust-jacquard.png', True), ('LV-ARMCHAIR-02/textures/walnut-painted.png', True),
                       ('LV-ARMCHAIR-02/textures/ivory-thread.png', True)],
     # FIX-038 glaze data maps (linear; the normal is DirectX tangent space) + BA-TILE-01 candidate-b glaze colour field
+    'KI_Backsplash02': [('KI-BACKSPLASH-02/textures/glaze-ivory.png', True, 'T_Backsplash02_GlazeIvory'), ('KI-BACKSPLASH-02/textures/glaze-sage.png', True, 'T_Backsplash02_GlazeSage'),
+                        ('KI-BACKSPLASH-02/textures/ivory-enamel.png', True, 'T_Backsplash02_IvoryEnamel')],
+    'KI_Range02': [('KI-RANGE-02/textures/range-enamel-v2.png', True, 'T_Range02_Enamel')],
+    'BR_ClosetBox': [('BR-CLOSET-BOX-01/textures/sage-linen.png', True, 'T_ClosetBox_SageLinen')],
+    # BR-BED-01 README: walnut painterly albedo for the frame (the installed slot was a flat 0.8 Phong = white)
+    'BR_Bed03': [('BR-BED-01/textures/walnut-painted.png', True, 'T_Bed_WalnutPainted')],
     'BA_TileGlaze02': [('BA-TILE-GLAZE-02/textures/T_BathGlaze_NormalDX.png', False), ('BA-TILE-GLAZE-02/textures/T_BathGlaze_Roughness.png', False),
                        ('BA-TILE-01/textures/candidate-b.png', True, 'T_BathTile_GlazeB')],
     'Joinery02': [('CABINET-JOINERY-02/textures/T_Joinery_Sage.png', True), ('CABINET-JOINERY-02/textures/T_Joinery_Ivory.png', True),
@@ -139,7 +163,7 @@ NO_UCX = {'KI_SINK_NARROW_body', 'KI_SINK_NARROW_L_tap', 'KI_SINK_NARROW_R_tap',
                                                   'Baseboard_Outside_End', 'Baseboard_Outside_Start', 'Crown_Outside_End', 'Crown_Outside_Start',
                                                   # FIX-030 shell keeps LV-FUSE-01's complex-as-simple policy; FIX-029
                                                   # hardware/glass/filament are placed NoCollision (only the chain has a UCX)
-                                                  'LV_Fuse02_Shell', 'KI_TABLE_02', 'KI_Upper02_Body', 'KI_Pantry02_Body', 'BA_Linen02_Body', 'LV_TV02_Stand', 'LV_TV02_Housing', 'LV_TV02_Screen', 'BR_ClosetLight01_Hardware', 'BR_ClosetLight01_Glass', 'BR_ClosetLight01_Filament'}
+                                                  'LV_Fuse02_Shell', 'KI_TABLE_02', 'KI_Backsplash02_A', 'KI_Backsplash02_B', 'KI_Backsplash02_C', 'KI_Backsplash02_Range', 'KI_Upper02_Body', 'KI_Pantry02_Body', 'BA_Linen02_Body', 'LV_TV02_Stand', 'LV_TV02_Housing', 'LV_TV02_Screen', 'BR_ClosetLight01_Hardware', 'BR_ClosetLight01_Glass', 'BR_ClosetLight01_Filament', 'KI_Pan_Rail_Body'}
 ONLY = globals().get('ONLY')            # optional subset of kit names, e.g. --set "ONLY=['KI_Fridge02']"
 
 def collision_elems(m):
@@ -207,5 +231,16 @@ try:
       tools.import_asset_tasks([t])
       books = [p for p in EAL.list_assets(DST + 'LV_BookParts', False, False) if isinstance(EAL.load_asset(p), unreal.StaticMesh)]
       unreal.log('[Rev02 import] LV_BookParts: %d book meshes' % len(books))
+  # FEEDBACK-ROOM-03 books, uncombined the same way (one mesh per cover/spine/pages/edge/gilt object, LV model space);
+  # rev02_05m merges each book's parts into one engine mesh for the shelf runs laid out away from the LV bookcase.
+  if not ONLY or 'LV_Book03Parts' in ONLY:
+      t = unreal.AssetImportTask(); t.filename = os.path.join(SRC, 'FEEDBACK-ROOM-03/model/LV_Book03_Books.fbx')
+      t.destination_path = DST + 'LV_Book03Parts'; t.automated = True; t.replace_existing = True; t.save = True
+      o = unreal.FbxImportUI(); o.import_mesh = True; o.import_as_skeletal = False; o.import_materials = False; o.import_textures = False
+      o.static_mesh_import_data.combine_meshes = False; o.static_mesh_import_data.auto_generate_collision = False
+      t.options = o
+      tools.import_asset_tasks([t])
+      books = [p for p in EAL.list_assets(DST + 'LV_Book03Parts', False, False) if isinstance(EAL.load_asset(p), unreal.StaticMesh)]
+      unreal.log('[Rev02 import] LV_Book03Parts: %d book part meshes' % len(books))
 finally:
     unreal.SystemLibrary.execute_console_command(None, CVAR + (' true' if was_interchange else ' false'))

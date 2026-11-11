@@ -73,3 +73,6 @@ Art Source/**/*.zip
 Tools/**/bin/
 Tools/**/obj/
 Tools/StoryWriter/dist/
+
+# Blender automatic backups (editable .blend sources are versioned)
+*.blend[0-9]*
