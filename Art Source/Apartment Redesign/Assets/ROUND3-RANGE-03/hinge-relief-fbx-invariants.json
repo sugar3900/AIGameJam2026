@@ -1,0 +1,19 @@
+{
+  "Body": {
+    "before_sha256": "64a7f910d9f413aaabab65d3d50082668195042f6fc72be83660fad7171c132e",
+    "after_sha256": "3ea83b1bb34f9030082297f64f91f3617a35dbbe886c5edf8e5fce9d85db04a6",
+    "all_body_positions_materials_unchanged": true,
+    "max_other_uv_component_delta": 1.0000000005838672e-07,
+    "other_uv_tolerance": 2e-07,
+    "status": "PASS"
+  },
+  "Door": {
+    "before_sha256": "15d1ece062199c8505e8124eda5c286fa5146f42be5206905b839bceee217d84",
+    "after_sha256": "44d5fbd601822118604150ef101dbb0c3c534a781d6154f67b6d08d3a86f8b14",
+    "max_other_uv_component_delta": 1.0000000000287557e-07,
+    "other_uv_tolerance": 2e-07,
+    "front_enamel_uv_geometry_corners_unchanged": 896,
+    "non_enamel_door_positions_materials_unchanged_corners": 16560,
+    "status": "PASS"
+  }
+}

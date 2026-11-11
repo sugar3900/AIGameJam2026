@@ -1,0 +1,13 @@
+BOTH initial state <FixHimState.PLAYING: 1> L False R False splashL_hidden True splashR_hidden True streamL False streamR False
+HIT aim L tap state <FixHimState.PLAYING: 1> hit Basin_Tap on False
+  dump: State=1 Room=bathroom Hovered=FixHimInteractable_51
+BOTH after click L state <FixHimState.PLAYING: 1> L True R False splashL_hidden False splashR_hidden True streamL True streamR False
+HIT aim R tap state <FixHimState.PLAYING: 1> hit Basin_Tap_R on False
+  dump: State=1 Room=bathroom Hovered=FixHimInteractable_71
+BOTH after click R state <FixHimState.PLAYING: 1> L True R True splashL_hidden False splashR_hidden False streamL True streamR True
+HIT aim L tap state <FixHimState.PLAYING: 1> hit Basin_Tap on True
+BOTH after click L again (L off, R stays on) state <FixHimState.PLAYING: 1> L False R True splashL_hidden True splashR_hidden False streamL False streamR True
+BOTH after click R again state <FixHimState.PLAYING: 1> L False R False splashL_hidden True splashR_hidden True streamL False streamR False
+HIT aim at L water column position (water off) state <FixHimState.PLAYING: 1> hit Art_BA_Basin_BA_BasinBody on False
+BOTH L on state <FixHimState.PLAYING: 1> L True R False splashL_hidden False splashR_hidden True streamL True streamR False
+HIT aim AT running L stream (should pass through to bowl) state <FixHimState.PLAYING: 1> hit Art_BA_Basin_BA_BasinBody on True

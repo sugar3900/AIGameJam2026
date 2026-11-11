@@ -113,8 +113,8 @@ M = {
  'ARC-WALL-SHELF-01:085': (['Art_BA_WallShelf_ARC_WALL_SHELF_01_S085'], {'BA-FOLDED-TOWEL-01': ['Art_BA_FoldedTowel_BA_Folded_Towel'], 'BA-TIN-01': ['Art_BA_Tin_BA_Tin_Body']}),
  'BA-TILE-01:086': (['Damage_BA_CrackedTile', 'Malady_PinkTile'], {}),
  'KI-WALL-STAIN-01:078': (['Art_KI_Wall_Stain'], {}),
- 'KI-BACKSPLASH-01:079': (['Art_KI_Backsplash02_A'], {}),                      # KI-BACKSPLASH-02 fitted band (batch 2)
- 'KI-BACKSPLASH-01:080': (['Art_KI_Backsplash02_B', 'Art_KI_Backsplash02_Range', 'Art_KI_Backsplash02_C'], {}),
+ 'KI-BACKSPLASH-01:079': (['Art_KI_Backsplash03_A'], {}),                      # ROUND3-KITCHEN-SURFACES-01 fitted band
+ 'KI-BACKSPLASH-01:080': (['Art_KI_Backsplash03_B', 'Art_KI_Backsplash03_Range', 'Art_KI_Backsplash03_C'], {}),
  'KI-UPPER-01:081': (['Art_KI_Upper_Body'], {}),
  'KI-ART-01:082': (['Art_KI_Art01_KI_ART_01'], {}),
  'ARC-WALL-SHELF-01:083': (['Art_BA_WallShelf_ARC_WALL_SHELF_01_S083'], {'KI-MUG-01': ['Art_KI_Mug_KI_Mug_01_083'], 'KI-POTTERY-01': ['Art_KI_Pottery_KI_Pottery_01_083']}),
@@ -153,6 +153,9 @@ DEVIATION = {'ARC-CLOSET-RETURN:088': 'closet return built on the 10.75 m centre
                                  '2.015 m) replaces the old 0.69 m drop pendant.',
              'HA-BENCH-01:012': 'batch 2 user feedback (approved): the shoe bench is centred under the full coat rack (HA-HOOKS-01 '
                                 'board centre y 3.30 m), slippers directly in front of it.',
+             'BR-CLOSET-01:089': 'round 3 user feedback: the closet mold is one contiguous growth over the whole back wall, both side '
+                                 'walls, z 0.55-2.64 m, using the original BR-MOLD-02 texture with continuous nonmirrored mapping; no ceiling strip (rev02_05t).' ,
+             'BR-MOLD-02:098': 'round 3 user feedback: the east return mold spans the full closet side wall y 3.86-5.54 m, z 0.55-2.64 m, retaining the original pattern (rev02_05t).',
              'BA-SWITCH-01:086': 'batch 2 user feedback (approved): the kitchen switch moved to the left of the kitchen portal, '
                                  'plate y 2.12-2.22 m, 10 cm clear of the north casing (rev02_09 KITCHEN_SWITCH_Y).'}
 OMIT = {'CHAR-MALCOLM:093': 'not an actor: standing-clearance reference for Malcolm; checked as the Malady_Mold hunk spawn/talk clearance'}
@@ -250,7 +253,7 @@ for lab, a in sorted(acts.items()):
         groups['fixtures'].append('`%s`: %s ceiling fixture, %.0f cm from its scheduled position' % (lab, near['room'], d))
     elif any(k in lab for k in ('Rug', 'Runner', 'Mat_', 'Curtain')):
         groups['textiles'].append('`%s`' % lab)
-    elif asset_key(lab) in used_keys or lab in ('Art_BR_Closet02_Trim', 'Art_KI_SinkNarrow_R_tap', 'Art_KI_SINK_damage_Wet', 'Art_KI_SINK_damage_Film', 'Art_KI_SinkSplash', 'Art_BA_Toilet02_Water') or lab.startswith(('Art_KI_Backsplash_End', 'Art_KI_CounterFiller02_')):
+    elif asset_key(lab) in used_keys or lab in ('Art_BR_Closet02_Trim', 'Art_KI_SinkNarrow_R_tap', 'Art_KI_SINK_damage_Wet', 'Art_KI_SINK_damage_Film', 'Art_KI_SinkSplash', 'Art_BA_Toilet02_Water') or lab.startswith(('Art_KI_Backsplash_End', 'Art_KI_CounterFiller02_', 'Art_KI_Counter03_')):
         groups['parts'].append('`%s`' % lab)
     else:
         groups['other'].append('`%s` (%s)' % (lab, fp))

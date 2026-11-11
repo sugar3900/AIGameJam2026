@@ -1,0 +1,134 @@
+{
+  "exports": 32,
+  "status": "released, integrated and targeted acceptance complete",
+  "files": [
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-BATH-NORMALS-01/model/BA_Roll_Paper.fbx",
+      "sha256": "b854481efb97f7c6d4c19eb0f2689130b7b3889d5fed06c1eeab5fe9e6f4328e"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-BATH-NORMALS-01/model/BA_Towel_0.fbx",
+      "sha256": "01167dc1bb181d400e31dc678b721bce1432e3e9606bc6753f5f6ab0e0886748"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-BATH-NORMALS-01/model/BA_Towel_1.fbx",
+      "sha256": "8f8c7e06bbc018d257be9527c9f3eb991c5df345d6fe10f32712bba82528caa3"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-BATH-NORMALS-01/model/BA_Towel_2.fbx",
+      "sha256": "d7d18a86f69c112417e0b3951ef38e1305ecf31e02d1586878479a1c926d2b97"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-CLOSET-FRAME-01/model/ARC_ClosetFrame04.fbx",
+      "sha256": "e18656c19f875cc3106f927f170e6bcd619100495c7166bf14611a92fcfc1910"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-KITCHEN-SURFACES-01/models/KI_Backsplash03_A.fbx",
+      "sha256": "2afd61b9c58bc3b7d0cb771b73a6e0b36220846d7409dd4420b81b96f934b5d6"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-KITCHEN-SURFACES-01/models/KI_Backsplash03_B.fbx",
+      "sha256": "5eb8e646077ac46c222df13e07e268aa6049876a86e8f3fe381555aaaa0861a3"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-KITCHEN-SURFACES-01/models/KI_Backsplash03_C.fbx",
+      "sha256": "7aaa95bd2df2b78d776121602cda3140ac36337a7ecacd094c6dd52a5b1ef0c7"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-KITCHEN-SURFACES-01/models/KI_Backsplash03_Range.fbx",
+      "sha256": "84a2ceccd10cb4dbafcf2240fc117b6c0fe55466610794b2047cf1bc4e2308c5"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-KITCHEN-SURFACES-01/models/KI_Cab06_0425_Body.fbx",
+      "sha256": "693718e5560209fb8e61473ce0b4c60d11fb4d04951860c2ff805ddebe49d3ad"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-KITCHEN-SURFACES-01/models/KI_Cab06_0450_Body.fbx",
+      "sha256": "6afe99e442295e6b16686160decf12c7b2286b224eebca86a90def7fb1460d0f"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-KITCHEN-SURFACES-01/models/KI_Cab06_0775_Body.fbx",
+      "sha256": "fe3215f5a491ed53c8a0c00946ffe04652ec464705aa8864d01c2a2719e4c111"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-KITCHEN-SURFACES-01/models/KI_Counter03_A.fbx",
+      "sha256": "aab4639fd6eb000e1dad75227f1a77974dd0279639137146c6699d8a3fe9636e"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-KITCHEN-SURFACES-01/models/KI_Counter03_B.fbx",
+      "sha256": "6f1e6aca5ed3f271c4675cd66abe96f689590e7ef8633995d04fcafa1410cf4e"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-KITCHEN-SURFACES-01/models/KI_Counter03_C.fbx",
+      "sha256": "52937bb269e6f2d8f82c1b7a37aa1eae942fbd1adfc66666b6b27d147cd769b4"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-PANTRY-01/models/KI_Pantry03_LeftDoor.fbx",
+      "sha256": "763ada77c98269e2e87bf3bbbb3e43e9f4e5955480cced3ad003579348ee06ed"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-PANTRY-01/models/KI_Pantry03_RightDoor.fbx",
+      "sha256": "3c2b130626c470d28897f741fa2a3b3f9ddf5280df946d25dcb13fdc62af1151"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-PLANT-01/model/LV_Book04_Plant.fbx",
+      "sha256": "e30b1be62340c4fa3d0aa409bb8a65f8f639eb6833ba5bfd9b0e2ead968e37da"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-RANGE-03/model/KI_RANGE03_Body.fbx",
+      "sha256": "3ea83b1bb34f9030082297f64f91f3617a35dbbe886c5edf8e5fce9d85db04a6"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-RANGE-03/model/KI_RANGE03_Door.fbx",
+      "sha256": "44d5fbd601822118604150ef101dbb0c3c534a781d6154f67b6d08d3a86f8b14"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-TUB-01/model/BA_Tub03_Body.fbx",
+      "sha256": "77660e2412cf97128f75b3bed39d46f6c41faa48b0259e1f51d8a93731e5980e"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-WINDOW-01/model/ARC_Window_Bath03_frame.fbx",
+      "sha256": "d01c2cb14085d2d3fca076626dae338f3013534bfec7538a02d7780f309c47b6"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-WINDOW-01/model/ARC_Window_Kitchen03_frame.fbx",
+      "sha256": "d51fc81981d9af0f241d5c53d914523073874cd0a8a34956375a9e293dffa656"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-WINDOW-01/model/ARC_Window_Living03_Casing.fbx",
+      "sha256": "79419dc6057527a729bb47c2fab45a67b1630e1430517835c3888afd2743d38d"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-WINDOW-01/model/ARC_Window_Narrow03_frame.fbx",
+      "sha256": "eba3f006d49269ec9b5d7197f3434e104405aac0d808e106a037d61bb0365a27"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/ROUND3-WINDOW-01/model/ARC_Window_Office03_frame.fbx",
+      "sha256": "87ad399e2ab0f7b217361cc61b376cf531f05dc8e1d68e4636fe268bee2ce368"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/FEEDBACK-ROOM-03/model/BA_PinkBullnose_1m.fbx",
+      "sha256": "273fc7a18f0f51ec567e94a97a7676970b78e95890b28d34f4909ee2e700a3c5"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/FEEDBACK-ROOM-03/model/Baseboard_1m.fbx",
+      "sha256": "7fd06f8414869f8f78f09bc4344df828f1787e241bdc6599328b40648118fa4f"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/FEEDBACK-ROOM-03/model/Baseboard_Inside_End.fbx",
+      "sha256": "634fd5e455af6dad2ad0a79718f2e0083f0f0ed19cb2c3cf8260fa4af7e591c5"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/FEEDBACK-ROOM-03/model/Baseboard_Inside_Start.fbx",
+      "sha256": "936089f8a4de3fe8e2b63a067fa498f349f9fafbf0aaf4ce5d053c5895c1f8ca"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/FEEDBACK-ROOM-03/model/Baseboard_Outside_End.fbx",
+      "sha256": "76d7f25d79a6c4180adfb2c1624c1a77837f723b921adc289518c0cc0e00d303"
+    },
+    {
+      "path": "Art Source/Apartment Redesign/Assets/FEEDBACK-ROOM-03/model/Baseboard_Outside_Start.fbx",
+      "sha256": "225261b71996642fd2ba5355faa9ab5ee5638d80b6dfcd24073c6d1685dcc7d5"
+    }
+  ]
+}

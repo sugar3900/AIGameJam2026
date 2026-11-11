@@ -751,4 +751,7 @@ instance('MI_Bed03_Walnut', texpbr, {'Roughness': 0.55, 'Metallic': 0.0}, textur
 # enamel tin: the joinery ivory-enamel image under a soft sage tint, slight metal sheen; knob/hinge -> aged brass (05m).
 instance('MI_Tin_PaintedEnamel', texpbr, {'Roughness': 0.34, 'Metallic': 0.15}, {'Tint': (0.46, 0.62, 0.50, 1)},
          {'BaseColorMap': EAL.load_asset(R2 + 'Joinery02/T_Joinery_IvoryEnamel')})
+# round 3 BA-TOWEL-RAIL-01 rail/brackets/finials (README): aged-brass image, subdued tint, metallic .68, roughness .45
+instance('MI_TowelRail_AgedBrass', texpbr, {'Roughness': 0.45, 'Metallic': 0.68}, {'Tint': (0.85, 0.80, 0.70, 1)},
+         {'BaseColorMap': EAL.load_asset(R2 + 'BA_TowelRail/T_TowelRail_AgedBrass')})
 unreal.log('[Rev02 feedback materials] built')

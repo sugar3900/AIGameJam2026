@@ -1,0 +1,23 @@
+{
+  "tool": "built-in imagegen",
+  "edit_target": "user closet screenshot 993a9389-a2d1-428a-a917-0d107a43b2fb",
+  "references": [
+    "https://www.platformhg.com/damp-and-condensation-mould",
+    "https://www.axa.co.uk/home-insurance/tips-and-guides/how-to-get-rid-of-mould-for-good/"
+  ],
+  "common": "Use case: precise-object-edit, game environment mold material coverage study. Image 1 is the EDIT TARGET, the actual warm painterly game closet. Images 2 and 3 are REAL MOLD PHOTOGRAPH texture/morphology references only. Transfer the natural physical morphology of the mold in the two real photos onto the plaster walls of image1. Keep image1's exact camera, layout, shelves, rails, hangers, right foreground door, golden lighting and painterly plaster. Remove all HUD and crosshair. Do NOT copy the white walls, windows or lighting from the reference photos. MOST IMPORTANT: real condensation mold is composed of dense irregular aggregations of small soft round gray/charcoal/black colony spots, with mottled gray-green haze, peppery pinpoints, dusty fuzzy uneven edges and many tiny plaster-colored gaps. Use the reference photos literally for this microstructure. At this closet's physical scale, visible colony spots should be mostly 5–40 mm diameter, with fine 1–5 mm speckling, merging into larger ragged cloudy patches. Colony density changes gradually. Dark dense zones must still have fine mottling and granularity, not solid black paint. Mold must stay flat against plaster. There must be NO branching tendrils, root/vein networks, lightning shapes, soot plumes, crisp inkblots, smooth blobs, big thick black strokes, raised fungus, moss or painted filigree. The rejected previous concepts looked like vein-shaped stains: do not repeat that. A contiguous infestation means a connected AREA OF CLUSTERED SPOTS wrapping around the corner, NOT long connected black tendrils. Different pattern on each wall, continuous across corner, never mirror/duplicate. Keep joinery/door/ceiling mainly clean for comparison. Output one landscape concept with a small plum bottom label exactly specified. ",
+  "variants": [
+    [
+      "A2 — Moderate",
+      "Extent: a broad, naturally speckled damp-mold zone around the top back/right corner, reaching well along the upper back wall and down behind the right shelf, about 25% of visible plaster. Numerous gray and black small round colonies with sparse peripheral spotting. Text: \"A2 — Moderate\"."
+    ],
+    [
+      "B2 — Extensive",
+      "Extent: substantial realistic infestation across roughly45% of visible plaster: an irregular broad mottled upper back-wall band that wraps densely onto the right wall and extends down behind both shelves. Natural clusters of thousands of tiny circular colonies merge into dense charcoal-gray patches near corner, with broad fine-speckled transition zones and remaining clean plaster. No vein shapes. Text: \"B2 — Extensive\"."
+    ],
+    [
+      "C2 — Heavy",
+      "Extent: heavy longstanding real damp-wall mold across roughly65% of visible plaster: broad diffuse gray-black dense spotted patches across the back and right walls from upper corners to behind the clothes rails and much of mid-wall. Dense zones retain mottled circular microcolony texture, surrounded by abundant smaller gray spots. Irregular residual clean plaster islands, no inkblot outlines or branch shapes. Text: \"C2 — Heavy\"."
+    ]
+  ]
+}

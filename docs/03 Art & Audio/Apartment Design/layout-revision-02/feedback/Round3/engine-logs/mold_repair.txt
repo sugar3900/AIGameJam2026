@@ -1,0 +1,8 @@
+PROBE start state <FixHimState.PLAYING: 1> mold_hidden [('Art_BR_Closet_Mold', False), ('Art_BR_Closet_Mold_Return', False), ('Art_BR_Closet_Mold_West', False), ('Art_BR_Closet_Mold_Ceiling', False)] film_hidden False
+met lukey
+met tyler
+met wyatt
+met malcolm
+PROBE after_setfixed state <FixHimState.PLAYING: 1> mold_hidden [('Art_BR_Closet_Mold', False), ('Art_BR_Closet_Mold_Return', False), ('Art_BR_Closet_Mold_West', False), ('Art_BR_Closet_Mold_Ceiling', False)] film_hidden False
+PROBE morning_week2 state <FixHimState.PLAYING: 1> mold_hidden [('Art_BR_Closet_Mold', True), ('Art_BR_Closet_Mold_Return', True), ('Art_BR_Closet_Mold_West', True), ('Art_BR_Closet_Mold_Ceiling', True)] film_hidden False
+PROBE after_continue state <FixHimState.PLAYING: 1> mold_hidden [('Art_BR_Closet_Mold', True), ('Art_BR_Closet_Mold_Return', True), ('Art_BR_Closet_Mold_West', True), ('Art_BR_Closet_Mold_Ceiling', True)] film_hidden False

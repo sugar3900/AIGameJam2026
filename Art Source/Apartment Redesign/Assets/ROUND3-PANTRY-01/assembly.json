@@ -1,0 +1,250 @@
+{
+  "units": "metres; -Y source front, exported -Z forward / Y up, matching Joinery02",
+  "export": "pivot-local vertices, identity transforms; retain installed hinge actor transforms",
+  "centre_reveal_before_m": 0.016,
+  "centre_reveal_after_m": 0.004,
+  "body": "unchanged KI_Pantry02_Body",
+  "parts": [
+    {
+      "file": "KI_Pantry03_LeftDoor.fbx",
+      "replaces": "KI_Pantry02_LeftDoor.fbx",
+      "pivot_source_m": [
+        -0.47,
+        -0.318,
+        1.02
+      ],
+      "assembly_min": [
+        -0.4754999876022339,
+        -0.3720000088214874,
+        0.19499999284744263
+      ],
+      "assembly_max": [
+        -0.001999974250793457,
+        -0.3125,
+        1.8450000286102295
+      ],
+      "original_bounds": [
+        [
+          -0.4754999876022339,
+          -0.3720000088214874,
+          0.19499999284744263
+        ],
+        [
+          -0.007999986410140991,
+          -0.3125,
+          1.8450000286102295
+        ]
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_AgedBrass",
+        "Joinery_KnobIvory"
+      ],
+      "ucx": 1,
+      "engine_swing_sign": 1,
+      "source_swing_sign": -1,
+      "max_angle_deg": 100,
+      "component_changes": [
+        {
+          "kind": "hinge_stile",
+          "vertices": 96
+        },
+        {
+          "kind": "meeting_stile",
+          "vertices": 96
+        },
+        {
+          "kind": "rail",
+          "vertices": 96
+        },
+        {
+          "kind": "rail",
+          "vertices": 96
+        },
+        {
+          "kind": "rail",
+          "vertices": 96
+        },
+        {
+          "kind": "field",
+          "vertices": 96
+        },
+        {
+          "kind": "field",
+          "vertices": 96
+        },
+        {
+          "kind": "knob",
+          "vertices": 192
+        },
+        {
+          "kind": "knob",
+          "vertices": 192
+        },
+        {
+          "kind": "knob",
+          "vertices": 192
+        },
+        {
+          "kind": "knob",
+          "vertices": 482
+        },
+        {
+          "kind": "hardware",
+          "vertices": 192
+        },
+        {
+          "kind": "hardware",
+          "vertices": 96
+        },
+        {
+          "kind": "hardware",
+          "vertices": 192
+        },
+        {
+          "kind": "hardware",
+          "vertices": 96
+        },
+        {
+          "kind": "hardware",
+          "vertices": 192
+        },
+        {
+          "kind": "hardware",
+          "vertices": 96
+        }
+      ],
+      "paint_uv_crop": [
+        0.08,
+        0.28,
+        0.05,
+        0.95
+      ]
+    },
+    {
+      "file": "KI_Pantry03_RightDoor.fbx",
+      "replaces": "KI_Pantry02_RightDoor.fbx",
+      "pivot_source_m": [
+        0.47,
+        -0.318,
+        1.02
+      ],
+      "assembly_min": [
+        0.001999974250793457,
+        -0.3720000088214874,
+        0.19499999284744263
+      ],
+      "assembly_max": [
+        0.4754999876022339,
+        -0.3125,
+        1.8450000286102295
+      ],
+      "original_bounds": [
+        [
+          0.007999986410140991,
+          -0.3720000088214874,
+          0.19499999284744263
+        ],
+        [
+          0.4754999876022339,
+          -0.3125,
+          1.8450000286102295
+        ]
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_AgedBrass",
+        "Joinery_KnobIvory"
+      ],
+      "ucx": 1,
+      "engine_swing_sign": -1,
+      "source_swing_sign": 1,
+      "max_angle_deg": 100,
+      "component_changes": [
+        {
+          "kind": "meeting_stile",
+          "vertices": 96
+        },
+        {
+          "kind": "hinge_stile",
+          "vertices": 96
+        },
+        {
+          "kind": "rail",
+          "vertices": 96
+        },
+        {
+          "kind": "rail",
+          "vertices": 96
+        },
+        {
+          "kind": "rail",
+          "vertices": 96
+        },
+        {
+          "kind": "field",
+          "vertices": 96
+        },
+        {
+          "kind": "field",
+          "vertices": 96
+        },
+        {
+          "kind": "knob",
+          "vertices": 192
+        },
+        {
+          "kind": "knob",
+          "vertices": 192
+        },
+        {
+          "kind": "knob",
+          "vertices": 192
+        },
+        {
+          "kind": "knob",
+          "vertices": 482
+        },
+        {
+          "kind": "hardware",
+          "vertices": 192
+        },
+        {
+          "kind": "hardware",
+          "vertices": 96
+        },
+        {
+          "kind": "hardware",
+          "vertices": 192
+        },
+        {
+          "kind": "hardware",
+          "vertices": 96
+        },
+        {
+          "kind": "hardware",
+          "vertices": 192
+        },
+        {
+          "kind": "hardware",
+          "vertices": 96
+        }
+      ],
+      "paint_uv_crop": [
+        0.64,
+        0.84,
+        0.05,
+        0.95
+      ]
+    }
+  ],
+  "materials": {
+    "Joinery_Sage": {
+      "texture": "T_Joinery_Sage.png",
+      "roughness": 0.78,
+      "metallic": 0
+    },
+    "Joinery_AgedBrass": "retain installed MI_Joinery_AgedBrass",
+    "Joinery_KnobIvory": "retain installed MI_Joinery_KnobIvory"
+  }
+}

@@ -1,0 +1,266 @@
+{
+  "asset": "ROUND3-CLOSET-FRAME-01",
+  "units": "metres",
+  "axes": [
+    "-Y",
+    "Z"
+  ],
+  "pivot_m": [
+    0,
+    0,
+    0
+  ],
+  "file": "model/ARC_ClosetFrame04.fbx",
+  "replaces": "FEEDBACK-ROOM-03/model/ARC_Sliding03_Frame.fbx",
+  "bounds_m": [
+    [
+      -0.55,
+      -0.101,
+      0
+    ],
+    [
+      0.55,
+      0.101,
+      2.259
+    ]
+  ],
+  "floor_casing_bounds_m": [
+    [
+      -0.54,
+      -0.0945,
+      0
+    ],
+    [
+      0.54,
+      0.0945,
+      0.13
+    ]
+  ],
+  "clear_jamb_opening_m": [
+    0.9,
+    2.15
+  ],
+  "rough_opening_m": [
+    0.96,
+    2.18
+  ],
+  "unchanged_panel_origins_m": {
+    "LeftPanel": [
+      -0.22,
+      -0.028,
+      0
+    ],
+    "RightPanel": [
+      0.22,
+      0.028,
+      0
+    ]
+  },
+  "unchanged_panel_travel_m": {
+    "LeftPanel": 0.44,
+    "RightPanel": -0.44
+  },
+  "collision_hulls": "same three jamb/head boxes as ARC-SLIDING-CLOSET-02; included with matching UCX names",
+  "material_slots": [
+    "Painted warm ivory",
+    "Aged track"
+  ],
+  "components": [
+    {
+      "name": "Jamb",
+      "center_m": [
+        -0.465,
+        0,
+        1.075
+      ],
+      "dimensions_m": [
+        0.03,
+        0.14,
+        2.15
+      ]
+    },
+    {
+      "name": "Vertical casing",
+      "center_m": [
+        -0.495,
+        -0.082,
+        1.08125
+      ],
+      "dimensions_m": [
+        0.09,
+        0.025,
+        2.1625
+      ]
+    },
+    {
+      "name": "Vertical casing",
+      "center_m": [
+        -0.495,
+        0.082,
+        1.08125
+      ],
+      "dimensions_m": [
+        0.09,
+        0.025,
+        2.1625
+      ]
+    },
+    {
+      "name": "Jamb",
+      "center_m": [
+        0.465,
+        0,
+        1.075
+      ],
+      "dimensions_m": [
+        0.03,
+        0.14,
+        2.15
+      ]
+    },
+    {
+      "name": "Vertical casing",
+      "center_m": [
+        0.495,
+        -0.082,
+        1.08125
+      ],
+      "dimensions_m": [
+        0.09,
+        0.025,
+        2.1625
+      ]
+    },
+    {
+      "name": "Vertical casing",
+      "center_m": [
+        0.495,
+        0.082,
+        1.08125
+      ],
+      "dimensions_m": [
+        0.09,
+        0.025,
+        2.1625
+      ]
+    },
+    {
+      "name": "Head jamb",
+      "center_m": [
+        0,
+        0,
+        2.165
+      ],
+      "dimensions_m": [
+        0.96,
+        0.14,
+        0.03
+      ]
+    },
+    {
+      "name": "Head casing",
+      "center_m": [
+        0,
+        -0.082,
+        2.2
+      ],
+      "dimensions_m": [
+        1.08,
+        0.028,
+        0.075
+      ]
+    },
+    {
+      "name": "Head cap",
+      "center_m": [
+        0,
+        -0.082,
+        2.248
+      ],
+      "dimensions_m": [
+        1.1,
+        0.038,
+        0.022
+      ]
+    },
+    {
+      "name": "Head casing",
+      "center_m": [
+        0,
+        0.082,
+        2.2
+      ],
+      "dimensions_m": [
+        1.08,
+        0.028,
+        0.075
+      ]
+    },
+    {
+      "name": "Head cap",
+      "center_m": [
+        0,
+        0.082,
+        2.248
+      ],
+      "dimensions_m": [
+        1.1,
+        0.038,
+        0.022
+      ]
+    },
+    {
+      "name": "Top guide track",
+      "center_m": [
+        0,
+        -0.028,
+        2.126
+      ],
+      "dimensions_m": [
+        0.9,
+        0.026,
+        0.012
+      ]
+    },
+    {
+      "name": "Bottom guide track",
+      "center_m": [
+        0,
+        -0.028,
+        0.014
+      ],
+      "dimensions_m": [
+        0.9,
+        0.026,
+        0.012
+      ]
+    },
+    {
+      "name": "Top guide track",
+      "center_m": [
+        0,
+        0.028,
+        2.126
+      ],
+      "dimensions_m": [
+        0.9,
+        0.026,
+        0.012
+      ]
+    },
+    {
+      "name": "Bottom guide track",
+      "center_m": [
+        0,
+        0.028,
+        0.014
+      ],
+      "dimensions_m": [
+        0.9,
+        0.026,
+        0.012
+      ]
+    }
+  ],
+  "casing_profile_from": "ARC-DOOR-03; section dimensions and paint graph match, width/opening adapted; Y centers shifted +10mm to retain contact with 14cm wall rather than 12cm wall"
+}

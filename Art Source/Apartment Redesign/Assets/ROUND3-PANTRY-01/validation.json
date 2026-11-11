@@ -1,0 +1,87 @@
+{
+  "passed": true,
+  "closed_gap_before_m": 0.015999972820281982,
+  "closed_gap_after_m": 0.003999948501586914,
+  "fresh_imports": [
+    {
+      "file": "KI_Pantry03_LeftDoor.fbx",
+      "fresh_fbx": true,
+      "bounds_error_m": 8.940696716308594e-08,
+      "ucx": 1,
+      "identity_transform": true,
+      "slots_unchanged": true,
+      "degenerate_faces": 0,
+      "nonmanifold_edges": 0,
+      "paint_uv_span": [
+        0.2749086394906044,
+        0.8997813388705254
+      ],
+      "painted_leaf_assembly_bounds_m": [
+        [
+          -0.4620000123977661,
+          -0.3400001525878906,
+          0.19499999284744263
+        ],
+        [
+          -0.001999974250793457,
+          -0.31799983978271484,
+          1.8450000286102295
+        ]
+      ],
+      "hull_matches_leaf_bounds": true
+    },
+    {
+      "file": "KI_Pantry03_RightDoor.fbx",
+      "fresh_fbx": true,
+      "bounds_error_m": 8.940696716308594e-08,
+      "ucx": 1,
+      "identity_transform": true,
+      "slots_unchanged": true,
+      "degenerate_faces": 0,
+      "nonmanifold_edges": 0,
+      "paint_uv_span": [
+        0.3049086332321167,
+        0.8997813202440739
+      ],
+      "painted_leaf_assembly_bounds_m": [
+        [
+          0.001999974250793457,
+          -0.3400001525878906,
+          0.19499999284744263
+        ],
+        [
+          0.4620000123977661,
+          -0.31799983978271484,
+          1.8450000286102295
+        ]
+      ],
+      "hull_matches_leaf_bounds": true
+    }
+  ],
+  "sweep_poses_deg": [
+    0,
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+    35,
+    40,
+    45,
+    50,
+    55,
+    60,
+    65,
+    70,
+    75,
+    80,
+    85,
+    90,
+    95,
+    100
+  ],
+  "sweep_comparisons": 105,
+  "sweep_contacts": [],
+  "limits": "Triangle surface tests against source pantry carcass and opposite door, including each door alone and together. Installed neighbours, real clicks, hover and engine material appearance require Unreal checks."
+}

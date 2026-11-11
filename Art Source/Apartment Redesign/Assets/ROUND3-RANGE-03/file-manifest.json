@@ -1,0 +1,22 @@
+{
+  "README.md": "46befee6f55352293ea97ee43d10f3ab6d61cc1b9bb1e1e64c5e62ee7e07ec0b",
+  "assembly.json": "291751e6bed9a1591f2056379a9a070d91f8e521d5140552bbf18d20675dd0d0",
+  "contact-audit-before-hashes.json": "9ac75a81b3fa98b59e7dd30b4ece5033015caacb4082b0c83e8d18d5e8899419",
+  "contact-audit-before.json": "0d758bcfdd63be297c299e26ef51a55b540ce6fc359c41dc324f41c5f54ea9cb",
+  "contact-validation.json": "24618036868cf7a9924d91f2380839119c2f74e164de937e290f109fa4adfa58",
+  "hinge-relief-fbx-invariants.json": "9a9a918e5973d03cf0bd01834d1cf3f99766f518b8aa80b3babd3f3884acb428",
+  "hinge-relief-source.json": "3639039e5493b5d168ce9b5049daefbef480afa082b7209c0d1c65da640ea6cd",
+  "model/KI_RANGE03_Body.fbx": "3ea83b1bb34f9030082297f64f91f3617a35dbbe886c5edf8e5fce9d85db04a6",
+  "model/KI_RANGE03_Door.fbx": "44d5fbd601822118604150ef101dbb0c3c534a781d6154f67b6d08d3a86f8b14",
+  "model/ROUND3-RANGE-03.blend": "a211f4b6d2127a525d77a66149c659dde66b9dda0093d89aa3714046f576f78c",
+  "model/audit_hinge_contacts.py": "a785f945d50503ae78cb7ce8cbbc917a1f9e6991e89ae155d7f0c41f2cd07e94",
+  "model/build_range03.py": "41fceacc499630b88faa2a2b43422c346aa4a422b1b80b48295211a4b9cf4099",
+  "model/validate_range03.py": "cb2ef9987ecf1b7fde1025c6192c54c982015ef446cf16535a354173929a599d",
+  "model/verify_hinge_relief_invariants.py": "1bd812ce7bd3306c3d69ae5e174beffb2baf2004a540bc33e2051995f5c8ddfc",
+  "previews/range03-closed.png": "7c9cbb0422e3fb5d63f6f249820f8e9cbe5a4f178acf87af6b66ca1698bdc9f0",
+  "previews/range03-open.png": "7f3b14d8ef07c0ba67da75d5764c73a6204a92375248807530bd50d44896aaab",
+  "textures/aged-steel.png": "cbeb50bfac26fc46300eabb24a6c268f8fd55a331d3b5c1aae19c0d39d713c8c",
+  "textures/iron-grain.png": "c0ef9b266dfe0eb41a588579f1db71fe95ce5efa71fc3b8e0f4eaa26a252ef36",
+  "textures/range-enamel.png": "aa8770d05e226961744843d9a119aefecee5cdd0b0bbb706aefbf2a3e3092568",
+  "validation.json": "4c0ff84e8619038248ab8b3690eb0f8bc6ec865d3902e8310c17e159afbfa125"
+}

@@ -35,6 +35,8 @@ for kind in ['1m','Inside_Start','Inside_End','Outside_Start','Outside_End']:
    if kind=='Outside_End' and end==1:x=1-y
    verts.append((x,y,z))
  faces=[tuple(reversed(range(n))),tuple(range(n,2*n))]+[(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)]
+ # The YZ profile is clockwise; reverse the extrusion faces to point outwards.
+ faces=[tuple(reversed(f)) for f in faces]
  me=bpy.data.meshes.new(name);me.from_pydata(verts,[],faces);me.update();ob=bpy.data.objects.new(name,me);bpy.context.collection.objects.link(ob);me.materials.append(mat);uv=me.uv_layers.new()
  for f in me.polygons:
   for li in f.loop_indices:
@@ -113,6 +115,8 @@ bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=Fals
 pink=bpy.data.materials.new('Pink_Glazed_Bullnose');pink.use_nodes=True;p=pink.node_tree.nodes['Principled BSDF'];p.inputs['Base Color'].default_value=(.56,.30,.27,1);p.inputs['Roughness'].default_value=.27
 prof=[(0,0)]+[(.018*math.cos(i*math.pi/2/16),-.018*math.sin(i*math.pi/2/16)) for i in range(17)]
 n=len(prof);vs=[(x,y,z) for z in (0,1) for x,y in prof];fs=[tuple(reversed(range(n))),tuple(range(n,2*n))]+[(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)]
+# The XY quarter-circle profile is clockwise too. Keep the glaze facing outside.
+fs=[tuple(reversed(f)) for f in fs]
 me=bpy.data.meshes.new('Curved pink bullnose');me.from_pydata(vs,[],fs);me.update();o=bpy.data.objects.new('BA_PinkBullnose_1m',me);bpy.context.collection.objects.link(o);me.materials.append(pink);uv=me.uv_layers.new()
 for f in me.polygons:
  f.use_smooth=len(f.vertices)==4

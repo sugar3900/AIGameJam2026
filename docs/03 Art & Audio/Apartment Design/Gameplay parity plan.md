@@ -242,3 +242,12 @@ tuned for the original `L_Apartment`; in Rev02 that framed a wall edge beside th
 of walls); untagged cameras keep the old override. `CeilingLight_HallEast` now hangs in the kitchen and has
 `room_id` `kitchen` (non-malady room ids are not read by gameplay). Room-id audit: 0 mismatches of 61. In PIE, the
 front door and the bed open the end-of-day prompt by real clicks, and the title screen shows the living room.
+
+
+## Current round-3 rebuild order (2026-11-11)
+
+This supersedes the batch-2 recipe above. Asset/script changes only; no new C++ build is required for this pass. Stop PIE before every entry point. For incremental work import only the affected kit/parts; do not regenerate maps just to update a source mesh.
+
+Imports: `rev02_02_import_fitted` → `rev02_02c_reimport_round3` → `rev02_02b_feedback_materials`. The full map pipeline then runs 01, 03, 04, 04b, 04c, 05, 05b, 05c, 05d, 05e, 05f, 05g, 05h, 05i, 05j, 05l, 05m, 05n, 05o, 05p, 05q, 05r, 05s, 05v, 05t, 05u, 05k, 06, 08. Numeric suffixes here refer to `Tools/Editor/Rev02/rev02_*` scripts. The late 05k uses floor-level casing footprints so header caps cannot shorten baseboards.
+
+Round-3 acceptance and known test limits: [completed feedback record](layout-revision-02/feedback/Round3.md). The new `Basin_Tap_R` follows the existing taps' authored-off new-game/load behavior; it operates independently and has its own authored water reveal/splash.

@@ -1,0 +1,184 @@
+{
+  "status": "PASS",
+  "parts": {
+    "Body": {
+      "bounds_m": [
+        [
+          -0.375,
+          -0.3961498737335205,
+          -4.659531072093159e-08
+        ],
+        [
+          0.3750000298023224,
+          0.35000014305114746,
+          1.0699999332427979
+        ]
+      ],
+      "pivot_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vertices": 18266,
+      "triangles": 35480,
+      "closed_components": 267,
+      "all_component_volumes_positive": true,
+      "nonmanifold_edges": 0,
+      "degenerate_triangles": 0,
+      "single_UV0_all_material_slots_nonzero": true,
+      "slots": [
+        "Enamel_Painted",
+        "Oven_Dark",
+        "Burner_Cast_Iron",
+        "Range03_AgedSteel",
+        "Gasket",
+        "Range03_Bakelite",
+        "Range03_CeramicMarkings"
+      ]
+    },
+    "Door": {
+      "bounds_m": [
+        [
+          -0.33000001311302185,
+          -0.425896555185318,
+          0.21599999070167542
+        ],
+        [
+          0.33000001311302185,
+          -0.3234999179840088,
+          0.7200000286102295
+        ]
+      ],
+      "pivot_m": [
+        0.0,
+        -0.36299997568130493,
+        0.22999998927116394
+      ],
+      "vertices": 4770,
+      "triangles": 9364,
+      "closed_components": 45,
+      "all_component_volumes_positive": true,
+      "nonmanifold_edges": 0,
+      "degenerate_triangles": 0,
+      "single_UV0_all_material_slots_nonzero": true,
+      "slots": [
+        "Enamel_Painted.001",
+        "Gasket.001",
+        "Range03_AgedSteel.001",
+        "Range03_OvenGlass",
+        "Oven_Dark.001",
+        "Range03_Bakelite.001"
+      ]
+    }
+  },
+  "sweep": [
+    {
+      "degrees": 0.0,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.21599999070167542
+    },
+    {
+      "degrees": 4.1,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.21603581309318542
+    },
+    {
+      "degrees": 8.2,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.21609847247600555
+    },
+    {
+      "degrees": 12.3,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.2160155326128006
+    },
+    {
+      "degrees": 16.4,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.2160041779279709
+    },
+    {
+      "degrees": 20.5,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.2160644382238388
+    },
+    {
+      "degrees": 24.6,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.21606212854385376
+    },
+    {
+      "degrees": 28.7,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.21600361168384552
+    },
+    {
+      "degrees": 32.8,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.2160167098045349
+    },
+    {
+      "degrees": 36.9,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.21610140800476074
+    },
+    {
+      "degrees": 41.0,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.21477973461151123
+    },
+    {
+      "degrees": 45.1,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.2134343534708023
+    },
+    {
+      "degrees": 49.2,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.21217374503612518
+    },
+    {
+      "degrees": 53.3,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.21100446581840515
+    },
+    {
+      "degrees": 57.4,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.20993231236934662
+    },
+    {
+      "degrees": 61.5,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.20896291732788086
+    },
+    {
+      "degrees": 65.6,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.20810118317604065
+    },
+    {
+      "degrees": 69.7,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.20735158026218414
+    },
+    {
+      "degrees": 73.8,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.20667102932929993
+    },
+    {
+      "degrees": 77.9,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.2060651332139969
+    },
+    {
+      "degrees": 82.0,
+      "side_clearance_m": 0.04499998688697815,
+      "minimum_height_m": 0.20558172464370728
+    }
+  ],
+  "upper_body_burner_geometry_identical_to_range02": true,
+  "real_window_aperture_first_ray_hit": "Range03_OvenGlass",
+  "gameplay_contract": "retain oven hinge/collision, burner click+flame+light and kettle transforms; engine clicks and neighbour sweep remain required"
+}
