@@ -21,6 +21,7 @@ Run inside the editor (python3 Tools/run_in_editor.py Tools/Editor/import_charac
 """
 import glob
 import os
+import runpy
 import unreal
 
 MEL = unreal.MaterialEditingLibrary
@@ -323,6 +324,14 @@ def main():
 
 
 def run():
+    assert not unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem).get_game_world(), 'Stop PIE before importing characters'
+    # Keep the selected comparison look when reimporting character assets.
+    selected_style = "matte"
+    existing = EAL.load_asset(f"{CHAR_DIR}/PinkTile/MI_PinkTile")
+    if existing:
+        parent_name = existing.get_base_material().get_name()
+        selected_style = {"M_Hunk": "original", "M_Hunk_Illustrated": "illustrated",
+                          "M_Hunk_Cel": "cel"}.get(parent_name, "matte")
     EAL.make_directory(CHAR_DIR)
     imported = []
     for src_name, folder in CHARACTERS.items():
@@ -346,6 +355,10 @@ def run():
     source_rig = make_ik_rig(CHAR_DIR, "IK_Manny", unreal.load_asset(MANNY_MESH))
     for fbx, folder, textures in imported:
         import_character(fbx, folder, master, textures, source_rig)
+    editor_dir = os.path.dirname(os.path.abspath(__file__))
+    runpy.run_path(os.path.join(editor_dir, "add_hunk_dissolve.py"))
+    runpy.run_path(os.path.join(editor_dir, "style_characters.py"),
+                   init_globals={"STYLE": selected_style})
     unreal.log("[FixHim] import_characters done")
 
 
