@@ -1,0 +1,209 @@
+{
+  "inputs": {
+    "BA-BASKET-01/model/BA-BASKET-01.blend": "a17856b4fb4678d7cd2b5cb7da821c47c684c18d2adcb0d23a0afc80ec63dacc",
+    "BA-ROLL-01/model/BA-ROLL-01.blend": "5efc5ffec921e5a36795b7427a2d65f76aa338fda13e4d225e9d083915be2025"
+  },
+  "meshes": {
+    "Towel_0": {
+      "flipped_polygons": 242,
+      "volume_before_m3": -0.0026505000480400534,
+      "volume_after_m3": 0.002650500229029499,
+      "radial_before": {
+        "min": -0.9999928819015622,
+        "max": -0.287791907787323,
+        "count": 240
+      },
+      "radial_after": {
+        "min": 0.287791907787323,
+        "max": 0.9999929401092231,
+        "count": 240
+      },
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "materials": [
+        "Towel ivory"
+      ],
+      "vertices": 1320,
+      "polygons": 1266,
+      "unchanged_positions_uv_materials": true
+    },
+    "Towel_1": {
+      "flipped_polygons": 242,
+      "volume_before_m3": -0.002650500283290095,
+      "volume_after_m3": 0.002650500354685429,
+      "radial_before": {
+        "min": -0.9999928814359009,
+        "max": -0.2877919524908066,
+        "count": 240
+      },
+      "radial_after": {
+        "min": 0.2877919524908066,
+        "max": 0.9999928814359009,
+        "count": 240
+      },
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "materials": [
+        "Towel ivory"
+      ],
+      "vertices": 1320,
+      "polygons": 1266,
+      "unchanged_positions_uv_materials": true
+    },
+    "Towel_2": {
+      "flipped_polygons": 242,
+      "volume_before_m3": -0.0026505000656662503,
+      "volume_after_m3": 0.0026505000776791596,
+      "radial_before": {
+        "min": -0.999992914032191,
+        "max": -0.2877919226884842,
+        "count": 240
+      },
+      "radial_after": {
+        "min": 0.287791907787323,
+        "max": 0.9999929401092231,
+        "count": 240
+      },
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "materials": [
+        "Towel rose"
+      ],
+      "vertices": 1320,
+      "polygons": 1266,
+      "unchanged_positions_uv_materials": true
+    },
+    "Paper roll": {
+      "flipped_polygons": 472,
+      "volume_before_m3": -0.0006654501268289851,
+      "volume_after_m3": 0.0006654501268289851,
+      "outer_radial_before": {
+        "min": -1.0000000894069672,
+        "max": -0.9999998807907104,
+        "count": 64
+      },
+      "outer_radial_after": {
+        "min": 0.9999998807907104,
+        "max": 1.0000000894069672,
+        "count": 64
+      },
+      "bore_radial_before": {
+        "min": 0.9999998467974365,
+        "max": 1.0000001043081284,
+        "count": 64
+      },
+      "bore_radial_after": {
+        "min": -1.0000001192092896,
+        "max": -0.9999998467974365,
+        "count": 64
+      },
+      "tail_front_normal_y_max": -0.9960827827453613,
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          -0.07100000232458115
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          -0.014000000432133675
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "materials": [
+        "Ivory paper",
+        "Cardboard core",
+        "Paper layer edges"
+      ],
+      "vertices": 2807,
+      "polygons": 2776,
+      "unchanged_positions_uv_materials": true
+    }
+  }
+}

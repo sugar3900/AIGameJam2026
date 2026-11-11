@@ -1,0 +1,12 @@
+{
+  "README.md": "beac7ff269b36a6cd0ebbec102c69dd567da49a93ed864ffa6f266d41a8054e5",
+  "assembly.json": "042800d3ab92868df3819e3be669fe371843b23891db27a556aa35e71ae7dc33",
+  "model/ARC_ClosetFrame04.fbx": "e18656c19f875cc3106f927f170e6bcd619100495c7166bf14611a92fcfc1910",
+  "model/ROUND3-CLOSET-FRAME-01.blend": "864c70dd27c2cefa7d68118958018e2378264d95b0ed67a3048c0ec7821a5101",
+  "model/build_closet_frame.py": "12c11d889600ba90ee5fe84c4afd612e6a1ca50fb66a281d858913a7800473d7",
+  "model/validate_closet_frame.py": "e32946a4407c04efe031cf9fe1ffc6ea3a98bf3f4ae22857a27fbb44ce9df327",
+  "previews/closet-frame-closed.png": "1e8ce46448d61d45867100fa0625964f8978fa041a5f2e1b4daccae27ba11d9b",
+  "previews/closet-frame-open.png": "01ad4b9373796c251bc3310b7a597632bba278c3e0a3acf1114ce649af6ade28",
+  "textures/paint-selected.png": "37f01110e5f0c39515015802d4b4ebfe45673a6b9480758d259289f3b3aad7ab",
+  "validation.json": "e522b04c83c3752116a5b28b8bb65841471279a9f21b04df2eb7d167808023d3"
+}

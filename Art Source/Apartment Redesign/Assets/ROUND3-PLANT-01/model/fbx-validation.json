@@ -1,0 +1,80 @@
+{
+  "status": "PASS",
+  "materials": [
+    "Plant_Leaf",
+    "Plant_Leaf_Light",
+    "Ceramic_Pot",
+    "Pot_Soil"
+  ],
+  "mesh_count": 1,
+  "vertices": 6057,
+  "polygons": 5248,
+  "triangles": 11072,
+  "assembly_origin": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "matrix_world": [
+    [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      1.0,
+      1.6292067073209182e-07,
+      0.0
+    ],
+    [
+      0.0,
+      -1.6292067073209182e-07,
+      1.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "world_bounds_m": [
+    [
+      -0.5116970539093018,
+      -0.1527482569217682
+    ],
+    [
+      -0.35317012667655945,
+      0.18245960772037506
+    ],
+    [
+      1.4900000095367432,
+      1.8489999771118164
+    ]
+  ],
+  "world_bounds_match_original": true,
+  "foliage_corners_preserved": 6688,
+  "new_root_corners": 96,
+  "ceramic_islands": [
+    {
+      "faces": 2498,
+      "closed_manifold": true,
+      "signed_volume_m3": 0.0007489074744384537,
+      "smooth_quad_faces": 2496,
+      "minimum_uv_triangle_area": 9.730664434215441e-06
+    },
+    {
+      "faces": 962,
+      "closed_manifold": true,
+      "signed_volume_m3": 0.00018698965054072178,
+      "smooth_quad_faces": 960,
+      "minimum_uv_triangle_area": 1.041439480253814e-05
+    }
+  ],
+  "outer_radial_min": 0.9816344082355499,
+  "bore_radial_max": -0.9806006569415331,
+  "floating_botanical_ornament_count": 0
+}

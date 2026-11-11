@@ -1,0 +1,2025 @@
+{
+  "units": "metres; source front -Y, Unreal +Y; FBX forward -Z/up Y",
+  "export": "identity meshes; use world_origin_cm and yaw0, scale1; body origins unchanged",
+  "parts": [
+    {
+      "file": "KI_Cab06_0425_Body.fbx",
+      "role": "carcass without embedded counter or dark toe block",
+      "world_origin_cm": [
+        141.25,
+        47.5,
+        0
+      ],
+      "source_bounds_m": [
+        [
+          -0.20750001072883606,
+          -0.26500001549720764,
+          -4.0978193283081055e-08
+        ],
+        [
+          0.20750001072883606,
+          0.3149999976158142,
+          0.8550000190734863
+        ]
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_Interior",
+        "Toe_Dark",
+        "Counter_Ivory"
+      ],
+      "ucx": 11,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "replaces": "KI_Cab03_0425_Body",
+      "removed_render_face_counts": {
+        "Toe_Dark": 98,
+        "Counter_Ivory": 98
+      },
+      "plinth_original_local_bounds_m": [
+        [
+          -0.2045000046491623,
+          -0.26500001549720764,
+          0.0
+        ],
+        [
+          0.2044999897480011,
+          0.29499998688697815,
+          0.11000001430511475
+        ]
+      ],
+      "original_ucx_preserved": true,
+      "retained_slots": [
+        "Joinery_Sage",
+        "Joinery_Interior",
+        "Toe_Dark",
+        "Counter_Ivory"
+      ],
+      "plinth_panel_thickness_m": 0.018
+    },
+    {
+      "file": "KI_Cab06_0775_Body.fbx",
+      "role": "carcass without embedded counter or dark toe block",
+      "world_origin_cm": [
+        306.25,
+        47.5,
+        0
+      ],
+      "source_bounds_m": [
+        [
+          -0.3824999928474426,
+          -0.26500001549720764,
+          -4.0978193283081055e-08
+        ],
+        [
+          0.38749998807907104,
+          0.3149999976158142,
+          0.8600000143051147
+        ]
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_Interior",
+        "Toe_Dark",
+        "Counter_Ivory"
+      ],
+      "ucx": 14,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "replaces": "KI_Cab03_0775_Body",
+      "removed_render_face_counts": {
+        "Toe_Dark": 98,
+        "Counter_Ivory": 98
+      },
+      "plinth_original_local_bounds_m": [
+        [
+          -0.37950000166893005,
+          -0.26500001549720764,
+          0.0
+        ],
+        [
+          0.3395000100135803,
+          0.29499998688697815,
+          0.11000001430511475
+        ]
+      ],
+      "original_ucx_preserved": true,
+      "retained_slots": [
+        "Joinery_Sage",
+        "Joinery_Interior",
+        "Toe_Dark",
+        "Counter_Ivory"
+      ],
+      "plinth_panel_thickness_m": 0.018
+    },
+    {
+      "file": "KI_Cab06_0450_Body.fbx",
+      "role": "carcass without embedded counter or dark toe block",
+      "world_origin_cm": [
+        442.5,
+        47.5,
+        0
+      ],
+      "source_bounds_m": [
+        [
+          -0.22499999403953552,
+          -0.26500001549720764,
+          -4.0978193283081055e-08
+        ],
+        [
+          0.2200000286102295,
+          0.3149999976158142,
+          0.8550000190734863
+        ]
+      ],
+      "slots": [
+        "Joinery_Sage",
+        "Joinery_Interior",
+        "Toe_Dark",
+        "Counter_Ivory"
+      ],
+      "ucx": 12,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "replaces": "KI_Cab03_0450_Body",
+      "removed_render_face_counts": {
+        "Toe_Dark": 98,
+        "Counter_Ivory": 98
+      },
+      "plinth_original_local_bounds_m": [
+        [
+          -0.1770000010728836,
+          -0.26500001549720764,
+          0.0
+        ],
+        [
+          0.21700000762939453,
+          0.29499998688697815,
+          0.11000001430511475
+        ]
+      ],
+      "original_ucx_preserved": true,
+      "retained_slots": [
+        "Joinery_Sage",
+        "Joinery_Interior",
+        "Toe_Dark",
+        "Counter_Ivory"
+      ],
+      "plinth_panel_thickness_m": 0.018
+    },
+    {
+      "file": "KI_Counter03_A.fbx",
+      "role": "continuous counter slab",
+      "world_origin_cm": [
+        112.1,
+        6,
+        86
+      ],
+      "source_bounds_m": [
+        [
+          0.0,
+          -0.7400000095367432,
+          0.0
+        ],
+        [
+          0.5040000081062317,
+          0.0,
+          0.05000000074505806
+        ]
+      ],
+      "slots": [
+        "Counter_Ivory"
+      ],
+      "ucx": 1,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "world_bounds_cm": [
+        [
+          112.1,
+          6,
+          86
+        ],
+        [
+          162.5,
+          80,
+          91
+        ]
+      ],
+      "edge_bevel_m": 0.0025,
+      "uv_frame": "one world-coordinate frame shared by A/B/C"
+    },
+    {
+      "file": "KI_Counter03_B.fbx",
+      "role": "continuous counter slab",
+      "world_origin_cm": [
+        267.5,
+        6,
+        86
+      ],
+      "source_bounds_m": [
+        [
+          0.0,
+          -0.7400000095367432,
+          0.0
+        ],
+        [
+          0.7749999761581421,
+          0.0,
+          0.05000000074505806
+        ]
+      ],
+      "slots": [
+        "Counter_Ivory"
+      ],
+      "ucx": 1,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "world_bounds_cm": [
+        [
+          267.5,
+          6,
+          86
+        ],
+        [
+          345,
+          80,
+          91
+        ]
+      ],
+      "edge_bevel_m": 0.0025,
+      "uv_frame": "one world-coordinate frame shared by A/B/C"
+    },
+    {
+      "file": "KI_Counter03_C.fbx",
+      "role": "continuous counter slab",
+      "world_origin_cm": [
+        420,
+        6,
+        86
+      ],
+      "source_bounds_m": [
+        [
+          0.0,
+          -0.7400000095367432,
+          0.0
+        ],
+        [
+          0.5400000214576721,
+          0.0,
+          0.05000000074505806
+        ]
+      ],
+      "slots": [
+        "Counter_Ivory"
+      ],
+      "ucx": 1,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "world_bounds_cm": [
+        [
+          420,
+          6,
+          86
+        ],
+        [
+          474,
+          80,
+          91
+        ]
+      ],
+      "edge_bevel_m": 0.0025,
+      "uv_frame": "one world-coordinate frame shared by A/B/C"
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "role": "fitted backsplash with recessed grout",
+      "world_origin_cm": [
+        112.1,
+        6,
+        91
+      ],
+      "source_bounds_m": [
+        [
+          0.0,
+          -0.018000001087784767,
+          0.0
+        ],
+        [
+          0.5040000081062317,
+          0.0,
+          0.26499998569488525
+        ]
+      ],
+      "slots": [
+        "Warm_cream_grout",
+        "Warm_ivory_ceramic",
+        "Soft_sage_ceramic",
+        "Cream_glazed_cap"
+      ],
+      "ucx": 0,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "world_bounds_cm": [
+        [
+          112.1,
+          6,
+          91
+        ],
+        [
+          162.5,
+          7.8,
+          117.5
+        ]
+      ],
+      "joint_m": 0.002,
+      "grout_recess_m": 0.002,
+      "bullnose_radius_m": 0.018,
+      "top_bullnose": true,
+      "fridge_end_bullnose": true,
+      "other_end_trim": false
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "role": "fitted backsplash with recessed grout",
+      "world_origin_cm": [
+        267.5,
+        6,
+        91
+      ],
+      "source_bounds_m": [
+        [
+          0.0,
+          -0.018000001087784767,
+          0.0
+        ],
+        [
+          0.7749999761581421,
+          0.0,
+          0.26499998569488525
+        ]
+      ],
+      "slots": [
+        "Warm_cream_grout",
+        "Soft_sage_ceramic",
+        "Warm_ivory_ceramic",
+        "Cream_glazed_cap"
+      ],
+      "ucx": 0,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "world_bounds_cm": [
+        [
+          267.5,
+          6,
+          91
+        ],
+        [
+          345,
+          7.8,
+          117.5
+        ]
+      ],
+      "joint_m": 0.002,
+      "grout_recess_m": 0.002,
+      "bullnose_radius_m": 0.018,
+      "top_bullnose": true,
+      "fridge_end_bullnose": false,
+      "other_end_trim": false
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "role": "fitted backsplash with recessed grout",
+      "world_origin_cm": [
+        345,
+        6,
+        107
+      ],
+      "source_bounds_m": [
+        [
+          0.0,
+          -0.018000001087784767,
+          0.0
+        ],
+        [
+          0.75,
+          0.0,
+          0.10499999672174454
+        ]
+      ],
+      "slots": [
+        "Warm_cream_grout",
+        "Warm_ivory_ceramic",
+        "Soft_sage_ceramic",
+        "Cream_glazed_cap"
+      ],
+      "ucx": 0,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "world_bounds_cm": [
+        [
+          345,
+          6,
+          107
+        ],
+        [
+          420,
+          7.8,
+          117.5
+        ]
+      ],
+      "joint_m": 0.002,
+      "grout_recess_m": 0.002,
+      "bullnose_radius_m": 0.018,
+      "top_bullnose": true,
+      "fridge_end_bullnose": false,
+      "other_end_trim": false
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "role": "fitted backsplash with recessed grout",
+      "world_origin_cm": [
+        420,
+        6,
+        91
+      ],
+      "source_bounds_m": [
+        [
+          0.0,
+          -0.018000001087784767,
+          0.0
+        ],
+        [
+          0.5400000214576721,
+          0.0,
+          0.26499998569488525
+        ]
+      ],
+      "slots": [
+        "Warm_cream_grout",
+        "Soft_sage_ceramic",
+        "Warm_ivory_ceramic",
+        "Cream_glazed_cap"
+      ],
+      "ucx": 0,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "world_bounds_cm": [
+        [
+          420,
+          6,
+          91
+        ],
+        [
+          474,
+          7.8,
+          117.5
+        ]
+      ],
+      "joint_m": 0.002,
+      "grout_recess_m": 0.002,
+      "bullnose_radius_m": 0.018,
+      "top_bullnose": true,
+      "fridge_end_bullnose": false,
+      "other_end_trim": false
+    }
+  ],
+  "tile_layout": [
+    {
+      "band": "A",
+      "grid": [
+        11,
+        9
+      ],
+      "world_xz_m": [
+        1.14,
+        1.1990000000000003,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "A",
+      "grid": [
+        11,
+        10
+      ],
+      "world_xz_m": [
+        1.14,
+        1.1990000000000003,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "A",
+      "grid": [
+        11,
+        11
+      ],
+      "world_xz_m": [
+        1.14,
+        1.1990000000000003,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "A",
+      "grid": [
+        12,
+        9
+      ],
+      "world_xz_m": [
+        1.201,
+        1.2990000000000002,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "A",
+      "grid": [
+        12,
+        10
+      ],
+      "world_xz_m": [
+        1.201,
+        1.2990000000000002,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "A",
+      "grid": [
+        12,
+        11
+      ],
+      "world_xz_m": [
+        1.201,
+        1.2990000000000002,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "A",
+      "grid": [
+        13,
+        9
+      ],
+      "world_xz_m": [
+        1.301,
+        1.3990000000000002,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "A",
+      "grid": [
+        13,
+        10
+      ],
+      "world_xz_m": [
+        1.301,
+        1.3990000000000002,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "A",
+      "grid": [
+        13,
+        11
+      ],
+      "world_xz_m": [
+        1.301,
+        1.3990000000000002,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "A",
+      "grid": [
+        14,
+        9
+      ],
+      "world_xz_m": [
+        1.401,
+        1.499,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "A",
+      "grid": [
+        14,
+        10
+      ],
+      "world_xz_m": [
+        1.401,
+        1.499,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "A",
+      "grid": [
+        14,
+        11
+      ],
+      "world_xz_m": [
+        1.401,
+        1.499,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "A",
+      "grid": [
+        15,
+        9
+      ],
+      "world_xz_m": [
+        1.501,
+        1.5990000000000002,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "A",
+      "grid": [
+        15,
+        10
+      ],
+      "world_xz_m": [
+        1.501,
+        1.5990000000000002,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "A",
+      "grid": [
+        15,
+        11
+      ],
+      "world_xz_m": [
+        1.501,
+        1.5990000000000002,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "A",
+      "grid": [
+        16,
+        9
+      ],
+      "world_xz_m": [
+        1.601,
+        1.624,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "A",
+      "grid": [
+        16,
+        10
+      ],
+      "world_xz_m": [
+        1.601,
+        1.624,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "A",
+      "grid": [
+        16,
+        11
+      ],
+      "world_xz_m": [
+        1.601,
+        1.624,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        26,
+        9
+      ],
+      "world_xz_m": [
+        2.6759999999999997,
+        2.6990000000000003,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        26,
+        10
+      ],
+      "world_xz_m": [
+        2.6759999999999997,
+        2.6990000000000003,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        26,
+        11
+      ],
+      "world_xz_m": [
+        2.6759999999999997,
+        2.6990000000000003,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        27,
+        9
+      ],
+      "world_xz_m": [
+        2.701,
+        2.7990000000000004,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        27,
+        10
+      ],
+      "world_xz_m": [
+        2.701,
+        2.7990000000000004,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        27,
+        11
+      ],
+      "world_xz_m": [
+        2.701,
+        2.7990000000000004,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        28,
+        9
+      ],
+      "world_xz_m": [
+        2.801,
+        2.8990000000000005,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        28,
+        10
+      ],
+      "world_xz_m": [
+        2.801,
+        2.8990000000000005,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        28,
+        11
+      ],
+      "world_xz_m": [
+        2.801,
+        2.8990000000000005,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        29,
+        9
+      ],
+      "world_xz_m": [
+        2.9010000000000002,
+        2.999,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        29,
+        10
+      ],
+      "world_xz_m": [
+        2.9010000000000002,
+        2.999,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        29,
+        11
+      ],
+      "world_xz_m": [
+        2.9010000000000002,
+        2.999,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        30,
+        9
+      ],
+      "world_xz_m": [
+        3.001,
+        3.099,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        30,
+        10
+      ],
+      "world_xz_m": [
+        3.001,
+        3.099,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        30,
+        11
+      ],
+      "world_xz_m": [
+        3.001,
+        3.099,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        31,
+        9
+      ],
+      "world_xz_m": [
+        3.101,
+        3.1990000000000003,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        31,
+        10
+      ],
+      "world_xz_m": [
+        3.101,
+        3.1990000000000003,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        31,
+        11
+      ],
+      "world_xz_m": [
+        3.101,
+        3.1990000000000003,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        32,
+        9
+      ],
+      "world_xz_m": [
+        3.201,
+        3.2990000000000004,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        32,
+        10
+      ],
+      "world_xz_m": [
+        3.201,
+        3.2990000000000004,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        32,
+        11
+      ],
+      "world_xz_m": [
+        3.201,
+        3.2990000000000004,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        33,
+        9
+      ],
+      "world_xz_m": [
+        3.301,
+        3.3990000000000005,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        33,
+        10
+      ],
+      "world_xz_m": [
+        3.301,
+        3.3990000000000005,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        33,
+        11
+      ],
+      "world_xz_m": [
+        3.301,
+        3.3990000000000005,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        34,
+        9
+      ],
+      "world_xz_m": [
+        3.4010000000000002,
+        3.4490000000000003,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        34,
+        10
+      ],
+      "world_xz_m": [
+        3.4010000000000002,
+        3.4490000000000003,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "B",
+      "grid": [
+        34,
+        11
+      ],
+      "world_xz_m": [
+        3.4010000000000002,
+        3.4490000000000003,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "Range",
+      "grid": [
+        34,
+        10
+      ],
+      "world_xz_m": [
+        3.451,
+        3.499,
+        1.071,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "Range",
+      "grid": [
+        34,
+        11
+      ],
+      "world_xz_m": [
+        3.451,
+        3.499,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "Range",
+      "grid": [
+        35,
+        10
+      ],
+      "world_xz_m": [
+        3.501,
+        3.599,
+        1.071,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "Range",
+      "grid": [
+        35,
+        11
+      ],
+      "world_xz_m": [
+        3.501,
+        3.599,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "Range",
+      "grid": [
+        36,
+        10
+      ],
+      "world_xz_m": [
+        3.601,
+        3.6990000000000003,
+        1.071,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "Range",
+      "grid": [
+        36,
+        11
+      ],
+      "world_xz_m": [
+        3.601,
+        3.6990000000000003,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "Range",
+      "grid": [
+        37,
+        10
+      ],
+      "world_xz_m": [
+        3.701,
+        3.7990000000000004,
+        1.071,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "Range",
+      "grid": [
+        37,
+        11
+      ],
+      "world_xz_m": [
+        3.701,
+        3.7990000000000004,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "Range",
+      "grid": [
+        38,
+        10
+      ],
+      "world_xz_m": [
+        3.801,
+        3.8990000000000005,
+        1.071,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "Range",
+      "grid": [
+        38,
+        11
+      ],
+      "world_xz_m": [
+        3.801,
+        3.8990000000000005,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "Range",
+      "grid": [
+        39,
+        10
+      ],
+      "world_xz_m": [
+        3.9010000000000002,
+        3.999,
+        1.071,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "Range",
+      "grid": [
+        39,
+        11
+      ],
+      "world_xz_m": [
+        3.9010000000000002,
+        3.999,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "Range",
+      "grid": [
+        40,
+        10
+      ],
+      "world_xz_m": [
+        4.001,
+        4.099,
+        1.071,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "Range",
+      "grid": [
+        40,
+        11
+      ],
+      "world_xz_m": [
+        4.001,
+        4.099,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "Range",
+      "grid": [
+        41,
+        10
+      ],
+      "world_xz_m": [
+        4.101000000000001,
+        4.199,
+        1.071,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "Range",
+      "grid": [
+        41,
+        11
+      ],
+      "world_xz_m": [
+        4.101000000000001,
+        4.199,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "C",
+      "grid": [
+        42,
+        9
+      ],
+      "world_xz_m": [
+        4.2010000000000005,
+        4.2989999999999995,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "C",
+      "grid": [
+        42,
+        10
+      ],
+      "world_xz_m": [
+        4.2010000000000005,
+        4.2989999999999995,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "C",
+      "grid": [
+        42,
+        11
+      ],
+      "world_xz_m": [
+        4.2010000000000005,
+        4.2989999999999995,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "C",
+      "grid": [
+        43,
+        9
+      ],
+      "world_xz_m": [
+        4.301,
+        4.399,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "C",
+      "grid": [
+        43,
+        10
+      ],
+      "world_xz_m": [
+        4.301,
+        4.399,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "C",
+      "grid": [
+        43,
+        11
+      ],
+      "world_xz_m": [
+        4.301,
+        4.399,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "C",
+      "grid": [
+        44,
+        9
+      ],
+      "world_xz_m": [
+        4.401000000000001,
+        4.499,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "C",
+      "grid": [
+        44,
+        10
+      ],
+      "world_xz_m": [
+        4.401000000000001,
+        4.499,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "C",
+      "grid": [
+        44,
+        11
+      ],
+      "world_xz_m": [
+        4.401000000000001,
+        4.499,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "C",
+      "grid": [
+        45,
+        9
+      ],
+      "world_xz_m": [
+        4.501,
+        4.599,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "C",
+      "grid": [
+        45,
+        10
+      ],
+      "world_xz_m": [
+        4.501,
+        4.599,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "C",
+      "grid": [
+        45,
+        11
+      ],
+      "world_xz_m": [
+        4.501,
+        4.599,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "C",
+      "grid": [
+        46,
+        9
+      ],
+      "world_xz_m": [
+        4.601000000000001,
+        4.699,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "C",
+      "grid": [
+        46,
+        10
+      ],
+      "world_xz_m": [
+        4.601000000000001,
+        4.699,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "C",
+      "grid": [
+        46,
+        11
+      ],
+      "world_xz_m": [
+        4.601000000000001,
+        4.699,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "C",
+      "grid": [
+        47,
+        9
+      ],
+      "world_xz_m": [
+        4.7010000000000005,
+        4.739,
+        0.911,
+        0.999
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    },
+    {
+      "band": "C",
+      "grid": [
+        47,
+        10
+      ],
+      "world_xz_m": [
+        4.7010000000000005,
+        4.739,
+        1.001,
+        1.0990000000000002
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Soft_sage_ceramic"
+    },
+    {
+      "band": "C",
+      "grid": [
+        47,
+        11
+      ],
+      "world_xz_m": [
+        4.7010000000000005,
+        4.739,
+        1.101,
+        1.1560000000000001
+      ],
+      "tile_depth_world_y_m": [
+        0.076,
+        0.078
+      ],
+      "grout_front_world_y_m": 0.076,
+      "material": "Warm_ivory_ceramic"
+    }
+  ],
+  "global_tile_pitch_m": 0.1,
+  "counter_top_cm": 91,
+  "counter_bottom_cm": 86,
+  "backsplash_top_cm": 117.5,
+  "window_apron_bottom_cm": 118,
+  "replace": "Remove old embedded Counter_Ivory/Toe_Dark render groups via supplied carcasses, all five CounterFiller02 actors and all four Backsplash02 bands. Keep appliances and interactable roots unchanged."
+}

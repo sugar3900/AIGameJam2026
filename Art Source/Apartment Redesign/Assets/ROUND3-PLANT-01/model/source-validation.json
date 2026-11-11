@@ -1,0 +1,92 @@
+{
+  "input": "FEEDBACK-ROOM-03/model/BooksPlant03.blend",
+  "input_sha256": "eecc355c2ae02a72c975a534d28d83b86ca012efd29c76a72d5cebf6448925e0",
+  "removed_accents": [
+    {
+      "name": "pot botanical accent",
+      "location": [
+        -0.3799999952316284,
+        -0.17299999296665192,
+        1.5800000429153442
+      ],
+      "scale": [
+        0.01600000075995922,
+        0.0020000000949949026,
+        0.017999999225139618
+      ]
+    },
+    {
+      "name": "pot botanical accent.001",
+      "location": [
+        -0.3400000035762787,
+        -0.17299999296665192,
+        1.5800000429153442
+      ],
+      "scale": [
+        0.01600000075995922,
+        0.0020000000949949026,
+        0.017999999225139618
+      ]
+    },
+    {
+      "name": "pot botanical accent.002",
+      "location": [
+        -0.30000001192092896,
+        -0.17299999296665192,
+        1.5800000429153442
+      ],
+      "scale": [
+        0.01600000075995922,
+        0.0020000000949949026,
+        0.017999999225139618
+      ]
+    },
+    {
+      "name": "pot botanical accent.003",
+      "location": [
+        -0.25999999046325684,
+        -0.17299999296665192,
+        1.5800000429153442
+      ],
+      "scale": [
+        0.01600000075995922,
+        0.0020000000949949026,
+        0.017999999225139618
+      ]
+    }
+  ],
+  "original_foliage_objects": 38,
+  "original_foliage_corners": 6688,
+  "Plant04 closed terracotta vessel": {
+    "vertices": 2592,
+    "polygons": 2498,
+    "closed_manifold": true,
+    "signed_volume_m3": 0.0007488781366974942,
+    "radial_segments": 96,
+    "smooth_side_faces": 2496
+  },
+  "Plant04 closed terracotta saucer": {
+    "vertices": 1056,
+    "polygons": 962,
+    "closed_manifold": true,
+    "signed_volume_m3": 0.00018697331524482157,
+    "radial_segments": 96,
+    "smooth_side_faces": 960
+  },
+  "foliage_positions_uv_materials_preserved": true,
+  "assembly_origin": [
+    0,
+    0,
+    0
+  ],
+  "pot_max_radius_m": 0.107,
+  "shelf_base_z_m": 1.49,
+  "rim_top_z_m": 1.6625,
+  "soil_top_z_m": 1.6563,
+  "materials": [
+    "Plant_Leaf",
+    "Plant_Leaf_Light",
+    "Ceramic_Pot",
+    "Pot_Soil"
+  ]
+}

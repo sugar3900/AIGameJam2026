@@ -1,0 +1,36 @@
+{
+  "front_uv_corners_unchanged": 896,
+  "source_live_hinge_m": [
+    0,
+    -0.38,
+    0.22
+  ],
+  "pockets": [
+    {
+      "center_m": [
+        -0.29,
+        -0.337,
+        0.239
+      ],
+      "size_m": [
+        0.07,
+        0.04,
+        0.038
+      ]
+    },
+    {
+      "center_m": [
+        0.29,
+        -0.337,
+        0.239
+      ],
+      "size_m": [
+        0.07,
+        0.04,
+        0.038
+      ]
+    }
+  ],
+  "minimum_front_skin_thickness_m": 0.031,
+  "hinge_plate_lateral_clearance_each_side_m": 0.0025
+}

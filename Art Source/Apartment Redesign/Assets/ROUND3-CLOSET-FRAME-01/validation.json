@@ -1,0 +1,318 @@
+{
+  "status": "PASS",
+  "bounds_m": [
+    [
+      -0.550000011920929,
+      -0.10100008547306061,
+      0.0
+    ],
+    [
+      0.5499999523162842,
+      0.10100008547306061,
+      2.258999824523926
+    ]
+  ],
+  "floor_band_bounds_m": [
+    [
+      -0.5400000214576721,
+      -0.0945000872015953,
+      0.0
+    ],
+    [
+      0.5399999618530273,
+      0.0945000872015953,
+      0.1300000101327896
+    ]
+  ],
+  "main_mesh_closed_components": 15,
+  "all_component_signed_volumes_positive": true,
+  "nonmanifold_edges": 0,
+  "degenerate_triangles": 0,
+  "single_finite_UV0_both_slots_nonzero": true,
+  "regular_door_casing_sections_match": true,
+  "collision_hulls_unchanged": [
+    [
+      -0.48,
+      -0.07,
+      0.0,
+      -0.45,
+      0.07,
+      2.15
+    ],
+    [
+      -0.48,
+      -0.07,
+      2.15,
+      0.48,
+      0.07,
+      2.18
+    ],
+    [
+      0.45,
+      -0.07,
+      0.0,
+      0.48,
+      0.07,
+      2.15
+    ]
+  ],
+  "panel_motion_samples": [
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.0,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 1.1920928966180355e-08
+    },
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.022,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.021999996900558483
+    },
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.044,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.043999981880188
+    },
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.066,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.0659999966621399
+    },
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.088,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.08800001144409181
+    },
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.11000000000000001,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.10999999642372132
+    },
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.132,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.13199998140335084
+    },
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.154,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.15399999618530275
+    },
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.176,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.17600001096725465
+    },
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.198,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.19799999594688417
+    },
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.22000000000000003,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.21999999582767488
+    },
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.242,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.19799999594688417
+    },
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.264,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.17600001096725465
+    },
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.286,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.15399999618530275
+    },
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.308,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.13199998140335084
+    },
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.32999999999999996,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.10999996662139894
+    },
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.352,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.08800001144409181
+    },
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.374,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.0659999966621399
+    },
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.396,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.043999981880188
+    },
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.418,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.021999967098236095
+    },
+    {
+      "panel": "LeftPanel",
+      "travel_m": 0.44000000000000006,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 1.1920928966180355e-08
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.0,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 1.1920928966180355e-08
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.022,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.021999996900558483
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.044,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.043999981880188
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.066,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.0659999966621399
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.088,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.08800001144409181
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.11000000000000001,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.10999999642372132
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.132,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.13199998140335084
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.154,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.15399999618530275
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.176,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.17600001096725465
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.198,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.19799999594688417
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.22000000000000003,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.21999999582767488
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.242,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.19799999594688417
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.264,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.17600001096725465
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.286,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.15399999618530275
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.308,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.13199998140335084
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.32999999999999996,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.10999996662139894
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.352,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.08800001144409181
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.374,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.0659999966621399
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.396,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.043999981880188
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.418,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 0.021999967098236095
+    },
+    {
+      "panel": "RightPanel",
+      "travel_m": -0.44000000000000006,
+      "casing_gap_m": 0.015999980986118323,
+      "jamb_lateral_gap_m": 1.1920928966180355e-08
+    }
+  ],
+  "guide_seating": "unchanged top/bottom tracks; original panel-to-guide contact retained",
+  "slots": [
+    "Painted warm ivory",
+    "Aged track"
+  ]
+}

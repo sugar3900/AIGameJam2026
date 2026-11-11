@@ -1,0 +1,12 @@
+{
+  "README.md": "7057dc3d5992d3d068b753be31462439ad52d47dad9a8efaf7df75d5e8d9e439",
+  "model/BA_Tub03_Body.fbx": "77660e2412cf97128f75b3bed39d46f6c41faa48b0259e1f51d8a93731e5980e",
+  "model/ROUND3-TUB-01.blend": "1900f59ae751232800c420e82cdc4b36a8d5222fd97048d64cf06c9256888d87",
+  "model/build_tub03.py": "95523e1981f222091a26c6e1f5aa497f8d650bb4560ce8e2a484eaedc6866077",
+  "model/validate_tub03.py": "a52c9c74251dcb58ff110600c2e78ac2feb338d3de4f4c456e60ea7575b1b076",
+  "previews/tub03-three-quarter.png": "52cf391cdd85afa97ac4e3debaa4742b2853a85fe84a9c7633d35c4c1ed40fd4",
+  "textures/aged-metal.png": "0dfccc080c1337d1eeb601e665c756bbe14ff303840cab5ef561c9ec84ca75fd",
+  "textures/enamel-albedo.png": "d578ef027882a01376f3844dce3c2d10d00be6e0e2c001c50bf5cb56c8e127c1",
+  "textures/enamel-brush.png": "4f24249ad794f13c8c24cea237dd2f27fa9aacecb90d4f6a4dce2cb6c29ac7d8",
+  "validation.json": "edc60e183e9db11002ff049ae0b939a1ac1f5197a1ba7dbaa9827ea721b143b1"
+}

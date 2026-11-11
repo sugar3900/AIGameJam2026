@@ -11,11 +11,25 @@ import unreal
 A = unreal.get_editor_subsystem(unreal.EditorActorSubsystem)
 L = unreal.get_editor_subsystem(unreal.LevelEditorSubsystem)
 acts = A.get_all_level_actors()
+assert not unreal.get_editor_subsystem(unreal.LevelEditorSubsystem).is_in_play_in_editor(), 'Stop PIE first: editor-world actor queries are empty and asset saves race during PIE'
 OBST = ('Door_BR_Frame', 'Door_BA_Frame', 'Door_OF_Frame', 'Door_Entry_Frame', 'Casing_KI_N', 'Casing_KI_S',
         'Casing_LV_N', 'Casing_LV_S', 'Art_CoatCloset_Frame', 'Art_OfficeCloset_Frame', 'Art_BR_Closet02_Trim')
 def box(a):
     o, e = a.get_actor_bounds(False); return (o.x - e.x, o.x + e.x, o.y - e.y, o.y + e.y, o.z - e.z, o.z + e.z)
-obs = [(a.get_actor_label(), box(a)) for a in acts if a.get_actor_label() in OBST]
+def floor_box(a, zmax=15.0):
+    """Footprint of the casing geometry at floor level (vertices below zmax), so a cap/cornice overhang high up (e.g.
+    ROUND3-CLOSET-FRAME-01's +-55 cm cap over +-54 cm floor casings) never moves the base endpoint."""
+    c = a.static_mesh_component; dm = unreal.DynamicMesh(); G = unreal
+    G.GeometryScript_AssetUtils.copy_mesh_from_static_mesh(c.static_mesh, dm, G.GeometryScriptCopyMeshFromAssetOptions(), G.GeometryScriptMeshReadLOD())
+    r = G.GeometryScript_MeshQueries.get_all_vertex_positions(dm, False)
+    vl = next(x for x in (r if isinstance(r, tuple) else (r,)) if isinstance(x, G.GeometryScriptVectorList))
+    T = c.get_world_transform(); lo = [1e9] * 3; hi = [-1e9] * 3
+    for v in G.GeometryScript_List.convert_vector_list_to_array(vl):
+        w = T.transform_location(v)
+        if w.z > zmax: continue
+        for j, q in enumerate((w.x, w.y, w.z)): lo[j] = min(lo[j], q); hi[j] = max(hi[j], q)
+    return (lo[0], hi[0], lo[1], hi[1], lo[2], hi[2]) if lo[0] < 1e8 else box(a)
+obs = [(a.get_actor_label(), floor_box(a)) for a in acts if a.get_actor_label() in OBST]
 log = []
 for a in acts:
     if not isinstance(a, unreal.StaticMeshActor): continue

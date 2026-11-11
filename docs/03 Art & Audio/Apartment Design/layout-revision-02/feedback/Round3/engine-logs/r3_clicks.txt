@@ -1,0 +1,13 @@
+Oven_Door: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_31 | click1 on=True | close on=False
+Pantry_Door_L: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_31 | click1 on=True | close on=False
+Pantry_Door_R: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_23 | click1 on=True | close on=False
+Stove_Burner: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_3 | click1 on=True | click2 on=False
+CoatCloset_Left: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_3 | click1 on=True
+CoatCloset_Left: aim -> State=1 Room=hall Hovered=FixHimInteractable_43 | click1 on=False
+OfficeCloset_Left: aim -> State=1 Room=office Hovered=FixHimInteractable_53 | click1 on=True
+OfficeCloset_Left: aim -> State=1 Room=office Hovered=FixHimInteractable_53 | click1 on=False
+Sink_Tap: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_32 | click1 on=True | click2 on=False
+[Info] [Controls test] PASS
+RANGE03 hingefix: Oven_Door: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_31 | click1 on=True | close on=False
+Stove_Burner: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_3 | click1 on=True
+Stove_Burner: aim -> State=1 Room=kitchen Hovered=FixHimInteractable_3 | click1 on=False

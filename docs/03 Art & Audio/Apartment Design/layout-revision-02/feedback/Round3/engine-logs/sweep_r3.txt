@@ -1,0 +1,5 @@
+Pantry_Door_L     yaw+100  swing 0..+100 in 5% steps: .....................  first-contact none with []
+Pantry_Door_R     yaw-100  swing 0..-100 in 5% steps: .....................  first-contact none with []
+Oven_Door toggle=<InteractToggle.ROTATE: 3> rot=(0.0, 0.0, 85.0) off=(40.0, 0.0, 0.0) : 11111111............. ['Art_KI_Range_Body'] (missing [])
+Oven_Door toggle=<InteractToggle.ROTATE: 3> rot=(0.0, 0.0, 85.0) off=(40.0, 0.0, 0.0) : 111.................. ['Art_KI_Range_Body'] (missing ['Art_KI_Backsplash02_Range', 'Art_KI_CounterFiller02_Rear0450', 'Art_KI_CounterFiller02_Rear0775'])
+Oven_Door toggle=<InteractToggle.ROTATE: 3> rot=(0.0, 0.0, 85.0) off=(40.0, 0.0, 0.0) : 111.................. ['Art_KI_Range_Body'] (missing [])

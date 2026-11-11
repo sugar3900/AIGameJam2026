@@ -1,0 +1,145 @@
+{
+  "units": "metres",
+  "axes": [
+    "-Z",
+    "Y"
+  ],
+  "parts": [
+    {
+      "file": "KI_RANGE03_Body.fbx",
+      "source_pivot_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "source_bounds_m": [
+        [
+          -0.375,
+          -0.39614999294281006,
+          0.0
+        ],
+        [
+          0.3750000298023224,
+          0.3499999940395355,
+          1.0699999332427979
+        ]
+      ],
+      "slots": [
+        "Enamel_Painted",
+        "Oven_Dark",
+        "Burner_Cast_Iron",
+        "Range03_AgedSteel",
+        "Gasket",
+        "Range03_Bakelite",
+        "Range03_CeramicMarkings"
+      ]
+    },
+    {
+      "file": "KI_RANGE03_Door.fbx",
+      "source_pivot_m": [
+        0.0,
+        -0.3630000054836273,
+        0.23000000417232513
+      ],
+      "source_bounds_m": [
+        [
+          -0.33000001311302185,
+          -0.42589664459228516,
+          0.2160000056028366
+        ],
+        [
+          0.33000001311302185,
+          -0.32350000739097595,
+          0.7200000286102295
+        ]
+      ],
+      "slots": [
+        "Enamel_Painted",
+        "Gasket",
+        "Range03_AgedSteel",
+        "Range03_OvenGlass",
+        "Oven_Dark",
+        "Range03_Bakelite"
+      ]
+    }
+  ],
+  "unchanged": {
+    "body_actor_cm": [
+      382.5,
+      50.03,
+      0
+    ],
+    "oven_root_cm": [
+      382.5,
+      88.03,
+      22
+    ],
+    "door_source_hinge_m": [
+      0,
+      -0.363,
+      0.23
+    ],
+    "burner_root_cm": [
+      400.5,
+      65.03,
+      93.1
+    ],
+    "flame_source_and_light": "unchanged",
+    "kettle_root_cm": [
+      367,
+      61.03,
+      91
+    ],
+    "installed_rotation_pivot_source_m": [
+      0,
+      -0.38,
+      0.22
+    ],
+    "installed_oven_body_relative_cm": [
+      0,
+      -38,
+      -22
+    ]
+  },
+  "changed": {
+    "knob_front_source_y_m": -0.39615,
+    "old_knob_front_source_y_m": -0.3815,
+    "reason": "larger fluted 44mm grips; 14.7mm extra projection with unchanged centers",
+    "concealed_hinge_relief": {
+      "front_uv_corners_unchanged": 896,
+      "source_live_hinge_m": [
+        0,
+        -0.38,
+        0.22
+      ],
+      "pockets": [
+        {
+          "center_m": [
+            -0.29,
+            -0.337,
+            0.239
+          ],
+          "size_m": [
+            0.07,
+            0.04,
+            0.038
+          ]
+        },
+        {
+          "center_m": [
+            0.29,
+            -0.337,
+            0.239
+          ],
+          "size_m": [
+            0.07,
+            0.04,
+            0.038
+          ]
+        }
+      ],
+      "minimum_front_skin_thickness_m": 0.031,
+      "hinge_plate_lateral_clearance_each_side_m": 0.0025
+    }
+  }
+}

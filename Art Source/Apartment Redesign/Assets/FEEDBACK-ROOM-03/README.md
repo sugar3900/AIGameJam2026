@@ -17,3 +17,9 @@ ARC-DOOR-03 remains a separate additive kit: preserve its own assembly.json pivo
 BR-CLOSET-BOX-01 audit: already has textured sage cloth body/lid, wall shell, brass label, binding/stitches and6mm lid seam. Use existing released exports and ensure actual placed materials read sage-linen.png; geometry is already sufficient. An untextured placed copy is an engine material-binding defect.
 
 Source previews establish appearance only. Acceptance still requires installed gameplay shots, real interaction tests and neighbour/camera checks by integration owner.
+
+## Round 3 face orientation repair
+
+The five baseboard stocks and pink bullnose originally had inward-facing polygons. Their clockwise cross sections required the opposite extrusion winding. `build_architecture.py` now generates outward faces. `model/fix_profile_winding.py` applies the correction to the released editable scenes and exports only these six assets; it preserves dimensions, pivots, material slots and UVs. `profile-winding-validation.json` records negative original signed volumes, positive corrected volumes, closed manifold edges and fresh-FBX outward-facing surface checks. Keep the materials single-sided; two-sided shading would conceal the source defect.
+
+The living-room north wall's old base is embedded in the wall kit. Reimporting the stock alone cannot replace that geometry; integration must remove the embedded low trim and install the slim stock against the wall face.

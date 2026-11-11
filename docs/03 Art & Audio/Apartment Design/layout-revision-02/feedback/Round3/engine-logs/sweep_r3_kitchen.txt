@@ -1,0 +1,11 @@
+[Info] QSWEEP
+Cabinet_Door      yaw+100  swing 0..+100 in 5% steps: .....................  first-contact none with []
+Cabinet_Door_2    yaw+100  swing 0..+100 in 5% steps: .....................  first-contact none with []
+Sink_Door_L       yaw+100  swing 0..+100 in 5% steps: .....................  first-contact none with []
+Sink_Door_R       yaw-100  swing 0..-100 in 5% steps: .....................  first-contact none with []
+Cupboard_Door_L   yaw+100  swing 0..+100 in 5% steps: .....................  first-contact none with []
+Cupboard_Door_R   yaw-100  swing 0..-100 in 5% steps: .....................  first-contact none with []
+Pantry_Door_L     yaw+100  swing 0..+100 in 5% steps: .....................  first-contact none with []
+Pantry_Door_R     yaw-100  swing 0..-100 in 5% steps: .....................  first-contact none with []
+Linen_Door_Upper  yaw+90  swing 0..+90 in 5% steps: .....................  first-contact none with []
+Linen_Door_Lower  yaw+60  swing 0..+60 in 5% steps: .....................  first-contact none with []

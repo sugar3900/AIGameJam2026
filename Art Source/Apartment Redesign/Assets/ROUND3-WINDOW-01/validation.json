@@ -1,0 +1,197 @@
+{
+  "Narrow": {
+    "old_header_bottom_m": 2.3225,
+    "new_header_bottom_m": 2.292,
+    "gap_rays_before": 0,
+    "gap_rays_after": 9,
+    "rays": 9,
+    "export": "model/ARC_Window_Narrow03_frame.fbx",
+    "original": "ARC-WINDOW-NARROW-01/model/ARC_Window_frame.fbx",
+    "axes": [
+      "-Y",
+      "Z"
+    ],
+    "bounds_m": [
+      [
+        -0.6650000214576721,
+        -0.18000011146068573,
+        0.7829999923706055
+      ],
+      [
+        0.6650000810623169,
+        0.06000008061528206,
+        2.43500018119812
+      ]
+    ],
+    "materials": [
+      "Ivory painted wood"
+    ],
+    "collision_hulls": 0,
+    "pivot_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "bounds_materials_preserved": true,
+    "fresh_fbx_closed_outward_components": 12,
+    "fresh_fbx_rays_pass": true
+  },
+  "Office": {
+    "old_header_bottom_m": 2.3225,
+    "new_header_bottom_m": 2.292,
+    "gap_rays_before": 0,
+    "gap_rays_after": 9,
+    "rays": 9,
+    "export": "model/ARC_Window_Office03_frame.fbx",
+    "original": "ARC-WINDOW-OFFICE-01/model/ARC_Window_frame.fbx",
+    "axes": [
+      "-Y",
+      "Z"
+    ],
+    "bounds_m": [
+      [
+        -0.8149999976158142,
+        -0.18000012636184692,
+        0.7829999923706055
+      ],
+      [
+        0.815000057220459,
+        0.06000010296702385,
+        2.43500018119812
+      ]
+    ],
+    "materials": [
+      "Ivory painted wood"
+    ],
+    "collision_hulls": 0,
+    "pivot_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "bounds_materials_preserved": true,
+    "fresh_fbx_closed_outward_components": 12,
+    "fresh_fbx_rays_pass": true
+  },
+  "Bath": {
+    "old_header_bottom_m": 2.3225,
+    "new_header_bottom_m": 2.292,
+    "gap_rays_before": 0,
+    "gap_rays_after": 9,
+    "rays": 9,
+    "export": "model/ARC_Window_Bath03_frame.fbx",
+    "original": "ARC-WINDOW-BATH-01/model/ARC_Window_frame.fbx",
+    "axes": [
+      "-Y",
+      "Z"
+    ],
+    "bounds_m": [
+      [
+        -0.6899999976158142,
+        -0.18000011146068573,
+        1.3829998970031738
+      ],
+      [
+        0.690000057220459,
+        0.06000008434057236,
+        2.43500018119812
+      ]
+    ],
+    "materials": [
+      "Ivory painted wood"
+    ],
+    "collision_hulls": 0,
+    "pivot_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "bounds_materials_preserved": true,
+    "fresh_fbx_closed_outward_components": 12,
+    "fresh_fbx_rays_pass": true
+  },
+  "Kitchen": {
+    "old_header_bottom_m": 1.155,
+    "new_header_bottom_m": 1.142,
+    "gap_rays_before": 0,
+    "gap_rays_after": 9,
+    "rays": 9,
+    "export": "model/ARC_Window_Kitchen03_frame.fbx",
+    "original": "ARC-WINDOW-KITCHEN-02/model/ARC_Window_Kitchen_frame.fbx",
+    "axes": [
+      "-Y",
+      "Z"
+    ],
+    "bounds_m": [
+      [
+        -0.9150000214576721,
+        -0.1700001358985901,
+        -0.06999999284744263
+      ],
+      [
+        0.9150000810623169,
+        0.06000011786818504,
+        1.2679998874664307
+      ]
+    ],
+    "materials": [
+      "Ivory painted wood"
+    ],
+    "collision_hulls": 12,
+    "pivot_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "bounds_materials_preserved": true,
+    "fresh_fbx_closed_outward_components": 12,
+    "fresh_fbx_rays_pass": true
+  },
+  "Living": {
+    "head_liner_m": {
+      "min": [
+        -0.8,
+        -0.065,
+        2.282
+      ],
+      "max": [
+        0.8,
+        0.004,
+        2.306
+      ]
+    },
+    "reveal_rays_before": 3,
+    "reveal_rays_after": 9,
+    "rays": 9,
+    "export": "model/ARC_Window_Living03_Casing.fbx",
+    "original": "ARC-LIVING-WALL-01/model/ARC_Window_Casing_Sash.fbx",
+    "axes": [
+      "-Z",
+      "Y"
+    ],
+    "bounds_m": [
+      [
+        -0.9300000071525574,
+        -0.15999986231327057,
+        0.8050000071525574
+      ],
+      [
+        0.9300000071525574,
+        0.00500037707388401,
+        2.375
+      ]
+    ],
+    "materials": [
+      "Trim_Ivory"
+    ],
+    "collision_hulls": 0,
+    "pivot_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "bounds_materials_preserved": true,
+    "fresh_fbx_closed_outward_components": 19,
+    "fresh_fbx_rays_pass": true
+  }
+}

@@ -1,0 +1,2131 @@
+{
+  "passed": true,
+  "fresh_fbx_files": [
+    {
+      "file": "KI_Cab06_0425_Body.fbx",
+      "bounds_error_m": 1.4901161193847656e-07,
+      "identity_transform": true,
+      "ucx": 11,
+      "closed_components": 12,
+      "minimum_signed_component_volume_m3": 0.00016103240117597002,
+      "degenerate_faces": 0,
+      "nonmanifold_edges": 0,
+      "retained_source_faces_and_uvs": 882,
+      "original_ucx_unchanged": true,
+      "removed_groups_empty": true,
+      "original_slot_order": true,
+      "plinth_front_setback_from_counter_cm": 6
+    },
+    {
+      "file": "KI_Cab06_0775_Body.fbx",
+      "bounds_error_m": 1.4901161193847656e-07,
+      "identity_transform": true,
+      "ucx": 14,
+      "closed_components": 15,
+      "minimum_signed_component_volume_m3": 0.0003147892510386718,
+      "degenerate_faces": 0,
+      "nonmanifold_edges": 0,
+      "retained_source_faces_and_uvs": 1176,
+      "original_ucx_unchanged": true,
+      "removed_groups_empty": true,
+      "original_slot_order": true,
+      "plinth_front_setback_from_counter_cm": 6
+    },
+    {
+      "file": "KI_Cab06_0450_Body.fbx",
+      "bounds_error_m": 1.4901161193847656e-07,
+      "identity_transform": true,
+      "ucx": 12,
+      "closed_components": 13,
+      "minimum_signed_component_volume_m3": 0.00015359201979533077,
+      "degenerate_faces": 0,
+      "nonmanifold_edges": 0,
+      "retained_source_faces_and_uvs": 980,
+      "original_ucx_unchanged": true,
+      "removed_groups_empty": true,
+      "original_slot_order": true,
+      "plinth_front_setback_from_counter_cm": 6
+    },
+    {
+      "file": "KI_Counter03_A.fbx",
+      "bounds_error_m": 1.1920928955078125e-07,
+      "identity_transform": true,
+      "ucx": 1,
+      "closed_components": 1,
+      "minimum_signed_component_volume_m3": 0.018639938671871133,
+      "degenerate_faces": 0,
+      "nonmanifold_edges": 0,
+      "single_continuous_closed_slab": true,
+      "shared_world_top_uv_frame": true,
+      "hull_matches_slab": true,
+      "drawer_vertical_clearance_m": 0.005
+    },
+    {
+      "file": "KI_Counter03_B.fbx",
+      "bounds_error_m": 1.1920928955078125e-07,
+      "identity_transform": true,
+      "ucx": 1,
+      "closed_components": 1,
+      "minimum_signed_component_volume_m3": 0.02866524466876157,
+      "degenerate_faces": 0,
+      "nonmanifold_edges": 0,
+      "single_continuous_closed_slab": true,
+      "shared_world_top_uv_frame": true,
+      "hull_matches_slab": true,
+      "drawer_vertical_clearance_m": 0.005
+    },
+    {
+      "file": "KI_Counter03_C.fbx",
+      "bounds_error_m": 1.1920928955078125e-07,
+      "identity_transform": true,
+      "ucx": 1,
+      "closed_components": 1,
+      "minimum_signed_component_volume_m3": 0.019971716666103954,
+      "degenerate_faces": 0,
+      "nonmanifold_edges": 0,
+      "single_continuous_closed_slab": true,
+      "shared_world_top_uv_frame": true,
+      "hull_matches_slab": true,
+      "drawer_vertical_clearance_m": 0.005
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "bounds_error_m": 4.3173976393973135e-08,
+      "identity_transform": true,
+      "ucx": 0,
+      "closed_components": 22,
+      "minimum_signed_component_volume_m3": 2.520429698430846e-06,
+      "degenerate_faces": 0,
+      "nonmanifold_edges": 0,
+      "interior_aabb_overlaps": 0,
+      "outward_bullnose_radial_faces": 285,
+      "minimum_radial_normal_dot": 0.9998449010308832,
+      "tile_count": 18,
+      "grout_recess_m": 0.002,
+      "tile_joint_m": 0.002
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "bounds_error_m": 4.3173976393973135e-08,
+      "identity_transform": true,
+      "ucx": 0,
+      "closed_components": 29,
+      "minimum_signed_component_volume_m3": 2.5202675391633434e-06,
+      "degenerate_faces": 0,
+      "nonmanifold_edges": 0,
+      "interior_aabb_overlaps": 0,
+      "outward_bullnose_radial_faces": 16,
+      "minimum_radial_normal_dot": 0.9999998807907104,
+      "tile_count": 27,
+      "grout_recess_m": 0.002,
+      "tile_joint_m": 0.002
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "bounds_error_m": 1.7106669858435453e-08,
+      "identity_transform": true,
+      "ucx": 0,
+      "closed_components": 18,
+      "minimum_signed_component_volume_m3": 2.6785175018575096e-06,
+      "degenerate_faces": 0,
+      "nonmanifold_edges": 0,
+      "interior_aabb_overlaps": 0,
+      "outward_bullnose_radial_faces": 16,
+      "minimum_radial_normal_dot": 0.9999998807907104,
+      "tile_count": 16,
+      "grout_recess_m": 0.002,
+      "tile_joint_m": 0.002
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "bounds_error_m": 4.3173976393973135e-08,
+      "identity_transform": true,
+      "ucx": 0,
+      "closed_components": 20,
+      "minimum_signed_component_volume_m3": 4.168427472232378e-06,
+      "degenerate_faces": 0,
+      "nonmanifold_edges": 0,
+      "interior_aabb_overlaps": 0,
+      "outward_bullnose_radial_faces": 16,
+      "minimum_radial_normal_dot": 0.9999998509883881,
+      "tile_count": 18,
+      "grout_recess_m": 0.002,
+      "tile_joint_m": 0.002
+    }
+  ],
+  "surface_ray_checks": [
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.04850000000000021,
+        0.04500000000000004
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999988049268723,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.04850000000000021,
+        0.14
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999984323978424,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.04850000000000021,
+        0.21850000000000003
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999965697526932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.129,
+        0.04500000000000004
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.01799999549984932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.129,
+        0.14
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999976873397827,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.129,
+        0.21850000000000003
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999965697526932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.2290000000000001,
+        0.04500000000000004
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.01799999549984932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.2290000000000001,
+        0.14
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999976873397827,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.2290000000000001,
+        0.21850000000000003
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999965697526932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.3290000000000002,
+        0.04500000000000004
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.01799999549984932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.3290000000000002,
+        0.14
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999976873397827,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.3290000000000002,
+        0.21850000000000003
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999965697526932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.42900000000000005,
+        0.04500000000000004
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.01799999549984932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.42900000000000005,
+        0.14
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999976873397827,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.42900000000000005,
+        0.21850000000000003
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999965697526932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.49150000000000005,
+        0.04500000000000004
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.01799999177455902,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.49150000000000005,
+        0.14
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999976873397827,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.49150000000000005,
+        0.21850000000000003
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999961972236633,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.07900000000000018,
+        0.045
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.07900000000000018,
+        0.14
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599998027086258,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.07900000000000018,
+        0.2185
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.17900000000000005,
+        0.045
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01600000262260437,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.17900000000000005,
+        0.14
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599998027086258,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.17900000000000005,
+        0.2185
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.27900000000000014,
+        0.045
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.27900000000000014,
+        0.14
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599998027086258,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.27900000000000014,
+        0.2185
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.379,
+        0.045
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.379,
+        0.14
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599998027086258,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.379,
+        0.2185
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.4790000000000001,
+        0.045
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.4790000000000001,
+        0.14
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599998027086258,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.4790000000000001,
+        0.2185
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.0485,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999987721443176,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.129,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999987721443176,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.229,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999987721443176,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.329,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999987721443176,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.429,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999987721443176,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.4915,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999987721443176,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.0485,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999972820281982,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.129,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999972820281982,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.229,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999972820281982,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.329,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999972820281982,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.429,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999972820281982,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_A.fbx",
+      "point_local_xz_m": [
+        0.4915,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999972820281982,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.012500000000000178,
+        0.04500000000000004
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999984323978424,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.012500000000000178,
+        0.14
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.01799997314810753,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.012500000000000178,
+        0.21850000000000003
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999965697526932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.07500000000000018,
+        0.04500000000000004
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.018000002950429916,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.07500000000000018,
+        0.14
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999976873397827,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.07500000000000018,
+        0.21850000000000003
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999965697526932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.1750000000000007,
+        0.04500000000000004
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.01799999549984932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.1750000000000007,
+        0.14
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999980598688126,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.1750000000000007,
+        0.21850000000000003
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999965697526932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.27500000000000036,
+        0.04500000000000004
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.01799999549984932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.27500000000000036,
+        0.14
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999976873397827,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.27500000000000036,
+        0.21850000000000003
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999965697526932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.375,
+        0.04500000000000004
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.01799999549984932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.375,
+        0.14
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999976873397827,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.375,
+        0.21850000000000003
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999965697526932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.47500000000000053,
+        0.04500000000000004
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.01799999549984932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.47500000000000053,
+        0.14
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999976873397827,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.47500000000000053,
+        0.21850000000000003
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999965697526932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.5750000000000002,
+        0.04500000000000004
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999988049268723,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.5750000000000002,
+        0.14
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999980598688126,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.5750000000000002,
+        0.21850000000000003
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999965697526932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.6750000000000007,
+        0.04500000000000004
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999988049268723,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.6750000000000007,
+        0.14
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999980598688126,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.6750000000000007,
+        0.21850000000000003
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999965697526932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.7500000000000004,
+        0.04500000000000004
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.01799999549984932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.7500000000000004,
+        0.14
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999980598688126,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.7500000000000004,
+        0.21850000000000003
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999965697526932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.025000000000000355,
+        0.045
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.025000000000000355,
+        0.14
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599998027086258,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.025000000000000355,
+        0.2185
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.12500000000000044,
+        0.045
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.12500000000000044,
+        0.14
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599998027086258,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.12500000000000044,
+        0.2185
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.22500000000000053,
+        0.045
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.22500000000000053,
+        0.14
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599998027086258,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.22500000000000053,
+        0.2185
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599995791912079,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.3250000000000002,
+        0.045
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01600000262260437,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.3250000000000002,
+        0.14
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599998027086258,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.3250000000000002,
+        0.2185
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.42500000000000027,
+        0.045
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01600000262260437,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.42500000000000027,
+        0.14
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599998027086258,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.42500000000000027,
+        0.2185
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.5250000000000004,
+        0.045
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.5250000000000004,
+        0.14
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599998027086258,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.5250000000000004,
+        0.2185
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.6250000000000004,
+        0.045
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01600000262260437,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.6250000000000004,
+        0.14
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599998027086258,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.6250000000000004,
+        0.2185
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599995791912079,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.7250000000000005,
+        0.045
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.7250000000000005,
+        0.14
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599998027086258,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.7250000000000005,
+        0.2185
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.0125,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999987721443176,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.075,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999987721443176,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.175,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.275,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999987721443176,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.375,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.475,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.575,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.675,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999987721443176,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.75,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999987721443176,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.0125,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999972820281982,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.075,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999972820281982,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.175,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599998027086258,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.275,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999972820281982,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.375,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999972820281982,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.475,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999972820281982,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.575,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999972820281982,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.675,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_B.fbx",
+      "point_local_xz_m": [
+        0.75,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999972820281982,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.02499999999999991,
+        0.014999999999999902
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999999225139618,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.02499999999999991,
+        0.058499999999999996
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.01799999177455902,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.09999999999999964,
+        0.014999999999999902
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.018000002950429916,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.09999999999999964,
+        0.058499999999999996
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.01799999177455902,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.20000000000000018,
+        0.014999999999999902
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.018000002950429916,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.20000000000000018,
+        0.058499999999999996
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.01799999177455902,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.2999999999999998,
+        0.014999999999999902
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.018000002950429916,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.2999999999999998,
+        0.058499999999999996
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.01799999177455902,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.40000000000000036,
+        0.014999999999999902
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.018000002950429916,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.40000000000000036,
+        0.058499999999999996
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.01799999177455902,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.5,
+        0.014999999999999902
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999999225139618,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.5,
+        0.058499999999999996
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.01799999177455902,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.6000000000000005,
+        0.014999999999999902
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999999225139618,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.6000000000000005,
+        0.058499999999999996
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999988049268723,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.7000000000000002,
+        0.014999999999999902
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999999225139618,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.7000000000000002,
+        0.058499999999999996
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999988049268723,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.04999999999999982,
+        0.015
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.04999999999999982,
+        0.0585
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999987721443176,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.1499999999999999,
+        0.015
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.1499999999999999,
+        0.0585
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999987721443176,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.25,
+        0.015
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.25,
+        0.0585
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999987721443176,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.3500000000000001,
+        0.015
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.3500000000000001,
+        0.0585
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999987721443176,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.4500000000000002,
+        0.015
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.4500000000000002,
+        0.0585
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999987721443176,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.5499999999999998,
+        0.015
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.5499999999999998,
+        0.0585
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.6500000000000004,
+        0.015
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.6500000000000004,
+        0.0585
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999987721443176,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.025,
+        0.030000000000000027
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.1,
+        0.030000000000000027
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.2,
+        0.030000000000000027
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.3,
+        0.030000000000000027
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01600000262260437,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.4,
+        0.030000000000000027
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.5,
+        0.030000000000000027
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.6,
+        0.030000000000000027
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_Range.fbx",
+      "point_local_xz_m": [
+        0.7,
+        0.030000000000000027
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.04999999999999982,
+        0.04500000000000004
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.018000002950429916,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.04999999999999982,
+        0.14
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999976873397827,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.04999999999999982,
+        0.21850000000000003
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999965697526932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.14999999999999947,
+        0.04500000000000004
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.01799999549984932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.14999999999999947,
+        0.14
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999976873397827,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.14999999999999947,
+        0.21850000000000003
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999965697526932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.25,
+        0.04500000000000004
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.01799999549984932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.25,
+        0.14
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999976873397827,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.25,
+        0.21850000000000003
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999965697526932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.35000000000000053,
+        0.04500000000000004
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.01799999549984932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.35000000000000053,
+        0.14
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999976873397827,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.35000000000000053,
+        0.21850000000000003
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999965697526932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.4500000000000002,
+        0.04500000000000004
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.01799999549984932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.4500000000000002,
+        0.14
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.017999976873397827,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.4500000000000002,
+        0.21850000000000003
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999965697526932,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.5200000000000005,
+        0.04500000000000004
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.01799999177455902,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.5200000000000005,
+        0.14
+      ],
+      "material": "Soft_sage_ceramic",
+      "surface_local_y_m": -0.017999976873397827,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.5200000000000005,
+        0.21850000000000003
+      ],
+      "material": "Warm_ivory_ceramic",
+      "surface_local_y_m": -0.01799997314810753,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.09999999999999964,
+        0.045
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.09999999999999964,
+        0.14
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999972820281982,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.09999999999999964,
+        0.2185
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.20000000000000018,
+        0.045
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.20000000000000018,
+        0.14
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.20000000000000018,
+        0.2185
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.2999999999999998,
+        0.045
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.2999999999999998,
+        0.14
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999972820281982,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.2999999999999998,
+        0.2185
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.40000000000000036,
+        0.045
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.40000000000000036,
+        0.14
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999972820281982,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.40000000000000036,
+        0.2185
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.5,
+        0.045
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999995172023773,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.5,
+        0.14
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999972820281982,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.5,
+        0.2185
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.05,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599998027086258,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.15,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599998027086258,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.25,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599998027086258,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.35,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599998027086258,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.45,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599998027086258,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.52,
+        0.08999999999999997
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.01599998027086258,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.05,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.15,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.25,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999972820281982,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.35,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.45,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    },
+    {
+      "file": "KI_Backsplash03_C.fbx",
+      "point_local_xz_m": [
+        0.52,
+        0.19000000000000006
+      ],
+      "material": "Warm_cream_grout",
+      "surface_local_y_m": -0.015999965369701385,
+      "outward_front": true
+    }
+  ],
+  "minimum_cropped_tile_dimension_m": 0.02300000000000013,
+  "backsplash_apron_clearance_m": 0.005,
+  "limits": "Source-only geometry, UV, normal, retained-face and collision-hull checks. Original body UCX intentionally retained, including their old worktop/toe support volumes; new slab hulls overlap those collision volumes, never visible geometry. Actual engine material binding, installed adjacent appliances and real interactions require Unreal verification."
+}

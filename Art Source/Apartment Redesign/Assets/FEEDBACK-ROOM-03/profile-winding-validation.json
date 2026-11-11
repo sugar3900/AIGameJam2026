@@ -1,0 +1,134 @@
+{
+  "Baseboard_1m": {
+    "before_signed_volume_m3": -0.0014364000074625,
+    "signed_volume_m3": 0.0014364000074625,
+    "nonmanifold_edges": 0,
+    "bounds": [
+      [
+        0.0,
+        -0.014000000432133675,
+        0.0
+      ],
+      [
+        1.0,
+        0.0,
+        0.12999999523162842
+      ]
+    ],
+    "material_slots": [
+      "AgedIvoryPaint"
+    ],
+    "bounds_uv_materials_unchanged": true,
+    "fresh_fbx_outward_normals": true
+  },
+  "Baseboard_Inside_Start": {
+    "before_signed_volume_m3": -0.0014283812387614005,
+    "signed_volume_m3": 0.0014283812387614,
+    "nonmanifold_edges": 0,
+    "bounds": [
+      [
+        0.0,
+        -0.014000000432133675,
+        0.0
+      ],
+      [
+        1.0,
+        0.0,
+        0.12999999523162842
+      ]
+    ],
+    "material_slots": [
+      "AgedIvoryPaint"
+    ],
+    "bounds_uv_materials_unchanged": true,
+    "fresh_fbx_outward_normals": true
+  },
+  "Baseboard_Inside_End": {
+    "before_signed_volume_m3": -0.0014283812485404116,
+    "signed_volume_m3": 0.0014283812486341491,
+    "nonmanifold_edges": 0,
+    "bounds": [
+      [
+        0.0,
+        -0.014000000432133675,
+        0.0
+      ],
+      [
+        1.0,
+        0.0,
+        0.12999999523162842
+      ]
+    ],
+    "material_slots": [
+      "AgedIvoryPaint"
+    ],
+    "bounds_uv_materials_unchanged": true,
+    "fresh_fbx_outward_normals": true
+  },
+  "Baseboard_Outside_Start": {
+    "before_signed_volume_m3": -0.0014444187761635998,
+    "signed_volume_m3": 0.0014444187761636002,
+    "nonmanifold_edges": 0,
+    "bounds": [
+      [
+        -0.014000000432133675,
+        -0.014000000432133675,
+        0.0
+      ],
+      [
+        1.0,
+        0.0,
+        0.12999999523162842
+      ]
+    ],
+    "material_slots": [
+      "AgedIvoryPaint"
+    ],
+    "bounds_uv_materials_unchanged": true,
+    "fresh_fbx_outward_normals": true
+  },
+  "Baseboard_Outside_End": {
+    "before_signed_volume_m3": -0.0014444187704009486,
+    "signed_volume_m3": 0.0014444187705585443,
+    "nonmanifold_edges": 0,
+    "bounds": [
+      [
+        0.0,
+        -0.014000000432133675,
+        0.0
+      ],
+      [
+        1.0140000581741333,
+        0.0,
+        0.12999999523162842
+      ]
+    ],
+    "material_slots": [
+      "AgedIvoryPaint"
+    ],
+    "bounds_uv_materials_unchanged": true,
+    "fresh_fbx_outward_normals": true
+  },
+  "BA_PinkBullnose_1m": {
+    "before_signed_volume_m3": -0.0002540604334231597,
+    "signed_volume_m3": 0.0002540604334231597,
+    "nonmanifold_edges": 0,
+    "bounds": [
+      [
+        0.0,
+        -0.017999999225139618,
+        0.0
+      ],
+      [
+        0.017999999225139618,
+        0.0,
+        1.0
+      ]
+    ],
+    "material_slots": [
+      "Pink_Glazed_Bullnose"
+    ],
+    "bounds_uv_materials_unchanged": true,
+    "fresh_fbx_outward_normals": true
+  }
+}

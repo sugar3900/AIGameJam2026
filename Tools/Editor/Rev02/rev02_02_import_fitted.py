@@ -13,6 +13,7 @@ DST = '/Game/ICanFixHim/Environment/Rev02/'
 EAL = unreal.EditorAssetLibrary
 SM = unreal.get_editor_subsystem(unreal.StaticMeshEditorSubsystem)
 tools = unreal.AssetToolsHelpers.get_asset_tools()
+assert not unreal.get_editor_subsystem(unreal.LevelEditorSubsystem).is_in_play_in_editor(), 'Stop PIE first: editor-world actor queries are empty and asset saves race during PIE'
 
 KITS = {
     'KI_Cabinet02': ('KI-CABINET-02/model', ['KI_CAB_0425_body', 'KI_CAB_0425_door', 'KI_CAB_0425_drawer',
@@ -85,6 +86,24 @@ KITS = {
                                          'BR_Bed03_Bedding', 'BR_Bed03_Frame', 'Baseboard_1m', 'Baseboard_Inside_End', 'Baseboard_Inside_Start',
                                          'Baseboard_Outside_End', 'Baseboard_Outside_Start', 'LV_Book03_Books', 'LV_Book03_Plant', 'OF_Daybed03_Bedding']),
     'ARC_Door03': ('ARC-DOOR-03/model', ['ARC_Door03_Frame', 'ARC_Door03_Leaf']),
+    # round 3: ROUND3-PANTRY-01 leaves (4 mm meeting reveal, continuous paint UVs, authored 460 mm UCX slabs) and the
+    # ROUND3-TUB-01 developed clawfoot body (no UCX: the integration step copies the original tub's collision)
+    'Pantry03': ('ROUND3-PANTRY-01/models', ['KI_Pantry03_LeftDoor', 'KI_Pantry03_RightDoor']),
+    'Tub03': ('ROUND3-TUB-01/model', ['BA_Tub03_Body']),
+    # ROUND3-WINDOW-01 head-join frames (kitchen keeps its authored UCX; the others reuse installed collision) and the
+    # ROUND3-PLANT-01 pot/saucer refinement (foliage unchanged)
+    'Window03': ('ROUND3-WINDOW-01/model', ['ARC_Window_Narrow03_frame', 'ARC_Window_Office03_frame', 'ARC_Window_Bath03_frame',
+                                            'ARC_Window_Kitchen03_frame', 'ARC_Window_Living03_Casing']),
+    'Plant04': ('ROUND3-PLANT-01/model', ['LV_Book04_Plant']),
+    # ROUND3-RANGE-03 developed range body/door (same origins/hinge; new Range03_* slots need explicit materials)
+    'Range03': ('ROUND3-RANGE-03/model', ['KI_RANGE03_Body', 'KI_RANGE03_Door']),
+    # ROUND3-KITCHEN-SURFACES-01: carcasses without embedded counter/black toe (U plinth, original UCX), one continuous slab
+    # per run (1 UCX each), fitted backsplash bands (2 mm recessed grout, cropped 10 cm grid, outward bullnose)
+    'KitchenSurf03': ('ROUND3-KITCHEN-SURFACES-01/models', ['KI_Cab06_0425_Body', 'KI_Cab06_0775_Body', 'KI_Cab06_0450_Body',
+                      'KI_Counter03_A', 'KI_Counter03_B', 'KI_Counter03_C',
+                      'KI_Backsplash03_A', 'KI_Backsplash03_B', 'KI_Backsplash03_Range', 'KI_Backsplash03_C']),
+    # ROUND3-CLOSET-FRAME-01: closet frame matching the ARC-DOOR-03 casing/head/cap profile (3 UCX hulls unchanged)
+    'ClosetFrame04': ('ROUND3-CLOSET-FRAME-01/model', ['ARC_ClosetFrame04']),
     # PROP-FIT-03 keeps only the pan rail body (the released assembly has the old hooks baked in).
     'KI_PanRail01': ('KI-PAN-RAIL-01/model', ['KI_Pan_Rail_Body']),
     # batch 2 kitchen: front fit (drawer = door widths, door tops .672), fitted backsplash bands + counter infills, range detail.
@@ -130,6 +149,15 @@ TEXTURES = {
     'BR_ClosetBox': [('BR-CLOSET-BOX-01/textures/sage-linen.png', True, 'T_ClosetBox_SageLinen')],
     # BR-BED-01 README: walnut painterly albedo for the frame (the installed slot was a flat 0.8 Phong = white)
     'BR_Bed03': [('BR-BED-01/textures/walnut-painted.png', True, 'T_Bed_WalnutPainted')],
+    # round 3: BA-TOWEL-RAIL-01 README aged-brass albedo (the rail slot was flat FBX Phong = white)
+    'BA_TowelRail': [('BA-TOWEL-RAIL-01/textures/aged-brass.png', True, 'T_TowelRail_AgedBrass')],
+    # round 3: the shared painterly walnut grain every ART-REV02 frame was baked from (one image, identical in all 17 kits)
+    'ArtFrames': [('ART-REV02-001/textures/T_Frame_Grain.png', True, 'T_Frame_Grain')],
+    'KitchenSurf03': [('ROUND3-KITCHEN-SURFACES-01/textures/ivory-enamel.png', True, 'T_KitchenSurf03_IvoryEnamel')],
+    'Range03': [('ROUND3-RANGE-03/textures/aged-steel.png', True, 'T_Range03_AgedSteel'), ('ROUND3-RANGE-03/textures/iron-grain.png', True, 'T_Range03_IronGrain'),
+                ('ROUND3-RANGE-03/textures/range-enamel.png', True, 'T_Range03_Enamel')],
+    'Tub03': [('ROUND3-TUB-01/textures/enamel-albedo.png', True, 'T_Tub03_EnamelAlbedo'), ('ROUND3-TUB-01/textures/enamel-brush.png', True, 'T_Tub03_EnamelBrush'),
+              ('ROUND3-TUB-01/textures/aged-metal.png', True, 'T_Tub03_AgedMetal')],
     'BA_TileGlaze02': [('BA-TILE-GLAZE-02/textures/T_BathGlaze_NormalDX.png', False), ('BA-TILE-GLAZE-02/textures/T_BathGlaze_Roughness.png', False),
                        ('BA-TILE-01/textures/candidate-b.png', True, 'T_BathTile_GlazeB')],
     'Joinery02': [('CABINET-JOINERY-02/textures/T_Joinery_Sage.png', True), ('CABINET-JOINERY-02/textures/T_Joinery_Ivory.png', True),
@@ -165,6 +193,7 @@ NO_UCX = {'KI_SINK_NARROW_body', 'KI_SINK_NARROW_L_tap', 'KI_SINK_NARROW_R_tap',
                                                   # hardware/glass/filament are placed NoCollision (only the chain has a UCX)
                                                   'LV_Fuse02_Shell', 'KI_TABLE_02', 'KI_Backsplash02_A', 'KI_Backsplash02_B', 'KI_Backsplash02_C', 'KI_Backsplash02_Range', 'KI_Upper02_Body', 'KI_Pantry02_Body', 'BA_Linen02_Body', 'LV_TV02_Stand', 'LV_TV02_Housing', 'LV_TV02_Screen', 'BR_ClosetLight01_Hardware', 'BR_ClosetLight01_Glass', 'BR_ClosetLight01_Filament', 'KI_Pan_Rail_Body'}
 ONLY = globals().get('ONLY')            # optional subset of kit names, e.g. --set "ONLY=['KI_Fridge02']"
+PARTS = globals().get('PARTS')          # optional subset of part names within those kits (targeted source re-releases)
 
 def collision_elems(m):
     ag = m.get_editor_property('body_setup').get_editor_property('agg_geom')
@@ -178,6 +207,7 @@ try:
       if ONLY and kit not in ONLY: continue
       folder = DST + kit
       for part in parts:
+          if PARTS and part not in PARTS: continue
           src = os.path.join(SRC, sub, part + '.fbx')
           assert os.path.isfile(src), src
           t = unreal.AssetImportTask(); t.filename = src; t.destination_path = folder; t.destination_name = part.replace('-', '_')
@@ -191,7 +221,12 @@ try:
               o.static_mesh_import_data.vertex_color_import_option = unreal.VertexColorImportOption.REPLACE
           t.options = o
           tools.import_asset_tasks([t])
+          _paths = [str(x) for x in t.get_editor_property('imported_object_paths')]
+          assert any(x.split('.')[0] == folder + '/' + part.replace('-', '_') for x in _paths), 'import produced no %s (got %s)' % (part, _paths)
           m = EAL.load_asset(folder + '/' + part.replace('-', '_'))
+          if not isinstance(m, unreal.StaticMesh):        # a brand-new folder may not be registry-scanned yet
+              unreal.AssetRegistryHelpers.get_asset_registry().scan_paths_synchronous([folder], True)
+              m = EAL.load_asset(folder + '/' + part.replace('-', '_')) or unreal.load_object(None, '%s/%s.%s' % (folder, part.replace('-', '_'), part.replace('-', '_')))
           assert isinstance(m, unreal.StaticMesh), 'import failed: ' + src
           # the import result must be this source file (never a stale asset of the same name)
           ad = m.get_editor_property('asset_import_data')
@@ -211,14 +246,19 @@ try:
           src = os.path.join(SRC, rel); assert os.path.isfile(src), src
           name = dest[0] if dest else os.path.splitext(os.path.basename(src))[0].replace('-', '_')
           t = unreal.AssetImportTask(); t.filename = src; t.destination_path = DST + kit; t.destination_name = name
-          t.automated = True; t.replace_existing = True; t.save = False
+          t.automated = True; t.replace_existing = True; t.save = True
+          try: t.set_editor_property('async_', False)           # Interchange texture imports can otherwise finish after return
+          except Exception: pass
           tools.import_asset_tasks([t])
-          tex = EAL.load_asset(DST + kit + '/' + name); assert isinstance(tex, unreal.Texture2D), src
+          unreal.AssetRegistryHelpers.get_asset_registry().scan_paths_synchronous([DST + kit], True)
+          tex = EAL.load_asset(DST + kit + '/' + name) or unreal.load_object(None, '%s%s/%s.%s' % (DST, kit, name, name))
+          assert isinstance(tex, unreal.Texture2D), src
           tex.set_editor_property('srgb', srgb)
           if not srgb:
               tex.set_editor_property('compression_settings', unreal.TextureCompressionSettings.TC_NORMALMAP if 'Normal' in name
                                       else unreal.TextureCompressionSettings.TC_DEFAULT)
-          assert EAL.save_loaded_asset(tex, False), name
+          if not EAL.save_loaded_asset(tex, False):        # registry-unindexed new folder: save through the package API
+              assert unreal.EditorLoadingAndSavingUtils.save_packages([tex.get_outermost()], False), name
           unreal.log('[Rev02 import] texture %s/%s srgb=%s' % (kit, name, srgb))
   # LV-BOOK-01's shelf books are many separate objects (README: "intentionally detachable"). Imported uncombined,
   # each book is its own mesh in the bookcase's model space, so rev02_04b can lay out new runs on other shelves.
