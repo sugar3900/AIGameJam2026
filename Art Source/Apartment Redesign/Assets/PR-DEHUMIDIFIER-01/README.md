@@ -28,7 +28,9 @@ For the portable state, assemble body + bucket + stored cord, with the separate 
 
 ## Material contract
 
-FBX Phong transfer does not reproduce these shader graphs. Recreate the nine slots using `materials.json` and the Blender source as the appearance reference. All images use sRGB and explicit UV0.
+Concept-fit revision: the front vanes are now 12 mm deep and recessed 10 mm behind the casing face. Top vents retain their accepted geometry. The cream control brow has a genuinely flat angled area integrated into the casing; the dial ring, switch and indicator mount directly onto this plane. Side, low and overhead control close-ups are included in `previews/controls-*.png`. The separate plug now has a tapered brown bakelite housing and wider blade spacing matched to the revised outlet.
+
+FBX Phong transfer does not reproduce these shader graphs. Recreate the ten slots using `materials.json` and the Blender source as the appearance reference. All images use sRGB and explicit UV0.
 
 | Slot | Base colour | Metallic | Roughness |
 | --- | --- | --- | --- |
@@ -41,6 +43,7 @@ FBX Phong transfer does not reproduce these shader graphs. Recreate the nine slo
 | `DH_Tank_Window` | `(.38,.52,.48)` | 0 | .18 |
 | `DH_Collected_Water` | `(.32,.45,.43)` | 0 | .12 |
 | `DH_Amber_Lens` | `(.60,.18,.025)` | 0 | .24 |
+| `DH_Plug_Bakelite` | `aged-metal × (.22,.15,.09)` | 0 | .58 |
 
 Window and collected-water slots use Principled transmission .60/.75 in Blender. For Unreal, configure translucent materials appropriate to the project's renderer, without water collision. The amber lens is not emissive: this static prop does not imply an active warning. Other surfaces are opaque and single-sided. Hardware is aged rather than bright chrome. Images are unchanged copies from ROUND3-TUB-01, using the established bathroom enamel and aged-brass sources.
 

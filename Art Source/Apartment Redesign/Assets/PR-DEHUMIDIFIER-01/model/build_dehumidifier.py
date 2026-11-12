@@ -18,7 +18,8 @@ scene = bpy.context.scene
 scene.unit_settings.system = 'METRIC'
 scene.unit_settings.scale_length = 1
 scene.render.engine = 'CYCLES'
-scene.cycles.samples = 48
+scene.cycles.samples = 32
+scene.cycles.use_denoising = True
 scene.render.resolution_x = 1100
 scene.render.resolution_y = 1100
 scene.render.resolution_percentage = 100
@@ -73,6 +74,7 @@ ink = material('DH_Control_Print', (.83, .79, .64), .62)
 glass = material('DH_Tank_Window', (.38, .52, .48), .18, transmission=.6)
 water = material('DH_Collected_Water', (.32, .45, .43), .12, transmission=.75)
 amber = material('DH_Amber_Lens', (.60, .18, .025), .24)
+bakelite = material('DH_Plug_Bakelite', (.22, .15, .09), .58, maps='metal')
 
 body, tank, bail, cord, plug = [], [], [], [], []
 def active(o):
@@ -152,7 +154,7 @@ subtract(shell,box('Rear grille cut',(0,.155,.351),(.285,.070,.160),bevel=.014,g
 subtract(shell,box('Top exhaust cut',(0,.024,.505),(.307,.136,.050),bevel=.019,group=None,segments=5))
 box('Front intake filter',(0,-.111,.343),(.319,.004,.130),dark,.014)
 for i in range(15):
-    box('Cream vertical intake vane %02d'%i,(-.149+i*.0213,-.143,.343),(.007,.027,.127),ivory,.003)
+    box('Cream vertical intake vane %02d'%i,(-.149+i*.0213,-.139,.343),(.005,.012,.144),ivory,.002)
 box('Exhaust shadow',(0,.024,.481),(.299,.128,.004),dark,.014)
 for i in range(6):
     box('Top exhaust vane %02d'%i,(0,-.027+i*.0204,.503),(.296,.006,.014),metal,.002)
@@ -181,6 +183,15 @@ for side in [-1,1]:
     cylinder('Bail hinge axle',(side*.211,.075,.428),.010,.004,metal,'X')
 
 # Controls on the cream sloping shoulder, with a larger workhorse dial.
+brow_pivot=Vector((0,-.155,.455))
+slope=Matrix.Translation(brow_pivot+Vector((0,.025,0)))@Matrix.Rotation(math.atan(-.5),4,'X')@Matrix.Translation(-brow_pivot)
+pocket=box('Flat control panel seat',(0,-.140,.455),(.334,.035,.088),bevel=.010,group=None,segments=5)
+pocket.matrix_world=slope@pocket.matrix_world
+subtract(shell,pocket)
+panel=box('Flat angled cream control panel',(0,-.137,.455),(.332,.036,.086),ivory,.010,segments=5)
+panel.matrix_world=slope@panel.matrix_world
+active(shell);join= shell.modifiers.new('Integral flat control brow','BOOLEAN');join.operation='UNION';join.solver='EXACT';join.object=panel
+bpy.ops.object.modifier_apply(modifier=join.name);body.remove(panel);bpy.data.objects.remove(panel,do_unlink=True)
 control_start=len(body)
 cylinder('Dial seating ring',(-.044,-.160,.455),.031,.006,metal,'Y')
 cylinder('Humidity dial',(-.044,-.169,.455),.027,.016,ivory,'Y',vertices=48)
@@ -200,9 +211,10 @@ wire('Tank pictogram',[(.089,-.157,.434),(.091,-.157,.427),(.110,-.157,.427),(.1
 # An explicit power switch on the left, distinct from the humidity knob.
 switch=box('Power rocker',(-.126,-.160,.455),(.015,.007,.025),rubber,.003)
 box('Power rocker mark',(-.126,-.164,.461),(.0012,.0008,.007),ink,.0004)
-brow_pivot=Vector((0,-.155,.455))
-slope=Matrix.Translation(brow_pivot+Vector((0,.025,0)))@Matrix.Rotation(math.atan(-.5),4,'X')@Matrix.Translation(-brow_pivot)
 for o in body[control_start:]:o.matrix_world=slope@o.matrix_world
+# The control mounts now seat on a real flat panel instead of a curved shoulder.
+for o in body[control_start:]:
+    o.location += Vector((0,.894427,-.447214))*.00225
 
 # Removable open-top bucket. The sight glass opens into the hollow container.
 bucket=box('Collection bucket',(0,-.045,.166),(.336,.234,.187),ivory,.018,tank,5)
@@ -245,16 +257,21 @@ wire('Cord to strain relief',[(.078,.182,.143),(.089,.172,.110),(-.080,.162,.094
 wire('Cord to stored plug',[(.078,.203,.143),(.102,.207,.151),(.100,.190,.159)],.003,rubber,cord)
 cylinder('Cable strain relief',(-.080,.162,.094),.006,.011,rubber,'Y')
 # Separate grounded plug, authored at its seating face: +Y is insertion.
-box('Grounded plug body',(0,-.016,0),(.028,.032,.031),rubber,.005,plug)
-box('Plug face collar',(0,-.003,0),(.031,.006,.034),rubber,.003,plug)
-for x in [-.00635,.00635]:
-    box('Plug blade',(x,.0075,.004),(.0013,.015,.0042),metal,.00035,plug)
-cylinder('Plug ground pin',(0,.008,-.006),.0016,.016,metal,'Y',plug,16)
-cylinder('Plug flexible neck',(0,-.036,0),.0053,.014,rubber,'Y',plug)
+plug_body=box('Tapered bakelite plug body',(0,-.017,0),(.028,.028,.028),bakelite,.004,plug,5)
+for v in plug_body.data.vertices:
+    taper=.70+.30*(v.co.y+.014)/.028
+    v.co.x*=taper;v.co.z*=taper
+box('Plug face collar',(0,-.002,0),(.031,.004,.032),bakelite,.005,plug,5)
+for x in [-.0085,.0085]:
+    blade=box('Plug blade',(x,.0075,.005),(.0016,.015,.006),metal,.00035,plug)
+    hole=cylinder('Blade punched hole',(x,.010,.005),.0009,.006,metal,'X',group=[],vertices=16)
+    subtract(blade,hole)
+cylinder('Plug ground pin',(0,.008,-.0075),.0020,.016,metal,'Y',plug,24)
+cylinder('Plug flexible neck',(0,-.035,0),.0045,.016,bakelite,'Y',plug)
 for y in [-.031,-.036,-.041]:
-    cylinder('Plug strain relief rib',(0,y,0),.0064,.002,rubber,'Y',plug,24)
-for z in [-.007,0,.007]:
-    box('Plug grip ridge',(.0145,-.016,z),(.0015,.016,.002),rubber,.0005,plug)
+    cylinder('Plug strain relief rib',(0,y,0),.0056,.002,bakelite,'Y',plug,24)
+for y,z in [(-.009,.014),(-.015,.0128),(-.021,.0116)]:
+    box('Molded top grip ridge',(0,y,z),(.014,.0016,.0012),bakelite,.0005,plug)
 box('Rear identification plate',(-.023,.161,.196),(.083,.0015,.025),blue,.002)
 for z in [.191,.196,.201]:
     box('Identification rule',(-.023,.162,z),(.064,.0006,.0007),ink,.0001)
@@ -266,6 +283,9 @@ for o in body+tank+bail+cord+plug:
     bm=bmesh.new(); bm.from_mesh(o.data)
     # Curve conversion duplicates the cap rim; weld it before checking solids.
     bmesh.ops.remove_doubles(bm,verts=list(bm.verts),dist=1e-7)
+    if o==shell:
+        # Remove a sub-20-micron boolean sliver where the inset meets the brow.
+        bmesh.ops.dissolve_degenerate(bm,dist=.00002,edges=list(bm.edges))
     bmesh.ops.recalc_face_normals(bm,faces=list(bm.faces)); bm.to_mesh(o.data); bm.free()
     bpy.ops.object.mode_set(mode='EDIT'); bpy.ops.mesh.select_all(action='SELECT')
     bpy.ops.uv.smart_project(angle_limit=math.radians(66),island_margin=.02)
@@ -380,4 +400,7 @@ raise_bail=Matrix.Translation(BAIL_PIVOT)@Matrix.Rotation(math.radians(30),4,'X'
 for o in bail:o.matrix_world=raise_bail@o.matrix_world
 camera((.80,-1.15,.77),scale=.75)
 scene.render.filepath=str(PRE/'handle-raised.png');bpy.ops.render.render(write_still=True)
+for name,pos in [('controls-side',(.75,-.18,.48)),('controls-low',(-.55,-.65,.27)),('controls-overhead',(.45,-.65,.82))]:
+    camera(pos,target=(0,-.125,.451),scale=.34)
+    scene.render.filepath=str(PRE/(name+'.png'));bpy.ops.render.render(write_still=True)
 print('DEHUMIDIFIER_BUILD_COMPLETE',len(body),len(tank),len(bail),len(cord),len(plug))

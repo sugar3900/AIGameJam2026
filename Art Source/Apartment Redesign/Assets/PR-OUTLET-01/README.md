@@ -1,6 +1,6 @@
 # PR-OUTLET-01 — separate painterly wall outlet
 
-A cream duplex wall outlet for the dehumidifier storyline. Concept art was generated in the selected B style and shown before modeling. The editable asset has two aged octagonal receptacle faces, six real recessed openings, dark backing cavities and an aged central fixing screw. It is a standalone wall asset, separate from the movable appliance and plug.
+A cream duplex wall outlet for the dehumidifier storyline. Concept art was generated in the selected B style and shown before modeling. The revised proportions use broad 38 × 35 mm receptacle faces, taller blade slots, D-shaped ground openings, a raised inset plate border and a cream-painted domed fixing screw with a diagonal slot. The matching plug has a smaller tapered brown bakelite body and molded grip ridges. It is a standalone wall asset, separate from the movable appliance and plug.
 
 ## Files
 
@@ -37,10 +37,12 @@ Recreate the PBR materials in Unreal rather than relying on imported FBX Phong m
 | --- | --- | --- | --- |
 | `Outlet_Ivory_Painted` | `E × (1.06,1.04,1)` | 0 | .46 |
 | `Outlet_Aged_Receptacle` | `E × (.76,.74,.67)` | 0 | .59 |
-| `Outlet_Aged_Screw` | `aged-metal.png × (.46,.43,.34)` | .70 | .49 |
+| `Outlet_Aged_Screw` | `E × (1,.91,.75)` | .12 | .45 |
 | `Outlet_Socket_Shadow` | `(.023,.019,.014)` | 0 | .95 |
 
 The preview plug uses PR-DEHUMIDIFIER-01's rubber and aged-hardware contract. Its short lead is illustrative; use `DH_CableSegment01.fbx` with a runtime spline or cable component for arbitrary appliance/outlet separation.
+
+The revised plug housing uses `DH_Plug_Bakelite`: aged-metal image × `(.22,.15,.09)`, metallic 0, roughness .58. The image supplies painterly variation; it does not make the housing metallic. `previews/plug-close.png` shows the taper, grip ridges, punched blades and ground pin independently.
 
 ## Validation
 

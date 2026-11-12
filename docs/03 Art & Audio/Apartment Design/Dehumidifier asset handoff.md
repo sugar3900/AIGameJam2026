@@ -4,7 +4,7 @@ Selected design: **B — cream and blue-gray workhorse**. Planned movement: **ch
 
 ## Source kits
 
-- `Art Source/Apartment Redesign/Assets/PR-DEHUMIDIFIER-01/`: editable Blender source, selected concept B, PBR textures/material values, six FBX exports, attachment metadata, four studio previews and fresh-import validation.
+- `Art Source/Apartment Redesign/Assets/PR-DEHUMIDIFIER-01/`: editable Blender source, selected concept B, PBR textures/material values, six FBX exports, attachment metadata, seven studio previews and fresh-import validation.
 - `Art Source/Apartment Redesign/Assets/PR-OUTLET-01/`: separate wall outlet, concept generated before modeling, editable source, FBX, texture copies, socket metadata, unplugged/plugged previews and plug-fit validation.
 
 The dehumidifier's full parked assembly is approximately **43 × 37.5 × 53.35 cm**, including folded handle and stored lead. The outlet plate is **7 × 11.5 cm**. Both use the apartment's existing painterly enamel and aged-hardware sources.
@@ -29,6 +29,12 @@ No `.uasset`, map placement, runtime interaction, destination selector, occupanc
 
 ## Validation
 
-- Dehumidifier: 36,544 triangles, 150 individually closed positive-volume components, all nine material slots have finite nonzero UV0 coverage; zero degenerate triangles/nonmanifold edges. All split exports reconstruct the combined parked bounds, including the plug transform. Bucket pull is clear at 11 positions over 24.5 cm. The spline cable export has verified length/diameter and closed topology.
-- Outlet: 3,186 triangles, six closed positive-volume components, four material slots; zero degenerate triangles/nonmanifold edges. Rays pass through all six actual socket openings to recessed backing. The matching grounded plug seats in either socket with zero triangle contacts at the authored clearance.
+- Dehumidifier: 37,696 triangles, 150 individually closed positive-volume components, all ten material slots have finite nonzero UV0 coverage; zero degenerate triangles/nonmanifold edges. All split exports reconstruct the combined parked bounds, including the plug transform. Bucket pull is clear at 11 positions over 24.5 cm. The spline cable export has verified length/diameter and closed topology.
+- Outlet: 4,806 triangles, seven closed positive-volume components, four material slots; zero degenerate triangles/nonmanifold edges. Rays pass through all six actual socket openings to recessed backing. The matching grounded plug seats in either socket with zero triangle contacts at the authored clearance.
 - Front, rear, bucket-pulled, handle-raised, unplugged-outlet and plugged-outlet studio views inspected. Validation is source-side; it does not claim in-engine acceptance.
+
+## Concept-fit revision
+
+The outlet now has broader receptacle faces, larger blade slots, D-shaped ground throats, a raised plate field, and a cream-painted domed screw with a diagonal slot. The plug uses a smaller tapered brown bakelite housing, top grip ridges and punched blades; slot/pin spacing changed together and both sockets pass the fit test.
+
+The dehumidifier has a flat angled control area united with its casing. Mounting rings/bezels embed by 0.25 mm, and the switch by 0.75 mm; the source checks reject hovering mounts. Front slats are recessed 10 mm and extend into both ends of the frame. Top vents are unchanged. Side, low and overhead close-ups are included in the source previews.

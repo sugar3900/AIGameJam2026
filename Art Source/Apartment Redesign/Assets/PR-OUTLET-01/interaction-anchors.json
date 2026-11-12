@@ -32,11 +32,11 @@
     0
   ],
   "blade_centers_x": [
-    -0.00635,
-    0.00635
+    -0.0085,
+    0.0085
   ],
-  "blade_center_z_offset": 0.004,
-  "ground_center_z_offset": -0.006,
+  "blade_center_z_offset": 0.005,
+  "ground_center_z_offset": -0.0075,
   "seating_clearance_m": 0.0002,
   "interaction_note": "Outlet stays on wall while appliance changes rooms. Occupancy/power and cable are runtime state."
 }

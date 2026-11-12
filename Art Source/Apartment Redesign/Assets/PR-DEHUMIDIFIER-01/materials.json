@@ -106,5 +106,17 @@
     "metallic": 0,
     "texture": null,
     "transmission": 0
+  },
+  {
+    "slot": "DH_Plug_Bakelite",
+    "tint": [
+      0.22,
+      0.15,
+      0.09
+    ],
+    "roughness": 0.58,
+    "metallic": 0,
+    "texture": "metal",
+    "transmission": 0
   }
 ]
