@@ -55,6 +55,18 @@ void UFixHimHUDWidget::BuildUI()
 	};
 	ReticleBackground = AddLayer(Settings->ReticleBackgroundTexture.LoadSynchronous());
 	ReticleRing = AddLayer(Settings->ReticleRingTexture.LoadSynchronous());
+	{
+		// Drawn at its own size (centered) rather than scaled down, so its texels map ~2:1 like the full ring.
+		ReticleRingIdle = WidgetTree->ConstructWidget<UImage>();
+		ReticleRingIdle->SetBrushFromTexture(Settings->ReticleIdleRingTexture.LoadSynchronous());
+		USizeBox* IdleBox = WidgetTree->ConstructWidget<USizeBox>();
+		IdleBox->SetWidthOverride(Settings->ReticleSize * ReticleIdleRingScale);
+		IdleBox->SetHeightOverride(Settings->ReticleSize * ReticleIdleRingScale);
+		IdleBox->AddChild(ReticleRingIdle);
+		UOverlaySlot* IdleSlot = Layers->AddChildToOverlay(IdleBox);
+		IdleSlot->SetHorizontalAlignment(HAlign_Center);
+		IdleSlot->SetVerticalAlignment(VAlign_Center);
+	}
 	ReticleCenterOut = AddLayer(nullptr);
 	ReticleCenter = AddLayer(ReticleCenterTextures.FindRef(EFixHimInteractionAction::None));
 	ApplyReticleLayers();
@@ -166,8 +178,8 @@ void UFixHimHUDWidget::TickReticle(float DeltaSeconds)
 
 void UFixHimHUDWidget::ApplyReticleLayers()
 {
-	// The idle ring sits smaller and expands with the ink fill, which grows out from the center at partial
-	// opacity; icons pop in from 60% scale as they fade, and shrink as they leave.
+	// The idle ring expands into the full ring as the ink fill grows out from the center at partial opacity;
+	// icons pop in from 60% scale as they fade, and shrink as they leave.
 	const auto Show = [](UImage* Image, float Amount, float MinScale, float MaxOpacity = 1.f)
 	{
 		const float Eased = FMath::InterpEaseOut(0.f, 1.f, Amount, 2.f);
@@ -176,7 +188,12 @@ void UFixHimHUDWidget::ApplyReticleLayers()
 		return Eased;
 	};
 	const float Actionable = Show(ReticleBackground, BackgroundT, 0.5f, ReticleBackgroundOpacity);
+	// Ring swap: both rings scale so their radii always match; the full ring sits underneath at full opacity
+	// (hidden by the wider-stroked idle ring at first) and only the idle ring on top fades, so nothing dims.
+	ReticleRing->SetRenderOpacity(Actionable > 0.f ? 1.f : 0.f);
 	ReticleRing->SetRenderScale(FVector2D(FMath::Lerp(ReticleIdleRingScale, 1.f, Actionable)));
+	ReticleRingIdle->SetRenderOpacity(1.f - Actionable);
+	ReticleRingIdle->SetRenderScale(FVector2D(FMath::Lerp(1.f, 1.f / ReticleIdleRingScale, Actionable)));
 	Show(ReticleCenter, CenterInT, 0.6f);
 	Show(ReticleCenterOut, CenterOutT, 0.6f);
 }

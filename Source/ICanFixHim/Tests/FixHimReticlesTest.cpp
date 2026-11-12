@@ -52,7 +52,8 @@ bool FFixHimReticlesTest::RunTest(const FString& Parameters)
 	const UFixHimSettings* Settings = UFixHimSettings::Get();
 	TestEqual(TEXT("Center layer per action (dot + four icons); unavailable reserved"), HUD->ReticleCenterTextures.Num(), 5);
 	TArray<UTexture2D*> Layers = { Cast<UTexture2D>(HUD->ReticleBackground->GetBrush().GetResourceObject()),
-		Cast<UTexture2D>(HUD->ReticleRing->GetBrush().GetResourceObject()) };
+		Cast<UTexture2D>(HUD->ReticleRing->GetBrush().GetResourceObject()),
+		Cast<UTexture2D>(HUD->ReticleRingIdle->GetBrush().GetResourceObject()) };
 	for (const auto& Pair : HUD->ReticleCenterTextures)
 	{
 		Layers.Add(Pair.Value.Get());
@@ -64,7 +65,10 @@ bool FFixHimReticlesTest::RunTest(const FString& Parameters)
 			continue;
 		}
 #if WITH_EDITORONLY_DATA
-		TestEqual(TEXT("128px source: 1:1 at 4K for the 64-unit box"), int32(Texture->Source.GetSizeX()), 128);
+		// 2x the box each layer draws in: 128px for the 64-unit box, 96px for the 48-unit idle ring.
+		const bool bIdleRing = Texture == HUD->ReticleRingIdle->GetBrush().GetResourceObject();
+		TestEqual(TEXT("Source is 2x its box: 1:1 at 4K"), int32(Texture->Source.GetSizeX()),
+			FMath::RoundToInt32(2.f * Settings->ReticleSize * (bIdleRing ? Settings->ReticleIdleRingScale : 1.f)));
 		// <=2x minification at 1080p and up: bilinear is exact there, and mips would only add blur.
 		TestEqual(TEXT("No mips"), Texture->MipGenSettings, TMGS_NoMipmaps);
 #endif
@@ -78,7 +82,12 @@ bool FFixHimReticlesTest::RunTest(const FString& Parameters)
 	UObject* Dot = HUD->ReticleCenterTextures.FindRef(EFixHimInteractionAction::None);
 	TestEqual(TEXT("Idle starts on the dot"), Center(), Dot);
 	TestEqual(TEXT("Idle background transparent"), HUD->ReticleBackground->GetRenderOpacity(), 0.f);
-	TestEqual(TEXT("Idle ring starts small"), HUD->ReticleRing->GetRenderTransform().Scale, FVector2D(Settings->ReticleIdleRingScale));
+	TestEqual(TEXT("Idle ring shown at its own size"), HUD->ReticleRingIdle->GetRenderOpacity(), 1.f);
+	TestEqual(TEXT("Idle ring unscaled"), HUD->ReticleRingIdle->GetRenderTransform().Scale, FVector2D(1.f));
+	TestEqual(TEXT("Full ring hidden at idle"), HUD->ReticleRing->GetRenderOpacity(), 0.f);
+	const auto* IdleBox = Cast<USizeBox>(HUD->ReticleRingIdle->GetParent());
+	TestTrue(TEXT("Idle ring box is ReticleSize x idle scale"), IdleBox
+		&& IdleBox->GetWidthOverride() == Settings->ReticleSize * Settings->ReticleIdleRingScale);
 	for (auto Action : { EFixHimInteractionAction::Inspect, EFixHimInteractionAction::Talk,
 		EFixHimInteractionAction::Use, EFixHimInteractionAction::EndDay, EFixHimInteractionAction::None })
 	{
@@ -91,16 +100,21 @@ bool FFixHimReticlesTest::RunTest(const FString& Parameters)
 		HUD->TickReticle(Settings->ReticleTransitionSeconds * 0.5f);
 		const float Mid = HUD->ReticleCenter->GetRenderOpacity();
 		TestTrue(TEXT("Transition is in progress mid-way"), Mid > 0.f && Mid < 1.f);
+		const float IdleRadius = HUD->ReticleRingIdle->GetRenderTransform().Scale.X * Settings->ReticleIdleRingScale;
+		TestTrue(TEXT("Swapping rings share a radius"), FMath::IsNearlyEqual(IdleRadius, float(HUD->ReticleRing->GetRenderTransform().Scale.X), 1e-4f));
 		HUD->TickReticle(Settings->ReticleTransitionSeconds);
 		const bool bActionable = Action != EFixHimInteractionAction::None;
 		TestEqual(TEXT("Partial ink background only for actionable targets"), HUD->ReticleBackground->GetRenderOpacity(),
 			bActionable ? Settings->ReticleBackgroundOpacity : 0.f);
-		TestEqual(TEXT("Ring at idle scale, full size on targets"), HUD->ReticleRing->GetRenderTransform().Scale,
+		TestEqual(TEXT("Full ring only on targets"), HUD->ReticleRing->GetRenderOpacity(), bActionable ? 1.f : 0.f);
+		TestEqual(TEXT("Full ring settles at full size"), HUD->ReticleRing->GetRenderTransform().Scale,
 			FVector2D(bActionable ? 1.f : Settings->ReticleIdleRingScale));
+		TestEqual(TEXT("Idle ring only at idle"), HUD->ReticleRingIdle->GetRenderOpacity(), bActionable ? 0.f : 1.f);
+		TestEqual(TEXT("Idle ring settles unscaled at idle"), HUD->ReticleRingIdle->GetRenderTransform().Scale,
+			FVector2D(bActionable ? 1.f / Settings->ReticleIdleRingScale : 1.f));
 		TestEqual(TEXT("Center settles opaque at full size"), HUD->ReticleCenter->GetRenderOpacity(), 1.f);
 		TestEqual(TEXT("Center settles at full size"), HUD->ReticleCenter->GetRenderTransform().Scale, FVector2D(1.f));
 		TestEqual(TEXT("Outgoing center gone"), HUD->ReticleCenterOut->GetRenderOpacity(), 0.f);
-		TestEqual(TEXT("Ring constant"), HUD->ReticleRing->GetRenderOpacity(), 1.f);
 		TestTrue(TEXT("Prompt text preserved"), HUD->PromptText->GetText().EqualTo(Prompt));
 		TestEqual(TEXT("Prompt visible only on target"), HUD->PromptPill->GetVisibility(),
 			bActionable ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
@@ -119,6 +133,7 @@ bool FFixHimReticlesTest::RunTest(const FString& Parameters)
 	TestEqual(TEXT("Reappearing shows the settled state"), HUD->ReticleCenter->GetRenderOpacity(), 1.f);
 	TestEqual(TEXT("Reappearing background settled"), HUD->ReticleBackground->GetRenderOpacity(), Settings->ReticleBackgroundOpacity);
 	TestEqual(TEXT("Reappearing ring settled"), HUD->ReticleRing->GetRenderTransform().Scale, FVector2D(1.f));
+	TestEqual(TEXT("Reappearing idle ring hidden"), HUD->ReticleRingIdle->GetRenderOpacity(), 0.f);
 
 	const auto* Box = Cast<USizeBox>(HUD->ReticleCenter->GetParent()->GetParent());
 	TestTrue(TEXT("Reticle box uses the configured UMG size (DPI scaled)"),

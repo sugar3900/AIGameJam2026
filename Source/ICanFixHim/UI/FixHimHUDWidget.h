@@ -39,6 +39,8 @@ private:
 	UPROPERTY() TObjectPtr<UWidget> ReticleRoot;
 	UPROPERTY() TObjectPtr<UImage> ReticleBackground;
 	UPROPERTY() TObjectPtr<UImage> ReticleRing;
+	/** Idle-size ring with full-size line widths; swapped with ReticleRing as both scale to a shared radius. */
+	UPROPERTY() TObjectPtr<UImage> ReticleRingIdle;
 	/** The current center (dot or contextual icon) and the one cross-fading out. */
 	UPROPERTY() TObjectPtr<UImage> ReticleCenter;
 	UPROPERTY() TObjectPtr<UImage> ReticleCenterOut;

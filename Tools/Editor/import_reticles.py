@@ -1,7 +1,7 @@
 """Import the reticle animation layers as UI textures (sRGB, alpha, no mips, bilinear).
 First: python3 Tools/Art/Reticles/render_reticles.py
 Then run in editor or UnrealEditor-Cmd -run=pythonscript -script=<this file>.
-128px sources draw in a 64-unit box: 1:1 at 4K, 1.5x/2x minification at 1440p/1080p, where plain
+128px sources draw in a 64-unit box (the 96px idle ring in a 48-unit one): 1:1 at 4K, 1.5x/2x minification at 1440p/1080p, where plain
 bilinear is already correct and mips would only blend in a blurrier half-size level.
 Unavailable remains a reserved SVG, with no runtime texture or state.
 """
@@ -10,7 +10,7 @@ import unreal
 
 source = Path(unreal.Paths.convert_relative_path_to_full(unreal.Paths.project_dir())) / 'Art Source/UI/Reticles'
 destination = '/Game/ICanFixHim/UI/Reticles'
-LAYERS = ('Background', 'Ring', 'Dot', 'Icon_Inspect', 'Icon_Talk', 'Icon_Use', 'Icon_EndDay')
+LAYERS = ('Background', 'Ring', 'RingIdle', 'Dot', 'Icon_Inspect', 'Icon_Talk', 'Icon_Use', 'Icon_EndDay')
 eal = unreal.EditorAssetLibrary
 eal.make_directory(destination)
 for layer in LAYERS:

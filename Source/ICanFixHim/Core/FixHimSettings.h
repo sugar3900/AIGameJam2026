@@ -98,7 +98,8 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles", meta = (ClampMin = "0"))
 	float ReticleTransitionSeconds = 0.14f;
 
-	/** Ring scale with no actionable target; it expands to full size with the ink background. */
+	/** Idle ring size as a fraction of ReticleSize; it expands to full size with the ink background. The idle
+	 *  ring texture is authored for this value (Tools/Art/Reticles IDLE_SCALE), keeping full-size line widths. */
 	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles", meta = (ClampMin = "0.25", ClampMax = "1"))
 	float ReticleIdleRingScale = 0.75f;
 
@@ -114,6 +115,10 @@ public:
 	/** Shared ink outline + white rim, identical in every state. */
 	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
 	TSoftObjectPtr<UTexture2D> ReticleRingTexture;
+
+	/** The idle ring: same line widths as the full ring at ReticleIdleRingScale radius, drawn in its own smaller box. */
+	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
+	TSoftObjectPtr<UTexture2D> ReticleIdleRingTexture;
 
 	/** Idle center dot (no actionable target). */
 	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
