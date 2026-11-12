@@ -1,0 +1,142 @@
+{
+  "status": "PASS",
+  "blender": "5.2.3 LTS",
+  "checks": [
+    {
+      "file": "DH_Dehumidifier01.fbx",
+      "vertices": 15943,
+      "triangles": 31410,
+      "closed_positive_components": 123,
+      "nonmanifold_edges": 0,
+      "degenerate_triangles": 0,
+      "bounds_m": [
+        [
+          -0.17000000178813934,
+          -0.17169992625713348,
+          -1.547746286689744e-08
+        ],
+        [
+          0.17000000178813934,
+          0.19050000607967377,
+          0.5805000066757202
+        ]
+      ],
+      "uv0_area_by_slot": {
+        "DH_Aged_Hardware": 14.390809505886406,
+        "DH_Ivory_Painted": 23.513153240082552,
+        "DH_Filter_Shadow": 4.517610404943592,
+        "DH_Rubber": 4.906396300314287,
+        "DH_Collected_Water": 0.5718967032103184,
+        "DH_Sage_Painted": 7.522288580262171,
+        "DH_Amber_Lens": 0.5293070914763305,
+        "DH_Tank_Window": 0.34710382402632445,
+        "DH_Control_Print": 7.409511257087853
+      },
+      "collision_meshes": 1
+    },
+    {
+      "file": "DH_Dehumidifier01_Body.fbx",
+      "vertices": 14874,
+      "triangles": 29292,
+      "closed_positive_components": 115,
+      "nonmanifold_edges": 0,
+      "degenerate_triangles": 0,
+      "bounds_m": [
+        [
+          -0.17000000178813934,
+          -0.17169992625713348,
+          -1.547746286689744e-08
+        ],
+        [
+          0.17000000178813934,
+          0.19050000607967377,
+          0.5805000066757202
+        ]
+      ],
+      "uv0_area_by_slot": {
+        "DH_Aged_Hardware": 14.390809505886406,
+        "DH_Ivory_Painted": 22.844314820391418,
+        "DH_Filter_Shadow": 4.517610404943592,
+        "DH_Rubber": 4.906396300314287,
+        "DH_Sage_Painted": 5.431110801571478,
+        "DH_Amber_Lens": 0.5293070914763305,
+        "DH_Control_Print": 7.409511257087853
+      },
+      "collision_meshes": 0
+    },
+    {
+      "file": "DH_Dehumidifier01_Tank.fbx",
+      "vertices": 1069,
+      "triangles": 2118,
+      "closed_positive_components": 8,
+      "nonmanifold_edges": 0,
+      "degenerate_triangles": 0,
+      "bounds_m": [
+        [
+          -0.14100000262260437,
+          -0.15849998593330383,
+          0.07249999791383743
+        ],
+        [
+          0.14100000262260437,
+          0.06900004297494888,
+          0.2532922327518463
+        ]
+      ],
+      "uv0_area_by_slot": {
+        "DH_Tank_Window": 0.34710382402632445,
+        "DH_Ivory_Painted": 0.6688384196911801,
+        "DH_Collected_Water": 0.5718967032103184,
+        "DH_Sage_Painted": 2.0911777786906893
+      },
+      "collision_meshes": 0
+    }
+  ],
+  "bucket_pull_sweep": [
+    {
+      "pull_m": 0.0,
+      "triangle_contacts": 0
+    },
+    {
+      "pull_m": 0.0245,
+      "triangle_contacts": 0
+    },
+    {
+      "pull_m": 0.049,
+      "triangle_contacts": 0
+    },
+    {
+      "pull_m": 0.0735,
+      "triangle_contacts": 0
+    },
+    {
+      "pull_m": 0.098,
+      "triangle_contacts": 0
+    },
+    {
+      "pull_m": 0.12250000000000001,
+      "triangle_contacts": 0
+    },
+    {
+      "pull_m": 0.147,
+      "triangle_contacts": 0
+    },
+    {
+      "pull_m": 0.17149999999999999,
+      "triangle_contacts": 0
+    },
+    {
+      "pull_m": 0.196,
+      "triangle_contacts": 0
+    },
+    {
+      "pull_m": 0.2205,
+      "triangle_contacts": 0
+    },
+    {
+      "pull_m": 0.24500000000000002,
+      "triangle_contacts": 0
+    }
+  ],
+  "limits": "Geometry/source checks only; no Unreal import or gameplay validation claimed."
+}
