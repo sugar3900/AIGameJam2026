@@ -15,6 +15,7 @@ class AFixHimInteractable;
 class AFixHimMalady;
 class AFixHimRoom;
 class UFixHimTitleWidget;
+class UFixHimLoadingWidget;
 class UFixHimHUDWidget;
 class UFixHimDialogueWidget;
 class UFixHimPauseWidget;
@@ -76,6 +77,9 @@ public:
 	EFixHimState GetState() const { return State; }
 
 	// ---- Menu API (called by widgets) -------------------------------------
+	/** The startup loading screen has faded out: the title is now interactive and a -FixHimScript= run may start. */
+	void FinishLoading();
+	bool IsLoading() const { return LoadingWidget != nullptr; }
 	/** Title "New Game": asks for the heroine's name first. */
 	void StartNewGame();
 	/** Name chosen: wipe progress and start week 1. */
@@ -227,6 +231,8 @@ private:
 	UPROPERTY(Transient) TArray<TObjectPtr<UInputAction>> ChoiceActions;
 
 	UPROPERTY(Transient) TObjectPtr<UFixHimTitleWidget> TitleWidget;
+	/** Covers the title until UFixHimWarmupSubsystem has prepared shaders; null once gone. */
+	UPROPERTY(Transient) TObjectPtr<UFixHimLoadingWidget> LoadingWidget;
 	UPROPERTY(Transient) TObjectPtr<UFixHimHUDWidget> HUDWidget;
 	UPROPERTY(Transient) TObjectPtr<UFixHimDialogueWidget> DialogueWidget;
 	UPROPERTY(Transient) TObjectPtr<UFixHimPauseWidget> PauseWidget;
@@ -257,6 +263,8 @@ private:
 	FString PendingEnding;
 
 	TArray<FString> ScriptSteps;
+	/** -FixHimScript= from the command line, held until the loading screen is gone. */
+	FString StartupScript;
 	FTimerHandle ScriptTimer;
 	FTimerHandle EncounterTimer;
 	FTimerHandle TravelTimer;

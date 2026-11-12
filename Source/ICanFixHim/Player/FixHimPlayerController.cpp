@@ -13,6 +13,7 @@
 #include "Core/FixHimSettings.h"
 #include "Dialogue/FixHimDialogueSubsystem.h"
 #include "UI/FixHimMenus.h"
+#include "UI/FixHimLoadingWidget.h"
 #include "UI/FixHimHUDWidget.h"
 #include "UI/FixHimDialogueWidget.h"
 #include "UI/FixHimFloorPlanWidget.h"
@@ -165,10 +166,22 @@ void AFixHimPlayerController::BeginPlay()
 	AFixHimDoor::EnsureInWorld(GetWorld());
 
 	EnterState(EFixHimState::Title);
+	// The title sits underneath an opaque loading screen until shaders and effects are prepared (see
+	// UFixHimWarmupSubsystem); it fades out and calls FinishLoading.
+	LoadingWidget = CreateWidget<UFixHimLoadingWidget>(this, UFixHimLoadingWidget::StaticClass());
+	ShowWidget(LoadingWidget, 1000);
 
-	FString Script;
-	if (FParse::Value(FCommandLine::Get(), TEXT("FixHimScript="), Script, false))
+	FParse::Value(FCommandLine::Get(), TEXT("FixHimScript="), StartupScript, false);
+}
+
+void AFixHimPlayerController::FinishLoading()
+{
+	HideWidget(LoadingWidget);
+	LoadingWidget = nullptr;
+	if (!StartupScript.IsEmpty())
 	{
+		const FString Script = MoveTemp(StartupScript);
+		StartupScript.Reset();
 		FixHimScript(Script);
 	}
 }
