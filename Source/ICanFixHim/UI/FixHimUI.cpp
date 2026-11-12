@@ -7,6 +7,7 @@
 #include "Brushes/SlateRoundedBoxBrush.h"
 #include "Components/Border.h"
 #include "Components/BorderSlot.h"
+#include "Components/ButtonSlot.h"
 #include "Components/Overlay.h"
 #include "Components/OverlaySlot.h"
 #include "Components/SizeBox.h"
@@ -15,12 +16,44 @@
 #include "Components/VerticalBoxSlot.h"
 #include "Styling/CoreStyle.h"
 #include "Framework/Application/SlateApplication.h"
+#include "Engine/Font.h"
+#include "Engine/FontFace.h"
+#include "Engine/Texture2D.h"
+#include "Fonts/CompositeFont.h"
+#include "UObject/StrongObjectPtr.h"
+#include "Components/ScrollBox.h"
+#include "Components/ScrollBoxSlot.h"
+#include "InputCoreTypes.h"
 
 namespace FixHimUI
 {
 	FSlateFontInfo Font(int32 Size, const TCHAR* Typeface)
 	{
-		return FCoreStyle::GetDefaultFontStyle(Typeface, Size);
+		// Strong references keep imported runtime fonts alive and package paths are explicitly cooked.
+  static auto BuildFont=[](bool DisplayFont)
+  {
+   UFont* F=NewObject<UFont>();
+   F->FontCacheType=EFontCacheType::Runtime;
+   const TArray<FString> Names=DisplayFont ? TArray<FString>{TEXT("BarlowCondensed-ExtraBoldItalic")} : TArray<FString>{TEXT("Barlow-Regular"),TEXT("Barlow-SemiBold")};
+   for(int I=0;I<Names.Num();++I)
+   {
+    const FString Path=FString::Printf(TEXT("/Game/ICanFixHim/UI/Design/Fonts/%s.%s"),*Names[I],*Names[I]);
+    if(auto* Face=LoadObject<UFontFace>(nullptr,*Path))
+    {
+     FTypefaceEntry Entry(I==0 ? FName("Regular") : FName("Semibold"));
+     Entry.Font=FFontData(Face);
+     F->GetMutableInternalCompositeFont().DefaultTypeface.Fonts.Add(Entry);
+    }
+   }
+   return TStrongObjectPtr<UFont>(F);
+  };
+  static TStrongObjectPtr<UFont> Body=BuildFont(false);
+  static TStrongObjectPtr<UFont> Display=BuildFont(true);
+  const bool IsDisplay = FCString::Strcmp(Typeface,TEXT("Display"))==0;
+  UFont* Asset = IsDisplay ? Display.Get() : Body.Get();
+  const int32 ScaledSize = FMath::RoundToInt(Size * FixHimDesign::TextScale());
+  return Asset && !Asset->GetCompositeFont()->DefaultTypeface.Fonts.IsEmpty() ? FSlateFontInfo(Asset, ScaledSize, IsDisplay ? FName("Regular") : FCString::Strstr(Typeface,TEXT("Bold")) || FCString::Strstr(Typeface,TEXT("Semi")) ? FName("Semibold") : FName("Regular"))
+   : FCoreStyle::GetDefaultFontStyle(TEXT("Regular"),ScaledSize);
 	}
 
 	FSlateBrush Rounded(const FLinearColor& Fill, float Radius, const FLinearColor& Outline, float OutlineWidth)
@@ -39,9 +72,10 @@ namespace FixHimUI
 		Style.SetNormal(Rounded(Normal, Radius, Outline, Outline.A > 0.f ? 2.f : 0.f));
 		Style.SetHovered(Rounded(Hovered, Radius, Outline, Outline.A > 0.f ? 2.f : 0.f));
 		Style.SetPressed(Rounded(Pressed, Radius, Outline, Outline.A > 0.f ? 2.f : 0.f));
-		Style.SetDisabled(Rounded(Normal.CopyWithNewOpacity(0.35f), Radius));
-		Style.SetNormalPadding(FMargin(18.f, 10.f));
-		Style.SetPressedPadding(FMargin(18.f, 11.f, 18.f, 9.f));
+		Style.SetDisabled(Rounded(FixHimDesign::Disabled, Radius, FixHimDesign::DisabledInk,2));
+  Style.SetDisabledForeground(FSlateColor(FixHimDesign::DisabledInk));
+		Style.SetNormalPadding(FMargin(0));
+		Style.SetPressedPadding(FMargin(2,3,-2,-3));
 		return Style;
 	}
 
@@ -51,6 +85,12 @@ namespace FixHimUI
 		T->SetText(FText::FromString(Text));
 		T->SetFont(Font(Size, Typeface));
 		T->SetColorAndOpacity(FSlateColor(Color));
+  if (FCString::Strcmp(Typeface,TEXT("Display"))==0)
+  {
+   FWidgetTransform Transform;
+   Transform.Shear=FVector2D(-FMath::RadiansToDegrees(FMath::Atan(FixHimDesign::DisplayShear)),0);
+   T->SetRenderTransform(Transform);
+  }
 		return T;
 	}
 }
@@ -82,12 +122,15 @@ UFixHimButton* UFixHimButton::Make(UWidgetTree* Tree, const FString& LabelText, 
 {
 	using namespace FixHimUI;
 	UFixHimButton* B = Tree->ConstructWidget<UFixHimButton>();
-	B->SetStyle(bPrimary
-		? ButtonStyle(Pink, HotPink, Plum, 22.f)
-		: ButtonStyle(Cream, Blush, Pink, 22.f, Pink));
-	B->Label = MakeText(Tree, LabelText, FontSize, bPrimary ? FLinearColor::White : Plum, TEXT("Bold"));
+	B->SetStyle(ButtonStyle(Cream,Pink,Pink,12,Gold));
+	B->SetVariant(bPrimary);
+ B->Label = MakeText(Tree, LabelText, FontSize, bPrimary ? FLinearColor::White : Plum, TEXT("Semibold"));
+ B->Label->SetColorAndOpacity(FSlateColor::UseForeground());
+ B->Label->SetAutoWrapText(true);
+ B->SetCursor(EMouseCursor::Hand);
 	B->Label->SetJustification(ETextJustify::Center);
-	B->AddChild(B->Label);
+	if (auto* Slot=Cast<UButtonSlot>(B->AddChild(B->Label)))
+ { Slot->SetPadding(FMargin(32,8,38,24)); Slot->SetHorizontalAlignment(HAlign_Fill); }
 	B->Init(MoveTemp(InOnClick));
 	static const TCHAR* const BackLabels[] = { TEXT("Back"), TEXT("Cancel"), TEXT("Close"), TEXT("Not yet"), TEXT("Never mind") };
 	for (const TCHAR* BackLabel : BackLabels)
@@ -155,6 +198,18 @@ void UFixHimCheckBox::Init(TFunction<void(bool)> InOnChanged)
 {
 	OnChanged = MoveTemp(InOnChanged);
 	OnCheckStateChanged.AddUniqueDynamic(this, &UFixHimCheckBox::HandleChanged);
+ FCheckBoxStyle Style=GetWidgetStyle();
+ FSlateBrush Empty=FixHimUI::Rounded(FixHimDesign::Cream,8,FixHimDesign::Teal,3);
+ Empty.ImageSize=FVector2D(32,32);
+ FSlateBrush Hover=FixHimUI::Rounded(FixHimDesign::Cream,8,FixHimDesign::Pink,4);
+ Hover.ImageSize=FVector2D(32,32);
+ FSlateBrush Check;
+ Check.SetResourceObject(LoadObject<UTexture2D>(nullptr,TEXT("/Game/ICanFixHim/UI/Design/Icons/T_Icon_check.T_Icon_check")));
+ Check.ImageSize=FVector2D(32,32); Check.TintColor=FSlateColor(FixHimDesign::Teal);
+ Style.SetUncheckedImage(Empty).SetUncheckedHoveredImage(Hover).SetUncheckedPressedImage(Hover);
+ Style.SetCheckedImage(Check).SetCheckedHoveredImage(Check).SetCheckedPressedImage(Check);
+ Style.SetPadding(FMargin(8));
+ SetWidgetStyle(Style);
 }
 
 void UFixHimCheckBox::HandleChanged(bool bChecked)
@@ -186,10 +241,13 @@ void UFixHimWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 	PopAge = 0.f;
+ bInitialFocus=false;
 	ShownAge = 0.f;
+ WidgetTree->ForEachWidget([](UWidget* W)
+ { if(auto* B=Cast<UFixHimButton>(W)) { if(B->Label && B->bDesignSurface) B->Label->SetColorAndOpacity(FSlateColor::UseForeground()); } });
 	if (PopCard)
 	{
-		PopCard->SetRenderScale(FVector2D(0.01f, 0.01f));
+		PopCard->SetRenderScale(FVector2D(FixHimDesign::ReducedMotion() ? 1.f : .96f));
 		FixHim::Sfx(this, OpenSfx, 1.f, 0.03f);
 	}
 }
@@ -269,11 +327,19 @@ void UFixHimWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
 	ShownAge += InDeltaTime;
+ if(PopCard && !bInitialFocus && ShownAge>.12f)
+ {
+  bInitialFocus=true;
+  bool Focused=false;
+  WidgetTree->ForEachWidget([&](UWidget* W){Focused |= W->HasKeyboardFocus();});
+  if(!Focused) WidgetTree->ForEachWidget([&](UWidget* W)
+  { if(!Focused && W->IsA<UButton>() && W->IsVisible() && W->GetIsEnabled()) { W->SetKeyboardFocus(); Focused=true; } });
+ }
 	constexpr float PopSeconds = 0.22f;
 	if (PopCard && PopAge < PopSeconds)
 	{
 		PopAge += InDeltaTime;
-		const float S = FMath::Max(0.01f, FixHimUI::EaseOutBack(PopAge / PopSeconds));
+		const float S = FixHimDesign::ReducedMotion() ? 1.f : FMath::Lerp(.96f,1.f,FMath::Clamp(PopAge/PopSeconds,0.f,1.f));
 		PopCard->SetRenderScale(FVector2D(S, S));
 	}
 }
@@ -286,29 +352,82 @@ UVerticalBox* UFixHimWidget::MakeCardScreen(const FString& Title, float Width)
 	WidgetTree->RootWidget = Root;
 
 	UBorder* Dim = WidgetTree->ConstructWidget<UBorder>();
-	Dim->SetBrushColor(FLinearColor(0.05f, 0.0f, 0.04f, 0.55f));
+ Dim->SetBrushColor(Plum.CopyWithNewOpacity(.72f));
 	UOverlaySlot* DimSlot = Root->AddChildToOverlay(Dim);
 	DimSlot->SetHorizontalAlignment(HAlign_Fill);
 	DimSlot->SetVerticalAlignment(VAlign_Fill);
 
 	USizeBox* Size = WidgetTree->ConstructWidget<USizeBox>();
 	Size->SetWidthOverride(Width);
+ Size->SetMaxDesiredHeight(960);
 	UOverlaySlot* SizeSlot = Root->AddChildToOverlay(Size);
 	SizeSlot->SetHorizontalAlignment(HAlign_Center);
 	SizeSlot->SetVerticalAlignment(VAlign_Center);
 
-	UBorder* Card = WidgetTree->ConstructWidget<UBorder>();
+	UBorder* Card = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Card->SetBrush(Rounded(Cream, 28.f, Pink, 4.f));
-	Card->SetPadding(FMargin(36.f, 28.f));
-	Size->AddChild(Card);
+	Card->SetPadding(FMargin(32,32,40,40));
+	UScrollBox* Scroll=WidgetTree->ConstructWidget<UScrollBox>();
+ Scroll->SetConsumeMouseWheel(EConsumeMouseWheel::WhenScrollingPossible);
+ Scroll->SetAnimateWheelScrolling(false);
+ Size->AddChild(Scroll);
+ Scroll->AddChild(Card);
 	Size->SetRenderTransformPivot(FVector2D(0.5f, 0.5f));
 	PopCard = Size;
 
-	UVerticalBox* Col = WidgetTree->ConstructWidget<UVerticalBox>();
+	UVerticalBox* Col = WidgetTree->ConstructWidget<UFixHimStack>();
 	Card->SetContent(Col);
 
-	UTextBlock* Heading = MakeText(WidgetTree, Title, 34, HotPink, TEXT("Bold"));
+	UTextBlock* Heading = MakeText(WidgetTree, Title.ToUpper(), FixHimDesign::Heading, Cream, TEXT("Display"));
 	Heading->SetJustification(ETextJustify::Center);
-	Col->AddChildToVerticalBox(Heading)->SetPadding(FMargin(0.f, 0.f, 0.f, 18.f));
+	UFixHimSurface* Header=WidgetTree->ConstructWidget<UFixHimSurface>();
+ Header->SetBrush(Rounded(FixHimDesign::Teal,12));
+ Header->SetPadding(FMargin(32,8,40,20));
+ Header->SetContent(Heading);
+ Col->AddChildToVerticalBox(Header)->SetPadding(FMargin(0,0,0,24));
 	return Col;
+}
+
+void UFixHimButton::SetVariant(bool Primary,bool Selected)
+{
+ bDesignSurface=true; bPrimary=Primary; bSelected=Selected;
+ Variant=Primary ? EFixHimButtonVariant::Primary : EFixHimButtonVariant::Secondary;
+ if (MyButton) MyButton->Invalidate(EInvalidateWidgetReason::Paint);
+}
+
+FReply UFixHimWidget::NativeOnKeyDown(const FGeometry& Geometry,const FKeyEvent& Event)
+{
+ const FKey Key=Event.GetKey();
+ const bool Forward=Key==EKeys::Down || Key==EKeys::Gamepad_DPad_Down || Key==EKeys::Tab;
+ const bool Back=Key==EKeys::Up || Key==EKeys::Gamepad_DPad_Up;
+ if (Forward || Back)
+ {
+  TArray<UWidget*> Controls;
+  WidgetTree->ForEachWidget([&](UWidget* W)
+  {
+   bool Visible=W->IsVisible() && W->GetIsEnabled();
+   for(UWidget* P=W->GetParent();P;P=P->GetParent()) Visible &= P->IsVisible() && P->GetIsEnabled();
+   if(Visible && (W->IsA<UButton>() || W->IsA<USlider>() || W->IsA<UCheckBox>())) Controls.Add(W);
+  });
+  if(!Controls.IsEmpty())
+  {
+   int32 Current=Controls.IndexOfByPredicate([](UWidget* W){return W->HasKeyboardFocus();});
+   const int32 Step=Back || (Key==EKeys::Tab && Event.IsShiftDown()) ? -1 : 1;
+   const int32 Next=Current==INDEX_NONE ? 0 : (Current+Step+Controls.Num())%Controls.Num();
+   Controls[Next]->SetKeyboardFocus();
+   for(UWidget* Parent=Controls[Next]->GetParent();Parent;Parent=Parent->GetParent())
+    if(auto* Scroll=Cast<UScrollBox>(Parent)) Scroll->ScrollWidgetIntoView(Controls[Next],false,EDescendantScrollDestination::IntoView,16);
+   return FReply::Handled();
+  }
+ }
+ return Super::NativeOnKeyDown(Geometry,Event);
+}
+
+void UFixHimButton::SetVariant(EFixHimButtonVariant InVariant)
+{
+ Variant=InVariant;
+ bInlineTopic=InVariant==EFixHimButtonVariant::Topic;
+ bDesignSurface=InVariant!=EFixHimButtonVariant::Topic && InVariant!=EFixHimButtonVariant::Spatial;
+ bPrimary=InVariant==EFixHimButtonVariant::Primary;
+ if(MyButton) MyButton->Invalidate(EInvalidateWidgetReason::Paint);
 }

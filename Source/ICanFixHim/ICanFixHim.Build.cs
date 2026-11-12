@@ -18,6 +18,8 @@ public class ICanFixHim : ModuleRules
 			"UMG",
 			"Slate",
 			"SlateCore",
+			"RenderCore",
+			"RHI",
 			"Json",
 			"JsonUtilities",
 			"AssetRegistry"

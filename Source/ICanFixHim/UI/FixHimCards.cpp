@@ -19,7 +19,9 @@
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
 #include "Engine/TextureRenderTarget2D.h"
+#include "Engine/Texture2D.h"
 #include "Materials/MaterialInstanceDynamic.h"
+#include "Misc/Paths.h"
 
 using namespace FixHimUI;
 
@@ -47,17 +49,17 @@ void UFixHimIntroCardWidget::BuildUI()
 		USizeBox* Box = WidgetTree->ConstructWidget<USizeBox>();
 		Box->SetHeightOverride(Height);
 		Box->SetWidthOverride(3200.f);
-		UBorder* B = WidgetTree->ConstructWidget<UBorder>();
+		UBorder* B = WidgetTree->ConstructWidget<UFixHimSurface>();
 		B->SetBrushColor(Color);
 		Box->AddChild(B);
-		Box->SetRenderTransformAngle(Angle);
+		// Slanted contour is shared; never rotate the complete band.
 		UOverlaySlot* S = Root->AddChildToOverlay(Box);
 		S->SetHorizontalAlignment(HAlign_Center);
 		S->SetVerticalAlignment(VAlign_Center);
 		return B;
 	};
 	Band2 = MakeBand(Gold, 380.f, -9.f);
-	Band = MakeBand(HotPink, 330.f, -7.f);
+	Band = MakeBand(PlumSoft, 330.f, -12.f);
 
 	UHorizontalBox* Row = WidgetTree->ConstructWidget<UHorizontalBox>();
 	UOverlaySlot* RowSlot = Root->AddChildToOverlay(Row);
@@ -72,21 +74,24 @@ void UFixHimIntroCardWidget::BuildUI()
 	Row->AddChildToHorizontalBox(SilBox)->SetVerticalAlignment(VAlign_Center);
 
 	UVerticalBox* Col = WidgetTree->ConstructWidget<UVerticalBox>();
-	UHorizontalBoxSlot* ColSlot = Row->AddChildToHorizontalBox(Col);
+	USizeBox* TextSize=WidgetTree->ConstructWidget<USizeBox>(); TextSize->SetWidthOverride(1000); TextSize->AddChild(Col);
+ UHorizontalBoxSlot* ColSlot = Row->AddChildToHorizontalBox(TextSize);
 	ColSlot->SetVerticalAlignment(VAlign_Center);
 	ColSlot->SetPadding(FMargin(30.f, 0.f, 0.f, 0.f));
 
 	Kicker = MakeText(WidgetTree, TEXT("SOMETHING IN THIS HOUSE IS BROKEN..."), 26, Cream, TEXT("Bold"));
 	Col->AddChildToVerticalBox(Kicker);
-	MaladyName = MakeText(WidgetTree, TEXT("MALADY"), 96, FLinearColor::White, TEXT("Bold"));
-	MaladyName->SetShadowOffset(FVector2D(6.f, 6.f));
+	MaladyName = MakeText(WidgetTree, TEXT("MALADY"),72, FLinearColor::White, TEXT("Display"));
+	MaladyName->SetAutoWrapText(true);
+ MaladyName->SetShadowOffset(FVector2D(6.f, 6.f));
 	MaladyName->SetShadowColorAndOpacity(FLinearColor(Plum.R, Plum.G, Plum.B, 0.9f));
 	Col->AddChildToVerticalBox(MaladyName)->SetPadding(FMargin(0.f, -10.f, 0.f, 0.f));
 	Tagline = MakeText(WidgetTree, TEXT(""), 26, Plum, TEXT("BoldItalic"));
-	Col->AddChildToVerticalBox(Tagline);
+	Tagline->SetAutoWrapText(true);
+ Col->AddChildToVerticalBox(Tagline);
 
 	// "Click to continue" pill near the bottom, fading in once the card has landed.
-	UBorder* HintPill = WidgetTree->ConstructWidget<UBorder>();
+	UBorder* HintPill = WidgetTree->ConstructWidget<UFixHimSurface>();
 	HintPill->SetBrush(Rounded(FLinearColor(Plum.R, Plum.G, Plum.B, 0.72f), 18.f));
 	HintPill->SetPadding(FMargin(22.f, 8.f));
 	Hint = MakeText(WidgetTree, TEXT("click to continue"), 20, Cream, TEXT("Bold"));
@@ -132,7 +137,7 @@ void UFixHimIntroCardWidget::Setup(const FHunkDefinition& Def, AFixHimHunk* Hunk
 	FixHim::Sfx(this, "IntroCard");
 	MaladyName->SetText(FText::FromString(Def.Malady.ToUpper()));
 	Tagline->SetText(FText::FromString(Def.Tagline));
-	Band->SetBrushColor(Def.GlowColor.CopyWithNewOpacity(1.f));
+	Band->SetBrushColor(PlumSoft);
 
 	if (Hunk)
 	{
@@ -141,7 +146,7 @@ void UFixHimIntroCardWidget::Setup(const FHunkDefinition& Def, AFixHimHunk* Hunk
 		{
 			UMaterialInstanceDynamic* MID = UMaterialInstanceDynamic::Create(Mat, this);
 			MID->SetTextureParameterValue(TEXT("Portrait"), Hunk->GetPortrait());
-			MID->SetScalarParameterValue(TEXT("Silhouette"), 1.f);
+			MID->SetScalarParameterValue(TEXT("Silhouette"),0.f);
 			MID->SetScalarParameterValue(TEXT("Transparent"), 1.f);
 			Silhouette->SetBrushFromMaterial(MID);
 		}
@@ -151,8 +156,14 @@ void UFixHimIntroCardWidget::Setup(const FHunkDefinition& Def, AFixHimHunk* Hunk
 			Silhouette->SetColorAndOpacity(FLinearColor::Black);
 		}
 	}
-	Age = 0.f;
-	LeaveAge = 0.f;
+ if(!Def.Portrait.IsEmpty())
+ {
+  FString Path=Def.Portrait;
+  if(!Path.Contains(TEXT("."))) Path+=TEXT(".")+FPaths::GetBaseFilename(Path);
+  if(auto* Painted=LoadObject<UTexture2D>(nullptr,*Path)) { Silhouette->SetBrushFromTexture(Painted); Silhouette->SetColorAndOpacity(FLinearColor::White); }
+ }
+ Age = 0.f;
+ LeaveAge = 0.f;
 	bLeaving = false;
 	bDone = false;
 }
@@ -162,7 +173,8 @@ void UFixHimIntroCardWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 	Super::NativeTick(MyGeometry, InDeltaTime);
 	Age += InDeltaTime;
 
-	const float In = EaseOutBack(Age / 0.45f);
+	const bool Reduced=FixHimDesign::ReducedMotion();
+ const float In=Reduced ? 1.f : EaseOutBack(Age/.45f);
 	// Holds until clicked, then swoops out.
 	const float Out = bLeaving ? FMath::Clamp((Age - LeaveAge) / OutSeconds, 0.f, 1.f) : 0.f;
 	const float W = MyGeometry.GetLocalSize().X;
@@ -173,20 +185,20 @@ void UFixHimIntroCardWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 	}
 	if (Band2)
 	{
-		const float In2 = EaseOutBack((Age - 0.08f) / 0.45f);
+		const float In2=Reduced ? 1.f : EaseOutBack((Age-.08f)/.45f);
 		Band2->GetParent()->SetRenderTranslation(FVector2D(FMath::Lerp(W * 1.6f, 0.f, In2) - Out * W * 1.6f, 0.f));
 	}
 	if (Silhouette)
 	{
-		const float S = EaseOutBack((Age - 0.2f) / 0.5f);
+		const float S=Reduced ? 1.f : EaseOutBack((Age-.2f)/.5f);
 		Silhouette->SetRenderScale(FVector2D(FMath::Max(0.01f, S * (1.f - Out))));
-		Silhouette->SetRenderTransformAngle(FMath::Sin(Age * 2.f) * 3.f);
+		Silhouette->SetRenderTransformAngle(0);
 	}
 	const float TextIn = FMath::Clamp((Age - 0.35f) / 0.3f, 0.f, 1.f);
 	if (MaladyName)
 	{
 		MaladyName->SetRenderOpacity(TextIn * (1.f - Out));
-		MaladyName->SetRenderScale(FVector2D(FMath::Lerp(1.6f, 1.f, EaseOutBack((Age - 0.35f) / 0.4f))));
+		MaladyName->SetRenderScale(FVector2D(Reduced ? 1.f : FMath::Lerp(1.08f,1.f,FMath::Clamp((Age-.35f)/.4f,0.f,1.f))));
 	}
 	if (Kicker)
 	{
@@ -239,7 +251,7 @@ void UFixHimEndingCardWidget::BuildUI()
 	Kind->SetJustification(ETextJustify::Center);
 	Col->AddChildToVerticalBox(Kind);
 
-	Title = MakeText(WidgetTree, TEXT("Title"), 44, HotPink, TEXT("Bold"));
+	Title = MakeText(WidgetTree, TEXT("Title"), 44, HotPink, TEXT("Display"));
 	Title->SetJustification(ETextJustify::Center);
 	Title->SetAutoWrapText(true);
 	Col->AddChildToVerticalBox(Title)->SetPadding(FMargin(0.f, 4.f, 0.f, 14.f));
@@ -256,7 +268,7 @@ void UFixHimEndingCardWidget::BuildUI()
 
 	TWeakObjectPtr<UFixHimEndingCardWidget> Self(this);
 	USizeBox* Box = WidgetTree->ConstructWidget<USizeBox>();
-	Box->SetHeightOverride(56.f);
+	Box->SetMinDesiredHeight(72.f);
 	Box->AddChild(UFixHimButton::Make(WidgetTree, TEXT("Continue"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->CloseEndingCard(); } }, 22, true));
 	Col->AddChildToVerticalBox(Box);
 }
@@ -301,7 +313,7 @@ void UFixHimEndingCardWidget::NativeTick(const FGeometry& MyGeometry, float InDe
 	Age += InDeltaTime;
 	if (Card)
 	{
-		const float S = EaseOutBack(Age / 0.5f);
+		const float S=FixHimDesign::ReducedMotion() ? 1.f : FMath::Lerp(.96f,1.f,FMath::Clamp(Age/.2f,0.f,1.f));
 		Card->SetRenderScale(FVector2D(FMath::Max(0.01f, S)));
 	}
 }

@@ -13,6 +13,7 @@
 #include "Components/Overlay.h"
 #include "Components/OverlaySlot.h"
 #include "Components/SizeBox.h"
+#include "Components/ScrollBox.h"
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
@@ -37,9 +38,9 @@ void UFixHimRadioWidget::BuildUI()
 	SizeSlot->SetVerticalAlignment(VAlign_Bottom);
 	SizeSlot->SetPadding(FMargin(0.f, 0.f, 0.f, 64.f));
 
-	Panel = WidgetTree->ConstructWidget<UBorder>();
+	Panel = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Panel->SetBrush(Rounded(FLinearColor(Plum.R, Plum.G, Plum.B, 0.86f), 20.f, Pink, 2.f));
-	Panel->SetPadding(FMargin(22.f, 12.f));
+	Panel->SetPadding(FMargin(64,16,40,28));
 	Size->AddChild(Panel);
 
 	UVerticalBox* Col = WidgetTree->ConstructWidget<UVerticalBox>();
@@ -48,9 +49,9 @@ void UFixHimRadioWidget::BuildUI()
 	UHorizontalBox* Top = WidgetTree->ConstructWidget<UHorizontalBox>();
 	Col->AddChildToVerticalBox(Top)->SetPadding(FMargin(0.f, 0.f, 0.f, 6.f));
 
-	OnAirDot = WidgetTree->ConstructWidget<UBorder>();
+	OnAirDot = WidgetTree->ConstructWidget<UFixHimSurface>();
 	OnAirDot->SetBrush(Rounded(FLinearColor(1.f, 0.2f, 0.25f), 8.f));
-	OnAirDot->SetPadding(FMargin(10.f, 2.f));
+	OnAirDot->SetPadding(FMargin(20,4,28,18));
 	OnAirDot->SetContent(MakeText(WidgetTree, TEXT("ON AIR"), 12, FLinearColor::White, TEXT("Bold")));
 	Top->AddChildToHorizontalBox(OnAirDot)->SetVerticalAlignment(VAlign_Center);
 
@@ -61,7 +62,7 @@ void UFixHimRadioWidget::BuildUI()
 
 	UHorizontalBox* Body = WidgetTree->ConstructWidget<UHorizontalBox>();
 	Col->AddChildToVerticalBox(Body);
-	Speaker = MakeText(WidgetTree, TEXT(""), 19, Pink, TEXT("Bold"));
+	Speaker = MakeText(WidgetTree, TEXT(""),19,Blush,TEXT("Semibold"));
 	Body->AddChildToHorizontalBox(Speaker)->SetPadding(FMargin(0.f, 0.f, 10.f, 0.f));
 	Line = MakeText(WidgetTree, TEXT(""), 19, Cream);
 	Line->SetAutoWrapText(true);
@@ -120,7 +121,7 @@ void UFixHimRadioWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTi
 	{
 		return;
 	}
-	OnAirDot->SetRenderOpacity(0.6f + 0.4f * FMath::Sin(Age * 5.f));
+	OnAirDot->SetRenderOpacity(FixHimDesign::ReducedMotion() ? 1.f : .8f+.2f*FMath::Sin(Age*3.f));
 	LineTimer += InDeltaTime;
 	if (LineTimer >= LineDuration)
 	{
@@ -166,7 +167,7 @@ void UFixHimTransitionWidget::BuildUI()
 
 	UVerticalBox* Col = WidgetTree->ConstructWidget<UVerticalBox>();
 	Curtain->SetContent(Col);
-	TitleText = MakeText(WidgetTree, TEXT(""), 76, Pink, TEXT("Bold"));
+	TitleText = MakeText(WidgetTree, TEXT(""), 76, Pink, TEXT("Display"));
 	TitleText->SetJustification(ETextJustify::Center);
 	Col->AddChildToVerticalBox(TitleText)->SetHorizontalAlignment(HAlign_Center);
 	SubtitleText = MakeText(WidgetTree, TEXT(""), 26, Blush, TEXT("Italic"));
@@ -223,7 +224,7 @@ void UFixHimTransitionWidget::NativeTick(const FGeometry& MyGeometry, float InDe
 		const float In = FMath::Clamp(Timer / 0.6f, 0.f, 1.f);
 		const float Out = FMath::Clamp((CardTime - Timer) / 0.5f, 0.f, 1.f);
 		TitleText->SetRenderOpacity(In * Out);
-		TitleText->SetRenderScale(FVector2D(FMath::Lerp(1.25f, 1.f, EaseOutBack(Timer / 0.6f))));
+		TitleText->SetRenderScale(FVector2D(FixHimDesign::ReducedMotion() ? 1.f : FMath::Lerp(1.04f,1.f,FMath::Clamp(Timer/.6f,0.f,1.f))));
 		SubtitleText->SetRenderOpacity(FMath::Clamp((Timer - 0.4f) / 0.6f, 0.f, 1.f) * Out);
 		if (Timer >= CardTime)
 		{
@@ -268,14 +269,16 @@ void UFixHimKeepsakeWidget::BuildUI()
 	DimSlot->SetHorizontalAlignment(HAlign_Fill);
 	DimSlot->SetVerticalAlignment(VAlign_Fill);
 
-	Card = WidgetTree->ConstructWidget<UBorder>();
+	Card = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Card->SetBrush(Rounded(Cream, 28.f, Pink, 4.f));
-	Card->SetPadding(FMargin(36.f, 28.f));
-	UOverlaySlot* CardSlot = Root->AddChildToOverlay(Card);
+	Card->SetPadding(FMargin(40,32,48,40));
+	USizeBox* CardSize=WidgetTree->ConstructWidget<USizeBox>(); CardSize->SetWidthOverride(1200); CardSize->SetMaxDesiredHeight(960);
+ UScrollBox* CardScroll=WidgetTree->ConstructWidget<UScrollBox>(); CardScroll->SetAnimateWheelScrolling(false); CardScroll->AddChild(Card); CardSize->AddChild(CardScroll);
+ UOverlaySlot* CardSlot = Root->AddChildToOverlay(CardSize);
 	CardSlot->SetHorizontalAlignment(HAlign_Center);
 	CardSlot->SetVerticalAlignment(VAlign_Center);
 
-	Content = WidgetTree->ConstructWidget<UVerticalBox>();
+	Content = WidgetTree->ConstructWidget<UFixHimStack>();
 	Card->SetContent(Content);
 }
 
@@ -292,7 +295,7 @@ void UFixHimKeepsakeWidget::ShowChooser()
 	bShowingPortrait = false;
 	TWeakObjectPtr<UFixHimKeepsakeWidget> Self(this);
 
-	UTextBlock* Title = MakeText(WidgetTree, TEXT("You fixed him."), 44, HotPink, TEXT("Bold"));
+	UTextBlock* Title = MakeText(WidgetTree, TEXT("You fixed him."), 44, HotPink, TEXT("Display"));
 	Title->SetJustification(ETextJustify::Center);
 	Content->AddChildToVerticalBox(Title)->SetHorizontalAlignment(HAlign_Center);
 
@@ -303,12 +306,13 @@ void UFixHimKeepsakeWidget::ShowChooser()
 	}
 	UTextBlock* Sub = MakeText(WidgetTree, FString::Printf(TEXT("...and somewhere along the way, you fell for %s."), *Names), 20, Plum, TEXT("Italic"));
 	Sub->SetJustification(ETextJustify::Center);
+ Sub->SetAutoWrapText(true);
 	Content->AddChildToVerticalBox(Sub)->SetPadding(FMargin(0.f, 6.f, 0.f, 22.f));
 
 	for (int32 i = 0; i < Entries.Num(); ++i)
 	{
 		USizeBox* Box = WidgetTree->ConstructWidget<USizeBox>();
-		Box->SetHeightOverride(58.f);
+		Box->SetMinDesiredHeight(72.f);
 		Box->SetWidthOverride(360.f);
 		Box->AddChild(UFixHimButton::Make(WidgetTree, FString::Printf(TEXT("See %s"), *Entries[i].Name), [Self, i]() { if (Self.IsValid()) { Self->ShowPortrait(i); } }, 22, true));
 		UVerticalBoxSlot* BoxSlot = Content->AddChildToVerticalBox(Box);
@@ -317,7 +321,7 @@ void UFixHimKeepsakeWidget::ShowChooser()
 	}
 
 	USizeBox* Back = WidgetTree->ConstructWidget<USizeBox>();
-	Back->SetHeightOverride(52.f);
+	Back->SetMinDesiredHeight(72.f);
 	Back->SetWidthOverride(360.f);
 	Back->AddChild(UFixHimButton::Make(WidgetTree, TEXT("Return to title"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->FinishGame(); } }, 20, false));
 	UVerticalBoxSlot* BackSlot = Content->AddChildToVerticalBox(Back);
@@ -337,7 +341,7 @@ void UFixHimKeepsakeWidget::ShowPortrait(int32 Index)
 	bShowingPortrait = true;
 	TWeakObjectPtr<UFixHimKeepsakeWidget> Self(this);
 
-	UTextBlock* Name = MakeText(WidgetTree, E.Name.ToUpper(), 40, HotPink, TEXT("Bold"));
+	UTextBlock* Name = MakeText(WidgetTree, E.Name.ToUpper(), 40, HotPink, TEXT("Display"));
 	Name->SetJustification(ETextJustify::Center);
 	Content->AddChildToVerticalBox(Name)->SetHorizontalAlignment(HAlign_Center);
 
@@ -354,8 +358,8 @@ void UFixHimKeepsakeWidget::ShowPortrait(int32 Index)
 	}
 
 	USizeBox* ImgBox = WidgetTree->ConstructWidget<USizeBox>();
-	ImgBox->SetWidthOverride(620.f);
-	ImgBox->SetHeightOverride(620.f);
+	ImgBox->SetWidthOverride(500.f);
+	ImgBox->SetHeightOverride(500.f);
 	UBorder* Frame = WidgetTree->ConstructWidget<UBorder>();
 	Frame->SetBrush(Rounded(Plum, 24.f, HotPink, 5.f));
 	Frame->SetPadding(FMargin(8.f));
@@ -387,7 +391,7 @@ void UFixHimKeepsakeWidget::ShowPortrait(int32 Index)
 	auto Add = [&](const FString& Label, TFunction<void()> Fn, bool bPrimary)
 	{
 		USizeBox* Box = WidgetTree->ConstructWidget<USizeBox>();
-		Box->SetHeightOverride(52.f);
+		Box->SetMinDesiredHeight(72.f);
 		Box->SetWidthOverride(240.f);
 		Box->AddChild(UFixHimButton::Make(WidgetTree, Label, MoveTemp(Fn), 20, bPrimary));
 		Buttons->AddChildToHorizontalBox(Box)->SetPadding(FMargin(8.f, 0.f));
@@ -420,6 +424,6 @@ void UFixHimKeepsakeWidget::NativeTick(const FGeometry& MyGeometry, float InDelt
 	Age += InDeltaTime;
 	if (Card)
 	{
-		Card->SetRenderScale(FVector2D(FMath::Max(0.01f, EaseOutBack(Age / 0.5f))));
+		Card->SetRenderScale(FVector2D(FixHimDesign::ReducedMotion() ? 1.f : FMath::Lerp(.96f,1.f,FMath::Clamp(Age/.2f,0.f,1.f))));
 	}
 }

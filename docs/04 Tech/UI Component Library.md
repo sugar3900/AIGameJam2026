@@ -1,0 +1,85 @@
+---
+tags: [tech, ui]
+status: draft
+---
+# UI Component Library
+
+Implementation companion to [[UI Design System]]. The visual decisions remain the authority; this page describes the reusable runtime pieces and how to review them. Measurements and screen compositions are a first implementation for design feedback.
+
+## Source and assets
+
+| Source | Responsibility |
+|---|---|
+| `Source/ICanFixHim/UI/FixHimDesign.h/.cpp` | Selected color/type tokens, scalable rounded slanted surface renderer, angled placement stack, icon helper |
+| `Source/ICanFixHim/UI/FixHimUI.h/.cpp` | Runtime Barlow font families, text/button factories, slider/checkbox styles, popup shell, focus traversal |
+| `Source/ICanFixHim/UI/FixHimDesignReview.h/.cpp` | Live component workshop (`FixHim.DesignSystem`) |
+| `Source/ICanFixHim/Tests/FixHimDesignSystemTest.cpp` | Real-widget rendering and authored-content checks |
+| `Art Source/UI/Design/` | Prepared font files, icon masks, logo and licenses |
+| `Content/ICanFixHim/UI/Design/` | Imported cooked assets |
+
+Imported font faces are assembled into strongly referenced runtime `UFont` families. Body Regular and Semibold use Barlow; display uses Barlow Condensed ExtraBold Italic. The display transform adds only the shear needed to reach 12°. Body emphasis stays upright. Screen widgets should obtain text from `FixHimUI::MakeText` / `Font`, not the engine default font.
+
+## Surface and placement primitives
+
+`UFixHimSurface` is compatible with `UBorder`: add upright content, set padding, and set a brush tint. It draws rounded 12° contours with a shared orange outline, heavier lower/right border, ink offset shadow and the selected subtle gradient for teal/pink. Cream stays flat.
+
+The contour is generated at the current allocated size with tessellated rounded corners and an antialias fringe; it is not a stretched bitmap. Outline, extrusion and shadow share the same contour. The content is neither rotated nor sheared. Leave padding for the slanted edges and the lower/right border layers.
+
+`UFixHimStack` is a vertical layout whose child anchors follow the 12° grid. It reserves the required horizontal space, adjusts row positions along the grid, and keeps each child's own geometry upright. Use it for card content and menu columns. Keep spatial floor-plan cells rectangular so the room geometry remains truthful.
+
+Use the common popup `MakeCardScreen` rather than building a new modal frame per screen. It supplies the scrim, surface, header, bounded scrolling, opening motion and click-outside boundary. A titleless shell supports ending cards. Actions stack vertically.
+
+## Buttons and inline topics
+
+| Variant | Behavior and usage |
+|---|---|
+| Primary | Pink gradient, white label; the main action |
+| Secondary | Cream, ink label; fills pink with a white label on hover/focus |
+| Reply | Secondary construction with upright, left-aligned, wrapping authored text |
+| Topic | Pink text and underline, stronger underline on hover/focus; hand cursor; inline conversation link |
+| Spatial | Stock rectangular control for the floor-plan's actual room footprints |
+
+`UFixHimButton::Make` creates a wrapping labelled action button and accepts its existing callback. `SetVariant(EFixHimButtonVariant)` selects a semantic variant. The legacy boolean overload remains for existing callers. `Label` is available for alignment and content updates.
+
+States: idle, hover, keyboard/gamepad focus, pressed, selected and disabled. Selected reuses the focus treatment. Shared action buttons show a white contour and diamond on hover/focus; state meaning does not rely on pink alone. Pressing moves the face towards its extrusion; disabled uses neutral surface/ink. No heart is added to a reply to predict relationship outcomes.
+
+Stock Slate button behavior still handles pointer capture, keyboard/gamepad activation and dynamic delegates. Existing hover/click/back/topic/choice sounds are retained. The component workshop can force focus/pressed samples without changing gameplay semantics.
+
+## Forms, navigation and accessibility
+
+- Sliders retain a 48-unit hit row, 30-unit thumb, thick rounded track, hover enlargement, keyboard adjustment, live numeric value and soft stepped feedback.
+- Checkboxes use the shared palette and Phosphor check glyph. Their padding makes the control's hit area at least 48 units.
+- Name entry retains a distinct focus outline and its existing validation/commit behavior.
+- Tab/Shift+Tab and up/down or gamepad D-pad traverse enabled visible controls, skipping controls under hidden/disabled ancestors. Focused descendants scroll into view. Popup opening selects an initial enabled action when a field does not already have focus.
+- Options include UI text size (100–135%, applied as screens are rebuilt) and reduced motion. They are saved alongside existing options. Body/reply copy is never shortened or scaled down to fit.
+- Reduced motion removes popup scaling, intro swoops/scaling and decorative dialogue hearts/movement; transitions retain necessary narrative fades. Existing reticle motion has separate tuning and is not changed by this component migration.
+- Large reading areas and menus scroll within bounded surfaces. This is a fallback for larger text and unusually long content, not permission to hide normal-size choices unnecessarily.
+
+## Screen patterns
+
+Shared components are used by title/name entry, pause/options/credits, end-day confirmation, dialogue, ending cards, HUD labels, radio captions, character introductions, transitions and keepsakes. The floor plan keeps actual runtime room rectangles and applies the selected palette to its surrounding sheet and statuses.
+
+Dialogue retains its typewriter, clickable topic callbacks and authored choices. Meters use a separate compact labelled row with Phosphor heart/users/lightning icons; narration and generic script scenes hide the relationship group. Four replies stack and wrap. Character introductions use visible painted portraits where available.
+
+The selected v4 logo is imported once for the title screen. Its raster edge speckling and a final editable brand master still need a dedicated finishing pass; it has not been silently replaced by a different logo. Construction stripes and routine ray flourishes remain excluded.
+
+## Rebuilding assets
+
+From the repository root on macOS:
+
+```sh
+python3 Tools/Art/DesignSystem/prepare_assets.py
+python3 Tools/run_in_editor.py Tools/Editor/import_design_system.py
+```
+
+Run the import in an initialized editor: the stock font importer requires Slate, even in unattended mode. Import and preparation touch only the shared design asset directory. Font OFL and Phosphor MIT licenses are included with the prepared source assets. `/Game/ICanFixHim/UI/Design` is explicitly included in cooking.
+
+## Review and validation
+
+In a development game or PIE session, execute `FixHim.DesignSystem` to open the live workshop. It displays shared button states, full-length reply text, a slider, checkbox and icon samples. Closing restores the prior gameplay/pause state. It does not change progress.
+
+Run engine automation `FixHim.UI.DesignSystem` with a renderer to write actual widget PNGs under `Saved/DesignSystem/Review/`; null-RHI runs check construction and content without rendering. The suite checks imported font faces and preserves the authored long narration and replies. Captures cover 720p, 1080p, 1440p and ultrawide layouts, plus enlarged text. Use `FixHim.UI.Reticles` for the independent reticle regression suite.
+
+Final design feedback should evaluate contour/border proportions, typographic hierarchy, spacing, focus treatment and the dialogue's balance between reading area and scene visibility. Validation results and the captured review set will be recorded after the implementation pass.
+
+Related: [[UI Design System]] · [[Tech Overview]]

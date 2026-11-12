@@ -76,9 +76,9 @@ void UFixHimHUDWidget::BuildUI()
 	ReticleBox->AddChild(Layers);
 	Ret->AddChildToVerticalBox(ReticleBox)->SetHorizontalAlignment(HAlign_Center);
 
-	PromptPill = WidgetTree->ConstructWidget<UBorder>();
+	PromptPill = WidgetTree->ConstructWidget<UFixHimSurface>();
 	PromptPill->SetBrush(Rounded(FLinearColor(Plum.R, Plum.G, Plum.B, 0.8f), 14.f));
-	PromptPill->SetPadding(FMargin(14.f, 5.f));
+	PromptPill->SetPadding(FMargin(28,6,36,20));
 	PromptText = MakeText(WidgetTree, TEXT(""), 18, Cream, TEXT("Bold"));
 	PromptPill->SetContent(PromptText);
 	PromptPill->SetVisibility(ESlateVisibility::Collapsed);
@@ -89,10 +89,10 @@ void UFixHimHUDWidget::BuildUI()
 	PromptSlot->SetVerticalAlignment(VAlign_Center);
 
 	// ---- Room name (top left) ----
-	RoomPill = WidgetTree->ConstructWidget<UBorder>();
+	RoomPill = WidgetTree->ConstructWidget<UFixHimSurface>();
 	RoomPill->SetBrush(Rounded(FLinearColor(Plum.R, Plum.G, Plum.B, 0.72f), 18.f, Pink, 2.f));
-	RoomPill->SetPadding(FMargin(20.f, 8.f));
-	RoomText = MakeText(WidgetTree, TEXT(""), 22, Cream, TEXT("Bold"));
+	RoomPill->SetPadding(FMargin(32,8,40,22));
+	RoomText = MakeText(WidgetTree, TEXT(""), 26, Cream, TEXT("Display"));
 	RoomPill->SetContent(RoomText);
 	UOverlaySlot* RoomSlot = Root->AddChildToOverlay(RoomPill);
 	RoomSlot->SetHorizontalAlignment(HAlign_Left);
@@ -101,9 +101,9 @@ void UFixHimHUDWidget::BuildUI()
 	RoomPill->SetVisibility(ESlateVisibility::Collapsed);
 
 	// ---- Repairs (top right) ----
-	UBorder* RepPill = WidgetTree->ConstructWidget<UBorder>();
+	UBorder* RepPill = WidgetTree->ConstructWidget<UFixHimSurface>();
 	RepPill->SetBrush(Rounded(FLinearColor(Plum.R, Plum.G, Plum.B, 0.72f), 18.f));
-	RepPill->SetPadding(FMargin(18.f, 8.f));
+	RepPill->SetPadding(FMargin(32,8,40,22));
 	RepairsText = MakeText(WidgetTree, TEXT("Repairs 0/0"), 18, Blush, TEXT("Bold"));
 	RepPill->SetContent(RepairsText);
 	UOverlaySlot* RepSlot = Root->AddChildToOverlay(RepPill);
@@ -121,9 +121,9 @@ void UFixHimHUDWidget::BuildUI()
 	HintSlot->SetPadding(FMargin(28.f, 20.f));
 
 	// ---- Toast (top centre) ----
-	ToastPill = WidgetTree->ConstructWidget<UBorder>();
+	ToastPill = WidgetTree->ConstructWidget<UFixHimSurface>();
 	ToastPill->SetBrush(Rounded(Pink, 16.f));
-	ToastPill->SetPadding(FMargin(18.f, 7.f));
+	ToastPill->SetPadding(FMargin(32,8,40,22));
 	ToastText = MakeText(WidgetTree, TEXT(""), 18, FLinearColor::White, TEXT("Bold"));
 	ToastPill->SetContent(ToastText);
 	UOverlaySlot* ToastSlot = Root->AddChildToOverlay(ToastPill);

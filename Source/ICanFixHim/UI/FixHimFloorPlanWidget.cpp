@@ -32,9 +32,9 @@ void UFixHimFloorPlanWidget::BuildUI()
 	DimSlot->SetHorizontalAlignment(HAlign_Fill);
 	DimSlot->SetVerticalAlignment(VAlign_Fill);
 
-	Sheet = WidgetTree->ConstructWidget<UBorder>();
+	Sheet = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Sheet->SetBrush(Rounded(Blueprint, 18.f, FLinearColor(0.75f, 0.85f, 1.f, 0.9f), 3.f));
-	Sheet->SetPadding(FMargin(30.f, 22.f));
+	Sheet->SetPadding(FMargin(160,28,48,36));
 	UOverlaySlot* SheetSlot = Root->AddChildToOverlay(Sheet);
 	SheetSlot->SetHorizontalAlignment(HAlign_Center);
 	SheetSlot->SetVerticalAlignment(VAlign_Center);
@@ -42,9 +42,9 @@ void UFixHimFloorPlanWidget::BuildUI()
 	UVerticalBox* Col = WidgetTree->ConstructWidget<UVerticalBox>();
 	Sheet->SetContent(Col);
 
-	UTextBlock* Title = MakeText(WidgetTree, TEXT("FLOOR PLAN  -  12 HEARTBREAK LANE"), 26, FLinearColor(0.85f, 0.92f, 1.f), TEXT("Bold"));
+	UTextBlock* Title = MakeText(WidgetTree, TEXT("FLOOR PLAN  -  12 HEARTBREAK LANE"), 32, Cream, TEXT("Display"));
 	Col->AddChildToVerticalBox(Title)->SetPadding(FMargin(0.f, 0.f, 0.f, 4.f));
-	UTextBlock* Sub = MakeText(WidgetTree, TEXT("Click a room to go there.  [M] or click outside to close"), 16, FLinearColor(0.7f, 0.8f, 1.f, 0.85f), TEXT("Italic"));
+	UTextBlock* Sub = MakeText(WidgetTree, TEXT("Click a room to go there.  [M] or click outside to close"), 16, Cream.CopyWithNewOpacity(.85f), TEXT("Italic"));
 	Col->AddChildToVerticalBox(Sub)->SetPadding(FMargin(0.f, 0.f, 0.f, 14.f));
 
 	USizeBox* MapBox = WidgetTree->ConstructWidget<USizeBox>();
@@ -118,7 +118,7 @@ void UFixHimFloorPlanWidget::Refresh()
 
 		const bool bHere = Room->RoomId == CurrentRoom;
 		const FLinearColor Line(0.85f, 0.92f, 1.f, Room->bLocked ? 0.35f : 1.f);
-		const FLinearColor Fill = Room->bLocked ? FLinearColor(0.1f, 0.18f, 0.35f, 0.6f) : (bHere ? FLinearColor(Pink.R, Pink.G, Pink.B, 0.45f) : FLinearColor(Room->MapColor.R, Room->MapColor.G, Room->MapColor.B, 0.22f));
+		const FLinearColor Fill = Room->bLocked ? Plum.CopyWithNewOpacity(.4f) : (bHere ? FLinearColor(Pink.R, Pink.G, Pink.B, 0.45f) : Plum.CopyWithNewOpacity(.65f));
 
 		UVerticalBox* Info = WidgetTree->ConstructWidget<UVerticalBox>();
 		UTextBlock* Name = MakeText(WidgetTree, Room->DisplayName.ToString().ToUpper(), 20, Line, TEXT("Bold"));

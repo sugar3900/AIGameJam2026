@@ -21,6 +21,7 @@
 #include "Components/ProgressBar.h"
 #include "Components/SizeBox.h"
 #include "Components/Spacer.h"
+#include "Components/ScrollBox.h"
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
@@ -53,11 +54,15 @@ void UFixHimDialogueWidget::BuildUI()
 	PanelSlot->SetVerticalAlignment(VAlign_Bottom);
 	PanelSlot->SetPadding(FMargin(40.f, 0.f, 40.f, 22.f));
 
-	UBorder* Panel = WidgetTree->ConstructWidget<UBorder>();
+	UBorder* Panel = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Panel->SetBrush(Rounded(FLinearColor(Cream.R, Cream.G, Cream.B, 0.97f), 26.f, Pink, 4.f));
-	Panel->SetPadding(FMargin(22.f, 18.f, 26.f, 16.f));
+	Panel->SetPadding(FMargin(160,24,48,30));
 	Panel->SetVisibility(ESlateVisibility::Visible);
-	PanelSize->AddChild(Panel);
+	PanelSize->SetMaxDesiredHeight(760.f);
+ UScrollBox* ReadingScroll=WidgetTree->ConstructWidget<UScrollBox>();
+ ReadingScroll->SetAnimateWheelScrolling(false);
+ PanelSize->AddChild(ReadingScroll);
+ ReadingScroll->AddChild(Panel);
 
 	UHorizontalBox* Row = WidgetTree->ConstructWidget<UHorizontalBox>();
 	Panel->SetContent(Row);
@@ -78,17 +83,17 @@ void UFixHimDialogueWidget::BuildUI()
 	PortraitSlot->SetPadding(FMargin(0.f, 0.f, 24.f, 0.f));
 
 	// Text column
-	UVerticalBox* Col = WidgetTree->ConstructWidget<UVerticalBox>();
+	UVerticalBox* Col = WidgetTree->ConstructWidget<UFixHimStack>();
 	UHorizontalBoxSlot* ColSlot = Row->AddChildToHorizontalBox(Col);
 	ColSlot->SetSize(FSlateChildSize(ESlateSizeRule::Fill));
 
 	UHorizontalBox* Header = WidgetTree->ConstructWidget<UHorizontalBox>();
 	Col->AddChildToVerticalBox(Header)->SetPadding(FMargin(0.f, 0.f, 0.f, 8.f));
 
-	NamePill = WidgetTree->ConstructWidget<UBorder>();
+	NamePill = WidgetTree->ConstructWidget<UFixHimSurface>();
 	NamePill->SetBrush(Rounded(HotPink, 16.f));
-	NamePill->SetPadding(FMargin(16.f, 4.f));
-	NameText = MakeText(WidgetTree, TEXT("NAME"), 22, FLinearColor::White, TEXT("Bold"));
+	NamePill->SetPadding(FMargin(28,6,36,20));
+	NameText = MakeText(WidgetTree, TEXT("NAME"), 28, FLinearColor::White, TEXT("Display"));
 	NamePill->SetContent(NameText);
 	Header->AddChildToHorizontalBox(NamePill)->SetVerticalAlignment(VAlign_Center);
 
@@ -103,11 +108,15 @@ void UFixHimDialogueWidget::BuildUI()
 	auto AddMeter = [&](const FString& Label, const FLinearColor& Color) -> UProgressBar*
 	{
 		UHorizontalBox* M = WidgetTree->ConstructWidget<UHorizontalBox>();
-		UHorizontalBoxSlot* LabelSlot = M->AddChildToHorizontalBox(MakeText(WidgetTree, Label, 18, PlumSoft, TEXT("Bold")));
+		const FString IconName=Label==TEXT("ROMANCE") ? TEXT("heart") : Label==TEXT("FRIENDSHIP") ? TEXT("users") : TEXT("lightning");
+  USizeBox* IconBox=WidgetTree->ConstructWidget<USizeBox>(); IconBox->SetWidthOverride(22); IconBox->SetHeightOverride(22);
+  IconBox->AddChild(FixHimDesign::Icon(WidgetTree,IconName,Color));
+  M->AddChildToHorizontalBox(IconBox)->SetPadding(FMargin(0,0,6,0));
+  UHorizontalBoxSlot* LabelSlot = M->AddChildToHorizontalBox(MakeText(WidgetTree, Label, 14, PlumSoft, TEXT("Bold")));
 		LabelSlot->SetVerticalAlignment(VAlign_Center);
 		LabelSlot->SetPadding(FMargin(0.f, 0.f, 14.f, 0.f));
 		USizeBox* BB = WidgetTree->ConstructWidget<USizeBox>();
-		BB->SetWidthOverride(150.f);
+		BB->SetWidthOverride(100.f);
 		BB->SetHeightOverride(16.f);
 		UProgressBar* Bar = WidgetTree->ConstructWidget<UProgressBar>();
 		FProgressBarStyle Style;
@@ -125,7 +134,7 @@ void UFixHimDialogueWidget::BuildUI()
 	RomanceBar = AddMeter(TEXT("ROMANCE"), HotPink);
 	FriendBar = AddMeter(TEXT("FRIENDSHIP"), Mint);
 	FrictionBar = AddMeter(TEXT("FRICTION"), Ember);
-	Header->AddChildToHorizontalBox(Meters)->SetVerticalAlignment(VAlign_Center);
+	Col->AddChildToVerticalBox(Meters)->SetPadding(FMargin(0,0,0,12));
 	MetersBox = Meters;
 
 	// Line text: typewriter text while typing, then a wrap box of words so [topics] can be clicked.
@@ -313,6 +322,7 @@ void UFixHimDialogueWidget::ShowView(const FDialogueView& View)
 
 	const bool bPlayer = View.Speaker == EDialogueSpeaker::Player;
 	const bool bNarration = View.Speaker == EDialogueSpeaker::Narration;
+ MetersBox->SetVisibility(bNarration || bScriptScene ? ESlateVisibility::Collapsed : ESlateVisibility::HitTestInvisible);
 	const bool bNamed = View.Speaker == EDialogueSpeaker::Named;
 	NamePill->SetVisibility(bNarration ? ESlateVisibility::Hidden : ESlateVisibility::HitTestInvisible);
 	// The malady is the hunk's tag line: not shown while the player or the narrator is the one talking.
@@ -325,7 +335,7 @@ void UFixHimDialogueWidget::ShowView(const FDialogueView& View)
 	const FString PlayerName = SaveSub ? SaveSub->GetPlayerName() : UFixHimSettings::Get()->PlayerName;
 	const FString Speaker = bPlayer ? PlayerName : (bNamed ? View.SpeakerName : View.HunkName);
 	NameText->SetText(FText::FromString(Speaker.ToUpper()));
-	TypingText->SetFont(Font(24, bNarration ? TEXT("Italic") : TEXT("Regular")));
+	TypingText->SetFont(Font(24, TEXT("Regular")));
 	TypingText->SetColorAndOpacity(FSlateColor(bNarration ? PlumSoft : Plum));
 
 	ParseTokens(View.Text);
@@ -447,18 +457,20 @@ void UFixHimDialogueWidget::BuildWordWrap()
 	{
 		if (Tok.Topic.IsEmpty())
 		{
-			UTextBlock* W = MakeText(WidgetTree, Tok.Text, 24, bNarration ? PlumSoft : Plum, bNarration ? TEXT("Italic") : TEXT("Regular"));
+			UTextBlock* W = MakeText(WidgetTree, Tok.Text, 24, bNarration ? PlumSoft : Plum, TEXT("Regular"));
 			WordWrap->AddChildToWrapBox(W)->SetVerticalAlignment(VAlign_Center);
 		}
 		else
 		{
 			const FString Topic = Tok.Topic;
 			UFixHimButton* B = WidgetTree->ConstructWidget<UFixHimButton>();
-			FButtonStyle Style = ButtonStyle(Blush, Pink, HotPink, 10.f);
+ B->SetVariant(EFixHimButtonVariant::Topic);
+			FButtonStyle Style = ButtonStyle(Cream, Cream, Cream, 0.f, Pink);
 			Style.SetNormalPadding(FMargin(6.f, 0.f));
 			Style.SetPressedPadding(FMargin(6.f, 1.f, 6.f, 0.f));
 			B->SetStyle(Style);
-			B->Label = MakeText(WidgetTree, Tok.Text, 24, HotPink, TEXT("Bold"));
+			B->Label = MakeText(WidgetTree, Tok.Text,24,HotPink,TEXT("Semibold"));
+ B->SetCursor(EMouseCursor::Hand);
 			B->AddChild(B->Label);
 			B->SetToolTipText(FText::FromString(TEXT("Ask about this")));
 			B->ClickSfx = TEXT("TopicClick");
@@ -487,12 +499,14 @@ void UFixHimDialogueWidget::BuildChoices()
 	{
 		const FString Label = FString::Printf(TEXT("%d.  %s"), i + 1, *Current.Choices[i]);
 		UFixHimButton* B = WidgetTree->ConstructWidget<UFixHimButton>();
-		FButtonStyle Style = ButtonStyle(FLinearColor(1.f, 1.f, 1.f, 0.9f), Blush, Pink, 14.f, FLinearColor(Pink.R, Pink.G, Pink.B, 0.6f));
-		Style.SetNormalPadding(FMargin(16.f, 6.f));
-		Style.SetPressedPadding(FMargin(16.f, 7.f, 16.f, 5.f));
+ B->SetVariant(EFixHimButtonVariant::Reply);
+ FButtonStyle Style = ButtonStyle(Cream,Pink,Pink,12,Gold);
+		Style.SetNormalPadding(FMargin(24,6,32,24));
+		Style.SetPressedPadding(FMargin(26,9,30,21));
 		B->SetStyle(Style);
-		B->Label = MakeText(WidgetTree, Label, 20, Plum, TEXT("Bold"));
+		B->Label = MakeText(WidgetTree, Label, FixHimDesign::Reply, Plum, TEXT("Semibold"));
 		B->Label->SetAutoWrapText(true);
+ B->Label->SetColorAndOpacity(FSlateColor::UseForeground());
 		B->Label->SetJustification(ETextJustify::Left);
 		if (UButtonSlot* LabelSlot = Cast<UButtonSlot>(B->AddChild(B->Label)))
 		{
@@ -555,7 +569,7 @@ void UFixHimDialogueWidget::OnStatChanged(const FString& InHunkId, ERelationship
 
 void UFixHimDialogueWidget::SpawnFloater(const FString& Text, const FLinearColor& Color)
 {
-	UBorder* Pill = WidgetTree->ConstructWidget<UBorder>();
+	UBorder* Pill = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Pill->SetBrush(Rounded(Color, 20.f));
 	Pill->SetPadding(FMargin(20.f, 7.f));
 	Pill->SetContent(MakeText(WidgetTree, Text, 30, FLinearColor::White, TEXT("Bold")));
@@ -568,6 +582,7 @@ void UFixHimDialogueWidget::SpawnFloater(const FString& Text, const FLinearColor
 
 void UFixHimDialogueWidget::SpawnHearts(int32 Count)
 {
+ if(FixHimDesign::ReducedMotion()) return;
 	UTexture2D* HeartTex = UFixHimSettings::Get()->HeartTexture.LoadSynchronous();
 	for (int32 i = 0; i < Count; ++i)
 	{
@@ -607,7 +622,8 @@ void UFixHimDialogueWidget::NativeTick(const FGeometry& MyGeometry, float InDelt
 	if (PanelSize)
 	{
 		// A quarter of the screen plus room for two more lines of text (24pt, ~32px each).
-		PanelSize->SetMinDesiredHeight(ViewSize.Y * 0.25f + 64.f);
+		PanelSize->SetMinDesiredHeight(ViewSize.Y*.25f+64.f);
+ PanelSize->SetMaxDesiredHeight(ViewSize.Y*.72f);
 	}
 
 	if (bTyping && FxPhase == EFxPhase::None)
@@ -624,7 +640,7 @@ void UFixHimDialogueWidget::NativeTick(const FGeometry& MyGeometry, float InDelt
 			const int32 Shown = FMath::FloorToInt(CharsShown);
 			TypingText->SetText(FText::FromString(PlainText.Left(Shown)));
 			// A very soft tick every third letter.
-			if (Shown / 3 != LastTypeTick / 3 && !FChar::IsWhitespace(PlainText[Shown - 1]))
+			if (Shown / 3 != LastTypeTick / 3 && Shown > 0 && !FChar::IsWhitespace(PlainText[Shown - 1]))
 			{
 				FixHim::Sfx(this, "TypeTick", 0.5f, 0.1f);
 			}
@@ -633,7 +649,7 @@ void UFixHimDialogueWidget::NativeTick(const FGeometry& MyGeometry, float InDelt
 	}
 
 	HintBlink += InDeltaTime;
-	ContinueHint->SetRenderOpacity(0.55f + 0.45f * FMath::Sin(HintBlink * 4.f));
+	ContinueHint->SetRenderOpacity(FixHimDesign::ReducedMotion() ? 1.f : .8f+.2f*FMath::Sin(HintBlink*3.f));
 
 	// Fade-to-black ("...and then the lights went out").
 	if (FxPhase != EFxPhase::None)
@@ -678,7 +694,8 @@ void UFixHimDialogueWidget::NativeTick(const FGeometry& MyGeometry, float InDelt
 		}
 		const float T = F.Age / F.Life;
 		W->SetRenderOpacity(FMath::Clamp((1.f - T) * 2.f, 0.f, 1.f));
-		if (F.bCanvas)
+		if (FixHimDesign::ReducedMotion()) continue;
+  if (F.bCanvas)
 		{
 			F.Pos += F.Velocity * InDeltaTime;
 			F.Pos.X += FMath::Sin(F.Age * 5.f + i) * 30.f * InDeltaTime;

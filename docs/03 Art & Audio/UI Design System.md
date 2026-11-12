@@ -165,4 +165,4 @@ Decision sequence: original #7 selected; cooler/lighter teal and matched friends
 
 Source discussion: Improve Game UI and UX (thread `b0806708-59a3-49a6-86a6-d40b82cf6d24`), followed by this continuation. Numerical tokens and provisional geometry are recorded in `design-system.proposal.json`; older revisions are historical.
 
-Related: [[Art Direction]] · [[Tech Overview]] · [[AI Usage Log]]
+Related: [[Art Direction]] · [[UI Component Library]] · [[Tech Overview]] · [[AI Usage Log]]

@@ -6,6 +6,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "UI/FixHimDesign.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
 #include "Components/Slider.h"
@@ -29,17 +30,17 @@ namespace FixHimUI
 		return 1.f + C3 * FMath::Pow(T - 1.f, 3.f) + C1 * FMath::Pow(T - 1.f, 2.f);
 	}
 
-	// Palette: flirty pink renovation chic.
-	inline const FLinearColor Pink = FLinearColor::FromSRGBColor(FColor(0xFF, 0x5C, 0xA8));
-	inline const FLinearColor HotPink = FLinearColor::FromSRGBColor(FColor(0xFF, 0x2E, 0x88));
-	inline const FLinearColor Blush = FLinearColor::FromSRGBColor(FColor(0xFF, 0xD6, 0xE8));
-	inline const FLinearColor Cream = FLinearColor::FromSRGBColor(FColor(0xFF, 0xF7, 0xF0));
-	inline const FLinearColor Plum = FLinearColor::FromSRGBColor(FColor(0x3B, 0x14, 0x34));
-	inline const FLinearColor PlumSoft = FLinearColor::FromSRGBColor(FColor(0x6E, 0x3A, 0x64));
-	inline const FLinearColor Gold = FLinearColor::FromSRGBColor(FColor(0xFF, 0xC8, 0x57));
-	inline const FLinearColor Mint = FLinearColor::FromSRGBColor(FColor(0x5F, 0xD3, 0xB4));
-	inline const FLinearColor Ember = FLinearColor::FromSRGBColor(FColor(0xFF, 0x7A, 0x45));
-	inline const FLinearColor Blueprint = FLinearColor::FromSRGBColor(FColor(0x1E, 0x3A, 0x6E));
+	// Compatibility names for existing screens; all resolve to the shared selected palette.
+ inline const FLinearColor Pink = FixHimDesign::Pink;
+ inline const FLinearColor HotPink = FixHimDesign::Pink;
+ inline const FLinearColor Blush = FixHimDesign::Friendship;
+ inline const FLinearColor Cream = FixHimDesign::Cream;
+ inline const FLinearColor Plum = FixHimDesign::Ink;
+ inline const FLinearColor PlumSoft = FixHimDesign::Teal;
+ inline const FLinearColor Gold = FixHimDesign::Orange;
+ inline const FLinearColor Mint = FixHimDesign::Friendship;
+ inline const FLinearColor Ember = FixHimDesign::Orange;
+ inline const FLinearColor Blueprint = FixHimDesign::Teal;
 
 	ICANFIXHIM_API FSlateFontInfo Font(int32 Size, const TCHAR* Typeface = TEXT("Regular"));
 	ICANFIXHIM_API FSlateBrush Rounded(const FLinearColor& Fill, float Radius, const FLinearColor& Outline = FLinearColor::Transparent, float OutlineWidth = 0.f);
@@ -47,6 +48,9 @@ namespace FixHimUI
 
 	ICANFIXHIM_API UTextBlock* MakeText(UWidgetTree* Tree, const FString& Text, int32 Size, const FLinearColor& Color, const TCHAR* Typeface = TEXT("Regular"));
 }
+
+UENUM()
+enum class EFixHimButtonVariant : uint8 { Primary, Secondary, Reply, Topic, Spatial };
 
 /** UButton with a native lambda click handler (dynamic delegates can't capture). */
 UCLASS()
@@ -63,7 +67,18 @@ public:
 	/** Builds a styled pill button with a centred label. */
 	static UFixHimButton* Make(UWidgetTree* Tree, const FString& Label, TFunction<void()> OnClick, int32 FontSize = 22, bool bPrimary = true);
 
-	UTextBlock* Label = nullptr;
+ UPROPERTY() TObjectPtr<UTextBlock> Label;
+ bool bDesignSurface = false;
+ bool bInlineTopic = false;
+ EFixHimButtonVariant Variant = EFixHimButtonVariant::Spatial;
+ bool bPrimary = true;
+ bool bSelected = false;
+ bool bPreviewPressed = false; // component review only
+ void SetVariant(bool Primary, bool Selected = false);
+ void SetVariant(EFixHimButtonVariant InVariant);
+protected:
+ virtual TSharedRef<SWidget> RebuildWidget() override;
+
 
 private:
 	UFUNCTION()
@@ -135,6 +150,7 @@ protected:
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+ virtual FReply NativeOnKeyDown(const FGeometry& Geometry, const FKeyEvent& Event) override;
 
 	/** Sounds for the card pop-in / dismissal (card screens only); screens with their own cues can change these. */
 	FName OpenSfx = TEXT("ModalOpen");
@@ -164,4 +180,5 @@ private:
 	/** The card from MakeCardScreen; it grows in with a small overshoot every time the widget is shown. */
 	UPROPERTY() TObjectPtr<UWidget> PopCard;
 	float PopAge = 0.f;
+ bool bInitialFocus = false;
 };
