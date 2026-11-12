@@ -1,4 +1,4 @@
-"""Rev02 step 5w: give FrontDoor and Stove_Burner real art bodies instead of invisible click proxies.
+"""Rev02 step 5x: give FrontDoor and Stove_Burner real art bodies instead of invisible click proxies.
 
 The screen-space hover outline (UFixHimHoverOutlineSubsystem) rims the visible pixels of an interactable's own
 meshes, so an invisible proxy body gets no outline. Like every other click action, these two now take their art

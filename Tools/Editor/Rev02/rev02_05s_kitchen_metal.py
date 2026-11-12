@@ -144,7 +144,7 @@ if find(R3 + 'KI_RANGE03_Body'):
              'Oven_Dark': instance('MI_Range03_OvenDark', cpbr, {'Metallic': 0.0, 'Roughness': 0.50}, {'BaseColor': (0.082, 0.065, 0.052, 1)}),
              'Burner_Cast_Iron': instance('MI_Range03_CastIron', cpbr, {'Metallic': 0.25, 'Roughness': 0.80}, {'BaseColor': (0.075, 0.067, 0.060, 1)}),
              'Gasket': instance('MI_Range03_Gasket', cpbr, {'Metallic': 0.0, 'Roughness': 0.80}, {'BaseColor': (0.13, 0.115, 0.09, 1)})}
-    # Stove_Burner's Body is the range body (rev02_05w_outline_bodies), like Oven_Door's is the oven door.
+    # Stove_Burner's Body is the range body (rev02_05x_outline_bodies), like Oven_Door's is the oven door.
     for lab, comp, mesh in (('Art_KI_Range_Body', None, B3), ('Stove_Burner', 'Body', B3), ('Art_KI_Range_Door', None, D3), ('Oven_Door', 'Body', D3)):
         a = acts[lab]
         for c in a.get_components_by_class(unreal.StaticMeshComponent):

@@ -1,0 +1,42 @@
+{
+  "units": "Blender metres; wall mounting datum Y=0; front -Y; Z up",
+  "mount": [
+    0,
+    0,
+    0
+  ],
+  "upper_socket": [
+    0,
+    -0.0147,
+    0.022
+  ],
+  "lower_socket": [
+    0,
+    -0.0147,
+    -0.022
+  ],
+  "plug_mesh": "../PR-DEHUMIDIFIER-01/model/DH_Plug01.fbx",
+  "plug_rotation_deg": [
+    0,
+    0,
+    0
+  ],
+  "insertion_axis": [
+    0,
+    1,
+    0
+  ],
+  "cord_exit_relative_to_plug": [
+    0,
+    -0.043,
+    0
+  ],
+  "blade_centers_x": [
+    -0.0085,
+    0.0085
+  ],
+  "blade_center_z_offset": 0.005,
+  "ground_center_z_offset": -0.0075,
+  "seating_clearance_m": 0.0002,
+  "interaction_note": "Outlet stays on wall while appliance changes rooms. Occupancy/power and cable are runtime state."
+}
