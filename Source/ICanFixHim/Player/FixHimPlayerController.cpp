@@ -1894,6 +1894,47 @@ void AFixHimPlayerController::FixHimSetFixed(const FString& HunkId, int32 Fixed)
 		Dialogue->CountStoryHunks(), Dialogue->IsHouseFixed() ? TEXT("passes") : TEXT("fails"));
 }
 
+void AFixHimPlayerController::FixHimAimAt(const FString& Name, float Distance)
+{
+	APawn* P = GetPawn();
+	AActor* Target = nullptr;
+	// Interactables first, so a label shared with set dressing (e.g. "FloorLamp") resolves to the target.
+	for (TActorIterator<AFixHimInteractable> It(GetWorld()); It && P && !Target; ++It)
+	{
+		const bool bMatch = It->GetName().Contains(Name)
+#if WITH_EDITOR
+			|| It->GetActorLabel().Contains(Name)
+#endif
+			;
+		Target = bMatch ? *It : nullptr;
+	}
+	if (!Target)
+	{
+		UE_LOG(LogFixHim, Warning, TEXT("FixHimAimAt: no actor matching '%s'"), *Name);
+		return;
+	}
+	FVector Center, Extent;
+	Target->GetActorBounds(true, Center, Extent);
+	if (Extent.IsNearlyZero())
+	{
+		Target->GetActorBounds(false, Center, Extent);
+	}
+	FVector From = P->GetActorLocation();
+	for (TActorIterator<AFixHimRoom> It(GetWorld()); It; ++It)
+	{
+		if (!It->bSubVolume && It->ContainsPoint(Center))
+		{
+			From = It->GetEntryTransform().GetLocation();
+			break;
+		}
+	}
+	const FVector Dir = (From - Center).GetSafeNormal2D(UE_SMALL_NUMBER, Target->GetActorForwardVector().GetSafeNormal2D());
+	const FVector Feet = FVector(Center.X + Dir.X * Distance, Center.Y + Dir.Y * Distance, P->GetActorLocation().Z);
+	P->SetActorLocation(Feet, false, nullptr, ETeleportType::TeleportPhysics);
+	SetControlRotation((Center - P->GetPawnViewLocation()).Rotation());
+	UE_LOG(LogFixHim, Log, TEXT("FixHimAimAt: %s at %s from %s"), *GetNameSafe(Target), *Center.ToCompactString(), *Feet.ToCompactString());
+}
+
 void AFixHimPlayerController::FixHimDump()
 {
 	const UFixHimDialogueSubsystem* D = UFixHimDialogueSubsystem::Get(this);
