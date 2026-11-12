@@ -32,10 +32,28 @@ protected:
 
 private:
 	friend class FFixHimReticlesTest;
+	/** Advance reticle layer transitions; Seconds <= 0 or a hidden reticle snaps to the end state. */
+	void TickReticle(float DeltaSeconds);
+	void ApplyReticleLayers();
+
 	UPROPERTY() TObjectPtr<UWidget> ReticleRoot;
-	UPROPERTY() TObjectPtr<UImage> ReticleImage;
-	UPROPERTY() TMap<EFixHimInteractionAction, TObjectPtr<UTexture2D>> ReticleTextures;
+	UPROPERTY() TObjectPtr<UImage> ReticleBackground;
+	UPROPERTY() TObjectPtr<UImage> ReticleRing;
+	/** Idle-size ring with full-size line widths; swapped with ReticleRing as both scale to a shared radius. */
+	UPROPERTY() TObjectPtr<UImage> ReticleRingIdle;
+	/** The current center (dot or contextual icon) and the one cross-fading out. */
+	UPROPERTY() TObjectPtr<UImage> ReticleCenter;
+	UPROPERTY() TObjectPtr<UImage> ReticleCenterOut;
+	/** Center layer per action; None is the idle dot. */
+	UPROPERTY() TMap<EFixHimInteractionAction, TObjectPtr<UTexture2D>> ReticleCenterTextures;
 	EFixHimInteractionAction CurrentAction = EFixHimInteractionAction::None;
+	float ReticleTransitionSeconds = 0.f;
+	float ReticleIdleRingScale = 1.f;
+	float ReticleBackgroundOpacity = 1.f;
+	/** Transition progress, 0..1: ink background shown, incoming center shown, outgoing center remaining. */
+	float BackgroundT = 0.f;
+	float CenterInT = 1.f;
+	float CenterOutT = 0.f;
 	UPROPERTY() TObjectPtr<UTextBlock> PromptText;
 	UPROPERTY() TObjectPtr<UBorder> PromptPill;
 	UPROPERTY() TObjectPtr<UTextBlock> RoomText;

@@ -142,6 +142,9 @@ public:
 	UFUNCTION(Exec) void FixHimAuto(const FString& Choices);
 	UFUNCTION(Exec) void FixHimGoto(const FString& RoomId);
 	UFUNCTION(Exec) void FixHimLook(float Yaw, float Pitch);
+	/** Places the pawn Distance cm from an interactable (name or editor-label substring), on the side facing its room's
+	 *  entry, and aims at its bounds centre so the normal hover trace targets it. For scripted screenshots. */
+	UFUNCTION(Exec) void FixHimAimAt(const FString& Name, float Distance = 160.f);
 	UFUNCTION(Exec) void FixHimShot(const FString& Name);
 	UFUNCTION(Exec) void FixHimDump();
 	/** Plays dialogue scripts (comma-separated ids, e.g. "inspection,epilogue") in the dialogue box, then back to playing. */

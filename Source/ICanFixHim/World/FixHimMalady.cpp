@@ -8,6 +8,7 @@
 #include "Core/FixHimSaveSubsystem.h"
 #include "Dialogue/FixHimDialogueSubsystem.h"
 #include "Components/ArrowComponent.h"
+#include "Components/BoxComponent.h"
 #include "Components/PointLightComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/InstancedStaticMeshComponent.h"
@@ -18,6 +19,7 @@
 #include "Engine/Engine.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Engine/World.h"
+#include "EngineUtils.h"
 
 AFixHimMalady::AFixHimMalady()
 {
@@ -86,6 +88,35 @@ void AFixHimMalady::BeginPlay()
 	}
 
 	BuildBrokenFx();
+	if (Style == EMaladyStyle::Mold)
+	{
+		// The authored mold wraps several walls. Give each surface its own trace-only target
+		// owned by this malady, so hover/click resolves to Malcolm without blocking movement.
+		TArray<AActor*> AttachedActors;
+		GetAttachedActors(AttachedActors);
+		for (AActor* Attached : AttachedActors)
+		{
+			if (!Attached || !Attached->ActorHasTag(TEXT("AuthoredMoldDamage")))
+			{
+				continue;
+			}
+			TInlineComponentArray<UStaticMeshComponent*> Meshes(Attached);
+			for (UStaticMeshComponent* Mesh : Meshes)
+			{
+				if (!Mesh->GetStaticMesh()) { continue; }
+				const FBoxSphereBounds Bounds = Mesh->CalcBounds(Mesh->GetComponentTransform());
+				UBoxComponent* Target = NewObject<UBoxComponent>(this);
+				Target->SetupAttachment(Root);
+				Target->SetBoxExtent(Bounds.BoxExtent.ComponentMax(FVector(1.f)));
+				Target->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+				Target->SetCollisionResponseToAllChannels(ECR_Ignore);
+				Target->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
+				Target->SetGenerateOverlapEvents(false);
+				Target->RegisterComponent();
+				Target->SetWorldTransform(FTransform(Bounds.Origin));
+			}
+		}
+	}
 	if (bAutoFrameCamera)
 	{
 		FrameCamera();
@@ -609,6 +640,19 @@ FText AFixHimMalady::GetPrompt() const
 
 void AFixHimMalady::SummonHunk()
 {
+	if (HunkId.Equals(TEXT("malcolm"), ESearchCase::IgnoreCase))
+	{
+		for (TActorIterator<AFixHimInteractable> It(GetWorld()); It; ++It)
+		{
+			if (It->ToggleGroup == TEXT("MalcolmClosetDoors"))
+			{
+				// SetOn propagates to both doors. Snap even a partially animated door fully open
+				// before the encounter pauses the world and computes its camera sightline.
+				It->SetOn(true, true);
+				break;
+			}
+		}
+	}
 	// Re-frame now rather than only at BeginPlay: doors (e.g. a closet hiding the fixture) may have been
 	// opened since, and the wall-avoidance sweep should see the room as it is for this encounter.
 	if (bAutoFrameCamera)

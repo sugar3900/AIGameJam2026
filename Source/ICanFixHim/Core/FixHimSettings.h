@@ -90,20 +90,51 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = "UI")
 	TSoftObjectPtr<UTexture2D> PlayerPortraitTexture;
 
+	/** World reticle box in UMG units (scaled by DPI with screen height). Layer textures are 128px, so 64 draws 1:1 at 4K. */
+	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles", meta = (ClampMin = "16", ClampMax = "128"))
+	float ReticleSize = 64.f;
+
+	/** Seconds for reticle layer transitions (ink background in/out, center icon cross-fade). 0 snaps. */
+	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles", meta = (ClampMin = "0"))
+	float ReticleTransitionSeconds = 0.14f;
+
+	/** Idle ring size as a fraction of ReticleSize; it expands to full size with the ink background. The idle
+	 *  ring texture is authored for this value (Tools/Art/Reticles IDLE_SCALE), keeping full-size line widths. */
+	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles", meta = (ClampMin = "0.25", ClampMax = "1"))
+	float ReticleIdleRingScale = 0.75f;
+
+	/** Opacity of the ink background disc behind contextual icons. */
+	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles", meta = (ClampMin = "0", ClampMax = "1"))
+	float ReticleBackgroundOpacity = 0.5f;
+
+	// Reticle layers share one 64-unit viewBox and stack centered: background, ring, then center (dot or icon).
+	/** Ink disc behind contextual icons; shown only for actionable targets. */
 	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
-	TSoftObjectPtr<UTexture2D> ReticleDefaultTexture;
+	TSoftObjectPtr<UTexture2D> ReticleBackgroundTexture;
+
+	/** Shared ink outline + white rim, identical in every state. */
+	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
+	TSoftObjectPtr<UTexture2D> ReticleRingTexture;
+
+	/** The idle ring: same line widths as the full ring at ReticleIdleRingScale radius, drawn in its own smaller box. */
+	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
+	TSoftObjectPtr<UTexture2D> ReticleIdleRingTexture;
+
+	/** Idle center dot (no actionable target). */
+	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
+	TSoftObjectPtr<UTexture2D> ReticleDotTexture;
 
 	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
-	TSoftObjectPtr<UTexture2D> ReticleInspectTexture;
+	TSoftObjectPtr<UTexture2D> ReticleInspectIcon;
 
 	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
-	TSoftObjectPtr<UTexture2D> ReticleTalkTexture;
+	TSoftObjectPtr<UTexture2D> ReticleTalkIcon;
 
 	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
-	TSoftObjectPtr<UTexture2D> ReticleUseTexture;
+	TSoftObjectPtr<UTexture2D> ReticleUseIcon;
 
 	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
-	TSoftObjectPtr<UTexture2D> ReticleEndDayTexture;
+	TSoftObjectPtr<UTexture2D> ReticleEndDayIcon;
 
 	// ---- Data -------------------------------------------------------------
 
