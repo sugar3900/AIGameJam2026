@@ -146,6 +146,38 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Reveal")
 	TArray<TObjectPtr<AActor>> RevealActors;
 
+	/**
+	 * Opt-in (Reveal toggles): a water surface that fills gradually instead of appearing with the stream. The actor is
+	 * authored at its FULL level; while this toggle is on it rises from FillDepth below that to full over FillSeconds,
+	 * and once off it drains over DrainSeconds (0 keeps the water). Its XY scale goes from FillEmptyScale x authored
+	 * (narrower tub bottom) to the authored scale. It is hidden while (nearly) empty.
+	 */
+	UPROPERTY(EditAnywhere, Category = "Reveal|Fill")
+	TObjectPtr<AActor> FillSurface;
+
+	UPROPERTY(EditAnywhere, Category = "Reveal|Fill", meta = (ClampMin = "0"))
+	float FillDepth = 30.f;
+
+	UPROPERTY(EditAnywhere, Category = "Reveal|Fill")
+	FVector2D FillEmptyScale = FVector2D(1.f, 1.f);
+
+	UPROPERTY(EditAnywhere, Category = "Reveal|Fill", meta = (ClampMin = "0.1"))
+	float FillSeconds = 40.f;
+
+	UPROPERTY(EditAnywhere, Category = "Reveal|Fill", meta = (ClampMin = "0"))
+	float DrainSeconds = 60.f;
+
+	/** Ride the surface up and down (e.g. the splash where the stream lands), authored at the full level. */
+	UPROPERTY(EditAnywhere, Category = "Reveal|Fill")
+	TArray<TObjectPtr<AActor>> FillFollowers;
+
+	/** The RevealPart stream (an upright mesh from spout to empty floor) ends at the rising surface instead. */
+	UPROPERTY(EditAnywhere, Category = "Reveal|Fill")
+	bool bFillTrimsReveal = true;
+
+	/** Current fill, 0 empty .. 1 full (not saved). */
+	float GetFillLevel() const { return FillLevel; }
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
 	FLinearColor OutlineColor = FLinearColor(1.f, 0.35f, 0.75f);
 
@@ -256,6 +288,21 @@ protected:
 	void ApplyToggleAlpha(float Alpha);
 	void ApplyRevealAlpha(float Alpha);
 	bool IsRevealMesh(const UStaticMeshComponent* Mesh) const;
+	void InitFill();
+	void ApplyFill();
+
+	float FillLevel = 0.f;
+	bool bFillReady = false;
+	FVector FillFullLocation = FVector::ZeroVector;
+	float FillFullSurfaceZ = 0.f;
+	FVector FillFullScale = FVector::OneVector;
+	TArray<FVector> FillFollowerFull;
+	/** RevealPart's authored relative location/scale, its top relative to its pivot (world) and its end Zs. */
+	FVector RevealRelLocation = FVector::ZeroVector;
+	FVector RevealRelScale = FVector::OneVector;
+	FVector RevealTopToPivot = FVector::ZeroVector;
+	float RevealTopZ = 0.f;
+	float RevealBottomZ = 0.f;
 
 	UPROPERTY(Transient)
 	TArray<TObjectPtr<UMaterialInstanceDynamic>> RevealMIDs;
