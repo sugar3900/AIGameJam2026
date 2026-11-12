@@ -1,0 +1,72 @@
+{
+  "units": "Blender metres; front -Y, Z up",
+  "selected_concept": "B \u2014 cream and blue-gray workhorse",
+  "planned_movement": "Choose a destination room; gameplay is implemented in a separate thread",
+  "placement": [
+    0,
+    0,
+    0
+  ],
+  "carry": [
+    0,
+    0.075,
+    0.52
+  ],
+  "cord_exit": [
+    -0.08,
+    0.162,
+    0.094
+  ],
+  "bail_hinge": [
+    0.0,
+    0.07500000298023224,
+    0.42800000309944153
+  ],
+  "tank_pull_direction": [
+    0,
+    -1,
+    0
+  ],
+  "tank_pull_distance": 0.245,
+  "plug": {
+    "mesh": "DH_Plug01.fbx",
+    "insertion_axis": [
+      0,
+      1,
+      0
+    ],
+    "seating_pivot": [
+      0,
+      0,
+      0
+    ],
+    "cord_exit": [
+      0,
+      -0.043,
+      0
+    ],
+    "stored_location": [
+      0.1,
+      0.19,
+      0.116
+    ],
+    "stored_rotation_x_deg": -90
+  },
+  "states": {
+    "portable": "Body + Tank + CordStowed + plug at stored transform",
+    "plugged": "Body + Tank, plug at outlet socket anchor; replace CordStowed with runtime cable",
+    "moving": "Use carry/placement anchor; outlet remains in its room"
+  },
+  "runtime_cable": {
+    "radius_m": 0.003,
+    "endpoints": [
+      "cord_exit",
+      "plug.cord_exit"
+    ],
+    "mesh": "DH_CableSegment01.fbx",
+    "forward_axis": "X",
+    "source_length_m": 1,
+    "collision": "none",
+    "note": "Use a spline/cable component; do not stretch the stowed coil mesh."
+  }
+}

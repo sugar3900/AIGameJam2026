@@ -1,10 +1,10 @@
-"""Concept A floor dehumidifier. Run with Blender 5.x, --threads 2.
+"""Selected concept B floor dehumidifier. Blender 5.x, --threads 2.
 
 Metres, Z up, front -Y, floor-centred assembly origin. No gameplay changes.
 """
-import bpy, bmesh, math, json, fcntl
+import bpy, bmesh, math, json, fcntl, sys
 from pathlib import Path
-from mathutils import Vector
+from mathutils import Vector, Matrix
 
 LOCK = open('/tmp/apartment_blender.lock', 'w')
 fcntl.flock(LOCK, fcntl.LOCK_EX)
@@ -65,7 +65,7 @@ def material(name, color, rough=.5, metallic=0, maps=False, transmission=0):
     return m
 
 ivory = material('DH_Ivory_Painted', (1.06, 1.04, 1.00), .40, maps='enamel')
-sage = material('DH_Sage_Painted', (.37, .47, .32), .52, maps='enamel')
+blue = material('DH_BlueGray_Painted', (.26, .38, .49), .56, maps='enamel')
 metal = material('DH_Aged_Hardware', (.46, .43, .34), .49, .7, 'metal')
 rubber = material('DH_Rubber', (.035, .029, .024), .82)
 dark = material('DH_Filter_Shadow', (.045, .040, .030), .91)
@@ -74,7 +74,7 @@ glass = material('DH_Tank_Window', (.38, .52, .48), .18, transmission=.6)
 water = material('DH_Collected_Water', (.32, .45, .43), .12, transmission=.75)
 amber = material('DH_Amber_Lens', (.60, .18, .025), .24)
 
-body, tank = [], []
+body, tank, bail, cord, plug = [], [], [], [], []
 def active(o):
     bpy.ops.object.select_all(action='DESELECT')
     o.select_set(True); bpy.context.view_layer.objects.active = o
@@ -139,70 +139,89 @@ def wire(name, points, radius, mat, group=body):
     o.data.materials.append(mat); group.append(o)
     return o
 
-# A continuous rounded shell, with true recesses for both grilles and tank.
-shell=box('Continuous ivory casing', (0,0,.290), (.340,.290,.470), ivory, .039, segments=7)
-subtract(shell,box('Tank bay cut',(0,-.060,.163),(.288,.260,.187),bevel=.019,group=None,segments=5))
-subtract(shell,box('Front grille cut',(0,-.145,.352),(.278,.086,.138),bevel=.020,group=None,segments=5))
-subtract(shell,box('Rear grille cut',(0,.145,.351),(.248,.070,.160),bevel=.014,group=None))
-subtract(shell,box('Top exhaust cut',(0,.043,.516),(.185,.103,.050),bevel=.017,group=None))
-box('Front intake filter',(0,-.101,.352),(.267,.004,.127),dark,.015)
+# Broader workhorse shell, vertical intake and a sloped cream control brow.
+shell=box('Continuous cream casing', (0,0,.2825), (.390,.310,.455), ivory, .035, segments=7)
+for v in shell.data.vertices:
+    z=v.co.z+shell.location.z
+    if v.co.y < -.095:
+        v.co.y += .5*max(0,z-.405)
+shell.data.update()
+subtract(shell,box('Tank bay cut',(0,-.060,.166),(.342,.270,.193),bevel=.019,group=None,segments=5))
+subtract(shell,box('Front grille cut',(0,-.155,.343),(.329,.086,.140),bevel=.018,group=None,segments=5))
+subtract(shell,box('Rear grille cut',(0,.155,.351),(.285,.070,.160),bevel=.014,group=None))
+subtract(shell,box('Top exhaust cut',(0,.024,.505),(.307,.136,.050),bevel=.019,group=None,segments=5))
+box('Front intake filter',(0,-.111,.343),(.319,.004,.130),dark,.014)
+for i in range(15):
+    box('Cream vertical intake vane %02d'%i,(-.149+i*.0213,-.143,.343),(.007,.027,.127),ivory,.003)
+box('Exhaust shadow',(0,.024,.481),(.299,.128,.004),dark,.014)
 for i in range(6):
-    o=box('Sage intake louver %02d'%i,(0,-.131,.300+i*.0207),(.264,.029,.007),sage,.003)
-    o.rotation_euler.x=math.radians(-12)
-box('Exhaust shadow',(0,.043,.492),(.179,.097,.004),dark,.012)
-for i in range(5):
-    box('Top exhaust vane %02d'%i,(0,.005+i*.018,.513),(.174,.005,.013),sage,.002)
-box('Rear washable filter',(0,.113,.351),(.239,.004,.150),dark,.010)
-for i in range(12):
-    box('Rear filter slat %02d'%i,(-.109+i*.0198,.140,.351),(.006,.010,.143),ivory,.002)
-for z in [.311,.391]:
-    box('Rear filter crossbar',(0,.143,z),(.237,.008,.005),ivory,.0015)
+    box('Top exhaust vane %02d'%i,(0,-.027+i*.0204,.503),(.296,.006,.014),metal,.002)
+box('Rear washable filter',(0,.123,.351),(.276,.004,.150),dark,.010)
+for i in range(7):
+    box('Rear horizontal filter slat %02d'%i,(0,.150,.288+i*.021),(.274,.010,.006),ivory,.002)
+for x in [-.132,.132]:
+    box('Rear filter end',(x,.153,.351),(.006,.008,.151),ivory,.0015)
 
-# Lift handle: a solid arch with a real rounded hand opening.
-handle=box('Carry handle',(0,-.005,.548),(.216,.036,.065),ivory,.015,segments=5)
-subtract(handle,box('Handle aperture',(0,-.005,.540),(.157,.080,.034),bevel=.013,group=None,segments=5))
-box('Handle underside grip',(0,-.005,.562),(.128,.037,.007),sage,.003)
+# Broad blue-gray side panels, visible as a separate painted metal casing.
+for side in [-1,1]:
+    box('Blue gray side panel',(side*.195, .010,.267),(.007,.244,.350),blue,.027,segments=6)
+    for y in [-.082,.103]:
+        for z in [.114,.414]:
+            cylinder('Side panel fastener',(side*.199,y,z),.0032,.002,metal,'X',vertices=16)
 
-# Control panel, rotary knob, scale ticks and full-tank lamp.
-panel=box('Sage control inset',(0,-.143,.466),(.267,.011,.067),sage,.025,segments=6)
-cylinder('Dial seating ring',(-.028,-.153,.467),.029,.006,metal,'Y')
-cylinder('Humidity dial',(-.028,-.162,.467),.025,.016,ivory,'Y',vertices=48)
+# Folding bail, parked 30 degrees back around the transverse hinge axis.
+BAIL_PIVOT=Vector((0,.075,.428))
+handle=box('Folding carry bail',(0,.075,.483),(.430,.020,.122),ivory,.014,bail,5)
+subtract(handle,box('Bail open underside',(0,.075,.459),(.400,.070,.128),bevel=.013,group=None,segments=5))
+box('Bail underside grip',(0,.075,.530),(.250,.022,.008),blue,.003,bail)
+fold=Matrix.Translation(BAIL_PIVOT)@Matrix.Rotation(math.radians(-30),4,'X')@Matrix.Translation(-BAIL_PIVOT)
+for o in bail:o.matrix_world=fold@o.matrix_world
+for side in [-1,1]:
+    cylinder('Bail hinge mount',(side*.201,.075,.428),.019,.007,ivory,'X')
+    cylinder('Bail hinge axle',(side*.211,.075,.428),.010,.004,metal,'X')
+
+# Controls on the cream sloping shoulder, with a larger workhorse dial.
+control_start=len(body)
+cylinder('Dial seating ring',(-.044,-.160,.455),.031,.006,metal,'Y')
+cylinder('Humidity dial',(-.044,-.169,.455),.027,.016,ivory,'Y',vertices=48)
 for i in range(24):
     a=2*math.pi*i/24
-    cylinder('Dial grip knurl %02d'%i,(-.028+.024*math.cos(a),-.161,.467+.024*math.sin(a)),.0014,.011,ivory,'Y',vertices=8)
-pointer=box('Dial index',(-.023,-.171,.477),(.002,.0014,.015),metal,.0005)
+    cylinder('Dial grip knurl %02d'%i,(-.044+.026*math.cos(a),-.168,.455+.026*math.sin(a)),.0014,.011,ivory,'Y',vertices=8)
+pointer=box('Dial index',(-.039,-.178,.465),(.002,.0014,.015),metal,.0005)
 pointer.rotation_euler.y=math.radians(25)
 for i in range(9):
     a=math.radians(22+17*i)
-    x=-.028+.037*math.cos(a); z=.467+.037*math.sin(a)
-    tick=box('Printed humidity tick %02d'%i,(x,-.150,z),(.0018,.0008,.006 if i%2==0 else .0036),ink,.0003)
+    x=-.044+.039*math.cos(a); z=.455+.039*math.sin(a)
+    tick=box('Printed humidity tick %02d'%i,(x,-.157,z),(.0018,.0008,.006 if i%2==0 else .0036),metal,.0003)
     tick.rotation_euler.y=math.pi/2-a
-cylinder('Tank lamp bezel',(.090,-.152,.472),.009,.004,metal,'Y')
-cylinder('Amber full tank lens',(.090,-.155,.472),.0067,.003,amber,'Y')
-wire('Tank pictogram',[(.078,-.150,.450),(.081,-.150,.440),(.101,-.150,.440),(.104,-.150,.450)],.0007,ink)
-wire('Tank pictogram water',[(.082,-.150,.445),(.088,-.150,.446),(.094,-.150,.4445),(.100,-.150,.445)],.0006,ink)
+box('Tank lamp bezel',(.102,-.160,.457),(.037,.006,.028),metal,.007)
+box('Amber full tank lens',(.102,-.164,.457),(.030,.003,.021),amber,.005)
+wire('Tank pictogram',[(.089,-.157,.434),(.091,-.157,.427),(.110,-.157,.427),(.113,-.157,.434)],.0007,metal)
 # An explicit power switch on the left, distinct from the humidity knob.
-switch=box('Power rocker',(-.100,-.153,.465),(.015,.007,.025),rubber,.003)
-box('Power rocker mark',(-.100,-.157,.471),(.0012,.0008,.007),ink,.0004)
+switch=box('Power rocker',(-.126,-.160,.455),(.015,.007,.025),rubber,.003)
+box('Power rocker mark',(-.126,-.164,.461),(.0012,.0008,.007),ink,.0004)
+brow_pivot=Vector((0,-.155,.455))
+slope=Matrix.Translation(brow_pivot+Vector((0,.025,0)))@Matrix.Rotation(math.atan(-.5),4,'X')@Matrix.Translation(-brow_pivot)
+for o in body[control_start:]:o.matrix_world=slope@o.matrix_world
 
 # Removable open-top bucket. The sight glass opens into the hollow container.
-bucket=box('Collection bucket',(0,-.043,.163),(.282,.224,.181),ivory,.018,tank,5)
-subtract(bucket,box('Bucket interior',(0,-.041,.191),(.257,.199,.159),bevel=.012,group=None,segments=4))
-subtract(bucket,box('Bucket finger recess',(0,-.158,.240),(.111,.044,.025),bevel=.010,group=None,segments=4))
-subtract(bucket,box('Sight glass aperture',(.057,-.155,.154),(.019,.042,.109),bevel=.008,group=None,segments=4))
-box('Sight glass bezel',(.057,-.154,.154),(.025,.005,.115),sage,.011,tank,5)
+bucket=box('Collection bucket',(0,-.045,.166),(.336,.234,.187),ivory,.018,tank,5)
+subtract(bucket,box('Bucket interior',(0,-.043,.194),(.311,.209,.165),bevel=.012,group=None,segments=4))
+subtract(bucket,box('Bucket finger recess',(-.035,-.165,.242),(.128,.044,.025),bevel=.010,group=None,segments=4))
+subtract(bucket,box('Sight glass aperture',(.105,-.162,.156),(.019,.042,.113),bevel=.008,group=None,segments=4))
+box('Sight glass bezel',(.105,-.161,.156),(.025,.005,.119),blue,.011,tank,5)
 # Bezel is a ring, not a solid panel covering the window.
 bezel=tank[-1]
-subtract(bezel,box('Bezel aperture',(.057,-.154,.154),(.018,.025,.108),bevel=.008,group=None,segments=4))
-box('Water level window',(.057,-.152,.154),(.017,.002,.107),glass,.007,tank,5)
-box('Collected water',(0,-.041,.133),(.251,.193,.038),water,.0006,tank)
-box('Tank grip shadow',(0,-.138,.238),(.087,.003,.013),sage,.004,tank)
+subtract(bezel,box('Bezel aperture',(.105,-.161,.156),(.018,.025,.112),bevel=.008,group=None,segments=4))
+box('Water level window',(.105,-.159,.156),(.017,.002,.111),glass,.007,tank,5)
+box('Collected water',(0,-.043,.134),(.305,.203,.038),water,.0006,tank)
+box('Tank grip shadow',(-.035,-.145,.240),(.104,.003,.013),blue,.004,tank)
 for z in [.121,.153,.185]:
-    box('Water level graduation',(.073,-.158,z),(.007,.001,.001),sage,.0003,tank)
+    box('Water level graduation',(.121,-.165,z),(.007,.001,.001),blue,.0003,tank)
 
 # Four swivel casters and axle caps. Their rubber bottoms sit on the floor.
-for x in [-.125,.125]:
-    for y in [-.095,.095]:
+for x in [-.145,.145]:
+    for y in [-.103,.103]:
         cylinder('Caster swivel stem',(x,y,.051),.009,.019,metal)
         box('Caster fork',(x,y,.032),(.031,.025,.035),metal,.005)
         cylinder('Rubber caster',(x,y,.019),.019,.023,rubber,'X')
@@ -210,29 +229,38 @@ for x in [-.125,.125]:
         cylinder('Hub axle',(x+(.0143 if x>0 else -.0143),y,.019),.0024,.002,metal,'X',vertices=16)
 
 # Rear service details and a stowed power cable with molded plug.
-box('Rear service cover',(0,.145,.173),(.230,.008,.129),ivory,.012)
+box('Rear service cover',(0,.155,.173),(.270,.008,.129),ivory,.012)
 for x in [-.100,.100]:
     for z in [.123,.222]:
-        cylinder('Service fastener',(x,.151,z),.003,.002,metal,'Y',vertices=16)
-        box('Fastener slot',(x,.1525,z),(.0038,.0005,.0007),dark,.00015)
+        cylinder('Service fastener',(x,.161,z),.003,.002,metal,'Y',vertices=16)
+        box('Fastener slot',(x,.1625,z),(.0038,.0005,.0007),dark,.00015)
 for x in [-.075,.075]:
-    box('Cable keeper',(x,.162,.142),(.012,.032,.022),sage,.003)
+    box('Cable keeper',(x,.172,.142),(.012,.032,.022),blue,.003)
 points=[]
 for k in range(3*64+1):
     a=2*math.pi*k/64
-    points.append((.078*math.cos(a),.172+k/(3*64)*.009,.143+.027*math.sin(a)))
-wire('Stowed power cord',points,.003,rubber)
-wire('Cord to strain relief',[(-.078,.172,.143),(-.085,.163,.111),(-.080,.152,.094)],.003,rubber)
-cylinder('Cable strain relief',(-.080,.152,.094),.006,.011,rubber,'Y')
-box('Molded plug',(.080,.183,.117),(.023,.015,.032),rubber,.004)
-for x in [.074,.086]:
-    box('Plug pin',(x,.183,.094),(.003,.006,.014),metal,.0006)
-box('Rear identification plate',(-.023,.151,.196),(.083,.0015,.025),sage,.002)
+    points.append((.078*math.cos(a),.182+k/(3*64)*.021,.143+.027*math.sin(a)))
+wire('Stowed power cord',points,.003,rubber,cord)
+wire('Cord to strain relief',[(.078,.182,.143),(.089,.172,.110),(-.080,.162,.094)],.003,rubber,cord)
+wire('Cord to stored plug',[(.078,.203,.143),(.102,.207,.151),(.100,.190,.159)],.003,rubber,cord)
+cylinder('Cable strain relief',(-.080,.162,.094),.006,.011,rubber,'Y')
+# Separate grounded plug, authored at its seating face: +Y is insertion.
+box('Grounded plug body',(0,-.016,0),(.028,.032,.031),rubber,.005,plug)
+box('Plug face collar',(0,-.003,0),(.031,.006,.034),rubber,.003,plug)
+for x in [-.00635,.00635]:
+    box('Plug blade',(x,.0075,.004),(.0013,.015,.0042),metal,.00035,plug)
+cylinder('Plug ground pin',(0,.008,-.006),.0016,.016,metal,'Y',plug,16)
+cylinder('Plug flexible neck',(0,-.036,0),.0053,.014,rubber,'Y',plug)
+for y in [-.031,-.036,-.041]:
+    cylinder('Plug strain relief rib',(0,y,0),.0064,.002,rubber,'Y',plug,24)
+for z in [-.007,0,.007]:
+    box('Plug grip ridge',(.0145,-.016,z),(.0015,.016,.002),rubber,.0005,plug)
+box('Rear identification plate',(-.023,.161,.196),(.083,.0015,.025),blue,.002)
 for z in [.191,.196,.201]:
-    box('Identification rule',(-.023,.152,z),(.064,.0006,.0007),ink,.0001)
+    box('Identification rule',(-.023,.162,z),(.064,.0006,.0007),ink,.0001)
 
 # Prepare explicit UV0, outward component normals, and baked edge normals.
-for o in body+tank:
+for o in body+tank+bail+cord+plug:
     active(o)
     bpy.ops.object.transform_apply(location=False,rotation=True,scale=True)
     bm=bmesh.new(); bm.from_mesh(o.data)
@@ -256,25 +284,76 @@ def combined(name, parts):
     bpy.ops.object.join(); o=bpy.context.object; o.name=name
     return o
 
-# Simple collision intentionally encloses the fixed appliance; no tiny grille/cord hulls.
-ucx=box('UCX_DH_Dehumidifier01_00',(0,0,.290),(.340,.290,.470),bevel=0,group=None)
+# Separate plug export retains the insertion-face pivot, not the floor pivot.
+plug_export=combined('DH_Plug01',plug);active(plug_export)
+bpy.ops.export_scene.fbx(filepath=str(MODEL/'DH_Plug01.fbx'),use_selection=True,
+    object_types={'MESH'},axis_forward='-Z',axis_up='Y',apply_unit_scale=True,add_leaf_bones=False)
+bpy.data.objects.remove(plug_export,do_unlink=True)
+STORED_PLUG=Matrix.Translation((.100,.190,.116))@Matrix.Rotation(-math.pi/2,4,'X')
+for o in plug:
+    o.matrix_world=STORED_PLUG@o.matrix_world
+    active(o);bpy.ops.object.transform_apply(location=True,rotation=True,scale=True)
+# Simple body collision; running/movement integration can author its own profile.
+ucx=box('UCX_DH_Dehumidifier01_00',(0,0,.2825),(.390,.310,.455),bevel=0,group=None)
 ucx.display_type='WIRE'; ucx.hide_render=True
-fixed=combined('DH_Dehumidifier01',body+tank)
+fixed=combined('DH_Dehumidifier01',body+tank+bail+cord+plug)
 active(fixed); ucx.select_set(True)
 bpy.ops.export_scene.fbx(filepath=str(MODEL/'DH_Dehumidifier01.fbx'),use_selection=True,
     object_types={'MESH'},axis_forward='-Z',axis_up='Y',apply_unit_scale=True,add_leaf_bones=False)
 bpy.data.objects.remove(fixed,do_unlink=True)
 ucx.hide_set(True)
 # Optional split exports preserve the SAME assembly pivot for an authored tank pull.
-for name, parts in [('DH_Dehumidifier01_Body',body),('DH_Dehumidifier01_Tank',tank)]:
+for name, parts in [('DH_Dehumidifier01_Body',body+bail),('DH_Dehumidifier01_Tank',tank),('DH_Dehumidifier01_CordStowed',cord)]:
     o=combined(name,parts); active(o)
     bpy.ops.export_scene.fbx(filepath=str(MODEL/(name+'.fbx')),use_selection=True,
         object_types={'MESH'},axis_forward='-Z',axis_up='Y',apply_unit_scale=True,add_leaf_bones=False)
     bpy.data.objects.remove(o,do_unlink=True)
 
+# Straight, subdivided X-axis cable for a runtime spline mesh. Not the stored coil.
+vs=[];faces=[];rings=33;segments=12
+for j in range(rings):
+    for i in range(segments):
+        a=2*math.pi*i/segments;vs.append((j/(rings-1),.003*math.cos(a),.003*math.sin(a)))
+for j in range(rings-1):
+    for i in range(segments):
+        n=(i+1)%segments;faces.append((j*segments+i,j*segments+n,(j+1)*segments+n,(j+1)*segments+i))
+faces += [tuple(reversed(range(segments))),tuple((rings-1)*segments+i for i in range(segments))]
+me=bpy.data.meshes.new('Spline cable source');me.from_pydata(vs,[],faces);me.update()
+bm=bmesh.new();bm.from_mesh(me);bmesh.ops.recalc_face_normals(bm,faces=list(bm.faces));bm.to_mesh(me);bm.free()
+cable=bpy.data.objects.new('DH_CableSegment01',me);bpy.context.collection.objects.link(cable);me.materials.append(rubber)
+uv=me.uv_layers.new(name='UVMap')
+for f in me.polygons:
+    for li in f.loop_indices:
+        co=me.vertices[me.loops[li].vertex_index].co
+        uv.data[li].uv=(co.x,(math.atan2(co.z,co.y)/(2*math.pi))%1)
+    f.use_smooth=len(f.vertices)==4
+active(cable)
+bpy.ops.export_scene.fbx(filepath=str(MODEL/'DH_CableSegment01.fbx'),use_selection=True,object_types={'MESH'},axis_forward='-Z',axis_up='Y',apply_unit_scale=True,add_leaf_bones=False)
+bpy.data.objects.remove(cable,do_unlink=True)
+
 for img in bpy.data.images:
     if img.source=='FILE': img.filepath='//../textures/'+Path(img.filepath).name
 (ROOT/'materials.json').write_text(json.dumps(contracts,indent=2)+'\n')
+anchors={
+    'units':'Blender metres; front -Y, Z up',
+    'selected_concept':'B — cream and blue-gray workhorse',
+    'planned_movement':'Choose a destination room; gameplay is implemented in a separate thread',
+    'placement':[0,0,0], 'carry':[0,.075,.520],
+    'cord_exit':[-.080,.162,.094], 'bail_hinge':list(BAIL_PIVOT),
+    'tank_pull_direction':[0,-1,0], 'tank_pull_distance':.245,
+    'plug':{'mesh':'DH_Plug01.fbx','insertion_axis':[0,1,0],
+            'seating_pivot':[0,0,0], 'cord_exit':[0,-.043,0],
+            'stored_location':[.100,.190,.116], 'stored_rotation_x_deg':-90},
+    'states':{
+        'portable':'Body + Tank + CordStowed + plug at stored transform',
+        'plugged':'Body + Tank, plug at outlet socket anchor; replace CordStowed with runtime cable',
+        'moving':'Use carry/placement anchor; outlet remains in its room'},
+    'runtime_cable':{'radius_m':.003,'endpoints':['cord_exit','plug.cord_exit'],
+                     'mesh':'DH_CableSegment01.fbx','forward_axis':'X','source_length_m':1,
+                     'collision':'none','note':'Use a spline/cable component; do not stretch the stowed coil mesh.'}}
+(ROOT/'interaction-anchors.json').write_text(json.dumps(anchors,indent=2)+'\n')
+for name,loc in [('Placement',(0,0,0)),('Carry',(0,.075,.520)),('CordExit',(-.080,.162,.094)),('BailHinge',BAIL_PIVOT)]:
+    o=bpy.data.objects.new('DH_Anchor_'+name,None);bpy.context.collection.objects.link(o);o.location=loc;o.empty_display_size=.025
 
 # Neutral studio, no apartment lighting baked into the surface textures.
 def camera(pos,target=(0,0,.285),scale=.72):
@@ -287,11 +366,18 @@ for pos,power,size in [((-.6,-.8,1.1),38,.75),((.7,-.15,.7),16,.7),((.1,.7,.9),2
     bpy.ops.object.light_add(type='AREA',location=pos)
     o=bpy.context.object; o.data.energy=power; o.data.shape='DISK'; o.data.size=size
     o.rotation_euler=(Vector((0,0,.28))-o.location).to_track_quat('-Z','Y').to_euler()
-camera((.80,-1.15,.77))
+camera((.80,-1.15,.77),scale=.75)
 bpy.ops.wm.save_as_mainfile(filepath=str(MODEL/'PR-DEHUMIDIFIER-01.blend'))
+if '--no-render' in sys.argv:
+    print('DEHUMIDIFIER_GEOMETRY_COMPLETE');sys.exit(0)
 for name,pos in [('front-three-quarter',(.80,-1.15,.77)),('rear-three-quarter',(-.80,1.15,.73))]:
-    camera(pos); scene.render.filepath=str(PRE/(name+'.png')); bpy.ops.render.render(write_still=True)
+    camera(pos,scale=.75); scene.render.filepath=str(PRE/(name+'.png')); bpy.ops.render.render(write_still=True)
 for o in tank:o.location.y-=.245
 camera((.8,-1.15,.83),target=(0,-.07,.28),scale=.80)
 scene.render.filepath=str(PRE/'tank-removed.png'); bpy.ops.render.render(write_still=True)
-print('DEHUMIDIFIER_BUILD_COMPLETE',len(body),len(tank))
+for o in tank:o.location.y+=.245
+raise_bail=Matrix.Translation(BAIL_PIVOT)@Matrix.Rotation(math.radians(30),4,'X')@Matrix.Translation(-BAIL_PIVOT)
+for o in bail:o.matrix_world=raise_bail@o.matrix_world
+camera((.80,-1.15,.77),scale=.75)
+scene.render.filepath=str(PRE/'handle-raised.png');bpy.ops.render.render(write_still=True)
+print('DEHUMIDIFIER_BUILD_COMPLETE',len(body),len(tank),len(bail),len(cord),len(plug))
