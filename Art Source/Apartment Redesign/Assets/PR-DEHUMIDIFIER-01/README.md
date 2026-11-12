@@ -2,7 +2,7 @@
 
 Painterly cream-and-blue-gray household **dehumidifier**, developed from the user's selected **concept B**. Three concepts were generated and shown before mesh work. B supersedes the initial working A model. Original concept PNGs and the built-in imagegen prompt set remain in `concepts/`.
 
-The broader workhorse casing has cream vertical intake vanes, a sloping cream control brow, blue-gray side panels, a broad top exhaust, horizontal rear filter grille, humidity dial, power rocker, full-tank lens, folding carry bail, four casters and service fasteners. The hollow collection bucket is removable. The stowed cable and grounded plug are separate assets so being plugged in can drive the storyline. It emits no mist.
+The broader workhorse casing has blue-gray vertical intake vanes, a sloping cream control brow, blue-gray side panels, a broad matching blue-gray top exhaust, horizontal rear filter grille, humidity dial, power rocker, full-tank lens, folding carry bail, four casters and service fasteners. The hollow collection bucket is removable. The stowed cable and grounded plug are separate assets so being plugged in can drive the storyline. It emits no mist.
 
 ## Deliverables and coordinates
 
@@ -30,7 +30,7 @@ For the portable state, assemble body + bucket + stored cord, with the separate 
 
 Concept-fit revision: the front vanes are now 12 mm deep and recessed 10 mm behind the casing face. Top vents retain their accepted geometry. The cream control brow has a genuinely flat angled area integrated into the casing; the dial ring, switch and indicator mount directly onto this plane. Side, low and overhead control close-ups are included in `previews/controls-*.png`. The separate plug now has a tapered brown bakelite housing and wider blade spacing matched to the revised outlet.
 
-FBX Phong transfer does not reproduce these shader graphs. Recreate the ten slots using `materials.json` and the Blender source as the appearance reference. All images use sRGB and explicit UV0.
+FBX Phong transfer does not reproduce these shader graphs. Recreate the ten slots using `materials.json` and the Blender source as the appearance reference. All images use sRGB and explicit UV0. Front intake and top exhaust vanes share the side panels’ existing `DH_BlueGray_Painted` material and texture blend.
 
 | Slot | Base colour | Metallic | Roughness |
 | --- | --- | --- | --- |

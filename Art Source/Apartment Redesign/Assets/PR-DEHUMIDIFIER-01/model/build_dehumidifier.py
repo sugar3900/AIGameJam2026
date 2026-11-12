@@ -154,10 +154,10 @@ subtract(shell,box('Rear grille cut',(0,.155,.351),(.285,.070,.160),bevel=.014,g
 subtract(shell,box('Top exhaust cut',(0,.024,.505),(.307,.136,.050),bevel=.019,group=None,segments=5))
 box('Front intake filter',(0,-.111,.343),(.319,.004,.130),dark,.014)
 for i in range(15):
-    box('Cream vertical intake vane %02d'%i,(-.149+i*.0213,-.139,.343),(.005,.012,.144),ivory,.002)
+    box('Front vertical intake vane %02d'%i,(-.149+i*.0213,-.139,.343),(.005,.012,.144),blue,.002)
 box('Exhaust shadow',(0,.024,.481),(.299,.128,.004),dark,.014)
 for i in range(6):
-    box('Top exhaust vane %02d'%i,(0,-.027+i*.0204,.503),(.296,.006,.014),metal,.002)
+    box('Top exhaust vane %02d'%i,(0,-.027+i*.0204,.503),(.296,.006,.014),blue,.002)
 box('Rear washable filter',(0,.123,.351),(.276,.004,.150),dark,.010)
 for i in range(7):
     box('Rear horizontal filter slat %02d'%i,(0,.150,.288+i*.021),(.274,.010,.006),ivory,.002)

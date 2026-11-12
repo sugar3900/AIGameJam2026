@@ -122,7 +122,7 @@ for name in ['Dial seating ring','Power rocker','Tank lamp bezel']:
     depth=min((obj.matrix_world@v.co-plane).dot(normal) for v in obj.data.vertices)
     assert -.0011<depth<.0001,(name,'Unseated control mount',depth)
     mounts[name]=dict(back_surface_depth_mm=depth*1000)
-vanes=[o for o in bpy.data.objects if o.name.startswith('Cream vertical intake vane')]
+vanes=[o for o in bpy.data.objects if o.name.startswith('Front vertical intake vane')]
 assert len(vanes)==15
 setback=min((o.matrix_world@v.co).y for o in vanes for v in o.data.vertices)+.155
 assert setback>.009,('Front vents project too far',setback)

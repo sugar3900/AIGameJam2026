@@ -38,3 +38,5 @@ No `.uasset`, map placement, runtime interaction, destination selector, occupanc
 The outlet now has broader receptacle faces, larger blade slots, D-shaped ground throats, a raised plate field, and a cream-painted domed screw with a diagonal slot. The plug uses a smaller tapered brown bakelite housing, top grip ridges and punched blades; slot/pin spacing changed together and both sockets pass the fit test.
 
 The dehumidifier has a flat angled control area united with its casing. Mounting rings/bezels embed by 0.25 mm, and the switch by 0.75 mm; the source checks reject hovering mounts. Front slats are recessed 10 mm and extend into both ends of the frame. Top vents are unchanged. Side, low and overhead close-ups are included in the source previews.
+
+The front and top grilles share the side panels’ existing `DH_BlueGray_Painted` material: the painterly enamel blend tinted `(.26,.38,.49)`, metallic 0, roughness .56. This replaces the front ivory and top aged-hardware assignments; grille geometry is unchanged.
