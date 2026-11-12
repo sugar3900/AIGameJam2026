@@ -2,7 +2,6 @@
 
 #include "UI/FixHimLoadingWidget.h"
 #include "Core/FixHimWarmupSubsystem.h"
-#include "Player/FixHimPlayerController.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/Border.h"
 #include "Components/Overlay.h"
@@ -14,11 +13,6 @@
 #include "Components/VerticalBoxSlot.h"
 
 using namespace FixHimUI;
-
-namespace
-{
-	constexpr float FadeSeconds = 0.45f;
-}
 
 void UFixHimLoadingWidget::BuildUI()
 {
@@ -72,17 +66,13 @@ void UFixHimLoadingWidget::NativeTick(const FGeometry& MyGeometry, float InDelta
 	Super::NativeTick(MyGeometry, InDeltaTime);
 	Age += InDeltaTime;
 
+	// Visuals only: the player controller decides when loading is over and fades this screen out.
 	const UFixHimWarmupSubsystem* Warmup = UFixHimWarmupSubsystem::Get(this);
-	// No warmup (unsupported world type): nothing to wait for.
-	const bool bReady = !Warmup || Warmup->IsReady();
+	const bool bReady = !Warmup || Warmup->IsWarmed();
 	const float Target = Warmup ? Warmup->GetProgress() : 1.f;
 
 	// Ease the bar toward the real value so a jump in the count doesn't look jerky.
-	ShownProgress = FMath::FInterpTo(ShownProgress, Target, InDeltaTime, 6.f);
-	if (bReady)
-	{
-		ShownProgress = FMath::Max(ShownProgress, 1.f);
-	}
+	ShownProgress = bReady ? 1.f : FMath::FInterpTo(ShownProgress, Target, InDeltaTime, 6.f);
 	if (Bar)
 	{
 		Bar->SetPercent(ShownProgress);
@@ -91,24 +81,5 @@ void UFixHimLoadingWidget::NativeTick(const FGeometry& MyGeometry, float InDelta
 	{
 		static const TCHAR* Dots[] = { TEXT(""), TEXT("."), TEXT(".."), TEXT("...") };
 		Caption->SetText(FText::FromString(FString(TEXT("Getting the place ready")) + Dots[int32(Age * 2.5f) % 4]));
-	}
-
-	if (bReady && FadeTime < 0.f)
-	{
-		FadeTime = 0.f;
-	}
-	if (FadeTime >= 0.f && !bFinished)
-	{
-		FadeTime += InDeltaTime;
-		const float Alpha = 1.f - FMath::Clamp(FadeTime / FadeSeconds, 0.f, 1.f);
-		SetRenderOpacity(Alpha);
-		if (Alpha <= 0.f)
-		{
-			bFinished = true;
-			if (AFixHimPlayerController* PC = GetFixHimPC())
-			{
-				PC->FinishLoading(); // removes this widget
-			}
-		}
 	}
 }

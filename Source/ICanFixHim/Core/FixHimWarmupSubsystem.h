@@ -3,40 +3,40 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Subsystems/WorldSubsystem.h"
+#include "Subsystems/GameInstanceSubsystem.h"
 #include "FixHimWarmupSubsystem.generated.h"
 
 /**
- * Prepares everything gameplay loads on demand while the loading screen is up, before the title, so nothing compiles
- * or pops in the first time it is shown. The game has a single level, so this runs once per session.
+ * Prepares everything gameplay loads on demand while the startup loading screen is up, so nothing compiles or pops in
+ * the first time it is shown. Lives on the game instance: warmed once per session, and the assets stay loaded across
+ * the level reload that returning to the title performs.
  *
- * - Loads every gameplay material, mesh and texture (settings assets plus each hunk's look) and keeps them loaded
- *   for the whole session. Effect and dialogue materials would otherwise be garbage collected between uses and
- *   reload, which in the editor fetches or compiles their shaders again mid-game.
+ * - Loads every gameplay material, mesh and texture (settings assets plus each hunk's look) and keeps them loaded.
+ *   Effect and dialogue materials would otherwise be garbage collected between uses and reload, which in the editor
+ *   fetches or compiles their shaders again mid-game.
  * - Spawns one hidden instance of every entrance/exit effect so its components request their pipeline states
  *   (PSO precaching) now rather than on the first real entrance in a packaged build.
  * - Reports ready once outstanding shader/texture compilation (editor) and PSO precache requests have drained.
- *   Nothing blocks the game thread, so the loading screen keeps drawing meanwhile.
+ *
+ * Driven by AFixHimPlayerController: Begin() from BeginPlay, Update() every tick until it returns true.
  */
 UCLASS()
-class ICANFIXHIM_API UFixHimWarmupSubsystem : public UTickableWorldSubsystem
+class ICANFIXHIM_API UFixHimWarmupSubsystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 
 public:
 	static UFixHimWarmupSubsystem* Get(const UObject* WorldContext);
 
-	/** True once everything has been prepared (or the safety timeout passed). */
-	bool IsReady() const { return bReady; }
+	/** True once a warmup has completed this session; later level loads need no loading screen. */
+	bool IsWarmed() const { return bWarmed; }
+
+	/** Loads and retains the gameplay assets and builds the hidden effects in World. Asset loading is synchronous. */
+	void Begin(UWorld& World);
+	/** Call once per frame after Begin. Returns true once everything is prepared (or the safety timeout passed). */
+	bool Update();
 	/** 0..1, never goes backwards. */
 	float GetProgress() const { return Progress; }
-
-	virtual void OnWorldBeginPlay(UWorld& InWorld) override;
-	virtual void Tick(float DeltaTime) override;
-	virtual TStatId GetStatId() const override;
-
-protected:
-	virtual bool DoesSupportWorldType(const EWorldType::Type WorldType) const override;
 
 private:
 	void LoadGameplayAssets();
@@ -44,12 +44,12 @@ private:
 	/** Shader maps / textures still compiling (editor) plus PSO precache requests still in flight. */
 	int32 CountRemainingWork() const;
 
-	/** Strong references so warmed assets stay loaded (and their shaders stay ready) between uses. */
+	/** Strong references so warmed assets stay loaded (and their shaders stay ready) for the whole session. */
 	UPROPERTY(Transient)
 	TArray<TObjectPtr<UObject>> Retained;
 
 	bool bStarted = false;
-	bool bReady = false;
+	bool bWarmed = false;
 	double StartTime = 0.0;
 	int32 FramesTicked = 0;
 	int32 IdleFrames = 0;

@@ -6,6 +6,7 @@
 #include "Dialogue/DialogueTypes.h"
 #include "Dialogue/FixHimDialogueSubsystem.h"
 #include "World/FixHimPuffFx.h"
+#include "Engine/GameInstance.h"
 #include "Engine/World.h"
 #include "Misc/PackageName.h"
 #include "PipelineStateCache.h"
@@ -37,37 +38,40 @@ namespace
 UFixHimWarmupSubsystem* UFixHimWarmupSubsystem::Get(const UObject* WorldContext)
 {
 	const UWorld* World = WorldContext ? WorldContext->GetWorld() : nullptr;
-	return World ? World->GetSubsystem<UFixHimWarmupSubsystem>() : nullptr;
+	const UGameInstance* GI = World ? World->GetGameInstance() : nullptr;
+	return GI ? GI->GetSubsystem<UFixHimWarmupSubsystem>() : nullptr;
 }
 
-bool UFixHimWarmupSubsystem::DoesSupportWorldType(const EWorldType::Type WorldType) const
+void UFixHimWarmupSubsystem::Begin(UWorld& World)
 {
-	return WorldType == EWorldType::Game || WorldType == EWorldType::PIE;
-}
-
-TStatId UFixHimWarmupSubsystem::GetStatId() const
-{
-	RETURN_QUICK_DECLARE_CYCLE_STAT(UFixHimWarmupSubsystem, STATGROUP_Tickables);
-}
-
-void UFixHimWarmupSubsystem::OnWorldBeginPlay(UWorld& InWorld)
-{
-	Super::OnWorldBeginPlay(InWorld);
-
+	if (bWarmed)
+	{
+		return;
+	}
 	StartTime = FPlatformTime::Seconds();
-	// Loading starts each material's shader compilation (or DDC fetch) in the editor; Tick waits for it to finish
+	FramesTicked = 0;
+	IdleFrames = 0;
+	PeakRemaining = 0;
+	Progress = 0.f;
+	// Loading starts each material's shader compilation (or DDC fetch) in the editor; Update waits for it to finish
 	// while the loading screen draws.
-	LoadGameplayAssets();
-	WarmEffects(InWorld);
+	if (Retained.IsEmpty())
+	{
+		LoadGameplayAssets();
+	}
+	WarmEffects(World);
 	bStarted = true;
 }
 
-void UFixHimWarmupSubsystem::Tick(float DeltaTime)
+bool UFixHimWarmupSubsystem::Update()
 {
-	Super::Tick(DeltaTime);
-	if (!bStarted || bReady)
+	if (bWarmed)
 	{
-		return;
+		return true;
+	}
+	if (!bStarted)
+	{
+		return false;
 	}
 
 	++FramesTicked;
@@ -82,16 +86,19 @@ void UFixHimWarmupSubsystem::Tick(float DeltaTime)
 	const double Elapsed = FPlatformTime::Seconds() - StartTime;
 	if (FramesTicked >= MinFrames && IdleFrames >= SettleFrames)
 	{
-		bReady = true;
-		Progress = 1.f;
 		UE_LOG(LogFixHim, Log, TEXT("Warmup: %d assets ready in %.2fs (peak %d items compiling)."), Retained.Num(), Elapsed, PeakRemaining);
 	}
 	else if (Elapsed > TimeoutSeconds)
 	{
-		bReady = true;
-		Progress = 1.f;
 		UE_LOG(LogFixHim, Warning, TEXT("Warmup: gave up waiting after %.0fs with %d items still compiling."), Elapsed, Remaining);
 	}
+	else
+	{
+		return false;
+	}
+	bWarmed = true;
+	Progress = 1.f;
+	return true;
 }
 
 int32 UFixHimWarmupSubsystem::CountRemainingWork() const

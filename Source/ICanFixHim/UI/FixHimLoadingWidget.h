@@ -9,8 +9,8 @@
 class UProgressBar;
 
 /**
- * Opaque screen shown before the title while UFixHimWarmupSubsystem prepares shaders and effects. Fades out once
- * everything is ready, then tells the player controller (AFixHimPlayerController::FinishLoading).
+ * Opaque screen shown before the title while UFixHimWarmupSubsystem prepares shaders and effects. Only shows
+ * progress: AFixHimPlayerController decides when loading is over and fades it out.
  */
 UCLASS()
 class ICANFIXHIM_API UFixHimLoadingWidget : public UFixHimWidget
@@ -26,7 +26,4 @@ private:
 	UPROPERTY() TObjectPtr<UTextBlock> Caption;
 	float Age = 0.f;
 	float ShownProgress = 0.f;
-	/** Seconds into the fade-out; negative until the warmup reports ready. */
-	float FadeTime = -1.f;
-	bool bFinished = false;
 };
