@@ -29,7 +29,7 @@ def material(name,color,rough,metal=0,maps=None):
     return m
 ivory=material('Outlet_Ivory_Painted',(1.06,1.04,1),.46,maps=['enamel-albedo.png','enamel-brush.png'])
 socket=material('Outlet_Aged_Receptacle',(.76,.74,.67),.59,maps=['enamel-albedo.png','enamel-brush.png'])
-metal=material('Outlet_Aged_Screw',(.46,.43,.34),.49,.7,['aged-metal.png'])
+metal=material('Outlet_Aged_Screw',(1.0,.91,.75),.45,.12,['enamel-albedo.png','enamel-brush.png'])
 dark=material('Outlet_Socket_Shadow',(.023,.019,.014),.95)
 rubber=material('DH_Rubber',(.035,.029,.024),.82)
 def active(o):
@@ -53,7 +53,7 @@ def cut(o,c):
     active(o);m=o.modifiers.new('Socket recess','BOOLEAN');m.operation='DIFFERENCE';m.solver='EXACT';m.object=c
     bpy.ops.object.modifier_apply(modifier=m.name);bpy.data.objects.remove(c,do_unlink=True)
 def socket_face(z):
-    hw,hh,clip=.0145,.017,.0045
+    hw,hh,clip=.019,.0175,.006
     outline=[(-hw+clip,-hh),(hw-clip,-hh),(hw,-hh+clip),(hw,hh-clip),
              (hw-clip,hh),(-hw+clip,hh),(-hw,hh-clip),(-hw,-hh+clip)]
     verts=[(x,y,h+z) for y in [-.0105,-.0145] for x,h in outline]
@@ -62,19 +62,40 @@ def socket_face(z):
     me=bpy.data.meshes.new('Octagonal socket face');me.from_pydata(verts,[],faces);me.update()
     bm=bmesh.new();bm.from_mesh(me);bmesh.ops.recalc_face_normals(bm,faces=list(bm.faces));bm.to_mesh(me);bm.free()
     o=bpy.data.objects.new('Aged octagonal receptacle',me);bpy.context.collection.objects.link(o);me.materials.append(socket);parts.append(o)
-    active(o);m=o.modifiers.new('Rounded octagonal corners','BEVEL');m.width=.0006;m.segments=3
+    active(o);m=o.modifiers.new('Rounded octagonal corners','BEVEL');m.width=.0012;m.segments=4
     bpy.ops.object.modifier_apply(modifier=m.name)
     return o
-plate=box('Rounded ivory outlet plate',(0,-.00575,0),(.070,.0115,.115),ivory,.005)
+def rounded_field(name,width,height,y0,y1,r,mat,z=0):
+    outline=[]
+    for cx,cz,a in [(width/2-r,height/2-r,0),(-width/2+r,height/2-r,90),(-width/2+r,-height/2+r,180),(width/2-r,-height/2+r,270)]:
+        for i in range(9):
+            t=math.radians(a+90*i/8);outline.append((cx+r*math.cos(t),z+cz+r*math.sin(t)))
+    n=len(outline);vs=[(x,y,h) for y in [y0,y1] for x,h in outline]
+    fs=[tuple(reversed(range(n))),tuple(range(n,2*n))]+[(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)]
+    me=bpy.data.meshes.new(name);me.from_pydata(vs,[],fs);me.update()
+    bm=bmesh.new();bm.from_mesh(me);bmesh.ops.recalc_face_normals(bm,faces=list(bm.faces));bm.to_mesh(me);bm.free()
+    o=bpy.data.objects.new(name,me);bpy.context.collection.objects.link(o);me.materials.append(mat);parts.append(o);return o
+plate=rounded_field('Rounded ivory outlet plate',.070,.115,0,-.0115,.009,ivory)
+field=rounded_field('Raised inset plate field',.064,.109,-.0105,-.012,.007,ivory)
 for z in [-.022,.022]:
     cap=socket_face(z)
-    for part in [plate,cap]:
-        for x in [-.00635,.00635]:
-            cut(part,box('Blade opening',(x,-.006,z+.004),(.0019,.040,.0056),r=.0003,group=None))
-        cut(part,cylinder('Ground opening',(0,-.006,z-.006),.0020,.040,group=None))
-    box('Socket deep shadow',(0,.005,z),(.026,.002,.031),dark,.0005)
-screw=cylinder('Central aged fixing screw',(0,-.0124,0),.0031,.002,metal)
-cut(screw,box('Screwdriver slot',(0,-.0135,0),(.00065,.003,.0045),r=.0001,group=None))
+    for part in [plate,field,cap]:
+        for x in [-.0085,.0085]:
+            cut(part,box('Blade opening',(x,-.006,z+.005),(.0030,.040,.0095),r=.0004,group=None))
+        # D-shaped throat: straight bottom/sides and a semicircular upper arch.
+        outline=[(-.003,-.0028),(.003,-.0028)]+[(.003*math.cos(math.pi*i/16),.003*math.sin(math.pi*i/16)) for i in range(17)]
+        n=len(outline);vs=[(x,y,z-.0075+h) for y in [-.026,.014] for x,h in outline]
+        fs=[tuple(reversed(range(n))),tuple(range(n,2*n))]+[(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)]
+        me=bpy.data.meshes.new('D ground throat');me.from_pydata(vs,[],fs);me.update()
+        bm=bmesh.new();bm.from_mesh(me);bmesh.ops.recalc_face_normals(bm,faces=list(bm.faces));bm.to_mesh(me);bm.free()
+        ground=bpy.data.objects.new('Ground opening',me);bpy.context.collection.objects.link(ground)
+        cut(part,ground)
+    box('Socket deep shadow',(0,.005,z),(.035,.002,.033),dark,.0005)
+bpy.ops.mesh.primitive_uv_sphere_add(segments=32,ring_count=16,location=(0,-.0123,0))
+screw=bpy.context.object;screw.name='Cream domed slotted fixing screw';screw.scale=(.0034,.0020,.0034)
+bpy.ops.object.transform_apply(location=False,rotation=False,scale=True);screw.data.materials.append(metal);parts.append(screw)
+slot=box('Screwdriver slot',(0,-.0141,0),(.00065,.002,.0052),r=.0001,group=None)
+slot.rotation_euler.y=math.radians(38);cut(screw,slot)
 
 for o in parts:
     active(o);bm=bmesh.new();bm.from_mesh(o.data)
@@ -97,8 +118,8 @@ anchors={'units':'Blender metres; wall mounting datum Y=0; front -Y; Z up',
          'mount':[0,0,0], 'upper_socket':[0,-.0147,.022], 'lower_socket':[0,-.0147,-.022],
          'plug_mesh':'../PR-DEHUMIDIFIER-01/model/DH_Plug01.fbx','plug_rotation_deg':[0,0,0],
          'insertion_axis':[0,1,0],'cord_exit_relative_to_plug':[0,-.043,0],
-         'blade_centers_x':[-.00635,.00635],'blade_center_z_offset':.004,
-         'ground_center_z_offset':-.006,'seating_clearance_m':.0002,
+         'blade_centers_x':[-.0085,.0085],'blade_center_z_offset':.005,
+         'ground_center_z_offset':-.0075,'seating_clearance_m':.0002,
          'interaction_note':'Outlet stays on wall while appliance changes rooms. Occupancy/power and cable are runtime state.'}
 (ROOT/'interaction-anchors.json').write_text(json.dumps(anchors,indent=2)+'\n')
 for name,loc in [('Mount',anchors['mount']),('UpperSocket',anchors['upper_socket']),('LowerSocket',anchors['lower_socket'])]:
@@ -118,10 +139,11 @@ bpy.ops.wm.save_as_mainfile(filepath=str(MODEL/'PR-OUTLET-01.blend'))
 scene.render.filepath=str(PRE/'outlet-unplugged.png');bpy.ops.render.render(write_still=True)
 bpy.ops.import_scene.fbx(filepath=str(DH/'model'/'DH_Plug01.fbx'))
 plug=bpy.context.selected_objects[0];plug.name='Preview_GroundedPlug';plug.location=anchors['lower_socket']
-# Imported FBX is used for geometry. Restore its two authored PBR materials.
+# Imported FBX supplies geometry; restore the authored PBR materials.
 plug_metal=material('DH_Aged_Hardware',(.46,.43,.34),.49,.7,['aged-metal.png'])
+plug_brown=material('DH_Plug_Bakelite',(.22,.15,.09),.58,0,['aged-metal.png'])
 for slot in plug.material_slots:
-    slot.material=plug_metal if 'Hardware' in slot.name else rubber
+    slot.material=plug_metal if 'Hardware' in slot.name else plug_brown if 'Bakelite' in slot.name else rubber
 curve=bpy.data.curves.new('Preview flexible lead','CURVE');curve.dimensions='3D';curve.bevel_depth=.003;curve.bevel_resolution=3;curve.use_fill_caps=True
 s=curve.splines.new('BEZIER');s.bezier_points.add(3)
 for p,co in zip(s.bezier_points,[(0,-.0577,-.022),(0,-.072,-.032),(.004,-.075,-.066),(.014,-.080,-.090)]):
@@ -130,4 +152,8 @@ lead=bpy.data.objects.new('Preview cable only',curve);bpy.context.collection.obj
 cam.data.ortho_scale=.205;cam.location=(.18,-.34,.095)
 cam.rotation_euler=(Vector((0,-.02,-.012))-cam.location).to_track_quat('-Z','Y').to_euler()
 scene.render.filepath=str(PRE/'outlet-plugged.png');bpy.ops.render.render(write_still=True)
+for o in parts:o.hide_render=True
+lead.hide_render=True;plug.location=(0,0,0)
+cam.location=(.075,.11,.075);cam.rotation_euler=(Vector((0,-.01,0))-cam.location).to_track_quat('-Z','Y').to_euler();cam.data.ortho_scale=.085
+scene.render.filepath=str(PRE/'plug-close.png');bpy.ops.render.render(write_still=True)
 print('OUTLET_BUILD_COMPLETE')

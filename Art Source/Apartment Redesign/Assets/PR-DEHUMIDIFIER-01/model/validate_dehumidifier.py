@@ -114,5 +114,22 @@ cable=inspect('DH_CableSegment01.fbx')
 assert abs(cable['bounds_m'][0][0])<1e-5 and abs(cable['bounds_m'][1][0]-1)<1e-5
 assert abs(cable['bounds_m'][1][1]-cable['bounds_m'][0][1]-.006)<1e-5
 report['spline_cable']=cable
+bpy.ops.wm.open_mainfile(filepath=str(ROOT/'model'/'PR-DEHUMIDIFIER-01.blend'))
+normal=Vector((0,-1,.5)).normalized();plane=Vector((0,-.130,.455))
+mounts={}
+for name in ['Dial seating ring','Power rocker','Tank lamp bezel']:
+    obj=bpy.data.objects[name]
+    depth=min((obj.matrix_world@v.co-plane).dot(normal) for v in obj.data.vertices)
+    assert -.0011<depth<.0001,(name,'Unseated control mount',depth)
+    mounts[name]=dict(back_surface_depth_mm=depth*1000)
+vanes=[o for o in bpy.data.objects if o.name.startswith('Cream vertical intake vane')]
+assert len(vanes)==15
+setback=min((o.matrix_world@v.co).y for o in vanes for v in o.data.vertices)+.155
+assert setback>.009,('Front vents project too far',setback)
+for obj in vanes:
+    z=[(obj.matrix_world@v.co).z for v in obj.data.vertices]
+    assert min(z)<.273 and max(z)>.413,('Unseated vane end',obj.name,z)
+report['flat_panel_control_seating']=mounts
+report['front_vent_setback_mm']=setback*1000
 (ROOT/'validation.json').write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report,indent=2))

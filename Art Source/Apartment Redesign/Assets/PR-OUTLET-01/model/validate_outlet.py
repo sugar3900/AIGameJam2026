@@ -47,7 +47,7 @@ anchors=json.loads((ROOT/'interaction-anchors.json').read_text())
 holes=[]
 for key in ['upper_socket','lower_socket']:
     z=anchors[key][2]
-    for x,h in [(-.00635,z+.004),(.00635,z+.004),(0,z-.006)]:
+    for x,h in [(-.0085,z+.005),(.0085,z+.005),(0,z-.0075)]:
         hit,normal,index,distance=tree.ray_cast(Vector((x,-.05,h)),Vector((0,1,0)),.1)
         assert hit is not None and hit.y>.003,(key,x,h,hit)
         holes.append(dict(socket=key,x=x,z=h,backing_hit_y=hit.y))
