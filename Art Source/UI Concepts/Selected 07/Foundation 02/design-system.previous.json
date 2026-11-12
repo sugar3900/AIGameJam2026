@@ -1,0 +1,46 @@
+{
+  "status": "Proposal for review; original concept 07 is the selected art direction, these normalized tokens are not yet approved or implemented.",
+  "reference": "../Exploration 01/07-fixer-upper-reality-show.png",
+  "colorMethod": "Deliberately normalized sRGB colors informed by the selected reference, not exact samples of raster gradients. Hex values must be converted from sRGB when used with Unreal FLinearColor.",
+  "colors": {
+    "teal": { "hex": "#00565B", "role": "Header fills, large backing surfaces, drafting map" },
+    "ink": { "hex": "#00383C", "role": "Body text and hard offset shadows" },
+    "cream": { "hex": "#FFF5E5", "role": "Reading surfaces, secondary buttons, modal bodies" },
+    "orange": { "hex": "#FF7900", "role": "Borders, offset accents, tool icons, friction indicator; avoid small white text on orange" },
+    "pink": { "hex": "#D9005C", "role": "Primary actions, focused dialogue replies, romance indicator; chosen for readable white text" },
+    "white": { "hex": "#FFFFFF", "role": "Text on dark or pink fills, small separation keylines" },
+    "mint": { "hex": "#5FD3B4", "role": "Friendship indicator; paired with an explicit label and icon" },
+    "disabledSurface": { "hex": "#E1E1DE", "role": "Disabled input/action fills" },
+    "disabledInk": { "hex": "#565C60", "role": "Legible disabled labels and icons" }
+  },
+  "typography": {
+    "display": "One bold condensed oblique family for major titles, nameplates and short action labels. Exact font remains to be selected.",
+    "body": "One upright readable sans family for dialogue, long replies, helper copy, values and settings labels. Existing engine font can serve as a prototype fallback.",
+    "emphasis": "Weight changes within body family; underline plus pink for actual clickable topics. Ordinary emphasis must not resemble a link.",
+    "rules": ["Never shear or rotate body text with the decorative panel.", "Never reduce font size or truncate authored copy to fit a component.", "Font sizes and spacing must be verified with actual Unreal rendering and UI scale."]
+  },
+  "geometry": {
+    "status": "Starting proportions to test in-engine, not inferred measurements from generated screens",
+    "designReference": "1920x1080",
+    "spacingUnit": 8,
+    "spacingSteps": [8, 16, 24, 32, 48],
+    "panel": "Axis-aligned cream body, teal header, consistent orange outline and hard ink shadow; content remains rectangular and reflows vertically.",
+    "accentPlate": "One shared approximately 12-degree side slant on nameplates, short tabs and button backgrounds. Baselines remain horizontal.",
+    "outlineReferencePixels": 3,
+    "shadowOffsetReferencePixels": [6, 6],
+    "modalRules": ["One reusable modal shell with width variants and content-driven height.", "Actions stack vertically consistently, including blocked states.", "Use the same dim scrim for all modals."]
+  },
+  "components": [
+    { "name": "Brand mark", "variants": ["Full title mark", "Compact roof-heart mark"], "rules": ["Create each master once; never regenerate or re-typeset per screen.", "Full mark belongs on title, credits and final keepsake; routine popups do not need a giant logo."] },
+    { "name": "Panel shell", "variants": ["Modal", "Wide dialogue", "Lower-third caption"], "rules": ["Shared cream/teal/orange/ink construction.", "No rotation of a complete modal."] },
+    { "name": "Action button", "variants": ["Primary", "Secondary", "Dialogue reply"], "states": ["Idle", "Hover", "Keyboard/gamepad focus", "Pressed", "Disabled"], "rules": ["Shared silhouette, padding, icon alignment and shadow.", "Primary remains pink; focus also has a visible pointer or keyline so color alone does not indicate focus.", "Focused dialogue reply can use pink fill; long replies wrap and grow.", "Selection does not add a heart or imply an outcome."] },
+    { "name": "Dialogue assembly", "parts": ["Speaker nameplate", "Subtitle", "Relationship group", "Body area", "Vertical reply list", "Continue hint"], "rules": ["All replies retain full authored text.", "Handle four simultaneous choices and narration without choices.", "Keep face visible and decorative elements out of text width.", "No relationship group in narration or generic story scenes."] },
+    { "name": "HUD label", "variants": ["Room tab", "Week tab", "House-shaped repair badge", "Interaction prompt", "Toast"], "rules": ["Consistent corner anchors and safe margins.", "One dot reticle, not multiple invented targeting shapes.", "HUD text may change without changing silhouette or icon scale."] },
+    { "name": "Relationship meter", "variants": ["Romance: heart, pink", "Friendship: people, mint", "Friction: lightning, orange"], "rules": ["Shared track geometry, fill style and label size.", "No gradient or glossy rendering differences between meters.", "Retain text labels and do not rely on color alone."] },
+    { "name": "Form controls", "variants": ["Name input", "Slider with value", "Checkbox"], "rules": ["Shared row spacing, focus treatment and disabled palette.", "Consistent thumb/check geometry and large hit targets."] },
+    { "name": "Floor-plan cell", "variants": ["Unmet", "Met", "Fixed", "Current", "Locked", "Sub-volume"], "rules": ["Room geometry comes from actual runtime rectangles.", "Status variants change label and emphasis, not spatial layout.", "Closet sub-volume is not a separate travel target."] },
+    { "name": "Icon and accent set", "assets": ["Heart", "People", "Lightning", "Wrench", "House", "Door/exit", "Gear", "Play/focus pointer", "Check", "Info", "Three renovation stripes", "Small three-ray accent"], "rules": ["Consistent stroke/fill family and optical size.", "Ray clusters reserved for major celebrations or intentional feedback.", "Striped decoration is optional and sparse, not attached to every control.", "Use a single flat orange; do not introduce a separate yellow ray color."] }
+  ],
+  "stressFixtures": "../Exploration 02/dialogue-stress-cases.json",
+  "nextArtifact": "A single deterministic component sheet assembled from shared editable masters before more whole-screen generation."
+}

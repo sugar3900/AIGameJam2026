@@ -13,6 +13,17 @@ class UPointLightComponent;
 class UMaterialInstanceDynamic;
 class ALight;
 
+/** Semantic world action; None is transparent exploration idle, never a blocked target. */
+UENUM(BlueprintType)
+enum class EFixHimInteractionAction : uint8
+{
+	None,
+	Inspect,
+	Talk,
+	Use,
+	EndDay
+};
+
 UENUM(BlueprintType)
 enum class EInteractToggle : uint8
 {
@@ -52,6 +63,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Interactable")
 	virtual void Interact(AFixHimPlayerController* Player);
 	virtual FText GetPrompt() const;
+
+	UFUNCTION(BlueprintPure, Category = "Interactable")
+	virtual EFixHimInteractionAction GetInteractionAction() const { return InteractionAction; }
+
+	/** Ordinary toggles use Use; specialized actors override this semantic metadata. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
+	EFixHimInteractionAction InteractionAction = EFixHimInteractionAction::Use;
 
 	void SetHovered(bool bInHovered);
 	bool IsHovered() const { return bHovered; }

@@ -1,0 +1,334 @@
+{
+  "scope": "Seven current dialogue JSON files; authored text lengths after removing cue tags, speaker prefixes, narration delimiters and topic markup. Before runtime name substitutions. Podcast uses a separate radio-caption widget.",
+  "lines": {
+    "count": 1579,
+    "median_chars": 75,
+    "p95_chars": 163,
+    "max_chars": 355
+  },
+  "replies": {
+    "count": 400,
+    "median_chars": 29,
+    "p95_chars": 59,
+    "max_chars": 92
+  },
+  "characterDialogueLines": {
+    "count": 1354,
+    "median_chars": 73,
+    "p95_chars": 163,
+    "max_chars": 355
+  },
+  "characterReplies": {
+    "count": 271,
+    "median_chars": 36,
+    "p95_chars": 64,
+    "max_chars": 92
+  },
+  "runtimeNotes": [
+    "One line displayed at a time; choices shown only on final line after typing.",
+    "Four choices can coexist, e.g. tyler.v4_furious with seen.v1_nanny.",
+    "Large authored choice lists can contain mutually exclusive conditional variants; do not treat epilogue.decide as twelve simultaneous replies.",
+    "Player name entry accepts up to sixteen characters; retain substitution headroom.",
+    "No line breaking, clipping or readability has been measured in Unreal by this content audit."
+  ],
+  "longestLines": [
+    {
+      "script": "lukey",
+      "node": "v1",
+      "index": 0,
+      "text": "A gush of water bursts from under the sink, and a big, broad man slides out on the wave. Wet copper curls. A short auburn beard. A soaked white tank top with a red valve wheel where his heart should be. His arms and legs are copper pipe, green at the joints, patched here and there with silver duct tape. He looks you up and down with deep disappointment.",
+      "chars": 355,
+      "words": 69
+    },
+    {
+      "script": "malcolm",
+      "node": "v3_diary",
+      "index": 2,
+      "text": "Next page, ringed with hearts: a tall, gaunt, unsmiling man, black hair to his shoulders and tucked behind his ears, a long moss-and-black coat worn open over a bare chest, little black clovers dotted wrist to brow. 'MALCOLM ASHGROVE. My ghost boyfriend. Died 1847 (consumption + heartbreak). Lives in my closet. Hates sunlight (same).'",
+      "chars": 336,
+      "words": 54
+    },
+    {
+      "script": "malcolm",
+      "node": "v1",
+      "index": 0,
+      "text": "You open the bedroom closet. The back wall is velvet-black with mold. It shivers, spores drift up like dark glitter, and a tall, gaunt man unfolds from the plaster: ivory-pale, black hair to his shoulders, a long moss-and-black overcoat hanging open over a bare chest. Little black clovers of mold bloom on him, wrist to brow.",
+      "chars": 326,
+      "words": 56
+    },
+    {
+      "script": "lukey",
+      "node": "v1_end",
+      "index": 0,
+      "text": "He turns to slide back under the sink and leaves a big puddle on the tiles. You reach past him to shut off the tap, step right in it, and your foot goes out from under you.  He lunges to catch you. For one second there's a cold, wet arm around your waist. Then it's just water, and you sit down hard in the puddle.",
+      "chars": 314,
+      "words": 65
+    },
+    {
+      "script": "tyler",
+      "node": "v3",
+      "index": 2,
+      "text": "The tile remembers things. Don't ask me how. A girl had chicken pox in that tub in 1964 and counted every tile. A man hid an engagement ring in the soap dish in 1979. A girl dyed her hair pink in that sink in 1994. Kool-Aid. Good instincts.",
+      "chars": 240,
+      "words": 48
+    },
+    {
+      "script": "malcolm",
+      "node": "v3_read",
+      "index": 0,
+      "text": "You sit on the floor together, close, with one careful inch of air between your shoulders, and read. 2006: Malcolm is a vampire. 2007: he plays the cello in a band. Later in 2007, he and Mr. Darcy duel over Raven, then agree to share her.",
+      "chars": 238,
+      "words": 46
+    },
+    {
+      "script": "tyler",
+      "node": "v1",
+      "index": 1,
+      "text": "The tile shimmers, and a man steps out of the wall. A very, very large man. Shirtless. From the neck down he IS the wall: glossy hot-pink square tile with crisp white grout lines, flaking into bare skin at the collarbones and wrists.",
+      "chars": 233,
+      "words": 43
+    },
+    {
+      "script": "wyatt",
+      "node": "v4_no",
+      "index": 3,
+      "text": "That cord backfeeds the panel. No transfer switch, Gary's old splices, the lot. It sends power out to the street, so the bloke up the pole fixing the lines gets all of it. And the house goes up like a Christmas tree. With you in it.",
+      "chars": 232,
+      "words": 46
+    },
+    {
+      "script": "lukey",
+      "node": "v2_wall",
+      "index": 0,
+      "text": "You open up the east wall together. He talks you through every drip with a wet finger, very close to your ear, being extremely bossy about it. Every time your wrench gets near the wiring he yells 'WYATT'S! DON'T!' like a lifeguard.",
+      "chars": 231,
+      "words": 42
+    },
+    {
+      "script": "tyler",
+      "node": "v4_name",
+      "index": 0,
+      "text": "Saturday. The storm hits Heartbreak Lane like it's personal. Water is running down the wall BEHIND the tile, and Tyler is holding the wall up with both hands, every enormous tiled muscle in his back braced. Or trying to.",
+      "chars": 220,
+      "words": 39
+    }
+  ],
+  "longestReplies": [
+    {
+      "script": "tyler",
+      "node": "v4_furious",
+      "index": 0,
+      "text": "Because somebody loved it. And because I love it. All of it. Including the part that argues.",
+      "chars": 92,
+      "words": 17
+    },
+    {
+      "script": "lukey",
+      "node": "v2_call",
+      "index": 0,
+      "text": "It's not personal. Everything I own is riding on this flip. If it fails, I lose it all.",
+      "chars": 87,
+      "words": 18
+    },
+    {
+      "script": "malcolm",
+      "node": "v2_cough",
+      "index": 0,
+      "text": "It's a health hazard, Malcolm. And a resale problem. Both of those are real.",
+      "chars": 76,
+      "words": 14
+    },
+    {
+      "script": "wyatt",
+      "node": "v2_push",
+      "index": 0,
+      "text": "Don't apologize. That's the most useful thing anyone's said to me all week.",
+      "chars": 75,
+      "words": 13
+    },
+    {
+      "script": "lukey",
+      "node": "v3",
+      "index": 0,
+      "text": "Then let's fix it properly. Not cheap. Whoever buys it gets a real home.",
+      "chars": 72,
+      "words": 14
+    },
+    {
+      "script": "lukey",
+      "node": "v2_coffee",
+      "index": 3,
+      "text": "You're not the only guy in this house who's been sweet to me, you know.",
+      "chars": 71,
+      "words": 15
+    },
+    {
+      "script": "lukey",
+      "node": "v3_storm",
+      "index": 1,
+      "text": "A leak that's scared of floods? That's like a fish scared of the sea.",
+      "chars": 69,
+      "words": 14
+    },
+    {
+      "script": "tyler",
+      "node": "v4_plan",
+      "index": 1,
+      "text": "Hal built it to outlast them both. It's going to outlast you too. No.",
+      "chars": 69,
+      "words": 14
+    },
+    {
+      "script": "lukey",
+      "node": "v1_money",
+      "index": 0,
+      "text": "Honestly? Enough to cover my mortgage and then some. That's the job.",
+      "chars": 68,
+      "words": 12
+    },
+    {
+      "script": "lukey",
+      "node": "v1_dehum",
+      "index": 2,
+      "text": "Jealous? It's very quiet. Very low maintenance. Unlike some people.",
+      "chars": 67,
+      "words": 10
+    }
+  ],
+  "fixtures": [
+    {
+      "script": "lukey",
+      "node": "v1",
+      "lineIndex": 0,
+      "purpose": "Long narration without choices",
+      "rawLine": "*{sfx:WaterSplash} A gush of water bursts from under the sink, and a big, broad man slides out on the wave. Wet copper curls. A short auburn beard. A soaked white tank top with a red valve wheel where his heart should be. His arms and legs are copper pipe, green at the joints, patched here and there with silver duct tape. He looks you up and down with deep disappointment.*",
+      "displayText": "A gush of water bursts from under the sink, and a big, broad man slides out on the wave. Wet copper curls. A short auburn beard. A soaked white tank top with a red valve wheel where his heart should be. His arms and legs are copper pipe, green at the joints, patched here and there with silver duct tape. He looks you up and down with deep disappointment.",
+      "lineChars": 355,
+      "choices": []
+    },
+    {
+      "script": "tyler",
+      "node": "v3",
+      "lineIndex": 2,
+      "purpose": "Long spoken line with multiple clickable topics, without choices yet",
+      "rawLine": "The tile remembers things. Don't ask me how. A girl had [chicken pox|pox] in that tub in 1964 and counted every tile. A man hid an engagement ring in the soap dish in 1979. A girl dyed her hair pink in that sink in 1994. Kool-Aid. Good instincts.",
+      "displayText": "The tile remembers things. Don't ask me how. A girl had chicken pox in that tub in 1964 and counted every tile. A man hid an engagement ring in the soap dish in 1979. A girl dyed her hair pink in that sink in 1994. Kool-Aid. Good instincts.",
+      "lineChars": 240,
+      "choices": []
+    },
+    {
+      "script": "tyler",
+      "node": "v2_back",
+      "lineIndex": 4,
+      "purpose": "Long last line with clickable topic plus three full replies",
+      "rawLine": "This is [mud-set|mudset]. An inch of mortar on wire lath. Seventy years and it hasn't moved. I once lost a whole wall of subway in eleven months. The adhesive came from a gas station.",
+      "displayText": "This is mud-set. An inch of mortar on wire lath. Seventy years and it hasn't moved. I once lost a whole wall of subway in eleven months. The adhesive came from a gas station.",
+      "lineChars": 174,
+      "choices": [
+        {
+          "text": "Hal and Ruthie. This was somebody's home.",
+          "chars": 41,
+          "if": "true"
+        },
+        {
+          "text": "It's good tile, Tyler. Better than anything you'd put up.",
+          "chars": 57,
+          "if": "true"
+        },
+        {
+          "text": "Sentiment doesn't sell. Next tile?",
+          "chars": 34,
+          "if": "true"
+        }
+      ]
+    },
+    {
+      "script": "tyler",
+      "node": "v4_furious",
+      "lineIndex": 3,
+      "purpose": "Longest reply plus four simultaneous choices when seen.v1_nanny is true",
+      "rawLine": "You don't get to keep me because it's cheaper! Or because it'll pass inspection! Or because—",
+      "displayText": "You don't get to keep me because it's cheaper! Or because it'll pass inspection! Or because—",
+      "lineChars": 92,
+      "choices": [
+        {
+          "text": "Because somebody loved it. And because I love it. All of it. Including the part that argues.",
+          "chars": 92,
+          "if": "true"
+        },
+        {
+          "text": "Because it's the real fix, and you know it. Built to outlast us.",
+          "chars": 64,
+          "if": "true"
+        },
+        {
+          "text": "You told me no one ever said no and meant it. I mean it.",
+          "chars": 56,
+          "if": "seen.v1_nanny"
+        },
+        {
+          "text": "Because I said so.",
+          "chars": 18,
+          "if": "true"
+        }
+      ]
+    },
+    {
+      "script": "lukey",
+      "node": "v3_dinner",
+      "lineIndex": 3,
+      "purpose": "Long last line with topic plus four simultaneous choices when a rival romance is at least seven",
+      "rawLine": "Did you hear the podcast? Mrs. Pruitt next door says someone's been singing [Bon Jovi|bonjovi] in the walls. Ridiculous. I don't sing. I RESONATE.",
+      "displayText": "Did you hear the podcast? Mrs. Pruitt next door says someone's been singing Bon Jovi in the walls. Ridiculous. I don't sing. I RESONATE.",
+      "lineChars": 136,
+      "choices": [
+        {
+          "text": "It's definitely a date. Sing for me.",
+          "chars": 36,
+          "if": "true"
+        },
+        {
+          "text": "Do you ever wonder why you know all this 80s stuff?",
+          "chars": 51,
+          "if": "true"
+        },
+        {
+          "text": "You definitely sing. You're terrible.",
+          "chars": 37,
+          "if": "true"
+        },
+        {
+          "text": "You know I'm seeing other people in this house too, right?",
+          "chars": 58,
+          "if": "malcolm.romance >= 7 || tyler.romance >= 7 || wyatt.romance >= 7"
+        }
+      ]
+    },
+    {
+      "script": "lukey",
+      "node": "v2_call",
+      "lineIndex": 7,
+      "purpose": "Three long responses, including an 87-character reply",
+      "rawLine": "And you want to turn it into a showroom for Jasper and Pip.",
+      "displayText": "And you want to turn it into a showroom for Jasper and Pip.",
+      "lineChars": 59,
+      "choices": [
+        {
+          "text": "It's not personal. Everything I own is riding on this flip. If it fails, I lose it all.",
+          "chars": 87,
+          "if": "true"
+        },
+        {
+          "text": "Houses are investments, Lukey. That's how the world works.",
+          "chars": 58,
+          "if": "true"
+        },
+        {
+          "text": "...You're right. I've been treating your home like a spreadsheet.",
+          "chars": 65,
+          "if": "true"
+        }
+      ]
+    }
+  ]
+}

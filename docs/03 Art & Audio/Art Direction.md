@@ -30,6 +30,10 @@ This exploration informed the age and sense of accumulated repairs: leaks, damag
 
 ![[fixer-upper-exploration.png]]
 
+## UI direction
+
+See [[UI Design System]] for the selected #7 renovation-TV direction and the subsequent palette, typography, icon, reticle, rounded-surface and 12° placement-grid decisions. That page records the agreed design separately from provisional measurements and unfinished production assets. The generated screen set is exploratory reference, not a source of per-screen component variations.
+
 ## Pipeline
 
 Concepts and source models live under `Art Source/`; environment models are built in Blender and imported into Unreal. See the repository README for the rebuild workflow.

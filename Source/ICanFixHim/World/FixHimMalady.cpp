@@ -476,11 +476,16 @@ void AFixHimMalady::LockInteraction(float Seconds)
 	}
 }
 
-FText AFixHimMalady::GetPrompt() const
+EFixHimInteractionAction AFixHimMalady::GetInteractionAction() const
 {
 	const UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this);
 	const FHunkProgress* P = Save ? Save->FindHunk(HunkId) : nullptr;
-	if (!P || !P->bMet)
+	return P && P->bMet ? EFixHimInteractionAction::Talk : EFixHimInteractionAction::Inspect;
+}
+
+FText AFixHimMalady::GetPrompt() const
+{
+	if (GetInteractionAction() == EFixHimInteractionAction::Inspect)
 	{
 		return NSLOCTEXT("FixHim", "InspectPrompt", "Inspect");
 	}

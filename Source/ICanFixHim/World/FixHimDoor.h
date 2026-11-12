@@ -20,6 +20,7 @@ public:
 
 	virtual void Interact(AFixHimPlayerController* Player) override;
 	virtual FText GetPrompt() const override;
+	virtual EFixHimInteractionAction GetInteractionAction() const override { return EFixHimInteractionAction::EndDay; }
 	/** A rattle of the front door handle (DoorKnock if that cue isn't imported). */
 	virtual FName DefaultInteractSfx(bool bNowOn) const override;
 };

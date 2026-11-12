@@ -1,0 +1,122 @@
+[
+  {
+    "file": "Fonts/Barlow-Regular.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/barlow/Barlow-Regular.ttf",
+    "sha256": "95aa02c7c43096e0dd44d787ba6216864a67157e402adab59b35572e0c1577ea"
+  },
+  {
+    "file": "Fonts/Barlow-SemiBold.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/barlow/Barlow-SemiBold.ttf",
+    "sha256": "86577cb32f8abe3673db53ca0f4221e6856751a4f6730c867e00f720f8bb1fc5"
+  },
+  {
+    "file": "Fonts/BarlowCondensed-ExtraBoldItalic.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/barlowcondensed/BarlowCondensed-ExtraBoldItalic.ttf",
+    "sha256": "331783dae9ec0c398f4d32c9fd5a56d4c602caa0c1628c2b9cbfe93f48eb68c9"
+  },
+  {
+    "file": "Fonts/barlow-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/barlow/OFL.txt",
+    "sha256": "186d750eb496a4c17a76385f82be6aea2ac1cf2de074a811d63786cf374ea73f"
+  },
+  {
+    "file": "Fonts/barlowcondensed-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/barlowcondensed/OFL.txt",
+    "sha256": "186d750eb496a4c17a76385f82be6aea2ac1cf2de074a811d63786cf374ea73f"
+  },
+  {
+    "file": "Icons/Phosphor/LICENSE",
+    "source": "https://raw.githubusercontent.com/phosphor-icons/core/main/LICENSE",
+    "sha256": "b5b1f1da112d18ea2147decfd48ddc1bf2b5aeb6c265381579340e95b15a2bb2"
+  },
+  {
+    "file": "Icons/Phosphor/chat-circle-text-bold.svg",
+    "source": "https://raw.githubusercontent.com/phosphor-icons/core/main/assets/bold/chat-circle-text-bold.svg",
+    "sha256": "259305b66c9ff6a57b4fb7290cc7ad0be20b379967518603847f43a42384ca4f"
+  },
+  {
+    "file": "Icons/Phosphor/check-bold.svg",
+    "source": "https://raw.githubusercontent.com/phosphor-icons/core/main/assets/bold/check-bold.svg",
+    "sha256": "d0ca4e324ff5bb3a1a3bacb9f7580359b8e03cc6862a614d5ed14458db64bedf"
+  },
+  {
+    "file": "Icons/Phosphor/cursor-bold.svg",
+    "source": "https://raw.githubusercontent.com/phosphor-icons/core/main/assets/bold/cursor-bold.svg",
+    "sha256": "cc39efe6482c577e6a3ccedf6efcad26769a9eb0bc2868fb18f9a22de43bf172"
+  },
+  {
+    "file": "Icons/Phosphor/door-open-bold.svg",
+    "source": "https://raw.githubusercontent.com/phosphor-icons/core/main/assets/bold/door-open-bold.svg",
+    "sha256": "391800e47609db4e77a95a84f032a76ccf86efa8f840c5da1eff53f947ccc9ac"
+  },
+  {
+    "file": "Icons/Phosphor/eye-bold.svg",
+    "source": "https://raw.githubusercontent.com/phosphor-icons/core/main/assets/bold/eye-bold.svg",
+    "sha256": "766b10b6ed7d8a899a76ba28f3f066ca49e8ce0a75ae68b65bfec0e615d8130d"
+  },
+  {
+    "file": "Icons/Phosphor/gear-bold.svg",
+    "source": "https://raw.githubusercontent.com/phosphor-icons/core/main/assets/bold/gear-bold.svg",
+    "sha256": "b70f71ce6d08d59ee13575d7278737ff6dc2011adb5d126c9090641bc783fdd2"
+  },
+  {
+    "file": "Icons/Phosphor/hand-bold.svg",
+    "source": "https://raw.githubusercontent.com/phosphor-icons/core/main/assets/bold/hand-bold.svg",
+    "sha256": "901ad6b152b237edf30c5713e0676f1cfd3142672e209b3efc3062b23836a62a"
+  },
+  {
+    "file": "Icons/Phosphor/hand-pointing-bold.svg",
+    "source": "https://raw.githubusercontent.com/phosphor-icons/core/main/assets/bold/hand-pointing-bold.svg",
+    "sha256": "185f4987cf4edb8bf13187caa8f68e9fe351f3149ddee29fd8f386f5bb7186b9"
+  },
+  {
+    "file": "Icons/Phosphor/heart-bold.svg",
+    "source": "https://raw.githubusercontent.com/phosphor-icons/core/main/assets/bold/heart-bold.svg",
+    "sha256": "786ecbd4cb71cf3356bc3da191185084693fc278dc3aaf389bcdeb8b10fc7104"
+  },
+  {
+    "file": "Icons/Phosphor/house-bold.svg",
+    "source": "https://raw.githubusercontent.com/phosphor-icons/core/main/assets/bold/house-bold.svg",
+    "sha256": "25f4b1504212c7c064054bd1d02ddaaf0a4e16ed49c6b08b23c3dc1f74e1d446"
+  },
+  {
+    "file": "Icons/Phosphor/info-bold.svg",
+    "source": "https://raw.githubusercontent.com/phosphor-icons/core/main/assets/bold/info-bold.svg",
+    "sha256": "b8241eb546c8764cda301e10c63fc2a9c52c36d75a568832ef7244cb10d15d9b"
+  },
+  {
+    "file": "Icons/Phosphor/lightning-bold.svg",
+    "source": "https://raw.githubusercontent.com/phosphor-icons/core/main/assets/bold/lightning-bold.svg",
+    "sha256": "8b9fe64519b0b2e3dfccefa18d0c76d4a8a8aa3e93ae00437705aaed084c0e3d"
+  },
+  {
+    "file": "Icons/Phosphor/magnifying-glass-bold.svg",
+    "source": "https://raw.githubusercontent.com/phosphor-icons/core/main/assets/bold/magnifying-glass-bold.svg",
+    "sha256": "b73e393b20bff0aaee96b9e325d0276fe1ab5fc81b5080633a95827bd14ebae6"
+  },
+  {
+    "file": "Icons/Phosphor/moon-bold.svg",
+    "source": "https://raw.githubusercontent.com/phosphor-icons/core/main/assets/bold/moon-bold.svg",
+    "sha256": "a7c2585ba405cda2f7d20620244bb68955b93928f671f853a82451458c72b10c"
+  },
+  {
+    "file": "Icons/Phosphor/play-bold.svg",
+    "source": "https://raw.githubusercontent.com/phosphor-icons/core/main/assets/bold/play-bold.svg",
+    "sha256": "f54e774d80d2b4d134a4babd3c03ee2a217aa4856566ed0a288e48e1a2f29d16"
+  },
+  {
+    "file": "Icons/Phosphor/users-bold.svg",
+    "source": "https://raw.githubusercontent.com/phosphor-icons/core/main/assets/bold/users-bold.svg",
+    "sha256": "3483c79bd35afe632197363741da6018b1204b168cf3f34e7073f574306677a8"
+  },
+  {
+    "file": "Icons/Phosphor/wrench-bold.svg",
+    "source": "https://raw.githubusercontent.com/phosphor-icons/core/main/assets/bold/wrench-bold.svg",
+    "sha256": "f4cf2bcd4c37361f3ebc4940a0ac7df37ad45ef74db23ed1076dcbcd6eca2d2e"
+  },
+  {
+    "file": "Icons/Phosphor/x-circle-bold.svg",
+    "source": "https://raw.githubusercontent.com/phosphor-icons/core/main/assets/bold/x-circle-bold.svg",
+    "sha256": "c2e88b5a115034e324ff72bcca8eb758a05001cfb528ed4251723dacb1d4e59c"
+  }
+]

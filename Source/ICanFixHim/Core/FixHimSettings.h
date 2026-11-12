@@ -90,6 +90,21 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = "UI")
 	TSoftObjectPtr<UTexture2D> PlayerPortraitTexture;
 
+	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
+	TSoftObjectPtr<UTexture2D> ReticleDefaultTexture;
+
+	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
+	TSoftObjectPtr<UTexture2D> ReticleInspectTexture;
+
+	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
+	TSoftObjectPtr<UTexture2D> ReticleTalkTexture;
+
+	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
+	TSoftObjectPtr<UTexture2D> ReticleUseTexture;
+
+	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
+	TSoftObjectPtr<UTexture2D> ReticleEndDayTexture;
+
 	// ---- Data -------------------------------------------------------------
 
 	/** Folder (relative to the project Content dir) holding one dialogue JSON per hunk. Staged as non-UFS when packaging. */

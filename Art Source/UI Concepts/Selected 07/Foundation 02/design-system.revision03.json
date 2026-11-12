@@ -1,0 +1,309 @@
+{
+  "status": "Revision 03: contextual reticle family C selected with dot-and-ring default from A, shared radius/style, unavailable artwork reserved but unused by current runtime.",
+  "reference": "../Exploration 01/07-fixer-upper-reality-show.png",
+  "colorMethod": "Deliberately normalized sRGB colors informed by the selected reference, not exact samples of raster gradients. Hex values must be converted from sRGB when used with Unreal FLinearColor.",
+  "colors": {
+    "teal": {
+      "hex": "#1F7384",
+      "role": "Header fills, large backing surfaces, drafting map"
+    },
+    "ink": {
+      "hex": "#11414A",
+      "role": "Body text and hard offset shadows"
+    },
+    "cream": {
+      "hex": "#FFF5E5",
+      "role": "Reading surfaces, secondary buttons, modal bodies"
+    },
+    "orange": {
+      "hex": "#FF7900",
+      "role": "Borders, offset accents, tool icons, friction indicator; avoid small white text on orange"
+    },
+    "pink": {
+      "hex": "#D9005C",
+      "role": "Primary actions, focused dialogue replies, romance indicator; chosen for readable white text"
+    },
+    "white": {
+      "hex": "#FFFFFF",
+      "role": "Text on dark or pink fills, small separation keylines"
+    },
+    "disabledSurface": {
+      "hex": "#E1E1DE",
+      "role": "Disabled input/action fills"
+    },
+    "disabledInk": {
+      "hex": "#565C60",
+      "role": "Legible disabled labels and icons"
+    },
+    "friendship": {
+      "role": "Friendship indicator and cool accent",
+      "hex": "#76CADB"
+    }
+  },
+  "typography": {
+    "display": {
+      "family": "Barlow Condensed",
+      "weight": 800,
+      "style": "Italic",
+      "file": "Foundation 02/Fonts/BarlowCondensed-ExtraBoldItalic.ttf",
+      "license": "SIL Open Font License 1.1",
+      "nativeItalicAngleDegrees": -7
+    },
+    "body": {
+      "family": "Barlow",
+      "weights": [
+        400,
+        600
+      ],
+      "style": "Regular",
+      "files": [
+        "Foundation 02/Fonts/Barlow-Regular.ttf",
+        "Foundation 02/Fonts/Barlow-SemiBold.ttf"
+      ],
+      "license": "SIL Open Font License 1.1"
+    },
+    "emphasis": "Weight changes within body family; underline plus pink for actual clickable topics. Ordinary emphasis must not resemble a link.",
+    "rules": [
+      "Never shear or rotate body text with the decorative panel.",
+      "Never reduce font size or truncate authored copy to fit a component.",
+      "Font sizes and spacing must be verified with actual Unreal rendering and UI scale."
+    ]
+  },
+  "geometry": {
+    "status": "Starting proportions to test in-engine, not inferred measurements from generated screens",
+    "designReference": "1920x1080",
+    "spacingUnit": 8,
+    "spacingSteps": [
+      8,
+      16,
+      24,
+      32,
+      48
+    ],
+    "panel": "Axis-aligned cream body, teal header, consistent orange outline and hard ink shadow; content remains rectangular and reflows vertically.",
+    "accentPlate": "All slanted elements use the same 7-degree right lean, matching Barlow Condensed Italic. Applies to button shapes, tabs, badges, header plates, slanted panels, outlines, focus shapes and shadows; no independent angles.",
+    "outlineReferencePixels": 3,
+    "shadowOffsetReferencePixels": [
+      6,
+      6
+    ],
+    "modalRules": [
+      "One reusable modal shell with width variants and content-driven height.",
+      "Actions stack vertically consistently, including blocked states.",
+      "Use the same dim scrim for all modals."
+    ],
+    "slantDegrees": 7,
+    "slantFormula": "For a side edge of height h, top-to-bottom horizontal inset is h * tan(7 degrees). Baselines stay horizontal. Do not rotate panels or shear body text, icons or brand masters."
+  },
+  "components": [
+    {
+      "name": "Brand mark",
+      "variants": [
+        "Full title mark",
+        "Compact roof-heart mark"
+      ],
+      "rules": [
+        "Create each master once; never regenerate or re-typeset per screen.",
+        "Full mark belongs on title, credits and final keepsake; routine popups do not need a giant logo."
+      ]
+    },
+    {
+      "name": "Panel shell",
+      "variants": [
+        "Modal",
+        "Wide dialogue",
+        "Lower-third caption"
+      ],
+      "rules": [
+        "Shared cream/teal/orange/ink construction.",
+        "No rotation of a complete modal."
+      ]
+    },
+    {
+      "name": "Action button",
+      "variants": [
+        "Primary",
+        "Secondary",
+        "Dialogue reply"
+      ],
+      "states": [
+        "Idle",
+        "Hover",
+        "Keyboard/gamepad focus",
+        "Pressed",
+        "Disabled"
+      ],
+      "rules": [
+        "Shared silhouette, padding, icon alignment and shadow.",
+        "Primary remains pink; focus also has a visible pointer or keyline so color alone does not indicate focus.",
+        "Focused dialogue reply can use pink fill; long replies wrap and grow.",
+        "Selection does not add a heart or imply an outcome."
+      ]
+    },
+    {
+      "name": "Dialogue assembly",
+      "parts": [
+        "Speaker nameplate",
+        "Subtitle",
+        "Relationship group",
+        "Body area",
+        "Vertical reply list",
+        "Continue hint"
+      ],
+      "rules": [
+        "All replies retain full authored text.",
+        "Handle four simultaneous choices and narration without choices.",
+        "Keep face visible and decorative elements out of text width.",
+        "No relationship group in narration or generic story scenes."
+      ]
+    },
+    {
+      "name": "HUD label",
+      "variants": [
+        "Room tab",
+        "Week tab",
+        "House-shaped repair badge",
+        "Interaction prompt",
+        "Toast"
+      ],
+      "rules": [
+        "Consistent corner anchors and safe margins.",
+        "Selected contextual family with dot-and-ring default: Foundation 02/selected-reticles.svg.",
+        "World reticle hidden outside Playing; UI cursor is separate.",
+        "Unavailable-target state is proposed; existing code suppresses invalid targets."
+      ]
+    },
+    {
+      "name": "Relationship meter",
+      "variants": [
+        "Romance: Phosphor heart, pink",
+        "Friendship: Phosphor users, cool blue-teal",
+        "Friction: Phosphor lightning, orange"
+      ],
+      "rules": [
+        "Shared track geometry, fill style and label size.",
+        "No gradient or glossy rendering differences between meters.",
+        "Retain text labels and do not rely on color alone."
+      ]
+    },
+    {
+      "name": "Form controls",
+      "variants": [
+        "Name input",
+        "Slider with value",
+        "Checkbox"
+      ],
+      "rules": [
+        "Shared row spacing, focus treatment and disabled palette.",
+        "Consistent thumb/check geometry and large hit targets."
+      ]
+    },
+    {
+      "name": "Floor-plan cell",
+      "variants": [
+        "Unmet",
+        "Met",
+        "Fixed",
+        "Current",
+        "Locked",
+        "Sub-volume"
+      ],
+      "rules": [
+        "Room geometry comes from actual runtime rectangles.",
+        "Status variants change label and emphasis, not spatial layout.",
+        "Closet sub-volume is not a separate travel target."
+      ]
+    },
+    {
+      "name": "Icon set",
+      "assets": [
+        "Heart",
+        "Users",
+        "Lightning",
+        "Wrench",
+        "House",
+        "Door-open",
+        "Gear",
+        "Play",
+        "Check",
+        "Info",
+        "Eye",
+        "Chat-circle-text",
+        "Hand-pointing",
+        "Moon",
+        "X-circle",
+        "Cursor"
+      ],
+      "rules": [
+        "Use Phosphor Bold consistently, with aligned optical sizes.",
+        "No construction stripes or ray-flourish graphics.",
+        "Do not add hearts to reply focus or imply unearned relationship outcomes."
+      ]
+    }
+  ],
+  "stressFixtures": "../Exploration 02/dialogue-stress-cases.json",
+  "nextArtifact": "Assemble component masters using the selected palette, fonts, seven-degree slant and contextual reticle family; no further reticle family selection needed.",
+  "revision": 3,
+  "colorHue": {
+    "teal": 190,
+    "friendship": 190,
+    "ink": 190,
+    "units": "degrees HSL, rounded RGB hex"
+  },
+  "decorations": {
+    "constructionStripes": "Removed",
+    "threeRayFlourish": "Removed from base kit; may be revisited later for surprises, not currently enabled"
+  },
+  "icons": {
+    "library": "Phosphor",
+    "weight": "Bold",
+    "license": "MIT",
+    "source": "https://github.com/phosphor-icons/core",
+    "directory": "Foundation 02/Icons/Phosphor",
+    "rule": "Use Bold SVGs consistently; no arbitrary weight mixing or skewing icons to match panel edges."
+  },
+  "reticles": {
+    "status": "User selected C contextual icons with an A dot-and-ring default; all circles share one radius and style. Design assets only, not implemented.",
+    "family": "C + A default",
+    "currentRuntimeStates": [
+      "Idle dot",
+      "Actionable target plus prompt",
+      "Hidden outside exploration"
+    ],
+    "actionCategories": [
+      "Inspect",
+      "Talk",
+      "Use/open",
+      "End day"
+    ],
+    "geometryAt1080p": {
+      "boxPixels": 32,
+      "outerRadiusPixels": 14,
+      "rimPixels": 1,
+      "defaultDotRadiusPixels": 2.5,
+      "contextIconBoxPixels": 19,
+      "backing": "#11414A",
+      "rimAndIcon": "#FFFFFF"
+    },
+    "assets": "Foundation 02/Reticles",
+    "sheet": "Foundation 02/selected-reticles.svg",
+    "unavailable": {
+      "status": "Reserved; no runtime usage planned now",
+      "visual": "Same radius, backing and rim; simple inner X replaces the contextual icon",
+      "useOnlyWhen": "A recognizable target is deliberately blocked and the UI can give a meaningful reason",
+      "notFor": [
+        "Empty space",
+        "Out-of-range target",
+        "Ordinary uninteractive scenery",
+        "Brief post-encounter or spawn transition locks",
+        "A door or bed that still opens a usable confirmation modal"
+      ],
+      "possibleFutureCase": "An explicit durable interaction lock exposed through semantic target metadata"
+    },
+    "uiCursors": [
+      "Arrow for UI selection",
+      "Hand for clickable topic"
+    ],
+    "implementationRequirement": "Add explicit semantic action metadata for contextual icons; do not infer action category by parsing localized prompt strings. Keep current input behavior during radio playback separate from world targeting."
+  }
+}

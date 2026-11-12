@@ -39,6 +39,7 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void Interact(AFixHimPlayerController* Player) override;
 	virtual FText GetPrompt() const override;
+	virtual EFixHimInteractionAction GetInteractionAction() const override;
 	virtual FName DefaultInteractSfx(bool bNowOn) const override;
 
 	/** Matches the "id" in Content/ICanFixHim/Data/Dialogue/<id>.json */

@@ -1,0 +1,9 @@
+{
+  "file": "logo-isolated-v3.png",
+  "tool": "Built-in image_gen",
+  "generatedSource": "/Users/davidwallin/.codex/generated_images/01a1c96a-7b37-7190-aa87-b27827d7b894/exec-c5103f3b-073c-49c8-ad03-54db1ec76cd1.png",
+  "sourceReference": "logo-isolated-v2.png",
+  "change": "I Can uses vertical cool-teal gradient #287F91 to #1A697A",
+  "prompt": "Edit the supplied isolated \"I Can FIX HIM\" logo. Change ONLY the teal fill inside the words \"I Can\" to a subtle smooth VERTICAL gradient matching the game's cool-teal UI surfaces: top #287F91, bottom #1A697A. It should be clearly but gently lighter toward the top and darker toward the bottom, with NO glossy streak, bevel, metallic sheen, horizontal gradient or added texture.\nPreserve the exact existing lettering shapes, size, slant, spacing and composition. Preserve the simple orange roof, warm-white sticker outline, white FIX lettering on its distressed orange screw plaque, pink HIM lettering and pink outlined heart beside HIM. The top heart and wrench were intentionally removed: do not restore them. Do not add new decorations or change any other color.\nMaintain the existing transparent alpha background and opaque warm-white internal areas. Output one complete uncropped transparent PNG logo with modest padding.",
+  "status": "Transparent concept PNG; alpha edge speckling remains."
+}
