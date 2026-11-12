@@ -22,16 +22,16 @@
         ]
       ],
       "uv0_area_by_slot": {
-        "DH_Rubber": 4.275226496961717,
-        "DH_Aged_Hardware": 28.139517703293574,
         "DH_Tank_Window": 0.33484045793295997,
+        "DH_Rubber": 4.275226496961717,
+        "DH_Amber_Lens": 0.6075588159015665,
         "DH_Control_Print": 0.6876660649772173,
         "DH_Plug_Bakelite": 4.301250808115315,
-        "DH_Filter_Shadow": 4.61074166294778,
         "DH_Collected_Water": 0.6521421992598608,
-        "DH_Ivory_Painted": 25.542572298196593,
-        "DH_BlueGray_Painted": 5.402611410728385,
-        "DH_Amber_Lens": 0.6075588159015665
+        "DH_Aged_Hardware": 27.431565008065167,
+        "DH_Filter_Shadow": 4.61074166294778,
+        "DH_BlueGray_Painted": 9.04165496939824,
+        "DH_Ivory_Painted": 22.61148143475521
       },
       "collision_meshes": 1
     },
@@ -56,12 +56,12 @@
       ],
       "uv0_area_by_slot": {
         "DH_Rubber": 3.7215527614428066,
-        "DH_Aged_Hardware": 25.72439345482247,
+        "DH_Amber_Lens": 0.6075588159015665,
         "DH_Control_Print": 0.6876660649772173,
+        "DH_Aged_Hardware": 25.01644075959406,
         "DH_Filter_Shadow": 4.61074166294778,
-        "DH_Ivory_Painted": 24.927294764529808,
-        "DH_BlueGray_Painted": 3.38230643261467,
-        "DH_Amber_Lens": 0.6075588159015665
+        "DH_BlueGray_Painted": 7.021349991284502,
+        "DH_Ivory_Painted": 21.996203901088425
       },
       "collision_meshes": 0
     },
@@ -85,10 +85,10 @@
         ]
       ],
       "uv0_area_by_slot": {
-        "DH_BlueGray_Painted": 2.020304978113713,
+        "DH_Tank_Window": 0.33484045793295997,
         "DH_Collected_Water": 0.6521421992598608,
-        "DH_Ivory_Painted": 0.6152775336667956,
-        "DH_Tank_Window": 0.33484045793295997
+        "DH_BlueGray_Painted": 2.020304978113713,
+        "DH_Ivory_Painted": 0.6152775336667956
       },
       "collision_meshes": 0
     },
@@ -136,8 +136,8 @@
         ]
       ],
       "uv0_area_by_slot": {
-        "DH_Aged_Hardware": 2.415124248471085,
-        "DH_Plug_Bakelite": 4.301250808115315
+        "DH_Plug_Bakelite": 4.301250808115315,
+        "DH_Aged_Hardware": 2.415124248471085
       },
       "collision_meshes": 0
     }
