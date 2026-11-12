@@ -23,7 +23,8 @@ assert hasattr(unreal, 'FixHimMorphInteractable'), 'build the C++ module with AF
 R2 = '/Game/ICanFixHim/Environment/Rev02/'; MATS = R2 + 'Materials/'; DEST = R2 + 'BA_CurtainAnimated'
 SRC = os.path.join(unreal.Paths.convert_relative_path_to_full(unreal.Paths.project_dir()),
                    'Art Source/Apartment Redesign/Assets/BA-TUB-01/model/BA_Curtain_Animated.fbx')
-assert os.path.isfile(SRC), 'missing source (git lfs pull / sparse checkout?): ' + SRC
+assert os.path.isfile(SRC), ('missing source: %s. Slim worktrees leave out Art Source/Apartment Redesign; run '
+                             '`git sparse-checkout disable` (see AGENTS.md), then `git lfs pull`.' % SRC)
 acts = {a.get_actor_label(): a for a in A.get_all_level_actors()}
 assert 'Shower_Curtain' in acts and 'Art_BA_Tub_BA_Tub' in acts, 'wrong map loaded?'
 log = []
