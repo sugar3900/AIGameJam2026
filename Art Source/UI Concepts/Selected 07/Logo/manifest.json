@@ -1,0 +1,17 @@
+{
+  "status": "Transparent concept extraction. Minor alpha fringe and detached edge speckles remain; not a final production master.",
+  "tool": "Built-in image_gen",
+  "sourceReference": "../Screen Set 01/S01-title-screen.png",
+  "file": "logo-isolated.png",
+  "generatedSource": "/Users/davidwallin/.codex/generated_images/01a1c96a-7b37-7190-aa87-b27827d7b894/exec-c50b38e7-c444-4bd9-a26c-594f63a7f531.png",
+  "prompts": [
+    "Use case: background-extraction.\nEdit target: the supplied title-screen screenshot for I Can Fix Him.\nExtract ONLY the existing large upper-left game logo as a clean standalone transparent PNG. Exact logo text \"I Can FIX HIM\" arranged as in the source: orange roof, hot-pink heart with white wrench at the roof peak, dark-teal \"I Can\", white \"FIX\" on its distressed orange repair-sign plaque with small screw details, pink \"HIM\" and the existing outlined heart at its lower right, all with the original warm-white sticker/keyline outline.\nPreserve the source lettering shapes, proportions, colors, distressed sign detail, layout and heart/wrench/roof shapes as faithfully as possible. Do not invent a different typeface, redraw the brand in another style, change words, add a tagline or add new details.\nREMOVE all surrounding scene imagery, the man, kitchen, menu buttons, screen frame, game-jam footer, construction stripes, and EVERY detached three-ray flourish or yellow/orange burst. The user has removed ray flourishes and construction stripes from the design system; neither is part of the isolated core logo.\nOutput a single clean isolated core logo on a genuinely transparent alpha background. Keep the warm-white outline opaque; transparency must not erase white logo lettering or internal logo surfaces. Transparent negative space around/between separate logo elements, no rectangular white backdrop or checkerboard pixels baked in. Center the mark with modest clear transparent padding and crisp antialiased edges, sufficiently high resolution for game title use. No mockup or presentation board.",
+    "Clean up the transparency of this isolated I Can Fix Him logo. Change ONLY the alpha boundary: remove ALL detached white speckles, colored flecks, ragged white noise and fuzzy fringe outside the continuous warm-white sticker outline. Make that outer sticker silhouette a clean continuous smooth anti-aliased edge, with completely transparent empty pixels outside it. Preserve the entire logo's lettering, arrangement, proportions, colors, roof, pink heart, white wrench, orange FIX plaque, screw details and internal intentional distressing EXACTLY as shown. Do not redraw or restyle lettering. Keep the main warm-white outline fully opaque and retain all interior surfaces. No new strokes, extra objects, rays, construction stripes, backdrop, glow, shadow, speckles or checkerboard. Tight but uncropped transparent PNG with comfortable padding around the full logo."
+  ],
+  "designNotes": [
+    "Original #7 title-screen logo family",
+    "Detached ray flourishes and construction stripes excluded",
+    "Warm-white outline retained",
+    "Generative extraction; lettering should be reconstructed as editable vector masters for final production."
+  ]
+}

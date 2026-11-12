@@ -482,7 +482,7 @@ void AFixHimPlayerController::EnterState(EFixHimState NewState)
 
 	if (HUDWidget)
 	{
-		HUDWidget->SetReticle(State == EFixHimState::Playing, false, FText::GetEmpty());
+		HUDWidget->SetReticle(State == EFixHimState::Playing, EFixHimInteractionAction::None, FText::GetEmpty());
 	}
 	if (State != EFixHimState::Playing)
 	{
@@ -646,7 +646,7 @@ void AFixHimPlayerController::SetHovered(AFixHimInteractable* NewHovered)
 	}
 	if (HUDWidget && State == EFixHimState::Playing)
 	{
-		HUDWidget->SetReticle(true, Hovered != nullptr, Hovered ? Hovered->GetPrompt() : FText::GetEmpty());
+		HUDWidget->SetReticle(true, Hovered ? Hovered->GetInteractionAction() : EFixHimInteractionAction::None, Hovered ? Hovered->GetPrompt() : FText::GetEmpty());
 	}
 }
 

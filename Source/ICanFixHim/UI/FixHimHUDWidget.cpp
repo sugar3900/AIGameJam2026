@@ -2,6 +2,9 @@
 
 #include "UI/FixHimHUDWidget.h"
 #include "Audio/FixHimSfxSubsystem.h"
+#include "Core/FixHimSettings.h"
+#include "Components/Image.h"
+#include "Engine/Texture2D.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/Border.h"
 #include "Components/CanvasPanel.h"
@@ -28,14 +31,20 @@ void UFixHimHUDWidget::BuildUI()
 	RetSlot->SetHorizontalAlignment(HAlign_Center);
 	RetSlot->SetVerticalAlignment(VAlign_Center);
 
-	// A plain white dot that never changes during gameplay; the prompt pill below says what you're hovering.
-	Dot = WidgetTree->ConstructWidget<UBorder>();
-	Dot->SetBrush(Rounded(FLinearColor(1.f, 1.f, 1.f, 0.9f), 5.f, FLinearColor(0.2f, 0.f, 0.15f, 0.8f), 1.5f));
-	USizeBox* DotBox = WidgetTree->ConstructWidget<USizeBox>();
-	DotBox->SetWidthOverride(10.f);
-	DotBox->SetHeightOverride(10.f);
-	DotBox->AddChild(Dot);
-	Ret->AddChildToVerticalBox(DotBox)->SetHorizontalAlignment(HAlign_Center);
+	// Rasterized from the selected SVGs at 4x the 32-unit logical size; UMG handles DPI scaling.
+	const UFixHimSettings* Settings = UFixHimSettings::Get();
+	ReticleTextures.Add(EFixHimInteractionAction::None, Settings->ReticleDefaultTexture.LoadSynchronous());
+	ReticleTextures.Add(EFixHimInteractionAction::Inspect, Settings->ReticleInspectTexture.LoadSynchronous());
+	ReticleTextures.Add(EFixHimInteractionAction::Talk, Settings->ReticleTalkTexture.LoadSynchronous());
+	ReticleTextures.Add(EFixHimInteractionAction::Use, Settings->ReticleUseTexture.LoadSynchronous());
+	ReticleTextures.Add(EFixHimInteractionAction::EndDay, Settings->ReticleEndDayTexture.LoadSynchronous());
+	ReticleImage = WidgetTree->ConstructWidget<UImage>();
+	ReticleImage->SetBrushFromTexture(ReticleTextures.FindRef(EFixHimInteractionAction::None));
+	USizeBox* ReticleBox = WidgetTree->ConstructWidget<USizeBox>();
+	ReticleBox->SetWidthOverride(32.f);
+	ReticleBox->SetHeightOverride(32.f);
+	ReticleBox->AddChild(ReticleImage);
+	Ret->AddChildToVerticalBox(ReticleBox)->SetHorizontalAlignment(HAlign_Center);
 
 	PromptPill = WidgetTree->ConstructWidget<UBorder>();
 	PromptPill->SetBrush(Rounded(FLinearColor(Plum.R, Plum.G, Plum.B, 0.8f), 14.f));
@@ -94,14 +103,19 @@ void UFixHimHUDWidget::BuildUI()
 	ToastPill->SetVisibility(ESlateVisibility::Collapsed);
 }
 
-void UFixHimHUDWidget::SetReticle(bool bVisible, bool bPointer, const FText& Prompt)
+void UFixHimHUDWidget::SetReticle(bool bVisible, EFixHimInteractionAction Action, const FText& Prompt)
 {
 	if (!ReticleRoot)
 	{
 		return;
 	}
 	ReticleRoot->SetVisibility(bVisible ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
-	PromptPill->SetVisibility(bVisible && bPointer && !Prompt.IsEmpty() ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
+	if (CurrentAction != Action)
+	{
+		CurrentAction = Action;
+		ReticleImage->SetBrushFromTexture(ReticleTextures.FindRef(Action));
+	}
+	PromptPill->SetVisibility(bVisible && Action != EFixHimInteractionAction::None && !Prompt.IsEmpty() ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
 	PromptText->SetText(Prompt);
 }
 
