@@ -90,20 +90,38 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = "UI")
 	TSoftObjectPtr<UTexture2D> PlayerPortraitTexture;
 
+	/** World reticle box in UMG units (scaled by DPI with screen height). Layer textures are 128px, so 64 draws 1:1 at 4K. */
+	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles", meta = (ClampMin = "16", ClampMax = "128"))
+	float ReticleSize = 64.f;
+
+	/** Seconds for reticle layer transitions (ink background in/out, center icon cross-fade). 0 snaps. */
+	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles", meta = (ClampMin = "0"))
+	float ReticleTransitionSeconds = 0.14f;
+
+	// Reticle layers share one 64-unit viewBox and stack centered: background, ring, then center (dot or icon).
+	/** Ink disc behind contextual icons; shown only for actionable targets. */
 	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
-	TSoftObjectPtr<UTexture2D> ReticleDefaultTexture;
+	TSoftObjectPtr<UTexture2D> ReticleBackgroundTexture;
+
+	/** Shared ink outline + white rim, identical in every state. */
+	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
+	TSoftObjectPtr<UTexture2D> ReticleRingTexture;
+
+	/** Idle center dot (no actionable target). */
+	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
+	TSoftObjectPtr<UTexture2D> ReticleDotTexture;
 
 	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
-	TSoftObjectPtr<UTexture2D> ReticleInspectTexture;
+	TSoftObjectPtr<UTexture2D> ReticleInspectIcon;
 
 	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
-	TSoftObjectPtr<UTexture2D> ReticleTalkTexture;
+	TSoftObjectPtr<UTexture2D> ReticleTalkIcon;
 
 	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
-	TSoftObjectPtr<UTexture2D> ReticleUseTexture;
+	TSoftObjectPtr<UTexture2D> ReticleUseIcon;
 
 	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")
-	TSoftObjectPtr<UTexture2D> ReticleEndDayTexture;
+	TSoftObjectPtr<UTexture2D> ReticleEndDayIcon;
 
 	// ---- Data -------------------------------------------------------------
 
