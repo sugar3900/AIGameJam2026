@@ -98,6 +98,14 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles", meta = (ClampMin = "0"))
 	float ReticleTransitionSeconds = 0.14f;
 
+	/** Ring scale with no actionable target; it expands to full size with the ink background. */
+	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles", meta = (ClampMin = "0.25", ClampMax = "1"))
+	float ReticleIdleRingScale = 0.75f;
+
+	/** Opacity of the ink background disc behind contextual icons. */
+	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles", meta = (ClampMin = "0", ClampMax = "1"))
+	float ReticleBackgroundOpacity = 0.5f;
+
 	// Reticle layers share one 64-unit viewBox and stack centered: background, ring, then center (dot or icon).
 	/** Ink disc behind contextual icons; shown only for actionable targets. */
 	UPROPERTY(Config, EditAnywhere, Category = "UI|Reticles")

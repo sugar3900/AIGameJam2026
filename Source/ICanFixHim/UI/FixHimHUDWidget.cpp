@@ -36,6 +36,8 @@ void UFixHimHUDWidget::BuildUI()
 	// so DPI scaling keeps it the same share of the screen at every resolution.
 	const UFixHimSettings* Settings = UFixHimSettings::Get();
 	ReticleTransitionSeconds = Settings->ReticleTransitionSeconds;
+	ReticleIdleRingScale = Settings->ReticleIdleRingScale;
+	ReticleBackgroundOpacity = Settings->ReticleBackgroundOpacity;
 	ReticleCenterTextures.Add(EFixHimInteractionAction::None, Settings->ReticleDotTexture.LoadSynchronous());
 	ReticleCenterTextures.Add(EFixHimInteractionAction::Inspect, Settings->ReticleInspectIcon.LoadSynchronous());
 	ReticleCenterTextures.Add(EFixHimInteractionAction::Talk, Settings->ReticleTalkIcon.LoadSynchronous());
@@ -164,14 +166,17 @@ void UFixHimHUDWidget::TickReticle(float DeltaSeconds)
 
 void UFixHimHUDWidget::ApplyReticleLayers()
 {
-	// Ink fill grows out from the center; icons pop in from 60% scale as they fade, and shrink as they leave.
-	const auto Show = [](UImage* Image, float Amount, float MinScale)
+	// The idle ring sits smaller and expands with the ink fill, which grows out from the center at partial
+	// opacity; icons pop in from 60% scale as they fade, and shrink as they leave.
+	const auto Show = [](UImage* Image, float Amount, float MinScale, float MaxOpacity = 1.f)
 	{
 		const float Eased = FMath::InterpEaseOut(0.f, 1.f, Amount, 2.f);
-		Image->SetRenderOpacity(Eased);
+		Image->SetRenderOpacity(Eased * MaxOpacity);
 		Image->SetRenderScale(FVector2D(FMath::Lerp(MinScale, 1.f, Eased)));
+		return Eased;
 	};
-	Show(ReticleBackground, BackgroundT, 0.5f);
+	const float Actionable = Show(ReticleBackground, BackgroundT, 0.5f, ReticleBackgroundOpacity);
+	ReticleRing->SetRenderScale(FVector2D(FMath::Lerp(ReticleIdleRingScale, 1.f, Actionable)));
 	Show(ReticleCenter, CenterInT, 0.6f);
 	Show(ReticleCenterOut, CenterOutT, 0.6f);
 }

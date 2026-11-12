@@ -78,6 +78,7 @@ bool FFixHimReticlesTest::RunTest(const FString& Parameters)
 	UObject* Dot = HUD->ReticleCenterTextures.FindRef(EFixHimInteractionAction::None);
 	TestEqual(TEXT("Idle starts on the dot"), Center(), Dot);
 	TestEqual(TEXT("Idle background transparent"), HUD->ReticleBackground->GetRenderOpacity(), 0.f);
+	TestEqual(TEXT("Idle ring starts small"), HUD->ReticleRing->GetRenderTransform().Scale, FVector2D(Settings->ReticleIdleRingScale));
 	for (auto Action : { EFixHimInteractionAction::Inspect, EFixHimInteractionAction::Talk,
 		EFixHimInteractionAction::Use, EFixHimInteractionAction::EndDay, EFixHimInteractionAction::None })
 	{
@@ -92,7 +93,10 @@ bool FFixHimReticlesTest::RunTest(const FString& Parameters)
 		TestTrue(TEXT("Transition is in progress mid-way"), Mid > 0.f && Mid < 1.f);
 		HUD->TickReticle(Settings->ReticleTransitionSeconds);
 		const bool bActionable = Action != EFixHimInteractionAction::None;
-		TestEqual(TEXT("Ink background only for actionable targets"), HUD->ReticleBackground->GetRenderOpacity(), bActionable ? 1.f : 0.f);
+		TestEqual(TEXT("Partial ink background only for actionable targets"), HUD->ReticleBackground->GetRenderOpacity(),
+			bActionable ? Settings->ReticleBackgroundOpacity : 0.f);
+		TestEqual(TEXT("Ring at idle scale, full size on targets"), HUD->ReticleRing->GetRenderTransform().Scale,
+			FVector2D(bActionable ? 1.f : Settings->ReticleIdleRingScale));
 		TestEqual(TEXT("Center settles opaque at full size"), HUD->ReticleCenter->GetRenderOpacity(), 1.f);
 		TestEqual(TEXT("Center settles at full size"), HUD->ReticleCenter->GetRenderTransform().Scale, FVector2D(1.f));
 		TestEqual(TEXT("Outgoing center gone"), HUD->ReticleCenterOut->GetRenderOpacity(), 0.f);
@@ -113,12 +117,15 @@ bool FFixHimReticlesTest::RunTest(const FString& Parameters)
 	TestEqual(TEXT("Hidden reticle settles instantly"), HUD->ReticleCenter->GetRenderOpacity(), 1.f);
 	HUD->SetReticle(true, EFixHimInteractionAction::Inspect, Prompt);
 	TestEqual(TEXT("Reappearing shows the settled state"), HUD->ReticleCenter->GetRenderOpacity(), 1.f);
-	TestEqual(TEXT("Reappearing background settled"), HUD->ReticleBackground->GetRenderOpacity(), 1.f);
+	TestEqual(TEXT("Reappearing background settled"), HUD->ReticleBackground->GetRenderOpacity(), Settings->ReticleBackgroundOpacity);
+	TestEqual(TEXT("Reappearing ring settled"), HUD->ReticleRing->GetRenderTransform().Scale, FVector2D(1.f));
 
 	const auto* Box = Cast<USizeBox>(HUD->ReticleCenter->GetParent()->GetParent());
 	TestTrue(TEXT("Reticle box uses the configured UMG size (DPI scaled)"),
 		Box && Box->GetWidthOverride() == Settings->ReticleSize && Box->GetHeightOverride() == Settings->ReticleSize);
 	TestEqual(TEXT("Default size is double the 32-unit kit reference"), Settings->ReticleSize, 64.f);
+	TestEqual(TEXT("Idle ring default 75%"), Settings->ReticleIdleRingScale, 0.75f);
+	TestEqual(TEXT("Background default 50% opacity"), Settings->ReticleBackgroundOpacity, 0.5f);
 	TestEqual(TEXT("Prompt sits below the reticle"), HUD->PromptPill->GetRenderTransform().Translation.Y, double(Settings->ReticleSize * 0.5f + 20.f));
 	GI->Shutdown();
 	World->DestroyWorld(false);

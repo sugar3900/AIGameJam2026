@@ -46,6 +46,8 @@ private:
 	UPROPERTY() TMap<EFixHimInteractionAction, TObjectPtr<UTexture2D>> ReticleCenterTextures;
 	EFixHimInteractionAction CurrentAction = EFixHimInteractionAction::None;
 	float ReticleTransitionSeconds = 0.f;
+	float ReticleIdleRingScale = 1.f;
+	float ReticleBackgroundOpacity = 1.f;
 	/** Transition progress, 0..1: ink background shown, incoming center shown, outgoing center remaining. */
 	float BackgroundT = 0.f;
 	float CenterInT = 1.f;
