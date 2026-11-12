@@ -7,7 +7,6 @@ AFixHimBed::AFixHimBed()
 {
 	Toggle = EInteractToggle::None;
 	ShineColor = FLinearColor(0.75f, 0.7f, 1.f);
-	OutlineColor = FLinearColor(0.7f, 0.55f, 1.f);
 }
 
 void AFixHimBed::Interact(AFixHimPlayerController* Player)

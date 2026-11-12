@@ -14,7 +14,6 @@ AFixHimDoor::AFixHimDoor()
 	Toggle = EInteractToggle::None;
 	InteractRangeOverride = 220.f;
 	ShineColor = FLinearColor(1.f, 0.85f, 0.6f);
-	OutlineColor = FLinearColor(1.f, 0.75f, 0.4f);
 }
 
 FName AFixHimDoor::DefaultInteractSfx(bool bNowOn) const
