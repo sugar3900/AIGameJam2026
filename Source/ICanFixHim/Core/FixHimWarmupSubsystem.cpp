@@ -121,6 +121,7 @@ void UFixHimWarmupSubsystem::LoadGameplayAssets()
 		S->TranslucentMaterial.ToSoftObjectPath(),
 		S->SparkleMaterial.ToSoftObjectPath(),
 		S->ShineMaterial.ToSoftObjectPath(),
+		S->HoverOutlineMaterial.ToSoftObjectPath(),   // else the first hover shows no rim while its shader compiles
 		S->PortraitMaterial.ToSoftObjectPath(),
 		S->HunkMesh.ToSoftObjectPath(),
 		S->CubeMesh.ToSoftObjectPath(),

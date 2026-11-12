@@ -143,9 +143,9 @@ G.GeometryScript_MeshEdits.append_mesh(dm, bd, unreal.Transform())
 old['paintedwalnut'] = load(MATS + 'MI_Bed03_Walnut')     # README walnut image (installed slot was flat white Phong)
 BED = bake(dm, 'BR_Bed03_Combined', [(n_, old[norm(n_)]) for n_ in ('Painted_Walnut', 'Dusty_Rose_Throw', 'Floral_Patchwork', 'Ivory_Cotton')], True)
 swap(acts['Bed'], bed_body, BED, {'paintedwalnut': old['paintedwalnut']}); actor_swap('Art_BR_Bed', BED, {'paintedwalnut': old['paintedwalnut']})
-# hover outline: the inverted hull showed broad shell faces through the throw's folds -> outline the rigid frame only
-acts['Bed'].modify(); acts['Bed'].set_editor_property('outline_mesh_override', load(R2 + 'Room03/BR_Bed03_Frame'))
-log.append('BR_Bed03_Combined on Bed body + Art_BR_Bed (complex-as-simple, walnut frame, frame-only hover outline)')
+# hover outline: was an inverted hull limited to the frame (outline_mesh_override, now removed); the screen-space
+# rim (UFixHimHoverOutlineSubsystem) follows the visible silhouette of the whole bed, folds included.
+log.append('BR_Bed03_Combined on Bed body + Art_BR_Bed (complex-as-simple, walnut frame)')
 
 # ================= daybed (retained frame + new bedding) =================
 db = acts['Art_OF_Daybed_23']; dc = db.static_mesh_component
