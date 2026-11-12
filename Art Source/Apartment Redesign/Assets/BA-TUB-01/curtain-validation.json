@@ -1,0 +1,68 @@
+{
+  "blend_shape_keys": [
+    "Basis",
+    "Closed"
+  ],
+  "materials": [
+    "Floral_cotton",
+    "Aged_chrome"
+  ],
+  "units": {
+    "system": "METRIC",
+    "scale_length": 1.0
+  },
+  "fbx_shape_keys": [
+    "Basis",
+    "Closed"
+  ],
+  "bones": [
+    "CurtainRoot"
+  ],
+  "fbx_blend_shape_channels": 1,
+  "world_bounds_cm": {
+    "0": {
+      "x": [
+        622.0,
+        676.5
+      ],
+      "y": [
+        862.656,
+        886.2
+      ],
+      "z": [
+        22.0,
+        219.8
+      ]
+    },
+    "0.5": {
+      "x": [
+        556.0,
+        676.5
+      ],
+      "y": [
+        862.656,
+        886.2
+      ],
+      "z": [
+        22.0,
+        219.8
+      ]
+    },
+    "1": {
+      "x": [
+        490.0,
+        676.5
+      ],
+      "y": [
+        862.656,
+        886.2
+      ],
+      "z": [
+        22.0,
+        219.8
+      ]
+    }
+  },
+  "mapping": "world_cm = (580 - 100*BlenderX, 907 + 100*BlenderY, 100*BlenderZ); includes FBX axis conversion and assembly yaw 180",
+  "ring_checks": "At 0, 0.5, 1: seven rigid tori, centre Y=-0.35m, Z=2.17m; linear translation only."
+}
