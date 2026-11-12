@@ -27,7 +27,13 @@ def fresh_material(name):
     path = f"{MAT_DIR}/{name}"
     if EAL.does_asset_exist(path):
         mat = EAL.load_asset(path)
-        MEL.delete_all_material_expressions(mat)
+        # UE 5.8's delete_all_material_expressions removes from the array it iterates, so each call only deletes about
+        # every other node; repeat until the graph is empty, or old nodes (and duplicate parameters) pile up.
+        for _ in range(64):
+            if MEL.get_num_material_expressions(mat) == 0:
+                break
+            MEL.delete_all_material_expressions(mat)
+        assert MEL.get_num_material_expressions(mat) == 0, f"could not clear {path}"
         return mat
     return ASSETS.create_asset(name, MAT_DIR, unreal.Material, unreal.MaterialFactoryNew())
 

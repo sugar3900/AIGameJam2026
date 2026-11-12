@@ -138,6 +138,11 @@ void AFixHimInteractable::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	if (bHovered)
 	{
+		// Children may outlive this actor (e.g. in another sublevel): don't leave them writing the outline stencil.
+		if (bHoverOutline)
+		{
+			SetOutlineStencil(false);
+		}
 		if (UFixHimHoverOutlineSubsystem* Outline = UFixHimHoverOutlineSubsystem::Get(this))
 		{
 			Outline->Hide(this);

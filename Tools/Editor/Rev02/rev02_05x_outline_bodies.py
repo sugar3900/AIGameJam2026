@@ -63,6 +63,24 @@ assert not missing, 'missing actors %s' % missing
 assert L.set_current_level_by_name(GLEVEL), 'cannot make gameplay sublevel current'
 
 
+def is_body_source(actor):
+    return 'GameplayBodySource' in [str(t) for t in actor.tags]
+
+
+def hidden_in_game(actor):
+    return actor.get_editor_property('hidden') or not any(
+        c.is_visible() and not c.get_editor_property('hidden_in_game')
+        for c in actor.get_components_by_class(unreal.StaticMeshComponent) if c.static_mesh)
+
+
+for label, art_label in PAIRS:   # the art must be real, visible-material art (not an invisible proxy)
+    src = acts[art_label].static_mesh_component
+    assert src.static_mesh and not any(m and 'Invisible' in m.get_name() for m in src.get_materials()), art_label
+bad = [c for v in OUTLINE_CHILDREN.values() for c in v
+       if c not in [a for p in PAIRS for a in p] and (is_body_source(acts[c]) or hidden_in_game(acts[c]))]
+assert not bad, 'outline children that render nothing in game (hidden / body source): %s' % bad
+
+
 def body_from_art(a, art_label):
     """The art actor's mesh becomes this interactable's body at the art's world transform (source kept, hidden)."""
     art = acts[art_label]; src = art.static_mesh_component
@@ -81,7 +99,8 @@ def body_from_art(a, art_label):
     a.set_editor_property('hover_outline', True)
     art.modify(); src.modify()
     art.set_actor_hidden_in_game(True); src.set_visibility(False); src.set_collision_profile_name('NoCollision')
-    art.tags = [unreal.Name('GameplayBodySource')]
+    if not is_body_source(art):   # append: keep any other tags on the art actor
+        art.tags = list(art.tags) + [unreal.Name('GameplayBodySource')]
     return body
 
 
@@ -111,8 +130,7 @@ for label, children in OUTLINE_CHILDREN.items():
     a = acts[label]
     parent = box(a, [a.get_editor_property('body')])
     keep = []
-    for c in children:   # a hidden body source would add nothing to the silhouette
-        assert not acts[c].is_hidden_ed() and 'GameplayBodySource' not in [str(t) for t in acts[c].tags], c
+    for c in children:   # visibility was checked in the preflight above
         if touches(parent, box(acts[c]), TOUCH_CM):
             keep.append(c)
         else:

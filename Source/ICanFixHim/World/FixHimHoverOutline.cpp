@@ -21,7 +21,7 @@ bool UFixHimHoverOutlineSubsystem::DoesSupportWorldType(const EWorldType::Type W
 
 bool UFixHimHoverOutlineSubsystem::EnsureVolume()
 {
-	if (Volume && MID)
+	if (IsValid(Volume) && MID)
 	{
 		return true;
 	}
