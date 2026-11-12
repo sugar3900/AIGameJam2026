@@ -1,7 +1,7 @@
 """Fresh FBX round-trip checks: topology, UV0, material slots, split alignment."""
 import bpy, bmesh, math, json, fcntl
 from pathlib import Path
-from mathutils import Vector
+from mathutils import Vector, Matrix
 from mathutils.bvhtree import BVHTree
 
 LOCK=open('/tmp/apartment_blender.lock','w')
@@ -60,8 +60,8 @@ def inspect(filename):
     if filename=='DH_Dehumidifier01.fbx':
         assert len(collision)==1 and collision[0].name=='UCX_DH_Dehumidifier01_00'
         assert slots==expected,(slots,expected)
-        assert abs(lo[2])<1e-5 and .57<hi[2]<.60,(lo,hi)
-        assert .33<hi[0]-lo[0]<.36 and .32<hi[1]-lo[1]<.38,(lo,hi)
+        assert abs(lo[2])<1e-5 and .52<hi[2]<.55,(lo,hi)
+        assert .42<hi[0]-lo[0]<.44 and .34<hi[1]-lo[1]<.40,(lo,hi)
         c=collision[0]
         assert len(c.data.vertices)==8,'Collision should be one simple box'
     else:assert not collision,'Split exports intentionally omit collision'
@@ -70,11 +70,10 @@ def inspect(filename):
         degenerate_triangles=degenerate,bounds_m=[lo,hi],uv0_area_by_slot=uv_areas,
         collision_meshes=len(collision))
 
-results=[inspect(f) for f in ['DH_Dehumidifier01.fbx','DH_Dehumidifier01_Body.fbx','DH_Dehumidifier01_Tank.fbx']]
-for i in range(3):
-    assert abs(min(results[1]['bounds_m'][0][i],results[2]['bounds_m'][0][i])-results[0]['bounds_m'][0][i])<1e-5
-    assert abs(max(results[1]['bounds_m'][1][i],results[2]['bounds_m'][1][i])-results[0]['bounds_m'][1][i])<1e-5
-assert results[1]['triangles']+results[2]['triangles']==results[0]['triangles']
+files=['DH_Dehumidifier01.fbx','DH_Dehumidifier01_Body.fbx','DH_Dehumidifier01_Tank.fbx',
+       'DH_Dehumidifier01_CordStowed.fbx','DH_Plug01.fbx']
+results=[inspect(f) for f in files]
+assert sum(r['triangles'] for r in results[1:])==results[0]['triangles']
 # Confirm the authored bucket can actually slide out without touching the casing.
 bpy.ops.object.select_all(action='SELECT'); bpy.ops.object.delete(use_global=False)
 parts=[]
@@ -94,5 +93,26 @@ for i in range(11):
 report=dict(status='PASS',blender=bpy.app.version_string,checks=results,
             bucket_pull_sweep=travel,
             limits='Geometry/source checks only; no Unreal import or gameplay validation claimed.')
+# Reassemble all four exports, including the plug's authored seating pivot.
+bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
+anchors=json.loads((ROOT/'interaction-anchors.json').read_text())
+coords=[]
+for file in files[1:]:
+    bpy.ops.import_scene.fbx(filepath=str(ROOT/'model'/file))
+    o=bpy.context.selected_objects[0]
+    if file=='DH_Plug01.fbx':
+        p=anchors['plug']
+        o.matrix_world=Matrix.Translation(p['stored_location'])@Matrix.Rotation(math.radians(p['stored_rotation_x_deg']),4,'X')@o.matrix_world
+    coords += [o.matrix_world@v.co for v in o.data.vertices]
+for i in range(3):
+    assert abs(min(co[i] for co in coords)-results[0]['bounds_m'][0][i])<1e-5
+    assert abs(max(co[i] for co in coords)-results[0]['bounds_m'][1][i])<1e-5
+assert anchors['plug']['insertion_axis']==[0,1,0]
+assert anchors['runtime_cable']['radius_m']==.003
+report['split_assembly_with_stored_plug']='PASS'
+cable=inspect('DH_CableSegment01.fbx')
+assert abs(cable['bounds_m'][0][0])<1e-5 and abs(cable['bounds_m'][1][0]-1)<1e-5
+assert abs(cable['bounds_m'][1][1]-cable['bounds_m'][0][1]-.006)<1e-5
+report['spline_cable']=cable
 (ROOT/'validation.json').write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report,indent=2))
