@@ -31,19 +31,49 @@ void UFixHimHUDWidget::BuildUI()
 	RetSlot->SetHorizontalAlignment(HAlign_Center);
 	RetSlot->SetVerticalAlignment(VAlign_Center);
 
-	// Rasterized from the selected SVGs at 4x the 32-unit logical size; UMG handles DPI scaling.
+	// Layers rasterized from the selected SVGs (Tools/Art/Reticles), all on one shared viewBox so they stack
+	// centered: ink background (actionable only), shared ring, then the center dot/icon. Size is in UMG units,
+	// so DPI scaling keeps it the same share of the screen at every resolution.
 	const UFixHimSettings* Settings = UFixHimSettings::Get();
-	ReticleTextures.Add(EFixHimInteractionAction::None, Settings->ReticleDefaultTexture.LoadSynchronous());
-	ReticleTextures.Add(EFixHimInteractionAction::Inspect, Settings->ReticleInspectTexture.LoadSynchronous());
-	ReticleTextures.Add(EFixHimInteractionAction::Talk, Settings->ReticleTalkTexture.LoadSynchronous());
-	ReticleTextures.Add(EFixHimInteractionAction::Use, Settings->ReticleUseTexture.LoadSynchronous());
-	ReticleTextures.Add(EFixHimInteractionAction::EndDay, Settings->ReticleEndDayTexture.LoadSynchronous());
-	ReticleImage = WidgetTree->ConstructWidget<UImage>();
-	ReticleImage->SetBrushFromTexture(ReticleTextures.FindRef(EFixHimInteractionAction::None));
+	ReticleTransitionSeconds = Settings->ReticleTransitionSeconds;
+	ReticleIdleRingScale = Settings->ReticleIdleRingScale;
+	ReticleBackgroundOpacity = Settings->ReticleBackgroundOpacity;
+	ReticleCenterTextures.Add(EFixHimInteractionAction::None, Settings->ReticleDotTexture.LoadSynchronous());
+	ReticleCenterTextures.Add(EFixHimInteractionAction::Inspect, Settings->ReticleInspectIcon.LoadSynchronous());
+	ReticleCenterTextures.Add(EFixHimInteractionAction::Talk, Settings->ReticleTalkIcon.LoadSynchronous());
+	ReticleCenterTextures.Add(EFixHimInteractionAction::Use, Settings->ReticleUseIcon.LoadSynchronous());
+	ReticleCenterTextures.Add(EFixHimInteractionAction::EndDay, Settings->ReticleEndDayIcon.LoadSynchronous());
+	UOverlay* Layers = WidgetTree->ConstructWidget<UOverlay>();
+	auto AddLayer = [this, Layers](UTexture2D* Texture)
+	{
+		UImage* Image = WidgetTree->ConstructWidget<UImage>();
+		Image->SetBrushFromTexture(Texture);
+		UOverlaySlot* LayerSlot = Layers->AddChildToOverlay(Image);
+		LayerSlot->SetHorizontalAlignment(HAlign_Fill);
+		LayerSlot->SetVerticalAlignment(VAlign_Fill);
+		return Image;
+	};
+	ReticleBackground = AddLayer(Settings->ReticleBackgroundTexture.LoadSynchronous());
+	ReticleRing = AddLayer(Settings->ReticleRingTexture.LoadSynchronous());
+	{
+		// Drawn at its own size (centered) rather than scaled down, so its texels map ~2:1 like the full ring.
+		ReticleRingIdle = WidgetTree->ConstructWidget<UImage>();
+		ReticleRingIdle->SetBrushFromTexture(Settings->ReticleIdleRingTexture.LoadSynchronous());
+		USizeBox* IdleBox = WidgetTree->ConstructWidget<USizeBox>();
+		IdleBox->SetWidthOverride(Settings->ReticleSize * ReticleIdleRingScale);
+		IdleBox->SetHeightOverride(Settings->ReticleSize * ReticleIdleRingScale);
+		IdleBox->AddChild(ReticleRingIdle);
+		UOverlaySlot* IdleSlot = Layers->AddChildToOverlay(IdleBox);
+		IdleSlot->SetHorizontalAlignment(HAlign_Center);
+		IdleSlot->SetVerticalAlignment(VAlign_Center);
+	}
+	ReticleCenterOut = AddLayer(nullptr);
+	ReticleCenter = AddLayer(ReticleCenterTextures.FindRef(EFixHimInteractionAction::None));
+	ApplyReticleLayers();
 	USizeBox* ReticleBox = WidgetTree->ConstructWidget<USizeBox>();
-	ReticleBox->SetWidthOverride(32.f);
-	ReticleBox->SetHeightOverride(32.f);
-	ReticleBox->AddChild(ReticleImage);
+	ReticleBox->SetWidthOverride(Settings->ReticleSize);
+	ReticleBox->SetHeightOverride(Settings->ReticleSize);
+	ReticleBox->AddChild(Layers);
 	Ret->AddChildToVerticalBox(ReticleBox)->SetHorizontalAlignment(HAlign_Center);
 
 	PromptPill = WidgetTree->ConstructWidget<UBorder>();
@@ -52,8 +82,8 @@ void UFixHimHUDWidget::BuildUI()
 	PromptText = MakeText(WidgetTree, TEXT(""), 18, Cream, TEXT("Bold"));
 	PromptPill->SetContent(PromptText);
 	PromptPill->SetVisibility(ESlateVisibility::Collapsed);
-	// Its own slot, shifted below the dot, so the dot stays exactly at screen centre whether or not a prompt shows.
-	PromptPill->SetRenderTranslation(FVector2D(0.f, 36.f));
+	// Its own slot, shifted below the reticle, so the reticle stays exactly at screen centre whether or not a prompt shows.
+	PromptPill->SetRenderTranslation(FVector2D(0.f, Settings->ReticleSize * 0.5f + 20.f));
 	UOverlaySlot* PromptSlot = Root->AddChildToOverlay(PromptPill);
 	PromptSlot->SetHorizontalAlignment(HAlign_Center);
 	PromptSlot->SetVerticalAlignment(VAlign_Center);
@@ -109,14 +139,63 @@ void UFixHimHUDWidget::SetReticle(bool bVisible, EFixHimInteractionAction Action
 	{
 		return;
 	}
+	const bool bWasVisible = ReticleRoot->GetVisibility() != ESlateVisibility::Collapsed;
 	ReticleRoot->SetVisibility(bVisible ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
 	if (CurrentAction != Action)
 	{
+		// The current center cross-fades out from wherever it is while the new one fades in.
 		CurrentAction = Action;
-		ReticleImage->SetBrushFromTexture(ReticleTextures.FindRef(Action));
+		ReticleCenterOut->SetBrush(ReticleCenter->GetBrush());
+		CenterOutT = CenterInT;
+		ReticleCenter->SetBrushFromTexture(ReticleCenterTextures.FindRef(Action));
+		CenterInT = 0.f;
+		ApplyReticleLayers();
 	}
+	// Only animate changes the player can see; hiding or reappearing shows the settled state.
+	TickReticle(bVisible && bWasVisible ? 0.f : -1.f);
 	PromptPill->SetVisibility(bVisible && Action != EFixHimInteractionAction::None && !Prompt.IsEmpty() ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
 	PromptText->SetText(Prompt);
+}
+
+void UFixHimHUDWidget::TickReticle(float DeltaSeconds)
+{
+	if (!ReticleCenter)
+	{
+		return;
+	}
+	const float Step = DeltaSeconds < 0.f || ReticleTransitionSeconds <= 0.f ? 1.f : DeltaSeconds / ReticleTransitionSeconds;
+	const float BackgroundTarget = CurrentAction == EFixHimInteractionAction::None ? 0.f : 1.f;
+	if (BackgroundT == BackgroundTarget && CenterInT == 1.f && CenterOutT == 0.f)
+	{
+		return; // settled: leave the widgets untouched
+	}
+	BackgroundT = FMath::Clamp(BackgroundT + FMath::Sign(BackgroundTarget - BackgroundT) * Step,
+		FMath::Min(BackgroundT, BackgroundTarget), FMath::Max(BackgroundT, BackgroundTarget));
+	CenterInT = FMath::Min(1.f, CenterInT + Step);
+	CenterOutT = FMath::Max(0.f, CenterOutT - Step);
+	ApplyReticleLayers();
+}
+
+void UFixHimHUDWidget::ApplyReticleLayers()
+{
+	// The idle ring expands into the full ring as the ink fill grows out from the center at partial opacity;
+	// icons pop in from 60% scale as they fade, and shrink as they leave.
+	const auto Show = [](UImage* Image, float Amount, float MinScale, float MaxOpacity = 1.f)
+	{
+		const float Eased = FMath::InterpEaseOut(0.f, 1.f, Amount, 2.f);
+		Image->SetRenderOpacity(Eased * MaxOpacity);
+		Image->SetRenderScale(FVector2D(FMath::Lerp(MinScale, 1.f, Eased)));
+		return Eased;
+	};
+	const float Actionable = Show(ReticleBackground, BackgroundT, 0.5f, ReticleBackgroundOpacity);
+	// Ring swap: both rings scale so their radii always match; the full ring sits underneath at full opacity
+	// (hidden by the wider-stroked idle ring at first) and only the idle ring on top fades, so nothing dims.
+	ReticleRing->SetRenderOpacity(Actionable > 0.f ? 1.f : 0.f);
+	ReticleRing->SetRenderScale(FVector2D(FMath::Lerp(ReticleIdleRingScale, 1.f, Actionable)));
+	ReticleRingIdle->SetRenderOpacity(1.f - Actionable);
+	ReticleRingIdle->SetRenderScale(FVector2D(FMath::Lerp(1.f, 1.f / ReticleIdleRingScale, Actionable)));
+	Show(ReticleCenter, CenterInT, 0.6f);
+	Show(ReticleCenterOut, CenterOutT, 0.6f);
 }
 
 void UFixHimHUDWidget::SetRoomName(const FText& Name)
@@ -170,6 +249,8 @@ void UFixHimHUDWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
 			ToastPill->SetVisibility(ESlateVisibility::Collapsed);
 		}
 	}
+
+	TickReticle(InDeltaTime);
 
 	if (RoomFlash > 0.f && RoomPill)
 	{

@@ -53,6 +53,7 @@ Tools/                   editor/build scripts (see README)
 - Editor: `Build.sh ICanFixHimEditor Mac Development -Project=... -WaitMutex -NoHotReload` (`-NoHotReload` matters if another UE editor is open; otherwise UBT writes numbered dylibs the editor won't load).
 - Regenerate content: `python3 Tools/run_in_editor.py Tools/Editor/create_assets.py`, then `... build_apartment.py`.
 - Automated playtest: in PIE, `FixHimScript "FixHimNewGame;wait 2;FixHimTalk lukey;wait 5;FixHimAuto 2;FixHimShot test"`.
+- Scripted HUD screenshots: run the standalone game (`UnrealEditor ICanFixHim.uproject -game -windowed -ResX=1920 -ResY=1080 -FixHimScript="..."`) and use `FixHimAimAt <interactable> [distance]` to stand near a target and aim at it, so the real hover trace and prompt run (a distance beyond `InteractRange` gives the idle reticle). Add `wait 0.5` after each `FixHimShot`: the capture happens at the end of the frame, so a following step in the same frame changes the camera before it is taken. `FixHimNewGame` overwrites the save, so back up `Saved/SaveGames` first.
 
 ## Known gotchas
 - On macOS, launch the editor with `open -a UnrealEditor.app ...` (not from a shell), or the Home Screen's scan of `~/Documents/Unreal Projects` can hang on a privacy prompt.
