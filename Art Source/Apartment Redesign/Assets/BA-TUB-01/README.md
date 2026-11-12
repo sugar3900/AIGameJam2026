@@ -19,63 +19,99 @@ The model has five FBX groups: `BA_Tub.fbx`, `BA_TubFixtures.fbx`, `BA_Curtain.f
 A headless Blender FBX round trip found 0 nonfinite vertices, 0 nonfinite face normals, and 0 zero-area faces on each export. All 49 imported mesh objects have UV layers. The Blender preview shows a hollow basin, trim, feet, drain, tap and shower, with the floral image texture. The enamel now blends two generated painterly color maps, with visible warm/cool strokes and localized specks. The warm studio preview and sculpted feet remain subject to lead review and in-context texture/lighting iteration. No Unreal import or material validation has yet been run. A wall tile crack/repair state must be supplied separately.
 
 
-## Animated shower curtain (source revision)
+## Animated shower curtain (full-fabric drape revision)
 
-Use `model/BA_Curtain_Animated.fbx` for the new moving curtain. The existing
-`BA_Curtain.fbx` is deliberately unchanged so the static export remains usable.
-The saved `BA-TUB-01.blend` contains `Curtain_panel_sliding`, its single-bone
-`Curtain_panel_sliding_Rig`, and shape keys **Basis**, **Closed**. Drive Unreal's
-**Closed** morph weight from **0 = gathered open at the east end** to **1 = drawn
-west to world X 490 cm**. Linear interpolation at 0.5 is acceptable; there is no
-corrective key or action. All vertices are weighted 1.0 to **CurtainRoot** through
-an Armature modifier named `Skin`, matching ARC-CURTAINS-01.
+Use `model/BA_Curtain_Animated.fbx`; the old static `BA_Curtain.fbx` remains
+unchanged. Rebuilt from the original pre-morph source, preserving the cloth's
+65-column topology, original loop UVs, `Floral_cotton` / `Aged_chrome` slots,
+seven rigid rings, single `CurtainRoot` bone and `Skin` Armature modifier.
+The other 48 original mesh objects retain their geometry and transforms in the
+hidden `Original tub and fixtures (preserved)` collection. Preview references
+are in `Preview assembly (not exported)`.
 
-The moving asset now uses the assembly floor origin, rather than the old sliding
-pivot. Place it on the shared (580, 907, 0) cm / yaw 180 assembly transform; the
-old +125 cm parking offset and rigid slide are no longer appropriate. Rings
-translate on the straight rod (world Y 872 cm); their centres span approximately
-X 625–659 cm open, and 502–650 cm closed. Original circular ring geometry is
-preserved. Seven metal clips join their lower front quadrants to the cloth header.
-The cloth's east selvage has a short permanent corner overlap to meet the fixed
-return near X 676.5, Y 886 cm while the rings stay on the straight run. Main cloth
-folds are on the room side, clear of the tub rim; the hem is around Z 22–23 cm.
+### Morph control
 
-The original cloth topology, loop UVs, and material slot names `Floral_cotton`
-and `Aged_chrome` are retained. **UV observation:** the original mapping tiles the
-floral twice across roughly 114 cm of fabric width and once down roughly 197 cm,
-so the flowers appear vertically stretched. This mapping was not corrected.
+Keys are **Basis**, **Closed**, **Closed_Mid**. For draw amount `a` in [0,1], set:
 
-FBX export matches the precedent: selected mesh + armature, `apply_unit_scale=True`,
-`add_leaf_bones=False`, `bake_anim=False`, `path_mode='AUTO'`; default forward -Z,
-up Y, global scale 1, all local scaling, with morphs preserved. Scene units are
-metric, scale_length 1 (metres). No animation bake or leaf bone is required.
+- `Closed = a` (0 gathered at the east end; 1 drawn west).
+- `Closed_Mid = 4*a*(1-a)`.
 
-Room-side previews with the L rod, ROUND3 tub and fixed return:
-`previews/curtain-open.png`, `previews/curtain-halfway.png`,
-`previews/curtain-closed.png`. The original tub/plumbing objects are preserved
-in a hidden `Original tub and fixtures (preserved)` collection; preview references
-are in `Preview assembly (not exported)`. Only moving mesh + rig go into the FBX.
+`Closed_Mid` is a relative residual key: its stored coordinates are
+`Basis + desired_halfway - (Basis + Closed)/2`. It is not an absolute halfway
+pose. With this curve, Basis + 0.5 of the Closed delta + 1 of the corrective
+delta gives the full-fabric halfway pose. Without correction, halfway rows
+shrink to about 193 cm (8% loss); the correction removes that visible contraction.
+There are no actions or animation bakes.
 
-`model/validate_curtain_shape.py` reopens the saved blend and imports the FBX into
-a factory-empty scene. `curtain-validation.json` records the keys, single bone,
-FBX BlendShapeChannel, ring checks, and round-trip bounds. The conversion verified
-against the supplied original/rod/tub bounds is:
+Place the moving skeletal mesh on the shared assembly transform (580,907,0) cm,
+yaw 180, with no old +125 cm parking offset or rigid slide. The asset uses the
+assembly floor origin. Rings translate only along the straight rail at world
+Y 872 cm; the permanent east selvage follows the corner to overlap the fixed
+return around X 676.5 / Y 886 cm. Header clips connect the ring lower-front
+quadrants to the cloth. Ring shapes do not change under the corrective.
+
+### Fabric and clearance
+
+Every front-layer row has **210 cm** arc length in Basis, Closed, and the corrected
+halfway pose. The seven open waves have approximately **13.92 cm** peak-to-peak
+depth at the top and **13.63 cm** at the hem (excluding the corner flap). There
+is no shallow-fold exception or fabric-width reduction below the rim.
+
+The open cloth centre leans outward 5.5 cm from its header centre, an angle of
+**2.13 degrees**, then hangs vertically. Measured from the ring centre to the
+lower cloth centre, the outward offset is 9 cm and the angle is **3.39 degrees**.
+The knee is centred at **world Z 65 cm**, with a smooth 14 cm transition over
+**Z 58–72 cm**. The lean diminishes with draw; Closed has zero tilt and its
+wave centre remains at world Y 867.5 cm. Fold amplitudes are solved independently
+for each row against actual polyline arc length, including the unchanged corner
+reach. The original hem remains around Z 22–23 cm.
+
+| Draw amount | Top arc cm | Mid arc cm | Arc at Z 60 cm | Hem arc cm | Minimum tub clearance cm |
+| --- | --- | --- | --- | --- | --- |
+| 0 | 210.000 | 210.000 | 210.000 | 210.000 | 4.963 |
+| 0.25 | — | — | — | — | 2.416 |
+| 0.5 (corrected) | 210.000 | 210.000 | 210.000 | 210.000 | 1.989 |
+| 0.75 | — | — | — | — | 2.104 |
+| 1 | 210.000 | 210.000 | 210.000 | 210.000 | 2.638 |
+
+Validation also samples 21 draw amounts at 0.05 increments. All row lengths
+remain 207.369–211.757 cm (within 1.3% of 210 cm); minimum sampled tub clearance
+is 1.975 cm. Clearance uses the actual BA_Tub03_Body triangulated front surface,
+matching X/Z, on both moving cloth layers below Z 60 cm. Triangle interiors are
+sampled at barycentric subdivision 8; points outside the tub silhouette are
+excluded. These are geometric sampling results, not a continuous collision proof.
+
+| Draw amount | World X bounds cm | World Y bounds cm | World Z bounds cm |
+| --- | --- | --- | --- |
+| 0 | 622–676.5 | 856.181–886.2 | 22–219.8 |
+| 1 | 490–676.5 | 864.735–886.2 | 22–219.8 |
+
+Bounds include rings, clips and corner overlap. Conversion, verified against the
+original assembly references:
 `world_cm = (580 - 100*BlenderX, 907 + 100*BlenderY, 100*BlenderZ)`.
 
-| Closed weight | World X cm | World Y cm | World Z cm |
-| --- | --- | --- | --- |
-| 0 | 622–676.5 | 862.656–886.2 | 22–219.8 |
-| 0.5 | 556–676.5 | 862.656–886.2 | 22–219.8 |
-| 1 | 490–676.5 | 862.656–886.2 | 22–219.8 |
+**UV observation:** the original floral mapping tiles twice across roughly
+114 cm of fabric width and once down roughly 197 cm. Its vertically stretched
+flowers remain unchanged; this revision preserves UVs while preserving the
+geometric cloth width through the morph.
 
-Bounds include the corner overlap, so open cloth extends beyond the roughly
-40 cm ring gather. Closed covers the tub X 496.5–663.5, meets the return, and
-retains the original ring-top height 219.8 cm. Rod radius along the straight run
-is 1.2 cm (3.2 cm is the wall flange radius); the existing rings clear the tube.
-No Unreal import was performed.
+### Export and review
 
-For authoring reproducibility, `model/author_curtain_shape.py` accepts the original
-pre-morph blend path after `--`; obtain that file from Git before this revision.
-It preserves the old cloth loop UVs and builds both poses, rig, export and previews.
-It refuses to run on an already-authored blend. Run either script with Blender
-`-b --python <script>` (and `-- <original.blend>` for rebuilding).
+FBX settings match ARC-CURTAINS-01: selected mesh + armature only,
+`apply_unit_scale=True`, `add_leaf_bones=False`, `bake_anim=False`,
+`path_mode='AUTO'`; default forward -Z, up Y, global scale 1, all local scaling.
+Scene units are metric, scale_length 1 (metres). The clean FBX round trip confirms
+all three shape keys, two BlendShapeChannels, and one CurtainRoot bone.
+Only the moving mesh and rig are exported; assembly references stay in the blend.
+
+Updated room-side previews: `previews/curtain-open.png`,
+`previews/curtain-halfway.png`, `previews/curtain-closed.png`, and the east-end
+close-up `previews/curtain-open-clearance.png`.
+
+`model/validate_curtain_shape.py` reopens the saved blend, imports the FBX into
+a factory-empty scene, checks morphs/rig/rings/row lengths/clearance, and writes
+`curtain-validation.json`. `model/author_curtain_shape.py` rebuilds from an original
+pre-morph blend supplied after `--`; obtain that file from Git before commit
+5b70f94. It refuses to stack changes on an already-authored source. Run with
+Blender `-b --python <script> -- <original.blend>` (validation needs no `--` path).
+No Unreal files were modified or editor launched for this source revision.
