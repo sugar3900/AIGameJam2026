@@ -10,6 +10,7 @@
 #include "Components/ArrowComponent.h"
 #include "Components/PointLightComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/InstancedStaticMeshComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/SkeletalMesh.h"
@@ -220,6 +221,7 @@ void AFixHimMalady::BuildBrokenFx()
 				BrokenFx.Add(Ripple);
 			}
 			LeakRng.Initialize(GetTypeHash(HunkId) + 3);
+			BuildSpray();
 			break;
 		}
 		Drop = FixHim::Assets::AddShape(this, Root, TEXT("sphere"), O, FVector(3.5f, 3.5f, 5.f), FLinearColor(0.5f, 0.8f, 1.f));
@@ -275,6 +277,118 @@ void AFixHimMalady::BuildBrokenFx()
 	default:
 		break;
 	}
+}
+
+void AFixHimMalady::BuildSpray()
+{
+	if (LeakSprayTaps.IsEmpty())
+	{
+		return;
+	}
+	UStaticMesh* Sphere = LoadObject<UStaticMesh>(nullptr, TEXT("/Engine/BasicShapes/Sphere.Sphere"));
+	if (!Sphere)
+	{
+		return;
+	}
+	Spray = NewObject<UInstancedStaticMeshComponent>(this, TEXT("LeakSpray"));
+	Spray->SetStaticMesh(Sphere);
+	Spray->SetupAttachment(Root);
+	Spray->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	Spray->SetCastShadow(false);
+	Spray->SetMobility(EComponentMobility::Movable);
+	if (LeakDropMaterial)
+	{
+		Spray->SetMaterial(0, LeakDropMaterial);
+	}
+	else if (UMaterialInstanceDynamic* MID = FixHim::Assets::MakeTranslucent(Spray, FLinearColor(0.75f, 0.85f, 0.9f), 0.45f))
+	{
+		Spray->SetMaterial(0, MID);
+	}
+	Spray->RegisterComponent();
+	// A fixed pool: dead drops are parked at zero scale, so the instance count never changes while it plays.
+	SprayDrops.SetNum(48);
+	for (int32 Index = 0; Index < SprayDrops.Num(); ++Index)
+	{
+		Spray->AddInstance(FTransform(FQuat::Identity, LeakSprayOrigin, FVector::ZeroVector));
+	}
+	Spray->SetVisibility(false);
+	SprayRng.Initialize(GetTypeHash(HunkId) + 11);
+	BrokenFx.Add(Spray);
+}
+
+bool AFixHimMalady::IsSprayTapOn() const
+{
+	for (const TSoftObjectPtr<AFixHimInteractable>& Tap : LeakSprayTaps)
+	{
+		if (const AFixHimInteractable* T = Tap.Get(); T && T->IsOn())
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void AFixHimMalady::TickSpray(float DeltaSeconds)
+{
+	if (!Spray)
+	{
+		return;
+	}
+	// The pipe takes a moment to pressurise and to run dry, so the fan swells and dies away rather than switching.
+	SprayAlpha = FMath::FInterpConstantTo(SprayAlpha, IsSprayTapOn() ? 1.f : 0.f, DeltaSeconds, 1.5f);
+	bool bAny = false;
+	for (const FSprayDrop& D : SprayDrops)
+	{
+		bAny |= D.bAlive;
+	}
+	if (SprayAlpha <= 0.f && !bAny)
+	{
+		Spray->SetVisibility(false);
+		return;
+	}
+	Spray->SetVisibility(true);
+
+	const FVector Dir = LeakSprayDirection.GetSafeNormal(UE_SMALL_NUMBER, FVector::YAxisVector);
+	const float Cone = FMath::DegreesToRadians(LeakSprayCone);
+	SprayDebt += LeakSprayRate * SprayAlpha * DeltaSeconds;
+	for (FSprayDrop& D : SprayDrops)
+	{
+		if (!D.bAlive && SprayDebt >= 1.f)
+		{
+			SprayDebt -= 1.f;
+			D.bAlive = true;
+			// a little jitter at the joint, a flat-ish fan, weaker pressure as the spray fades
+			D.Location = LeakSprayOrigin + SprayRng.VRand() * 0.4f;
+			D.Velocity = SprayRng.VRandCone(Dir, Cone, Cone * 0.55f) * SprayRng.FRandRange(LeakSpraySpeed.X, LeakSpraySpeed.Y) * FMath::Lerp(0.55f, 1.f, SprayAlpha);
+			D.Size = SprayRng.FRandRange(0.0035f, 0.0068f);
+		}
+	}
+	SprayDebt = FMath::Min(SprayDebt, 3.f);
+
+	const FVector Gravity = GetActorTransform().InverseTransformVectorNoScale(FVector(0.f, 0.f, -980.f));
+	for (int32 Index = 0; Index < SprayDrops.Num(); ++Index)
+	{
+		FSprayDrop& D = SprayDrops[Index];
+		FTransform Xf(FQuat::Identity, LeakSprayOrigin, FVector::ZeroVector);
+		if (D.bAlive)
+		{
+			D.Velocity += Gravity * DeltaSeconds;
+			D.Location += D.Velocity * DeltaSeconds;
+			if (D.Location.Z <= LeakSprayFloorZ)
+			{
+				D.bAlive = false;
+			}
+			else
+			{
+				// stretched along the flight direction, like the falling drip
+				const float Speed = D.Velocity.Size();
+				const FQuat Q = FRotationMatrix::MakeFromZ(D.Velocity / FMath::Max(Speed, 1.f)).ToQuat();
+				Xf = FTransform(Q, D.Location, FVector(D.Size, D.Size, D.Size * FMath::Clamp(Speed / 60.f, 1.f, 2.6f)));
+			}
+		}
+		Spray->UpdateInstanceTransform(Index, Xf, false, false, true);
+	}
+	Spray->MarkRenderStateDirty();
 }
 
 void AFixHimMalady::RefreshRepairState()
@@ -392,6 +506,7 @@ void AFixHimMalady::TickBrokenFx(float DeltaSeconds)
 					RippleMID->SetScalarParameterValue(TEXT("Phase"), Tr / RippleTime);
 				}
 			}
+			TickSpray(DeltaSeconds);
 		}
 		else if (Drop)
 		{

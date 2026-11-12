@@ -58,6 +58,80 @@ void AFixHimInteractable::BeginPlay()
 	BuildShine();
 	BuildGlow();
 	SetOnLocal(bIsOn, true);
+	InitFill();
+}
+
+void AFixHimInteractable::InitFill()
+{
+	bFillReady = false;
+	if (!IsValid(FillSurface) || FillSurface == this)
+	{
+		return;
+	}
+	if (USceneComponent* SurfaceRoot = FillSurface->GetRootComponent())
+	{
+		SurfaceRoot->SetMobility(EComponentMobility::Movable);
+	}
+	FillFullLocation = FillSurface->GetActorLocation();
+	{
+		// the surface itself (top of the authored water mesh), not the actor origin, is where the stream ends
+		FVector Origin, Extent;
+		FillSurface->GetActorBounds(false, Origin, Extent, true);
+		FillFullSurfaceZ = Origin.Z + Extent.Z;
+	}
+	FillFullScale = FillSurface->GetActorScale3D();
+	FillFollowerFull.Reset();
+	for (AActor* Actor : FillFollowers)
+	{
+		if (IsValid(Actor) && Actor->GetRootComponent()) Actor->GetRootComponent()->SetMobility(EComponentMobility::Movable);
+		FillFollowerFull.Add(IsValid(Actor) ? Actor->GetActorLocation() : FVector::ZeroVector);
+	}
+	RevealTopZ = RevealBottomZ = 0.f;
+	if (bFillTrimsReveal && RevealPart && RevealPart->GetStaticMesh())
+	{
+		RevealRelLocation = RevealPart->GetRelativeLocation();
+		RevealRelScale = RevealPart->GetRelativeScale3D();
+		// The stream runs along its mesh's local Z (it may lean a little, like a spout's arc): its top and bottom are
+		// the mesh bounds' end-cap centres.
+		const FBox Local = RevealPart->GetStaticMesh()->GetBoundingBox();
+		const FTransform& Xf = RevealPart->GetComponentTransform();
+		RevealTopToPivot = Xf.TransformPosition(FVector(Local.GetCenter().X, Local.GetCenter().Y, Local.Max.Z)) - Xf.GetLocation();
+		RevealTopZ = Xf.GetLocation().Z + RevealTopToPivot.Z;
+		RevealBottomZ = Xf.TransformPosition(FVector(Local.GetCenter().X, Local.GetCenter().Y, Local.Min.Z)).Z;
+	}
+	FillLevel = bIsOn ? 1.f : 0.f;
+	bFillReady = true;
+	ApplyFill();
+}
+
+void AFixHimInteractable::ApplyFill()
+{
+	if (!bFillReady || !IsValid(FillSurface))
+	{
+		return;
+	}
+	const FVector Down(0.f, 0.f, (1.f - FillLevel) * FillDepth);
+	const FVector2D S = FMath::Lerp(FillEmptyScale, FVector2D(1.f, 1.f), FillLevel);
+	FillSurface->SetActorLocation(FillFullLocation - Down);
+	FillSurface->SetActorScale3D(FVector(FillFullScale.X * S.X, FillFullScale.Y * S.Y, FillFullScale.Z));
+	FillSurface->SetActorHiddenInGame(FillLevel < 0.01f);
+	for (int32 Index = 0; Index < FillFollowers.Num(); ++Index)
+	{
+		if (IsValid(FillFollowers[Index]) && FillFollowerFull.IsValidIndex(Index))
+		{
+			FillFollowers[Index]->SetActorLocation(FillFollowerFull[Index] - Down);
+		}
+	}
+	if (RevealTopZ > RevealBottomZ + 1.f)
+	{
+		// The stream keeps its top at the spout and ends on the surface: shorten it along its axis about its pivot,
+		// then move it back so the top stays put.
+		const float Bottom = FMath::Clamp(FillFullSurfaceZ - Down.Z, RevealBottomZ, RevealTopZ - 1.f);
+		const float F = (RevealTopZ - Bottom) / (RevealTopZ - RevealBottomZ);
+		RevealPart->SetRelativeScale3D(FVector(RevealRelScale.X, RevealRelScale.Y, RevealRelScale.Z * F));
+		const FVector Shift = GetActorTransform().InverseTransformVectorNoScale(RevealTopToPivot * (1.f - F));
+		RevealPart->SetRelativeLocation(RevealRelLocation + Shift);
+	}
 }
 
 void AFixHimInteractable::BuildGlow()
@@ -274,6 +348,24 @@ void AFixHimInteractable::Tick(float DeltaSeconds)
 				SetOn(false);
 				PlayInteractSfx();
 			}
+		}
+	}
+
+	if (bFillReady)
+	{
+		// Fill while the water runs; drain slowly once it is off (DrainSeconds 0 keeps the water).
+		const float Before = FillLevel;
+		if (bIsOn)
+		{
+			FillLevel = FMath::Min(1.f, FillLevel + DeltaSeconds / FMath::Max(FillSeconds, 0.1f));
+		}
+		else if (DrainSeconds > 0.f)
+		{
+			FillLevel = FMath::Max(0.f, FillLevel - DeltaSeconds / DrainSeconds);
+		}
+		if (FillLevel != Before)
+		{
+			ApplyFill();
 		}
 	}
 
