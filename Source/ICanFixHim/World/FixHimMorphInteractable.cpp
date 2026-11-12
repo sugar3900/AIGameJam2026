@@ -73,6 +73,10 @@ void AFixHimMorphInteractable::ApplyToggleAlpha(float Alpha)
 	if (MorphMesh)
 	{
 		MorphMesh->SetMorphTarget(MorphTarget, Smooth, false);
+		if (!MidMorphTarget.IsNone())
+		{
+			MorphMesh->SetMorphTarget(MidMorphTarget, 4.f * Smooth * (1.f - Smooth), false);
+		}
 	}
 	if (Body)
 	{

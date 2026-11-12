@@ -372,7 +372,7 @@ void AFixHimInteractable::Tick(float DeltaSeconds)
 	const float Target = bIsOn ? 1.f : 0.f;
 	if (!FMath::IsNearlyEqual(ToggleAlpha, Target))
 	{
-		ToggleAlpha = FMath::FInterpConstantTo(ToggleAlpha, Target, DeltaSeconds, FMath::Max(ToggleSpeed, 0.1f));
+		ToggleAlpha = FMath::FInterpConstantTo(ToggleAlpha, Target, DeltaSeconds, FMath::Max(ToggleSpeed, 0.001f));
 		ApplyToggleAlpha(ToggleAlpha);
 	}
 

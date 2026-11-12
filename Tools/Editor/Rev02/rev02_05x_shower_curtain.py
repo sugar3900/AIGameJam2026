@@ -2,8 +2,10 @@
 rigid 52 cm panel sliding 110 cm. Needs AFixHimMorphInteractable (C++). Run after rev02_05b / 05m / 05w. Re-runnable.
 
 - Source: BA-TUB-01/model/BA_Curtain_Animated.fbx (see that folder's README): Curtain_panel_sliding on a one-bone rig
-  with shape key Closed, 0 = gathered at the east end by the rod's bend and the fixed return, 1 = drawn west to world
-  x 490 (covers the tub x 496.5-663.5). Imported as a skeletal mesh with its Closed morph target (no physics asset),
+  with shape keys Closed, 0 = gathered at the east end by the rod's bend and the fixed return, 1 = drawn west to world
+  x 490 (covers the tub x 496.5-663.5), and Closed_Mid, a halfway corrective driven at 4a(1-a). The cloth keeps 210 cm
+  of width in every pose; the open bunch's deep folds tilt ~2 deg toward the room and hang straight below a knee at
+  z ~65 so they clear the tub rim (>= ~2 cm through the draw). Imported as a skeletal mesh with its Closed morph target (no physics asset),
   slots Floral_cotton -> MI_Rev02_CurtainFloral (M_Rev02_TexPBR_UV + floral-albedo, source UVs; the imported
   Floral_cotton is Interchange plugin content without skeletal/morph usage) and Aged_chrome -> M_Rev02_AgedChrome
   (as the rod). Both masters gain the skeletal-mesh and morph-target usage flags.
@@ -34,8 +36,9 @@ ORIGIN, YAW = unreal.Vector(580, 907, 0), 180.0
 def local_box(wx0, wx1, wy0, wy1, z0, z1):
     return unreal.Box(unreal.Vector(580 - wx1, 907 - wy1, z0), unreal.Vector(580 - wx0, 907 - wy0, z1))
 # Cloth bounds from the source README / curtain-validation.json (world cm), 1 cm margin.
-PROXY_OPEN = local_box(621, 677.5, 861.7, 887.2, 21, 221)
-PROXY_CLOSED = local_box(489, 677.5, 861.7, 887.2, 21, 221)
+# Open: the bunch tilts toward the room (y 856.2) to clear the tub rim; closed hangs near the rod (y 864.7).
+PROXY_OPEN = local_box(621, 677.5, 855.2, 887.2, 21, 221)
+PROXY_CLOSED = local_box(489, 677.5, 863.7, 887.2, 21, 221)
 
 # ---------------- import ----------------
 t = unreal.AssetImportTask(); t.filename = SRC; t.destination_path = DEST; t.destination_name = 'BA_Curtain_Animated'
@@ -47,7 +50,7 @@ tools.import_asset_tasks([t])
 mesh = EAL.load_asset(DEST + '/BA_Curtain_Animated')
 assert isinstance(mesh, unreal.SkeletalMesh), 'not skeletal: %s' % mesh
 morphs = [m.get_name() for m in mesh.morph_targets]
-assert 'Closed' in morphs, 'no Closed morph: %s' % morphs
+assert {'Closed', 'Closed_Mid'} <= set(morphs), 'expected Closed + Closed_Mid morphs: %s' % morphs
 # The imported Floral_cotton is an instance of the Interchange plugin's legacy Phong material, which is not flagged for
 # skeletal meshes / morph targets (renders as the default checker in game) and is plugin content we do not modify.
 # The cloth uses the project's textured master instead (same floral texture, source UVs as authored), and the

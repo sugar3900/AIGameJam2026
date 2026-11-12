@@ -34,6 +34,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Morph")
 	FName MorphTarget = TEXT("Closed");
 
+	/**
+	 * Optional corrective for the halfway pose (a linear blend between two very different shapes loses volume, e.g. a
+	 * curtain's cloth length). Driven additively at 4·a·(1−a): 0 at both ends, 1 at a = 0.5. Ignored if the mesh lacks it.
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Morph")
+	FName MidMorphTarget = TEXT("Closed_Mid");
+
 	/** Click proxy box in actor space (cm) while off. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Morph")
 	FBox ProxyOff = FBox(FVector(-10.f), FVector(10.f));

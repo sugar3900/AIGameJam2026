@@ -229,7 +229,7 @@ public:
 	FRotator ToggleRotation = FRotator(0.f, 100.f, 0.f);
 
 	/** Toggle animation speed in full transitions per second (3.5 = ~0.3 s; a curtain draw is slower). */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable", meta = (ClampMin = "0.1"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable", meta = (ClampMin = "0.001"))
 	float ToggleSpeed = 3.5f;
 
 	/** Shown under the reticle, e.g. "Turn on lamp". */
