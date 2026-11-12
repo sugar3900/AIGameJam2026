@@ -39,7 +39,7 @@ void UFixHimRadioWidget::BuildUI()
 	SizeSlot->SetPadding(FMargin(0.f, 0.f, 0.f, 64.f));
 
 	Panel = WidgetTree->ConstructWidget<UFixHimSurface>();
-	Panel->SetBrush(Rounded(FLinearColor(Plum.R, Plum.G, Plum.B, 0.86f), 20.f, Pink, 2.f));
+	Panel->SetBrush(Rounded(Plum, 20.f));
 	Panel->SetPadding(FMargin(64,16,40,28));
 	Size->AddChild(Panel);
 
@@ -49,9 +49,9 @@ void UFixHimRadioWidget::BuildUI()
 	UHorizontalBox* Top = WidgetTree->ConstructWidget<UHorizontalBox>();
 	Col->AddChildToVerticalBox(Top)->SetPadding(FMargin(0.f, 0.f, 0.f, 6.f));
 
-	OnAirDot = WidgetTree->ConstructWidget<UFixHimSurface>();
-	OnAirDot->SetBrush(Rounded(FLinearColor(1.f, 0.2f, 0.25f), 8.f));
-	OnAirDot->SetPadding(FMargin(20,4,28,18));
+	OnAirDot = WidgetTree->ConstructWidget<UBorder>();
+	OnAirDot->SetBrush(Rounded(Pink,8.f));
+	OnAirDot->SetPadding(FMargin(12,6));
 	OnAirDot->SetContent(MakeText(WidgetTree, TEXT("ON AIR"), 12, FLinearColor::White, TEXT("Bold")));
 	Top->AddChildToHorizontalBox(OnAirDot)->SetVerticalAlignment(VAlign_Center);
 
@@ -158,7 +158,7 @@ void UFixHimTransitionWidget::BuildUI()
 	WidgetTree->RootWidget = Root;
 
 	Curtain = WidgetTree->ConstructWidget<UBorder>();
-	Curtain->SetBrushColor(FLinearColor(0.02f, 0.f, 0.03f, 1.f));
+	Curtain->SetBrushColor(Plum);
 	Curtain->SetHorizontalAlignment(HAlign_Center);
 	Curtain->SetVerticalAlignment(VAlign_Center);
 	UOverlaySlot* CSlot = Root->AddChildToOverlay(Curtain);
@@ -167,7 +167,7 @@ void UFixHimTransitionWidget::BuildUI()
 
 	UVerticalBox* Col = WidgetTree->ConstructWidget<UVerticalBox>();
 	Curtain->SetContent(Col);
-	TitleText = MakeText(WidgetTree, TEXT(""), 76, Pink, TEXT("Display"));
+	TitleText = MakeText(WidgetTree, TEXT(""), 76, Cream, TEXT("Display"));
 	TitleText->SetJustification(ETextJustify::Center);
 	Col->AddChildToVerticalBox(TitleText)->SetHorizontalAlignment(HAlign_Center);
 	SubtitleText = MakeText(WidgetTree, TEXT(""), 26, Blush, TEXT("Italic"));
@@ -264,7 +264,7 @@ void UFixHimKeepsakeWidget::BuildUI()
 	WidgetTree->RootWidget = Root;
 
 	UBorder* Dim = WidgetTree->ConstructWidget<UBorder>();
-	Dim->SetBrushColor(FLinearColor(0.06f, 0.f, 0.05f, 0.92f));
+	Dim->SetBrushColor(FixHimDesign::Scrim);
 	UOverlaySlot* DimSlot = Root->AddChildToOverlay(Dim);
 	DimSlot->SetHorizontalAlignment(HAlign_Fill);
 	DimSlot->SetVerticalAlignment(VAlign_Fill);
@@ -273,13 +273,13 @@ void UFixHimKeepsakeWidget::BuildUI()
 	Card->SetBrush(Rounded(Cream, 28.f, Pink, 4.f));
 	Card->SetPadding(FMargin(40,32,48,40));
 	USizeBox* CardSize=WidgetTree->ConstructWidget<USizeBox>(); CardSize->SetWidthOverride(1200); CardSize->SetMaxDesiredHeight(960);
- UScrollBox* CardScroll=WidgetTree->ConstructWidget<UScrollBox>(); CardScroll->SetAnimateWheelScrolling(false); CardScroll->AddChild(Card); CardSize->AddChild(CardScroll);
+ UScrollBox* CardScroll=WidgetTree->ConstructWidget<UScrollBox>(); CardScroll->SetAnimateWheelScrolling(false); Card->SetContent(CardScroll); CardSize->AddChild(Card);
  UOverlaySlot* CardSlot = Root->AddChildToOverlay(CardSize);
 	CardSlot->SetHorizontalAlignment(HAlign_Center);
 	CardSlot->SetVerticalAlignment(VAlign_Center);
 
 	Content = WidgetTree->ConstructWidget<UFixHimStack>();
-	Card->SetContent(Content);
+	CardScroll->AddChild(Content);
 }
 
 void UFixHimKeepsakeWidget::Setup(const TArray<FFixHimKeepsakeEntry>& InEntries)

@@ -72,7 +72,7 @@ void UFixHimTitleWidget::BuildUI()
 		return B;
 	};
 
-	AddButton(TEXT("New Game"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->StartNewGame(); } }, true);
+	NewGameButton = AddButton(TEXT("New Game"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->StartNewGame(); } }, true);
 	ContinueButton = AddButton(TEXT("Continue"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->ContinueGame(); } }, true);
 	AddButton(TEXT("Options"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->OpenOptions(); } }, false);
 	AddButton(TEXT("Credits"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->OpenCredits(); } }, false);
@@ -89,7 +89,11 @@ void UFixHimTitleWidget::RefreshContinue()
 	if (ContinueButton)
 	{
 		const UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this);
-		ContinueButton->SetIsEnabled(Save && Save->HasSaveFile());
+		const bool HasSave=Save && Save->HasSaveFile();
+  ContinueButton->SetIsEnabled(HasSave);
+  ContinueButton->SetVariant(HasSave);
+  if(NewGameButton) NewGameButton->SetVariant(!HasSave);
+  InitialFocusTarget = HasSave ? ContinueButton.Get() : NewGameButton.Get();
 	}
 }
 
@@ -149,6 +153,9 @@ void UFixHimNameEntryWidget::NativeConstruct()
 	Super::NativeConstruct();
 	if (NameBox)
 	{
+		// UE 5.8 retains the passed style address; pass the widget-owned member.
+		NameBox->WidgetStyle.SetFont(Font(24, TEXT("Bold")));
+		NameBox->SetWidgetStyle(NameBox->WidgetStyle);
 		NameBox->SetKeyboardFocus();
 	}
 }
@@ -331,7 +338,7 @@ void UFixHimOptionsWidget::BuildUI()
 		if (ValueText)
 		{
 			USizeBox* VB = WidgetTree->ConstructWidget<USizeBox>();
-			VB->SetWidthOverride(70.f);
+			VB->SetWidthOverride(100.f * FixHimDesign::TextScale());
 			VB->AddChild(ValueText);
 			ValueText->SetJustification(ETextJustify::Right);
 			Row->AddChildToHorizontalBox(VB)->SetVerticalAlignment(VAlign_Center);
@@ -345,7 +352,7 @@ void UFixHimOptionsWidget::BuildUI()
 		S->SetMinValue(Min);
 		S->SetMaxValue(Max);
 		S->SetValue(Value);
-		S->ApplyBigStyle(FLinearColor::LerpUsingHSV(Blush, Pink, 0.35f), HotPink);
+		S->ApplyBigStyle(Blush, PlumSoft);
 		UTextBlock* V = MakeText(WidgetTree, Format(Value), 18, PlumSoft);
 		TWeakObjectPtr<UTextBlock> WeakV(V);
 		S->Init([Apply, Format, WeakV](float NewValue)

@@ -77,7 +77,7 @@ void UFixHimHUDWidget::BuildUI()
 	Ret->AddChildToVerticalBox(ReticleBox)->SetHorizontalAlignment(HAlign_Center);
 
 	PromptPill = WidgetTree->ConstructWidget<UFixHimSurface>();
-	PromptPill->SetBrush(Rounded(FLinearColor(Plum.R, Plum.G, Plum.B, 0.8f), 14.f));
+	PromptPill->SetBrush(Rounded(Plum, 14.f));
 	PromptPill->SetPadding(FMargin(28,6,36,20));
 	PromptText = MakeText(WidgetTree, TEXT(""), 18, Cream, TEXT("Bold"));
 	PromptPill->SetContent(PromptText);
@@ -90,7 +90,7 @@ void UFixHimHUDWidget::BuildUI()
 
 	// ---- Room name (top left) ----
 	RoomPill = WidgetTree->ConstructWidget<UFixHimSurface>();
-	RoomPill->SetBrush(Rounded(FLinearColor(Plum.R, Plum.G, Plum.B, 0.72f), 18.f, Pink, 2.f));
+	RoomPill->SetBrush(Rounded(FixHimDesign::Teal, 18.f));
 	RoomPill->SetPadding(FMargin(32,8,40,22));
 	RoomText = MakeText(WidgetTree, TEXT(""), 26, Cream, TEXT("Display"));
 	RoomPill->SetContent(RoomText);
@@ -102,9 +102,9 @@ void UFixHimHUDWidget::BuildUI()
 
 	// ---- Repairs (top right) ----
 	UBorder* RepPill = WidgetTree->ConstructWidget<UFixHimSurface>();
-	RepPill->SetBrush(Rounded(FLinearColor(Plum.R, Plum.G, Plum.B, 0.72f), 18.f));
+	RepPill->SetBrush(Rounded(FixHimDesign::Teal, 18.f));
 	RepPill->SetPadding(FMargin(32,8,40,22));
-	RepairsText = MakeText(WidgetTree, TEXT("Repairs 0/0"), 18, Blush, TEXT("Bold"));
+	RepairsText = MakeText(WidgetTree, TEXT("Repairs 0/0"), 18, Cream, TEXT("Bold"));
 	RepPill->SetContent(RepairsText);
 	UOverlaySlot* RepSlot = Root->AddChildToOverlay(RepPill);
 	RepSlot->SetHorizontalAlignment(HAlign_Right);
@@ -255,6 +255,6 @@ void UFixHimHUDWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
 	if (RoomFlash > 0.f && RoomPill)
 	{
 		RoomFlash = FMath::Max(0.f, RoomFlash - InDeltaTime * 1.5f);
-		RoomPill->SetRenderScale(FVector2D(1.f + 0.12f * RoomFlash));
+		RoomPill->SetRenderScale(FVector2D(FixHimDesign::ReducedMotion() ? 1.f : 1.f + .12f*RoomFlash));
 	}
 }

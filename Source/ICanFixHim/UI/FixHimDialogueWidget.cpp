@@ -61,11 +61,11 @@ void UFixHimDialogueWidget::BuildUI()
 	PanelSize->SetMaxDesiredHeight(760.f);
  UScrollBox* ReadingScroll=WidgetTree->ConstructWidget<UScrollBox>();
  ReadingScroll->SetAnimateWheelScrolling(false);
- PanelSize->AddChild(ReadingScroll);
- ReadingScroll->AddChild(Panel);
+ PanelSize->AddChild(Panel);
+ Panel->SetContent(ReadingScroll);
 
 	UHorizontalBox* Row = WidgetTree->ConstructWidget<UHorizontalBox>();
-	Panel->SetContent(Row);
+	ReadingScroll->AddChild(Row);
 
 	// Portrait
 	USizeBox* PortraitSize = WidgetTree->ConstructWidget<USizeBox>();
@@ -527,6 +527,7 @@ void UFixHimDialogueWidget::BuildChoices()
 		UVerticalBoxSlot* S = ChoiceBox->AddChildToVerticalBox(B);
 		S->SetPadding(FMargin(0.f, 3.f));
 		S->SetHorizontalAlignment(HAlign_Fill);
+  if(i==0) B->SetKeyboardFocus();
 	}
 }
 

@@ -38,7 +38,7 @@ void UFixHimIntroCardWidget::BuildUI()
 	WidgetTree->RootWidget = Root;
 
 	UBorder* Dim = WidgetTree->ConstructWidget<UBorder>();
-	Dim->SetBrushColor(FLinearColor(0.08f, 0.f, 0.06f, 0.6f));
+	Dim->SetBrushColor(FixHimDesign::Scrim);
 	UOverlaySlot* DimSlot = Root->AddChildToOverlay(Dim);
 	DimSlot->SetHorizontalAlignment(HAlign_Fill);
 	DimSlot->SetVerticalAlignment(VAlign_Fill);
@@ -73,7 +73,7 @@ void UFixHimIntroCardWidget::BuildUI()
 	SilBox->AddChild(Silhouette);
 	Row->AddChildToHorizontalBox(SilBox)->SetVerticalAlignment(VAlign_Center);
 
-	UVerticalBox* Col = WidgetTree->ConstructWidget<UVerticalBox>();
+	UVerticalBox* Col = WidgetTree->ConstructWidget<UFixHimStack>();
 	USizeBox* TextSize=WidgetTree->ConstructWidget<USizeBox>(); TextSize->SetWidthOverride(1000); TextSize->AddChild(Col);
  UHorizontalBoxSlot* ColSlot = Row->AddChildToHorizontalBox(TextSize);
 	ColSlot->SetVerticalAlignment(VAlign_Center);
@@ -86,14 +86,14 @@ void UFixHimIntroCardWidget::BuildUI()
  MaladyName->SetShadowOffset(FVector2D(6.f, 6.f));
 	MaladyName->SetShadowColorAndOpacity(FLinearColor(Plum.R, Plum.G, Plum.B, 0.9f));
 	Col->AddChildToVerticalBox(MaladyName)->SetPadding(FMargin(0.f, -10.f, 0.f, 0.f));
-	Tagline = MakeText(WidgetTree, TEXT(""), 26, Plum, TEXT("BoldItalic"));
+	Tagline = MakeText(WidgetTree, TEXT(""), 26, Cream, TEXT("Semibold"));
 	Tagline->SetAutoWrapText(true);
  Col->AddChildToVerticalBox(Tagline);
 
 	// "Click to continue" pill near the bottom, fading in once the card has landed.
 	UBorder* HintPill = WidgetTree->ConstructWidget<UFixHimSurface>();
-	HintPill->SetBrush(Rounded(FLinearColor(Plum.R, Plum.G, Plum.B, 0.72f), 18.f));
-	HintPill->SetPadding(FMargin(22.f, 8.f));
+	HintPill->SetBrush(Rounded(Plum, 18.f));
+	HintPill->SetPadding(FMargin(28.f, 8.f, 36.f, 24.f));
 	Hint = MakeText(WidgetTree, TEXT("click to continue"), 20, Cream, TEXT("Bold"));
 	HintPill->SetContent(Hint);
 	HintPill->SetVisibility(ESlateVisibility::HitTestInvisible);
@@ -181,17 +181,17 @@ void UFixHimIntroCardWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 
 	if (Band)
 	{
-		Band->GetParent()->SetRenderTranslation(FVector2D(FMath::Lerp(-W * 1.6f, 0.f, In) + Out * W * 1.6f, 0.f));
+		Band->GetParent()->SetRenderTranslation(FVector2D(Reduced ? 0.f : FMath::Lerp(-W * 1.6f, 0.f, In) + Out * W * 1.6f, 0.f));
 	}
 	if (Band2)
 	{
 		const float In2=Reduced ? 1.f : EaseOutBack((Age-.08f)/.45f);
-		Band2->GetParent()->SetRenderTranslation(FVector2D(FMath::Lerp(W * 1.6f, 0.f, In2) - Out * W * 1.6f, 0.f));
+		Band2->GetParent()->SetRenderTranslation(FVector2D(Reduced ? 0.f : FMath::Lerp(W * 1.6f, 0.f, In2) - Out * W * 1.6f, 0.f));
 	}
 	if (Silhouette)
 	{
 		const float S=Reduced ? 1.f : EaseOutBack((Age-.2f)/.5f);
-		Silhouette->SetRenderScale(FVector2D(FMath::Max(0.01f, S * (1.f - Out))));
+		Silhouette->SetRenderScale(FVector2D(Reduced ? 1.f : FMath::Max(0.01f, S * (1.f - Out))));
 		Silhouette->SetRenderTransformAngle(0);
 	}
 	const float TextIn = FMath::Clamp((Age - 0.35f) / 0.3f, 0.f, 1.f);
@@ -212,7 +212,7 @@ void UFixHimIntroCardWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 	{
 		// Fade in, then a slow gentle pulse while waiting.
 		const float HintIn = FMath::Clamp((Age - HintSeconds) / 0.4f, 0.f, 1.f);
-		const float Pulse = 0.75f + 0.25f * FMath::Sin((Age - HintSeconds) * 3.f);
+		const float Pulse = Reduced ? 1.f : .75f+.25f*FMath::Sin((Age-HintSeconds)*3.f);
 		if (UWidget* Pill = Hint->GetParent())
 		{
 			Pill->SetRenderOpacity(HintIn * Pulse * (1.f - Out));
@@ -278,9 +278,9 @@ void UFixHimEndingCardWidget::Setup(const FHunkDefinition& Def, const FString& E
 	FString KindText;
 	FLinearColor KindColor = Pink;
 	if (EndingId == TEXT("romance_success")) { KindText = TEXT("ROMANCE  -  HAPPILY EVER AFTER"); KindColor = HotPink; }
-	else if (EndingId == TEXT("romance_failure")) { KindText = TEXT("ROMANCE  -  IT'S NOT ME, IT'S YOUR FOUNDATION"); KindColor = Ember; }
-	else if (EndingId == TEXT("friend_success")) { KindText = TEXT("FRIENDSHIP  -  BESTIES"); KindColor = Mint; }
-	else { KindText = TEXT("FRIENDSHIP  -  SWORN ENEMIES"); KindColor = Ember; }
+	else if (EndingId == TEXT("romance_failure")) { KindText = TEXT("ROMANCE  -  IT'S NOT ME, IT'S YOUR FOUNDATION"); KindColor = Plum; }
+	else if (EndingId == TEXT("friend_success")) { KindText = TEXT("FRIENDSHIP  -  BESTIES"); KindColor = PlumSoft; }
+	else { KindText = TEXT("FRIENDSHIP  -  SWORN ENEMIES"); KindColor = Plum; }
 
 	FixHim::Sfx(this, EndingId == TEXT("romance_success") ? "EndingRomance" : EndingId == TEXT("friend_success") ? "EndingFriend" : "EndingFail");
 	Kind->SetText(FText::FromString(KindText));

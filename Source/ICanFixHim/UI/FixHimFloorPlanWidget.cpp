@@ -27,19 +27,19 @@ void UFixHimFloorPlanWidget::BuildUI()
 	WidgetTree->RootWidget = Root;
 
 	UBorder* Dim = WidgetTree->ConstructWidget<UBorder>();
-	Dim->SetBrushColor(FLinearColor(0.02f, 0.03f, 0.08f, 0.6f));
+	Dim->SetBrushColor(FixHimDesign::Scrim);
 	UOverlaySlot* DimSlot = Root->AddChildToOverlay(Dim);
 	DimSlot->SetHorizontalAlignment(HAlign_Fill);
 	DimSlot->SetVerticalAlignment(VAlign_Fill);
 
 	Sheet = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Sheet->SetBrush(Rounded(Blueprint, 18.f, FLinearColor(0.75f, 0.85f, 1.f, 0.9f), 3.f));
-	Sheet->SetPadding(FMargin(160,28,48,36));
+	Sheet->SetPadding(FMargin(32,28,48,36));
 	UOverlaySlot* SheetSlot = Root->AddChildToOverlay(Sheet);
 	SheetSlot->SetHorizontalAlignment(HAlign_Center);
 	SheetSlot->SetVerticalAlignment(VAlign_Center);
 
-	UVerticalBox* Col = WidgetTree->ConstructWidget<UVerticalBox>();
+	UVerticalBox* Col = WidgetTree->ConstructWidget<UFixHimStack>();
 	Sheet->SetContent(Col);
 
 	UTextBlock* Title = MakeText(WidgetTree, TEXT("FLOOR PLAN  -  12 HEARTBREAK LANE"), 32, Cream, TEXT("Display"));
@@ -123,7 +123,9 @@ void UFixHimFloorPlanWidget::Refresh()
 		UVerticalBox* Info = WidgetTree->ConstructWidget<UVerticalBox>();
 		UTextBlock* Name = MakeText(WidgetTree, Room->DisplayName.ToString().ToUpper(), 20, Line, TEXT("Bold"));
 		Name->SetJustification(ETextJustify::Center);
-		Info->AddChildToVerticalBox(Name)->SetHorizontalAlignment(HAlign_Center);
+		Name->SetAutoWrapText(true);
+		Name->SetWrappingPolicy(ETextWrappingPolicy::AllowPerCharacterWrapping);
+		Info->AddChildToVerticalBox(Name)->SetHorizontalAlignment(HAlign_Fill);
 
 		FString Status;
 		FLinearColor StatusColor = FLinearColor(0.8f, 0.88f, 1.f, 0.9f);
@@ -141,12 +143,12 @@ void UFixHimFloorPlanWidget::Refresh()
 			if (!P || !P->bMet)
 			{
 				Status = FString::Printf(TEXT("%s ?"), *Def->Malady);
-				StatusColor = Gold;
+				StatusColor = Cream;
 			}
 			else if (P->bFixed)
 			{
 				Status = FString::Printf(TEXT("%s  -  fixed"), *Def->Name);
-				StatusColor = Mint;
+				StatusColor = Cream;
 			}
 			else
 			{
@@ -159,12 +161,14 @@ void UFixHimFloorPlanWidget::Refresh()
 			UTextBlock* St = MakeText(WidgetTree, Status, 15, StatusColor, TEXT("Italic"));
 			St->SetJustification(ETextJustify::Center);
 			St->SetAutoWrapText(true);
-			Info->AddChildToVerticalBox(St)->SetHorizontalAlignment(HAlign_Center);
+			Info->AddChildToVerticalBox(St)->SetHorizontalAlignment(HAlign_Fill);
 		}
 		if (bHere && !Room->bSubVolume)
 		{
 			UTextBlock* You = MakeText(WidgetTree, TEXT("you are here"), 13, FLinearColor::White, TEXT("Bold"));
-			Info->AddChildToVerticalBox(You)->SetHorizontalAlignment(HAlign_Center);
+			You->SetAutoWrapText(true);
+			You->SetJustification(ETextJustify::Center);
+			Info->AddChildToVerticalBox(You)->SetHorizontalAlignment(HAlign_Fill);
 		}
 
 		UWidget* Cell = nullptr;
@@ -224,6 +228,6 @@ void UFixHimFloorPlanWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 		{
 			S->SetPosition(WorldToMap(FVector2D(Pawn->GetActorLocation())));
 		}
-		PlayerMarker->SetRenderScale(FVector2D(1.f + 0.25f * FMath::Sin(Age * 6.f)));
+		PlayerMarker->SetRenderScale(FVector2D(FixHimDesign::ReducedMotion() ? 1.f : 1.f + .25f*FMath::Sin(Age*6.f)));
 	}
 }

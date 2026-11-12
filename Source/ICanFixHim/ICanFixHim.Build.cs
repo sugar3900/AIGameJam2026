@@ -19,6 +19,7 @@ public class ICanFixHim : ModuleRules
 			"Slate",
 			"SlateCore",
 			"RenderCore",
+			"ImageCore",
 			"RHI",
 			"Json",
 			"JsonUtilities",

@@ -21,6 +21,7 @@ Central hub for planning and design docs. Start here.
 ## Art & Audio
 - [[Art Direction]]
 - [[UI Design System]] — selected UI direction, colors, fonts, icons, reticles, button treatments and implementation status
+- [[UI Review]] — native Unreal screen captures and component feedback
 - [[Room build guide]] — selected apartment plan, room details and engine handoff
 - [[Audio Direction]]
 

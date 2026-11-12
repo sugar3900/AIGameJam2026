@@ -1,6 +1,6 @@
 ---
 tags: [tech, ui]
-status: draft
+status: implemented
 ---
 # UI Component Library
 
@@ -41,6 +41,8 @@ Use the common popup `MakeCardScreen` rather than building a new modal frame per
 
 `UFixHimButton::Make` creates a wrapping labelled action button and accepts its existing callback. `SetVariant(EFixHimButtonVariant)` selects a semantic variant. The legacy boolean overload remains for existing callers. `Label` is available for alignment and content updates.
 
+Short action labels use Barlow Condensed ExtraBold Italic with the shared 12° display treatment. Replies use upright Barlow Semibold. Actions have a content-driven height with a 72-unit minimum in menus, allowing enlarged text to grow.
+
 States: idle, hover, keyboard/gamepad focus, pressed, selected and disabled. Selected reuses the focus treatment. Shared action buttons show a white contour and diamond on hover/focus; state meaning does not rely on pink alone. Pressing moves the face towards its extrusion; disabled uses neutral surface/ink. No heart is added to a reply to predict relationship outcomes.
 
 Stock Slate button behavior still handles pointer capture, keyboard/gamepad activation and dynamic delegates. Existing hover/click/back/topic/choice sounds are retained. The component workshop can force focus/pressed samples without changing gameplay semantics.
@@ -50,10 +52,10 @@ Stock Slate button behavior still handles pointer capture, keyboard/gamepad acti
 - Sliders retain a 48-unit hit row, 30-unit thumb, thick rounded track, hover enlargement, keyboard adjustment, live numeric value and soft stepped feedback.
 - Checkboxes use the shared palette and Phosphor check glyph. Their padding makes the control's hit area at least 48 units.
 - Name entry retains a distinct focus outline and its existing validation/commit behavior.
-- Tab/Shift+Tab and up/down or gamepad D-pad traverse enabled visible controls, skipping controls under hidden/disabled ancestors. Focused descendants scroll into view. Popup opening selects an initial enabled action when a field does not already have focus.
-- Options include UI text size (100–135%, applied as screens are rebuilt) and reduced motion. They are saved alongside existing options. Body/reply copy is never shortened or scaled down to fit.
-- Reduced motion removes popup scaling, intro swoops/scaling and decorative dialogue hearts/movement; transitions retain necessary narrative fades. Existing reticle motion has separate tuning and is not changed by this component migration.
-- Large reading areas and menus scroll within bounded surfaces. This is a fallback for larger text and unusually long content, not permission to hide normal-size choices unnecessarily.
+- Tab/Shift+Tab and up/down or gamepad D-pad traverse buttons, sliders, checkboxes and editable fields, skipping controls under hidden/disabled ancestors. Focused descendants scroll into view. Screen opening selects an initial enabled control when a field does not already have focus. Dialogue focuses the first reply when choices appear. Escape/gamepad Back dismiss screens that already permit dismissal.
+- Options include UI text size (100–135%, reapplied when cached screens reopen) and reduced motion. They are saved alongside existing options. Body/reply copy is never shortened or scaled down to fit.
+- Reduced motion removes popup scaling, intro entry/exit swoops and scaling, room/map pulses and decorative dialogue hearts/movement; transitions retain necessary narrative fades. Existing reticle motion has separate tuning and is not changed by this component migration.
+- Large reading areas and menus scroll inside bounded surfaces, preserving their outer contours. This is a fallback for larger text and unusually long content, not permission to hide normal-size choices unnecessarily.
 
 ## Screen patterns
 
@@ -80,6 +82,12 @@ In a development game or PIE session, execute `FixHim.DesignSystem` to open the 
 
 Run engine automation `FixHim.UI.DesignSystem` with a renderer to write actual widget PNGs under `Saved/DesignSystem/Review/`; null-RHI runs check construction and content without rendering. The suite checks imported font faces and preserves the authored long narration and replies. Captures cover 720p, 1080p, 1440p and ultrawide layouts, plus enlarged text. Use `FixHim.UI.Reticles` for the independent reticle regression suite.
 
-Final design feedback should evaluate contour/border proportions, typographic hierarchy, spacing, focus treatment and the dialogue's balance between reading area and scene visibility. Validation results and the captured review set will be recorded after the implementation pass.
+The render suite includes all six audited authored exchanges, with full markup, active topics and conditional-choice snapshots. A separate combined stress case pairs the 240-character spoken line with four replies; it tests capacity and is not presented as a single authored node. Captures wait for font/texture compilation and wrapped-layout convergence. A linear HDR target is converted explicitly to sRGB for PNG export, with a swatch assertion against the selected cream token. Native macOS text-input context tests require a real window; offscreen runs do not activate the OS IME.
+
+Selected text/surface contrast ratios: ink on cream 10.35:1; teal on cream 5.06:1; white on flat pink 5.12:1; disabled ink on disabled surface 5.18:1. The pink gradient is reserved for large action/reply labels; small ON AIR text uses flat pink.
+
+Validation on 2026-11-12 (UE 5.8, macOS): `ICanFixHimEditor Mac Development` built successfully. `FixHim.UI.DesignSystem` and `FixHim.UI.Reticles` both passed in a native-window renderer run. The design suite wrote 24 PNGs and checked Barlow font loading, full authored copy, text-height bounds, keyboard/D-pad wrapping and disabled-control skipping, gamepad activation, editable-field traversal, and text-size changes on reused screens. The exported cream swatch matched `#FFF5E5`. The title is also captured at 135% text size. A standalone apartment pass verified title focus, options, clickable-topic presentation, dialogue/reply layout and the floor plan at 135%. Narrow map cells wrap full names; their labeling treatment is a design-feedback topic.
+
+See [[UI Review]] for the versioned captures and design-feedback topics. Evaluate contour/border proportions, typographic hierarchy, spacing, focus treatment and the dialogue's balance between reading area and scene visibility. A packaged-build smoke test remains a release check.
 
 Related: [[UI Design System]] · [[Tech Overview]]

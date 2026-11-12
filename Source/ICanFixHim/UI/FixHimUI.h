@@ -22,35 +22,46 @@ class AFixHimPlayerController;
 
 namespace FixHimUI
 {
-	inline float EaseOutBack(float T)
-	{
-		const float C1 = 1.70158f;
-		const float C3 = C1 + 1.f;
-		T = FMath::Clamp(T, 0.f, 1.f);
-		return 1.f + C3 * FMath::Pow(T - 1.f, 3.f) + C1 * FMath::Pow(T - 1.f, 2.f);
-	}
-
-	// Compatibility names for existing screens; all resolve to the shared selected palette.
- inline const FLinearColor Pink = FixHimDesign::Pink;
- inline const FLinearColor HotPink = FixHimDesign::Pink;
- inline const FLinearColor Blush = FixHimDesign::Friendship;
- inline const FLinearColor Cream = FixHimDesign::Cream;
- inline const FLinearColor Plum = FixHimDesign::Ink;
- inline const FLinearColor PlumSoft = FixHimDesign::Teal;
- inline const FLinearColor Gold = FixHimDesign::Orange;
- inline const FLinearColor Mint = FixHimDesign::Friendship;
- inline const FLinearColor Ember = FixHimDesign::Orange;
- inline const FLinearColor Blueprint = FixHimDesign::Teal;
-
-	ICANFIXHIM_API FSlateFontInfo Font(int32 Size, const TCHAR* Typeface = TEXT("Regular"));
-	ICANFIXHIM_API FSlateBrush Rounded(const FLinearColor& Fill, float Radius, const FLinearColor& Outline = FLinearColor::Transparent, float OutlineWidth = 0.f);
-	ICANFIXHIM_API FButtonStyle ButtonStyle(const FLinearColor& Normal, const FLinearColor& Hovered, const FLinearColor& Pressed, float Radius = 14.f, const FLinearColor& Outline = FLinearColor::Transparent);
-
-	ICANFIXHIM_API UTextBlock* MakeText(UWidgetTree* Tree, const FString& Text, int32 Size, const FLinearColor& Color, const TCHAR* Typeface = TEXT("Regular"));
+inline float EaseOutBack(float T)
+{
+	const float C1 = 1.70158f;
+	const float C3 = C1 + 1.f;
+	T = FMath::Clamp(T, 0.f, 1.f);
+	return 1.f + C3 * FMath::Pow(T - 1.f, 3.f) + C1 * FMath::Pow(T - 1.f, 2.f);
 }
 
+// Compatibility names for existing screens; all resolve to the shared selected palette.
+inline const FLinearColor Pink = FixHimDesign::Pink;
+inline const FLinearColor HotPink = FixHimDesign::Pink;
+inline const FLinearColor Blush = FixHimDesign::Friendship;
+inline const FLinearColor Cream = FixHimDesign::Cream;
+inline const FLinearColor Plum = FixHimDesign::Ink;
+inline const FLinearColor PlumSoft = FixHimDesign::Teal;
+inline const FLinearColor Gold = FixHimDesign::Orange;
+inline const FLinearColor Mint = FixHimDesign::Friendship;
+inline const FLinearColor Ember = FixHimDesign::Orange;
+inline const FLinearColor Blueprint = FixHimDesign::Teal;
+
+ICANFIXHIM_API FSlateFontInfo Font(int32 Size, const TCHAR *Typeface = TEXT("Regular"));
+ICANFIXHIM_API FSlateBrush Rounded(const FLinearColor &Fill, float Radius,
+                                   const FLinearColor &Outline = FLinearColor::Transparent, float OutlineWidth = 0.f);
+ICANFIXHIM_API FButtonStyle ButtonStyle(const FLinearColor &Normal, const FLinearColor &Hovered,
+                                        const FLinearColor &Pressed, float Radius = 14.f,
+                                        const FLinearColor &Outline = FLinearColor::Transparent);
+
+ICANFIXHIM_API UTextBlock *MakeText(UWidgetTree *Tree, const FString &Text, int32 Size, const FLinearColor &Color,
+                                    const TCHAR *Typeface = TEXT("Regular"));
+} // namespace FixHimUI
+
 UENUM()
-enum class EFixHimButtonVariant : uint8 { Primary, Secondary, Reply, Topic, Spatial };
+enum class EFixHimButtonVariant : uint8
+{
+	Primary,
+	Secondary,
+	Reply,
+	Topic,
+	Spatial
+};
 
 /** UButton with a native lambda click handler (dynamic delegates can't capture). */
 UCLASS()
@@ -58,29 +69,32 @@ class ICANFIXHIM_API UFixHimButton : public UButton
 {
 	GENERATED_BODY()
 
-public:
+  public:
 	void Init(TFunction<void()> InOnClick);
 
-	/** Sound played on click (see Audio/FixHimSfxSubsystem); Make() picks ButtonBack for "Back"/"Cancel"/"Close" labels. */
+	/** Sound played on click (see Audio/FixHimSfxSubsystem); Make() picks ButtonBack for "Back"/"Cancel"/"Close"
+	 * labels. */
 	FName ClickSfx = TEXT("ButtonClick");
 
 	/** Builds a styled pill button with a centred label. */
-	static UFixHimButton* Make(UWidgetTree* Tree, const FString& Label, TFunction<void()> OnClick, int32 FontSize = 22, bool bPrimary = true);
+	static UFixHimButton *Make(UWidgetTree *Tree, const FString &Label, TFunction<void()> OnClick, int32 FontSize = 22,
+	                           bool bPrimary = true);
 
- UPROPERTY() TObjectPtr<UTextBlock> Label;
- bool bDesignSurface = false;
- bool bInlineTopic = false;
- EFixHimButtonVariant Variant = EFixHimButtonVariant::Spatial;
- bool bPrimary = true;
- bool bSelected = false;
- bool bPreviewPressed = false; // component review only
- void SetVariant(bool Primary, bool Selected = false);
- void SetVariant(EFixHimButtonVariant InVariant);
-protected:
- virtual TSharedRef<SWidget> RebuildWidget() override;
+	UPROPERTY() TObjectPtr<UTextBlock> Label;
+	bool bDesignSurface = false;
+	bool bInlineTopic = false;
+	EFixHimButtonVariant Variant = EFixHimButtonVariant::Spatial;
+	bool bPrimary = true;
+	bool bSelected = false;
+	int32 LabelSize = 22;
+	bool bPreviewPressed = false; // component review only
+	void SetVariant(bool Primary, bool Selected = false);
+	void SetVariant(EFixHimButtonVariant InVariant);
 
+  protected:
+	virtual TSharedRef<SWidget> RebuildWidget() override;
 
-private:
+  private:
 	UFUNCTION()
 	void HandleClicked();
 	UFUNCTION()
@@ -94,7 +108,7 @@ class ICANFIXHIM_API UFixHimSlider : public USlider
 {
 	GENERATED_BODY()
 
-public:
+  public:
 	void Init(TFunction<void(float)> InOnChanged);
 
 	/**
@@ -102,10 +116,10 @@ public:
 	 * least BigHitHeight tall (and fill it vertically) so the whole row height is clickable; a click anywhere on the
 	 * track jumps the value there and keeps dragging (SSlider behaviour).
 	 */
-	void ApplyBigStyle(const FLinearColor& Track, const FLinearColor& Handle);
+	void ApplyBigStyle(const FLinearColor &Track, const FLinearColor &Handle);
 	static constexpr float BigHitHeight = 48.f;
 
-private:
+  private:
 	UFUNCTION()
 	void HandleChanged(float NewValue);
 
@@ -118,10 +132,10 @@ class ICANFIXHIM_API UFixHimCheckBox : public UCheckBox
 {
 	GENERATED_BODY()
 
-public:
+  public:
 	void Init(TFunction<void(bool)> InOnChanged);
 
-private:
+  private:
 	UFUNCTION()
 	void HandleChanged(bool bChecked);
 
@@ -132,25 +146,26 @@ private:
 UCLASS(Abstract)
 class ICANFIXHIM_API UFixHimWidget : public UUserWidget
 {
+	friend class FFixHimDesignSystemTest;
 	GENERATED_BODY()
 
-public:
-	AFixHimPlayerController* GetFixHimPC() const;
+  public:
+	AFixHimPlayerController *GetFixHimPC() const;
 
 	/**
-	 * Automation (FixHimClickAt): acts as a left click at an absolute (Slate desktop) position, hit-testing this screen's
-	 * own widgets by their cached geometry. A slider / button / check box under the point gets the real Slate mouse
-	 * down + up (so the hit box and click-to-jump are the shipped behaviour); otherwise it is a click on the screen
-	 * itself (click outside the card closes it, etc.). Returns what happened, for the log.
+	 * Automation (FixHimClickAt): acts as a left click at an absolute (Slate desktop) position, hit-testing this
+	 * screen's own widgets by their cached geometry. A slider / button / check box under the point gets the real Slate
+	 * mouse down + up (so the hit box and click-to-jump are the shipped behaviour); otherwise it is a click on the
+	 * screen itself (click outside the card closes it, etc.). Returns what happened, for the log.
 	 */
-	virtual FString SimulateClickAt(const FVector2D& ScreenPos);
+	virtual FString SimulateClickAt(const FVector2D &ScreenPos);
 
-protected:
+  protected:
 	virtual TSharedRef<SWidget> RebuildWidget() override;
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
-	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
- virtual FReply NativeOnKeyDown(const FGeometry& Geometry, const FKeyEvent& Event) override;
+	virtual void NativeTick(const FGeometry &MyGeometry, float InDeltaTime) override;
+	virtual FReply NativeOnKeyDown(const FGeometry &Geometry, const FKeyEvent &Event) override;
 
 	/** Sounds for the card pop-in / dismissal (card screens only); screens with their own cues can change these. */
 	FName OpenSfx = TEXT("ModalOpen");
@@ -162,23 +177,32 @@ protected:
 	/**
 	 * Click-outside-to-close for popups: a left click that lands outside GetOutsideClickCard() (the MakeCardScreen card
 	 * by default) calls this. Do what the popup's Back / Close / Cancel button does and return true; the default does
-	 * nothing (screens that need a decision, the dialogue box, the HUD). Ignored for OutsideClickMinAge seconds after the
-	 * screen appears, so the click that opened it (or a double click) can't close it straight away.
+	 * nothing (screens that need a decision, the dialogue box, the HUD). Ignored for OutsideClickMinAge seconds after
+	 * the screen appears, so the click that opened it (or a double click) can't close it straight away.
 	 */
-	virtual bool HandleClickOutside() { return false; }
-	virtual UWidget* GetOutsideClickCard() const { return PopCard; }
+	virtual bool HandleClickOutside()
+	{
+		return false;
+	}
+	virtual UWidget *GetOutsideClickCard() const
+	{
+		return PopCard;
+	}
 	float OutsideClickMinAge = 0.3f;
 	/** Seconds since the widget was last added to the screen. */
 	float ShownAge = 0.f;
 
-	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	/** Optional preferred initial action, for example Continue when a save exists. */
+	UPROPERTY() TObjectPtr<UWidget> InitialFocusTarget;
+
+	virtual FReply NativeOnMouseButtonDown(const FGeometry &InGeometry, const FPointerEvent &InMouseEvent) override;
 
 	/** A centred rounded card with a title, returned content box for children. */
-	UVerticalBox* MakeCardScreen(const FString& Title, float Width = 520.f);
+	UVerticalBox *MakeCardScreen(const FString &Title, float Width = 520.f);
 
-private:
+  private:
 	/** The card from MakeCardScreen; it grows in with a small overshoot every time the widget is shown. */
 	UPROPERTY() TObjectPtr<UWidget> PopCard;
 	float PopAge = 0.f;
- bool bInitialFocus = false;
+	bool bInitialFocus = false;
 };

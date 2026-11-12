@@ -5,7 +5,7 @@ date: 2026-11-11
 ---
 # UI Design System
 
-This is the wiki record of the selected UI direction and subsequent decisions. **Design approved; selected world reticles implemented. The wider UI redesign remains pending.** Exact tokens below come from the current design kit; dimensions remain starting values for in-engine testing.
+This is the wiki record of the selected UI direction and subsequent decisions. **Foundation decisions approved; selected world reticles implemented. The reusable UI implementation is now available for design review.** Exact tokens below come from the current design kit; dimensions remain starting values for in-engine testing.
 
 ## Direction and authority
 
@@ -157,9 +157,15 @@ Use one reusable master rather than regenerating the mark for each screen. The c
 
 The image still has alpha-edge speckling; cleanup and an editable production master remain pending. Do not treat it as production-ready. Exact edit prompts are preserved in the [logo manifests](../../Art%20Source/UI%20Concepts/Selected%2007/Logo/). A compact brand mark remains a proposed deliverable.
 
+## Reusable UI implementation (2026-11-12)
+
+The shared Unreal components and first screen migration are implemented on `feature/reusable-ui-design-system`. See [[UI Component Library]] for APIs, source files, asset rebuilding, validation and the review captures. The selected palette, licensed fonts/icons and 12° placement grid are reused across screens; new component proportions and screen compositions still await design feedback.
+
+The implementation includes resizable rounded surfaces and asymmetric borders, shared action/reply/topic controls, visible focus/pressed/disabled states, bounded reading areas, sliders/checkboxes, text-size and reduced-motion settings, and an in-engine component workshop (`FixHim.DesignSystem`). Short action labels use the selected display treatment; authored dialogue/replies remain upright. Continue is the primary title action when a save exists. Small status labels use flat or sufficiently dark surfaces; pale relationship colors remain accents beside readable labels.
+
 ## Remaining work and provenance
 
-The selected world reticles are integrated; the rest of the selected UI design remains pending. Remaining work includes production logo cleanup, reusable component masters and states, Unreal font/texture integration, responsive layout and dialogue stress testing. Reticles were reviewed from in-game screenshots at 1080p on 2026-11-12 (layers, 64-unit size, idle ring and transitions; see above). The fill opacity, transition feel in motion and higher resolutions still need review; family selection is settled.
+The selected world reticles and first reusable UI implementation are integrated. Component proportions, screen compositions and motion feel are ready to be reviewed after the recorded checks in [[UI Component Library]]. Production logo cleanup and an editable brand master remain pending; the current isolated logo is explicitly a concept asset. A packaged-build smoke test remains a release check. Reticles were reviewed from in-game screenshots at 1080p on 2026-11-12 (layers, 64-unit size, idle ring and transitions; see above). The fill opacity, transition feel in motion and higher resolutions still need review; family selection is settled.
 
 Decision sequence: original #7 selected; cooler/lighter teal and matched friendship hue requested; stripes and routine flourish removed; Barlow/Phosphor established in the kit; C contextual reticles selected with A's transparent idle dot/ring and an outlined reserved X; rounded asymmetric surfaces and gradients restored; 12° slant selected and extended to the placement grid; isolated logo revised through v4; runtime reticle doubled to 64 units and split into layers with short transitions; idle ring set to 75% radius with full-size line weights, expanding on targets; ink fill trialled at 50% opacity.
 
