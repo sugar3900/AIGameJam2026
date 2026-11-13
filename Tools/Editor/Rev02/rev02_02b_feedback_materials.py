@@ -107,6 +107,8 @@ MEL.connect_material_property(sparam(m, 'Opacity', 0.35, -400, 120), '', MP.MP_O
 MEL.connect_material_property(sparam(m, 'Roughness', 0.05, -400, 180), '', MP.MP_ROUGHNESS)
 MEL.connect_material_property(sparam(m, 'Specular', 0.5, -400, 240), '', MP.MP_SPECULAR)
 MEL.connect_material_property(const(m, 0.0, -400, 300), '', MP.MP_METALLIC)
+# MI_Rev02_LeakDrop draws the leak spray as instanced drops (FixHimMalady BuildSpray).
+MEL.set_material_usage(m, unreal.MaterialUsage.MATUSAGE_INSTANCED_STATIC_MESHES)
 finish(m, MATS + 'M_Rev02_Water')
 water = EAL.load_asset(MATS + 'M_Rev02_Water')
 instance('MI_Rev02_BucketWater', water, {'Opacity': 0.55, 'Roughness': 0.04})

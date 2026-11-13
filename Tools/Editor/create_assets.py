@@ -240,6 +240,10 @@ def build_shine():
     MEL.connect_material_expressions(custom, "", out, "A")
     MEL.connect_material_expressions(color, "RGB", out, "B")
     MEL.connect_material_property(out, "", unreal.MaterialProperty.MP_EMISSIVE_COLOR)
+    # Overlaid on skeletal and morphing meshes (FixHimMorphInteractable); without these usages the game draws the
+    # default material there instead.
+    for usage in (unreal.MaterialUsage.MATUSAGE_SKELETAL_MESH, unreal.MaterialUsage.MATUSAGE_MORPH_TARGETS):
+        MEL.set_material_usage(mat, usage)
     finish(mat)
 
 
