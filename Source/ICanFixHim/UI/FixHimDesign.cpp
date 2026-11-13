@@ -76,12 +76,12 @@ void Shape(FSlateWindowElementList &Out, int32 Layer, const FGeometry &G, FVecto
 	FSlateDrawElement::MakeCustomVerts(Out, Layer, Resource, V, Indices, nullptr, 0, 0);
 }
 void Surface(FSlateWindowElementList &Out, int32 Layer, const FGeometry &G, FLinearColor Fill, FLinearColor Tint,
-             bool Slanted, bool Focused, bool Pressed, bool Enabled, float Keyline)
+             bool Slanted, bool Focused, bool Pressed, bool Enabled, float Keyline, bool Shadowed, bool Pointer = true)
 {
 	using namespace FixHimDesign;
 	const FVector2f Size(G.GetLocalSize());
 	const float R = Size.Y > 140 ? 22.f : 12.f;
-	const FVector2f FaceSize = Size - FVector2f(DepthReserveX(Keyline), DepthReserveY(Keyline));
+	const FVector2f FaceSize = Size - FVector2f(DepthReserveX(Keyline, Shadowed), DepthReserveY(Keyline, Shadowed));
 	FLinearColor Top = Fill, Bottom = Fill;
 	if (Fill.Equals(Teal, .015f))
 	{
@@ -100,7 +100,7 @@ void Surface(FSlateWindowElementList &Out, int32 Layer, const FGeometry &G, FLin
 	const auto Edge = !Enabled ? DisabledInk : Reading ? Orange : FLinearColor::White;
 	// One extrusion layer, no separate shadow: cream extrudes burnt orange, pink a deep pink, everything else ink.
 	const auto Depth = !Enabled ? DisabledInk : Reading ? OrangeDepth : PinkFace ? PinkDepth : Ink;
-	if (HasShadow(Keyline))
+	if (Shadowed)
 	{
 		const FLinearColor Shadow = Ink.CopyWithNewOpacity(ShadowOpacity);
 		Shape(Out, Layer, G, ShadowOffset(Keyline), FaceSize, R, Slanted, Shadow, Shadow, Tint);
@@ -112,7 +112,7 @@ void Surface(FSlateWindowElementList &Out, int32 Layer, const FGeometry &G, FLin
 	const float K = Focused ? Keyline + 2.f : Keyline;
 	Shape(Out, Layer + 3, G, Offset + FVector2f(K, K), FaceSize - FVector2f(2 * K, 2 * K), FMath::Max(2.f, R - K),
 	      Slanted, Top, Bottom, Tint);
-	if (Focused)
+	if (Focused && Pointer)
 	{
 		// Filled upright pointer follows the slanted left edge and the face's optical centre.
 		const float Y = FaceSize.Y * .5f - 2;
@@ -142,8 +142,11 @@ class SDesignBorder : public SBorder
 			Shape(Out, L, G, FVector2f(0, 0), FVector2f(G.GetLocalSize()), Owner->BorderlessRadius, true, Fill, Fill,
 			      S.GetColorAndOpacityTint());
 		else
-			Surface(Out, L, G, Fill, S.GetColorAndOpacityTint(), true, false, false, ShouldBeEnabled(E),
-			        Owner.IsValid() ? Owner->BorderWidth : FixHimDesign::ButtonBorder);
+		{
+			const float Width = Owner.IsValid() ? Owner->BorderWidth : FixHimDesign::ButtonBorder;
+			Surface(Out, L, G, Fill, S.GetColorAndOpacityTint(), true, false, false, ShouldBeEnabled(E), Width,
+			        FixHimDesign::HasShadow(Width));
+		}
 		return SCompoundWidget::OnPaint(A, G, C, Out, L + 5, S, E);
 	}
 };
@@ -172,8 +175,10 @@ class SDesignButton : public SButton
 		const FLinearColor Fill = !Enabled                    ? Disabled
 		                          : Owner->bPrimary || Active ? FixHimDesign::Pink
 		                                                      : FixHimDesign::Cream;
+		// Standalone buttons cast the popup shadow. Buttons with a leading icon skip the focus pointer: it would
+		// sit on top of the icon, and the white keyline and lift already mark focus.
 		Surface(Out, L, G, Fill, S.GetColorAndOpacityTint(), true, Focused, Pressed, Enabled,
-		        FixHimDesign::ButtonBorder);
+		        FixHimDesign::ButtonBorder, Owner->bStandalone, !Owner->LeadingIcon);
 		FWidgetStyle ChildStyle = S;
 		ChildStyle.SetForegroundColor(!Enabled ? DisabledInk : Owner->bPrimary || Active ? FLinearColor::White : Ink);
 		// Preserve the specified disabled ink rather than applying Slate's additional gray-out shader.

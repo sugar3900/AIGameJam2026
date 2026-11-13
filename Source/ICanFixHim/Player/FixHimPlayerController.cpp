@@ -103,6 +103,10 @@ void AFixHimPlayerController::BeginPlay()
 		if (It->ActorHasTag(TEXT("TitleCamera")))
 		{
 			TitleCamera = *It;
+			// Cine cameras constrain to their filmback (16:9) by default, which letterboxes the title on any other
+			// window shape (16:10 laptops, ultrawide). Fill the viewport instead; the menu sits on the left anyway.
+			if (UCameraComponent *Cam = It->GetCameraComponent())
+				Cam->SetConstraintAspectRatio(false);
 			if (It->ActorHasTag(TEXT("TitleCameraAsPlaced")))
 			{
 				// The level placed this camera for its own layout (e.g. L_Apartment_Rev02): use it as is.

@@ -170,11 +170,9 @@ UFixHimButton *UFixHimButton::Make(UWidgetTree *Tree, const FString &LabelText, 
 		Box->SetWidthOverride(28);
 		Box->SetHeightOverride(28);
 		auto *Icon = FixHimDesign::Icon(Tree, LeadingIcon, FLinearColor::White);
-		Icon->SetColorAndOpacity(FLinearColor::White);
-		// Use foreground tint so icons follow hover, focus and disabled labels.
-		FSlateBrush IconBrush = Icon->GetBrush();
-		IconBrush.TintColor = FSlateColor::UseForeground();
-		Icon->SetBrush(IconBrush);
+		// Bound rather than foreground-tinted: cream faces want an orange icon beside an ink label.
+		Icon->ColorAndOpacityDelegate.BindUFunction(B, GET_FUNCTION_NAME_CHECKED(UFixHimButton, GetIconTint));
+		B->LeadingIcon = Icon;
 		Box->AddChild(Icon);
 		Row->AddChildToHorizontalBox(Box)->SetVerticalAlignment(VAlign_Center);
 		// Fill, not auto: a wrapping label in an auto slot can settle on a too-narrow wrap width.
@@ -187,7 +185,8 @@ UFixHimButton *UFixHimButton::Make(UWidgetTree *Tree, const FString &LabelText, 
 	}
 	if (auto *Slot = Cast<UButtonSlot>(B->AddChild(Content)))
 	{
-		Slot->SetPadding(FMargin(52, 16, 38, 16 + FixHimDesign::Extrusion));
+		// Icons sit closer to the slanted edge than bare labels (no focus pointer on icon buttons).
+		Slot->SetPadding(FMargin(LeadingIcon.IsEmpty() ? 52 : 36, 16, 38, 16 + FixHimDesign::Extrusion));
 		Slot->SetHorizontalAlignment(HAlign_Fill);
 		// Fill, not centre: Slate's centred alignment offsets by (top - bottom) padding, which pulls content up
 		// by half the extrusion allowance. Filling the padded box keeps the label centred on the face.
@@ -205,6 +204,41 @@ UFixHimButton *UFixHimButton::Make(UWidgetTree *Tree, const FString &LabelText, 
 		}
 	}
 	return B;
+}
+
+UFixHimButton *UFixHimButton::MakeStandalone(UWidgetTree *Tree, const FString &LabelText, TFunction<void()> InOnClick,
+                                             bool bPrimary, const FString &LeadingIcon)
+{
+	using namespace FixHimDesign;
+	UFixHimButton *B = Make(Tree, LabelText, MoveTemp(InOnClick), StandaloneLabel, bPrimary, LeadingIcon);
+	B->bStandalone = true;
+	if (auto *Slot = Cast<UButtonSlot>(B->GetContentSlot()))
+	{
+		// Taller face; the right and bottom also make room for the shadow beyond the extrusion.
+		constexpr float PadY = 22.f;
+		Slot->SetPadding(FMargin(LeadingIcon.IsEmpty() ? 56 : 38, PadY, 38 + ShadowExtraX,
+		                         PadY + DepthReserveY(ButtonBorder, true)));
+	}
+	if (B->LeadingIcon)
+	{
+		if (auto *Box = Cast<USizeBox>(B->LeadingIcon->GetParent()))
+		{
+			Box->SetWidthOverride(36);
+			Box->SetHeightOverride(36);
+		}
+		if (auto *LabelSlot = Cast<UHorizontalBoxSlot>(B->Label->Slot))
+			LabelSlot->SetPadding(FMargin(20, 0, 0, 0));
+	}
+	return B;
+}
+
+FLinearColor UFixHimButton::GetIconTint()
+{
+	using namespace FixHimDesign;
+	if (!GetIsEnabled())
+		return DisabledInk;
+	const bool Active = HasKeyboardFocus() || bSelected || IsPressed() || bPreviewPressed || IsHovered();
+	return bPrimary || Active ? FLinearColor::White : Orange;
 }
 
 void UFixHimSlider::Init(TFunction<void(float)> InOnChanged)

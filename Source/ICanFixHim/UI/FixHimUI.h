@@ -15,6 +15,7 @@
 #include "FixHimUI.generated.h"
 
 class UTextBlock;
+class UImage;
 class UBorder;
 class UVerticalBox;
 class UWidgetTree;
@@ -79,8 +80,17 @@ class ICANFIXHIM_API UFixHimButton : public UButton
 	/** Builds a styled pill button with a centred label. */
 	static UFixHimButton *Make(UWidgetTree *Tree, const FString &Label, TFunction<void()> OnClick, int32 FontSize = 22,
 	                           bool bPrimary = true, const FString &LeadingIcon = FString());
+	/**
+	 * Large standalone button for menus that sit straight on the scene (title): taller face, a StandaloneLabel
+	 * label, a bigger icon and the popup-weight 50% ink shadow, since there is no panel underneath.
+	 */
+	static UFixHimButton *MakeStandalone(UWidgetTree *Tree, const FString &Label, TFunction<void()> OnClick,
+	                                     bool bPrimary, const FString &LeadingIcon);
 
 	UPROPERTY() TObjectPtr<UTextBlock> Label;
+	/** Leading icon, if any. Orange on cream faces, white on pink, disabled ink when disabled (see GetIconTint). */
+	UPROPERTY() TObjectPtr<UImage> LeadingIcon;
+	bool bStandalone = false;
 	bool bDesignSurface = false;
 	bool bInlineTopic = false;
 	EFixHimButtonVariant Variant = EFixHimButtonVariant::Spatial;
@@ -95,6 +105,8 @@ class ICANFIXHIM_API UFixHimButton : public UButton
 	virtual TSharedRef<SWidget> RebuildWidget() override;
 
   private:
+	UFUNCTION()
+	FLinearColor GetIconTint();
 	UFUNCTION()
 	void HandleClicked();
 	UFUNCTION()

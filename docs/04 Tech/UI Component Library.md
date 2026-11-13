@@ -41,6 +41,10 @@ Use the common popup `MakeCardScreen` rather than building a new modal frame per
 
 `UFixHimButton::Make` creates a wrapping labelled action button and accepts its existing callback. `SetVariant(EFixHimButtonVariant)` selects a semantic variant. The legacy boolean overload remains for existing callers. `Label` is available for alignment and content updates.
 
+`UFixHimButton::MakeStandalone` is the large standalone variant for menus that sit directly on the scene (the title). It has a taller face and a `StandaloneLabel` (32) label, a third larger than `Label`. It uses a 36-unit icon and casts the popup-weight 50% ink shadow (`bStandalone`), since there is no panel underneath.
+
+Leading icons on any button are tinted by `GetIconTint`: orange on cream faces, white on pink or active faces, disabled ink when disabled. They sit 36 units in (38 on standalone buttons) instead of the bare label's 52. Buttons with an icon skip the focus pointer, because the white keyline and lift already mark focus.
+
 Action labels use Barlow Condensed ExtraBold, mixed case, sheared 12°. Replies, spoken lines and narration all use Barlow SemiBold at 26 units, sheared 12° (narration in teal); the dialogue line area is sheared as one block so the typewriter and final topic layouts match. Actions have a content-driven height with a 72-unit minimum in menus, allowing enlarged text to grow.
 
 States: idle, hover, keyboard/gamepad focus, pressed, selected and disabled. Selected reuses the focus treatment. Keyboard/gamepad focus shows a filled white pointer, a white contour and a small lift; hover changes only the fill. State meaning does not rely on pink alone. Pressing moves the face towards its extrusion; disabled uses neutral surface/ink. No heart is added to a reply to predict relationship outcomes.
