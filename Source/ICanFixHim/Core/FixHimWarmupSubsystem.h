@@ -53,8 +53,9 @@ private:
 	double StartTime = 0.0;
 	double NextReportTime = 0.0;
 	double NextTraceTime = 0.0;
-	/** When the bar last moved; caps how far the next step may go. */
-	double LastAdvanceTime = 0.0;
+	double LastUpdateTime = 0.0;
+	/** Frame time (each frame clamped) since the bar last moved; caps how far the next step may go. */
+	float AdvanceBudgetSeconds = 0.f;
 	int32 FramesTicked = 0;
 	int32 IdleFrames = 0;
 	int32 PeakRemaining = 0;

@@ -12,6 +12,7 @@
 #include "PipelineStateCache.h"
 #if WITH_EDITOR
 #include "AssetCompilingManager.h"
+#include "IAssetCompilingManager.h"
 #include "ShaderCompiler.h"
 #endif
 
@@ -25,6 +26,8 @@ namespace
 	constexpr float MaxProgressBeforeReady = 0.97f;
 	/** Fastest the bar may fill (fraction per second since it last moved), so a burst of cache hits can't fill most of it. */
 	constexpr float MaxProgressPerSecond = 0.2f;
+	/** Longest a single frame counts toward that cap, so one hitch can't release a big step. */
+	constexpr float MaxFrameSeconds = 0.1f;
 	/** How often to log progress while still waiting. There is no timeout: the game never starts with work outstanding. */
 	constexpr double ReportIntervalSeconds = 15.0;
 
@@ -59,7 +62,8 @@ void UFixHimWarmupSubsystem::Begin(UWorld& World)
 	IdleFrames = 0;
 	PeakRemaining = 0;
 	LastRemaining = 0;
-	LastAdvanceTime = 0.0;
+	LastUpdateTime = 0.0;
+	AdvanceBudgetSeconds = 0.f;
 	Progress = 0.f;
 	// Loading starts each material's shader compilation (or DDC fetch) in the editor; Update waits for it to finish
 	// while the loading screen draws.
@@ -88,10 +92,13 @@ bool UFixHimWarmupSubsystem::Update()
 	IdleFrames = Remaining == 0 ? IdleFrames + 1 : 0;
 
 	const double Now = FPlatformTime::Seconds();
-	if (LastAdvanceTime <= 0.0)
+	// A hitch (the first frames after BeginPlay often take a second or more) counts as one short frame, so cache hits
+	// finishing during it can't claim the whole hitch's worth of bar.
+	if (LastUpdateTime > 0.0)
 	{
-		LastAdvanceTime = Now;
+		AdvanceBudgetSeconds += FMath::Min(float(Now - LastUpdateTime), MaxFrameSeconds);
 	}
+	LastUpdateTime = Now;
 
 	// Each finished item moves the bar by its share of what is still outstanding, so the bar advances whenever anything
 	// completes and work queued late only slows it down (a fraction of the peak count instead races ahead on an early
@@ -100,13 +107,15 @@ bool UFixHimWarmupSubsystem::Update()
 	// time. So a step may cover at most MaxProgressPerSecond times the time since the bar last moved: a burst finishing
 	// over consecutive frames fills only a small part of the bar, while a slow item finishing after a long wait still
 	// gets its full share. Whatever the burst couldn't take stays with the items that remain.
+	// "Items" mix units (one shader job, one shader map, one texture, one PSO) and the count is net of new arrivals, so
+	// this is a pacing heuristic, not a measurement; tune it against the Verbose trace below.
 	const int32 Finished = FMath::Max(0, LastRemaining - Remaining);
 	LastRemaining = Remaining;
 	if (Finished > 0)
 	{
-		const float Share = (MaxProgressBeforeReady - Progress) * float(Finished) / float(Finished + Remaining);
-		Progress += FMath::Min(Share, MaxProgressPerSecond * float(Now - LastAdvanceTime));
-		LastAdvanceTime = Now;
+		const float Share = FMath::Max(0.f, (MaxProgressBeforeReady - Progress) * float(Finished) / float(Finished + Remaining));
+		Progress = FMath::Min(Progress + FMath::Min(Share, MaxProgressPerSecond * AdvanceBudgetSeconds), MaxProgressBeforeReady);
+		AdvanceBudgetSeconds = 0.f;
 	}
 
 #if WITH_EDITOR
