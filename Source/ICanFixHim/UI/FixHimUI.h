@@ -232,7 +232,8 @@ class ICANFIXHIM_API UFixHimWidget : public UUserWidget
 	void SetHeaderBadge(const FString &Icon, const FLinearColor &Fill, const FLinearColor &Depth,
 	                    const FLinearColor &IconTint);
 	UPROPERTY() TObjectPtr<UWidget> HeaderBadge;
-	static constexpr float HeaderBadgeScale = 1.5f;
+	/** Drawn size 56 * this = 108, the dialogue name plate's height. */
+	static constexpr float HeaderBadgeScale = 108.f / 56.f;
 	UPROPERTY() TObjectPtr<UBorder> HeaderBadgeFace;
 	UPROPERTY() TObjectPtr<UBorder> HeaderBadgeDepth;
 	UPROPERTY() TObjectPtr<UBorder> HeaderPlate;

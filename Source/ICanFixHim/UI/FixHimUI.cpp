@@ -513,7 +513,8 @@ UWidget *UFixHimWidget::MakeHeaderedSurface(UBorder *Surface, const FString &Tit
 	Header->SetContent(Fit);
 	HeaderPlate = Header;
 
-	// Optional icon badge (SetHeaderBadge), centred on the plate's slanted left edge. Laid out at 56 and drawn
+	// Optional icon badge (SetHeaderBadge) at the plate's left end, like the dialogue name plate at the start of the
+	// meter strip (its left edge on the plate's slanted left edge, centred vertically). Laid out at 56 and drawn
 	// BadgeScale larger, so it overhangs the plate above and below like the dialogue name plate without changing
 	// the header's measured height (SyncHeaderLayouts). Keyline and extrusion are pre-divided so they draw at
 	// button weight.
@@ -547,7 +548,9 @@ UWidget *UFixHimWidget::MakeHeaderedSurface(UBorder *Surface, const FString &Tit
 	const float PlateFaceH = 10 + Heading->GetFont().Size * 1.25f + 10;
 	BadgeSlot->SetPadding(FMargin(0, PlateFaceH * .5f - BadgeFace * .5f, 0, 0));
 	FWidgetTransform BadgeTransform;
-	BadgeTransform.Translation = FVector2D(PlateFaceH * .5f * Slant - BadgeFace * .5f, 0);
+	// Scaling about the face centre moves its left edge by Face/2 * (Scale - 1); undo that, then step onto the
+	// plate's left edge at mid-height.
+	BadgeTransform.Translation = FVector2D(PlateFaceH * .5f * Slant + BadgeFace * .5f * (HeaderBadgeScale - 1.f), 0);
 	BadgeTransform.Scale = FVector2D(HeaderBadgeScale);
 	Badge->SetRenderTransform(BadgeTransform);
 	// Pivot on the face's centre (the overlay also holds the extrusion offset).
@@ -566,9 +569,9 @@ void UFixHimWidget::SetHeaderBadge(const FString &Icon, const FLinearColor &Fill
 	HeaderBadgeFace->SetBrush(Rounded(Fill, R, FLinearColor::White, FixHimDesign::ButtonBorder / HeaderBadgeScale));
 	HeaderBadgeFace->SetContent(FixHimDesign::Icon(WidgetTree, Icon, IconTint));
 	HeaderBadge->SetVisibility(ESlateVisibility::HitTestInvisible);
-	// Keep the title centred on the plate and clear of the badge's overhang.
+	// Centre the title in the plate beside the badge, like the meter strip beside the dialogue name plate.
 	if (HeaderPlate)
-		HeaderPlate->SetPadding(FMargin(32 + 46, 10, 40 + 46, 10 + FixHimDesign::Extrusion));
+		HeaderPlate->SetPadding(FMargin(32 + 100, 10, 40, 10 + FixHimDesign::Extrusion));
 }
 
 UWidget *UFixHimWidget::MakeHeaderedSurface(UBorder *Surface, UWidget *Header, const FMargin &Padding, float Inset)
