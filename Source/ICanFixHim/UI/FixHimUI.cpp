@@ -21,6 +21,7 @@
 #include "Engine/Texture2D.h"
 #include "Fonts/CompositeFont.h"
 #include "UObject/StrongObjectPtr.h"
+#include "Components/ScaleBox.h"
 #include "Components/ScrollBox.h"
 #include "Components/EditableTextBox.h"
 #include "Components/ScrollBoxSlot.h"
@@ -499,11 +500,17 @@ UWidget *UFixHimWidget::MakeHeaderedSurface(UBorder *Surface, const FString &Tit
 		return Surface;
 	auto *Heading = MakeText(WidgetTree, Title.ToUpper(), FixHimDesign::Heading, Cream, TEXT("Display"));
 	Heading->SetJustification(ETextJustify::Center);
+	HeaderTitle = Heading;
 	auto *Header = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Header->SetBrush(Rounded(FixHimDesign::Teal, 12));
 	Header->SetPadding(FMargin(32, 10, 40, 10 + FixHimDesign::Extrusion));
 	Heading->SetRenderTranslation(FVector2D(0, Heading->GetFont().Size * FixHimDesign::CapCentre));
-	Header->SetContent(Heading);
+	// Long titles (the ending categories) shrink to fit the plate rather than spill past it; short ones are untouched.
+	auto *Fit = WidgetTree->ConstructWidget<UScaleBox>();
+	Fit->SetStretch(EStretch::ScaleToFit);
+	Fit->SetStretchDirection(EStretchDirection::DownOnly);
+	Fit->SetContent(Heading);
+	Header->SetContent(Fit);
 	return MakeHeaderedSurface(Surface, Header, Padding);
 }
 

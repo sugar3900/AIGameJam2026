@@ -223,6 +223,8 @@ class ICANFIXHIM_API UFixHimWidget : public UUserWidget
 
 	/** The cream surface built by MakeCardScreen. */
 	UPROPERTY() TObjectPtr<UBorder> CardSurface;
+	/** Text on the most recent MakeHeaderedSurface title plate, for screens whose title is set later (ending). */
+	UPROPERTY() TObjectPtr<UTextBlock> HeaderTitle;
 
 	/**
 	 * Wraps a slanted surface so a teal title plate straddles its top edge: the plate's face is centred vertically

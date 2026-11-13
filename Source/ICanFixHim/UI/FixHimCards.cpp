@@ -241,15 +241,12 @@ void UFixHimIntroCardWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 
 void UFixHimEndingCardWidget::BuildUI()
 {
-	UVerticalBox* Col = MakeCardScreen(TEXT(""), 1040.f); // wide enough that the longest ending (~360 characters) fits without scrolling
+	// The ending category is the card's title plate (set in Setup). Wide enough that the longest ending
+	// (~360 characters) fits without scrolling.
+	UVerticalBox* Col = MakeCardScreen(TEXT("Ending"), 1040.f);
 	OpenSfx = NAME_None; // the ending jingle covers it
 	OutsideClickMinAge = 0.8f;
 	Col->ClearChildren();
-
-	Kind = MakeText(WidgetTree, TEXT("ENDING"), 20, Pink, TEXT("Bold"));
-	Kind->SetJustification(ETextJustify::Center);
-	Kind->SetAutoWrapText(true);
-	Col->AddChildToVerticalBox(Kind);
 
 	Title = MakeText(WidgetTree, TEXT("Title"), 44, HotPink, TEXT("Display"));
 	Title->SetJustification(ETextJustify::Center);
@@ -275,16 +272,14 @@ void UFixHimEndingCardWidget::BuildUI()
 
 void UFixHimEndingCardWidget::Setup(const FHunkDefinition& Def, const FString& EndingId, int32 FixedCount, int32 TotalCount)
 {
-	FString KindText;
-	FLinearColor KindColor = Pink;
-	if (EndingId == TEXT("romance_success")) { KindText = TEXT("ROMANCE  -  HAPPILY EVER AFTER"); KindColor = HotPink; }
-	else if (EndingId == TEXT("romance_failure")) { KindText = TEXT("ROMANCE  -  IT'S NOT ME, IT'S YOUR FOUNDATION"); KindColor = Plum; }
-	else if (EndingId == TEXT("friend_success")) { KindText = TEXT("FRIENDSHIP  -  BESTIES"); KindColor = PlumSoft; }
-	else { KindText = TEXT("FRIENDSHIP  -  SWORN ENEMIES"); KindColor = Plum; }
+	const TCHAR* KindText = EndingId == TEXT("romance_success") ? TEXT("Romance  -  Happily ever after")
+	                      : EndingId == TEXT("romance_failure") ? TEXT("Romance  -  It's not me, it's your foundation")
+	                      : EndingId == TEXT("friend_success")  ? TEXT("Friendship  -  Besties")
+	                                                             : TEXT("Friendship  -  Sworn enemies");
 
 	FixHim::Sfx(this, EndingId == TEXT("romance_success") ? "EndingRomance" : EndingId == TEXT("friend_success") ? "EndingFriend" : "EndingFail");
-	Kind->SetText(FText::FromString(KindText));
-	Kind->SetColorAndOpacity(FSlateColor(KindColor));
+	if (HeaderTitle)
+		HeaderTitle->SetText(FText::FromString(FString(KindText).ToUpper()));
 
 	const FHunkEnding* Ending = Def.Endings.Find(EndingId);
 	Title->SetText(FText::FromString(Ending ? Ending->Title : Def.Name));
