@@ -351,7 +351,9 @@ class SDesignStack : public SVerticalBox
 		SVerticalBox::OnArrangeChildren(Inner, Base);
 		for (const FArrangedWidget &Child : Base.GetInternalArray())
 		{
-			FVector2D Pos = G.AbsoluteToLocal(Child.Geometry.GetAbsolutePosition());
+			// Layout position only: GetAbsolutePosition() includes the child's render transform (text shear), which
+			// MakeChild below applies again, so sheared rows would drift right by half their height * tan(12).
+			FVector2D Pos = G.AbsoluteToLocal(FVector2D(Child.Geometry.GetAccumulatedLayoutTransform().GetTranslation()));
 			Pos.X += (Size.Y - Pos.Y - Child.Geometry.GetLocalSize().Y * .5f) * FixHimDesign::Slant;
 			Children.AddWidget(G.MakeChild(Child.Widget, Pos, Child.Geometry.GetLocalSize()));
 		}
