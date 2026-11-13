@@ -4,6 +4,8 @@
 #include "Core/FixHimWarmupSubsystem.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/Border.h"
+#include "Components/Image.h"
+#include "Engine/Texture2D.h"
 #include "Components/Overlay.h"
 #include "Components/OverlaySlot.h"
 #include "Components/ProgressBar.h"
@@ -19,38 +21,41 @@ void UFixHimLoadingWidget::BuildUI()
 	UOverlay* Root = WidgetTree->ConstructWidget<UOverlay>();
 	WidgetTree->RootWidget = Root;
 
-	// Fully opaque: the level behind is still preparing and must not be seen.
+	// Fully opaque: the level behind is still preparing and must not be seen. Teal, like the title backdrop.
 	UBorder* Backdrop = WidgetTree->ConstructWidget<UBorder>();
-	Backdrop->SetBrushColor(Plum);
+	Backdrop->SetBrushColor(FixHimDesign::Teal);
 	Backdrop->SetVisibility(ESlateVisibility::Visible); // swallow clicks meant for the title underneath
 	UOverlaySlot* BackdropSlot = Root->AddChildToOverlay(Backdrop);
 	BackdropSlot->SetHorizontalAlignment(HAlign_Fill);
 	BackdropSlot->SetVerticalAlignment(VAlign_Fill);
 
-	UVerticalBox* Col = WidgetTree->ConstructWidget<UVerticalBox>();
+	// Logo, progress bar and caption on the shared 12-degree placement grid.
+	UVerticalBox* Col = WidgetTree->ConstructWidget<UFixHimStack>();
 	UOverlaySlot* ColSlot = Root->AddChildToOverlay(Col);
 	ColSlot->SetHorizontalAlignment(HAlign_Center);
 	ColSlot->SetVerticalAlignment(VAlign_Center);
 
-	UTextBlock* Small = MakeText(WidgetTree, TEXT("I CAN"), 32, Blush, TEXT("Bold"));
-	Col->AddChildToVerticalBox(Small)->SetHorizontalAlignment(HAlign_Center);
-	UTextBlock* Big = MakeText(WidgetTree, TEXT("FIX HIM"), 84, Pink, TEXT("Bold"));
-	Big->SetShadowOffset(FVector2D(4.f, 4.f));
-	Big->SetShadowColorAndOpacity(FLinearColor(0.f, 0.f, 0.f, 0.55f));
-	UVerticalBoxSlot* BigSlot = Col->AddChildToVerticalBox(Big);
-	BigSlot->SetHorizontalAlignment(HAlign_Center);
-	BigSlot->SetPadding(FMargin(0.f, -18.f, 0.f, 36.f));
+	USizeBox* LogoBox = WidgetTree->ConstructWidget<USizeBox>();
+	LogoBox->SetWidthOverride(420.f);
+	LogoBox->SetHeightOverride(336.f);
+	UImage* Logo = WidgetTree->ConstructWidget<UImage>();
+	Logo->SetBrushFromTexture(LoadObject<UTexture2D>(nullptr, TEXT("/Game/ICanFixHim/UI/Design/Brand/T_Logo.T_Logo")));
+	LogoBox->AddChild(Logo);
+	UVerticalBoxSlot* LogoSlot = Col->AddChildToVerticalBox(LogoBox);
+	LogoSlot->SetHorizontalAlignment(HAlign_Center);
+	LogoSlot->SetPadding(FMargin(0.f, 0.f, 0.f, 36.f));
 
+	// Same construction as the dialogue meters: thick cream track with a white rim, pink fill.
 	USizeBox* BarBox = WidgetTree->ConstructWidget<USizeBox>();
-	BarBox->SetWidthOverride(420.f);
-	BarBox->SetHeightOverride(14.f);
+	BarBox->SetWidthOverride(440.f);
+	BarBox->SetHeightOverride(22.f);
 	Bar = WidgetTree->ConstructWidget<UProgressBar>();
 	FProgressBarStyle Style;
-	Style.SetBackgroundImage(Rounded(PlumSoft, 7.f));
-	Style.SetFillImage(Rounded(FLinearColor::White, 7.f));
-	Style.SetMarqueeImage(Rounded(FLinearColor::White, 7.f));
+	Style.SetBackgroundImage(Rounded(Cream.CopyWithNewOpacity(.9f), 11.f, FLinearColor::White, 2.f));
+	Style.SetFillImage(Rounded(FLinearColor::White, 11.f));
+	Style.SetMarqueeImage(Rounded(FLinearColor::White, 11.f));
 	Bar->SetWidgetStyle(Style);
-	Bar->SetFillColorAndOpacity(Pink);
+	Bar->SetFillColorAndOpacity(FixHimDesign::Pink);
 	Bar->SetPercent(0.f);
 	BarBox->AddChild(Bar);
 	Col->AddChildToVerticalBox(BarBox)->SetHorizontalAlignment(HAlign_Center);
@@ -58,7 +63,7 @@ void UFixHimLoadingWidget::BuildUI()
 	Caption = MakeText(WidgetTree, TEXT("Getting the place ready"), 22, Cream);
 	UVerticalBoxSlot* CaptionSlot = Col->AddChildToVerticalBox(Caption);
 	CaptionSlot->SetHorizontalAlignment(HAlign_Center);
-	CaptionSlot->SetPadding(FMargin(0.f, 16.f, 0.f, 0.f));
+	CaptionSlot->SetPadding(FMargin(0.f, 18.f, 0.f, 0.f));
 }
 
 void UFixHimLoadingWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)

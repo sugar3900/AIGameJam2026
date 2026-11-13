@@ -93,11 +93,12 @@ These supersede parts of the triage above.
 - **HUD:** pink room plate with wrench; cream week plate tucked under a pink repairs badge. Interaction prompts use a borderless 25% ink plate with white text and a solid ink text shadow.
 - **Friction icon:** flame instead of lightning.
 - **Title screen:** logo and menu only (no tagline or footer).
+- **Loading screen** (added on `main` after this branch began): opaque teal backdrop, the logo, a meter-style progress bar (cream track, white rim, pink fill) and a 12° caption, on the shared grid. [Capture](../Attachments/UI%20Review/20-loading.png).
 - **Fixes:** text vertically centred on faces (Slate's centred alignment ignored asymmetric padding); grid stacks no longer shift sheared rows right.
 
 ## Validation
 
-On 2026-11-13, after the review fixes, the UE 5.8 macOS Development Editor build succeeded. Native-window automation completed `FixHim.UI.DesignSystem` and `FixHim.UI.Reticles` successfully. The 24 isolated captures cover 720p, 1080p, 1440p and ultrawide, with options, dialogue and the title tested at 135% text size. The suite checks imported fonts, full authored copy, allocated text heights, keyboard/D-pad traversal, disabled-action skipping, gamepad activation, editable-field navigation and text-size changes on cached screens. Its exported cream swatch matches `#FFF5E5`.
+On 2026-11-13, after the review fixes, the UE 5.8 macOS Development Editor build succeeded. Native-window automation completed `FixHim.UI.DesignSystem` and `FixHim.UI.Reticles` successfully. The 25 isolated captures cover 720p, 1080p, 1440p and ultrawide, with options, dialogue and the title tested at 135% text size. The suite checks imported fonts, full authored copy, allocated text heights, keyboard/D-pad traversal, disabled-action skipping, gamepad activation, editable-field navigation and text-size changes on cached screens. Its exported cream swatch matches `#FFF5E5`.
 
 To regenerate the isolated captures, run `Automation RunTests FixHim.UI` in an editor started on `/Engine/Maps/Entry`. PNGs are written to `Saved/DesignSystem/Review/`. Native-window mode covers macOS input-method activation; `-RenderOffscreen` skips only that OS-context check. The live workshop is opened separately with `FixHim.DesignSystem`.
 

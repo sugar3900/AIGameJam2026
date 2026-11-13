@@ -7,6 +7,7 @@
 #include "UI/FixHimCards.h"
 #include "UI/FixHimFloorPlanWidget.h"
 #include "UI/FixHimHUDWidget.h"
+#include "UI/FixHimLoadingWidget.h"
 #include "Framework/Application/SlateApplication.h"
 #include "Widgets/SWindow.h"
 #include "Components/EditableTextBox.h"
@@ -216,6 +217,8 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 	Save->Options().UITextScale = 1.f;
 	auto *Title = Make.template operator()<UFixHimTitleWidget>();
 	Render(Title, TEXT("08-title-1440p"), {2560, 1440}, {1920, 1080});
+	auto *Loading = Make.template operator()<UFixHimLoadingWidget>();
+	Render(Loading, TEXT("20-loading"), {1920, 1080}, {1920, 1080});
 	auto *Name = Make.template operator()<UFixHimNameEntryWidget>();
 	Render(Name, TEXT("09-name-entry"), {1920, 1080}, {1920, 1080});
 	auto *Door = Make.template operator()<UFixHimDoorPromptWidget>();
