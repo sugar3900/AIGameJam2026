@@ -292,7 +292,10 @@ void UFixHimEndingCardWidget::Setup(const FHunkDefinition& Def, const FString& E
 	const FString PlayerName = SaveSub ? SaveSub->GetPlayerName() : UFixHimSettings::Get()->PlayerName;
 	Body->SetText(FText::FromString(Ending ? Ending->Text.Replace(TEXT("{player}"), *PlayerName) : FString()));
 
-	const FString Fixed = FString::Printf(TEXT("%s repaired.  The house is %d / %d fixed."), *Def.Malady, FixedCount, TotalCount);
+	// The house tally gets its own line, with non-breaking spaces so it never splits.
+	FString Tally = FString::Printf(TEXT("The house is %d / %d fixed."), FixedCount, TotalCount);
+	Tally.ReplaceInline(TEXT(" "), TEXT("\u00A0"));
+	const FString Fixed = FString::Printf(TEXT("%s repaired.\n%s"), *Def.Malady, *Tally);
 	Progress->SetText(FText::FromString(FixedCount >= TotalCount ? Fixed + TEXT("\nEvery man in this house has been fixed. Or at least seen. Home sweet home.") : Fixed));
 	Age = 0.f;
 }
