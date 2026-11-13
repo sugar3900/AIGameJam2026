@@ -222,6 +222,9 @@ class ICANFIXHIM_API UFixHimWidget : public UUserWidget
 
 	/** Optional preferred initial action, for example Continue when a save exists. */
 	UPROPERTY() TObjectPtr<UWidget> InitialFocusTarget;
+	/** When nothing else has focus shortly after showing, focus the first control. The dialogue opts out so no
+	 *  reply starts selected. */
+	bool bFocusFirstControl = true;
 
 	virtual FReply NativeOnMouseButtonDown(const FGeometry &InGeometry, const FPointerEvent &InMouseEvent) override;
 

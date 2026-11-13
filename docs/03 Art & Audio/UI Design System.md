@@ -33,8 +33,9 @@ The teal was shifted cooler and made lighter; friendship shares its approximatel
 | Pink | `#D9005C` | Primary actions, romance, focused replies |
 | White | `#FFFFFF` | Text on teal/pink, separation keylines |
 | Friendship | `#76CADB` | Friendship meter and cool accent |
-| Disabled surface | `#E1E1DE` | Disabled controls |
-| Disabled ink | `#565C60` | Disabled labels and icons |
+| Disabled light | `#E4E1DD` | Disabled keylines, labels and icons |
+| Disabled mid | `#90897F` | Disabled faces (inverted: mid face inside a light keyline) |
+| Disabled dark | `#5E5850` | Disabled extrusions |
 
 Use subtle vertical gradients, lighter top to darker bottom:
 

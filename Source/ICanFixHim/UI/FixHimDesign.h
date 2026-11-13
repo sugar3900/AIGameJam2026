@@ -19,8 +19,13 @@ inline const FLinearColor Pink = FLinearColor::FromSRGBColor(FColor::FromHex(TEX
 inline const FLinearColor PinkDepth = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("99003F")));
 inline const FLinearColor OrangeDepth = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("B35500"))); // keyline orange at 70% value, same hue
 inline const FLinearColor Friendship = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("76CADB")));
-inline const FLinearColor Disabled = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("E1E1DE")));
-inline const FLinearColor DisabledInk = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("565C60")));
+/**
+ * Disabled controls invert to a mid-gray face inside a light-gray keyline, with light-gray labels and icons, over a
+ * dark-gray extrusion. All three are one warm gray (hue ~35, like the cream and orange) at different lightness.
+ */
+inline const FLinearColor DisabledLight = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("E4E1DD")));
+inline const FLinearColor DisabledMid = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("90897F")));
+inline const FLinearColor DisabledDark = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("5E5850")));
 inline const FLinearColor Scrim = Ink.CopyWithNewOpacity(.72f);
 inline constexpr float Slant = 0.2125565617f;        // tan(12 degrees)
 // Text is set in upright faces and sheared the full 12 degrees, so glyphs and wrapped lines both follow the grid.

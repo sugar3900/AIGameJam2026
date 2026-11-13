@@ -84,8 +84,8 @@ FButtonStyle ButtonStyle(const FLinearColor &Normal, const FLinearColor &Hovered
 	Style.SetNormal(Rounded(Normal, Radius, Outline, Outline.A > 0.f ? 2.f : 0.f));
 	Style.SetHovered(Rounded(Hovered, Radius, Outline, Outline.A > 0.f ? 2.f : 0.f));
 	Style.SetPressed(Rounded(Pressed, Radius, Outline, Outline.A > 0.f ? 2.f : 0.f));
-	Style.SetDisabled(Rounded(FixHimDesign::Disabled, Radius, FixHimDesign::DisabledInk, 2));
-	Style.SetDisabledForeground(FSlateColor(FixHimDesign::DisabledInk));
+	Style.SetDisabled(Rounded(FixHimDesign::DisabledMid, Radius, FixHimDesign::DisabledLight, 2));
+	Style.SetDisabledForeground(FSlateColor(FixHimDesign::DisabledLight));
 	Style.SetNormalPadding(FMargin(0));
 	const FVector2f Press = FixHimDesign::DepthOffset(FixHimDesign::ButtonBorder);
 	Style.SetPressedPadding(FMargin(Press.X, Press.Y, -Press.X, -Press.Y)); // follows the face's press offset
@@ -238,7 +238,7 @@ FLinearColor UFixHimButton::GetIconTint()
 	using namespace FixHimDesign;
 	for (const UWidget *W = this; W; W = W->GetParent())
 		if (!W->GetIsEnabled())
-			return DisabledInk; // a disabled container disables the face too (SDesignButton::OnPaint)
+			return DisabledLight; // a disabled container disables the face too (SDesignButton::OnPaint)
 	const bool Active = HasKeyboardFocus() || bSelected || IsPressed() || bPreviewPressed || IsHovered();
 	return bPrimary || Active ? FLinearColor::White : Orange;
 }
@@ -469,7 +469,7 @@ void UFixHimWidget::NativeTick(const FGeometry &MyGeometry, float InDeltaTime)
 			InitialFocusTarget->SetKeyboardFocus();
 			Focused = true;
 		}
-		if (!Focused)
+		if (!Focused && bFocusFirstControl)
 			WidgetTree->ForEachWidget([&](UWidget *W) {
 				if (!Focused &&
 				    (W->IsA<UButton>() || W->IsA<USlider>() || W->IsA<UCheckBox>() || W->IsA<UEditableTextBox>()) &&
