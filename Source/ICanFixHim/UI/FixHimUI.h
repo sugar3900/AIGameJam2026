@@ -15,6 +15,7 @@
 #include "FixHimUI.generated.h"
 
 class UTextBlock;
+class UImage;
 class UBorder;
 class UVerticalBox;
 class UWidgetTree;
@@ -53,6 +54,16 @@ ICANFIXHIM_API UTextBlock *MakeText(UWidgetTree *Tree, const FString &Text, int3
                                     const TCHAR *Typeface = TEXT("Regular"));
 } // namespace FixHimUI
 
+/** Where a MakeCardScreen card sits. Docked cards leave the rest of the screen for art (ending images). */
+enum class EFixHimCardDock : uint8
+{
+	Centre,
+	/** Full width along the bottom, like the dialogue panel. */
+	Bottom,
+	/** Taller column on the left, leaving the right side free. */
+	Left,
+};
+
 UENUM()
 enum class EFixHimButtonVariant : uint8
 {
@@ -79,8 +90,17 @@ class ICANFIXHIM_API UFixHimButton : public UButton
 	/** Builds a styled pill button with a centred label. */
 	static UFixHimButton *Make(UWidgetTree *Tree, const FString &Label, TFunction<void()> OnClick, int32 FontSize = 22,
 	                           bool bPrimary = true, const FString &LeadingIcon = FString());
+	/**
+	 * Large standalone button for menus that sit straight on the scene (title): taller face, a StandaloneLabel
+	 * label, a bigger icon and the popup-weight 50% ink shadow, since there is no panel underneath.
+	 */
+	static UFixHimButton *MakeStandalone(UWidgetTree *Tree, const FString &Label, TFunction<void()> OnClick,
+	                                     bool bPrimary, const FString &LeadingIcon);
 
 	UPROPERTY() TObjectPtr<UTextBlock> Label;
+	/** Leading icon, if any. Orange on cream faces, white on pink, disabled ink when disabled (see GetIconTint). */
+	UPROPERTY() TObjectPtr<UImage> LeadingIcon;
+	bool bStandalone = false;
 	bool bDesignSurface = false;
 	bool bInlineTopic = false;
 	EFixHimButtonVariant Variant = EFixHimButtonVariant::Spatial;
@@ -95,6 +115,8 @@ class ICANFIXHIM_API UFixHimButton : public UButton
 	virtual TSharedRef<SWidget> RebuildWidget() override;
 
   private:
+	UFUNCTION()
+	FLinearColor GetIconTint();
 	UFUNCTION()
 	void HandleClicked();
 	UFUNCTION()
@@ -208,9 +230,29 @@ class ICANFIXHIM_API UFixHimWidget : public UUserWidget
 
 	/** A centred rounded card with a title, returned content box for children. */
 	UVerticalBox *MakeCardScreen(const FString &Title, float Width = 520.f);
+	/** Moves the MakeCardScreen card (centred by default). */
+	void DockCard(EFixHimCardDock Dock);
 
 	/** The cream surface built by MakeCardScreen. */
 	UPROPERTY() TObjectPtr<UBorder> CardSurface;
+	/** Text on the most recent MakeHeaderedSurface title plate, for screens whose title is set later (ending). */
+	UPROPERTY() TObjectPtr<UTextBlock> HeaderTitle;
+	/**
+	 * Shows a round icon badge centred on the left edge of the most recent title plate (hidden by default), drawn
+	 * like the name plate: white keyline over a darker extrusion. Fill and Depth are the face and extrusion colours.
+	 */
+	void SetHeaderBadge(const FString &Icon, const FLinearColor &Fill, const FLinearColor &Depth,
+	                    const FLinearColor &IconTint);
+	UPROPERTY() TObjectPtr<UWidget> HeaderBadge;
+	/** Drawn size 56 * this = 108, the dialogue name plate's height. */
+	static constexpr float HeaderBadgeScale = 108.f / 56.f;
+	/** The badge starts this far left of the plate's edge, and the plate starts this far in, when a badge shows. */
+	static constexpr float HeaderBadgeLead = 5.f, HeaderBadgePlateInset = 20.f;
+	/** Measured residual: the layout-centred badge face drew 2.5 units above the plate face's centre (2026-11-13). */
+	static constexpr float HeaderBadgeDrop = 2.5f;
+	UPROPERTY() TObjectPtr<UBorder> HeaderBadgeFace;
+	UPROPERTY() TObjectPtr<UBorder> HeaderBadgeDepth;
+	UPROPERTY() TObjectPtr<UBorder> HeaderPlate;
 
 	/**
 	 * Wraps a slanted surface so a teal title plate straddles its top edge: the plate's face is centred vertically
@@ -224,6 +266,10 @@ class ICANFIXHIM_API UFixHimWidget : public UUserWidget
   private:
 	/** The card from MakeCardScreen; it grows in with a small overshoot every time the widget is shown. */
 	UPROPERTY() TObjectPtr<UWidget> PopCard;
+	/** MakeCardScreen's width, restored by DockCard(Centre). */
+	float CardWidth = 520.f;
+	/** PopCard's visibility before it was made hit-test invisible while hidden (see NativeTick). */
+	ESlateVisibility PopVisibility = ESlateVisibility::Visible;
 	float PopAge = 0.f;
 
 	struct FHeaderLayout
@@ -232,10 +278,17 @@ class ICANFIXHIM_API UFixHimWidget : public UUserWidget
 		TWeakObjectPtr<UBorder> Surface;
 		FMargin Padding;
 		float Inset = 36.f;
+		/** Balance left/right padding so 12-degree stack rows centre on the slanted face (card screens). */
+		bool bCentreRows = false;
 		FVector2D Measured = FVector2D(-1, -1);
 	};
 	TArray<FHeaderLayout> HeaderLayouts;
-	/** Re-fits straddling headers to their measured plate and surface sizes (text size and content can change). */
-	void SyncHeaderLayouts();
+	/** Re-fits straddling headers to their measured plate and surface sizes (text size and content can change).
+	 * Returns true if anything moved. */
+	bool SyncHeaderLayouts();
+	/** The pop card stays invisible until its layout (wrapping, header fit) stops changing, then pops in. */
+	bool bPopSettled = false;
+	int32 PopStableFrames = 0;
+	FVector2D PopLastSize = FVector2D::ZeroVector;
 	bool bInitialFocus = false;
 };

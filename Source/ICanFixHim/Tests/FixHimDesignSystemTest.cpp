@@ -99,6 +99,9 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 			Renderer.DrawWidget(RT, Scaled, Physical, 0.016f);
 			FlushRenderingCommands();
 		}
+		if (W->PopCard)
+			TestTrue(*FString::Printf(TEXT("%s: card is shown once its layout settles"), *Name),
+			         W->bPopSettled && W->PopCard->GetRenderOpacity() == 1.f);
 		FImage LinearImage, EncodedImage;
 		TestTrue(TEXT("Read linear HDR widget image"), FImageUtils::GetRenderTargetImage(RT, LinearImage));
 		LinearImage.CopyTo(EncodedImage, ERawImageFormat::BGRA8, EGammaSpace::sRGB);
@@ -303,7 +306,7 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 	FHunkDefinition Def;
 	Def.Id = TEXT("tyler");
 	Def.Name = TEXT("Tyler");
-	Def.Malady = TEXT("Pink bathroom tile");
+	Def.Malady = TEXT("Pink Tile");
 	Def.Tagline = TEXT("Some things deserve to stay pink.");
 	Def.Portrait = TEXT("/Game/ICanFixHim/UI/Portraits/T_Portrait_Tyler.T_Portrait_Tyler");
 	Intro->Setup(Def, nullptr, [] {});
@@ -312,12 +315,42 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 	Render(Intro, TEXT("13-character-introduction"), {1920, 1080}, {1920, 1080});
 	auto *Ending = Make.template operator()<UFixHimEndingCardWidget>();
 	Ending->TakeWidget();
+	// The longest authored ending (Malcolm, romance success, ~360 characters), read from the shipped dialogue so
+	// the capture shows the tallest card the game can produce.
+	FString MalcolmJson;
+	TSharedPtr<FJsonObject> Malcolm;
+	TestTrue(TEXT("Load Malcolm's dialogue for the ending card"),
+	         FFileHelper::LoadFileToString(
+	             MalcolmJson, *(FPaths::ProjectContentDir() / TEXT("ICanFixHim/Data/Dialogue/malcolm.json"))) &&
+	             FJsonSerializer::Deserialize(TJsonReaderFactory<>::Create(MalcolmJson), Malcolm) && Malcolm);
+	FHunkDefinition EndingDef;
 	FHunkEnding EndingData;
-	EndingData.Title = TEXT("A little rough around the edges");
-	EndingData.Text = LongReply;
-	Def.Endings.Add(TEXT("friend_success"), EndingData);
-	Ending->Setup(Def, TEXT("friend_success"), 2, 4);
+	if (Malcolm)
+	{
+		const TSharedPtr<FJsonObject> Romance =
+		    Malcolm->GetObjectField(TEXT("endings"))->GetObjectField(TEXT("romance_success"));
+		EndingDef.Id = TEXT("malcolm");
+		EndingDef.Name = Malcolm->GetStringField(TEXT("name"));
+		EndingDef.Malady = Malcolm->GetStringField(TEXT("malady"));
+		EndingData.Title = Romance->GetStringField(TEXT("title"));
+		EndingData.Text = Romance->GetStringField(TEXT("text"));
+	}
+	EndingDef.Endings.Add(TEXT("romance_success"), EndingData);
+	Ending->Setup(EndingDef, TEXT("romance_success"), 2, 4);
 	Render(Ending, TEXT("14-ending-card"), {1920, 1080}, {1920, 1080});
+	// A failure ending (flame badge) with the longest authored ending title on the plate (Lukey, 26 characters).
+	auto *Failure = Make.template operator()<UFixHimEndingCardWidget>();
+	Failure->TakeWidget();
+	FHunkEnding LongTitle = EndingData;
+	LongTitle.Title = TEXT("Head Over Heels Over Pipes");
+	EndingDef.Endings.Add(TEXT("romance_failure"), LongTitle);
+	Failure->Setup(EndingDef, TEXT("romance_failure"), 2, 4);
+	Render(Failure, TEXT("14-ending-card-long-label"), {1920, 1080}, {1920, 1080});
+	auto *Friends = Make.template operator()<UFixHimEndingCardWidget>();
+	Friends->TakeWidget();
+	EndingDef.Endings.Add(TEXT("friend_success"), EndingData);
+	Friends->Setup(EndingDef, TEXT("friend_success"), 2, 4);
+	Render(Friends, TEXT("14-ending-card-friendship"), {1920, 1080}, {1920, 1080});
 	auto *Transition = Make.template operator()<UFixHimTransitionWidget>();
 	Transition->TakeWidget();
 	Transition->Play(TEXT("WEEK TWO"), TEXT("A fresh coat. A fresh start."), true, true, [] {}, [] {});
@@ -337,6 +370,26 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 	HUD->SetReticle(true, EFixHimInteractionAction::Talk, FText::FromString(TEXT("Talk to Wyatt")));
 	HUD->ShowToast(TEXT("A little less broken."), 4.f, false);
 	Render(HUD, TEXT("17-hud-labels"), {1920, 1080}, {1920, 1080});
+	// Over the ending card the HUD shows only its header, with the repair as the toast (composited for review).
+	auto *EndingHUD = Make.template operator()<UFixHimHUDWidget>();
+	EndingHUD->TakeWidget();
+	EndingHUD->SetRoomName(FText::FromString(TEXT("Bedroom"))); // Malcolm's room
+	EndingHUD->SetRepairs(2, 4, 2, 4);
+	EndingHUD->SetReticle(false, EFixHimInteractionAction::None, FText::GetEmpty());
+	EndingHUD->PinToast(TEXT("Black Mold Repaired"));
+	EndingHUD->ShowToast(TEXT("Saved"), 1.f, false);
+	TestEqual(TEXT("A pinned toast is not replaced"), EndingHUD->GetToastText(), FString(TEXT("Black Mold Repaired")));
+	Render(EndingHUD, TEXT("14-ending-card-hud"), {1920, 1080}, {1920, 1080});
+	// Docked trials that leave room for ending art.
+	for (const auto &[CardDock, CardName] : {TPair<EFixHimCardDock, const TCHAR *>(EFixHimCardDock::Bottom, TEXT("14-ending-card-bottom")),
+	                                 TPair<EFixHimCardDock, const TCHAR *>(EFixHimCardDock::Left, TEXT("14-ending-card-left"))})
+	{
+		auto *Docked = Make.template operator()<UFixHimEndingCardWidget>();
+		Docked->TakeWidget();
+		Docked->Setup(EndingDef, TEXT("romance_success"), 2, 4);
+		Docked->SetDock(CardDock);
+		Render(Docked, CardName, {1920, 1080}, {1920, 1080});
+	}
 	// Every audited authored exchange is also rendered unshortened, including active topic links.
 	int32 FixtureIndex = 0;
 	for (const auto &Value : Fixtures->GetArrayField(TEXT("fixtures")))

@@ -27,7 +27,7 @@ The contour is generated at the current allocated size with tessellated rounded 
 
 `UFixHimStack` is a vertical layout whose child anchors follow the 12° grid. It reserves the required horizontal space, adjusts row positions along the grid, and keeps each child's own geometry upright. It positions rows from their layout transform only, so a row's own render transform (text shear) is not applied twice. Use it for card content and menu columns. Keep spatial floor-plan cells rectangular so the room geometry remains truthful.
 
-Use the common popup `MakeCardScreen` rather than building a new modal frame per screen. It supplies the scrim, surface, header, bounded scrolling, opening motion and click-outside boundary. A titleless shell supports ending cards. Actions stack vertically.
+Use the common popup `MakeCardScreen` rather than building a new modal frame per screen. It supplies the scrim, surface, header, bounded scrolling, opening motion and click-outside boundary. The card stays invisible until its layout stops changing (wrapped text settling, header re-fit), then pops in, so the reflow is never seen. `DockCard(EFixHimCardDock)` moves the card to the bottom at full width or into a half-screen left column; the ending card uses Bottom. Card content stacks cap their total lean at 120 units (`UFixHimStack::MaxLean`): an uncapped stack narrows every row by its height × tan 12°, so long text would narrow, wrap and grow in a loop. The ending card is 1040 wide so the longest authored ending (Malcolm's, ~360 characters) fits without scrolling; the review capture uses that text. Its left/right padding is balanced so that buttons' top layer (face and keyline, not the extrusion) centres on the card's face despite the 12° row stagger and the card's own extrusion, shadow and header reserve. Actions stack vertically.
 
 ## Buttons and inline topics
 
@@ -40,6 +40,10 @@ Use the common popup `MakeCardScreen` rather than building a new modal frame per
 | Spatial | Stock rectangular control for the floor-plan's actual room footprints |
 
 `UFixHimButton::Make` creates a wrapping labelled action button and accepts its existing callback. `SetVariant(EFixHimButtonVariant)` selects a semantic variant. The legacy boolean overload remains for existing callers. `Label` is available for alignment and content updates.
+
+`UFixHimButton::MakeStandalone` is the large standalone variant for menus that sit directly on the scene (the title). It has a taller face and a `StandaloneLabel` (32) label, a third larger than `Label`. It uses a 36-unit icon and casts the popup-weight 50% ink shadow (`bStandalone`), since there is no panel underneath.
+
+Leading icons on any button are tinted by `GetIconTint`: orange on cream faces, white on pink or active faces, disabled ink when disabled. They sit 36 units in (38 on standalone buttons) instead of the bare label's 52. Buttons with an icon skip the focus pointer, because the white keyline and lift already mark focus.
 
 Action labels use Barlow Condensed ExtraBold, mixed case, sheared 12°. Replies, spoken lines and narration all use Barlow SemiBold at 26 units, sheared 12° (narration in teal); the dialogue line area is sheared as one block so the typewriter and final topic layouts match. Actions have a content-driven height with a 72-unit minimum in menus, allowing enlarged text to grow.
 
@@ -65,7 +69,7 @@ Dialogue retains its typewriter, clickable topic callbacks and authored choices.
 
 Keyline width comes from `FixHimDesign::ButtonBorder` (6) and `PopupBorder` (12); set `UFixHimSurface::BorderWidth` for large containers. The extrusion is derived from it (`DepthOffset`, `DepthReserveX/Y`: border down, half that across) and coloured `OrangeDepth`, `PinkDepth` or ink. To centre text on a surface, use `bottom = top + FixHimDesign::Extrusion` padding and fill (not centre) alignment for button content: Slate's centred slot alignment ignores asymmetric padding and would lift labels by half the extrusion. `FixHimDesign::CapCentre` (-0.05 em) centres capitals rather than the line box.
 
-`UFixHimWidget::MakeHeaderedSurface` wraps any slanted surface with a teal title plate straddling its top edge. `MakeCardScreen` and the floor plan use it; the plate position is re-fitted each tick from measured sizes, so text scaling and content changes stay aligned.
+`UFixHimWidget::MakeHeaderedSurface` wraps any slanted surface with a teal title plate straddling its top edge. A title that is too long for the plate scales down to fit (short titles are never scaled up), and `HeaderTitle` exposes the plate's text for screens that set it later. `SetHeaderBadge` adds a round icon badge at the plate's left end, sized and drawn like the dialogue name plate (108 units, white 6-unit keyline over a darker extrusion), with the title centred in the plate beside it. The ending card's plate shows the ending's own authored title (for example TERRARIUM EVER AFTER; the card has no separate title) with a badge for its kind: pink heart for romance, friendship-blue users for friendship, orange flame for either failure. `MakeCardScreen` and the floor plan use it; the plate position is re-fitted each tick from measured sizes, so text scaling and content changes stay aligned.
 
 The selected v4 logo is imported once for the title screen. Its raster edge speckling and a final editable brand master still need a dedicated finishing pass; it has not been silently replaced by a different logo. Construction stripes and routine ray flourishes remain excluded.
 

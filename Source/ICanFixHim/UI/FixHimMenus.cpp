@@ -30,51 +30,41 @@ void UFixHimTitleWidget::BuildUI()
 	UOverlay *Root = WidgetTree->ConstructWidget<UOverlay>();
 	WidgetTree->RootWidget = Root;
 
-	// Soft plum panel down the left so the apartment stays visible behind the menu.
-	USizeBox *PanelSize = WidgetTree->ConstructWidget<USizeBox>();
-	PanelSize->SetWidthOverride(820.f);
-	UOverlaySlot *PanelSlot = Root->AddChildToOverlay(PanelSize);
-	PanelSlot->SetHorizontalAlignment(HAlign_Left);
-	PanelSlot->SetVerticalAlignment(VAlign_Fill);
-
-	UFixHimSurface *Panel = WidgetTree->ConstructWidget<UFixHimSurface>();
-	Panel->bBorderless = true;
-	Panel->SetBrushColor(FixHimDesign::Teal.CopyWithNewOpacity(.96f));
-	Panel->SetPadding(FMargin(56, 36, 56, 36));
-	PanelSize->AddChild(Panel);
-
-	UVerticalBox *Col = WidgetTree->ConstructWidget<UFixHimStack>();
-	Panel->SetContent(Col);
+	// No panel: the logo and large standalone buttons sit straight on the scene, stacked straight down the left
+	// like the title concept (each face still slants; the column doesn't drift). Their shadows lift them off the room.
+	UVerticalBox *Col = WidgetTree->ConstructWidget<UVerticalBox>();
+	UOverlaySlot *ColSlot = Root->AddChildToOverlay(Col);
+	ColSlot->SetHorizontalAlignment(HAlign_Left);
+	ColSlot->SetVerticalAlignment(VAlign_Center);
+	ColSlot->SetPadding(FMargin(110.f, 40.f, 0.f, 40.f));
 
 	UVerticalBox *TitleCol = WidgetTree->ConstructWidget<UVerticalBox>();
 	TitleBlock = TitleCol;
-	Col->AddChildToVerticalBox(TitleCol);
+	UVerticalBoxSlot *TitleSlot = Col->AddChildToVerticalBox(TitleCol);
+	TitleSlot->SetPadding(FMargin(0.f, 0.f, 0.f, 12.f));
+	TitleSlot->SetHorizontalAlignment(HAlign_Center);
 
 	USizeBox *LogoBox = WidgetTree->ConstructWidget<USizeBox>();
-	// Sized so the 135% text menu (taller padded buttons) still fits with its footer.
-	LogoBox->SetWidthOverride(420);
-	LogoBox->SetHeightOverride(336);
+	// Sized so the logo plus five standalone buttons still fit 1080p at 135% text.
+	LogoBox->SetWidthOverride(440);
+	LogoBox->SetHeightOverride(352);
 	UImage *Logo = WidgetTree->ConstructWidget<UImage>();
 	Logo->SetBrushFromTexture(LoadObject<UTexture2D>(nullptr, TEXT("/Game/ICanFixHim/UI/Design/Brand/T_Logo.T_Logo")));
 	LogoBox->AddChild(Logo);
 	TitleCol->AddChildToVerticalBox(LogoBox);
 
-	UVerticalBoxSlot *SpacerSlot = Col->AddChildToVerticalBox(WidgetTree->ConstructWidget<USpacer>());
-	SpacerSlot->SetSize(FSlateChildSize(ESlateSizeRule::Fill));
-
 	TWeakObjectPtr<UFixHimTitleWidget> Self(this);
 	auto AddButton = [&](const FString &Label, TFunction<void()> Fn, bool bPrimary) -> UFixHimButton * {
 		USizeBox *Box = WidgetTree->ConstructWidget<USizeBox>();
-		Box->SetWidthOverride(400.f);
-		Box->SetMinDesiredHeight(72.f);
-		UFixHimButton *B = UFixHimButton::Make(WidgetTree, Label, MoveTemp(Fn), 24, bPrimary,
+		Box->SetWidthOverride(460.f);
+		UFixHimButton *B = UFixHimButton::MakeStandalone(WidgetTree, Label, MoveTemp(Fn), bPrimary,
 		                                       Label == TEXT("Options")    ? TEXT("gear")
 		                                       : Label == TEXT("Continue") ? TEXT("play")
 		                                       : Label == TEXT("New Game") ? TEXT("house")
 		                                       : Label == TEXT("Credits")  ? TEXT("info")
 		                                                                   : TEXT("door_open"));
 		Box->AddChild(B);
-		Col->AddChildToVerticalBox(Box)->SetPadding(FMargin(0.f, 0.f, 0.f, 10.f));
+		Col->AddChildToVerticalBox(Box)->SetPadding(FMargin(0.f, 0.f, 0.f, 6.f));
 		return B;
 	};
 

@@ -100,27 +100,15 @@ void UFixHimHUDWidget::BuildUI()
 	PromptSlot->SetHorizontalAlignment(HAlign_Center);
 	PromptSlot->SetVerticalAlignment(VAlign_Center);
 
-	auto IconBox = [&](const TCHAR *Name, float Size) {
-		USizeBox *Box = WidgetTree->ConstructWidget<USizeBox>();
-		Box->SetWidthOverride(Size);
-		Box->SetHeightOverride(Size);
-		Box->AddChild(FixHimDesign::Icon(WidgetTree, Name, FLinearColor::White));
-		return Box;
-	};
 	auto CapLift = [](UTextBlock *T) { T->SetRenderTranslation(FVector2D(0, T->GetFont().Size * FixHimDesign::CapCentre)); };
 
-	// ---- Room name (top left): pink plate with a wrench, as in the show-graphics mock-up ----
+	// ---- Room name (top left): pink plate, text only ----
 	RoomPill = WidgetTree->ConstructWidget<UFixHimSurface>();
 	RoomPill->SetBrush(Rounded(Pink, 18.f));
 	RoomPill->SetPadding(FMargin(30, 8, 40, 8 + FixHimDesign::Extrusion));
-	UHorizontalBox *RoomRow = WidgetTree->ConstructWidget<UHorizontalBox>();
-	RoomRow->AddChildToHorizontalBox(IconBox(TEXT("wrench"), 30))->SetVerticalAlignment(VAlign_Center);
 	RoomText = MakeText(WidgetTree, TEXT(""), 30, FLinearColor::White, TEXT("Display"));
 	CapLift(RoomText);
-	UHorizontalBoxSlot *RoomTextSlot = RoomRow->AddChildToHorizontalBox(RoomText);
-	RoomTextSlot->SetVerticalAlignment(VAlign_Center);
-	RoomTextSlot->SetPadding(FMargin(14, 0, 0, 0));
-	RoomPill->SetContent(RoomRow);
+	RoomPill->SetContent(RoomText);
 	UOverlaySlot* RoomSlot = Root->AddChildToOverlay(RoomPill);
 	RoomSlot->SetHorizontalAlignment(HAlign_Left);
 	RoomSlot->SetVerticalAlignment(VAlign_Top);
@@ -142,17 +130,15 @@ void UFixHimHUDWidget::BuildUI()
 	UFixHimSurface *RepPill = WidgetTree->ConstructWidget<UFixHimSurface>();
 	RepPill->SetBrush(Rounded(Pink, 18.f));
 	RepPill->SetPadding(FMargin(24, 8, 32, 8 + FixHimDesign::Extrusion));
-	UHorizontalBox *RepRow = WidgetTree->ConstructWidget<UHorizontalBox>();
-	RepRow->AddChildToHorizontalBox(IconBox(TEXT("house"), 34))->SetVerticalAlignment(VAlign_Center);
-	UVerticalBox *RepCol = WidgetTree->ConstructWidget<UVerticalBox>();
+	// A 12-degree stack, so the small label steps right along the slant like the badge's face above the count.
+	UVerticalBox *RepCol = WidgetTree->ConstructWidget<UFixHimStack>();
 	UTextBlock *RepLabel = MakeText(WidgetTree, TEXT("Repairs"), 18, FLinearColor::White, TEXT("Display"));
 	RepCol->AddChildToVerticalBox(RepLabel)->SetHorizontalAlignment(HAlign_Center);
 	RepairsText = MakeText(WidgetTree, TEXT("0/0"), 40, FLinearColor::White, TEXT("Display"));
-	RepCol->AddChildToVerticalBox(RepairsText)->SetPadding(FMargin(0, -10, 0, 0));
-	UHorizontalBoxSlot *RepColSlot = RepRow->AddChildToHorizontalBox(RepCol);
-	RepColSlot->SetVerticalAlignment(VAlign_Center);
-	RepColSlot->SetPadding(FMargin(12, 0, 0, 0));
-	RepPill->SetContent(RepRow);
+	UVerticalBoxSlot *CountSlot = RepCol->AddChildToVerticalBox(RepairsText);
+	CountSlot->SetPadding(FMargin(0, -10, 0, 0));
+	CountSlot->SetHorizontalAlignment(HAlign_Center);
+	RepPill->SetContent(RepCol);
 	// Negative lead overlaps the week plate; added second so it draws on top.
 	UHorizontalBoxSlot *RepSlotH = Progress->AddChildToHorizontalBox(RepPill);
 	RepSlotH->SetVerticalAlignment(VAlign_Center);
@@ -279,9 +265,30 @@ void UFixHimHUDWidget::SetRepairs(int32 Fixed, int32 Total, int32 Week, int32 Nu
 	}
 }
 
+void UFixHimHUDWidget::PinToast(const FString& Message)
+{
+	bToastPinned = false;
+	ShowToast(Message, 0.f, false);
+	bToastPinned = true;
+	ToastPill->SetRenderOpacity(1.f);
+}
+
+FString UFixHimHUDWidget::GetToastText() const
+{
+	return ToastText ? ToastText->GetText().ToString() : FString();
+}
+
+void UFixHimHUDWidget::HideToast()
+{
+	bToastPinned = false;
+	ToastTime = 0.f;
+	if (ToastPill)
+		ToastPill->SetVisibility(ESlateVisibility::Collapsed);
+}
+
 void UFixHimHUDWidget::ShowToast(const FString& Message, float Seconds, bool bChime)
 {
-	if (!ToastPill)
+	if (!ToastPill || bToastPinned)
 	{
 		return;
 	}

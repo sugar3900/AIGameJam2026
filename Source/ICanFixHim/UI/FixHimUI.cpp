@@ -21,6 +21,7 @@
 #include "Engine/Texture2D.h"
 #include "Fonts/CompositeFont.h"
 #include "UObject/StrongObjectPtr.h"
+#include "Components/ScaleBox.h"
 #include "Components/ScrollBox.h"
 #include "Components/EditableTextBox.h"
 #include "Components/ScrollBoxSlot.h"
@@ -170,11 +171,9 @@ UFixHimButton *UFixHimButton::Make(UWidgetTree *Tree, const FString &LabelText, 
 		Box->SetWidthOverride(28);
 		Box->SetHeightOverride(28);
 		auto *Icon = FixHimDesign::Icon(Tree, LeadingIcon, FLinearColor::White);
-		Icon->SetColorAndOpacity(FLinearColor::White);
-		// Use foreground tint so icons follow hover, focus and disabled labels.
-		FSlateBrush IconBrush = Icon->GetBrush();
-		IconBrush.TintColor = FSlateColor::UseForeground();
-		Icon->SetBrush(IconBrush);
+		// Bound rather than foreground-tinted: cream faces want an orange icon beside an ink label.
+		Icon->ColorAndOpacityDelegate.BindUFunction(B, GET_FUNCTION_NAME_CHECKED(UFixHimButton, GetIconTint));
+		B->LeadingIcon = Icon;
 		Box->AddChild(Icon);
 		Row->AddChildToHorizontalBox(Box)->SetVerticalAlignment(VAlign_Center);
 		// Fill, not auto: a wrapping label in an auto slot can settle on a too-narrow wrap width.
@@ -187,7 +186,8 @@ UFixHimButton *UFixHimButton::Make(UWidgetTree *Tree, const FString &LabelText, 
 	}
 	if (auto *Slot = Cast<UButtonSlot>(B->AddChild(Content)))
 	{
-		Slot->SetPadding(FMargin(52, 16, 38, 16 + FixHimDesign::Extrusion));
+		// Icons sit closer to the slanted edge than bare labels (no focus pointer on icon buttons).
+		Slot->SetPadding(FMargin(LeadingIcon.IsEmpty() ? 52 : 36, 16, 38, 16 + FixHimDesign::Extrusion));
 		Slot->SetHorizontalAlignment(HAlign_Fill);
 		// Fill, not centre: Slate's centred alignment offsets by (top - bottom) padding, which pulls content up
 		// by half the extrusion allowance. Filling the padded box keeps the label centred on the face.
@@ -205,6 +205,42 @@ UFixHimButton *UFixHimButton::Make(UWidgetTree *Tree, const FString &LabelText, 
 		}
 	}
 	return B;
+}
+
+UFixHimButton *UFixHimButton::MakeStandalone(UWidgetTree *Tree, const FString &LabelText, TFunction<void()> InOnClick,
+                                             bool bPrimary, const FString &LeadingIcon)
+{
+	using namespace FixHimDesign;
+	UFixHimButton *B = Make(Tree, LabelText, MoveTemp(InOnClick), StandaloneLabel, bPrimary, LeadingIcon);
+	B->bStandalone = true;
+	if (auto *Slot = Cast<UButtonSlot>(B->GetContentSlot()))
+	{
+		// Taller face; the right and bottom also make room for the shadow beyond the extrusion.
+		constexpr float PadY = 22.f;
+		Slot->SetPadding(FMargin(LeadingIcon.IsEmpty() ? 56 : 38, PadY, 38 + ShadowExtraX,
+		                         PadY + DepthReserveY(ButtonBorder, true)));
+	}
+	if (B->LeadingIcon)
+	{
+		if (auto *Box = Cast<USizeBox>(B->LeadingIcon->GetParent()))
+		{
+			Box->SetWidthOverride(36);
+			Box->SetHeightOverride(36);
+		}
+		if (auto *LabelSlot = Cast<UHorizontalBoxSlot>(B->Label->Slot))
+			LabelSlot->SetPadding(FMargin(20, 0, 0, 0));
+	}
+	return B;
+}
+
+FLinearColor UFixHimButton::GetIconTint()
+{
+	using namespace FixHimDesign;
+	for (const UWidget *W = this; W; W = W->GetParent())
+		if (!W->GetIsEnabled())
+			return DisabledInk; // a disabled container disables the face too (SDesignButton::OnPaint)
+	const bool Active = HasKeyboardFocus() || bSelected || IsPressed() || bPreviewPressed || IsHovered();
+	return bPrimary || Active ? FLinearColor::White : Orange;
 }
 
 void UFixHimSlider::Init(TFunction<void(float)> InOnChanged)
@@ -317,6 +353,14 @@ void UFixHimWidget::NativeConstruct()
 	if (PopCard)
 	{
 		PopCard->SetRenderScale(FVector2D(FixHimDesign::ReducedMotion() ? 1.f : .96f));
+		PopCard->SetRenderOpacity(0.f);
+		// Hidden cards take no clicks; keyboard focus waits for bPopSettled too (NativeTick).
+		if (PopCard->GetVisibility() != ESlateVisibility::HitTestInvisible)
+			PopVisibility = PopCard->GetVisibility();
+		PopCard->SetVisibility(ESlateVisibility::HitTestInvisible);
+		bPopSettled = false;
+		PopStableFrames = 0;
+		PopLastSize = FVector2D::ZeroVector;
 		FixHim::Sfx(this, OpenSfx, 1.f, 0.03f);
 	}
 }
@@ -397,9 +441,25 @@ FReply UFixHimWidget::NativeOnMouseButtonDown(const FGeometry &InGeometry, const
 void UFixHimWidget::NativeTick(const FGeometry &MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-	SyncHeaderLayouts();
+	const bool bHeaderMoved = SyncHeaderLayouts();
+	if (PopCard && !bPopSettled)
+	{
+		// Wrapped text settles its height a frame or two after the first paint, and the header re-fits to it.
+		// Showing that reflow reads as the layout breaking, so hold the card hidden until two quiet frames pass.
+		const FVector2D PopSize = PopCard->GetDesiredSize();
+		const bool bQuiet = !bHeaderMoved && PopSize.X > 0 && PopSize.Equals(PopLastSize, .5);
+		PopLastSize = PopSize;
+		PopStableFrames = bQuiet ? PopStableFrames + 1 : 0;
+		if (PopStableFrames >= 2 || ShownAge > .5f)
+		{
+			bPopSettled = true;
+			PopAge = 0.f;
+			PopCard->SetRenderOpacity(1.f);
+			PopCard->SetVisibility(PopVisibility);
+		}
+	}
 	ShownAge += InDeltaTime;
-	if (!bInitialFocus && ShownAge > .12f)
+	if (!bInitialFocus && ShownAge > .12f && (!PopCard || bPopSettled))
 	{
 		bInitialFocus = true;
 		bool Focused = false;
@@ -421,7 +481,7 @@ void UFixHimWidget::NativeTick(const FGeometry &MyGeometry, float InDeltaTime)
 			});
 	}
 	constexpr float PopSeconds = 0.22f;
-	if (PopCard && PopAge < PopSeconds)
+	if (PopCard && bPopSettled && PopAge < PopSeconds)
 	{
 		PopAge += InDeltaTime;
 		const float S =
@@ -446,12 +506,89 @@ UWidget *UFixHimWidget::MakeHeaderedSurface(UBorder *Surface, const FString &Tit
 		return Surface;
 	auto *Heading = MakeText(WidgetTree, Title.ToUpper(), FixHimDesign::Heading, Cream, TEXT("Display"));
 	Heading->SetJustification(ETextJustify::Center);
+	HeaderTitle = Heading;
 	auto *Header = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Header->SetBrush(Rounded(FixHimDesign::Teal, 12));
 	Header->SetPadding(FMargin(32, 10, 40, 10 + FixHimDesign::Extrusion));
 	Heading->SetRenderTranslation(FVector2D(0, Heading->GetFont().Size * FixHimDesign::CapCentre));
-	Header->SetContent(Heading);
-	return MakeHeaderedSurface(Surface, Header, Padding);
+	// Long titles (the ending categories) shrink to fit the plate rather than spill past it; short ones are untouched.
+	auto *Fit = WidgetTree->ConstructWidget<UScaleBox>();
+	Fit->SetStretch(EStretch::ScaleToFit);
+	Fit->SetStretchDirection(EStretchDirection::DownOnly);
+	Fit->SetContent(Heading);
+	Header->SetContent(Fit);
+	HeaderPlate = Header;
+
+	// Optional icon badge (SetHeaderBadge) at the plate's left end, like the dialogue name plate at the start of the
+	// meter strip (its left edge on the plate's slanted left edge, centred vertically). Laid out at 56 and drawn
+	// BadgeScale larger, so it overhangs the plate above and below like the dialogue name plate without changing
+	// the header's measured height (SyncHeaderLayouts). Keyline and extrusion are pre-divided so they draw at
+	// button weight.
+	using namespace FixHimDesign;
+	constexpr float BadgeFace = 56.f;
+	auto *PlateStack = WidgetTree->ConstructWidget<UOverlay>();
+	UOverlaySlot *PlateSlot = PlateStack->AddChildToOverlay(Header);
+	PlateSlot->SetHorizontalAlignment(HAlign_Fill);
+	PlateSlot->SetVerticalAlignment(VAlign_Fill);
+	auto *Badge = WidgetTree->ConstructWidget<UOverlay>();
+	auto Circle = [&](float X, float Y) {
+		auto *Box = WidgetTree->ConstructWidget<USizeBox>();
+		Box->SetWidthOverride(BadgeFace);
+		Box->SetHeightOverride(BadgeFace);
+		auto *Disc = WidgetTree->ConstructWidget<UBorder>();
+		Disc->SetPadding(FMargin(13));
+		Box->AddChild(Disc);
+		UOverlaySlot *S = Badge->AddChildToOverlay(Box);
+		S->SetPadding(FMargin(X, Y, 0, 0));
+		return Disc;
+	};
+	const FVector2f Depth = DepthOffset(ButtonBorder) / HeaderBadgeScale;
+	HeaderBadgeDepth = Circle(Depth.X, Depth.Y);
+	HeaderBadgeFace = Circle(0, 0);
+	HeaderBadge = Badge;
+	Badge->SetVisibility(ESlateVisibility::Collapsed);
+	UOverlaySlot *BadgeSlot = PlateStack->AddChildToOverlay(Badge);
+	BadgeSlot->SetHorizontalAlignment(HAlign_Left);
+	// Centre the badge face on the plate face (the plate's box minus its extrusion, measured by layout, so any text
+	// size holds): centring the badge's box, which also holds its extrusion offset, in a span Depth.Y taller than
+	// the face puts the face centre exactly on the plate face's centre.
+	BadgeSlot->SetVerticalAlignment(VAlign_Center);
+	BadgeSlot->SetPadding(FMargin(0, 0, 0, Extrusion - Depth.Y));
+	// For the slanted left edge only; a few units' error here moves the badge a fraction of a unit sideways.
+	const float PlateFaceH = 10 + Heading->GetFont().Size * 1.6f + 10;
+	FWidgetTransform BadgeTransform;
+	// Scaling about the face centre moves its left edge by Face/2 * (Scale - 1); undo that, then step onto the
+	// plate's left edge at mid-height.
+	BadgeTransform.Translation =
+	    FVector2D(PlateFaceH * .5f * Slant + BadgeFace * .5f * (HeaderBadgeScale - 1.f) - HeaderBadgeLead,
+	              HeaderBadgeDrop);
+	BadgeTransform.Scale = FVector2D(HeaderBadgeScale);
+	Badge->SetRenderTransform(BadgeTransform);
+	// Pivot on the face's centre (the overlay also holds the extrusion offset).
+	Badge->SetRenderTransformPivot(FVector2D(BadgeFace * .5f / (BadgeFace + Depth.X), BadgeFace * .5f / (BadgeFace + Depth.Y)));
+	return MakeHeaderedSurface(Surface, PlateStack, Padding);
+}
+
+void UFixHimWidget::SetHeaderBadge(const FString &Icon, const FLinearColor &Fill, const FLinearColor &Depth,
+                                   const FLinearColor &IconTint)
+{
+	using namespace FixHimUI;
+	if (!HeaderBadge || !HeaderBadgeFace || !HeaderBadgeDepth)
+		return;
+	constexpr float R = 28.f;
+	HeaderBadgeDepth->SetBrush(Rounded(Depth, R));
+	HeaderBadgeFace->SetBrush(Rounded(Fill, R, FLinearColor::White, FixHimDesign::ButtonBorder / HeaderBadgeScale));
+	HeaderBadgeFace->SetContent(FixHimDesign::Icon(WidgetTree, Icon, IconTint));
+	HeaderBadge->SetVisibility(ESlateVisibility::HitTestInvisible);
+	// The plate starts HeaderBadgePlateInset further in, so the badge covers its bottom-left corner and extrusion.
+	// Centre the title in the plate beside the badge, like the meter strip beside the dialogue name plate.
+	if (HeaderPlate)
+	{
+		if (auto *PlateSlot = Cast<UOverlaySlot>(HeaderPlate->Slot))
+			PlateSlot->SetPadding(FMargin(HeaderBadgePlateInset, 0, 0, 0));
+		const float BadgeRight = 108.f - HeaderBadgeLead - HeaderBadgePlateInset;
+		HeaderPlate->SetPadding(FMargin(BadgeRight + 24, 10, 40, 10 + FixHimDesign::Extrusion));
+	}
 }
 
 UWidget *UFixHimWidget::MakeHeaderedSurface(UBorder *Surface, UWidget *Header, const FMargin &Padding, float Inset)
@@ -473,9 +610,10 @@ UWidget *UFixHimWidget::MakeHeaderedSurface(UBorder *Surface, UWidget *Header, c
 	return Stack;
 }
 
-void UFixHimWidget::SyncHeaderLayouts()
+bool UFixHimWidget::SyncHeaderLayouts()
 {
 	const float K = FixHimDesign::Slant;
+	bool bMoved = false;
 	for (FHeaderLayout &L : HeaderLayouts)
 	{
 		UWidget *Header = L.Header.Get();
@@ -495,6 +633,7 @@ void UFixHimWidget::SyncHeaderLayouts()
 		if (Measured.Equals(L.Measured, .5))
 			continue;
 		L.Measured = Measured;
+		bMoved = true;
 		const float PlateFace = FMath::Max(0.f, HeaderH - PlateDepthY), Drop = PlateFace * .5f;
 		const auto *DesignSurface = Cast<UFixHimSurface>(Surface);
 		const float SurfaceBorder = DesignSurface ? DesignSurface->BorderWidth : FixHimDesign::ButtonBorder;
@@ -505,6 +644,18 @@ void UFixHimWidget::SyncHeaderLayouts()
 		FMargin P = L.Padding;
 		if (bShown)
 			P.Top += HeaderH - Drop;
+		if (L.bCentreRows)
+		{
+			// A UFixHimStack centres each row against its own box; the face is that box minus the extrusion and
+			// shadow reserve (right, bottom), leaning 12 degrees. Measured at any row, the row sits right of the
+			// face's centre by this much; move the padding over so rows centre on the face.
+				// Rows are mostly buttons, and a button's box also holds its extrusion on the right. Centre the button's
+			// top layer (face and keyline, no extrusion) on the card's top layer: subtract half its reserve too.
+			const float Shift = (P.Left - P.Right) * .5f + SurfaceDepthX * .5f +
+			                    K * (P.Top - P.Bottom + SurfaceDepthY) * .5f - PlateDepthX * .5f;
+			P.Left -= Shift;
+			P.Right += Shift;
+		}
 		Surface->SetPadding(P);
 		// Both faces lean 12 degrees. At the plate's mid-height (the surface's top edge) the surface face spans
 		// [FaceH*K, BoxW-SurfaceDepthX] and the plate face spans [Left + Drop*K, Left + PlateW - PlateDepthX - Drop*K].
@@ -514,6 +665,7 @@ void UFixHimWidget::SyncHeaderLayouts()
 		if (auto *HeaderSlot = Cast<UOverlaySlot>(Header->Slot))
 			HeaderSlot->SetPadding(FMargin(Left, 0, Right, 0));
 	}
+	return bMoved;
 }
 
 UVerticalBox *UFixHimWidget::MakeCardScreen(const FString &Title, float Width)
@@ -530,6 +682,7 @@ UVerticalBox *UFixHimWidget::MakeCardScreen(const FString &Title, float Width)
 	DimSlot->SetVerticalAlignment(VAlign_Fill);
 
 	USizeBox *Size = WidgetTree->ConstructWidget<USizeBox>();
+	CardWidth = Width;
 	Size->SetWidthOverride(Width);
 	Size->SetMaxDesiredHeight(960);
 	UOverlaySlot *SizeSlot = Root->AddChildToOverlay(Size);
@@ -540,15 +693,23 @@ UVerticalBox *UFixHimWidget::MakeCardScreen(const FString &Title, float Width)
 	Card->SetBrush(Rounded(Cream, 28.f, Pink, 4.f));
 	Card->BorderWidth = FixHimDesign::PopupBorder;
 	CardSurface = Card;
-	Size->AddChild(MakeHeaderedSurface(Card, Title, FMargin(32, 32, 40, 40)));
+	const FMargin CardPadding(32, 32, 40, 40);
+	Size->AddChild(MakeHeaderedSurface(Card, Title, CardPadding));
+	// Every card has a title (the ending card's is set later), so its header layout balances the row centring.
+	HeaderLayouts.Last().bCentreRows = true;
+	HeaderLayouts.Last().Measured = FVector2D(-1, -1);
+	SyncHeaderLayouts();
 	Size->SetRenderTransformPivot(FVector2D(.5f, .5f));
 	PopCard = Size;
 	auto *Layout = WidgetTree->ConstructWidget<UFixHimStack>();
+	// Long content (ending text) must not lean past the card's reserve; see UFixHimStack::MaxLean.
+	constexpr float CardMaxLean = 120.f;
+	Layout->MaxLean = CardMaxLean;
 	Card->SetContent(Layout);
 	// A rectangular scroll clip must stay inside both slanted edges. The outer stack
 	// positions its centre; reserve half the maximum body's lean on either side.
 	auto *Bounds = WidgetTree->ConstructWidget<USizeBox>();
-	Bounds->SetMaxDesiredHeight(640);
+	Bounds->SetMaxDesiredHeight(720);
 	auto *Inset = WidgetTree->ConstructWidget<UBorder>();
 	Inset->SetBrushColor(FLinearColor::Transparent);
 	Inset->SetPadding(FMargin(60, 0, 60, 0));
@@ -564,11 +725,43 @@ UVerticalBox *UFixHimWidget::MakeCardScreen(const FString &Title, float Width)
 	Inset->SetContent(Scroll);
 	// A grid stack, so rows of card content step along the 12-degree columns.
 	auto *Col = WidgetTree->ConstructWidget<UFixHimStack>();
+	Col->MaxLean = CardMaxLean;
 	Scroll->AddChild(Col);
 	Layout->AddChildToVerticalBox(Bounds);
 	CardActions = WidgetTree->ConstructWidget<UFixHimStack>();
 	Layout->AddChildToVerticalBox(CardActions)->SetPadding(FMargin(0, 20, 0, 0));
 	return Col;
+}
+
+void UFixHimWidget::DockCard(EFixHimCardDock Dock)
+{
+	auto *Size = Cast<USizeBox>(PopCard);
+	auto *Slot = Size ? Cast<UOverlaySlot>(Size->Slot) : nullptr;
+	if (!Slot)
+		return;
+	// The HUD header (room, toast, repairs) can sit above a docked card, so docked cards keep clear of the top.
+	switch (Dock)
+	{
+	case EFixHimCardDock::Centre:
+		Size->SetWidthOverride(CardWidth);
+		Slot->SetHorizontalAlignment(HAlign_Center);
+		Slot->SetVerticalAlignment(VAlign_Center);
+		Slot->SetPadding(FMargin(0));
+		break;
+	case EFixHimCardDock::Bottom:
+		Size->ClearWidthOverride();
+		Slot->SetHorizontalAlignment(HAlign_Fill);
+		Slot->SetVerticalAlignment(VAlign_Bottom);
+		Slot->SetPadding(FMargin(40.f, 0.f, 40.f, 22.f)); // the dialogue panel's margins
+		break;
+	case EFixHimCardDock::Left:
+		// Half the screen: card content loses ~360 units to the slant reserve and lean, so narrower wraps badly.
+		Size->SetWidthOverride(960.f);
+		Slot->SetHorizontalAlignment(HAlign_Left);
+		Slot->SetVerticalAlignment(VAlign_Center);
+		Slot->SetPadding(FMargin(60.f, 150.f, 0.f, 40.f));
+		break;
+	}
 }
 
 void UFixHimButton::SetVariant(bool Primary, bool Selected)

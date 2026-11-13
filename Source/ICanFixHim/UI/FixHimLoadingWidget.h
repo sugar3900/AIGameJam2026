@@ -23,7 +23,9 @@ protected:
 
 private:
 	UPROPERTY() TObjectPtr<UProgressBar> Bar;
+	/** Just the animated dots after "Getting the place ready". */
 	UPROPERTY() TObjectPtr<UTextBlock> Caption;
+	static constexpr float DotsWidth = 24.f;
 	float Age = 0.f;
 	float ShownProgress = 0.f;
 };

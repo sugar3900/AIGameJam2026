@@ -25,6 +25,10 @@ public:
 	void SetRoomName(const FText& Name);
 	void SetRepairs(int32 Fixed, int32 Total, int32 Week = 0, int32 NumWeeks = 0);
 	void ShowToast(const FString& Message, float Seconds = 2.f, bool bChime = true);
+	/** Holds a toast until HideToast (the repair over the ending card); other toasts are dropped meanwhile. */
+	void PinToast(const FString& Message);
+	void HideToast();
+	FString GetToastText() const;
 
 protected:
 	virtual void BuildUI() override;
@@ -67,5 +71,6 @@ private:
 	UPROPERTY() TObjectPtr<UTextBlock> ToastText;
 
 	float ToastTime = 0.f;
+	bool bToastPinned = false;
 	float RoomFlash = 0.f;
 };

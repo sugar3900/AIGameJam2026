@@ -241,20 +241,14 @@ void UFixHimIntroCardWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 
 void UFixHimEndingCardWidget::BuildUI()
 {
-	UVerticalBox* Col = MakeCardScreen(TEXT(""), 880.f); // wide enough that the grid-stepped title keeps two lines
+	// The ending's own title goes on the title plate (set in Setup). Wide enough that the longest ending
+	// (~360 characters) fits without scrolling.
+	UVerticalBox* Col = MakeCardScreen(TEXT("Ending"), 1040.f);
+	// Wide along the bottom (dialogue-panel margins), leaving the screen above for ending art.
+	DockCard(EFixHimCardDock::Bottom);
 	OpenSfx = NAME_None; // the ending jingle covers it
 	OutsideClickMinAge = 0.8f;
-	Card = CardSurface;
 	Col->ClearChildren();
-
-	Kind = MakeText(WidgetTree, TEXT("ENDING"), 20, Pink, TEXT("Bold"));
-	Kind->SetJustification(ETextJustify::Center);
-	Col->AddChildToVerticalBox(Kind);
-
-	Title = MakeText(WidgetTree, TEXT("Title"), 44, HotPink, TEXT("Display"));
-	Title->SetJustification(ETextJustify::Center);
-	Title->SetAutoWrapText(true);
-	Col->AddChildToVerticalBox(Title)->SetPadding(FMargin(0.f, 4.f, 0.f, 14.f));
 
 	Body = MakeText(WidgetTree, TEXT(""), 22, Plum);
 	Body->SetJustification(ETextJustify::Center);
@@ -275,29 +269,30 @@ void UFixHimEndingCardWidget::BuildUI()
 
 void UFixHimEndingCardWidget::Setup(const FHunkDefinition& Def, const FString& EndingId, int32 FixedCount, int32 TotalCount)
 {
-	FString KindText;
-	FLinearColor KindColor = Pink;
-	if (EndingId == TEXT("romance_success")) { KindText = TEXT("ROMANCE  -  HAPPILY EVER AFTER"); KindColor = HotPink; }
-	else if (EndingId == TEXT("romance_failure")) { KindText = TEXT("ROMANCE  -  IT'S NOT ME, IT'S YOUR FOUNDATION"); KindColor = Plum; }
-	else if (EndingId == TEXT("friend_success")) { KindText = TEXT("FRIENDSHIP  -  BESTIES"); KindColor = PlumSoft; }
-	else { KindText = TEXT("FRIENDSHIP  -  SWORN ENEMIES"); KindColor = Plum; }
+	// The plate carries the ending's own title; the badge says romance (heart), friendship (users) or a failure
+	// (flame).
+	const bool bRomance = EndingId.StartsWith(TEXT("romance"));
+	const bool bSuccess = EndingId.EndsWith(TEXT("success"));
+	if (!bSuccess)
+		SetHeaderBadge(TEXT("flame"), FixHimDesign::Orange, FixHimDesign::OrangeDepth, FLinearColor::White);
+	else if (bRomance)
+		SetHeaderBadge(TEXT("heart"), FixHimDesign::Pink, FixHimDesign::PinkDepth, FLinearColor::White);
+	else
+		SetHeaderBadge(TEXT("users"), FixHimDesign::Friendship, FixHimDesign::Ink, FixHimDesign::Ink);
 
 	FixHim::Sfx(this, EndingId == TEXT("romance_success") ? "EndingRomance" : EndingId == TEXT("friend_success") ? "EndingFriend" : "EndingFail");
-	Kind->SetText(FText::FromString(KindText));
-	Kind->SetColorAndOpacity(FSlateColor(KindColor));
-
 	const FHunkEnding* Ending = Def.Endings.Find(EndingId);
-	Title->SetText(FText::FromString(Ending ? Ending->Title : Def.Name));
+	if (HeaderTitle)
+		HeaderTitle->SetText(FText::FromString((Ending ? Ending->Title : Def.Name).ToUpper()));
 	const UFixHimSaveSubsystem* SaveSub = UFixHimSaveSubsystem::Get(this);
 	const FString PlayerName = SaveSub ? SaveSub->GetPlayerName() : UFixHimSettings::Get()->PlayerName;
 	Body->SetText(FText::FromString(Ending ? Ending->Text.Replace(TEXT("{player}"), *PlayerName) : FString()));
 
-	// The house tally gets its own line, with non-breaking spaces so it never splits.
-	FString Tally = FString::Printf(TEXT("The house is %d / %d fixed."), FixedCount, TotalCount);
-	Tally.ReplaceInline(TEXT(" "), TEXT("\u00A0"));
-	const FString Fixed = FString::Printf(TEXT("%s repaired.\n%s"), *Def.Malady, *Tally);
-	Progress->SetText(FText::FromString(FixedCount >= TotalCount ? Fixed + TEXT("\nEvery man in this house has been fixed. Or at least seen. Home sweet home.") : Fixed));
-	Age = 0.f;
+	// The repair and the house tally are on the HUD header above the card (AFixHimPlayerController::HandleConversationEnded).
+	// Only the closing line for the final repair stays on the card.
+	const bool bAllFixed = FixedCount >= TotalCount;
+	Progress->SetText(FText::FromString(bAllFixed ? TEXT("Every man in this house has been fixed. Or at least seen. Home sweet home.") : TEXT("")));
+	Progress->SetVisibility(bAllFixed ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
 }
 
 bool UFixHimEndingCardWidget::HandleClickOutside()
@@ -308,15 +303,4 @@ bool UFixHimEndingCardWidget::HandleClickOutside()
 		return true;
 	}
 	return false;
-}
-
-void UFixHimEndingCardWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
-{
-	Super::NativeTick(MyGeometry, InDeltaTime);
-	Age += InDeltaTime;
-	if (Card)
-	{
-		const float S=FixHimDesign::ReducedMotion() ? 1.f : FMath::Lerp(.96f,1.f,FMath::Clamp(Age/.2f,0.f,1.f));
-		Card->SetRenderScale(FVector2D(FMath::Max(0.01f, S)));
-	}
 }

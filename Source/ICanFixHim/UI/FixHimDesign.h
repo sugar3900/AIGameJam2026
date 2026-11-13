@@ -36,8 +36,10 @@ inline FVector2f DepthOffset(float Border) { return FVector2f(Border * .5f, Bord
 inline constexpr bool HasShadow(float Border) { return Border >= PopupBorder; }
 inline constexpr float ShadowExtraX = 3.f, ShadowExtraY = 6.f, ShadowOpacity = .5f;
 inline FVector2f ShadowOffset(float Border) { return DepthOffset(Border) + FVector2f(ShadowExtraX, ShadowExtraY); }
-inline constexpr float DepthReserveX(float Border) { return Border * .5f + 3.f + (HasShadow(Border) ? ShadowExtraX : 0.f); }
-inline constexpr float DepthReserveY(float Border) { return Border + 3.f + (HasShadow(Border) ? ShadowExtraY : 0.f); }
+inline constexpr float DepthReserveX(float Border, bool Shadow) { return Border * .5f + 3.f + (Shadow ? ShadowExtraX : 0.f); }
+inline constexpr float DepthReserveY(float Border, bool Shadow) { return Border + 3.f + (Shadow ? ShadowExtraY : 0.f); }
+inline constexpr float DepthReserveX(float Border) { return DepthReserveX(Border, HasShadow(Border)); }
+inline constexpr float DepthReserveY(float Border) { return DepthReserveY(Border, HasShadow(Border)); }
 /**
  * Vertical centring on slanted surfaces: the face excludes the extrusion reserve at the bottom, so text is centred
  * when bottom padding = top padding + Extrusion (button-weight plates). Barlow's line box (ascender 1.0 em,
@@ -46,6 +48,8 @@ inline constexpr float DepthReserveY(float Border) { return Border + 3.f + (HasS
 inline constexpr float Extrusion = DepthReserveY(ButtonBorder), CapCentre = -.05f;
 inline constexpr float HitHeight = 48.f;
 inline constexpr int32 Caption = 16, Body = 22, Line = 26, Reply = 26, Label = 24, Heading = 36, Hero = 72;
+/** Large standalone buttons (title menu): a third larger label than Label, taller face, popup shadow. */
+inline constexpr int32 StandaloneLabel = 32;
 ICANFIXHIM_API bool ReducedMotion();
 ICANFIXHIM_API float TextScale();
 ICANFIXHIM_API UImage *Icon(UWidgetTree *Tree, const FString &Name, const FLinearColor &Tint);
@@ -71,6 +75,14 @@ UCLASS()
 class ICANFIXHIM_API UFixHimStack : public UVerticalBox
 {
 	GENERATED_BODY()
+  public:
+	/**
+	 * Most the rows may lean across the whole stack, in units (0 = no limit). Each row is narrowed by the stack's
+	 * total lean, so a tall stack (long wrapped text) would otherwise get narrower, wrap more and grow taller;
+	 * past this the rows step less steeply instead.
+	 */
+	float MaxLean = 0.f;
+
   protected:
 	virtual TSharedRef<SWidget> RebuildWidget() override;
 };

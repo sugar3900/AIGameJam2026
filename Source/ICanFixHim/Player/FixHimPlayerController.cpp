@@ -103,6 +103,10 @@ void AFixHimPlayerController::BeginPlay()
 		if (It->ActorHasTag(TEXT("TitleCamera")))
 		{
 			TitleCamera = *It;
+			// Cine cameras constrain to their filmback (16:9) by default, which letterboxes the title on any other
+			// window shape (16:10 laptops, ultrawide). Fill the viewport instead; the menu sits on the left anyway.
+			if (UCameraComponent *Cam = It->GetCameraComponent())
+				Cam->SetConstraintAspectRatio(false);
 			if (It->ActorHasTag(TEXT("TitleCameraAsPlaced")))
 			{
 				// The level placed this camera for its own layout (e.g. L_Apartment_Rev02): use it as is.
@@ -973,6 +977,12 @@ void AFixHimPlayerController::CloseEndingCard()
 {
 	HideWidget(EndingWidget);
 	EndingWidget = nullptr;
+	if (HUDWidget)
+	{
+		HUDWidget->HideToast();
+		HideWidget(HUDWidget);
+		ShowWidget(HUDWidget, 0);
+	}
 	if (State == EFixHimState::Ending)
 	{
 		EnterState(EFixHimState::Playing);
@@ -1175,6 +1185,15 @@ void AFixHimPlayerController::HandleConversationEnded(const FString& HunkId, con
 		ShowWidget(EndingWidget, 35);
 		EndingWidget->Setup(*Def, EndingId, Dialogue->CountFixedStoryHunks(), Dialogue->CountStoryHunks());
 		EnterState(EFixHimState::Ending);
+		// The HUD header reports the repair over the card: room, "<malady> Repaired" toast, week and the updated
+		// repairs count. Re-added above the card's scrim until the card closes.
+		if (HUDWidget)
+		{
+			HideWidget(HUDWidget);
+			ShowWidget(HUDWidget, 36);
+			// The control hint is already hidden: SetReticle(false) in EnterState(Ending).
+			HUDWidget->PinToast(FString::Printf(TEXT("%s Repaired"), *Def->Malady));
+		}
 	}
 	else
 	{
