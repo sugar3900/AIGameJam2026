@@ -272,10 +272,17 @@ void UFixHimEndingCardWidget::BuildUI()
 
 void UFixHimEndingCardWidget::Setup(const FHunkDefinition& Def, const FString& EndingId, int32 FixedCount, int32 TotalCount)
 {
-	const TCHAR* KindText = EndingId == TEXT("romance_success") ? TEXT("Romance  -  Happily ever after")
-	                      : EndingId == TEXT("romance_failure") ? TEXT("Romance  -  It's not me, it's your foundation")
-	                      : EndingId == TEXT("friend_success")  ? TEXT("Friendship  -  Besties")
-	                                                             : TEXT("Friendship  -  Sworn enemies");
+	// The plate carries the ending's name; the badge says romance (heart), friendship (users) or a failure (flame).
+	const bool bRomance = EndingId.StartsWith(TEXT("romance"));
+	const bool bSuccess = EndingId.EndsWith(TEXT("success"));
+	const TCHAR* KindText = bRomance ? (bSuccess ? TEXT("Happily ever after") : TEXT("It's not me, it's your foundation"))
+	                                 : (bSuccess ? TEXT("Besties") : TEXT("Sworn enemies"));
+	if (!bSuccess)
+		SetHeaderBadge(TEXT("flame"), FixHimDesign::Orange, FixHimDesign::OrangeDepth, FLinearColor::White);
+	else if (bRomance)
+		SetHeaderBadge(TEXT("heart"), FixHimDesign::Pink, FixHimDesign::PinkDepth, FLinearColor::White);
+	else
+		SetHeaderBadge(TEXT("users"), FixHimDesign::Friendship, FixHimDesign::Ink, FixHimDesign::Ink);
 
 	FixHim::Sfx(this, EndingId == TEXT("romance_success") ? "EndingRomance" : EndingId == TEXT("friend_success") ? "EndingFriend" : "EndingFail");
 	if (HeaderTitle)

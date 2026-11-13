@@ -344,6 +344,11 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 	EndingDef.Endings.Add(TEXT("romance_failure"), EndingData);
 	Failure->Setup(EndingDef, TEXT("romance_failure"), 2, 4);
 	Render(Failure, TEXT("14-ending-card-long-label"), {1920, 1080}, {1920, 1080});
+	auto *Friends = Make.template operator()<UFixHimEndingCardWidget>();
+	Friends->TakeWidget();
+	EndingDef.Endings.Add(TEXT("friend_success"), EndingData);
+	Friends->Setup(EndingDef, TEXT("friend_success"), 2, 4);
+	Render(Friends, TEXT("14-ending-card-friendship"), {1920, 1080}, {1920, 1080});
 	auto *Transition = Make.template operator()<UFixHimTransitionWidget>();
 	Transition->TakeWidget();
 	Transition->Play(TEXT("WEEK TWO"), TEXT("A fresh coat. A fresh start."), true, true, [] {}, [] {});
