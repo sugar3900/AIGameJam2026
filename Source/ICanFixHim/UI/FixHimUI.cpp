@@ -513,7 +513,10 @@ UWidget *UFixHimWidget::MakeHeaderedSurface(UBorder *Surface, const FString &Tit
 	Header->SetContent(Fit);
 	HeaderPlate = Header;
 
-	// Optional icon badge (SetHeaderBadge), centred on the plate's slanted left edge.
+	// Optional icon badge (SetHeaderBadge), centred on the plate's slanted left edge. Laid out at 56 and drawn
+	// BadgeScale larger, so it overhangs the plate above and below like the dialogue name plate without changing
+	// the header's measured height (SyncHeaderLayouts). Keyline and extrusion are pre-divided so they draw at
+	// button weight.
 	using namespace FixHimDesign;
 	constexpr float BadgeFace = 56.f;
 	auto *PlateStack = WidgetTree->ConstructWidget<UOverlay>();
@@ -532,7 +535,7 @@ UWidget *UFixHimWidget::MakeHeaderedSurface(UBorder *Surface, const FString &Tit
 		S->SetPadding(FMargin(X, Y, 0, 0));
 		return Disc;
 	};
-	const FVector2f Depth = DepthOffset(ButtonBorder);
+	const FVector2f Depth = DepthOffset(ButtonBorder) / HeaderBadgeScale;
 	HeaderBadgeDepth = Circle(Depth.X, Depth.Y);
 	HeaderBadgeFace = Circle(0, 0);
 	HeaderBadge = Badge;
@@ -543,7 +546,12 @@ UWidget *UFixHimWidget::MakeHeaderedSurface(UBorder *Surface, const FString &Tit
 	// Face centre on the plate face's vertical centre and on its left edge at that height (12-degree lean).
 	const float PlateFaceH = 10 + Heading->GetFont().Size * 1.25f + 10;
 	BadgeSlot->SetPadding(FMargin(0, PlateFaceH * .5f - BadgeFace * .5f, 0, 0));
-	Badge->SetRenderTranslation(FVector2D(PlateFaceH * .5f * Slant - BadgeFace * .5f, 0));
+	FWidgetTransform BadgeTransform;
+	BadgeTransform.Translation = FVector2D(PlateFaceH * .5f * Slant - BadgeFace * .5f, 0);
+	BadgeTransform.Scale = FVector2D(HeaderBadgeScale);
+	Badge->SetRenderTransform(BadgeTransform);
+	// Pivot on the face's centre (the overlay also holds the extrusion offset).
+	Badge->SetRenderTransformPivot(FVector2D(BadgeFace * .5f / (BadgeFace + Depth.X), BadgeFace * .5f / (BadgeFace + Depth.Y)));
 	return MakeHeaderedSurface(Surface, PlateStack, Padding);
 }
 
@@ -555,12 +563,12 @@ void UFixHimWidget::SetHeaderBadge(const FString &Icon, const FLinearColor &Fill
 		return;
 	constexpr float R = 28.f;
 	HeaderBadgeDepth->SetBrush(Rounded(Depth, R));
-	HeaderBadgeFace->SetBrush(Rounded(Fill, R, FLinearColor::White, FixHimDesign::ButtonBorder * .5f + 1.f));
+	HeaderBadgeFace->SetBrush(Rounded(Fill, R, FLinearColor::White, FixHimDesign::ButtonBorder / HeaderBadgeScale));
 	HeaderBadgeFace->SetContent(FixHimDesign::Icon(WidgetTree, Icon, IconTint));
 	HeaderBadge->SetVisibility(ESlateVisibility::HitTestInvisible);
 	// Keep the title centred on the plate and clear of the badge's overhang.
 	if (HeaderPlate)
-		HeaderPlate->SetPadding(FMargin(32 + 34, 10, 40 + 34, 10 + FixHimDesign::Extrusion));
+		HeaderPlate->SetPadding(FMargin(32 + 46, 10, 40 + 46, 10 + FixHimDesign::Extrusion));
 }
 
 UWidget *UFixHimWidget::MakeHeaderedSurface(UBorder *Surface, UWidget *Header, const FMargin &Padding, float Inset)

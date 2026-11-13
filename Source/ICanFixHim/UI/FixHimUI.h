@@ -232,6 +232,7 @@ class ICANFIXHIM_API UFixHimWidget : public UUserWidget
 	void SetHeaderBadge(const FString &Icon, const FLinearColor &Fill, const FLinearColor &Depth,
 	                    const FLinearColor &IconTint);
 	UPROPERTY() TObjectPtr<UWidget> HeaderBadge;
+	static constexpr float HeaderBadgeScale = 1.5f;
 	UPROPERTY() TObjectPtr<UBorder> HeaderBadgeFace;
 	UPROPERTY() TObjectPtr<UBorder> HeaderBadgeDepth;
 	UPROPERTY() TObjectPtr<UBorder> HeaderPlate;
