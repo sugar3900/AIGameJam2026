@@ -426,7 +426,7 @@ namespace
 {
 // Surface faces leave this much of their box for the extrusion and shadow (see FixHimDesign Surface()).
 constexpr float DepthX = 12.f, DepthY = 15.f;
-constexpr float HeaderInset = 36.f, HeaderGap = 18.f;
+
 } // namespace
 
 UWidget *UFixHimWidget::MakeHeaderedSurface(UBorder *Surface, const FString &Title, const FMargin &Padding)
@@ -435,16 +435,22 @@ UWidget *UFixHimWidget::MakeHeaderedSurface(UBorder *Surface, const FString &Tit
 	Surface->SetPadding(Padding);
 	if (Title.IsEmpty())
 		return Surface;
-	auto *Stack = WidgetTree->ConstructWidget<UOverlay>();
-	UOverlaySlot *SurfaceSlot = Stack->AddChildToOverlay(Surface);
-	SurfaceSlot->SetHorizontalAlignment(HAlign_Fill);
-	SurfaceSlot->SetVerticalAlignment(VAlign_Fill);
 	auto *Heading = MakeText(WidgetTree, Title.ToUpper(), FixHimDesign::Heading, Cream, TEXT("Display"));
 	Heading->SetJustification(ETextJustify::Center);
 	auto *Header = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Header->SetBrush(Rounded(FixHimDesign::Teal, 12));
 	Header->SetPadding(FMargin(32, 12, 40, 16));
 	Header->SetContent(Heading);
+	return MakeHeaderedSurface(Surface, Header, Padding);
+}
+
+UWidget *UFixHimWidget::MakeHeaderedSurface(UBorder *Surface, UWidget *Header, const FMargin &Padding, float Inset)
+{
+	Surface->SetPadding(Padding);
+	auto *Stack = WidgetTree->ConstructWidget<UOverlay>();
+	UOverlaySlot *SurfaceSlot = Stack->AddChildToOverlay(Surface);
+	SurfaceSlot->SetHorizontalAlignment(HAlign_Fill);
+	SurfaceSlot->SetVerticalAlignment(VAlign_Fill);
 	UOverlaySlot *HeaderSlot = Stack->AddChildToOverlay(Header);
 	HeaderSlot->SetHorizontalAlignment(HAlign_Fill);
 	HeaderSlot->SetVerticalAlignment(VAlign_Top);
@@ -452,6 +458,7 @@ UWidget *UFixHimWidget::MakeHeaderedSurface(UBorder *Surface, const FString &Tit
 	Layout.Header = Header;
 	Layout.Surface = Surface;
 	Layout.Padding = Padding;
+	Layout.Inset = Inset;
 	SyncHeaderLayouts();
 	return Stack;
 }
@@ -466,8 +473,10 @@ void UFixHimWidget::SyncHeaderLayouts()
 		if (!Header || !Surface)
 			continue;
 		// Before the first layout pass, estimate from the heading size so the first frame is already close.
-		float HeaderH = Header->GetDesiredSize().Y;
-		if (HeaderH <= 0)
+		// A collapsed header (e.g. dialogue narration) reserves nothing.
+		const bool bShown = Header->GetVisibility() != ESlateVisibility::Collapsed;
+		float HeaderH = bShown ? Header->GetDesiredSize().Y : 0.f;
+		if (bShown && HeaderH <= 0)
 			HeaderH = 28.f + 1.25f * FixHimDesign::Heading * FixHimDesign::TextScale() + DepthY;
 		float SurfaceH = Surface->GetCachedGeometry().GetLocalSize().Y;
 		if (SurfaceH <= 0)
@@ -476,17 +485,18 @@ void UFixHimWidget::SyncHeaderLayouts()
 		if (Measured.Equals(L.Measured, .5))
 			continue;
 		L.Measured = Measured;
-		const float PlateFace = HeaderH - DepthY, Drop = PlateFace * .5f;
+		const float PlateFace = FMath::Max(0.f, HeaderH - DepthY), Drop = PlateFace * .5f;
 		if (auto *SurfaceSlot = Cast<UOverlaySlot>(Surface->Slot))
 			SurfaceSlot->SetPadding(FMargin(0, Drop, 0, 0));
 		FMargin P = L.Padding;
-		P.Top += HeaderH - Drop;
+		if (bShown)
+			P.Top += HeaderH - Drop;
 		Surface->SetPadding(P);
 		// Both faces lean 12 degrees. At the plate's mid-height (the surface's top edge) the surface face spans
 		// [FaceH*K, BoxW-DepthX] and the plate face spans [Left + PlateFace*K/2, Left + PlateW - DepthX - PlateFace*K/2].
 		const float SurfaceFace = FMath::Max(0.f, SurfaceH - DepthY);
-		const float Left = SurfaceFace * K + HeaderInset - Drop * K;
-		const float Right = HeaderInset - Drop * K;
+		const float Left = SurfaceFace * K + L.Inset - Drop * K;
+		const float Right = L.Inset - Drop * K;
 		if (auto *HeaderSlot = Cast<UOverlaySlot>(Header->Slot))
 			HeaderSlot->SetPadding(FMargin(Left, 0, Right, 0));
 	}

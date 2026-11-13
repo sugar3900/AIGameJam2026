@@ -22,7 +22,7 @@ inline const FLinearColor Scrim = Ink.CopyWithNewOpacity(.72f);
 inline constexpr float Slant = 0.2125565617f;        // tan(12 degrees)
 inline constexpr float DisplayShear = 0.0897720008f; // tan(12) - tan(7)
 inline constexpr float HitHeight = 48.f;
-inline constexpr int32 Caption = 16, Body = 22, Line = 30, Reply = 28, Label = 24, Heading = 36, Hero = 72;
+inline constexpr int32 Caption = 16, Body = 22, Line = 28, Reply = 28, Label = 24, Heading = 36, Hero = 72;
 ICANFIXHIM_API bool ReducedMotion();
 ICANFIXHIM_API float TextScale();
 ICANFIXHIM_API UImage *Icon(UWidgetTree *Tree, const FString &Name, const FLinearColor &Tint);

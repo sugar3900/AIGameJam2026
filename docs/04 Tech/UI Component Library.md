@@ -41,7 +41,7 @@ Use the common popup `MakeCardScreen` rather than building a new modal frame per
 
 `UFixHimButton::Make` creates a wrapping labelled action button and accepts its existing callback. `SetVariant(EFixHimButtonVariant)` selects a semantic variant. The legacy boolean overload remains for existing callers. `Label` is available for alignment and content updates.
 
-Short action labels use Barlow Condensed ExtraBold Italic with the shared 12° display treatment. Replies and spoken dialogue lines use the display face at 28 and 30 units; the dialogue line area is sheared as one block so the typewriter and final topic layouts match. Actions have a content-driven height with a 72-unit minimum in menus, allowing enlarged text to grow.
+Short action labels use Barlow Condensed ExtraBold Italic with the shared 12° display treatment. Replies and spoken dialogue lines both use the display face at 28 units; the dialogue line area is sheared as one block so the typewriter and final topic layouts match. Actions have a content-driven height with a 72-unit minimum in menus, allowing enlarged text to grow.
 
 States: idle, hover, keyboard/gamepad focus, pressed, selected and disabled. Selected reuses the focus treatment. Shared action buttons show a white contour and diamond on hover/focus; state meaning does not rely on pink alone. Pressing moves the face towards its extrusion; disabled uses neutral surface/ink. No heart is added to a reply to predict relationship outcomes.
 
@@ -61,7 +61,7 @@ Stock Slate button behavior still handles pointer capture, keyboard/gamepad acti
 
 Shared components are used by title/name entry, pause/options/credits, end-day confirmation, dialogue, ending cards, HUD labels, radio captions, character introductions, transitions and keepsakes. The floor plan keeps actual runtime room rectangles and applies the selected palette to its surrounding sheet and statuses.
 
-Dialogue retains its typewriter, clickable topic callbacks and authored choices. Meters use a separate compact labelled row with Phosphor heart/users/lightning icons; narration and generic script scenes hide the relationship group. Four replies stack and wrap. Dialogue has no portrait. Character introductions use visible painted portraits where available.
+Dialogue retains its typewriter, clickable topic callbacks and authored choices. The header row (name plate, malady plate, teal meter strip with Phosphor heart/users/lightning icons) straddles the panel via `MakeHeaderedSurface`; narration and generic script scenes hide the relationship group. Four replies stack and wrap. Dialogue has no portrait. Character introductions use visible painted portraits where available.
 
 `UFixHimWidget::MakeHeaderedSurface` wraps any slanted surface with a teal title plate straddling its top edge. `MakeCardScreen` and the floor plan use it; the plate position is re-fitted each tick from measured sizes, so text scaling and content changes stay aligned.
 

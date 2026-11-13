@@ -218,6 +218,8 @@ class ICANFIXHIM_API UFixHimWidget : public UUserWidget
 	 * widget to place in the layout (the surface alone when Title is empty).
 	 */
 	UWidget *MakeHeaderedSurface(UBorder *Surface, const FString &Title, const FMargin &Padding);
+	/** As above with a custom header row; Inset is the space kept from each slanted side at the top edge. */
+	UWidget *MakeHeaderedSurface(UBorder *Surface, UWidget *Header, const FMargin &Padding, float Inset = 36.f);
 
   private:
 	/** The card from MakeCardScreen; it grows in with a small overshoot every time the widget is shown. */
@@ -229,6 +231,7 @@ class ICANFIXHIM_API UFixHimWidget : public UUserWidget
 		TWeakObjectPtr<UWidget> Header;
 		TWeakObjectPtr<UBorder> Surface;
 		FMargin Padding;
+		float Inset = 36.f;
 		FVector2D Measured = FVector2D(-1, -1);
 	};
 	TArray<FHeaderLayout> HeaderLayouts;

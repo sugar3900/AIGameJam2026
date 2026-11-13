@@ -169,6 +169,7 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 	                 "pink in that sink in 1994. Kool-Aid. Good instincts.");
 	View.Choices = {LongReply, TEXT("I want to know who you were before the house. If you want to tell me."),
 	                TEXT("You can love a place and still want to leave it."), TEXT("Let's fix this together.")};
+	Dialogue->BindHunk(nullptr, TEXT("tyler")); // header shows the authored malady
 	Dialogue->ShowView(View);
 	Dialogue->TryCompleteTyping();
 	Render(Dialogue, TEXT("04-dialogue-four-replies"), {1920, 1080}, {1920, 1080});
@@ -336,6 +337,7 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 		for (const auto &Choice : Case->GetArrayField(TEXT("choices")))
 			View.Choices.Add(Choice->AsObject()->GetStringField(TEXT("text")));
 		View.ActiveTopics = {TEXT("pox"), TEXT("mudset"), TEXT("bonjovi")};
+		Dialogue->BindHunk(nullptr, Script); // real malady and meters from the authored definition
 		Dialogue->ShowView(View);
 		Dialogue->TryCompleteTyping();
 		Render(Dialogue, FString::Printf(TEXT("18-authored-case-%02d"), ++FixtureIndex), {1920, 1080}, {1920, 1080});

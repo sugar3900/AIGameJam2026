@@ -57,10 +57,98 @@ void UFixHimDialogueWidget::BuildUI()
 
 	UBorder *Panel = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Panel->SetBrush(Rounded(Cream, 26.f, Pink, 4.f));
-	Panel->SetPadding(FMargin(32, 24, 48, 30));
 	Panel->SetVisibility(ESlateVisibility::Visible);
 	PanelSize->SetMaxDesiredHeight(760.f);
-	PanelSize->AddChild(Panel);
+
+	// ---- Header row (show graphics): pink name plate with cream malady plate, then a teal meter strip ----
+	// Overlay so the strip can tuck behind the name plate: strip row first (behind), name stack on top.
+	UOverlay *Header = WidgetTree->ConstructWidget<UOverlay>();
+	HeaderRow = Header;
+	UHorizontalBox *StripRow = WidgetTree->ConstructWidget<UHorizontalBox>();
+	StripLead = WidgetTree->ConstructWidget<USizeBox>();
+	StripLead->SetWidthOverride(200.f);
+	StripRow->AddChildToHorizontalBox(StripLead);
+	UVerticalBox *NameStack = WidgetTree->ConstructWidget<UVerticalBox>();
+	NamePill = WidgetTree->ConstructWidget<UFixHimSurface>();
+	NamePill->SetBrush(Rounded(HotPink, 16.f));
+	NamePill->SetPadding(FMargin(32, 4, 44, 20));
+	NameText = MakeText(WidgetTree, TEXT("NAME"), 44, FLinearColor::White, TEXT("Display"));
+	NamePill->SetContent(NameText);
+	NameStack->AddChildToVerticalBox(NamePill)->SetHorizontalAlignment(HAlign_Left);
+	auto *Malady = WidgetTree->ConstructWidget<UFixHimSurface>();
+	Malady->SetBrush(Rounded(Cream, 10.f));
+	Malady->SetPadding(FMargin(24, 2, 32, 17));
+	MaladyText = MakeText(WidgetTree, TEXT(""), 24, Plum, TEXT("Display"));
+	Malady->SetContent(MaladyText);
+	MaladyPlate = Malady;
+	// Overlaps the name plate's lower edge and steps right along the grid.
+	NameStack->AddChildToVerticalBox(Malady)->SetPadding(FMargin(28, -16, 0, 0));
+	NameStackBox = NameStack;
+
+	UFixHimSurface *Strip = WidgetTree->ConstructWidget<UFixHimSurface>();
+	Strip->SetBrush(Rounded(FixHimDesign::Teal, 12.f));
+	Strip->SetPadding(FMargin(36, 8, 44, 22));
+	UHorizontalBox *Meters = WidgetTree->ConstructWidget<UHorizontalBox>();
+	Strip->SetContent(Meters);
+	auto AddMeter = [&](const FString &Label, const FString &IconName, const FLinearColor &Color) -> UProgressBar * {
+		if (Meters->GetChildrenCount() > 0)
+		{
+			// Thin cream divider between meters.
+			auto *Divider = WidgetTree->ConstructWidget<USizeBox>();
+			Divider->SetWidthOverride(3);
+			Divider->SetHeightOverride(40);
+			auto *Bar = WidgetTree->ConstructWidget<UBorder>();
+			Bar->SetBrushColor(Cream.CopyWithNewOpacity(.7f));
+			Divider->AddChild(Bar);
+			UHorizontalBoxSlot *DivSlot = Meters->AddChildToHorizontalBox(Divider);
+			DivSlot->SetVerticalAlignment(VAlign_Center);
+			DivSlot->SetPadding(FMargin(12, 0));
+		}
+		UVerticalBox *M = WidgetTree->ConstructWidget<UVerticalBox>();
+		UHorizontalBox *Title = WidgetTree->ConstructWidget<UHorizontalBox>();
+		USizeBox *IconBox = WidgetTree->ConstructWidget<USizeBox>();
+		IconBox->SetWidthOverride(26);
+		IconBox->SetHeightOverride(26);
+		IconBox->AddChild(FixHimDesign::Icon(WidgetTree, IconName, Color.Equals(Mint) ? FLinearColor::White : Color));
+		Title->AddChildToHorizontalBox(IconBox)->SetVerticalAlignment(VAlign_Center);
+		UHorizontalBoxSlot *LabelSlot =
+		    Title->AddChildToHorizontalBox(MakeText(WidgetTree, Label, 26, FLinearColor::White, TEXT("Display")));
+		LabelSlot->SetVerticalAlignment(VAlign_Center);
+		LabelSlot->SetPadding(FMargin(10, 0, 0, 0));
+		M->AddChildToVerticalBox(Title)->SetHorizontalAlignment(HAlign_Center);
+		USizeBox *BB = WidgetTree->ConstructWidget<USizeBox>();
+		BB->SetHeightOverride(18.f);
+		BB->SetMinDesiredWidth(160.f);
+		UProgressBar *Bar = WidgetTree->ConstructWidget<UProgressBar>();
+		FProgressBarStyle Style;
+		Style.SetBackgroundImage(Rounded(Cream.CopyWithNewOpacity(.9f), 9.f, FLinearColor::White, 2.f));
+		Style.SetFillImage(Rounded(FLinearColor::White, 9.f));
+		Style.SetMarqueeImage(Rounded(FLinearColor::White, 9.f));
+		Bar->SetWidgetStyle(Style);
+		Bar->SetFillColorAndOpacity(Color);
+		Bar->SetPercent(0.f);
+		BB->AddChild(Bar);
+		M->AddChildToVerticalBox(BB)->SetPadding(FMargin(0, 4, 0, 0));
+		UHorizontalBoxSlot *MeterSlot = Meters->AddChildToHorizontalBox(M);
+		MeterSlot->SetSize(FSlateChildSize(ESlateSizeRule::Fill));
+		MeterSlot->SetVerticalAlignment(VAlign_Center);
+		return Bar;
+	};
+	RomanceBar = AddMeter(TEXT("Romance"), TEXT("heart"), HotPink);
+	FriendBar = AddMeter(TEXT("Friendship"), TEXT("users"), Mint);
+	FrictionBar = AddMeter(TEXT("Friction"), TEXT("lightning"), Ember);
+	MetersBox = Strip;
+	UHorizontalBoxSlot *StripSlot = StripRow->AddChildToHorizontalBox(Strip);
+	StripSlot->SetSize(FSlateChildSize(ESlateSizeRule::Fill));
+	StripSlot->SetVerticalAlignment(VAlign_Center);
+	UOverlaySlot *StripRowSlot = Header->AddChildToOverlay(StripRow);
+	StripRowSlot->SetHorizontalAlignment(HAlign_Fill);
+	StripRowSlot->SetVerticalAlignment(VAlign_Center);
+	UOverlaySlot *NameSlot = Header->AddChildToOverlay(NameStack);
+	NameSlot->SetHorizontalAlignment(HAlign_Left);
+	NameSlot->SetVerticalAlignment(VAlign_Center);
+
+	PanelSize->AddChild(MakeHeaderedSurface(Panel, Header, FMargin(32, 20, 48, 30), 0.f));
 	UHorizontalBox *Row = WidgetTree->ConstructWidget<UHorizontalBox>();
 	Panel->SetContent(Row);
 
@@ -68,60 +156,6 @@ void UFixHimDialogueWidget::BuildUI()
 	UVerticalBox *Col = WidgetTree->ConstructWidget<UFixHimStack>();
 	UHorizontalBoxSlot *ColSlot = Row->AddChildToHorizontalBox(Col);
 	ColSlot->SetSize(FSlateChildSize(ESlateSizeRule::Fill));
-
-	UHorizontalBox *Header = WidgetTree->ConstructWidget<UHorizontalBox>();
-	Col->AddChildToVerticalBox(Header)->SetPadding(FMargin(0.f, 0.f, 0.f, 8.f));
-
-	NamePill = WidgetTree->ConstructWidget<UFixHimSurface>();
-	NamePill->SetBrush(Rounded(HotPink, 16.f));
-	NamePill->SetPadding(FMargin(28, 6, 36, 20));
-	NameText = MakeText(WidgetTree, TEXT("NAME"), 28, FLinearColor::White, TEXT("Display"));
-	NamePill->SetContent(NameText);
-	Header->AddChildToHorizontalBox(NamePill)->SetVerticalAlignment(VAlign_Center);
-
-	MaladyText = MakeText(WidgetTree, TEXT(""), 16, PlumSoft, TEXT("Italic"));
-	UHorizontalBoxSlot *MalSlot = Header->AddChildToHorizontalBox(MaladyText);
-	MalSlot->SetVerticalAlignment(VAlign_Center);
-	MalSlot->SetPadding(FMargin(12.f, 0.f));
-	MalSlot->SetSize(FSlateChildSize(ESlateSizeRule::Fill));
-
-	// Meters: one horizontal row at the right end of the header, each a label then its bar.
-	UHorizontalBox *Meters = WidgetTree->ConstructWidget<UHorizontalBox>();
-	auto AddMeter = [&](const FString &Label, const FLinearColor &Color) -> UProgressBar * {
-		UHorizontalBox *M = WidgetTree->ConstructWidget<UHorizontalBox>();
-		const FString IconName = Label == TEXT("ROMANCE")      ? TEXT("heart")
-		                         : Label == TEXT("FRIENDSHIP") ? TEXT("users")
-		                                                       : TEXT("lightning");
-		USizeBox *IconBox = WidgetTree->ConstructWidget<USizeBox>();
-		IconBox->SetWidthOverride(22);
-		IconBox->SetHeightOverride(22);
-		IconBox->AddChild(FixHimDesign::Icon(WidgetTree, IconName, Color));
-		M->AddChildToHorizontalBox(IconBox)->SetPadding(FMargin(0, 0, 6, 0));
-		UHorizontalBoxSlot *LabelSlot =
-		    M->AddChildToHorizontalBox(MakeText(WidgetTree, Label, 14, PlumSoft, TEXT("Bold")));
-		LabelSlot->SetVerticalAlignment(VAlign_Center);
-		LabelSlot->SetPadding(FMargin(0.f, 0.f, 14.f, 0.f));
-		USizeBox *BB = WidgetTree->ConstructWidget<USizeBox>();
-		BB->SetWidthOverride(100.f);
-		BB->SetHeightOverride(16.f);
-		UProgressBar *Bar = WidgetTree->ConstructWidget<UProgressBar>();
-		FProgressBarStyle Style;
-		Style.SetBackgroundImage(Rounded(Plum.CopyWithNewOpacity(.14f), 8.f));
-		Style.SetFillImage(Rounded(FLinearColor::White, 8.f));
-		Style.SetMarqueeImage(Rounded(FLinearColor::White, 8.f));
-		Bar->SetWidgetStyle(Style);
-		Bar->SetFillColorAndOpacity(Color);
-		Bar->SetPercent(0.f);
-		BB->AddChild(Bar);
-		M->AddChildToHorizontalBox(BB)->SetVerticalAlignment(VAlign_Center);
-		Meters->AddChildToHorizontalBox(M)->SetPadding(FMargin(12.f, 0.f, 0.f, 0.f));
-		return Bar;
-	};
-	RomanceBar = AddMeter(TEXT("ROMANCE"), HotPink);
-	FriendBar = AddMeter(TEXT("FRIENDSHIP"), Mint);
-	FrictionBar = AddMeter(TEXT("FRICTION"), Ember);
-	Col->AddChildToVerticalBox(Meters)->SetPadding(FMargin(0, 0, 0, 12));
-	MetersBox = Meters;
 
 	// Line text: typewriter text while typing, then a wrap box of words so [topics] can be clicked.
 	UOverlay *TextArea = WidgetTree->ConstructWidget<UOverlay>();
@@ -211,6 +245,7 @@ void UFixHimDialogueWidget::BindScript(const FString &ScriptId, const FString &T
 	bScriptScene = true;
 	MetersBox->SetVisibility(ESlateVisibility::Collapsed);
 	MaladyText->SetText(FText::FromString(Title));
+	MaladyPlate->SetVisibility(Title.IsEmpty() ? ESlateVisibility::Collapsed : ESlateVisibility::HitTestInvisible);
 }
 
 void UFixHimDialogueWidget::BindHunk(AFixHimHunk *Hunk, const FString &InHunkId)
@@ -240,11 +275,14 @@ void UFixHimDialogueWidget::ShowView(const FDialogueView &View)
 	                                                    : ESlateVisibility::HitTestInvisible);
 	const bool bNamed = View.Speaker == EDialogueSpeaker::Named;
 	NamePill->SetVisibility(bNarration ? ESlateVisibility::Collapsed : ESlateVisibility::HitTestInvisible);
+	// Narration has no speaker or meters: the panel loses its header row entirely.
+	HeaderRow->SetVisibility(bNarration ? ESlateVisibility::Collapsed : ESlateVisibility::SelfHitTestInvisible);
 	// The malady is the hunk's tag line: not shown while the player or the narrator is the one talking.
 	if (!bScriptScene)
 	{
-		MaladyText->SetVisibility(bPlayer || bNarration ? ESlateVisibility::Collapsed
-		                                                : ESlateVisibility::HitTestInvisible);
+		MaladyPlate->SetVisibility(bPlayer || bNarration || MaladyText->GetText().IsEmpty()
+		                               ? ESlateVisibility::Collapsed
+		                               : ESlateVisibility::HitTestInvisible);
 	}
 	NamePill->SetBrush(Rounded(bPlayer ? Plum : (bNamed ? PlumSoft : HotPink), 16.f));
 	const UFixHimSaveSubsystem *SaveSub = UFixHimSaveSubsystem::Get(this);
@@ -572,12 +610,20 @@ void UFixHimDialogueWidget::NativeTick(const FGeometry &MyGeometry, float InDelt
 	Super::NativeTick(MyGeometry, InDeltaTime);
 
 	ViewSize = MyGeometry.GetLocalSize();
+	if (StripLead && NameStackBox)
+	{
+		// Tuck the strip ~40 units behind the name plate, or start flush when there is no name.
+		const float NameW = NameStackBox->IsVisible() ? NameStackBox->GetDesiredSize().X : 0.f;
+		const float Lead = FMath::Max(0.f, NameW - 40.f);
+		if (!FMath::IsNearlyEqual(StripLead->GetWidthOverride(), Lead, .5f))
+			StripLead->SetWidthOverride(Lead);
+	}
 	if (PanelSize)
 	{
 		// A quarter of the screen plus room for two more lines of text (24pt, ~32px each).
 		PanelSize->SetMinDesiredHeight(160);
 		PanelSize->SetMaxDesiredHeight(ViewSize.Y * .78f);
-		const float HeaderHeight = NamePill->IsVisible() ? 160.f : 20.f;
+		const float HeaderHeight = HeaderRow->IsVisible() ? HeaderRow->GetDesiredSize().Y * .5f + 60.f : 20.f;
 		LineBounds->SetMaxDesiredHeight(
 		    FMath::Max(72.f, ViewSize.Y * .78f - ChoiceBox->GetDesiredSize().Y - HeaderHeight - 100.f));
 	}
