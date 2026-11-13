@@ -17,7 +17,7 @@ Implementation companion to [[UI Design System]]. The visual decisions remain th
 | `Art Source/UI/Design/` | Prepared font files, icon masks, logo and licenses |
 | `Content/ICanFixHim/UI/Design/` | Imported cooked assets |
 
-Imported font faces are assembled into strongly referenced runtime `UFont` families. Titles, buttons and HUD plates use the display face (Barlow Condensed ExtraBold Italic); every other typeface name resolves to Barlow SemiBold Italic. Both are 7° italics; `MakeText` adds only the shear needed to reach 12°, except for `...Face` typefaces placed inside an already-sheared block. Screen widgets should obtain text from `FixHimUI::MakeText` / `Font`, not the engine default font.
+Imported font faces are assembled into strongly referenced runtime `UFont` families. Titles, buttons and HUD plates use the display face (Barlow Condensed ExtraBold); every other typeface name resolves to Barlow SemiBold. Both are upright cuts that `MakeText` shears the full 12° (`FixHimDesign::DisplayShear` = tan 12°), so glyph lean and line-to-line stepping match; `...Face` typefaces leave the shear to an already-sheared parent block. `MakeCardScreen` content columns are `UFixHimStack`s so rows step along the grid. Screen widgets should obtain text from `FixHimUI::MakeText` / `Font`, not the engine default font.
 
 ## Surface and placement primitives
 

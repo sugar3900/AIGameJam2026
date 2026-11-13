@@ -23,7 +23,8 @@ inline const FLinearColor Disabled = FLinearColor::FromSRGBColor(FColor::FromHex
 inline const FLinearColor DisabledInk = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("565C60")));
 inline const FLinearColor Scrim = Ink.CopyWithNewOpacity(.72f);
 inline constexpr float Slant = 0.2125565617f;        // tan(12 degrees)
-inline constexpr float DisplayShear = 0.0897720008f; // tan(12) - tan(7)
+// Text is set in upright faces and sheared the full 12 degrees, so glyphs and wrapped lines both follow the grid.
+inline constexpr float DisplayShear = Slant;
 /** Keyline (outline) widths. Buttons and plates use ButtonBorder; popup cards and panels use twice that. */
 inline constexpr float ButtonBorder = 6.f, PopupBorder = 12.f;
 /**

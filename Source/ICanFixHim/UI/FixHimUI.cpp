@@ -52,11 +52,11 @@ FSlateFontInfo Font(int32 Size, const TCHAR *Typeface)
 		}
 		return TStrongObjectPtr<UFont>(F);
 	};
-	// Type rule: titles use the condensed display face; all other text is Barlow SemiBold Italic. Both are 7-degree
-	// italics that MakeText shears to the shared 12-degree grid. Legacy names (Regular/Semibold/Bold/Italic/Lean)
-	// all resolve to the body face.
-	static TStrongObjectPtr<UFont> Display = BuildFont({TEXT("BarlowCondensed-ExtraBoldItalic")});
-	static TStrongObjectPtr<UFont> Body = BuildFont({TEXT("Barlow-SemiBoldItalic")});
+	// Type rule: titles use Barlow Condensed ExtraBold; all other text is Barlow SemiBold. Both are upright cuts that
+	// MakeText (or a parent block) shears the full 12 degrees, so glyphs and wrapped lines step along the same grid.
+	// Legacy names (Regular/Semibold/Bold/Italic/Lean) all resolve to the body face.
+	static TStrongObjectPtr<UFont> Display = BuildFont({TEXT("BarlowCondensed-ExtraBold")});
+	static TStrongObjectPtr<UFont> Body = BuildFont({TEXT("Barlow-SemiBold")});
 	const bool IsDisplay = FCString::Strncmp(Typeface, TEXT("Display"), 7) == 0;
 	UFont *Asset = IsDisplay ? Display.Get() : Body.Get();
 	const int32 ScaledSize = FMath::RoundToInt(Size * FixHimDesign::TextScale());
@@ -560,7 +560,8 @@ UVerticalBox *UFixHimWidget::MakeCardScreen(const FString &Title, float Width)
 	BarStyle.SetDraggedThumbImage(Rounded(FixHimDesign::Ink, 3));
 	Scroll->SetWidgetBarStyle(BarStyle);
 	Inset->SetContent(Scroll);
-	auto *Col = WidgetTree->ConstructWidget<UVerticalBox>();
+	// A grid stack, so rows of card content step along the 12-degree columns.
+	auto *Col = WidgetTree->ConstructWidget<UFixHimStack>();
 	Scroll->AddChild(Col);
 	Layout->AddChildToVerticalBox(Bounds);
 	CardActions = WidgetTree->ConstructWidget<UFixHimStack>();

@@ -49,11 +49,11 @@ Keep cream reading surfaces, disabled controls and reticles flat. Avoid glossy s
 
 | Role | Font | Treatment |
 |---|---|---|
-| Titles (headers, name plates): **all caps** | Barlow Condensed ExtraBold Italic, 800 | Effective 12° right lean |
-| Buttons and HUD plates: **mixed case** | Barlow Condensed ExtraBold Italic, 800 | Effective 12° right lean |
-| All other text: dialogue (26), body copy, labels, hints | Barlow SemiBold Italic, 600 | Effective 12° right lean |
+| Titles (headers, name plates): **all caps** | Barlow Condensed ExtraBold, 800 | 12° shear |
+| Buttons and HUD plates: **mixed case** | Barlow Condensed ExtraBold, 800 | 12° shear |
+| All other text: dialogue (26), body copy, labels, hints | Barlow SemiBold, 600 | 12° shear |
 
-**Rule: every piece of text leans 12°.** Both faces are 7° native italics topped up with the same synthetic shear. Upright Barlow Regular/Semibold are no longer used.
+**Rule: every piece of text leans 12°.** Both faces are set from their upright cuts and sheared the full 12°, so the glyphs and the steps between wrapped lines follow the same grid (Barlow's italics are essentially slanted romans, so the result matches them). Card and panel content rows sit in grid stacks, so each row also steps left by 12° as it goes down.
 
 Barlow Condensed's native italic lean is 7°. Barlow SemiBold Italic is also 7°. The selected 12° treatment adds the same synthetic shear to both faces. Added shear tangent: `tan(12°) - tan(7°) = 0.0897720008`. Text baselines stay horizontal. Spoken lines are sheared as one block, so wrapped lines also step along the grid. Icons stay upright.
 

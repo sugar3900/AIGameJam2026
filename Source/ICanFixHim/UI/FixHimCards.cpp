@@ -241,7 +241,7 @@ void UFixHimIntroCardWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 
 void UFixHimEndingCardWidget::BuildUI()
 {
-	UVerticalBox* Col = MakeCardScreen(TEXT(""), 760.f);
+	UVerticalBox* Col = MakeCardScreen(TEXT(""), 880.f); // wide enough that the grid-stepped title keeps two lines
 	OpenSfx = NAME_None; // the ending jingle covers it
 	OutsideClickMinAge = 0.8f;
 	Card = CardSurface;
