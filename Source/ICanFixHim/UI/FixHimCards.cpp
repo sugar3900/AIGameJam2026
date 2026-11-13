@@ -244,10 +244,7 @@ void UFixHimEndingCardWidget::BuildUI()
 	UVerticalBox* Col = MakeCardScreen(TEXT(""), 760.f);
 	OpenSfx = NAME_None; // the ending jingle covers it
 	OutsideClickMinAge = 0.8f;
-	if (UBorder* CardBorder = Cast<UBorder>(Col->GetParent()))
-	{
-		Card = CardBorder;
-	}
+	Card = CardSurface;
 	Col->ClearChildren();
 
 	Kind = MakeText(WidgetTree, TEXT("ENDING"), 20, Pink, TEXT("Bold"));

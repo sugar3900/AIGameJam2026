@@ -189,7 +189,7 @@ class SDesignCheckBox : public SCheckBox
 	{
 		using namespace FixHimDesign;
 		const bool Focus = HasKeyboardFocus();
-		const FLinearColor Fill = !ShouldBeEnabled(E) ? Disabled : IsChecked() ? Teal : Cream;
+		const FLinearColor Fill = !ShouldBeEnabled(E) ? Disabled : IsChecked() ? FixHimDesign::Teal : FixHimDesign::Cream;
 		auto Box = FixHimUI::Rounded(Fill, 7, Focus || IsHovered() ? FixHimDesign::Pink : Teal, Focus ? 4 : 3);
 		FSlateDrawElement::MakeBox(Out, L, G.ToPaintGeometry(FVector2f(32, 32), FSlateLayoutTransform(FVector2f(8, 8))),
 		                           &Box, ESlateDrawEffect::None, Box.GetTint(S) * S.GetColorAndOpacityTint());

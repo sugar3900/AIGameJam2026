@@ -31,6 +31,8 @@ private:
 
 	UPROPERTY() TObjectPtr<UCanvasPanel> Canvas;
 	UPROPERTY() TObjectPtr<UBorder> Sheet;
+	/** Sheet plus its straddling title plate; the outside-click bounds. */
+	UPROPERTY() TObjectPtr<UWidget> SheetFrame;
 	UPROPERTY() TObjectPtr<UBorder> PlayerMarker;
 
 	FBox2D WorldBounds = FBox2D(ForceInit);

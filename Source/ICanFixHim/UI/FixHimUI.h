@@ -209,9 +209,30 @@ class ICANFIXHIM_API UFixHimWidget : public UUserWidget
 	/** A centred rounded card with a title, returned content box for children. */
 	UVerticalBox *MakeCardScreen(const FString &Title, float Width = 520.f);
 
+	/** The cream surface built by MakeCardScreen. */
+	UPROPERTY() TObjectPtr<UBorder> CardSurface;
+
+	/**
+	 * Wraps a slanted surface so a teal title plate straddles its top edge: the plate's face is centred vertically
+	 * on that edge and inset equally from both slanted sides. Surface padding grows to clear the plate. Returns the
+	 * widget to place in the layout (the surface alone when Title is empty).
+	 */
+	UWidget *MakeHeaderedSurface(UBorder *Surface, const FString &Title, const FMargin &Padding);
+
   private:
 	/** The card from MakeCardScreen; it grows in with a small overshoot every time the widget is shown. */
 	UPROPERTY() TObjectPtr<UWidget> PopCard;
 	float PopAge = 0.f;
+
+	struct FHeaderLayout
+	{
+		TWeakObjectPtr<UWidget> Header;
+		TWeakObjectPtr<UBorder> Surface;
+		FMargin Padding;
+		FVector2D Measured = FVector2D(-1, -1);
+	};
+	TArray<FHeaderLayout> HeaderLayouts;
+	/** Re-fits straddling headers to their measured plate and surface sizes (text size and content can change). */
+	void SyncHeaderLayouts();
 	bool bInitialFocus = false;
 };

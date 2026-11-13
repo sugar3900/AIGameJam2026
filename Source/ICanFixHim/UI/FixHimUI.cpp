@@ -389,6 +389,7 @@ FReply UFixHimWidget::NativeOnMouseButtonDown(const FGeometry &InGeometry, const
 void UFixHimWidget::NativeTick(const FGeometry &MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
+	SyncHeaderLayouts();
 	ShownAge += InDeltaTime;
 	if (!bInitialFocus && ShownAge > .12f)
 	{
@@ -421,6 +422,76 @@ void UFixHimWidget::NativeTick(const FGeometry &MyGeometry, float InDeltaTime)
 	}
 }
 
+namespace
+{
+// Surface faces leave this much of their box for the extrusion and shadow (see FixHimDesign Surface()).
+constexpr float DepthX = 12.f, DepthY = 15.f;
+constexpr float HeaderInset = 36.f, HeaderGap = 18.f;
+} // namespace
+
+UWidget *UFixHimWidget::MakeHeaderedSurface(UBorder *Surface, const FString &Title, const FMargin &Padding)
+{
+	using namespace FixHimUI;
+	Surface->SetPadding(Padding);
+	if (Title.IsEmpty())
+		return Surface;
+	auto *Stack = WidgetTree->ConstructWidget<UOverlay>();
+	UOverlaySlot *SurfaceSlot = Stack->AddChildToOverlay(Surface);
+	SurfaceSlot->SetHorizontalAlignment(HAlign_Fill);
+	SurfaceSlot->SetVerticalAlignment(VAlign_Fill);
+	auto *Heading = MakeText(WidgetTree, Title.ToUpper(), FixHimDesign::Heading, Cream, TEXT("Display"));
+	Heading->SetJustification(ETextJustify::Center);
+	auto *Header = WidgetTree->ConstructWidget<UFixHimSurface>();
+	Header->SetBrush(Rounded(FixHimDesign::Teal, 12));
+	Header->SetPadding(FMargin(32, 12, 40, 16));
+	Header->SetContent(Heading);
+	UOverlaySlot *HeaderSlot = Stack->AddChildToOverlay(Header);
+	HeaderSlot->SetHorizontalAlignment(HAlign_Fill);
+	HeaderSlot->SetVerticalAlignment(VAlign_Top);
+	FHeaderLayout &Layout = HeaderLayouts.AddDefaulted_GetRef();
+	Layout.Header = Header;
+	Layout.Surface = Surface;
+	Layout.Padding = Padding;
+	SyncHeaderLayouts();
+	return Stack;
+}
+
+void UFixHimWidget::SyncHeaderLayouts()
+{
+	const float K = FixHimDesign::Slant;
+	for (FHeaderLayout &L : HeaderLayouts)
+	{
+		UWidget *Header = L.Header.Get();
+		UBorder *Surface = L.Surface.Get();
+		if (!Header || !Surface)
+			continue;
+		// Before the first layout pass, estimate from the heading size so the first frame is already close.
+		float HeaderH = Header->GetDesiredSize().Y;
+		if (HeaderH <= 0)
+			HeaderH = 28.f + 1.25f * FixHimDesign::Heading * FixHimDesign::TextScale() + DepthY;
+		float SurfaceH = Surface->GetCachedGeometry().GetLocalSize().Y;
+		if (SurfaceH <= 0)
+			SurfaceH = Surface->GetDesiredSize().Y;
+		const FVector2D Measured(HeaderH, SurfaceH);
+		if (Measured.Equals(L.Measured, .5))
+			continue;
+		L.Measured = Measured;
+		const float PlateFace = HeaderH - DepthY, Drop = PlateFace * .5f;
+		if (auto *SurfaceSlot = Cast<UOverlaySlot>(Surface->Slot))
+			SurfaceSlot->SetPadding(FMargin(0, Drop, 0, 0));
+		FMargin P = L.Padding;
+		P.Top += HeaderH - Drop;
+		Surface->SetPadding(P);
+		// Both faces lean 12 degrees. At the plate's mid-height (the surface's top edge) the surface face spans
+		// [FaceH*K, BoxW-DepthX] and the plate face spans [Left + PlateFace*K/2, Left + PlateW - DepthX - PlateFace*K/2].
+		const float SurfaceFace = FMath::Max(0.f, SurfaceH - DepthY);
+		const float Left = SurfaceFace * K + HeaderInset - Drop * K;
+		const float Right = HeaderInset - Drop * K;
+		if (auto *HeaderSlot = Cast<UOverlaySlot>(Header->Slot))
+			HeaderSlot->SetPadding(FMargin(Left, 0, Right, 0));
+	}
+}
+
 UVerticalBox *UFixHimWidget::MakeCardScreen(const FString &Title, float Width)
 {
 	using namespace FixHimUI;
@@ -443,22 +514,12 @@ UVerticalBox *UFixHimWidget::MakeCardScreen(const FString &Title, float Width)
 
 	UBorder *Card = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Card->SetBrush(Rounded(Cream, 28.f, Pink, 4.f));
-	Card->SetPadding(FMargin(32, 32, 40, 40));
-	Size->AddChild(Card);
+	CardSurface = Card;
+	Size->AddChild(MakeHeaderedSurface(Card, Title, FMargin(32, 32, 40, 40)));
 	Size->SetRenderTransformPivot(FVector2D(.5f, .5f));
 	PopCard = Size;
 	auto *Layout = WidgetTree->ConstructWidget<UFixHimStack>();
 	Card->SetContent(Layout);
-	if (!Title.IsEmpty())
-	{
-		auto *Heading = MakeText(WidgetTree, Title.ToUpper(), FixHimDesign::Heading, Cream, TEXT("Display"));
-		Heading->SetJustification(ETextJustify::Center);
-		auto *Header = WidgetTree->ConstructWidget<UFixHimSurface>();
-		Header->SetBrush(Rounded(FixHimDesign::Teal, 12));
-		Header->SetPadding(FMargin(32, 12, 40, 16));
-		Header->SetContent(Heading);
-		Layout->AddChildToVerticalBox(Header)->SetPadding(FMargin(0, 0, 0, 20));
-	}
 	// A rectangular scroll clip must stay inside both slanted edges. The outer stack
 	// positions its centre; reserve half the maximum body's lean on either side.
 	auto *Bounds = WidgetTree->ConstructWidget<USizeBox>();

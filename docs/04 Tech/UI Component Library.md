@@ -35,13 +35,13 @@ Use the common popup `MakeCardScreen` rather than building a new modal frame per
 |---|---|
 | Primary | Pink gradient, white label; the main action |
 | Secondary | Cream, ink label; fills pink with a white label on hover/focus |
-| Reply | Secondary construction with upright, left-aligned, wrapping authored text |
+| Reply | Secondary construction with left-aligned, wrapping authored text in the display face |
 | Topic | Pink text and underline, stronger underline on hover/focus; hand cursor; inline conversation link |
 | Spatial | Stock rectangular control for the floor-plan's actual room footprints |
 
 `UFixHimButton::Make` creates a wrapping labelled action button and accepts its existing callback. `SetVariant(EFixHimButtonVariant)` selects a semantic variant. The legacy boolean overload remains for existing callers. `Label` is available for alignment and content updates.
 
-Short action labels use Barlow Condensed ExtraBold Italic with the shared 12° display treatment. Replies use upright Barlow Semibold. Actions have a content-driven height with a 72-unit minimum in menus, allowing enlarged text to grow.
+Short action labels use Barlow Condensed ExtraBold Italic with the shared 12° display treatment. Replies and spoken dialogue lines use the display face at 28 and 30 units; the dialogue line area is sheared as one block so the typewriter and final topic layouts match. Actions have a content-driven height with a 72-unit minimum in menus, allowing enlarged text to grow.
 
 States: idle, hover, keyboard/gamepad focus, pressed, selected and disabled. Selected reuses the focus treatment. Shared action buttons show a white contour and diamond on hover/focus; state meaning does not rely on pink alone. Pressing moves the face towards its extrusion; disabled uses neutral surface/ink. No heart is added to a reply to predict relationship outcomes.
 
@@ -61,7 +61,9 @@ Stock Slate button behavior still handles pointer capture, keyboard/gamepad acti
 
 Shared components are used by title/name entry, pause/options/credits, end-day confirmation, dialogue, ending cards, HUD labels, radio captions, character introductions, transitions and keepsakes. The floor plan keeps actual runtime room rectangles and applies the selected palette to its surrounding sheet and statuses.
 
-Dialogue retains its typewriter, clickable topic callbacks and authored choices. Meters use a separate compact labelled row with Phosphor heart/users/lightning icons; narration and generic script scenes hide the relationship group. Four replies stack and wrap. Character introductions use visible painted portraits where available.
+Dialogue retains its typewriter, clickable topic callbacks and authored choices. Meters use a separate compact labelled row with Phosphor heart/users/lightning icons; narration and generic script scenes hide the relationship group. Four replies stack and wrap. Dialogue has no portrait. Character introductions use visible painted portraits where available.
+
+`UFixHimWidget::MakeHeaderedSurface` wraps any slanted surface with a teal title plate straddling its top edge. `MakeCardScreen` and the floor plan use it; the plate position is re-fitted each tick from measured sizes, so text scaling and content changes stay aligned.
 
 The selected v4 logo is imported once for the title screen. Its raster edge speckling and a final editable brand master still need a dedicated finishing pass; it has not been silently replaced by a different logo. Construction stripes and routine ray flourishes remain excluded.
 

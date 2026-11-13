@@ -34,16 +34,14 @@ void UFixHimFloorPlanWidget::BuildUI()
 
 	Sheet = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Sheet->SetBrush(Rounded(Blueprint, 18.f, FLinearColor(0.75f, 0.85f, 1.f, 0.9f), 3.f));
-	Sheet->SetPadding(FMargin(32, 28, 48, 36));
-	UOverlaySlot *SheetSlot = Root->AddChildToOverlay(Sheet);
+	SheetFrame = MakeHeaderedSurface(Sheet, TEXT("Floor plan  -  12 Heartbreak Lane"), FMargin(32, 28, 48, 36));
+	UOverlaySlot *SheetSlot = Root->AddChildToOverlay(SheetFrame);
 	SheetSlot->SetHorizontalAlignment(HAlign_Center);
 	SheetSlot->SetVerticalAlignment(VAlign_Center);
 
 	UVerticalBox *Col = WidgetTree->ConstructWidget<UFixHimStack>();
 	Sheet->SetContent(Col);
 
-	UTextBlock *Title = MakeText(WidgetTree, TEXT("FLOOR PLAN  -  12 HEARTBREAK LANE"), 32, Cream, TEXT("Display"));
-	Col->AddChildToVerticalBox(Title)->SetPadding(FMargin(0.f, 0.f, 0.f, 4.f));
 	UTextBlock *Sub = MakeText(WidgetTree, TEXT("Click a room to go there.  [M] or click outside to close"), 16,
 	                           Cream.CopyWithNewOpacity(.85f), TEXT("Italic"));
 	Col->AddChildToVerticalBox(Sub)->SetPadding(FMargin(0.f, 0.f, 0.f, 14.f));
@@ -58,7 +56,7 @@ void UFixHimFloorPlanWidget::BuildUI()
 
 UWidget *UFixHimFloorPlanWidget::GetOutsideClickCard() const
 {
-	return Sheet;
+	return SheetFrame;
 }
 
 bool UFixHimFloorPlanWidget::HandleClickOutside()

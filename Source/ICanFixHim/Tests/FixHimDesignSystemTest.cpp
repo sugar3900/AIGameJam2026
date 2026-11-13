@@ -171,17 +171,6 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 	                TEXT("You can love a place and still want to leave it."), TEXT("Let's fix this together.")};
 	Dialogue->ShowView(View);
 	Dialogue->TryCompleteTyping();
-	bool SetPaintedPortrait = false;
-	Dialogue->WidgetTree->ForEachWidget([&](UWidget *Child) {
-		if (auto *Image = Cast<UImage>(Child); Image && !SetPaintedPortrait)
-		{
-			auto *Texture = LoadObject<UTexture2D>(
-			    nullptr, TEXT("/Game/ICanFixHim/UI/Portraits/T_Portrait_Tyler.T_Portrait_Tyler"));
-			TestNotNull(TEXT("Real Tyler review portrait loads"), Texture);
-			Image->SetBrushFromTexture(Texture);
-			SetPaintedPortrait = true;
-		}
-	});
 	Render(Dialogue, TEXT("04-dialogue-four-replies"), {1920, 1080}, {1920, 1080});
 	// Assert real authored copy survives both the typewriter and the rendered choices.
 	bool FoundReply = false;
@@ -349,17 +338,6 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 		View.ActiveTopics = {TEXT("pox"), TEXT("mudset"), TEXT("bonjovi")};
 		Dialogue->ShowView(View);
 		Dialogue->TryCompleteTyping();
-		const FString PortraitName = Script.Left(1).ToUpper() + Script.Mid(1);
-		bool Assigned = false;
-		Dialogue->WidgetTree->ForEachWidget([&](UWidget *W) {
-			if (auto *Image = Cast<UImage>(W); Image && !Assigned)
-			{
-				const FString Path = FString::Printf(TEXT("/Game/ICanFixHim/UI/Portraits/T_Portrait_%s.T_Portrait_%s"),
-				                                     *PortraitName, *PortraitName);
-				Image->SetBrushFromTexture(LoadObject<UTexture2D>(nullptr, *Path));
-				Assigned = true;
-			}
-		});
 		Render(Dialogue, FString::Printf(TEXT("18-authored-case-%02d"), ++FixtureIndex), {1920, 1080}, {1920, 1080});
 	}
 

@@ -11,7 +11,8 @@ date: 2026-11-12
 
 - **Surfaces:** corner roundness; white keyline with ink depth on teal/pink, orange border and extrusion on cream.
 - **Type and spacing:** display/body hierarchy, action-label sizing, angled columns and padding.
-- **Dialogue:** portrait size, relationship row, reading width and the balance between four replies and visible scene.
+- **Dialogue:** display-face lines and replies, relationship row, reading width and the balance between four replies and visible scene. Portraits are removed.
+- **Headers:** teal plates straddling the top edge of popups and the floor plan.
 - **Floor plan:** narrow rooms now use external name tags that overhang their footprint; room geometry is unchanged.
 - **Interaction:** filled pointer, white contour and lift for keyboard/gamepad focus (hover changes fill only), pressed depth, transition feel, enlarged text and scrolling.
 
@@ -27,11 +28,11 @@ These standalone captures predate the 2026-11-13 review fixes below and have not
 
 ![Native Unreal component workshop](../Attachments/UI%20Review/01-components-1080p.png)
 
-These are actual UMG/Slate widgets rendered by Unreal. Focused and pressed samples are held in their corresponding visual states for comparison. The body text and icons stay upright while their anchors follow the shared 12° columns.
+These are actual UMG/Slate widgets rendered by Unreal. Focused and pressed samples are held in their corresponding visual states for comparison. Helper text and icons stay upright while their anchors follow the shared 12° columns.
 
 ## Dialogue
 
-![Full line and four replies with Tyler's portrait](../Attachments/UI%20Review/04-dialogue-four-replies.png)
+![Full line and four replies](../Attachments/UI%20Review/04-dialogue-four-replies.png)
 
 This combined capacity case pairs the 240-character spoken line with four complete replies, including the longest reply. It is a layout stress case, not a single authored exchange. The six actual exchanges below retain their authored text and topic markup. Relationship meters in isolated fixtures have no gameplay progress to display.
 
@@ -79,7 +80,7 @@ An independent visual review compared the captures with the Exploration 01 #7 in
 
 **Deferred:** splitting Week and Repairs into separate HUD plates; restructuring the dialogue header into a name-plate/malady/meter strip; rich-text topics.
 
-**Left for the designer:** upright versus slanted bodies on very tall panels; whether the portrait shows when the speaker is already visible; centred versus left-aligned modal copy; a header plate on the week transition.
+**Left for the designer:** upright versus slanted bodies on very tall panels; centred versus left-aligned modal copy; a header plate on the week transition.
 
 ## Validation
 
