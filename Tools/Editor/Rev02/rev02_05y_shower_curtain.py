@@ -1,5 +1,5 @@
-"""Rev02 step 5x (user feedback: shower curtain): the moving shower curtain draws closed across the tub instead of a
-rigid 52 cm panel sliding 110 cm. Needs AFixHimMorphInteractable (C++). Run after rev02_05b / 05m / 05w. Re-runnable.
+"""Rev02 step 5y (user feedback: shower curtain): the moving shower curtain draws closed across the tub instead of a
+rigid 52 cm panel sliding 110 cm. Needs AFixHimMorphInteractable (C++). Run after rev02_05b / 05m / 05w / 05x. Re-runnable.
 
 - Source: BA-TUB-01/model/BA_Curtain_Animated.fbx (see that folder's README): Curtain_panel_sliding on a one-bone rig
   with shape keys Closed, 0 = gathered at the east end by the rod's bend and the fixed return, 1 = drawn west to world

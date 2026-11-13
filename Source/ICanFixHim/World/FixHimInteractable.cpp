@@ -1,6 +1,7 @@
 // I Can Fix Him - AI Game Jam 2026
 
 #include "World/FixHimInteractable.h"
+#include "World/FixHimHoverOutline.h"
 #include "Core/FixHimAssets.h"
 #include "Core/FixHimSettings.h"
 #include "Audio/FixHimSfxSubsystem.h"
@@ -54,7 +55,6 @@ void AFixHimInteractable::BeginPlay()
 	Super::BeginPlay();
 	Age = FMath::FRand() * 10.f;
 	ApplyLook();
-	BuildOutline();
 	BuildShine();
 	BuildGlow();
 	SetOnLocal(bIsOn, true);
@@ -132,6 +132,23 @@ void AFixHimInteractable::ApplyFill()
 		const FVector Shift = GetActorTransform().InverseTransformVectorNoScale(RevealTopToPivot * (1.f - F));
 		RevealPart->SetRelativeLocation(RevealRelLocation + Shift);
 	}
+}
+
+void AFixHimInteractable::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	if (bHovered)
+	{
+		// Children may outlive this actor (e.g. in another sublevel): don't leave them writing the outline stencil.
+		if (bHoverOutline)
+		{
+			SetOutlineStencil(false);
+		}
+		if (UFixHimHoverOutlineSubsystem* Outline = UFixHimHoverOutlineSubsystem::Get(this))
+		{
+			Outline->Hide(this);
+		}
+	}
+	Super::EndPlay(EndPlayReason);
 }
 
 void AFixHimInteractable::BuildGlow()
@@ -227,50 +244,53 @@ void AFixHimInteractable::ApplyLook()
 	}
 }
 
-void AFixHimInteractable::BuildOutline()
+static void SetPrimitiveOutlineStencil(UPrimitiveComponent* Part, bool bOn)
 {
-	if (!bEnabled || !bHoverOutline)
+	Part->SetCustomDepthStencilValue(UFixHimSettings::Get()->OutlineStencilValue);
+	Part->SetRenderCustomDepth(bOn);
+}
+
+void AFixHimInteractable::SetOwnOutlineStencil(bool bOn)
+{
+	// Every mesh that moves with the body (a cabinet and its door, a lamp and its shade) writes the same stencil,
+	// so the screen-space rim wraps their combined visible silhouette. Reveal art (water, flame) is excluded.
+	TArray<UPrimitiveComponent*> Parts;
+	GetComponents<UPrimitiveComponent>(Parts);
+	for (UPrimitiveComponent* Part : Parts)
 	{
-		return;
+		if (Part && !IsRevealMesh(Part) && (Part == Body || Part->IsAttachedTo(Pivot)))
+		{
+			SetPrimitiveOutlineStencil(Part, bOn);
+		}
 	}
-	// Inverted-hull outline: a slightly larger copy of each body mesh rendered with reverse culling
-	// in an unlit colour. Works well for the convex primitives the apartment is built from.
-	TArray<UStaticMeshComponent*> Sources;
-	GetComponents<UStaticMeshComponent>(Sources);
-	for (UStaticMeshComponent* Src : Sources)
+}
+
+void AFixHimInteractable::SetOutlineStencil(bool bOn)
+{
+	SetOwnOutlineStencil(bOn);
+	// Children join the same stencil, so the rim wraps the group as one shape. One level only (no recursion), so a
+	// cycle of children can't loop and a child's own children stay out of its parent's outline.
+	for (const TSoftObjectPtr<AActor>& Soft : OutlineChildren)
 	{
-		if (!Src || !Src->GetStaticMesh() || IsRevealMesh(Src) || OutlineShells.Contains(Src) || !Src->IsVisible())
+		AActor* Child = Soft.Get();
+		if (!Child || Child == this)
 		{
 			continue;
 		}
-		if (Src != Body && !Src->IsAttachedTo(Pivot))
+		if (AFixHimInteractable* Sub = Cast<AFixHimInteractable>(Child))
 		{
+			Sub->SetOwnOutlineStencil(bOn);
 			continue;
 		}
-
-		UStaticMesh* ShellMesh = Src->GetStaticMesh();
-		if (Src == Body && OutlineMeshOverride) ShellMesh = OutlineMeshOverride.Get();
-		const FBox LocalBox = ShellMesh->GetBoundingBox();
-		const FVector Size = LocalBox.GetSize() * Src->GetRelativeScale3D().GetAbs();
-		const FVector Center = LocalBox.GetCenter();
-		const FVector ScaleMul(
-			Size.X > KINDA_SMALL_NUMBER ? 1.f + 2.f * OutlineThickness / Size.X : 1.f,
-			Size.Y > KINDA_SMALL_NUMBER ? 1.f + 2.f * OutlineThickness / Size.Y : 1.f,
-			Size.Z > KINDA_SMALL_NUMBER ? 1.f + 2.f * OutlineThickness / Size.Z : 1.f);
-
-		UStaticMeshComponent* Shell = NewObject<UStaticMeshComponent>(this);
-		Shell->SetStaticMesh(ShellMesh);
-		Shell->SetupAttachment(Src);
-		// Scale about the mesh bounds centre rather than its pivot.
-		Shell->SetRelativeScale3D(ScaleMul);
-		Shell->SetRelativeLocation(Center * (FVector::OneVector - ScaleMul));
-		Shell->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		Shell->SetCastShadow(false);
-		Shell->SetReverseCulling(true);
-		Shell->SetVisibility(false);
-		Shell->RegisterComponent();
-		FixHim::Assets::PaintComponent(Shell, FLinearColor::Black, OutlineColor * 14.f);
-		OutlineShells.Add(Shell);
+		TArray<UPrimitiveComponent*> Parts;
+		Child->GetComponents<UPrimitiveComponent>(Parts);
+		for (UPrimitiveComponent* Part : Parts)
+		{
+			if (Part)
+			{
+				SetPrimitiveOutlineStencil(Part, bOn);
+			}
+		}
 	}
 }
 
@@ -299,7 +319,7 @@ void AFixHimInteractable::BuildShine()
 	TArray<UStaticMeshComponent*> Targets;
 	for (UStaticMeshComponent* Mesh : Meshes)
 	{
-		if (!Mesh || !Mesh->GetStaticMesh() || IsRevealMesh(Mesh) || OutlineShells.Contains(Mesh) || !Mesh->IsVisible())
+		if (!Mesh || !Mesh->GetStaticMesh() || IsRevealMesh(Mesh) || !Mesh->IsVisible())
 		{
 			continue;
 		}
@@ -423,7 +443,7 @@ void AFixHimInteractable::SetInteractionShineEnabled(bool bAllow)
 	NextShineAt = Age + FMath::FRandRange(ShineInterval.X, ShineInterval.Y);
 }
 
-bool AFixHimInteractable::IsRevealMesh(const UStaticMeshComponent* Mesh) const
+bool AFixHimInteractable::IsRevealMesh(const UPrimitiveComponent* Mesh) const
 {
 	if (Mesh == RevealPart) return true;
 	return Mesh && RevealActors.ContainsByPredicate([Mesh](const TObjectPtr<AActor>& Actor)
@@ -639,11 +659,20 @@ void AFixHimInteractable::SetHovered(bool bInHovered)
 	{
 		FixHim::Sfx(this, "Hover", 0.7f, 0.04f);
 	}
-	for (UStaticMeshComponent* Shell : OutlineShells)
+	if (!bHoverOutline)
 	{
-		if (Shell)
+		return;
+	}
+	SetOutlineStencil(bHovered);
+	if (UFixHimHoverOutlineSubsystem* Outline = UFixHimHoverOutlineSubsystem::Get(this))
+	{
+		if (bHovered)
 		{
-			Shell->SetVisibility(bHovered);
+			Outline->Show(this, OutlineColor);
+		}
+		else
+		{
+			Outline->Hide(this);
 		}
 	}
 }

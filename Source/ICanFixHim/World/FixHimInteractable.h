@@ -9,6 +9,7 @@
 class AFixHimPlayerController;
 class UStaticMesh;
 class UStaticMeshComponent;
+class UPrimitiveComponent;
 class UPointLightComponent;
 class UMaterialInstanceDynamic;
 class ALight;
@@ -41,10 +42,10 @@ enum class EInteractToggle : uint8
 
 /**
  * Anything in the apartment you can point at and click.
- * Occasionally shimmers with a shine that wipes across it, gets an outline on hover,
+ * Occasionally shimmers with a shine that wipes across it, gets a screen-space outline on hover,
  * and toggles between two states when clicked.
  *
- * Hierarchy: Root -> Pivot -> Body (+ outline shells), Root -> RevealPart, Root -> Light
+ * Hierarchy: Root -> Pivot -> Body, Root -> RevealPart, Root -> Light
  */
 UCLASS()
 class ICANFIXHIM_API AFixHimInteractable : public AActor
@@ -56,6 +57,7 @@ public:
 
 	virtual void OnConstruction(const FTransform& Transform) override;
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintPure, Category = "Interactable")
@@ -113,20 +115,21 @@ public:
 	bool bUseAuthoredBodyMaterials = false;
 
 	/**
-	 * Build the hover outline shell. Default on. Turn off only for an invisible inspect proxy whose inflated shell
-	 * would read as a stray shape (e.g. a thin box behind authored damage art); trace, click, prompt and any glow
-	 * are unaffected.
+	 * Outline this actor on hover (screen-space rim, UFixHimHoverOutlineSubsystem). Default on. Turn off only for an
+	 * invisible inspect proxy whose silhouette would read as a stray shape (e.g. a thin box behind authored damage
+	 * art); trace, click, prompt and any glow are unaffected.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
 	bool bHoverOutline = true;
 
 	/**
-	 * Optional mesh for Body's inverted-hull outline shell, in Body's mesh space. The hull trick only works on
-	 * near-convex shapes; a body with folded soft goods (the bed's throw) shows broad shell faces through its folds.
-	 * Set this to the rigid part (e.g. the bed frame) to outline only that. Null keeps the Body mesh.
+	 * Actors drawn into this actor's hover outline as one silhouette, so parts that sit in front of or inside it
+	 * (the stove's oven door and kettle) don't get rims of their own. One way: hovering a child that is itself an
+	 * interactable still outlines only that child. Interactable children contribute their own outline parts; other
+	 * actors contribute all their primitives. Soft references, so children can live in other sublevels.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
-	TObjectPtr<UStaticMesh> OutlineMeshOverride;
+	TArray<TSoftObjectPtr<AActor>> OutlineChildren;
 
 	/** Emissive applied to Body while On (Light toggles). */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
@@ -178,11 +181,9 @@ public:
 	/** Current fill, 0 empty .. 1 full (not saved). */
 	float GetFillLevel() const { return FillLevel; }
 
+	/** Hover rim colour (screen-space outline). Environment objects are white; maladies take their hunk's glow colour. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
-	FLinearColor OutlineColor = FLinearColor(1.f, 0.35f, 0.75f);
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
-	float OutlineThickness = 2.2f;
+	FLinearColor OutlineColor = FLinearColor::White;
 
 	/** An occasional shine wipes across the object (ShineMaterial overlay on its meshes). */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
@@ -287,11 +288,14 @@ protected:
 	void SetOnLocal(bool bInOn, bool bInstant);
 	void PlayInteractSfx();
 	void ApplyLook();
-	void BuildOutline();
+	/** Write (or stop writing) the hover outline stencil on this actor's outline parts and its OutlineChildren. */
+	void SetOutlineStencil(bool bOn);
+	/** This actor's own outline parts only: every mesh that moves with the body, minus reveal art. */
+	void SetOwnOutlineStencil(bool bOn);
 	void BuildShine();
 	virtual void ApplyToggleAlpha(float Alpha);
 	void ApplyRevealAlpha(float Alpha);
-	bool IsRevealMesh(const UStaticMeshComponent* Mesh) const;
+	bool IsRevealMesh(const UPrimitiveComponent* Mesh) const;
 	void InitFill();
 	void ApplyFill();
 
@@ -310,9 +314,6 @@ protected:
 
 	UPROPERTY(Transient)
 	TArray<TObjectPtr<UMaterialInstanceDynamic>> RevealMIDs;
-
-	UPROPERTY(Transient)
-	TArray<TObjectPtr<UStaticMeshComponent>> OutlineShells;
 
 	UPROPERTY(Transient)
 	TObjectPtr<UMaterialInstanceDynamic> BodyMID;

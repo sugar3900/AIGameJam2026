@@ -72,9 +72,29 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = "World")
 	TSoftObjectPtr<UStaticMesh> PlaneMesh;
 
-	/** Custom depth stencil value used for the hover outline post process. */
-	UPROPERTY(Config, EditAnywhere, Category = "World")
+	/** Custom depth stencil value the hovered interactable's meshes write; M_HoverOutline rims these pixels. */
+	UPROPERTY(Config, EditAnywhere, Category = "World|Hover Outline", meta = (ClampMin = "1", ClampMax = "255"))
 	int32 OutlineStencilValue = 1;
+
+	/**
+	 * Screen-space hover outline (post process before TSR, Tools/Editor/create_assets.py build_hover_outline).
+	 * Draws a rim around the visible pixels of the hovered interactable in its OutlineColor. Params: Color,
+	 * Intensity, WidthPx, Inside, StencilRef, DepthTolerance.
+	 */
+	UPROPERTY(Config, EditAnywhere, Category = "World|Hover Outline")
+	TSoftObjectPtr<UMaterialInterface> HoverOutlineMaterial;
+
+	/** Rim width in display pixels (independent of screen percentage). */
+	UPROPERTY(Config, EditAnywhere, Category = "World|Hover Outline", meta = (ClampMin = "0.5", ClampMax = "8"))
+	float HoverOutlineWidthPixels = 4.f;
+
+	/** Rim brightness in display terms (exposure is divided out; the tonemapper still applies). */
+	UPROPERTY(Config, EditAnywhere, Category = "World|Hover Outline", meta = (ClampMin = "0"))
+	float HoverOutlineIntensity = 1.5f;
+
+	/** Draw the rim inside the visible silhouette instead of around it (never covers neighbouring objects). */
+	UPROPERTY(Config, EditAnywhere, Category = "World|Hover Outline")
+	bool bHoverOutlineInside = false;
 
 	// ---- UI ---------------------------------------------------------------
 
