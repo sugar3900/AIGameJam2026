@@ -185,6 +185,16 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 	});
 	TestEqual(TEXT("Four simultaneously visible complete replies"), ReplyCount, 4);
 	TestTrue(TEXT("Longest reply is never truncated"), FoundReply);
+	// Spoken line and replies share one size, after construction-time text-scale refreshes too.
+	int32 ReplySize = 0, LineSize = 0;
+	Dialogue->WidgetTree->ForEachWidget([&](UWidget *W) {
+		if (auto *B = Cast<UFixHimButton>(W); B && B->bDesignSurface && B->Label)
+			ReplySize = B->Label->GetFont().Size;
+		else if (auto *T = Cast<UTextBlock>(W); T && T->GetText().ToString().Contains(TEXT("remembers")))
+			LineSize = T->GetFont().Size;
+	});
+	TestTrue(TEXT("Spoken line text is rendered"), LineSize > 0);
+	TestEqual(TEXT("Spoken line matches reply font size"), LineSize, ReplySize);
 	View.Text = LongLine;
 	View.Speaker = EDialogueSpeaker::Narration;
 	View.Choices.Reset();

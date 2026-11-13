@@ -172,7 +172,8 @@ void UFixHimDialogueWidget::BuildUI()
 	// Room inside the scroll clip for the sheared line, whose lower rows lean left of its layout box.
 	CastChecked<UScrollBoxSlot>(LineScroll->AddChild(TextArea))->SetPadding(FMargin(20, 0, 20, 0));
 	Col->AddChildToVerticalBox(LineBounds)->SetPadding(FMargin(0, 2, 0, 20));
-	TypingText = MakeText(WidgetTree, TEXT(""), 24, Plum);
+	// Authored at the line size: RefreshTextScale restores authored sizes when a cached screen reopens.
+	TypingText = MakeText(WidgetTree, TEXT(""), FixHimDesign::Line, Plum, TEXT("DisplayFace"));
 	TypingText->SetAutoWrapText(true);
 	TextArea->AddChildToOverlay(TypingText)->SetHorizontalAlignment(HAlign_Fill);
 	WordWrap = WidgetTree->ConstructWidget<UWrapBox>();
