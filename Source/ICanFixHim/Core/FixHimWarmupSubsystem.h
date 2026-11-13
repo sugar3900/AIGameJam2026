@@ -33,9 +33,9 @@ public:
 
 	/** Loads and retains the gameplay assets and builds the hidden effects in World. Asset loading is synchronous. */
 	void Begin(UWorld& World);
-	/** Call once per frame after Begin. Returns true once everything is prepared (or the safety timeout passed). */
+	/** Call once per frame after Begin. Returns true once everything is prepared; never gives up early. */
 	bool Update();
-	/** 0..1, never goes backwards. */
+	/** 0..1, advances as individual shader/texture/PSO items finish; never goes backwards. */
 	float GetProgress() const { return Progress; }
 
 private:
@@ -51,8 +51,15 @@ private:
 	bool bStarted = false;
 	bool bWarmed = false;
 	double StartTime = 0.0;
+	double NextReportTime = 0.0;
+	double NextTraceTime = 0.0;
+	double LastUpdateTime = 0.0;
+	/** Frame time (each frame clamped) since the bar last moved; caps how far the next step may go. */
+	float AdvanceBudgetSeconds = 0.f;
 	int32 FramesTicked = 0;
 	int32 IdleFrames = 0;
 	int32 PeakRemaining = 0;
+	/** Outstanding work last frame; drops between frames count as finished items. */
+	int32 LastRemaining = 0;
 	float Progress = 0.f;
 };
