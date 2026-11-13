@@ -54,8 +54,8 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 	// Font asset import and cooked object references must work; silently falling back isn't acceptable.
 	const auto BodyFont = FixHimUI::Font(22);
 	const auto *Font = Cast<UFont>(BodyFont.FontObject);
-	TestTrue(TEXT("Imported Barlow regular and semibold loaded"),
-	         Font && Font->GetCompositeFont()->DefaultTypeface.Fonts.Num() == 2);
+	TestTrue(TEXT("Imported Barlow SemiBold Italic body face loaded"),
+	         Font && Font->GetCompositeFont()->DefaultTypeface.Fonts.Num() == 1);
 	const auto *Display = Cast<UFont>(FixHimUI::Font(36, TEXT("Display")).FontObject);
 	TestTrue(TEXT("Imported Barlow Condensed display loaded"),
 	         Display && Display->GetCompositeFont()->DefaultTypeface.Fonts.Num() == 1);
@@ -329,7 +329,7 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 	Render(Keepsake, TEXT("16-keepsake-chooser"), {1920, 1080}, {1920, 1080});
 	auto *HUD = Make.template operator()<UFixHimHUDWidget>();
 	HUD->TakeWidget();
-	HUD->SetRoomName(FText::FromString(TEXT("LIVING ROOM")));
+	HUD->SetRoomName(FText::FromString(TEXT("Living Room")));
 	HUD->SetRepairs(2, 4, 2, 4);
 	HUD->SetReticle(true, EFixHimInteractionAction::Talk, FText::FromString(TEXT("Talk to Wyatt")));
 	HUD->ShowToast(TEXT("A little less broken."), 4.f, false);

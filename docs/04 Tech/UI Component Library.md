@@ -17,7 +17,7 @@ Implementation companion to [[UI Design System]]. The visual decisions remain th
 | `Art Source/UI/Design/` | Prepared font files, icon masks, logo and licenses |
 | `Content/ICanFixHim/UI/Design/` | Imported cooked assets |
 
-Imported font faces are assembled into strongly referenced runtime `UFont` families. Body Regular and Semibold use Barlow; display uses Barlow Condensed ExtraBold Italic. The display transform adds only the shear needed to reach 12°. Body emphasis stays upright. Screen widgets should obtain text from `FixHimUI::MakeText` / `Font`, not the engine default font.
+Imported font faces are assembled into strongly referenced runtime `UFont` families. Titles, buttons and HUD plates use the display face (Barlow Condensed ExtraBold Italic); every other typeface name resolves to Barlow SemiBold Italic. Both are 7° italics; `MakeText` adds only the shear needed to reach 12°, except for `...Face` typefaces placed inside an already-sheared block. Screen widgets should obtain text from `FixHimUI::MakeText` / `Font`, not the engine default font.
 
 ## Surface and placement primitives
 

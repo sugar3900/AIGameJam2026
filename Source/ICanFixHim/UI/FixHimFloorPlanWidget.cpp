@@ -122,7 +122,7 @@ void UFixHimFloorPlanWidget::Refresh()
 		const bool ExternalLabel = Size.X < 120.f * FixHimDesign::TextScale();
 
 		UVerticalBox *Info = WidgetTree->ConstructWidget<UVerticalBox>();
-		UTextBlock *Name = MakeText(WidgetTree, Room->DisplayName.ToString().ToUpper(), 20, Line, TEXT("Bold"));
+		UTextBlock *Name = MakeText(WidgetTree, Room->DisplayName.ToString(), 20, Line, TEXT("Bold"));
 		Name->SetJustification(ETextJustify::Center);
 		Name->SetAutoWrapText(true);
 		Name->SetWrappingPolicy(ETextWrappingPolicy::DefaultWrapping);

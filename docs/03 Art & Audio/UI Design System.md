@@ -49,12 +49,13 @@ Keep cream reading surfaces, disabled controls and reticles flat. Avoid glossy s
 
 | Role | Font | Treatment |
 |---|---|---|
-| Headings, short display labels | Barlow Condensed ExtraBold Italic, 800 | Effective 12° right lean |
-| All dialogue text (spoken lines, narration, replies) | Barlow SemiBold Italic, 600, at 26 | Effective 12° right lean |
-| Helper text | Barlow Regular, 400 | Upright |
-| Body emphasis and stronger labels | Barlow Semibold, 600 | Upright |
+| Titles (headers, name plates): **all caps** | Barlow Condensed ExtraBold Italic, 800 | Effective 12° right lean |
+| Buttons and HUD plates: **mixed case** | Barlow Condensed ExtraBold Italic, 800 | Effective 12° right lean |
+| All other text: dialogue (26), body copy, labels, hints | Barlow SemiBold Italic, 600 | Effective 12° right lean |
 
-Barlow Condensed's native italic lean is 7°. The selected 12° treatment requires an additional synthetic shear on display glyphs, not a different native font variant. Added shear tangent: `tan(12°) - tan(7°) = 0.0897720008`. Text baselines stay horizontal. Spoken lines are sheared as one block, so wrapped lines also step along the grid. Do not skew upright body text or icons.
+**Rule: every piece of text leans 12°.** Both faces are 7° native italics topped up with the same synthetic shear. Upright Barlow Regular/Semibold are no longer used.
+
+Barlow Condensed's native italic lean is 7°. Barlow SemiBold Italic is also 7°. The selected 12° treatment adds the same synthetic shear to both faces. Added shear tangent: `tan(12°) - tan(7°) = 0.0897720008`. Text baselines stay horizontal. Spoken lines are sheared as one block, so wrapped lines also step along the grid. Icons stay upright.
 
 Use the [bundled font files and SIL OFL 1.1 license](../../Art%20Source/UI%20Concepts/Selected%2007/Foundation%2002/Fonts/). Final sizes, wrapping and UI scale need testing in Unreal. Do not shrink text or shorten authored dialogue to fit a layout.
 
@@ -75,7 +76,7 @@ The selected treatment restores **rounded corners, thicker asymmetric borders an
 - The **dialogue header** straddles the panel's top edge: a pink name plate (name only, 66-unit display face) and a teal strip tucked behind it holding the three meters. Each meter is a thick bar in its stat color with a round stat-colored icon badge overlaid on its left end; no text labels or dividers. The meters start at a fixed position that clears the widest name any speaker can have in the playthrough (hunks, extra speakers, the player's name) by at least 36 units, so they never shift between speakers. Replies are unnumbered; number keys still choose by position. Narration has no header. Spoken lines and replies share one size.
 - Use common silhouettes and contour layers across button states and popup variants. Reuse one modal shell with width variants and content-driven height.
 - Primary actions use pink; secondary surfaces use cream. Focus needs a pointer or keyline as well as color. Do not add hearts to focused replies or imply relationship outcomes.
-- Body text and icons remain upright. Do not rotate a whole popup or shear a brand master.
+- Icons remain upright. Do not rotate a whole popup or shear a brand master.
 - Remove construction stripes. Remove the three-ray flourish from the base kit; bringing it back selectively for surprises is deferred.
 
 Placement formula: `x = originX + u - v * tan(12°); y = originY + v`. A slanted edge of height `h` has horizontal inset `h * tan(12°)`.

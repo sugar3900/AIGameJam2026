@@ -43,7 +43,7 @@ void UFixHimDesignReviewWidget::BuildUI()
 	Sample(R, TEXT("Disabled"), false, false, false, false);
 	Section(TEXT("READING & REPLIES / FULL AUTHORED COPY"));
 	auto *Body = MakeText(
-	    WidgetTree, TEXT("Barlow Regular for reading. Semibold for emphasis. Body text stays upright."), 22, Plum);
+	    WidgetTree, TEXT("Barlow SemiBold Italic for reading. Every line of text leans 12°."), 22, Plum);
 	Body->SetAutoWrapText(true);
 	Col->AddChildToVerticalBox(Body)->SetPadding(FMargin(0, 0, 0, 16));
 	auto *Reply = UFixHimButton::Make(
@@ -82,7 +82,7 @@ void UFixHimDesignReviewWidget::BuildUI()
 		R->AddChildToHorizontalBox(B)->SetPadding(FMargin(0, 0, 20, 0));
 	}
 	auto *Hint = MakeText(WidgetTree,
-	                      TEXT("12° shared contours and placement grid · Upright reading text · Tab / arrows to "
+	                      TEXT("12° contours, placement grid and text · Tab / arrows to "
 	                           "navigate · Enter / A to activate"),
 	                      16, PlumSoft);
 	Hint->SetAutoWrapText(true);

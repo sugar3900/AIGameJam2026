@@ -52,21 +52,17 @@ FSlateFontInfo Font(int32 Size, const TCHAR *Typeface)
 		}
 		return TStrongObjectPtr<UFont>(F);
 	};
-	static TStrongObjectPtr<UFont> Body = BuildFont({TEXT("Barlow-Regular"), TEXT("Barlow-SemiBold")});
+	// Type rule: titles use the condensed display face; all other text is Barlow SemiBold Italic. Both are 7-degree
+	// italics that MakeText shears to the shared 12-degree grid. Legacy names (Regular/Semibold/Bold/Italic/Lean)
+	// all resolve to the body face.
 	static TStrongObjectPtr<UFont> Display = BuildFont({TEXT("BarlowCondensed-ExtraBoldItalic")});
-	// "Lean": Barlow SemiBold Italic (7 degrees native), sheared like Display to the 12-degree grid.
-	static TStrongObjectPtr<UFont> Lean = BuildFont({TEXT("Barlow-SemiBoldItalic")});
+	static TStrongObjectPtr<UFont> Body = BuildFont({TEXT("Barlow-SemiBoldItalic")});
 	const bool IsDisplay = FCString::Strncmp(Typeface, TEXT("Display"), 7) == 0;
-	const bool IsLean = FCString::Strncmp(Typeface, TEXT("Lean"), 4) == 0;
-	UFont *Asset = IsDisplay ? Display.Get() : IsLean ? Lean.Get() : Body.Get();
+	UFont *Asset = IsDisplay ? Display.Get() : Body.Get();
 	const int32 ScaledSize = FMath::RoundToInt(Size * FixHimDesign::TextScale());
 	return Asset && !Asset->GetCompositeFont()->DefaultTypeface.Fonts.IsEmpty()
-	           ? FSlateFontInfo(Asset, ScaledSize,
-			                    IsDisplay || IsLean ? FName("Regular")
-			                    : FCString::Strstr(Typeface, TEXT("Bold")) || FCString::Strstr(Typeface, TEXT("Semi"))
-	                                ? FName("Semibold")
-									: FName("Regular"))
-			   : FCoreStyle::GetDefaultFontStyle(TEXT("Regular"), ScaledSize);
+	           ? FSlateFontInfo(Asset, ScaledSize, FName("Regular"))
+	           : FCoreStyle::GetDefaultFontStyle(TEXT("Regular"), ScaledSize);
 }
 
 FSlateBrush Rounded(const FLinearColor &Fill, float Radius, const FLinearColor &Outline, float OutlineWidth)
@@ -103,8 +99,8 @@ UTextBlock *MakeText(UWidgetTree *Tree, const FString &Text, int32 Size, const F
 	T->SetFont(Font(Size, Typeface));
 	AuthoredTextSizes.Add(T, Size);
 	T->SetColorAndOpacity(FSlateColor(Color));
-	// "Display"/"Lean" shear per widget; "DisplayFace"/"LeanFace" leave shearing to a parent block.
-	if (FCString::Strcmp(Typeface, TEXT("Display")) == 0 || FCString::Strcmp(Typeface, TEXT("Lean")) == 0)
+	// All text leans 12 degrees. "...Face" typefaces leave the shear to a parent block (e.g. the dialogue line).
+	if (!FString(Typeface).EndsWith(TEXT("Face")))
 	{
 		FWidgetTransform Transform;
 		Transform.Shear = FVector2D(-FMath::RadiansToDegrees(FMath::Atan(FixHimDesign::DisplayShear)), 0);
