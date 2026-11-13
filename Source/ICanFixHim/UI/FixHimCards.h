@@ -67,6 +67,8 @@ class ICANFIXHIM_API UFixHimEndingCardWidget : public UFixHimWidget
 
 public:
 	void Setup(const FHunkDefinition& Def, const FString& EndingId, int32 FixedCount, int32 TotalCount);
+	/** Trial layouts that leave room for ending art; centred by default. */
+	void SetDock(EFixHimCardDock Dock) { DockCard(Dock); }
 
 protected:
 	virtual void BuildUI() override;

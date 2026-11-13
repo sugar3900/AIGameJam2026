@@ -377,6 +377,16 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 	EndingHUD->SetHeaderOnly(true);
 	EndingHUD->ShowToast(TEXT("Black Mold repaired."), TNumericLimits<float>::Max(), false);
 	Render(EndingHUD, TEXT("14-ending-card-hud"), {1920, 1080}, {1920, 1080});
+	// Docked trials that leave room for ending art.
+	for (const auto &[CardDock, CardName] : {TPair<EFixHimCardDock, const TCHAR *>(EFixHimCardDock::Bottom, TEXT("14-ending-card-bottom")),
+	                                 TPair<EFixHimCardDock, const TCHAR *>(EFixHimCardDock::Left, TEXT("14-ending-card-left"))})
+	{
+		auto *Docked = Make.template operator()<UFixHimEndingCardWidget>();
+		Docked->TakeWidget();
+		Docked->Setup(EndingDef, TEXT("romance_success"), 2, 4);
+		Docked->SetDock(CardDock);
+		Render(Docked, CardName, {1920, 1080}, {1920, 1080});
+	}
 	// Every audited authored exchange is also rendered unshortened, including active topic links.
 	int32 FixtureIndex = 0;
 	for (const auto &Value : Fixtures->GetArrayField(TEXT("fixtures")))

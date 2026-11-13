@@ -738,6 +738,36 @@ UVerticalBox *UFixHimWidget::MakeCardScreen(const FString &Title, float Width)
 	return Col;
 }
 
+void UFixHimWidget::DockCard(EFixHimCardDock Dock)
+{
+	auto *Size = Cast<USizeBox>(PopCard);
+	auto *Slot = Size ? Cast<UOverlaySlot>(Size->Slot) : nullptr;
+	if (!Slot)
+		return;
+	// The HUD header (room, toast, repairs) can sit above a docked card, so docked cards keep clear of the top.
+	switch (Dock)
+	{
+	case EFixHimCardDock::Centre:
+		Slot->SetHorizontalAlignment(HAlign_Center);
+		Slot->SetVerticalAlignment(VAlign_Center);
+		Slot->SetPadding(FMargin(0));
+		break;
+	case EFixHimCardDock::Bottom:
+		Size->ClearWidthOverride();
+		Slot->SetHorizontalAlignment(HAlign_Fill);
+		Slot->SetVerticalAlignment(VAlign_Bottom);
+		Slot->SetPadding(FMargin(40.f, 0.f, 40.f, 22.f)); // the dialogue panel's margins
+		break;
+	case EFixHimCardDock::Left:
+		// Half the screen: card content loses ~360 units to the slant reserve and lean, so narrower wraps badly.
+		Size->SetWidthOverride(960.f);
+		Slot->SetHorizontalAlignment(HAlign_Left);
+		Slot->SetVerticalAlignment(VAlign_Center);
+		Slot->SetPadding(FMargin(60.f, 150.f, 0.f, 40.f));
+		break;
+	}
+}
+
 void UFixHimButton::SetVariant(bool Primary, bool Selected)
 {
 	SetVariant(Primary ? EFixHimButtonVariant::Primary : EFixHimButtonVariant::Secondary);

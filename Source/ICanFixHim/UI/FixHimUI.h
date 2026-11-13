@@ -54,6 +54,16 @@ ICANFIXHIM_API UTextBlock *MakeText(UWidgetTree *Tree, const FString &Text, int3
                                     const TCHAR *Typeface = TEXT("Regular"));
 } // namespace FixHimUI
 
+/** Where a MakeCardScreen card sits. Docked cards leave the rest of the screen for art (ending images). */
+enum class EFixHimCardDock : uint8
+{
+	Centre,
+	/** Full width along the bottom, like the dialogue panel. */
+	Bottom,
+	/** Taller column on the left, leaving the right side free. */
+	Left,
+};
+
 UENUM()
 enum class EFixHimButtonVariant : uint8
 {
@@ -220,6 +230,8 @@ class ICANFIXHIM_API UFixHimWidget : public UUserWidget
 
 	/** A centred rounded card with a title, returned content box for children. */
 	UVerticalBox *MakeCardScreen(const FString &Title, float Width = 520.f);
+	/** Moves the MakeCardScreen card (centred by default). */
+	void DockCard(EFixHimCardDock Dock);
 
 	/** The cream surface built by MakeCardScreen. */
 	UPROPERTY() TObjectPtr<UBorder> CardSurface;
