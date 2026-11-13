@@ -145,7 +145,7 @@ void UFixHimDialogueWidget::BuildUI()
 	NameSlot->SetHorizontalAlignment(HAlign_Left);
 	NameSlot->SetVerticalAlignment(VAlign_Center);
 
-	PanelSize->AddChild(MakeHeaderedSurface(Panel, Header, FMargin(32, 20, 48, 30), 0.f));
+	PanelSize->AddChild(MakeHeaderedSurface(Panel, Header, FMargin(32, 20, 48, 30)));
 	UHorizontalBox *Row = WidgetTree->ConstructWidget<UHorizontalBox>();
 	Panel->SetContent(Row);
 
