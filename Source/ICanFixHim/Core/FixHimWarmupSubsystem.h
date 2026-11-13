@@ -33,7 +33,7 @@ public:
 
 	/** Loads and retains the gameplay assets and builds the hidden effects in World. Asset loading is synchronous. */
 	void Begin(UWorld& World);
-	/** Call once per frame after Begin. Returns true once everything is prepared (or the safety timeout passed). */
+	/** Call once per frame after Begin. Returns true once everything is prepared; never gives up early. */
 	bool Update();
 	/** 0..1, never goes backwards. */
 	float GetProgress() const { return Progress; }
@@ -51,6 +51,7 @@ private:
 	bool bStarted = false;
 	bool bWarmed = false;
 	double StartTime = 0.0;
+	double NextReportTime = 0.0;
 	int32 FramesTicked = 0;
 	int32 IdleFrames = 0;
 	int32 PeakRemaining = 0;

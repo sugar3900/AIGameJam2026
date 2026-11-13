@@ -20,8 +20,8 @@ namespace
 	constexpr int32 MinFrames = 5;
 	/** Consecutive frames with no outstanding work before declaring ready. */
 	constexpr int32 SettleFrames = 3;
-	/** Never hold the player on the loading screen longer than this, even if something keeps compiling. */
-	constexpr double TimeoutSeconds = 120.0;
+	/** How often to log progress while still waiting. There is no timeout: the game never starts with work outstanding. */
+	constexpr double ReportIntervalSeconds = 15.0;
 
 	/** "/Game/Dir/Asset" or "/Game/Dir/Asset.Asset" (hunk JSON paths may omit the object name). */
 	FSoftObjectPath HunkAssetPath(const FString& Path)
@@ -49,6 +49,7 @@ void UFixHimWarmupSubsystem::Begin(UWorld& World)
 		return;
 	}
 	StartTime = FPlatformTime::Seconds();
+	NextReportTime = StartTime + ReportIntervalSeconds;
 	FramesTicked = 0;
 	IdleFrames = 0;
 	PeakRemaining = 0;
@@ -83,19 +84,17 @@ bool UFixHimWarmupSubsystem::Update()
 	// Hold back the last sliver until really finished, so the bar never sits at 100% while still waiting.
 	Progress = FMath::Max(Progress, FMath::Min(Done, 0.97f));
 
-	const double Elapsed = FPlatformTime::Seconds() - StartTime;
-	if (FramesTicked >= MinFrames && IdleFrames >= SettleFrames)
+	const double Now = FPlatformTime::Seconds();
+	if (FramesTicked < MinFrames || IdleFrames < SettleFrames)
 	{
-		UE_LOG(LogFixHim, Log, TEXT("Warmup: %d assets ready in %.2fs (peak %d items compiling)."), Retained.Num(), Elapsed, PeakRemaining);
-	}
-	else if (Elapsed > TimeoutSeconds)
-	{
-		UE_LOG(LogFixHim, Warning, TEXT("Warmup: gave up waiting after %.0fs with %d items still compiling."), Elapsed, Remaining);
-	}
-	else
-	{
+		if (Now >= NextReportTime)
+		{
+			NextReportTime = Now + ReportIntervalSeconds;
+			UE_LOG(LogFixHim, Log, TEXT("Warmup: still preparing after %.0fs, %d items left (peak %d)."), Now - StartTime, Remaining, PeakRemaining);
+		}
 		return false;
 	}
+	UE_LOG(LogFixHim, Log, TEXT("Warmup: %d assets ready in %.2fs (peak %d items compiling)."), Retained.Num(), Now - StartTime, PeakRemaining);
 	bWarmed = true;
 	Progress = 1.f;
 	return true;
