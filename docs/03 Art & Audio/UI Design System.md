@@ -55,7 +55,7 @@ Keep cream reading surfaces, disabled controls and reticles flat. Avoid glossy s
 
 **Rule: every piece of text leans 12°.** Both faces are set from their upright cuts and sheared the full 12°, so the glyphs and the steps between wrapped lines follow the same grid (Barlow's italics are essentially slanted romans, so the result matches them). Card and panel content rows sit in grid stacks, so each row also steps left by 12° as it goes down.
 
-Barlow Condensed's native italic lean is 7°. Barlow SemiBold Italic is also 7°. The selected 12° treatment adds the same synthetic shear to both faces. Added shear tangent: `tan(12°) - tan(7°) = 0.0897720008`. Text baselines stay horizontal. Spoken lines are sheared as one block, so wrapped lines also step along the grid. Icons stay upright.
+Both faces are set from upright cuts and sheared by `tan(12°) = 0.2125565617`. Text baselines stay horizontal. Spoken lines are sheared as one block, so wrapped lines also step along the grid. Icons stay upright.
 
 Use the [bundled font files and SIL OFL 1.1 license](../../Art%20Source/UI%20Concepts/Selected%2007/Foundation%2002/Fonts/). Final sizes, wrapping and UI scale need testing in Unreal. Do not shrink text or shorten authored dialogue to fit a layout.
 
@@ -68,7 +68,7 @@ The selected treatment restores **rounded corners, thicker asymmetric borders an
 - Rounded cream panel bodies pair with teal headers, orange borders heavier on the lower/right sides, and short ink offset shadows.
 - **Keylines:** buttons and plates use a 6-unit keyline; popup cards and panels use 12.
 - **Extrusion matches the keyline:** a single extrusion layer (no separate shadow) drops by the keyline width and slides right by half of it, so buttons and plates have half the popups' extrusion. Each surface extrudes in a darker shade of its own family: cream → `#B35500` (keyline orange at 70% value, same hue), pink → `#99003F`, teal and other fills → ink. Popup-weight surfaces (cards, dialogue panel, floor plan sheet) also carry a 50% ink shadow just beyond their extrusion. Pressing pushes the face onto its extrusion.
-- **Interaction prompts** ("Talk to Wyatt") have their own quiet style: a borderless ink parallelogram at 25% opacity with white SemiBold Italic text carrying a solid ink drop shadow (2 down, 1 across), no keyline or extrusion, so the scene shows through while the text stays legible over bright surfaces.
+- **Interaction prompts** ("Talk to Wyatt") have their own quiet style: a borderless ink parallelogram at 25% opacity with white Barlow SemiBold text carrying a solid ink drop shadow (2 down, 1 across), no keyline or extrusion, so the scene shows through while the text stays legible over bright surfaces.
 - **HUD (show-graphics):** the room name sits on a pink plate with a wrench icon; the week sits on its own cream plate, tucked under a pink repairs badge with a house icon, a small "Repairs" label and a large count.
 - **Text is vertically centred on the face** of every button, header and plate: bottom padding = top padding + the extrusion reserve (keyline + 3), and labels lift by 0.05 em so capitals (not the font's line box) sit on the centre. Buttons carry 16 units of vertical padding.
 - The title screen shows only the logo and menu: no tagline or event footer.
@@ -172,7 +172,7 @@ The image still has alpha-edge speckling; cleanup and an editable production mas
 
 The shared Unreal components and first screen migration are implemented on `feature/reusable-ui-design-system`. See [[UI Component Library]] for APIs, source files, asset rebuilding, validation and the review captures. The selected palette, licensed fonts/icons and 12° placement grid are reused across screens; new component proportions and screen compositions still await design feedback.
 
-The implementation includes resizable rounded surfaces and asymmetric borders, shared action/reply/topic controls, visible focus/pressed/disabled states, bounded reading areas, sliders/checkboxes, text-size and reduced-motion settings, and an in-engine component workshop (`FixHim.DesignSystem`). Short action labels use the display treatment; all dialogue text (spoken lines, narration, replies at 26 units) uses Barlow SemiBold Italic at the same 12° lean; narration is distinguished by teal color. Continue is the primary title action when a save exists. Small status labels use flat or sufficiently dark surfaces; pale relationship colors remain accents beside readable labels.
+The implementation includes resizable rounded surfaces and asymmetric borders, shared action/reply/topic controls, visible focus/pressed/disabled states, bounded reading areas, sliders/checkboxes, text-size and reduced-motion settings, and an in-engine component workshop (`FixHim.DesignSystem`). Short action labels use the display treatment; all dialogue text (spoken lines, narration, replies at 26 units) uses Barlow SemiBold at the same 12° lean; narration is distinguished by teal color. Continue is the primary title action when a save exists. Small status labels use flat or sufficiently dark surfaces; pale relationship colors remain accents beside readable labels.
 
 ## Remaining work and provenance
 
