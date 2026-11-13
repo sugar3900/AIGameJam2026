@@ -241,17 +241,12 @@ void UFixHimIntroCardWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 
 void UFixHimEndingCardWidget::BuildUI()
 {
-	// The ending category is the card's title plate (set in Setup). Wide enough that the longest ending
+	// The ending's own title goes on the title plate (set in Setup). Wide enough that the longest ending
 	// (~360 characters) fits without scrolling.
 	UVerticalBox* Col = MakeCardScreen(TEXT("Ending"), 1040.f);
 	OpenSfx = NAME_None; // the ending jingle covers it
 	OutsideClickMinAge = 0.8f;
 	Col->ClearChildren();
-
-	Title = MakeText(WidgetTree, TEXT("Title"), 44, HotPink, TEXT("Display"));
-	Title->SetJustification(ETextJustify::Center);
-	Title->SetAutoWrapText(true);
-	Col->AddChildToVerticalBox(Title)->SetPadding(FMargin(0.f, 4.f, 0.f, 14.f));
 
 	Body = MakeText(WidgetTree, TEXT(""), 22, Plum);
 	Body->SetJustification(ETextJustify::Center);
@@ -272,11 +267,10 @@ void UFixHimEndingCardWidget::BuildUI()
 
 void UFixHimEndingCardWidget::Setup(const FHunkDefinition& Def, const FString& EndingId, int32 FixedCount, int32 TotalCount)
 {
-	// The plate carries the ending's name; the badge says romance (heart), friendship (users) or a failure (flame).
+	// The plate carries the ending's own title; the badge says romance (heart), friendship (users) or a failure
+	// (flame).
 	const bool bRomance = EndingId.StartsWith(TEXT("romance"));
 	const bool bSuccess = EndingId.EndsWith(TEXT("success"));
-	const TCHAR* KindText = bRomance ? (bSuccess ? TEXT("Happily ever after") : TEXT("It's not me, it's your foundation"))
-	                                 : (bSuccess ? TEXT("Besties") : TEXT("Sworn enemies"));
 	if (!bSuccess)
 		SetHeaderBadge(TEXT("flame"), FixHimDesign::Orange, FixHimDesign::OrangeDepth, FLinearColor::White);
 	else if (bRomance)
@@ -285,11 +279,9 @@ void UFixHimEndingCardWidget::Setup(const FHunkDefinition& Def, const FString& E
 		SetHeaderBadge(TEXT("users"), FixHimDesign::Friendship, FixHimDesign::Ink, FixHimDesign::Ink);
 
 	FixHim::Sfx(this, EndingId == TEXT("romance_success") ? "EndingRomance" : EndingId == TEXT("friend_success") ? "EndingFriend" : "EndingFail");
-	if (HeaderTitle)
-		HeaderTitle->SetText(FText::FromString(FString(KindText).ToUpper()));
-
 	const FHunkEnding* Ending = Def.Endings.Find(EndingId);
-	Title->SetText(FText::FromString(Ending ? Ending->Title : Def.Name));
+	if (HeaderTitle)
+		HeaderTitle->SetText(FText::FromString((Ending ? Ending->Title : Def.Name).ToUpper()));
 	const UFixHimSaveSubsystem* SaveSub = UFixHimSaveSubsystem::Get(this);
 	const FString PlayerName = SaveSub ? SaveSub->GetPlayerName() : UFixHimSettings::Get()->PlayerName;
 	Body->SetText(FText::FromString(Ending ? Ending->Text.Replace(TEXT("{player}"), *PlayerName) : FString()));

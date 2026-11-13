@@ -306,7 +306,7 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 	FHunkDefinition Def;
 	Def.Id = TEXT("tyler");
 	Def.Name = TEXT("Tyler");
-	Def.Malady = TEXT("Pink bathroom tile");
+	Def.Malady = TEXT("Pink Tile");
 	Def.Tagline = TEXT("Some things deserve to stay pink.");
 	Def.Portrait = TEXT("/Game/ICanFixHim/UI/Portraits/T_Portrait_Tyler.T_Portrait_Tyler");
 	Intro->Setup(Def, nullptr, [] {});
@@ -338,10 +338,12 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 	EndingDef.Endings.Add(TEXT("romance_success"), EndingData);
 	Ending->Setup(EndingDef, TEXT("romance_success"), 2, 4);
 	Render(Ending, TEXT("14-ending-card"), {1920, 1080}, {1920, 1080});
-	// The longest category label on the title plate.
+	// A failure ending (flame badge) with the longest authored ending title on the plate (Lukey, 26 characters).
 	auto *Failure = Make.template operator()<UFixHimEndingCardWidget>();
 	Failure->TakeWidget();
-	EndingDef.Endings.Add(TEXT("romance_failure"), EndingData);
+	FHunkEnding LongTitle = EndingData;
+	LongTitle.Title = TEXT("Head Over Heels Over Pipes");
+	EndingDef.Endings.Add(TEXT("romance_failure"), LongTitle);
 	Failure->Setup(EndingDef, TEXT("romance_failure"), 2, 4);
 	Render(Failure, TEXT("14-ending-card-long-label"), {1920, 1080}, {1920, 1080});
 	auto *Friends = Make.template operator()<UFixHimEndingCardWidget>();
@@ -371,11 +373,11 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 	// Over the ending card the HUD shows only its header, with the repair as the toast (composited for review).
 	auto *EndingHUD = Make.template operator()<UFixHimHUDWidget>();
 	EndingHUD->TakeWidget();
-	EndingHUD->SetRoomName(FText::FromString(TEXT("Basement")));
+	EndingHUD->SetRoomName(FText::FromString(TEXT("Bedroom"))); // Malcolm's room
 	EndingHUD->SetRepairs(2, 4, 2, 4);
 	EndingHUD->SetReticle(false, EFixHimInteractionAction::None, FText::GetEmpty());
 	EndingHUD->SetHeaderOnly(true);
-	EndingHUD->ShowToast(TEXT("Black Mold repaired."), TNumericLimits<float>::Max(), false);
+	EndingHUD->ShowToast(TEXT("Black Mold Repaired"), TNumericLimits<float>::Max(), false);
 	Render(EndingHUD, TEXT("14-ending-card-hud"), {1920, 1080}, {1920, 1080});
 	// Docked trials that leave room for ending art.
 	for (const auto &[CardDock, CardName] : {TPair<EFixHimCardDock, const TCHAR *>(EFixHimCardDock::Bottom, TEXT("14-ending-card-bottom")),

@@ -76,7 +76,6 @@ protected:
 	virtual bool HandleClickOutside() override;
 
 private:
-	UPROPERTY() TObjectPtr<UTextBlock> Title;
 	UPROPERTY() TObjectPtr<UTextBlock> Body;
 	UPROPERTY() TObjectPtr<UTextBlock> Progress;
 };

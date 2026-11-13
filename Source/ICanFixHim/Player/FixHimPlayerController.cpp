@@ -1186,14 +1186,14 @@ void AFixHimPlayerController::HandleConversationEnded(const FString& HunkId, con
 		ShowWidget(EndingWidget, 35);
 		EndingWidget->Setup(*Def, EndingId, Dialogue->CountFixedStoryHunks(), Dialogue->CountStoryHunks());
 		EnterState(EFixHimState::Ending);
-		// The HUD header reports the repair over the card: room, "<malady> repaired" toast, week and the updated
+		// The HUD header reports the repair over the card: room, "<malady> Repaired" toast, week and the updated
 		// repairs count. Re-added above the card's scrim until the card closes.
 		if (HUDWidget)
 		{
 			HideWidget(HUDWidget);
 			ShowWidget(HUDWidget, 36);
 			HUDWidget->SetHeaderOnly(true);
-			HUDWidget->ShowToast(FString::Printf(TEXT("%s repaired."), *Def->Malady), TNumericLimits<float>::Max(), false);
+			HUDWidget->ShowToast(FString::Printf(TEXT("%s Repaired"), *Def->Malady), TNumericLimits<float>::Max(), false);
 		}
 	}
 	else
