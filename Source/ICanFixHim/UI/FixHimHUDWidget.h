@@ -54,11 +54,15 @@ private:
 	float BackgroundT = 0.f;
 	float CenterInT = 1.f;
 	float CenterOutT = 0.f;
+	UPROPERTY() TObjectPtr<UTextBlock> ControlHint;
 	UPROPERTY() TObjectPtr<UTextBlock> PromptText;
 	UPROPERTY() TObjectPtr<UBorder> PromptPill;
 	UPROPERTY() TObjectPtr<UTextBlock> RoomText;
 	UPROPERTY() TObjectPtr<UBorder> RoomPill;
+	/** Repairs count ("2/4") on the pink repairs badge. */
 	UPROPERTY() TObjectPtr<UTextBlock> RepairsText;
+	UPROPERTY() TObjectPtr<UTextBlock> WeekText;
+	UPROPERTY() TObjectPtr<UWidget> WeekPill;
 	UPROPERTY() TObjectPtr<UBorder> ToastPill;
 	UPROPERTY() TObjectPtr<UTextBlock> ToastText;
 

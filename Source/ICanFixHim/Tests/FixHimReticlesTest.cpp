@@ -141,7 +141,7 @@ bool FFixHimReticlesTest::RunTest(const FString& Parameters)
 	TestEqual(TEXT("Default size is double the 32-unit kit reference"), Settings->ReticleSize, 64.f);
 	TestEqual(TEXT("Idle ring default 75%"), Settings->ReticleIdleRingScale, 0.75f);
 	TestEqual(TEXT("Background default 50% opacity"), Settings->ReticleBackgroundOpacity, 0.5f);
-	TestEqual(TEXT("Prompt sits below the reticle"), HUD->PromptPill->GetRenderTransform().Translation.Y, double(Settings->ReticleSize * 0.5f + 20.f));
+	TestEqual(TEXT("Prompt sits below the reticle"), HUD->PromptPill->GetRenderTransform().Translation.Y, double(Settings->ReticleSize * 0.5f + 56.f));
 	GI->Shutdown();
 	World->DestroyWorld(false);
 	return true;

@@ -17,6 +17,7 @@ class UProgressBar;
 class USizeBox;
 class UTextBlock;
 class UVerticalBox;
+class UOverlay;
 class UWrapBox;
 class UMaterialInstanceDynamic;
 class AFixHimHunk;
@@ -64,25 +65,27 @@ private:
 	void RefreshMeters();
 	void SpawnHearts(int32 Count);
 	void SpawnFloater(const FString& Text, const FLinearColor& Color);
-	/** Portrait frame per speaker: the hunk's portrait (or his capture), the heroine's silhouette for "You:", hidden for narration. */
-	void ApplySpeakerPortrait(EDialogueSpeaker Speaker);
 
 	UPROPERTY() TObjectPtr<USizeBox> PanelSize;
-	UPROPERTY() TObjectPtr<UImage> Portrait;
-	UPROPERTY() TObjectPtr<UWidget> PortraitBox;
 	UPROPERTY() TObjectPtr<UWidget> MetersBox;
-	UPROPERTY() TObjectPtr<UMaterialInstanceDynamic> PortraitMID;
-	/** The bound hunk's portrait render target (used when the portrait material is missing). */
-	UPROPERTY() TObjectPtr<UTextureRenderTarget2D> HunkPortraitRT;
-	/** The bound hunk's painted portrait (look.portrait); preferred over the scene capture when set. */
-	UPROPERTY() TObjectPtr<UTexture2D> HunkPortraitTexture;
-	UPROPERTY() TObjectPtr<UTexture2D> PlayerPortraitTexture;
 	UPROPERTY() TObjectPtr<UBorder> NamePill;
+	/** Name plate and teal meter strip, straddling the panel's top edge. */
+	UPROPERTY() TObjectPtr<UWidget> HeaderRow;
+	UPROPERTY() TObjectPtr<UWidget> NameStackBox;
+	/** Tracks the name stack's width so the meter strip starts tucked behind the name plate. */
+	UPROPERTY() TObjectPtr<USizeBox> StripLead;
+	/** Pushes the meters right so they clear the widest possible name plate by NameMargin. */
+	UPROPERTY() TObjectPtr<USizeBox> MeterLead;
+	/** Width of the widest name plate any speaker in this playthrough can produce (hunks, extra speakers, player). */
+	float NameReserve = 0.f;
+	void RefreshNameReserve();
 	UPROPERTY() TObjectPtr<UTextBlock> NameText;
-	UPROPERTY() TObjectPtr<UTextBlock> MaladyText;
 	UPROPERTY() TObjectPtr<UTextBlock> TypingText;
 	UPROPERTY() TObjectPtr<UWrapBox> WordWrap;
 	UPROPERTY() TObjectPtr<UVerticalBox> ChoiceBox;
+	UPROPERTY() TObjectPtr<USizeBox> LineBounds;
+	/** Holds the typing and final line layouts; sheared as one block so both lean identically. */
+	UPROPERTY() TObjectPtr<UOverlay> LineArea;
 	UPROPERTY() TObjectPtr<UTextBlock> ContinueHint;
 	UPROPERTY() TObjectPtr<UProgressBar> RomanceBar;
 	UPROPERTY() TObjectPtr<UProgressBar> FriendBar;

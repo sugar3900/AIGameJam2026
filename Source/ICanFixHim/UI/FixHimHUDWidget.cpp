@@ -15,6 +15,8 @@
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
+#include "Components/HorizontalBox.h"
+#include "Components/HorizontalBoxSlot.h"
 
 using namespace FixHimUI;
 
@@ -76,43 +78,93 @@ void UFixHimHUDWidget::BuildUI()
 	ReticleBox->AddChild(Layers);
 	Ret->AddChildToVerticalBox(ReticleBox)->SetHorizontalAlignment(HAlign_Center);
 
-	PromptPill = WidgetTree->ConstructWidget<UBorder>();
-	PromptPill->SetBrush(Rounded(FLinearColor(Plum.R, Plum.G, Plum.B, 0.8f), 14.f));
-	PromptPill->SetPadding(FMargin(14.f, 5.f));
-	PromptText = MakeText(WidgetTree, TEXT(""), 18, Cream, TEXT("Bold"));
+	// Interaction prompt: its own quiet style, a borderless 50% ink parallelogram with white text. No keyline or
+	// extrusion, so padding is symmetric.
+	UFixHimSurface *Prompt = WidgetTree->ConstructWidget<UFixHimSurface>();
+	Prompt->bBorderless = true;
+	Prompt->BorderlessRadius = 6.f;
+	Prompt->SetBrushColor(FixHimDesign::Ink.CopyWithNewOpacity(.25f));
+	Prompt->SetPadding(FMargin(26, 7, 30, 7));
+	PromptPill = Prompt;
+	PromptText = MakeText(WidgetTree, TEXT(""), 20, FLinearColor::White, TEXT("Semibold"));
+	PromptText->SetRenderTranslation(FVector2D(0, PromptText->GetFont().Size * FixHimDesign::CapCentre));
+	// Solid ink drop shadow keeps the white text legible over bright parts of the room; offset follows the
+	// extrusion rule (down, half that across).
+	PromptText->SetShadowColorAndOpacity(FixHimDesign::Ink);
+	PromptText->SetShadowOffset(FVector2D(1.f, 2.f));
 	PromptPill->SetContent(PromptText);
 	PromptPill->SetVisibility(ESlateVisibility::Collapsed);
 	// Its own slot, shifted below the reticle, so the reticle stays exactly at screen centre whether or not a prompt shows.
-	PromptPill->SetRenderTranslation(FVector2D(0.f, Settings->ReticleSize * 0.5f + 20.f));
+	PromptPill->SetRenderTranslation(FVector2D(0.f, Settings->ReticleSize * 0.5f + 56.f));
 	UOverlaySlot* PromptSlot = Root->AddChildToOverlay(PromptPill);
 	PromptSlot->SetHorizontalAlignment(HAlign_Center);
 	PromptSlot->SetVerticalAlignment(VAlign_Center);
 
-	// ---- Room name (top left) ----
-	RoomPill = WidgetTree->ConstructWidget<UBorder>();
-	RoomPill->SetBrush(Rounded(FLinearColor(Plum.R, Plum.G, Plum.B, 0.72f), 18.f, Pink, 2.f));
-	RoomPill->SetPadding(FMargin(20.f, 8.f));
-	RoomText = MakeText(WidgetTree, TEXT(""), 22, Cream, TEXT("Bold"));
-	RoomPill->SetContent(RoomText);
+	auto IconBox = [&](const TCHAR *Name, float Size) {
+		USizeBox *Box = WidgetTree->ConstructWidget<USizeBox>();
+		Box->SetWidthOverride(Size);
+		Box->SetHeightOverride(Size);
+		Box->AddChild(FixHimDesign::Icon(WidgetTree, Name, FLinearColor::White));
+		return Box;
+	};
+	auto CapLift = [](UTextBlock *T) { T->SetRenderTranslation(FVector2D(0, T->GetFont().Size * FixHimDesign::CapCentre)); };
+
+	// ---- Room name (top left): pink plate with a wrench, as in the show-graphics mock-up ----
+	RoomPill = WidgetTree->ConstructWidget<UFixHimSurface>();
+	RoomPill->SetBrush(Rounded(Pink, 18.f));
+	RoomPill->SetPadding(FMargin(30, 8, 40, 8 + FixHimDesign::Extrusion));
+	UHorizontalBox *RoomRow = WidgetTree->ConstructWidget<UHorizontalBox>();
+	RoomRow->AddChildToHorizontalBox(IconBox(TEXT("wrench"), 30))->SetVerticalAlignment(VAlign_Center);
+	RoomText = MakeText(WidgetTree, TEXT(""), 30, FLinearColor::White, TEXT("Display"));
+	CapLift(RoomText);
+	UHorizontalBoxSlot *RoomTextSlot = RoomRow->AddChildToHorizontalBox(RoomText);
+	RoomTextSlot->SetVerticalAlignment(VAlign_Center);
+	RoomTextSlot->SetPadding(FMargin(14, 0, 0, 0));
+	RoomPill->SetContent(RoomRow);
 	UOverlaySlot* RoomSlot = Root->AddChildToOverlay(RoomPill);
 	RoomSlot->SetHorizontalAlignment(HAlign_Left);
 	RoomSlot->SetVerticalAlignment(VAlign_Top);
 	RoomSlot->SetPadding(FMargin(28.f, 24.f));
 	RoomPill->SetVisibility(ESlateVisibility::Collapsed);
 
-	// ---- Repairs (top right) ----
-	UBorder* RepPill = WidgetTree->ConstructWidget<UBorder>();
-	RepPill->SetBrush(Rounded(FLinearColor(Plum.R, Plum.G, Plum.B, 0.72f), 18.f));
-	RepPill->SetPadding(FMargin(18.f, 8.f));
-	RepairsText = MakeText(WidgetTree, TEXT("Repairs 0/0"), 18, Blush, TEXT("Bold"));
-	RepPill->SetContent(RepairsText);
-	UOverlaySlot* RepSlot = Root->AddChildToOverlay(RepPill);
+	// ---- Week + repairs (top right): cream week plate tucked under a pink repairs badge ----
+	UHorizontalBox *Progress = WidgetTree->ConstructWidget<UHorizontalBox>();
+	UFixHimSurface *Week = WidgetTree->ConstructWidget<UFixHimSurface>();
+	Week->SetBrush(Rounded(Cream, 16.f));
+	// Extra right padding sits under the badge's overlap.
+	Week->SetPadding(FMargin(28, 8, 56, 8 + FixHimDesign::Extrusion));
+	WeekText = MakeText(WidgetTree, TEXT(""), 28, Plum, TEXT("Display"));
+	CapLift(WeekText);
+	Week->SetContent(WeekText);
+	WeekPill = Week;
+	Week->SetVisibility(ESlateVisibility::Collapsed);
+	Progress->AddChildToHorizontalBox(Week)->SetVerticalAlignment(VAlign_Center);
+	UFixHimSurface *RepPill = WidgetTree->ConstructWidget<UFixHimSurface>();
+	RepPill->SetBrush(Rounded(Pink, 18.f));
+	RepPill->SetPadding(FMargin(24, 8, 32, 8 + FixHimDesign::Extrusion));
+	UHorizontalBox *RepRow = WidgetTree->ConstructWidget<UHorizontalBox>();
+	RepRow->AddChildToHorizontalBox(IconBox(TEXT("house"), 34))->SetVerticalAlignment(VAlign_Center);
+	UVerticalBox *RepCol = WidgetTree->ConstructWidget<UVerticalBox>();
+	UTextBlock *RepLabel = MakeText(WidgetTree, TEXT("Repairs"), 18, FLinearColor::White, TEXT("Display"));
+	RepCol->AddChildToVerticalBox(RepLabel)->SetHorizontalAlignment(HAlign_Center);
+	RepairsText = MakeText(WidgetTree, TEXT("0/0"), 40, FLinearColor::White, TEXT("Display"));
+	RepCol->AddChildToVerticalBox(RepairsText)->SetPadding(FMargin(0, -10, 0, 0));
+	UHorizontalBoxSlot *RepColSlot = RepRow->AddChildToHorizontalBox(RepCol);
+	RepColSlot->SetVerticalAlignment(VAlign_Center);
+	RepColSlot->SetPadding(FMargin(12, 0, 0, 0));
+	RepPill->SetContent(RepRow);
+	// Negative lead overlaps the week plate; added second so it draws on top.
+	UHorizontalBoxSlot *RepSlotH = Progress->AddChildToHorizontalBox(RepPill);
+	RepSlotH->SetVerticalAlignment(VAlign_Center);
+	RepSlotH->SetPadding(FMargin(-30, 0, 0, 0));
+	UOverlaySlot* RepSlot = Root->AddChildToOverlay(Progress);
 	RepSlot->SetHorizontalAlignment(HAlign_Right);
 	RepSlot->SetVerticalAlignment(VAlign_Top);
 	RepSlot->SetPadding(FMargin(28.f, 24.f));
 
 	// ---- Controls hint (bottom left) ----
 	UTextBlock* Hint = MakeText(WidgetTree, TEXT("WASD move   Mouse look   Click interact   M floor plan   Esc pause   Bed or door = end the day"), 15, FLinearColor(1.f, 1.f, 1.f, 0.75f));
+	ControlHint=Hint;
 	Hint->SetShadowOffset(FVector2D(1.f, 1.f));
 	Hint->SetShadowColorAndOpacity(FLinearColor(0.f, 0.f, 0.f, 0.7f));
 	UOverlaySlot* HintSlot = Root->AddChildToOverlay(Hint);
@@ -121,9 +173,9 @@ void UFixHimHUDWidget::BuildUI()
 	HintSlot->SetPadding(FMargin(28.f, 20.f));
 
 	// ---- Toast (top centre) ----
-	ToastPill = WidgetTree->ConstructWidget<UBorder>();
+	ToastPill = WidgetTree->ConstructWidget<UFixHimSurface>();
 	ToastPill->SetBrush(Rounded(Pink, 16.f));
-	ToastPill->SetPadding(FMargin(18.f, 7.f));
+	ToastPill->SetPadding(FMargin(32, 8, 40, 8 + FixHimDesign::Extrusion));
 	ToastText = MakeText(WidgetTree, TEXT(""), 18, FLinearColor::White, TEXT("Bold"));
 	ToastPill->SetContent(ToastText);
 	UOverlaySlot* ToastSlot = Root->AddChildToOverlay(ToastPill);
@@ -155,6 +207,7 @@ void UFixHimHUDWidget::SetReticle(bool bVisible, EFixHimInteractionAction Action
 	TickReticle(bVisible && bWasVisible ? 0.f : -1.f);
 	PromptPill->SetVisibility(bVisible && Action != EFixHimInteractionAction::None && !Prompt.IsEmpty() ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
 	PromptText->SetText(Prompt);
+	if(ControlHint) ControlHint->SetVisibility(bVisible ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
 }
 
 void UFixHimHUDWidget::TickReticle(float DeltaSeconds)
@@ -216,8 +269,13 @@ void UFixHimHUDWidget::SetRepairs(int32 Fixed, int32 Total, int32 Week, int32 Nu
 {
 	if (RepairsText)
 	{
-		const FString WeekText = Week > 0 && Week <= NumWeeks ? FString::Printf(TEXT("Week %d of %d   "), Week, NumWeeks) : FString();
-		RepairsText->SetText(FText::FromString(FString::Printf(TEXT("%sRepairs  %d / %d"), *WeekText, Fixed, Total)));
+		RepairsText->SetText(FText::FromString(FString::Printf(TEXT("%d/%d"), Fixed, Total)));
+	}
+	if (WeekText && WeekPill)
+	{
+		const bool bWeek = Week > 0 && Week <= NumWeeks;
+		WeekText->SetText(bWeek ? FText::FromString(FString::Printf(TEXT("Week %d of %d"), Week, NumWeeks)) : FText::GetEmpty());
+		WeekPill->SetVisibility(bWeek ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
 	}
 }
 
@@ -255,6 +313,6 @@ void UFixHimHUDWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
 	if (RoomFlash > 0.f && RoomPill)
 	{
 		RoomFlash = FMath::Max(0.f, RoomFlash - InDeltaTime * 1.5f);
-		RoomPill->SetRenderScale(FVector2D(1.f + 0.12f * RoomFlash));
+		RoomPill->SetRenderScale(FVector2D(FixHimDesign::ReducedMotion() ? 1.f : 1.f + .12f*RoomFlash));
 	}
 }

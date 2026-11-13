@@ -7,6 +7,8 @@
 #include "Blueprint/WidgetTree.h"
 #include "Components/Border.h"
 #include "Components/EditableTextBox.h"
+#include "Components/Image.h"
+#include "Engine/Texture2D.h"
 #include "Components/HorizontalBox.h"
 #include "Components/HorizontalBoxSlot.h"
 #include "Components/Overlay.h"
@@ -25,60 +27,115 @@ using namespace FixHimUI;
 
 void UFixHimTitleWidget::BuildUI()
 {
-	UOverlay* Root = WidgetTree->ConstructWidget<UOverlay>();
+	UOverlay *Root = WidgetTree->ConstructWidget<UOverlay>();
 	WidgetTree->RootWidget = Root;
 
 	// Soft plum panel down the left so the apartment stays visible behind the menu.
-	USizeBox* PanelSize = WidgetTree->ConstructWidget<USizeBox>();
-	PanelSize->SetWidthOverride(700.f);
-	UOverlaySlot* PanelSlot = Root->AddChildToOverlay(PanelSize);
+	USizeBox *PanelSize = WidgetTree->ConstructWidget<USizeBox>();
+	PanelSize->SetWidthOverride(820.f);
+	UOverlaySlot *PanelSlot = Root->AddChildToOverlay(PanelSize);
 	PanelSlot->SetHorizontalAlignment(HAlign_Left);
 	PanelSlot->SetVerticalAlignment(VAlign_Fill);
 
-	UBorder* Panel = WidgetTree->ConstructWidget<UBorder>();
-	Panel->SetBrushColor(FLinearColor(Plum.R, Plum.G, Plum.B, 0.78f));
-	Panel->SetPadding(FMargin(80.f, 70.f, 60.f, 50.f));
+	UFixHimSurface *Panel = WidgetTree->ConstructWidget<UFixHimSurface>();
+	Panel->bBorderless = true;
+	Panel->SetBrushColor(FixHimDesign::Teal.CopyWithNewOpacity(.96f));
+	Panel->SetPadding(FMargin(56, 36, 56, 36));
 	PanelSize->AddChild(Panel);
 
-	UVerticalBox* Col = WidgetTree->ConstructWidget<UVerticalBox>();
+	UVerticalBox *Col = WidgetTree->ConstructWidget<UFixHimStack>();
 	Panel->SetContent(Col);
 
-	UVerticalBox* TitleCol = WidgetTree->ConstructWidget<UVerticalBox>();
+	UVerticalBox *TitleCol = WidgetTree->ConstructWidget<UVerticalBox>();
 	TitleBlock = TitleCol;
 	Col->AddChildToVerticalBox(TitleCol);
 
-	UTextBlock* Small = MakeText(WidgetTree, TEXT("I CAN"), 40, Blush, TEXT("Bold"));
-	TitleCol->AddChildToVerticalBox(Small);
-	UTextBlock* Big = MakeText(WidgetTree, TEXT("FIX HIM"), 104, Pink, TEXT("Bold"));
-	Big->SetShadowOffset(FVector2D(5.f, 5.f));
-	Big->SetShadowColorAndOpacity(FLinearColor(0.f, 0.f, 0.f, 0.55f));
-	TitleCol->AddChildToVerticalBox(Big)->SetPadding(FMargin(0.f, -22.f, 0.f, 0.f));
-	UTextBlock* Tag = MakeText(WidgetTree, TEXT("a home renovation romance"), 24, Cream, TEXT("Italic"));
-	TitleCol->AddChildToVerticalBox(Tag)->SetPadding(FMargin(4.f, 0.f, 0.f, 0.f));
+	USizeBox *LogoBox = WidgetTree->ConstructWidget<USizeBox>();
+	// Sized so the 135% text menu (taller padded buttons) still fits with its footer.
+	LogoBox->SetWidthOverride(420);
+	LogoBox->SetHeightOverride(336);
+	UImage *Logo = WidgetTree->ConstructWidget<UImage>();
+	Logo->SetBrushFromTexture(LoadObject<UTexture2D>(nullptr, TEXT("/Game/ICanFixHim/UI/Design/Brand/T_Logo.T_Logo")));
+	LogoBox->AddChild(Logo);
+	TitleCol->AddChildToVerticalBox(LogoBox);
 
-	UVerticalBoxSlot* SpacerSlot = Col->AddChildToVerticalBox(WidgetTree->ConstructWidget<USpacer>());
+	UVerticalBoxSlot *SpacerSlot = Col->AddChildToVerticalBox(WidgetTree->ConstructWidget<USpacer>());
 	SpacerSlot->SetSize(FSlateChildSize(ESlateSizeRule::Fill));
 
 	TWeakObjectPtr<UFixHimTitleWidget> Self(this);
-	auto AddButton = [&](const FString& Label, TFunction<void()> Fn, bool bPrimary) -> UFixHimButton*
-	{
-		USizeBox* Box = WidgetTree->ConstructWidget<USizeBox>();
-		Box->SetWidthOverride(340.f);
-		Box->SetHeightOverride(62.f);
-		UFixHimButton* B = UFixHimButton::Make(WidgetTree, Label, MoveTemp(Fn), 24, bPrimary);
+	auto AddButton = [&](const FString &Label, TFunction<void()> Fn, bool bPrimary) -> UFixHimButton * {
+		USizeBox *Box = WidgetTree->ConstructWidget<USizeBox>();
+		Box->SetWidthOverride(400.f);
+		Box->SetMinDesiredHeight(72.f);
+		UFixHimButton *B = UFixHimButton::Make(WidgetTree, Label, MoveTemp(Fn), 24, bPrimary,
+		                                       Label == TEXT("Options")    ? TEXT("gear")
+		                                       : Label == TEXT("Continue") ? TEXT("play")
+		                                       : Label == TEXT("New Game") ? TEXT("house")
+		                                       : Label == TEXT("Credits")  ? TEXT("info")
+		                                                                   : TEXT("door_open"));
 		Box->AddChild(B);
-		Col->AddChildToVerticalBox(Box)->SetPadding(FMargin(0.f, 0.f, 0.f, 14.f));
+		Col->AddChildToVerticalBox(Box)->SetPadding(FMargin(0.f, 0.f, 0.f, 10.f));
 		return B;
 	};
 
-	AddButton(TEXT("New Game"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->StartNewGame(); } }, true);
-	ContinueButton = AddButton(TEXT("Continue"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->ContinueGame(); } }, true);
-	AddButton(TEXT("Options"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->OpenOptions(); } }, false);
-	AddButton(TEXT("Credits"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->OpenCredits(); } }, false);
-	AddButton(TEXT("Exit"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->QuitToDesktop(); } }, false);
+	const auto *Saved = UFixHimSaveSubsystem::Get(this);
+	const bool HasSave = Saved && Saved->HasSaveFile();
+	auto NewGame = [&]() {
+		NewGameButton = AddButton(
+		    TEXT("New Game"),
+		    [Self]() {
+			    if (Self.IsValid() && Self->GetFixHimPC())
+				    Self->GetFixHimPC()->StartNewGame();
+		    },
+		    !HasSave);
+	};
+	auto Continue = [&]() {
+		ContinueButton = AddButton(
+		    TEXT("Continue"),
+		    [Self]() {
+			    if (Self.IsValid() && Self->GetFixHimPC())
+				    Self->GetFixHimPC()->ContinueGame();
+		    },
+		    HasSave);
+	};
+	if (HasSave)
+	{
+		Continue();
+		NewGame();
+	}
+	else
+	{
+		NewGame();
+		Continue();
+	}
+	AddButton(
+	    TEXT("Options"),
+	    [Self]() {
+		    if (Self.IsValid() && Self->GetFixHimPC())
+		    {
+			    Self->GetFixHimPC()->OpenOptions();
+		    }
+	    },
+	    false);
+	AddButton(
+	    TEXT("Credits"),
+	    [Self]() {
+		    if (Self.IsValid() && Self->GetFixHimPC())
+		    {
+			    Self->GetFixHimPC()->OpenCredits();
+		    }
+	    },
+	    false);
+	AddButton(
+	    TEXT("Exit"),
+	    [Self]() {
+		    if (Self.IsValid() && Self->GetFixHimPC())
+		    {
+			    Self->GetFixHimPC()->QuitToDesktop();
+		    }
+	    },
+	    false);
 
-	UTextBlock* Footer = MakeText(WidgetTree, TEXT("AI Game Jam 2026  -  prototype build"), 14, Blush.CopyWithNewOpacity(0.7f));
-	Col->AddChildToVerticalBox(Footer)->SetPadding(FMargin(0.f, 24.f, 0.f, 0.f));
 
 	RefreshContinue();
 }
@@ -87,23 +144,19 @@ void UFixHimTitleWidget::RefreshContinue()
 {
 	if (ContinueButton)
 	{
-		const UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this);
-		ContinueButton->SetIsEnabled(Save && Save->HasSaveFile());
+		const UFixHimSaveSubsystem *Save = UFixHimSaveSubsystem::Get(this);
+		const bool HasSave = Save && Save->HasSaveFile();
+		ContinueButton->SetIsEnabled(HasSave);
+		ContinueButton->SetVariant(HasSave);
+		if (NewGameButton)
+			NewGameButton->SetVariant(!HasSave);
+		InitialFocusTarget = HasSave ? ContinueButton.Get() : NewGameButton.Get();
 	}
 }
 
-void UFixHimTitleWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+void UFixHimTitleWidget::NativeTick(const FGeometry &MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-	Age += InDeltaTime;
-	if (TitleBlock)
-	{
-		// A little lovesick wobble.
-		FWidgetTransform T;
-		T.Angle = FMath::Sin(Age * 1.3f) * 1.2f;
-		T.Scale = FVector2D(1.f + 0.015f * FMath::Sin(Age * 2.1f));
-		TitleBlock->SetRenderTransform(T);
-	}
 }
 
 // ---------------------------------------------------------------------------
@@ -111,10 +164,12 @@ void UFixHimTitleWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTi
 
 void UFixHimNameEntryWidget::BuildUI()
 {
-	UVerticalBox* Col = MakeCardScreen(TEXT("Welcome home"), 520.f);
+	UVerticalBox *Col = MakeCardScreen(TEXT("Welcome home"), 720.f);
 	TWeakObjectPtr<UFixHimNameEntryWidget> Self(this);
 
-	UTextBlock* Prompt = MakeText(WidgetTree, TEXT("You just bought a condemned house on Heartbreak Lane. What's your name, homeowner?"), 20, Plum);
+	UTextBlock *Prompt =
+	    MakeText(WidgetTree, TEXT("You just bought a condemned house on Heartbreak Lane. What's your name, homeowner?"),
+		         20, Plum);
 	Prompt->SetJustification(ETextJustify::Center);
 	Prompt->SetAutoWrapText(true);
 	Col->AddChildToVerticalBox(Prompt)->SetPadding(FMargin(0.f, 0.f, 0.f, 18.f));
@@ -122,7 +177,7 @@ void UFixHimNameEntryWidget::BuildUI()
 	NameBox = WidgetTree->ConstructWidget<UEditableTextBox>();
 	NameBox->SetHintText(FText::FromString(TEXT("Your name")));
 	FEditableTextBoxStyle Style = NameBox->WidgetStyle;
-	Style.SetBackgroundImageNormal(Rounded(FLinearColor::White, 14.f, Pink, 2.f));
+	Style.SetBackgroundImageNormal(Rounded(Cream, 12, PlumSoft, 2));
 	Style.SetBackgroundImageHovered(Rounded(FLinearColor::White, 14.f, HotPink, 2.f));
 	Style.SetBackgroundImageFocused(Rounded(FLinearColor::White, 14.f, HotPink, 3.f));
 	Style.SetPadding(FMargin(16.f, 12.f));
@@ -134,21 +189,37 @@ void UFixHimNameEntryWidget::BuildUI()
 	NameBox->OnTextCommitted.AddUniqueDynamic(this, &UFixHimNameEntryWidget::HandleTextCommitted);
 	Col->AddChildToVerticalBox(NameBox)->SetPadding(FMargin(0.f, 0.f, 0.f, 18.f));
 
-	USizeBox* Box = WidgetTree->ConstructWidget<USizeBox>();
-	Box->SetHeightOverride(58.f);
-	MoveInButton = UFixHimButton::Make(WidgetTree, TEXT("Move in"), [Self]() { if (Self.IsValid()) { Self->Submit(); } }, 22, true);
+	USizeBox *Box = WidgetTree->ConstructWidget<USizeBox>();
+	Box->SetMinDesiredHeight(72.f);
+	MoveInButton = UFixHimButton::Make(
+	    WidgetTree, TEXT("Move in"),
+	    [Self]() {
+		    if (Self.IsValid())
+		    {
+			    Self->Submit();
+		    }
+	    },
+	    24, true);
 	// Greyed out (not just faded pink) while the name is empty.
 	FButtonStyle BStyle = MoveInButton->GetStyle();
-	BStyle.SetDisabled(Rounded(FLinearColor(0.72f, 0.7f, 0.72f), 22.f));
+	BStyle.SetDisabled(Rounded(FixHimDesign::Disabled, 12));
 	MoveInButton->SetStyle(BStyle);
 	MoveInButton->SetIsEnabled(false);
 	Box->AddChild(MoveInButton);
-	Col->AddChildToVerticalBox(Box)->SetPadding(FMargin(0.f, 0.f, 0.f, 10.f));
+	CardActions->AddChildToVerticalBox(Box)->SetPadding(FMargin(0.f, 0.f, 0.f, 10.f));
 
-	USizeBox* BackBox = WidgetTree->ConstructWidget<USizeBox>();
-	BackBox->SetHeightOverride(46.f);
-	BackBox->AddChild(UFixHimButton::Make(WidgetTree, TEXT("Back"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->CancelNameEntry(); } }, 18, false));
-	Col->AddChildToVerticalBox(BackBox);
+	USizeBox *BackBox = WidgetTree->ConstructWidget<USizeBox>();
+	BackBox->SetMinDesiredHeight(72.f);
+	BackBox->AddChild(UFixHimButton::Make(
+	    WidgetTree, TEXT("Back"),
+	    [Self]() {
+		    if (Self.IsValid() && Self->GetFixHimPC())
+		    {
+			    Self->GetFixHimPC()->CancelNameEntry();
+		    }
+	    },
+	    24, false));
+	CardActions->AddChildToVerticalBox(BackBox);
 }
 
 void UFixHimNameEntryWidget::NativeConstruct()
@@ -156,13 +227,16 @@ void UFixHimNameEntryWidget::NativeConstruct()
 	Super::NativeConstruct();
 	if (NameBox)
 	{
+		// UE 5.8 retains the passed style address; pass the widget-owned member.
+		NameBox->WidgetStyle.SetFont(Font(24, TEXT("Bold")));
+		NameBox->SetWidgetStyle(NameBox->WidgetStyle);
 		NameBox->SetKeyboardFocus();
 	}
 }
 
 bool UFixHimNameEntryWidget::HandleClickOutside()
 {
-	AFixHimPlayerController* PC = GetFixHimPC();
+	AFixHimPlayerController *PC = GetFixHimPC();
 	if (PC && CurrentName().IsEmpty())
 	{
 		PC->CancelNameEntry();
@@ -176,7 +250,7 @@ FString UFixHimNameEntryWidget::CurrentName() const
 	return NameBox ? NameBox->GetText().ToString().TrimStartAndEnd() : FString();
 }
 
-void UFixHimNameEntryWidget::HandleTextChanged(const FText& Text)
+void UFixHimNameEntryWidget::HandleTextChanged(const FText &Text)
 {
 	// Keep it to a name that fits in the name plate.
 	FString S = Text.ToString();
@@ -188,7 +262,7 @@ void UFixHimNameEntryWidget::HandleTextChanged(const FText& Text)
 	MoveInButton->SetIsEnabled(!CurrentName().IsEmpty());
 }
 
-void UFixHimNameEntryWidget::HandleTextCommitted(const FText& Text, ETextCommit::Type CommitMethod)
+void UFixHimNameEntryWidget::HandleTextCommitted(const FText &Text, ETextCommit::Type CommitMethod)
 {
 	if (CommitMethod == ETextCommit::OnEnter)
 	{
@@ -210,22 +284,47 @@ void UFixHimNameEntryWidget::Submit()
 
 void UFixHimPauseWidget::BuildUI()
 {
-	UVerticalBox* Col = MakeCardScreen(TEXT("Paused"), 420.f);
+	UVerticalBox *Col = MakeCardScreen(TEXT("Paused"), 620.f);
 	OpenSfx = TEXT("PauseOn");
 	CloseSfx = TEXT("PauseOff");
 	TWeakObjectPtr<UFixHimPauseWidget> Self(this);
-	auto Add = [&](const FString& Label, TFunction<void()> Fn, bool bPrimary)
-	{
-		USizeBox* Box = WidgetTree->ConstructWidget<USizeBox>();
-		Box->SetHeightOverride(58.f);
+	auto Add = [&](const FString &Label, TFunction<void()> Fn, bool bPrimary) {
+		USizeBox *Box = WidgetTree->ConstructWidget<USizeBox>();
+		Box->SetMinDesiredHeight(72.f);
 		Box->AddChild(UFixHimButton::Make(WidgetTree, Label, MoveTemp(Fn), 22, bPrimary));
-		Col->AddChildToVerticalBox(Box)->SetPadding(FMargin(0.f, 0.f, 0.f, 12.f));
+		CardActions->AddChildToVerticalBox(Box)->SetPadding(FMargin(0.f, 0.f, 0.f, 12.f));
 	};
-	Add(TEXT("Resume"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->SetPaused(false); } }, true);
-	Add(TEXT("Options"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->OpenOptions(); } }, false);
-	Add(TEXT("Save & Exit"),[Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->ReturnToMainMenu(); } }, false);
+	Add(
+	    TEXT("Resume"),
+	    [Self]() {
+		    if (Self.IsValid() && Self->GetFixHimPC())
+		    {
+			    Self->GetFixHimPC()->SetPaused(false);
+		    }
+	    },
+	    true);
+	Add(
+	    TEXT("Options"),
+	    [Self]() {
+		    if (Self.IsValid() && Self->GetFixHimPC())
+		    {
+			    Self->GetFixHimPC()->OpenOptions();
+		    }
+	    },
+	    false);
+	Add(
+	    TEXT("Save & Exit"),
+	    [Self]() {
+		    if (Self.IsValid() && Self->GetFixHimPC())
+		    {
+			    Self->GetFixHimPC()->ReturnToMainMenu();
+		    }
+	    },
+	    false);
 
-	UTextBlock* Hint = MakeText(WidgetTree, TEXT("Progress saves when you leave through the front door or Save & Exit."), 14, PlumSoft, TEXT("Italic"));
+	UTextBlock *Hint =
+	    MakeText(WidgetTree, TEXT("Progress saves when you leave through the front door or Save & Exit."), 14, PlumSoft,
+		         TEXT("Italic"));
 	Hint->SetJustification(ETextJustify::Center);
 	Hint->SetAutoWrapText(true);
 	Col->AddChildToVerticalBox(Hint)->SetPadding(FMargin(0.f, 6.f, 0.f, 0.f));
@@ -233,7 +332,7 @@ void UFixHimPauseWidget::BuildUI()
 
 bool UFixHimPauseWidget::HandleClickOutside()
 {
-	if (AFixHimPlayerController* PC = GetFixHimPC())
+	if (AFixHimPlayerController *PC = GetFixHimPC())
 	{
 		PC->SetPaused(false);
 		return true;
@@ -246,7 +345,7 @@ bool UFixHimPauseWidget::HandleClickOutside()
 
 bool UFixHimDoorPromptWidget::HandleClickOutside()
 {
-	if (AFixHimPlayerController* PC = GetFixHimPC())
+	if (AFixHimPlayerController *PC = GetFixHimPC())
 	{
 		PC->CloseDoorPrompt();
 		return true;
@@ -256,7 +355,7 @@ bool UFixHimDoorPromptWidget::HandleClickOutside()
 
 void UFixHimDoorPromptWidget::BuildUI()
 {
-	UVerticalBox* Col = MakeCardScreen(TEXT("End the day?"), 460.f);
+	UVerticalBox *Col = MakeCardScreen(TEXT("End the day?"), 720.f);
 	TWeakObjectPtr<UFixHimDoorPromptWidget> Self(this);
 
 	BodyText = MakeText(WidgetTree, TEXT("The day ends and a week will pass."), 18, PlumSoft);
@@ -264,25 +363,40 @@ void UFixHimDoorPromptWidget::BuildUI()
 	BodyText->SetAutoWrapText(true);
 	Col->AddChildToVerticalBox(BodyText)->SetPadding(FMargin(0.f, 0.f, 0.f, 18.f));
 
-	auto Add = [&](const FString& Label, TFunction<void()> Fn, bool bPrimary)
-	{
-		USizeBox* Box = WidgetTree->ConstructWidget<USizeBox>();
-		Box->SetHeightOverride(58.f);
-		UFixHimButton* Button = UFixHimButton::Make(WidgetTree, Label, MoveTemp(Fn), 22, bPrimary);
+	auto Add = [&](const FString &Label, TFunction<void()> Fn, bool bPrimary) {
+		USizeBox *Box = WidgetTree->ConstructWidget<USizeBox>();
+		Box->SetMinDesiredHeight(72.f);
+		UFixHimButton *Button = UFixHimButton::Make(WidgetTree, Label, MoveTemp(Fn), 22, bPrimary);
 		if (bPrimary)
 		{
 			EndDayButton = Button;
 		}
 		Box->AddChild(Button);
-		Col->AddChildToVerticalBox(Box)->SetPadding(FMargin(0.f, 0.f, 0.f, 12.f));
+		CardActions->AddChildToVerticalBox(Box)->SetPadding(FMargin(0.f, 0.f, 0.f, 12.f));
 	};
-	Add(TEXT("End Day"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->ConfirmEndDay(); } }, true);
-	Add(TEXT("Cancel"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->CloseDoorPrompt(); } }, false);
+	Add(
+	    TEXT("End Day"),
+	    [Self]() {
+		    if (Self.IsValid() && Self->GetFixHimPC())
+		    {
+			    Self->GetFixHimPC()->ConfirmEndDay();
+		    }
+	    },
+	    true);
+	Add(
+	    TEXT("Cancel"),
+	    [Self]() {
+		    if (Self.IsValid() && Self->GetFixHimPC())
+		    {
+			    Self->GetFixHimPC()->CloseDoorPrompt();
+		    }
+	    },
+	    false);
 }
 
 void UFixHimDoorPromptWidget::Refresh()
 {
-	const AFixHimPlayerController* PC = GetFixHimPC();
+	const AFixHimPlayerController *PC = GetFixHimPC();
 	const bool bAllowed = !PC || PC->CanEndDay();
 	if (EndDayButton)
 	{
@@ -290,9 +404,9 @@ void UFixHimDoorPromptWidget::Refresh()
 	}
 	if (BodyText)
 	{
-		BodyText->SetText(FText::FromString(bAllowed
-			? TEXT("The day ends and a week will pass.")
-			: TEXT("You feel a presence in the house... someone you still need to meet.")));
+		BodyText->SetText(
+		    FText::FromString(bAllowed ? TEXT("The day ends and a week will pass.")
+			                           : TEXT("You feel a presence in the house... someone you still need to meet.")));
 	}
 }
 
@@ -301,11 +415,11 @@ void UFixHimDoorPromptWidget::Refresh()
 
 bool UFixHimOptionsWidget::HandleClickOutside()
 {
-	if (UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this))
+	if (UFixHimSaveSubsystem *Save = UFixHimSaveSubsystem::Get(this))
 	{
 		Save->SaveOptions();
 	}
-	if (AFixHimPlayerController* PC = GetFixHimPC())
+	if (AFixHimPlayerController *PC = GetFixHimPC())
 	{
 		PC->CloseSubMenu();
 		return true;
@@ -315,47 +429,51 @@ bool UFixHimOptionsWidget::HandleClickOutside()
 
 void UFixHimOptionsWidget::BuildUI()
 {
-	UVerticalBox* Col = MakeCardScreen(TEXT("Options"), 760.f);
-	UFixHimSaveSubsystem* Save = UFixHimSaveSubsystem::Get(this);
+	UVerticalBox *Col = MakeCardScreen(TEXT("Options"), 1260.f);
+	UFixHimSaveSubsystem *Save = UFixHimSaveSubsystem::Get(this);
 	if (!Save)
 	{
 		return;
 	}
 	TWeakObjectPtr<UFixHimSaveSubsystem> WeakSave(Save);
 
-	auto AddRow = [&](const FString& Label, UWidget* Control, UTextBlock* ValueText)
-	{
-		UHorizontalBox* Row = WidgetTree->ConstructWidget<UHorizontalBox>();
-		UTextBlock* L = MakeText(WidgetTree, Label, 20, Plum, TEXT("Bold"));
-		USizeBox* LabelBox = WidgetTree->ConstructWidget<USizeBox>();
-		LabelBox->SetWidthOverride(210.f);
+	auto AddRow = [&](const FString &Label, UWidget *Control, UTextBlock *ValueText) {
+		UHorizontalBox *Row = WidgetTree->ConstructWidget<UHorizontalBox>();
+		UTextBlock *L = MakeText(WidgetTree, Label, 20, Plum, TEXT("Semibold"));
+		L->SetAutoWrapText(true);
+		USizeBox *LabelBox = WidgetTree->ConstructWidget<USizeBox>();
+		LabelBox->SetWidthOverride(280.f * FixHimDesign::TextScale());
 		LabelBox->AddChild(L);
 		Row->AddChildToHorizontalBox(LabelBox)->SetVerticalAlignment(VAlign_Center);
-		UHorizontalBoxSlot* CSlot = Row->AddChildToHorizontalBox(Control);
+		UHorizontalBoxSlot *CSlot = Row->AddChildToHorizontalBox(Control);
 		CSlot->SetSize(FSlateChildSize(ESlateSizeRule::Fill));
 		CSlot->SetVerticalAlignment(VAlign_Center);
 		if (ValueText)
 		{
-			USizeBox* VB = WidgetTree->ConstructWidget<USizeBox>();
-			VB->SetWidthOverride(70.f);
+			USizeBox *VB = WidgetTree->ConstructWidget<USizeBox>();
+			VB->SetWidthOverride(100.f * FixHimDesign::TextScale());
 			VB->AddChild(ValueText);
 			ValueText->SetJustification(ETextJustify::Right);
+			ValueText->SetColorAndOpacity(FSlateColor(Plum));
+			ValueText->SetFont(Font(18, TEXT("Semibold")));
 			Row->AddChildToHorizontalBox(VB)->SetVerticalAlignment(VAlign_Center);
 		}
-		Col->AddChildToVerticalBox(Row)->SetPadding(FMargin(0.f, 6.f));
+		auto *Pitch = WidgetTree->ConstructWidget<USizeBox>();
+		Pitch->SetMinDesiredHeight(64);
+		Pitch->AddChild(Row);
+		Col->AddChildToVerticalBox(Pitch);
 	};
 
-	auto AddSlider = [&](const FString& Label, float Min, float Max, float Value, TFunction<void(float)> Apply, TFunction<FString(float)> Format)
-	{
-		UFixHimSlider* S = WidgetTree->ConstructWidget<UFixHimSlider>();
+	auto AddSlider = [&](const FString &Label, float Min, float Max, float Value, TFunction<void(float)> Apply,
+	                     TFunction<FString(float)> Format) {
+		UFixHimSlider *S = WidgetTree->ConstructWidget<UFixHimSlider>();
 		S->SetMinValue(Min);
 		S->SetMaxValue(Max);
 		S->SetValue(Value);
-		S->ApplyBigStyle(FLinearColor::LerpUsingHSV(Blush, Pink, 0.35f), HotPink);
-		UTextBlock* V = MakeText(WidgetTree, Format(Value), 18, PlumSoft);
+		S->ApplyBigStyle(Blush, PlumSoft);
+		UTextBlock *V = MakeText(WidgetTree, Format(Value), 18, PlumSoft);
 		TWeakObjectPtr<UTextBlock> WeakV(V);
-		S->Init([Apply, Format, WeakV](float NewValue)
-		{
+		S->Init([Apply, Format, WeakV](float NewValue) {
 			Apply(NewValue);
 			if (WeakV.IsValid())
 			{
@@ -363,10 +481,10 @@ void UFixHimOptionsWidget::BuildUI()
 			}
 		});
 		// The whole row height is the hit area, not just the thin bar.
-		USizeBox* Hit = WidgetTree->ConstructWidget<USizeBox>();
+		USizeBox *Hit = WidgetTree->ConstructWidget<USizeBox>();
 		Hit->SetHeightOverride(UFixHimSlider::BigHitHeight);
 		Hit->AddChild(S);
-		if (USizeBoxSlot* HitSlot = Cast<USizeBoxSlot>(S->Slot))
+		if (USizeBoxSlot *HitSlot = Cast<USizeBoxSlot>(S->Slot))
 		{
 			HitSlot->SetVerticalAlignment(VAlign_Fill);
 			HitSlot->SetHorizontalAlignment(HAlign_Fill);
@@ -374,40 +492,102 @@ void UFixHimOptionsWidget::BuildUI()
 		AddRow(Label, Hit, V);
 	};
 
-	auto AddCheck = [&](const FString& Label, bool bValue, TFunction<void(bool)> Apply)
-	{
-		UFixHimCheckBox* C = WidgetTree->ConstructWidget<UFixHimCheckBox>();
+	auto AddCheck = [&](const FString &Label, bool bValue, TFunction<void(bool)> Apply) {
+		UFixHimCheckBox *C = WidgetTree->ConstructWidget<UFixHimCheckBox>();
 		C->SetIsChecked(bValue);
 		C->Init(MoveTemp(Apply));
-		AddRow(Label, C, nullptr);
+		auto *Hit = WidgetTree->ConstructWidget<USizeBox>();
+		Hit->SetHeightOverride(48);
+		Hit->AddChild(C);
+		CastChecked<USizeBoxSlot>(C->Slot)->SetHorizontalAlignment(HAlign_Left);
+		AddRow(Label, Hit, nullptr);
 	};
 
 	auto Percent = [](float V) { return FString::Printf(TEXT("%d%%"), FMath::RoundToInt(V * 100.f)); };
 	auto Times = [](float V) { return FString::Printf(TEXT("%.1fx"), V); };
 
-	AddSlider(TEXT("Master volume"), 0.f, 1.f, Save->Options().MasterVolume, [WeakSave](float V) { if (WeakSave.IsValid()) { WeakSave->Options().MasterVolume = V; WeakSave->ApplyOptions(); } }, Percent);
-	AddSlider(TEXT("Music volume"), 0.f, 1.f, Save->Options().MusicVolume, [WeakSave](float V) { if (WeakSave.IsValid()) { WeakSave->Options().MusicVolume = V; WeakSave->ApplyOptions(); } }, Percent);
-	AddSlider(TEXT("Mouse sensitivity"), 0.25f, 6.f, Save->Options().MouseSensitivity, [WeakSave](float V) { if (WeakSave.IsValid()) { WeakSave->Options().MouseSensitivity = V; } }, Times);
-	AddSlider(TEXT("Text speed"), 0.25f, 4.f, Save->Options().TextSpeed, [WeakSave](float V) { if (WeakSave.IsValid()) { WeakSave->Options().TextSpeed = V; } },
-		[](float V) { return V >= 3.95f ? FString(TEXT("Instant")) : FString::Printf(TEXT("%.1fx"), V); });
-	AddCheck(TEXT("Invert look Y"), Save->Options().bInvertY, [WeakSave](bool b) { if (WeakSave.IsValid()) { WeakSave->Options().bInvertY = b; } });
-	AddCheck(TEXT("Fullscreen"), Save->Options().bFullscreen, [WeakSave](bool b) { if (WeakSave.IsValid()) { WeakSave->Options().bFullscreen = b; WeakSave->ApplyOptions(); } });
-
-	TWeakObjectPtr<UFixHimOptionsWidget> Self(this);
-	USizeBox* Box = WidgetTree->ConstructWidget<USizeBox>();
-	Box->SetHeightOverride(56.f);
-	Box->AddChild(UFixHimButton::Make(WidgetTree, TEXT("Back"), [Self, WeakSave]()
-	{
+	AddSlider(
+	    TEXT("Master volume"), 0.f, 1.f, Save->Options().MasterVolume,
+	    [WeakSave](float V) {
+		    if (WeakSave.IsValid())
+		    {
+			    WeakSave->Options().MasterVolume = V;
+			    WeakSave->ApplyOptions();
+		    }
+	    },
+	    Percent);
+	AddSlider(
+	    TEXT("Music volume"), 0.f, 1.f, Save->Options().MusicVolume,
+	    [WeakSave](float V) {
+		    if (WeakSave.IsValid())
+		    {
+			    WeakSave->Options().MusicVolume = V;
+			    WeakSave->ApplyOptions();
+		    }
+	    },
+	    Percent);
+	AddSlider(
+	    TEXT("Mouse sensitivity"), 0.25f, 6.f, Save->Options().MouseSensitivity,
+	    [WeakSave](float V) {
+		    if (WeakSave.IsValid())
+		    {
+			    WeakSave->Options().MouseSensitivity = V;
+		    }
+	    },
+	    Times);
+	AddSlider(
+	    TEXT("Text speed"), 0.25f, 4.f, Save->Options().TextSpeed,
+	    [WeakSave](float V) {
+		    if (WeakSave.IsValid())
+		    {
+			    WeakSave->Options().TextSpeed = V;
+		    }
+	    },
+	    [](float V) { return V >= 3.95f ? FString(TEXT("Instant")) : FString::Printf(TEXT("%.1fx"), V); });
+	AddCheck(TEXT("Invert look Y"), Save->Options().bInvertY, [WeakSave](bool b) {
 		if (WeakSave.IsValid())
 		{
-			WeakSave->SaveOptions();
+			WeakSave->Options().bInvertY = b;
 		}
-		if (Self.IsValid() && Self->GetFixHimPC())
+	});
+	AddCheck(TEXT("Reduced motion"), Save->Options().bReducedMotion, [WeakSave](bool b) {
+		if (WeakSave.IsValid())
+			WeakSave->Options().bReducedMotion = b;
+	});
+	AddSlider(
+	    TEXT("UI text size"), 1.f, 1.35f, Save->Options().UITextScale,
+	    [WeakSave](float V) {
+		    if (WeakSave.IsValid())
+			    WeakSave->Options().UITextScale = V;
+	    },
+	    Percent);
+	UTextBlock *ScaleHint = MakeText(WidgetTree, TEXT("Text size applies when a screen is next opened."), 16, PlumSoft);
+	Col->AddChildToVerticalBox(ScaleHint)->SetPadding(FMargin(0, 8));
+	AddCheck(TEXT("Fullscreen"), Save->Options().bFullscreen, [WeakSave](bool b) {
+		if (WeakSave.IsValid())
 		{
-			Self->GetFixHimPC()->CloseSubMenu();
+			WeakSave->Options().bFullscreen = b;
+			WeakSave->ApplyOptions();
 		}
-	}, 22, true));
-	Col->AddChildToVerticalBox(Box)->SetPadding(FMargin(0.f, 20.f, 0.f, 0.f));
+	});
+
+	TWeakObjectPtr<UFixHimOptionsWidget> Self(this);
+	USizeBox *Box = WidgetTree->ConstructWidget<USizeBox>();
+	Box->SetMinDesiredHeight(72.f);
+	Box->AddChild(UFixHimButton::Make(
+	    WidgetTree, TEXT("Back"),
+	    [Self, WeakSave]() {
+		    if (WeakSave.IsValid())
+		    {
+			    WeakSave->SaveOptions();
+		    }
+		    if (Self.IsValid() && Self->GetFixHimPC())
+		    {
+			    Self->GetFixHimPC()->CloseSubMenu();
+		    }
+	    },
+	    24, false));
+	CardActions->AddChildToVerticalBox(Box);
 }
 
 // ---------------------------------------------------------------------------
@@ -415,7 +595,7 @@ void UFixHimOptionsWidget::BuildUI()
 
 bool UFixHimCreditsWidget::HandleClickOutside()
 {
-	if (AFixHimPlayerController* PC = GetFixHimPC())
+	if (AFixHimPlayerController *PC = GetFixHimPC())
 	{
 		PC->CloseSubMenu();
 		return true;
@@ -425,10 +605,9 @@ bool UFixHimCreditsWidget::HandleClickOutside()
 
 void UFixHimCreditsWidget::BuildUI()
 {
-	UVerticalBox* Col = MakeCardScreen(TEXT("Credits"), 600.f);
-	auto Line = [&](const FString& Text, int32 Size, const FLinearColor& Color, const TCHAR* Face, float Bottom)
-	{
-		UTextBlock* T = MakeText(WidgetTree, Text, Size, Color, Face);
+	UVerticalBox *Col = MakeCardScreen(TEXT("Credits"), 880.f);
+	auto Line = [&](const FString &Text, int32 Size, const FLinearColor &Color, const TCHAR *Face, float Bottom) {
+		UTextBlock *T = MakeText(WidgetTree, Text, Size, Color, Face);
 		T->SetJustification(ETextJustify::Center);
 		T->SetAutoWrapText(true);
 		Col->AddChildToVerticalBox(T)->SetPadding(FMargin(0.f, 0.f, 0.f, Bottom));
@@ -444,8 +623,16 @@ void UFixHimCreditsWidget::BuildUI()
 	Line(TEXT("No houses were harmed. Several were flirted with."), 14, PlumSoft, TEXT("Italic"), 0.f);
 
 	TWeakObjectPtr<UFixHimCreditsWidget> Self(this);
-	USizeBox* Box = WidgetTree->ConstructWidget<USizeBox>();
-	Box->SetHeightOverride(56.f);
-	Box->AddChild(UFixHimButton::Make(WidgetTree, TEXT("Back"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->CloseSubMenu(); } }, 22, true));
-	Col->AddChildToVerticalBox(Box)->SetPadding(FMargin(0.f, 20.f, 0.f, 0.f));
+	USizeBox *Box = WidgetTree->ConstructWidget<USizeBox>();
+	Box->SetMinDesiredHeight(72.f);
+	Box->AddChild(UFixHimButton::Make(
+	    WidgetTree, TEXT("Back"),
+	    [Self]() {
+		    if (Self.IsValid() && Self->GetFixHimPC())
+		    {
+			    Self->GetFixHimPC()->CloseSubMenu();
+		    }
+	    },
+	    24, false));
+	CardActions->AddChildToVerticalBox(Box);
 }

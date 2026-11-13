@@ -19,7 +19,9 @@
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
 #include "Engine/TextureRenderTarget2D.h"
+#include "Engine/Texture2D.h"
 #include "Materials/MaterialInstanceDynamic.h"
+#include "Misc/Paths.h"
 
 using namespace FixHimUI;
 
@@ -36,7 +38,7 @@ void UFixHimIntroCardWidget::BuildUI()
 	WidgetTree->RootWidget = Root;
 
 	UBorder* Dim = WidgetTree->ConstructWidget<UBorder>();
-	Dim->SetBrushColor(FLinearColor(0.08f, 0.f, 0.06f, 0.6f));
+	Dim->SetBrushColor(FixHimDesign::Scrim);
 	UOverlaySlot* DimSlot = Root->AddChildToOverlay(Dim);
 	DimSlot->SetHorizontalAlignment(HAlign_Fill);
 	DimSlot->SetVerticalAlignment(VAlign_Fill);
@@ -47,17 +49,17 @@ void UFixHimIntroCardWidget::BuildUI()
 		USizeBox* Box = WidgetTree->ConstructWidget<USizeBox>();
 		Box->SetHeightOverride(Height);
 		Box->SetWidthOverride(3200.f);
-		UBorder* B = WidgetTree->ConstructWidget<UBorder>();
+		UBorder* B = WidgetTree->ConstructWidget<UFixHimSurface>();
 		B->SetBrushColor(Color);
 		Box->AddChild(B);
-		Box->SetRenderTransformAngle(Angle);
+		// Slanted contour is shared; never rotate the complete band.
 		UOverlaySlot* S = Root->AddChildToOverlay(Box);
 		S->SetHorizontalAlignment(HAlign_Center);
 		S->SetVerticalAlignment(VAlign_Center);
 		return B;
 	};
-	Band2 = MakeBand(Gold, 380.f, -9.f);
-	Band = MakeBand(HotPink, 330.f, -7.f);
+	// One shared teal contour; no second orange slab.
+	Band = MakeBand(PlumSoft, 330.f, -12.f);
 
 	UHorizontalBox* Row = WidgetTree->ConstructWidget<UHorizontalBox>();
 	UOverlaySlot* RowSlot = Root->AddChildToOverlay(Row);
@@ -68,28 +70,34 @@ void UFixHimIntroCardWidget::BuildUI()
 	SilBox->SetWidthOverride(420.f);
 	SilBox->SetHeightOverride(420.f);
 	Silhouette = WidgetTree->ConstructWidget<UImage>();
-	SilBox->AddChild(Silhouette);
+	auto *PortraitFrame=WidgetTree->ConstructWidget<UBorder>();
+	PortraitFrame->SetBrush(Rounded(Plum,20,HotPink,4));
+	PortraitFrame->SetPadding(FMargin(6));
+	SilBox->AddChild(PortraitFrame); PortraitFrame->SetContent(Silhouette);
 	Row->AddChildToHorizontalBox(SilBox)->SetVerticalAlignment(VAlign_Center);
 
-	UVerticalBox* Col = WidgetTree->ConstructWidget<UVerticalBox>();
-	UHorizontalBoxSlot* ColSlot = Row->AddChildToHorizontalBox(Col);
+	UVerticalBox* Col = WidgetTree->ConstructWidget<UFixHimStack>();
+	USizeBox* TextSize=WidgetTree->ConstructWidget<USizeBox>(); TextSize->SetWidthOverride(1000); TextSize->AddChild(Col);
+ UHorizontalBoxSlot* ColSlot = Row->AddChildToHorizontalBox(TextSize);
 	ColSlot->SetVerticalAlignment(VAlign_Center);
 	ColSlot->SetPadding(FMargin(30.f, 0.f, 0.f, 0.f));
 
 	Kicker = MakeText(WidgetTree, TEXT("SOMETHING IN THIS HOUSE IS BROKEN..."), 26, Cream, TEXT("Bold"));
 	Col->AddChildToVerticalBox(Kicker);
-	MaladyName = MakeText(WidgetTree, TEXT("MALADY"), 96, FLinearColor::White, TEXT("Bold"));
-	MaladyName->SetShadowOffset(FVector2D(6.f, 6.f));
+	MaladyName = MakeText(WidgetTree, TEXT("MALADY"),72, FLinearColor::White, TEXT("Display"));
+	MaladyName->SetAutoWrapText(true);
+ MaladyName->SetShadowOffset(FVector2D(6.f, 6.f));
 	MaladyName->SetShadowColorAndOpacity(FLinearColor(Plum.R, Plum.G, Plum.B, 0.9f));
 	Col->AddChildToVerticalBox(MaladyName)->SetPadding(FMargin(0.f, -10.f, 0.f, 0.f));
-	Tagline = MakeText(WidgetTree, TEXT(""), 26, Plum, TEXT("BoldItalic"));
-	Col->AddChildToVerticalBox(Tagline);
+	Tagline = MakeText(WidgetTree, TEXT(""), 26, Cream, TEXT("Semibold"));
+	Tagline->SetAutoWrapText(true);
+ Col->AddChildToVerticalBox(Tagline);
 
 	// "Click to continue" pill near the bottom, fading in once the card has landed.
-	UBorder* HintPill = WidgetTree->ConstructWidget<UBorder>();
-	HintPill->SetBrush(Rounded(FLinearColor(Plum.R, Plum.G, Plum.B, 0.72f), 18.f));
-	HintPill->SetPadding(FMargin(22.f, 8.f));
-	Hint = MakeText(WidgetTree, TEXT("click to continue"), 20, Cream, TEXT("Bold"));
+	UBorder* HintPill = WidgetTree->ConstructWidget<UFixHimSurface>();
+	HintPill->SetBrush(Rounded(Cream, 18.f));
+	HintPill->SetPadding(FMargin(28.f, 8.f, 36.f, 8.f + FixHimDesign::Extrusion));
+	Hint = MakeText(WidgetTree, TEXT("Continue  /  Enter"), 22, Plum, TEXT("Display"));
 	HintPill->SetContent(Hint);
 	HintPill->SetVisibility(ESlateVisibility::HitTestInvisible);
 	HintPill->SetRenderOpacity(0.f);
@@ -132,7 +140,7 @@ void UFixHimIntroCardWidget::Setup(const FHunkDefinition& Def, AFixHimHunk* Hunk
 	FixHim::Sfx(this, "IntroCard");
 	MaladyName->SetText(FText::FromString(Def.Malady.ToUpper()));
 	Tagline->SetText(FText::FromString(Def.Tagline));
-	Band->SetBrushColor(Def.GlowColor.CopyWithNewOpacity(1.f));
+	Band->SetBrushColor(PlumSoft);
 
 	if (Hunk)
 	{
@@ -141,7 +149,7 @@ void UFixHimIntroCardWidget::Setup(const FHunkDefinition& Def, AFixHimHunk* Hunk
 		{
 			UMaterialInstanceDynamic* MID = UMaterialInstanceDynamic::Create(Mat, this);
 			MID->SetTextureParameterValue(TEXT("Portrait"), Hunk->GetPortrait());
-			MID->SetScalarParameterValue(TEXT("Silhouette"), 1.f);
+			MID->SetScalarParameterValue(TEXT("Silhouette"),0.f);
 			MID->SetScalarParameterValue(TEXT("Transparent"), 1.f);
 			Silhouette->SetBrushFromMaterial(MID);
 		}
@@ -151,8 +159,14 @@ void UFixHimIntroCardWidget::Setup(const FHunkDefinition& Def, AFixHimHunk* Hunk
 			Silhouette->SetColorAndOpacity(FLinearColor::Black);
 		}
 	}
-	Age = 0.f;
-	LeaveAge = 0.f;
+ if(!Def.Portrait.IsEmpty())
+ {
+  FString Path=Def.Portrait;
+  if(!Path.Contains(TEXT("."))) Path+=TEXT(".")+FPaths::GetBaseFilename(Path);
+  if(auto* Painted=LoadObject<UTexture2D>(nullptr,*Path)) { Silhouette->SetBrushFromTexture(Painted); Silhouette->SetColorAndOpacity(FLinearColor::White); }
+ }
+ Age = 0.f;
+ LeaveAge = 0.f;
 	bLeaving = false;
 	bDone = false;
 }
@@ -162,31 +176,32 @@ void UFixHimIntroCardWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 	Super::NativeTick(MyGeometry, InDeltaTime);
 	Age += InDeltaTime;
 
-	const float In = EaseOutBack(Age / 0.45f);
+	const bool Reduced=FixHimDesign::ReducedMotion();
+ const float In=Reduced ? 1.f : EaseOutBack(Age/.45f);
 	// Holds until clicked, then swoops out.
 	const float Out = bLeaving ? FMath::Clamp((Age - LeaveAge) / OutSeconds, 0.f, 1.f) : 0.f;
 	const float W = MyGeometry.GetLocalSize().X;
 
 	if (Band)
 	{
-		Band->GetParent()->SetRenderTranslation(FVector2D(FMath::Lerp(-W * 1.6f, 0.f, In) + Out * W * 1.6f, 0.f));
+		Band->GetParent()->SetRenderTranslation(FVector2D(Reduced ? 0.f : FMath::Lerp(-W * 1.6f, 0.f, In) + Out * W * 1.6f, 0.f));
 	}
 	if (Band2)
 	{
-		const float In2 = EaseOutBack((Age - 0.08f) / 0.45f);
-		Band2->GetParent()->SetRenderTranslation(FVector2D(FMath::Lerp(W * 1.6f, 0.f, In2) - Out * W * 1.6f, 0.f));
+		const float In2=Reduced ? 1.f : EaseOutBack((Age-.08f)/.45f);
+		Band2->GetParent()->SetRenderTranslation(FVector2D(Reduced ? 0.f : FMath::Lerp(W * 1.6f, 0.f, In2) - Out * W * 1.6f, 0.f));
 	}
 	if (Silhouette)
 	{
-		const float S = EaseOutBack((Age - 0.2f) / 0.5f);
-		Silhouette->SetRenderScale(FVector2D(FMath::Max(0.01f, S * (1.f - Out))));
-		Silhouette->SetRenderTransformAngle(FMath::Sin(Age * 2.f) * 3.f);
+		const float S=Reduced ? 1.f : EaseOutBack((Age-.2f)/.5f);
+		Silhouette->SetRenderScale(FVector2D(Reduced ? 1.f : FMath::Max(0.01f, S * (1.f - Out))));
+		Silhouette->SetRenderTransformAngle(0);
 	}
 	const float TextIn = FMath::Clamp((Age - 0.35f) / 0.3f, 0.f, 1.f);
 	if (MaladyName)
 	{
 		MaladyName->SetRenderOpacity(TextIn * (1.f - Out));
-		MaladyName->SetRenderScale(FVector2D(FMath::Lerp(1.6f, 1.f, EaseOutBack((Age - 0.35f) / 0.4f))));
+		MaladyName->SetRenderScale(FVector2D(Reduced ? 1.f : FMath::Lerp(1.08f,1.f,FMath::Clamp((Age-.35f)/.4f,0.f,1.f))));
 	}
 	if (Kicker)
 	{
@@ -200,7 +215,7 @@ void UFixHimIntroCardWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 	{
 		// Fade in, then a slow gentle pulse while waiting.
 		const float HintIn = FMath::Clamp((Age - HintSeconds) / 0.4f, 0.f, 1.f);
-		const float Pulse = 0.75f + 0.25f * FMath::Sin((Age - HintSeconds) * 3.f);
+		const float Pulse = Reduced ? 1.f : .75f+.25f*FMath::Sin((Age-HintSeconds)*3.f);
 		if (UWidget* Pill = Hint->GetParent())
 		{
 			Pill->SetRenderOpacity(HintIn * Pulse * (1.f - Out));
@@ -226,20 +241,17 @@ void UFixHimIntroCardWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 
 void UFixHimEndingCardWidget::BuildUI()
 {
-	UVerticalBox* Col = MakeCardScreen(TEXT(""), 760.f);
+	UVerticalBox* Col = MakeCardScreen(TEXT(""), 880.f); // wide enough that the grid-stepped title keeps two lines
 	OpenSfx = NAME_None; // the ending jingle covers it
 	OutsideClickMinAge = 0.8f;
-	if (UBorder* CardBorder = Cast<UBorder>(Col->GetParent()))
-	{
-		Card = CardBorder;
-	}
+	Card = CardSurface;
 	Col->ClearChildren();
 
 	Kind = MakeText(WidgetTree, TEXT("ENDING"), 20, Pink, TEXT("Bold"));
 	Kind->SetJustification(ETextJustify::Center);
 	Col->AddChildToVerticalBox(Kind);
 
-	Title = MakeText(WidgetTree, TEXT("Title"), 44, HotPink, TEXT("Bold"));
+	Title = MakeText(WidgetTree, TEXT("Title"), 44, HotPink, TEXT("Display"));
 	Title->SetJustification(ETextJustify::Center);
 	Title->SetAutoWrapText(true);
 	Col->AddChildToVerticalBox(Title)->SetPadding(FMargin(0.f, 4.f, 0.f, 14.f));
@@ -256,9 +268,9 @@ void UFixHimEndingCardWidget::BuildUI()
 
 	TWeakObjectPtr<UFixHimEndingCardWidget> Self(this);
 	USizeBox* Box = WidgetTree->ConstructWidget<USizeBox>();
-	Box->SetHeightOverride(56.f);
+	Box->SetMinDesiredHeight(72.f);
 	Box->AddChild(UFixHimButton::Make(WidgetTree, TEXT("Continue"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->CloseEndingCard(); } }, 22, true));
-	Col->AddChildToVerticalBox(Box);
+	CardActions->AddChildToVerticalBox(Box);
 }
 
 void UFixHimEndingCardWidget::Setup(const FHunkDefinition& Def, const FString& EndingId, int32 FixedCount, int32 TotalCount)
@@ -266,9 +278,9 @@ void UFixHimEndingCardWidget::Setup(const FHunkDefinition& Def, const FString& E
 	FString KindText;
 	FLinearColor KindColor = Pink;
 	if (EndingId == TEXT("romance_success")) { KindText = TEXT("ROMANCE  -  HAPPILY EVER AFTER"); KindColor = HotPink; }
-	else if (EndingId == TEXT("romance_failure")) { KindText = TEXT("ROMANCE  -  IT'S NOT ME, IT'S YOUR FOUNDATION"); KindColor = Ember; }
-	else if (EndingId == TEXT("friend_success")) { KindText = TEXT("FRIENDSHIP  -  BESTIES"); KindColor = Mint; }
-	else { KindText = TEXT("FRIENDSHIP  -  SWORN ENEMIES"); KindColor = Ember; }
+	else if (EndingId == TEXT("romance_failure")) { KindText = TEXT("ROMANCE  -  IT'S NOT ME, IT'S YOUR FOUNDATION"); KindColor = Plum; }
+	else if (EndingId == TEXT("friend_success")) { KindText = TEXT("FRIENDSHIP  -  BESTIES"); KindColor = PlumSoft; }
+	else { KindText = TEXT("FRIENDSHIP  -  SWORN ENEMIES"); KindColor = Plum; }
 
 	FixHim::Sfx(this, EndingId == TEXT("romance_success") ? "EndingRomance" : EndingId == TEXT("friend_success") ? "EndingFriend" : "EndingFail");
 	Kind->SetText(FText::FromString(KindText));
@@ -280,7 +292,10 @@ void UFixHimEndingCardWidget::Setup(const FHunkDefinition& Def, const FString& E
 	const FString PlayerName = SaveSub ? SaveSub->GetPlayerName() : UFixHimSettings::Get()->PlayerName;
 	Body->SetText(FText::FromString(Ending ? Ending->Text.Replace(TEXT("{player}"), *PlayerName) : FString()));
 
-	const FString Fixed = FString::Printf(TEXT("%s repaired.  The house is %d / %d fixed."), *Def.Malady, FixedCount, TotalCount);
+	// The house tally gets its own line, with non-breaking spaces so it never splits.
+	FString Tally = FString::Printf(TEXT("The house is %d / %d fixed."), FixedCount, TotalCount);
+	Tally.ReplaceInline(TEXT(" "), TEXT("\u00A0"));
+	const FString Fixed = FString::Printf(TEXT("%s repaired.\n%s"), *Def.Malady, *Tally);
 	Progress->SetText(FText::FromString(FixedCount >= TotalCount ? Fixed + TEXT("\nEvery man in this house has been fixed. Or at least seen. Home sweet home.") : Fixed));
 	Age = 0.f;
 }
@@ -301,7 +316,7 @@ void UFixHimEndingCardWidget::NativeTick(const FGeometry& MyGeometry, float InDe
 	Age += InDeltaTime;
 	if (Card)
 	{
-		const float S = EaseOutBack(Age / 0.5f);
+		const float S=FixHimDesign::ReducedMotion() ? 1.f : FMath::Lerp(.96f,1.f,FMath::Clamp(Age/.2f,0.f,1.f));
 		Card->SetRenderScale(FVector2D(FMath::Max(0.01f, S)));
 	}
 }

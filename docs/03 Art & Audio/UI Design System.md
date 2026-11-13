@@ -5,7 +5,7 @@ date: 2026-11-11
 ---
 # UI Design System
 
-This is the wiki record of the selected UI direction and subsequent decisions. **Design approved; selected world reticles implemented. The wider UI redesign remains pending.** Exact tokens below come from the current design kit; dimensions remain starting values for in-engine testing.
+This is the wiki record of the selected UI direction and subsequent decisions. **Foundation decisions approved; selected world reticles implemented. The reusable UI implementation is now available for design review.** Exact tokens below come from the current design kit; dimensions remain starting values for in-engine testing.
 
 ## Direction and authority
 
@@ -27,7 +27,7 @@ The teal was shifted cooler and made lighter; friendship shares its approximatel
 | Token | Hex | Use |
 |---|---|---|
 | Teal | `#1F7384` | Headers, backing surfaces, floor plan |
-| Ink | `#11414A` | Body text, outlines for contrast, offset shadows |
+| Ink | `#11414A` | Body text, extrusion under teal plates, popup shadow (50%), prompt plate (25%) and its text shadow |
 | Cream | `#FFF5E5` | Reading surfaces and secondary controls |
 | Orange | `#FF7900` | Borders, tools, structural accents, friction |
 | Pink | `#D9005C` | Primary actions, romance, focused replies |
@@ -49,11 +49,13 @@ Keep cream reading surfaces, disabled controls and reticles flat. Avoid glossy s
 
 | Role | Font | Treatment |
 |---|---|---|
-| Headings and short display labels | Barlow Condensed ExtraBold Italic, 800 | Effective 12° right lean |
-| Dialogue, replies and helper text | Barlow Regular, 400 | Upright |
-| Body emphasis and stronger labels | Barlow Semibold, 600 | Upright |
+| Titles (headers, name plates): **all caps** | Barlow Condensed ExtraBold, 800 | 12° shear |
+| Buttons and HUD plates: **mixed case** | Barlow Condensed ExtraBold, 800 | 12° shear |
+| All other text: dialogue (26), body copy, labels, hints | Barlow SemiBold, 600 | 12° shear |
 
-Barlow Condensed's native italic lean is 7°. The selected 12° treatment requires an additional synthetic shear on display glyphs, not a different native font variant. Added shear tangent: `tan(12°) - tan(7°) = 0.0897720008`. Text baselines stay horizontal. Do not skew body text or icons.
+**Rule: every piece of text leans 12°.** Both faces are set from their upright cuts and sheared the full 12°, so the glyphs and the steps between wrapped lines follow the same grid (Barlow's italics are essentially slanted romans, so the result matches them). Card and panel content rows sit in grid stacks, so each row also steps left by 12° as it goes down.
+
+Both faces are set from upright cuts and sheared by `tan(12°) = 0.2125565617`. Text baselines stay horizontal. Spoken lines are sheared as one block, so wrapped lines also step along the grid. Icons stay upright.
 
 Use the [bundled font files and SIL OFL 1.1 license](../../Art%20Source/UI%20Concepts/Selected%2007/Foundation%2002/Fonts/). Final sizes, wrapping and UI scale need testing in Unreal. Do not shrink text or shorten authored dialogue to fit a layout.
 
@@ -63,10 +65,19 @@ The selected treatment restores **rounded corners, thicker asymmetric borders an
 
 - Every element that uses a slant uses the same **12° right lean**: button silhouettes, panels, tabs, header plates, badges, outlines, focus contours and shadows.
 - The **placement grid also uses 12°**. Control origins, text-block anchors and icon anchors align along shared angled columns; rows and text baselines remain horizontal.
-- Rounded cream panel bodies pair with teal headers, orange borders heavier on the lower/right sides, and short ink offset shadows.
+- Rounded cream panel bodies pair with teal headers straddling their top edge, an even orange keyline, and an extrusion to the lower right (see keylines and extrusion below).
+- **Keylines:** buttons and plates use a 6-unit keyline; popup cards and panels use 12.
+- **Extrusion matches the keyline:** a single extrusion layer (no separate shadow) drops by the keyline width and slides right by half of it, so buttons and plates have half the popups' extrusion. Each surface extrudes in a darker shade of its own family: cream → `#B35500` (keyline orange at 70% value, same hue), pink → `#99003F`, teal and other fills → ink. Popup-weight surfaces (cards, dialogue panel, floor plan sheet) also carry a 50% ink shadow just beyond their extrusion. Pressing pushes the face onto its extrusion.
+- **Interaction prompts** ("Talk to Wyatt") have their own quiet style: a borderless ink parallelogram at 25% opacity with white Barlow SemiBold text carrying a solid ink drop shadow (2 down, 1 across), no keyline or extrusion, so the scene shows through while the text stays legible over bright surfaces.
+- **HUD (show-graphics):** the room name sits on a pink plate with a wrench icon; the week sits on its own cream plate, tucked under a pink repairs badge with a house icon, a small "Repairs" label and a large count.
+- **Text is vertically centred on the face** of every button, header and plate: bottom padding = top padding + the extrusion reserve (keyline + 3), and labels lift by 0.05 em so capitals (not the font's line box) sit on the centre. Buttons carry 16 units of vertical padding.
+- The title screen shows only the logo and menu: no tagline or event footer.
+- **Popup and sheet headers** are teal plates straddling the surface's top edge: the plate face is centred vertically on that edge and inset equally from both slanted sides.
+- Dialogue shows **no character portrait**; the character is present in the scene.
+- The **dialogue header** straddles the panel's top edge: a pink name plate (name only, 66-unit display face) and a teal strip tucked behind it holding the three meters. Each meter is a thick bar in its stat color with a round stat-colored icon badge overlaid on its left end; no text labels or dividers. The meters start at a fixed position that clears the widest name any speaker can have in the playthrough (hunks, extra speakers, the player's name) by at least 36 units, so they never shift between speakers. Replies are unnumbered; number keys still choose by position. Narration has no header. Spoken lines and replies share one size.
 - Use common silhouettes and contour layers across button states and popup variants. Reuse one modal shell with width variants and content-driven height.
 - Primary actions use pink; secondary surfaces use cream. Focus needs a pointer or keyline as well as color. Do not add hearts to focused replies or imply relationship outcomes.
-- Body text and icons remain upright. Do not rotate a whole popup or shear a brand master.
+- Icons remain upright. Do not rotate a whole popup or shear a brand master.
 - Remove construction stripes. Remove the three-ray flourish from the base kit; bringing it back selectively for surprises is deferred.
 
 Placement formula: `x = originX + u - v * tan(12°); y = originY + v`. A slanted edge of height `h` has horizontal inset `h * tan(12°)`.
@@ -75,7 +86,7 @@ Placement formula: `x = originX + u - v * tan(12°); y = originY + v`. A slanted
 
 ### Provisional construction measurements
 
-These are kit starting values at 1920×1080, **not independently finalized engine measurements**: 8-unit spacing grid (8/16/24/32/48); small-control corner radius 12, large-panel radius 22; top/left border 3; lower/right extrusion offset (4, 7); ink shadow offset (9, 12).
+Kit starting values at 1920×1080: 8-unit spacing grid (8/16/24/32/48); small-control corner radius 12, large-panel radius 22. The kit's border 3, extrusion (4, 7) and ink shadow (9, 12) are **superseded** by the engine decisions above: keyline 6 (buttons, plates) or 12 (popups); a single extrusion of (border/2, border) in the surface's own darker colour; popups only add a 50% ink shadow 3 across and 6 down beyond it.
 
 Complete state designs, hit targets, responsive layout and contrast still need validation.
 
@@ -83,9 +94,9 @@ Complete state designs, hit targets, responsive layout and contrast still need v
 
 Use **Phosphor Bold** consistently, with upright geometry and aligned optical sizes. Do not mix arbitrary weights or shear icons to match panel edges.
 
-The [local SVG library and MIT license](../../Art%20Source/UI%20Concepts/Selected%2007/Foundation%2002/Icons/Phosphor/) includes heart, users, lightning, wrench, house, door-open, gear, play, check, info, eye, chat-circle-text, hand-pointing, moon, x-circle and cursor.
+The [local SVG library and MIT license](../../Art%20Source/UI%20Concepts/Selected%2007/Foundation%2002/Icons/Phosphor/) includes heart, users, flame, lightning, wrench, house, door-open, gear, play, check, info, eye, chat-circle-text, hand-pointing, moon, x-circle and cursor.
 
-Relationship mapping: heart/pink for romance, users/cool teal for friendship, lightning/orange for friction. Keep labels so meaning does not depend on color alone.
+Relationship mapping: heart/pink for romance, users/cool teal for friendship, flame/orange for friction (lightning read too much like "energy"). The dialogue meters show icon badges without text labels, so each icon must carry its meaning on its own alongside its color.
 
 ## Reticles — finalized selection and behavior
 
@@ -130,7 +141,7 @@ Verify target changes, return to transparent idle, menu/dialogue visibility, sca
 
 - `EFixHimInteractionAction` / `GetInteractionAction()` expose explicit metadata, independent of localized prompts. Ordinary interactables use **Use**; unmet maladies use **Inspect**, met maladies use **Talk**; beds and the apartment exit use **EndDay**, including when they open a confirmation.
 - `UFixHimHUDWidget` stacks the reticle layers in one centered box: the ink **background** disc (actionable targets only); the **ring**, either the full ring (`T_Reticle_Ring`) or the smaller idle ring (`T_Reticle_RingIdle`), both with the same ink outline and white rim; and the **center** (idle dot, or the inspect/talk/use/end-day icon). The eight layer textures (`T_Reticle_Background`, `_Ring`, `_RingIdle`, `_Dot`, `_Icon_Inspect`, `_Icon_Talk`, `_Icon_Use`, `_Icon_EndDay`) live in `/Game/ICanFixHim/UI/Reticles`, are configured through `UFixHimSettings` / `DefaultGame.ini` and are explicitly included in cooking. Idle stays transparent; there is no unavailable runtime enum, texture or behavior.
-- Size (2026-11-12): the runtime box defaults to **64 UMG units** (`ReticleSize`), double the 32 px kit reference, chosen for legibility of the thin rim; UMG DPI scaling keeps it the same share of the screen at every resolution (64 px at 1080p, ~85 px at 1440p, 128 px at 4K). Layers are rasterized at 2× their box (128×128; 96×96 for the 48-unit idle ring), so 4K draws 1:1 and 1080p/1440p minify at most 2×, where plain bilinear sampling is exact: the textures use **no mips** and bilinear filtering, since mips only blended in a blurrier half-size level at these sizes (the earlier 32-unit box minified 128 px sources 4:1 without mips, which caused the "crunchy" aliasing). Below ~1080p tall, e.g. small PIE windows, minification exceeds 2× and edges may alias slightly. The prompt sits `ReticleSize / 2 + 20` units below centre.
+- Size (2026-11-12): the runtime box defaults to **64 UMG units** (`ReticleSize`), double the 32 px kit reference, chosen for legibility of the thin rim; UMG DPI scaling keeps it the same share of the screen at every resolution (64 px at 1080p, ~85 px at 1440p, 128 px at 4K). Layers are rasterized at 2× their box (128×128; 96×96 for the 48-unit idle ring), so 4K draws 1:1 and 1080p/1440p minify at most 2×, where plain bilinear sampling is exact: the textures use **no mips** and bilinear filtering, since mips only blended in a blurrier half-size level at these sizes (the earlier 32-unit box minified 128 px sources 4:1 without mips, which caused the "crunchy" aliasing). Below ~1080p tall, e.g. small PIE windows, minification exceeds 2× and edges may alias slightly. The prompt plate sits `ReticleSize / 2 + 56` units below centre.
 - Idle ring and fill (2026-11-12, under review): the idle ring is its own 96 px texture (`T_Reticle_RingIdle`), drawn in a 48-unit box (`ReticleIdleRingScale` 0.75 of `ReticleSize`) with radius 21 and the **same** 4-unit ink outline and 2-unit white rim as the full ring, so idle line weights match and it minifies at most 2× like the other layers. On acquiring a target both rings scale so their radii always match (idle 1→1.33×, full 0.75→1×); the full ring sits underneath at full opacity and only the idle ring on top fades, so the swap never dims. The ink background is drawn at 50% opacity (`ReticleBackgroundOpacity`); on bright surfaces this gives white icons less contrast.
 - Transitions (`ReticleTransitionSeconds`, default 0.14 s, 0 snaps): the ink background fades in while growing from 50% scale for actionable targets, the ring expanding with it, and both reverse for idle; the center cross-fades, the new dot/icon popping in from 60% scale while the old one shrinks out. Interrupted transitions continue from their current state. Hiding or reappearing (outside exploration) shows the settled state without animating.
 - The controller passes the already filtered target's action to the HUD each hover update. Existing trace/range rules, prompt text, confirmation flows, radio input priority, arrow cursor and clickable-topic hand remain unchanged. The icon is centered independently of the prompt and hidden with the prompt outside Playing.
@@ -157,12 +168,18 @@ Use one reusable master rather than regenerating the mark for each screen. The c
 
 The image still has alpha-edge speckling; cleanup and an editable production master remain pending. Do not treat it as production-ready. Exact edit prompts are preserved in the [logo manifests](../../Art%20Source/UI%20Concepts/Selected%2007/Logo/). A compact brand mark remains a proposed deliverable.
 
+## Reusable UI implementation (2026-11-12)
+
+The shared Unreal components and first screen migration are implemented on `feature/reusable-ui-design-system`. See [[UI Component Library]] for APIs, source files, asset rebuilding, validation and the review captures. The selected palette, licensed fonts/icons and 12° placement grid are reused across screens; new component proportions and screen compositions still await design feedback.
+
+The implementation includes resizable rounded surfaces and asymmetric borders, shared action/reply/topic controls, visible focus/pressed/disabled states, bounded reading areas, sliders/checkboxes, text-size and reduced-motion settings, and an in-engine component workshop (`FixHim.DesignSystem`). Short action labels use the display treatment; all dialogue text (spoken lines, narration, replies at 26 units) uses Barlow SemiBold at the same 12° lean; narration is distinguished by teal color. Continue is the primary title action when a save exists. Small status labels use flat or sufficiently dark surfaces; pale relationship colors remain accents beside readable labels.
+
 ## Remaining work and provenance
 
-The selected world reticles are integrated; the rest of the selected UI design remains pending. Remaining work includes production logo cleanup, reusable component masters and states, Unreal font/texture integration, responsive layout and dialogue stress testing. Reticles were reviewed from in-game screenshots at 1080p on 2026-11-12 (layers, 64-unit size, idle ring and transitions; see above). The fill opacity, transition feel in motion and higher resolutions still need review; family selection is settled.
+The selected world reticles and first reusable UI implementation are integrated. Component proportions, screen compositions and motion feel are ready to be reviewed after the recorded checks in [[UI Component Library]]. Production logo cleanup and an editable brand master remain pending; the current isolated logo is explicitly a concept asset. A packaged-build smoke test remains a release check. Reticles were reviewed from in-game screenshots at 1080p on 2026-11-12 (layers, 64-unit size, idle ring and transitions; see above). The fill opacity, transition feel in motion and higher resolutions still need review; family selection is settled.
 
 Decision sequence: original #7 selected; cooler/lighter teal and matched friendship hue requested; stripes and routine flourish removed; Barlow/Phosphor established in the kit; C contextual reticles selected with A's transparent idle dot/ring and an outlined reserved X; rounded asymmetric surfaces and gradients restored; 12° slant selected and extended to the placement grid; isolated logo revised through v4; runtime reticle doubled to 64 units and split into layers with short transitions; idle ring set to 75% radius with full-size line weights, expanding on targets; ink fill trialled at 50% opacity.
 
 Source discussion: Improve Game UI and UX (thread `b0806708-59a3-49a6-86a6-d40b82cf6d24`), followed by this continuation. Numerical tokens and provisional geometry are recorded in `design-system.proposal.json`; older revisions are historical.
 
-Related: [[Art Direction]] · [[Tech Overview]] · [[AI Usage Log]]
+Related: [[Art Direction]] · [[UI Component Library]] · [[Tech Overview]] · [[AI Usage Log]]

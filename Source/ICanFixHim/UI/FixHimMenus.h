@@ -22,6 +22,7 @@ protected:
 
 private:
 	UPROPERTY() TObjectPtr<UFixHimButton> ContinueButton;
+ UPROPERTY() TObjectPtr<UFixHimButton> NewGameButton;
 	UPROPERTY() TObjectPtr<UWidget> TitleBlock;
 	float Age = 0.f;
 };

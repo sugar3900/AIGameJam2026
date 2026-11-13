@@ -86,4 +86,7 @@ struct FFixHimOptions
 	/** Multiplier on the typewriter speed. 0 = instant. */
 	UPROPERTY() float TextSpeed = 1.f;
 	UPROPERTY() bool bFullscreen = false;
+ /** Shared UI accessibility options. */
+ UPROPERTY() bool bReducedMotion = false;
+ UPROPERTY() float UITextScale = 1.f;
 };
