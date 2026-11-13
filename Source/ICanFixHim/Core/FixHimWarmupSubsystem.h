@@ -35,7 +35,7 @@ public:
 	void Begin(UWorld& World);
 	/** Call once per frame after Begin. Returns true once everything is prepared; never gives up early. */
 	bool Update();
-	/** 0..1, never goes backwards. */
+	/** 0..1, advances as individual shader/texture/PSO items finish; never goes backwards. */
 	float GetProgress() const { return Progress; }
 
 private:
@@ -52,8 +52,13 @@ private:
 	bool bWarmed = false;
 	double StartTime = 0.0;
 	double NextReportTime = 0.0;
+	double NextTraceTime = 0.0;
+	/** When the bar last moved; caps how far the next step may go. */
+	double LastAdvanceTime = 0.0;
 	int32 FramesTicked = 0;
 	int32 IdleFrames = 0;
 	int32 PeakRemaining = 0;
+	/** Outstanding work last frame; drops between frames count as finished items. */
+	int32 LastRemaining = 0;
 	float Progress = 0.f;
 };

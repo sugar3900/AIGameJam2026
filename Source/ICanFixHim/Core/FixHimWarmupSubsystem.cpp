@@ -12,6 +12,7 @@
 #include "PipelineStateCache.h"
 #if WITH_EDITOR
 #include "AssetCompilingManager.h"
+#include "ShaderCompiler.h"
 #endif
 
 namespace
@@ -20,6 +21,10 @@ namespace
 	constexpr int32 MinFrames = 5;
 	/** Consecutive frames with no outstanding work before declaring ready. */
 	constexpr int32 SettleFrames = 3;
+	/** Hold back the last sliver until really finished, so the bar never sits at 100% while still waiting. */
+	constexpr float MaxProgressBeforeReady = 0.97f;
+	/** Fastest the bar may fill (fraction per second since it last moved), so a burst of cache hits can't fill most of it. */
+	constexpr float MaxProgressPerSecond = 0.2f;
 	/** How often to log progress while still waiting. There is no timeout: the game never starts with work outstanding. */
 	constexpr double ReportIntervalSeconds = 15.0;
 
@@ -53,6 +58,8 @@ void UFixHimWarmupSubsystem::Begin(UWorld& World)
 	FramesTicked = 0;
 	IdleFrames = 0;
 	PeakRemaining = 0;
+	LastRemaining = 0;
+	LastAdvanceTime = 0.0;
 	Progress = 0.f;
 	// Loading starts each material's shader compilation (or DDC fetch) in the editor; Update waits for it to finish
 	// while the loading screen draws.
@@ -80,11 +87,46 @@ bool UFixHimWarmupSubsystem::Update()
 	PeakRemaining = FMath::Max(PeakRemaining, Remaining);
 	IdleFrames = Remaining == 0 ? IdleFrames + 1 : 0;
 
-	const float Done = PeakRemaining > 0 ? 1.f - float(Remaining) / float(PeakRemaining) : 1.f;
-	// Hold back the last sliver until really finished, so the bar never sits at 100% while still waiting.
-	Progress = FMath::Max(Progress, FMath::Min(Done, 0.97f));
-
 	const double Now = FPlatformTime::Seconds();
+	if (LastAdvanceTime <= 0.0)
+	{
+		LastAdvanceTime = Now;
+	}
+
+	// Each finished item moves the bar by its share of what is still outstanding, so the bar advances whenever anything
+	// completes and work queued late only slows it down (a fraction of the peak count instead races ahead on an early
+	// small wave, then freezes when the big one arrives). The count can't tell a cache hit from a real build, though:
+	// after a pull, hundreds of cached items clear in a fraction of a second while a few real compiles take most of the
+	// time. So a step may cover at most MaxProgressPerSecond times the time since the bar last moved: a burst finishing
+	// over consecutive frames fills only a small part of the bar, while a slow item finishing after a long wait still
+	// gets its full share. Whatever the burst couldn't take stays with the items that remain.
+	const int32 Finished = FMath::Max(0, LastRemaining - Remaining);
+	LastRemaining = Remaining;
+	if (Finished > 0)
+	{
+		const float Share = (MaxProgressBeforeReady - Progress) * float(Finished) / float(Finished + Remaining);
+		Progress += FMath::Min(Share, MaxProgressPerSecond * float(Now - LastAdvanceTime));
+		LastAdvanceTime = Now;
+	}
+
+#if WITH_EDITOR
+	// Per-category breakdown for tuning the bar: run with -LogCmds="LogFixHim Verbose".
+	if (UE_LOG_ACTIVE(LogFixHim, Verbose) && Now >= NextTraceTime)
+	{
+		NextTraceTime = Now + 0.25;
+		FString PerManager;
+		for (IAssetCompilingManager* Manager : FAssetCompilingManager::Get().GetRegisteredManagers())
+		{
+			if (const int32 Num = Manager->GetNumRemainingAssets())
+			{
+				PerManager += FString::Printf(TEXT(" %s=%d"), *Manager->GetAssetTypeName().ToString(), Num);
+			}
+		}
+		UE_LOG(LogFixHim, Verbose, TEXT("WarmupTrace t=%.2f remaining=%d jobs=%d pso=%d progress=%.3f%s"), Now - StartTime, Remaining,
+			GShaderCompilingManager ? GShaderCompilingManager->GetNumRemainingJobs() : 0,
+			int32(PipelineStateCache::NumActivePrecacheRequests()), Progress, *PerManager);
+	}
+#endif
 	if (FramesTicked < MinFrames || IdleFrames < SettleFrames)
 	{
 		if (Now >= NextReportTime)
