@@ -9,9 +9,9 @@ date: 2026-11-12
 
 ## Design feedback
 
-- **Surfaces:** corner roundness; white keyline with ink depth on teal/pink, orange border and extrusion on cream.
+- **Surfaces:** corner roundness; 6/12 keylines; single extrusions in burnt orange (cream), deep pink (pink) and ink (teal); 50% ink shadow on popups only.
 - **Type and spacing:** display/body hierarchy, action-label sizing, angled columns and padding.
-- **Dialogue:** show-graphics header (large name plate, teal strip of icon-badged meters) on the top edge, same-size display-face lines and replies, reading width and the balance between four replies and visible scene. Portraits are removed.
+- **Dialogue:** show-graphics header (large name plate, teal strip of icon-badged meters) on the top edge, same-size Barlow SemiBold lines and replies, reading width and the balance between four replies and visible scene. Portraits are removed.
 - **Headers:** teal plates straddling the top edge of popups and the floor plan.
 - **Floor plan:** narrow rooms now use external name tags that overhang their footprint; room geometry is unchanged.
 - **Interaction:** filled pointer, white contour and lift for keyboard/gamepad focus (hover changes fill only), pressed depth, transition feel, enlarged text and scrolling.
@@ -28,7 +28,7 @@ These standalone captures predate the 2026-11-13 review fixes below and have not
 
 ![Native Unreal component workshop](../Attachments/UI%20Review/01-components-1080p.png)
 
-These are actual UMG/Slate widgets rendered by Unreal. Focused and pressed samples are held in their corresponding visual states for comparison. Helper text and icons stay upright while their anchors follow the shared 12° columns.
+These are actual UMG/Slate widgets rendered by Unreal. Focused and pressed samples are held in their corresponding visual states for comparison. All text leans 12°; icons stay upright. Rows follow the shared 12° columns.
 
 ## Dialogue
 
@@ -78,9 +78,22 @@ An independent visual review compared the captures with the Exploration 01 #7 in
 - **HUD:** the prompt plate clears the reticle, and control hints hide while the reticle is hidden. The title footer contrast is raised.
 - **Fidelity:** teal and pink surfaces use a white keyline with ink depth; cream keeps orange, matching the approved kit. Title actions have leading Phosphor icons. Continue comes first when a save exists. The title backdrop follows the 12° edge.
 
-**Deferred:** splitting Week and Repairs into separate HUD plates; restructuring the dialogue header into a name-plate/malady/meter strip; rich-text topics.
+**Deferred:** rich-text topics. (Splitting Week and Repairs and restructuring the dialogue header were done later; see below.)
 
 **Left for the designer:** upright versus slanted bodies on very tall panels; centred versus left-aligned modal copy; a header plate on the week transition.
+
+## Later decisions (2026-11-13)
+
+These supersede parts of the triage above.
+
+- **Dialogue:** no portraits; a show-graphics header on the panel's top edge (large name plate, teal strip of icon-badged meters, no labels, no malady plate); unnumbered replies; all dialogue in Barlow SemiBold at 26.
+- **Type rule:** every piece of text leans 12°, set from upright cuts sheared the full angle so wrapped lines also step on the grid. Titles are all-caps display face; buttons and HUD plates are mixed-case display face; everything else is Barlow SemiBold.
+- **Surfaces:** keylines 6 (buttons, plates) and 12 (popups); a single extrusion matching the keyline in each surface's darker colour; a 50% ink shadow on popups only. This replaces "white keyline with ink depth / orange on cream".
+- **Headers:** teal plates straddle the top edge of every titled popup and the floor plan.
+- **HUD:** pink room plate with wrench; cream week plate tucked under a pink repairs badge. Interaction prompts use a borderless 25% ink plate with white text and a solid ink text shadow.
+- **Friction icon:** flame instead of lightning.
+- **Title screen:** logo and menu only (no tagline or footer).
+- **Fixes:** text vertically centred on faces (Slate's centred alignment ignored asymmetric padding); grid stacks no longer shift sheared rows right.
 
 ## Validation
 
