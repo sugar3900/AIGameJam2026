@@ -25,6 +25,9 @@ public:
 	void SetRoomName(const FText& Name);
 	void SetRepairs(int32 Fixed, int32 Total, int32 Week = 0, int32 NumWeeks = 0);
 	void ShowToast(const FString& Message, float Seconds = 2.f, bool bChime = true);
+	void HideToast();
+	/** Only the header (room, toast, week and repairs): hides the control hint, e.g. over the ending card. */
+	void SetHeaderOnly(bool bHeaderOnly);
 
 protected:
 	virtual void BuildUI() override;

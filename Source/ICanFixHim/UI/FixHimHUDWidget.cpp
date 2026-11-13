@@ -279,6 +279,19 @@ void UFixHimHUDWidget::SetRepairs(int32 Fixed, int32 Total, int32 Week, int32 Nu
 	}
 }
 
+void UFixHimHUDWidget::HideToast()
+{
+	ToastTime = 0.f;
+	if (ToastPill)
+		ToastPill->SetVisibility(ESlateVisibility::Collapsed);
+}
+
+void UFixHimHUDWidget::SetHeaderOnly(bool bHeaderOnly)
+{
+	if (ControlHint)
+		ControlHint->SetVisibility(bHeaderOnly ? ESlateVisibility::Collapsed : ESlateVisibility::HitTestInvisible);
+}
+
 void UFixHimHUDWidget::ShowToast(const FString& Message, float Seconds, bool bChime)
 {
 	if (!ToastPill)

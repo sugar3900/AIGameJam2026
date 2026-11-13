@@ -368,6 +368,15 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 	HUD->SetReticle(true, EFixHimInteractionAction::Talk, FText::FromString(TEXT("Talk to Wyatt")));
 	HUD->ShowToast(TEXT("A little less broken."), 4.f, false);
 	Render(HUD, TEXT("17-hud-labels"), {1920, 1080}, {1920, 1080});
+	// Over the ending card the HUD shows only its header, with the repair as the toast (composited for review).
+	auto *EndingHUD = Make.template operator()<UFixHimHUDWidget>();
+	EndingHUD->TakeWidget();
+	EndingHUD->SetRoomName(FText::FromString(TEXT("Basement")));
+	EndingHUD->SetRepairs(2, 4, 2, 4);
+	EndingHUD->SetReticle(false, EFixHimInteractionAction::None, FText::GetEmpty());
+	EndingHUD->SetHeaderOnly(true);
+	EndingHUD->ShowToast(TEXT("Black Mold repaired."), TNumericLimits<float>::Max(), false);
+	Render(EndingHUD, TEXT("14-ending-card-hud"), {1920, 1080}, {1920, 1080});
 	// Every audited authored exchange is also rendered unshortened, including active topic links.
 	int32 FixtureIndex = 0;
 	for (const auto &Value : Fixtures->GetArrayField(TEXT("fixtures")))
