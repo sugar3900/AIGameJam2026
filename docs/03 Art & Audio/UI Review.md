@@ -11,7 +11,7 @@ date: 2026-11-12
 
 - **Surfaces:** corner roundness; white keyline with ink depth on teal/pink, orange border and extrusion on cream.
 - **Type and spacing:** display/body hierarchy, action-label sizing, angled columns and padding.
-- **Dialogue:** show-graphics header (name, malady, teal meter strip) on the top edge, same-size display-face lines and replies, reading width and the balance between four replies and visible scene. Portraits are removed.
+- **Dialogue:** show-graphics header (large name plate, teal strip of icon-badged meters) on the top edge, same-size display-face lines and replies, reading width and the balance between four replies and visible scene. Portraits are removed.
 - **Headers:** teal plates straddling the top edge of popups and the floor plan.
 - **Floor plan:** narrow rooms now use external name tags that overhang their footprint; room geometry is unchanged.
 - **Interaction:** filled pointer, white contour and lift for keyboard/gamepad focus (hover changes fill only), pressed depth, transition feel, enlarged text and scrolling.

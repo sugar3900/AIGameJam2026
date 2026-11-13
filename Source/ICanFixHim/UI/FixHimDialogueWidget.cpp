@@ -71,18 +71,10 @@ void UFixHimDialogueWidget::BuildUI()
 	UVerticalBox *NameStack = WidgetTree->ConstructWidget<UVerticalBox>();
 	NamePill = WidgetTree->ConstructWidget<UFixHimSurface>();
 	NamePill->SetBrush(Rounded(HotPink, 16.f));
-	NamePill->SetPadding(FMargin(32, 4, 44, 20));
-	NameText = MakeText(WidgetTree, TEXT("NAME"), 44, FLinearColor::White, TEXT("Display"));
+	NamePill->SetPadding(FMargin(36, 2, 52, 20));
+	NameText = MakeText(WidgetTree, TEXT("NAME"), 66, FLinearColor::White, TEXT("Display"));
 	NamePill->SetContent(NameText);
 	NameStack->AddChildToVerticalBox(NamePill)->SetHorizontalAlignment(HAlign_Left);
-	auto *Malady = WidgetTree->ConstructWidget<UFixHimSurface>();
-	Malady->SetBrush(Rounded(Cream, 10.f));
-	Malady->SetPadding(FMargin(24, 2, 32, 17));
-	MaladyText = MakeText(WidgetTree, TEXT(""), 24, Plum, TEXT("Display"));
-	Malady->SetContent(MaladyText);
-	MaladyPlate = Malady;
-	// Overlaps the name plate's lower edge and steps right along the grid.
-	NameStack->AddChildToVerticalBox(Malady)->SetPadding(FMargin(28, -16, 0, 0));
 	NameStackBox = NameStack;
 
 	UFixHimSurface *Strip = WidgetTree->ConstructWidget<UFixHimSurface>();
@@ -104,31 +96,36 @@ void UFixHimDialogueWidget::BuildUI()
 			DivSlot->SetVerticalAlignment(VAlign_Center);
 			DivSlot->SetPadding(FMargin(12, 0));
 		}
-		UVerticalBox *M = WidgetTree->ConstructWidget<UVerticalBox>();
-		UHorizontalBox *Title = WidgetTree->ConstructWidget<UHorizontalBox>();
-		USizeBox *IconBox = WidgetTree->ConstructWidget<USizeBox>();
-		IconBox->SetWidthOverride(26);
-		IconBox->SetHeightOverride(26);
-		IconBox->AddChild(FixHimDesign::Icon(WidgetTree, IconName, Color.Equals(Mint) ? FLinearColor::White : Color));
-		Title->AddChildToHorizontalBox(IconBox)->SetVerticalAlignment(VAlign_Center);
-		UHorizontalBoxSlot *LabelSlot =
-		    Title->AddChildToHorizontalBox(MakeText(WidgetTree, Label, 26, FLinearColor::White, TEXT("Display")));
-		LabelSlot->SetVerticalAlignment(VAlign_Center);
-		LabelSlot->SetPadding(FMargin(10, 0, 0, 0));
-		M->AddChildToVerticalBox(Title)->SetHorizontalAlignment(HAlign_Center);
+		// No label: a stat-colored badge with a white icon sits over the bar's left end.
+		UOverlay *M = WidgetTree->ConstructWidget<UOverlay>();
 		USizeBox *BB = WidgetTree->ConstructWidget<USizeBox>();
-		BB->SetHeightOverride(18.f);
+		BB->SetHeightOverride(22.f);
 		BB->SetMinDesiredWidth(160.f);
 		UProgressBar *Bar = WidgetTree->ConstructWidget<UProgressBar>();
 		FProgressBarStyle Style;
-		Style.SetBackgroundImage(Rounded(Cream.CopyWithNewOpacity(.9f), 9.f, FLinearColor::White, 2.f));
-		Style.SetFillImage(Rounded(FLinearColor::White, 9.f));
-		Style.SetMarqueeImage(Rounded(FLinearColor::White, 9.f));
+		Style.SetBackgroundImage(Rounded(Cream.CopyWithNewOpacity(.9f), 11.f, FLinearColor::White, 2.f));
+		Style.SetFillImage(Rounded(FLinearColor::White, 11.f));
+		Style.SetMarqueeImage(Rounded(FLinearColor::White, 11.f));
 		Bar->SetWidgetStyle(Style);
 		Bar->SetFillColorAndOpacity(Color);
 		Bar->SetPercent(0.f);
 		BB->AddChild(Bar);
-		M->AddChildToVerticalBox(BB)->SetPadding(FMargin(0, 4, 0, 0));
+		UOverlaySlot *BarSlot = M->AddChildToOverlay(BB);
+		BarSlot->SetHorizontalAlignment(HAlign_Fill);
+		BarSlot->SetVerticalAlignment(VAlign_Center);
+		BarSlot->SetPadding(FMargin(20, 0, 0, 0));
+		USizeBox *BadgeBox = WidgetTree->ConstructWidget<USizeBox>();
+		BadgeBox->SetWidthOverride(44);
+		BadgeBox->SetHeightOverride(44);
+		UBorder *Badge = WidgetTree->ConstructWidget<UBorder>();
+		Badge->SetBrush(Rounded(Color, 22.f, FLinearColor::White, 3.f));
+		Badge->SetPadding(FMargin(9));
+		// Light friendship mint needs an ink icon for contrast.
+		Badge->SetContent(FixHimDesign::Icon(WidgetTree, IconName, Color.Equals(Mint) ? Plum : FLinearColor::White));
+		BadgeBox->AddChild(Badge);
+		UOverlaySlot *BadgeSlot = M->AddChildToOverlay(BadgeBox);
+		BadgeSlot->SetHorizontalAlignment(HAlign_Left);
+		BadgeSlot->SetVerticalAlignment(VAlign_Center);
 		UHorizontalBoxSlot *MeterSlot = Meters->AddChildToHorizontalBox(M);
 		MeterSlot->SetSize(FSlateChildSize(ESlateSizeRule::Fill));
 		MeterSlot->SetVerticalAlignment(VAlign_Center);
@@ -244,8 +241,6 @@ void UFixHimDialogueWidget::BindScript(const FString &ScriptId, const FString &T
 	HunkId = ScriptId;
 	bScriptScene = true;
 	MetersBox->SetVisibility(ESlateVisibility::Collapsed);
-	MaladyText->SetText(FText::FromString(Title));
-	MaladyPlate->SetVisibility(Title.IsEmpty() ? ESlateVisibility::Collapsed : ESlateVisibility::HitTestInvisible);
 }
 
 void UFixHimDialogueWidget::BindHunk(AFixHimHunk *Hunk, const FString &InHunkId)
@@ -254,13 +249,6 @@ void UFixHimDialogueWidget::BindHunk(AFixHimHunk *Hunk, const FString &InHunkId)
 	HunkId = InHunkId;
 	bScriptScene = false;
 	MetersBox->SetVisibility(ESlateVisibility::HitTestInvisible);
-	if (const UFixHimDialogueSubsystem *D = UFixHimDialogueSubsystem::Get(this))
-	{
-		if (const FHunkDefinition *Def = D->FindHunk(HunkId))
-		{
-			MaladyText->SetText(FText::FromString(Def->Malady));
-		}
-	}
 	RefreshMeters();
 }
 
@@ -277,13 +265,6 @@ void UFixHimDialogueWidget::ShowView(const FDialogueView &View)
 	NamePill->SetVisibility(bNarration ? ESlateVisibility::Collapsed : ESlateVisibility::HitTestInvisible);
 	// Narration has no speaker or meters: the panel loses its header row entirely.
 	HeaderRow->SetVisibility(bNarration ? ESlateVisibility::Collapsed : ESlateVisibility::SelfHitTestInvisible);
-	// The malady is the hunk's tag line: not shown while the player or the narrator is the one talking.
-	if (!bScriptScene)
-	{
-		MaladyPlate->SetVisibility(bPlayer || bNarration || MaladyText->GetText().IsEmpty()
-		                               ? ESlateVisibility::Collapsed
-		                               : ESlateVisibility::HitTestInvisible);
-	}
 	NamePill->SetBrush(Rounded(bPlayer ? Plum : (bNamed ? PlumSoft : HotPink), 16.f));
 	const UFixHimSaveSubsystem *SaveSub = UFixHimSaveSubsystem::Get(this);
 	const FString PlayerName = SaveSub ? SaveSub->GetPlayerName() : UFixHimSettings::Get()->PlayerName;

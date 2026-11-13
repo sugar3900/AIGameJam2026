@@ -61,7 +61,7 @@ Stock Slate button behavior still handles pointer capture, keyboard/gamepad acti
 
 Shared components are used by title/name entry, pause/options/credits, end-day confirmation, dialogue, ending cards, HUD labels, radio captions, character introductions, transitions and keepsakes. The floor plan keeps actual runtime room rectangles and applies the selected palette to its surrounding sheet and statuses.
 
-Dialogue retains its typewriter, clickable topic callbacks and authored choices. The header row (name plate, malady plate, teal meter strip with Phosphor heart/users/lightning icons) straddles the panel via `MakeHeaderedSurface`; narration and generic script scenes hide the relationship group. Four replies stack and wrap. Dialogue has no portrait. Character introductions use visible painted portraits where available.
+Dialogue retains its typewriter, clickable topic callbacks and authored choices. The header row (name plate and a teal meter strip whose bars carry Phosphor heart/users/lightning icon badges) straddles the panel via `MakeHeaderedSurface`; narration and generic script scenes hide the relationship group. Four replies stack and wrap. Dialogue has no portrait. Character introductions use visible painted portraits where available.
 
 `UFixHimWidget::MakeHeaderedSurface` wraps any slanted surface with a teal title plate straddling its top edge. `MakeCardScreen` and the floor plan use it; the plate position is re-fitted each tick from measured sizes, so text scaling and content changes stay aligned.
 

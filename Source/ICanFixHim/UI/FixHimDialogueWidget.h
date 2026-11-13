@@ -69,14 +69,12 @@ private:
 	UPROPERTY() TObjectPtr<USizeBox> PanelSize;
 	UPROPERTY() TObjectPtr<UWidget> MetersBox;
 	UPROPERTY() TObjectPtr<UBorder> NamePill;
-	/** Name plate, malady plate and teal meter strip, straddling the panel's top edge. */
+	/** Name plate and teal meter strip, straddling the panel's top edge. */
 	UPROPERTY() TObjectPtr<UWidget> HeaderRow;
-	UPROPERTY() TObjectPtr<UWidget> MaladyPlate;
 	UPROPERTY() TObjectPtr<UWidget> NameStackBox;
 	/** Tracks the name stack's width so the meter strip starts tucked behind the name plate. */
 	UPROPERTY() TObjectPtr<USizeBox> StripLead;
 	UPROPERTY() TObjectPtr<UTextBlock> NameText;
-	UPROPERTY() TObjectPtr<UTextBlock> MaladyText;
 	UPROPERTY() TObjectPtr<UTextBlock> TypingText;
 	UPROPERTY() TObjectPtr<UWrapBox> WordWrap;
 	UPROPERTY() TObjectPtr<UVerticalBox> ChoiceBox;
