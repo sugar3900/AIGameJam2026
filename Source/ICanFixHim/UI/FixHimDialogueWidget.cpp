@@ -289,11 +289,11 @@ void UFixHimDialogueWidget::ShowView(const FDialogueView &View)
 	const FString PlayerName = SaveSub ? SaveSub->GetPlayerName() : UFixHimSettings::Get()->PlayerName;
 	const FString Speaker = bPlayer ? PlayerName : (bNamed ? View.SpeakerName : View.HunkName);
 	NameText->SetText(FText::FromString(Speaker.ToUpper()));
-	// Spoken lines use the display face, sheared to the 12° grid as one block. Narration stays upright body text.
-	TypingText->SetFont(bNarration ? Font(24, TEXT("Regular")) : Font(FixHimDesign::Line, TEXT("Display")));
+	// Spoken lines and narration share the reply face and size, sheared to the 12° grid as one block.
+	// Narration keeps its teal color to stay distinct from characters.
+	TypingText->SetFont(Font(FixHimDesign::Line, TEXT("Display")));
 	FWidgetTransform LineLean;
-	if (!bNarration)
-		LineLean.Shear = FVector2D(-FMath::RadiansToDegrees(FMath::Atan(FixHimDesign::DisplayShear)), 0);
+	LineLean.Shear = FVector2D(-FMath::RadiansToDegrees(FMath::Atan(FixHimDesign::DisplayShear)), 0);
 	LineArea->SetRenderTransform(LineLean);
 	TypingText->SetColorAndOpacity(FSlateColor(bNarration ? PlumSoft : Plum));
 
@@ -412,9 +412,9 @@ void UFixHimDialogueWidget::BuildWordWrap()
 	WordWrap->ClearChildren();
 	const bool bNarration = Current.Speaker == EDialogueSpeaker::Narration;
 	TWeakObjectPtr<UFixHimDialogueWidget> Self(this);
-	const int32 LineSize = bNarration ? 24 : FixHimDesign::Line;
-	// "Body" resolves to the display face without MakeText's per-widget shear; LineArea leans the whole line.
-	const TCHAR *LineFace = bNarration ? TEXT("Regular") : TEXT("DisplayFace");
+	const int32 LineSize = FixHimDesign::Line;
+	// "DisplayFace" is the display font without MakeText's per-widget shear; LineArea leans the whole line.
+	const TCHAR *LineFace = TEXT("DisplayFace");
 	auto FlowTokens = Tokens;
 	for (int32 TokenIndex = 0; TokenIndex < FlowTokens.Num(); ++TokenIndex)
 	{
@@ -435,7 +435,7 @@ void UFixHimDialogueWidget::BuildWordWrap()
 			Style.SetNormalPadding(FMargin(0));
 			Style.SetPressedPadding(FMargin(0));
 			B->SetStyle(Style);
-			B->Label = MakeText(WidgetTree, Tok.Text, LineSize, HotPink, bNarration ? TEXT("Semibold") : LineFace);
+			B->Label = MakeText(WidgetTree, Tok.Text, LineSize, HotPink, LineFace);
 			B->SetCursor(EMouseCursor::Hand);
 			CastChecked<UButtonSlot>(B->AddChild(B->Label))->SetPadding(FMargin(0));
 			B->SetToolTipText(FText::FromString(TEXT("Ask about this")));

@@ -49,8 +49,8 @@ Keep cream reading surfaces, disabled controls and reticles flat. Avoid glossy s
 
 | Role | Font | Treatment |
 |---|---|---|
-| Headings, short display labels, spoken dialogue lines and replies | Barlow Condensed ExtraBold Italic, 800 | Effective 12° right lean |
-| Narration and helper text | Barlow Regular, 400 | Upright |
+| Headings, short display labels, all dialogue text (spoken lines, narration, replies) | Barlow Condensed ExtraBold Italic, 800 | Effective 12° right lean |
+| Helper text | Barlow Regular, 400 | Upright |
 | Body emphasis and stronger labels | Barlow Semibold, 600 | Upright |
 
 Barlow Condensed's native italic lean is 7°. The selected 12° treatment requires an additional synthetic shear on display glyphs, not a different native font variant. Added shear tangent: `tan(12°) - tan(7°) = 0.0897720008`. Text baselines stay horizontal. Spoken lines are sheared as one block, so wrapped lines also step along the grid. Do not skew upright body text or icons.
@@ -164,7 +164,7 @@ The image still has alpha-edge speckling; cleanup and an editable production mas
 
 The shared Unreal components and first screen migration are implemented on `feature/reusable-ui-design-system`. See [[UI Component Library]] for APIs, source files, asset rebuilding, validation and the review captures. The selected palette, licensed fonts/icons and 12° placement grid are reused across screens; new component proportions and screen compositions still await design feedback.
 
-The implementation includes resizable rounded surfaces and asymmetric borders, shared action/reply/topic controls, visible focus/pressed/disabled states, bounded reading areas, sliders/checkboxes, text-size and reduced-motion settings, and an in-engine component workshop (`FixHim.DesignSystem`). Short action labels, spoken dialogue lines and replies use the selected display treatment; narration stays upright. Continue is the primary title action when a save exists. Small status labels use flat or sufficiently dark surfaces; pale relationship colors remain accents beside readable labels.
+The implementation includes resizable rounded surfaces and asymmetric borders, shared action/reply/topic controls, visible focus/pressed/disabled states, bounded reading areas, sliders/checkboxes, text-size and reduced-motion settings, and an in-engine component workshop (`FixHim.DesignSystem`). Short action labels and all dialogue text (spoken lines, narration, replies at 28 units) use the selected display treatment; narration is distinguished by teal color. Continue is the primary title action when a save exists. Small status labels use flat or sufficiently dark surfaces; pale relationship colors remain accents beside readable labels.
 
 ## Remaining work and provenance
 

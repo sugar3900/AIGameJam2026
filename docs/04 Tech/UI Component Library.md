@@ -41,7 +41,7 @@ Use the common popup `MakeCardScreen` rather than building a new modal frame per
 
 `UFixHimButton::Make` creates a wrapping labelled action button and accepts its existing callback. `SetVariant(EFixHimButtonVariant)` selects a semantic variant. The legacy boolean overload remains for existing callers. `Label` is available for alignment and content updates.
 
-Short action labels use Barlow Condensed ExtraBold Italic with the shared 12° display treatment. Replies and spoken dialogue lines both use the display face at 28 units; the dialogue line area is sheared as one block so the typewriter and final topic layouts match. Actions have a content-driven height with a 72-unit minimum in menus, allowing enlarged text to grow.
+Short action labels use Barlow Condensed ExtraBold Italic with the shared 12° display treatment. Replies, spoken lines and narration all use the display face at 28 units (narration in teal); the dialogue line area is sheared as one block so the typewriter and final topic layouts match. Actions have a content-driven height with a 72-unit minimum in menus, allowing enlarged text to grow.
 
 States: idle, hover, keyboard/gamepad focus, pressed, selected and disabled. Selected reuses the focus treatment. Shared action buttons show a white contour and diamond on hover/focus; state meaning does not rely on pink alone. Pressing moves the face towards its extrusion; disabled uses neutral surface/ink. No heart is added to a reply to predict relationship outcomes.
 
