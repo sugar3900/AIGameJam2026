@@ -244,10 +244,17 @@ class ICANFIXHIM_API UFixHimWidget : public UUserWidget
 		TWeakObjectPtr<UBorder> Surface;
 		FMargin Padding;
 		float Inset = 36.f;
+		/** Balance left/right padding so 12-degree stack rows centre on the slanted face (card screens). */
+		bool bCentreRows = false;
 		FVector2D Measured = FVector2D(-1, -1);
 	};
 	TArray<FHeaderLayout> HeaderLayouts;
-	/** Re-fits straddling headers to their measured plate and surface sizes (text size and content can change). */
-	void SyncHeaderLayouts();
+	/** Re-fits straddling headers to their measured plate and surface sizes (text size and content can change).
+	 * Returns true if anything moved. */
+	bool SyncHeaderLayouts();
+	/** The pop card stays invisible until its layout (wrapping, header fit) stops changing, then pops in. */
+	bool bPopSettled = false;
+	int32 PopStableFrames = 0;
+	FVector2D PopLastSize = FVector2D::ZeroVector;
 	bool bInitialFocus = false;
 };

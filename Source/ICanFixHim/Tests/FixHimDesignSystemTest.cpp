@@ -99,6 +99,9 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 			Renderer.DrawWidget(RT, Scaled, Physical, 0.016f);
 			FlushRenderingCommands();
 		}
+		if (W->PopCard)
+			TestTrue(*FString::Printf(TEXT("%s: card is shown once its layout settles"), *Name),
+			         W->bPopSettled && W->PopCard->GetRenderOpacity() == 1.f);
 		FImage LinearImage, EncodedImage;
 		TestTrue(TEXT("Read linear HDR widget image"), FImageUtils::GetRenderTargetImage(RT, LinearImage));
 		LinearImage.CopyTo(EncodedImage, ERawImageFormat::BGRA8, EGammaSpace::sRGB);

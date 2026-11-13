@@ -351,6 +351,10 @@ void UFixHimWidget::NativeConstruct()
 	if (PopCard)
 	{
 		PopCard->SetRenderScale(FVector2D(FixHimDesign::ReducedMotion() ? 1.f : .96f));
+		PopCard->SetRenderOpacity(0.f);
+		bPopSettled = false;
+		PopStableFrames = 0;
+		PopLastSize = FVector2D::ZeroVector;
 		FixHim::Sfx(this, OpenSfx, 1.f, 0.03f);
 	}
 }
@@ -431,7 +435,22 @@ FReply UFixHimWidget::NativeOnMouseButtonDown(const FGeometry &InGeometry, const
 void UFixHimWidget::NativeTick(const FGeometry &MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-	SyncHeaderLayouts();
+	const bool bHeaderMoved = SyncHeaderLayouts();
+	if (PopCard && !bPopSettled)
+	{
+		// Wrapped text settles its height a frame or two after the first paint, and the header re-fits to it.
+		// Showing that reflow reads as the layout breaking, so hold the card hidden until two quiet frames pass.
+		const FVector2D PopSize = PopCard->GetDesiredSize();
+		const bool bQuiet = !bHeaderMoved && PopSize.X > 0 && PopSize.Equals(PopLastSize, .5);
+		PopLastSize = PopSize;
+		PopStableFrames = bQuiet ? PopStableFrames + 1 : 0;
+		if (PopStableFrames >= 2 || ShownAge > .5f)
+		{
+			bPopSettled = true;
+			PopAge = 0.f;
+			PopCard->SetRenderOpacity(1.f);
+		}
+	}
 	ShownAge += InDeltaTime;
 	if (!bInitialFocus && ShownAge > .12f)
 	{
@@ -455,7 +474,7 @@ void UFixHimWidget::NativeTick(const FGeometry &MyGeometry, float InDeltaTime)
 			});
 	}
 	constexpr float PopSeconds = 0.22f;
-	if (PopCard && PopAge < PopSeconds)
+	if (PopCard && bPopSettled && PopAge < PopSeconds)
 	{
 		PopAge += InDeltaTime;
 		const float S =
@@ -507,9 +526,10 @@ UWidget *UFixHimWidget::MakeHeaderedSurface(UBorder *Surface, UWidget *Header, c
 	return Stack;
 }
 
-void UFixHimWidget::SyncHeaderLayouts()
+bool UFixHimWidget::SyncHeaderLayouts()
 {
 	const float K = FixHimDesign::Slant;
+	bool bMoved = false;
 	for (FHeaderLayout &L : HeaderLayouts)
 	{
 		UWidget *Header = L.Header.Get();
@@ -529,6 +549,7 @@ void UFixHimWidget::SyncHeaderLayouts()
 		if (Measured.Equals(L.Measured, .5))
 			continue;
 		L.Measured = Measured;
+		bMoved = true;
 		const float PlateFace = FMath::Max(0.f, HeaderH - PlateDepthY), Drop = PlateFace * .5f;
 		const auto *DesignSurface = Cast<UFixHimSurface>(Surface);
 		const float SurfaceBorder = DesignSurface ? DesignSurface->BorderWidth : FixHimDesign::ButtonBorder;
@@ -539,6 +560,18 @@ void UFixHimWidget::SyncHeaderLayouts()
 		FMargin P = L.Padding;
 		if (bShown)
 			P.Top += HeaderH - Drop;
+		if (L.bCentreRows)
+		{
+			// A UFixHimStack centres each row against its own box; the face is that box minus the extrusion and
+			// shadow reserve (right, bottom), leaning 12 degrees. Measured at any row, the row sits right of the
+			// face's centre by this much; move the padding over so rows centre on the face.
+				// Rows are mostly buttons, and a button's box also holds its extrusion on the right. Centre the button's
+			// top layer (face and keyline, no extrusion) on the card's top layer: subtract half its reserve too.
+			const float Shift = (P.Left - P.Right) * .5f + SurfaceDepthX * .5f +
+			                    K * (P.Top - P.Bottom + SurfaceDepthY) * .5f - PlateDepthX * .5f;
+			P.Left -= Shift;
+			P.Right += Shift;
+		}
 		Surface->SetPadding(P);
 		// Both faces lean 12 degrees. At the plate's mid-height (the surface's top edge) the surface face spans
 		// [FaceH*K, BoxW-SurfaceDepthX] and the plate face spans [Left + Drop*K, Left + PlateW - PlateDepthX - Drop*K].
@@ -548,6 +581,7 @@ void UFixHimWidget::SyncHeaderLayouts()
 		if (auto *HeaderSlot = Cast<UOverlaySlot>(Header->Slot))
 			HeaderSlot->SetPadding(FMargin(Left, 0, Right, 0));
 	}
+	return bMoved;
 }
 
 UVerticalBox *UFixHimWidget::MakeCardScreen(const FString &Title, float Width)
@@ -574,7 +608,24 @@ UVerticalBox *UFixHimWidget::MakeCardScreen(const FString &Title, float Width)
 	Card->SetBrush(Rounded(Cream, 28.f, Pink, 4.f));
 	Card->BorderWidth = FixHimDesign::PopupBorder;
 	CardSurface = Card;
-	Size->AddChild(MakeHeaderedSurface(Card, Title, FMargin(32, 32, 40, 40)));
+	const FMargin CardPadding(32, 32, 40, 40);
+	Size->AddChild(MakeHeaderedSurface(Card, Title, CardPadding));
+	if (!Title.IsEmpty())
+	{
+		HeaderLayouts.Last().bCentreRows = true;
+		HeaderLayouts.Last().Measured = FVector2D(-1, -1);
+		SyncHeaderLayouts();
+	}
+	else
+	{
+		// Titleless (ending) cards: same centring as SyncHeaderLayouts, with fixed padding.
+		using namespace FixHimDesign;
+		const float Shift = (CardPadding.Left - CardPadding.Right) * .5f + DepthReserveX(PopupBorder) * .5f +
+		                    Slant * (CardPadding.Top - CardPadding.Bottom + DepthReserveY(PopupBorder)) * .5f -
+		                    DepthReserveX(ButtonBorder) * .5f;
+		Card->SetPadding(FMargin(CardPadding.Left - Shift, CardPadding.Top, CardPadding.Right + Shift,
+		                         CardPadding.Bottom));
+	}
 	Size->SetRenderTransformPivot(FVector2D(.5f, .5f));
 	PopCard = Size;
 	auto *Layout = WidgetTree->ConstructWidget<UFixHimStack>();
