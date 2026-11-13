@@ -244,6 +244,8 @@ void UFixHimEndingCardWidget::BuildUI()
 	// The ending's own title goes on the title plate (set in Setup). Wide enough that the longest ending
 	// (~360 characters) fits without scrolling.
 	UVerticalBox* Col = MakeCardScreen(TEXT("Ending"), 1040.f);
+	// Wide along the bottom (dialogue-panel margins), leaving the screen above for ending art.
+	DockCard(EFixHimCardDock::Bottom);
 	OpenSfx = NAME_None; // the ending jingle covers it
 	OutsideClickMinAge = 0.8f;
 	Col->ClearChildren();

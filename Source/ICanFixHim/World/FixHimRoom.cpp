@@ -26,6 +26,15 @@ AFixHimRoom::AFixHimRoom()
 void AFixHimRoom::BeginPlay()
 {
 	Super::BeginPlay();
+	// The hall is open to the living room and reads as part of it: never show "Hall". Folding it in as a
+	// sub-volume of "living" keeps the HUD from re-announcing the room when crossing between them, and the floor
+	// plan labels it Living Room with the status on the main cell.
+	if (RoomId.Equals(TEXT("hall"), ESearchCase::IgnoreCase))
+	{
+		RoomId = TEXT("living");
+		DisplayName = NSLOCTEXT("FixHim", "LivingRoom", "Living Room");
+		bSubVolume = true;
+	}
 	Bounds->OnComponentBeginOverlap.AddDynamic(this, &AFixHimRoom::HandleBeginOverlap);
 	Bounds->OnComponentEndOverlap.AddDynamic(this, &AFixHimRoom::HandleEndOverlap);
 }
