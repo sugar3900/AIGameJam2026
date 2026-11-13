@@ -192,7 +192,7 @@ void UFixHimNameEntryWidget::BuildUI()
 	    24, true);
 	// Greyed out (not just faded pink) while the name is empty.
 	FButtonStyle BStyle = MoveInButton->GetStyle();
-	BStyle.SetDisabled(Rounded(FixHimDesign::Disabled, 12));
+	BStyle.SetDisabled(Rounded(FixHimDesign::DisabledMid, 12, FixHimDesign::DisabledLight, 2));
 	MoveInButton->SetStyle(BStyle);
 	MoveInButton->SetIsEnabled(false);
 	Box->AddChild(MoveInButton);

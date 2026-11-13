@@ -97,9 +97,9 @@ void Surface(FSlateWindowElementList &Out, int32 Layer, const FGeometry &G, FLin
 	const FVector2f Offset = Pressed ? DepthOffset(Keyline) : Focused ? FVector2f(0, -2) : FVector2f(0, 0);
 	const bool Reading = Fill.Equals(FixHimDesign::Cream, .015f);
 	const bool PinkFace = Fill.Equals(FixHimDesign::Pink, .015f);
-	const auto Edge = !Enabled ? DisabledInk : Reading ? Orange : FLinearColor::White;
+	const auto Edge = !Enabled ? DisabledLight : Reading ? Orange : FLinearColor::White;
 	// One extrusion layer, no separate shadow: cream extrudes burnt orange, pink a deep pink, everything else ink.
-	const auto Depth = !Enabled ? DisabledInk : Reading ? OrangeDepth : PinkFace ? PinkDepth : Ink;
+	const auto Depth = !Enabled ? DisabledDark : Reading ? OrangeDepth : PinkFace ? PinkDepth : Ink;
 	if (Shadowed)
 	{
 		const FLinearColor Shadow = Ink.CopyWithNewOpacity(ShadowOpacity);
@@ -172,7 +172,7 @@ class SDesignButton : public SButton
 		const bool Enabled = ShouldBeEnabled(E), Focused = Enabled && (HasKeyboardFocus() || Owner->bSelected);
 		const bool Pressed = IsPressed() || Owner->bPreviewPressed;
 		const bool Active = Focused || Pressed || (Enabled && IsHovered());
-		const FLinearColor Fill = !Enabled                    ? Disabled
+		const FLinearColor Fill = !Enabled                    ? DisabledMid
 		                          : Owner->bPrimary || Active ? FixHimDesign::Pink
 		                                                      : FixHimDesign::Cream;
 		// Standalone buttons cast the popup shadow. Buttons with a leading icon skip the focus pointer: it would
@@ -180,7 +180,7 @@ class SDesignButton : public SButton
 		Surface(Out, L, G, Fill, S.GetColorAndOpacityTint(), true, Focused, Pressed, Enabled,
 		        FixHimDesign::ButtonBorder, Owner->bStandalone, !Owner->LeadingIcon);
 		FWidgetStyle ChildStyle = S;
-		ChildStyle.SetForegroundColor(!Enabled ? DisabledInk : Owner->bPrimary || Active ? FLinearColor::White : Ink);
+		ChildStyle.SetForegroundColor(!Enabled ? DisabledLight : Owner->bPrimary || Active ? FLinearColor::White : Ink);
 		// Preserve the specified disabled ink rather than applying Slate's additional gray-out shader.
 		// Input remains disabled on SButton; its labelled content contains no interactive descendants.
 		if (!Enabled)
@@ -205,8 +205,12 @@ class SDesignCheckBox : public SCheckBox
 	{
 		using namespace FixHimDesign;
 		const bool Focus = HasKeyboardFocus();
-		const FLinearColor Fill = !ShouldBeEnabled(E) ? Disabled : IsChecked() ? FixHimDesign::Teal : FixHimDesign::Cream;
-		auto Box = FixHimUI::Rounded(Fill, 7, Focus || IsHovered() ? FixHimDesign::Pink : Teal, Focus ? 4 : 3);
+		const FLinearColor Fill = !ShouldBeEnabled(E) ? DisabledMid : IsChecked() ? FixHimDesign::Teal : FixHimDesign::Cream;
+		auto Box = FixHimUI::Rounded(Fill, 7,
+		                             !ShouldBeEnabled(E)       ? DisabledLight
+		                             : Focus || IsHovered() ? FixHimDesign::Pink
+		                                                    : Teal,
+		                             Focus ? 4 : 3);
 		FSlateDrawElement::MakeBox(Out, L, G.ToPaintGeometry(FVector2f(32, 32), FSlateLayoutTransform(FVector2f(8, 8))),
 		                           &Box, ESlateDrawEffect::None, Box.GetTint(S) * S.GetColorAndOpacityTint());
 		if (IsChecked())
@@ -275,7 +279,7 @@ TSharedRef<SWidget> UFixHimButton::RebuildWidget()
 	        .ForegroundColor_Lambda([this]() -> FSlateColor {
 		        if (!bDesignSurface)
 			        return FSlateColor::UseForeground();
-		        return FSlateColor(!GetIsEnabled() ? FixHimDesign::DisabledInk
+		        return FSlateColor(!GetIsEnabled() ? FixHimDesign::DisabledLight
 				                   : bPrimary || bSelected || bPreviewPressed || IsHovered() || HasKeyboardFocus()
 		                               ? FLinearColor::White
 									   : FixHimDesign::Ink);
