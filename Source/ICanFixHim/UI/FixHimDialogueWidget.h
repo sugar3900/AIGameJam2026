@@ -74,6 +74,11 @@ private:
 	UPROPERTY() TObjectPtr<UWidget> NameStackBox;
 	/** Tracks the name stack's width so the meter strip starts tucked behind the name plate. */
 	UPROPERTY() TObjectPtr<USizeBox> StripLead;
+	/** Pushes the meters right so they clear the widest possible name plate by NameMargin. */
+	UPROPERTY() TObjectPtr<USizeBox> MeterLead;
+	/** Width of the widest name plate any speaker in this playthrough can produce (hunks, extra speakers, player). */
+	float NameReserve = 0.f;
+	void RefreshNameReserve();
 	UPROPERTY() TObjectPtr<UTextBlock> NameText;
 	UPROPERTY() TObjectPtr<UTextBlock> TypingText;
 	UPROPERTY() TObjectPtr<UWrapBox> WordWrap;

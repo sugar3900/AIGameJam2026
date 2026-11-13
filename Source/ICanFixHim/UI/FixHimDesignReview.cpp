@@ -48,7 +48,7 @@ void UFixHimDesignReviewWidget::BuildUI()
 	Col->AddChildToVerticalBox(Body)->SetPadding(FMargin(0, 0, 0, 16));
 	auto *Reply = UFixHimButton::Make(
 	    WidgetTree,
-	    TEXT("1.  Because somebody loved it. And because I love it. All of it. Including the part that argues."), [] {},
+	    TEXT("Because somebody loved it. And because I love it. All of it. Including the part that argues."), [] {},
 	    22, false);
 	Reply->SetVariant(EFixHimButtonVariant::Reply);
 	Reply->Label->SetJustification(ETextJustify::Left);

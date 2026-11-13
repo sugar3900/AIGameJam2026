@@ -19,6 +19,9 @@
 #include "Components/Overlay.h"
 #include "Components/OverlaySlot.h"
 #include "Components/ProgressBar.h"
+#include "Fonts/FontMeasure.h"
+#include "Framework/Application/SlateApplication.h"
+#include "Rendering/SlateRenderer.h"
 #include "Components/SizeBox.h"
 #include "Components/Spacer.h"
 #include "Components/ScrollBox.h"
@@ -40,6 +43,9 @@ namespace
 constexpr int32 MeterMax = FixHimStatMax;
 constexpr float FadeSeconds = 0.9f;
 constexpr float HoldSeconds = 2.6f;
+// Name plate horizontal padding, strip lead padding, how far the strip tucks behind the name, and the
+// minimum clear space between the widest name plate and the first meter.
+constexpr float NamePadL = 36.f, NamePadR = 52.f, StripPadL = 36.f, StripTuck = 40.f, NameMargin = 36.f;
 } // namespace
 
 void UFixHimDialogueWidget::BuildUI()
@@ -71,7 +77,7 @@ void UFixHimDialogueWidget::BuildUI()
 	UVerticalBox *NameStack = WidgetTree->ConstructWidget<UVerticalBox>();
 	NamePill = WidgetTree->ConstructWidget<UFixHimSurface>();
 	NamePill->SetBrush(Rounded(HotPink, 16.f));
-	NamePill->SetPadding(FMargin(36, 2, 52, 20));
+	NamePill->SetPadding(FMargin(NamePadL, 2, NamePadR, 20));
 	NameText = MakeText(WidgetTree, TEXT("NAME"), 66, FLinearColor::White, TEXT("Display"));
 	NamePill->SetContent(NameText);
 	NameStack->AddChildToVerticalBox(NamePill)->SetHorizontalAlignment(HAlign_Left);
@@ -79,23 +85,14 @@ void UFixHimDialogueWidget::BuildUI()
 
 	UFixHimSurface *Strip = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Strip->SetBrush(Rounded(FixHimDesign::Teal, 12.f));
-	Strip->SetPadding(FMargin(36, 8, 44, 22));
+	Strip->SetPadding(FMargin(StripPadL, 18, 44, 32));
 	UHorizontalBox *Meters = WidgetTree->ConstructWidget<UHorizontalBox>();
 	Strip->SetContent(Meters);
+	MeterLead = WidgetTree->ConstructWidget<USizeBox>();
+	MeterLead->SetWidthOverride(0.f);
+	Meters->AddChildToHorizontalBox(MeterLead);
 	auto AddMeter = [&](const FString &Label, const FString &IconName, const FLinearColor &Color) -> UProgressBar * {
-		if (Meters->GetChildrenCount() > 0)
-		{
-			// Thin cream divider between meters.
-			auto *Divider = WidgetTree->ConstructWidget<USizeBox>();
-			Divider->SetWidthOverride(3);
-			Divider->SetHeightOverride(40);
-			auto *Bar = WidgetTree->ConstructWidget<UBorder>();
-			Bar->SetBrushColor(Cream.CopyWithNewOpacity(.7f));
-			Divider->AddChild(Bar);
-			UHorizontalBoxSlot *DivSlot = Meters->AddChildToHorizontalBox(Divider);
-			DivSlot->SetVerticalAlignment(VAlign_Center);
-			DivSlot->SetPadding(FMargin(12, 0));
-		}
+		const bool bFirst = Meters->GetChildrenCount() == 1; // only MeterLead so far
 		// No label: a stat-colored badge with a white icon sits over the bar's left end.
 		UOverlay *M = WidgetTree->ConstructWidget<UOverlay>();
 		USizeBox *BB = WidgetTree->ConstructWidget<USizeBox>();
@@ -129,6 +126,7 @@ void UFixHimDialogueWidget::BuildUI()
 		UHorizontalBoxSlot *MeterSlot = Meters->AddChildToHorizontalBox(M);
 		MeterSlot->SetSize(FSlateChildSize(ESlateSizeRule::Fill));
 		MeterSlot->SetVerticalAlignment(VAlign_Center);
+		MeterSlot->SetPadding(FMargin(bFirst ? 0.f : 32.f, 0, 0, 0));
 		return Bar;
 	};
 	RomanceBar = AddMeter(TEXT("Romance"), TEXT("heart"), HotPink);
@@ -253,9 +251,30 @@ void UFixHimDialogueWidget::BindHunk(AFixHimHunk *Hunk, const FString &InHunkId)
 }
 
 
+void UFixHimDialogueWidget::RefreshNameReserve()
+{
+	TArray<FString> Names;
+	if (const UFixHimDialogueSubsystem *D = UFixHimDialogueSubsystem::Get(this))
+		for (const auto &Pair : D->GetAllHunks())
+		{
+			if (Pair.Value.IsHunk())
+				Names.Add(Pair.Value.Name);
+			Names.Append(Pair.Value.Speakers);
+		}
+	const UFixHimSaveSubsystem *SaveSub = UFixHimSaveSubsystem::Get(this);
+	Names.Add(SaveSub ? SaveSub->GetPlayerName() : UFixHimSettings::Get()->PlayerName);
+	Names.Add(Current.HunkName);
+	const TSharedRef<FSlateFontMeasure> Measure = FSlateApplication::Get().GetRenderer()->GetFontMeasureService();
+	float Widest = 0.f;
+	for (const FString &Name : Names)
+		Widest = FMath::Max(Widest, float(Measure->Measure(Name.ToUpper(), NameText->GetFont()).X));
+	NameReserve = Widest + NamePadL + NamePadR;
+}
+
 void UFixHimDialogueWidget::ShowView(const FDialogueView &View)
 {
 	Current = View;
+	RefreshNameReserve();
 
 	const bool bPlayer = View.Speaker == EDialogueSpeaker::Player;
 	const bool bNarration = View.Speaker == EDialogueSpeaker::Narration;
@@ -462,7 +481,7 @@ void UFixHimDialogueWidget::BuildChoices()
 	TWeakObjectPtr<UFixHimDialogueWidget> Self(this);
 	for (int32 i = 0; i < Current.Choices.Num(); ++i)
 	{
-		const FString Label = FString::Printf(TEXT("%d.  %s"), i + 1, *Current.Choices[i]);
+		const FString &Label = Current.Choices[i]; // unnumbered; number keys still select by position
 		UFixHimButton *B = WidgetTree->ConstructWidget<UFixHimButton>();
 		B->SetVariant(EFixHimButtonVariant::Reply);
 		FButtonStyle Style = ButtonStyle(Cream, Pink, Pink, 12, Gold);
@@ -595,9 +614,13 @@ void UFixHimDialogueWidget::NativeTick(const FGeometry &MyGeometry, float InDelt
 	{
 		// Tuck the strip ~40 units behind the name plate, or start flush when there is no name.
 		const float NameW = NameStackBox->IsVisible() ? NameStackBox->GetDesiredSize().X : 0.f;
-		const float Lead = FMath::Max(0.f, NameW - 40.f);
+		const float Lead = FMath::Max(0.f, NameW - StripTuck);
 		if (!FMath::IsNearlyEqual(StripLead->GetWidthOverride(), Lead, .5f))
 			StripLead->SetWidthOverride(Lead);
+		// Meters start at a fixed x (widest name + margin) so they don't shift between speakers.
+		const float MeterX = FMath::Max(0.f, FMath::Max(NameReserve, NameW) + NameMargin - Lead - StripPadL);
+		if (MeterLead && !FMath::IsNearlyEqual(MeterLead->GetWidthOverride(), MeterX, .5f))
+			MeterLead->SetWidthOverride(MeterX);
 	}
 	if (PanelSize)
 	{
