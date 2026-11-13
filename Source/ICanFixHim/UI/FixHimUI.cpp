@@ -543,14 +543,19 @@ UWidget *UFixHimWidget::MakeHeaderedSurface(UBorder *Surface, const FString &Tit
 	Badge->SetVisibility(ESlateVisibility::Collapsed);
 	UOverlaySlot *BadgeSlot = PlateStack->AddChildToOverlay(Badge);
 	BadgeSlot->SetHorizontalAlignment(HAlign_Left);
-	BadgeSlot->SetVerticalAlignment(VAlign_Top);
-	// Face centre on the plate face's vertical centre and on its left edge at that height (12-degree lean).
-	const float PlateFaceH = 10 + Heading->GetFont().Size * 1.25f + 10;
-	BadgeSlot->SetPadding(FMargin(0, PlateFaceH * .5f - BadgeFace * .5f, 0, 0));
+	// Centre the badge face on the plate face (the plate's box minus its extrusion, measured by layout, so any text
+	// size holds): centring the badge's box, which also holds its extrusion offset, in a span Depth.Y taller than
+	// the face puts the face centre exactly on the plate face's centre.
+	BadgeSlot->SetVerticalAlignment(VAlign_Center);
+	BadgeSlot->SetPadding(FMargin(0, 0, 0, Extrusion - Depth.Y));
+	// For the slanted left edge only; a few units' error here moves the badge a fraction of a unit sideways.
+	const float PlateFaceH = 10 + Heading->GetFont().Size * 1.6f + 10;
 	FWidgetTransform BadgeTransform;
 	// Scaling about the face centre moves its left edge by Face/2 * (Scale - 1); undo that, then step onto the
 	// plate's left edge at mid-height.
-	BadgeTransform.Translation = FVector2D(PlateFaceH * .5f * Slant + BadgeFace * .5f * (HeaderBadgeScale - 1.f), 0);
+	BadgeTransform.Translation =
+	    FVector2D(PlateFaceH * .5f * Slant + BadgeFace * .5f * (HeaderBadgeScale - 1.f) - HeaderBadgeLead,
+	              HeaderBadgeDrop);
 	BadgeTransform.Scale = FVector2D(HeaderBadgeScale);
 	Badge->SetRenderTransform(BadgeTransform);
 	// Pivot on the face's centre (the overlay also holds the extrusion offset).
@@ -569,9 +574,15 @@ void UFixHimWidget::SetHeaderBadge(const FString &Icon, const FLinearColor &Fill
 	HeaderBadgeFace->SetBrush(Rounded(Fill, R, FLinearColor::White, FixHimDesign::ButtonBorder / HeaderBadgeScale));
 	HeaderBadgeFace->SetContent(FixHimDesign::Icon(WidgetTree, Icon, IconTint));
 	HeaderBadge->SetVisibility(ESlateVisibility::HitTestInvisible);
+	// The plate starts HeaderBadgePlateInset further in, so the badge covers its bottom-left corner and extrusion.
 	// Centre the title in the plate beside the badge, like the meter strip beside the dialogue name plate.
 	if (HeaderPlate)
-		HeaderPlate->SetPadding(FMargin(32 + 100, 10, 40, 10 + FixHimDesign::Extrusion));
+	{
+		if (auto *PlateSlot = Cast<UOverlaySlot>(HeaderPlate->Slot))
+			PlateSlot->SetPadding(FMargin(HeaderBadgePlateInset, 0, 0, 0));
+		const float BadgeRight = 108.f - HeaderBadgeLead - HeaderBadgePlateInset;
+		HeaderPlate->SetPadding(FMargin(BadgeRight + 24, 10, 40, 10 + FixHimDesign::Extrusion));
+	}
 }
 
 UWidget *UFixHimWidget::MakeHeaderedSurface(UBorder *Surface, UWidget *Header, const FMargin &Padding, float Inset)

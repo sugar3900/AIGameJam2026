@@ -234,6 +234,10 @@ class ICANFIXHIM_API UFixHimWidget : public UUserWidget
 	UPROPERTY() TObjectPtr<UWidget> HeaderBadge;
 	/** Drawn size 56 * this = 108, the dialogue name plate's height. */
 	static constexpr float HeaderBadgeScale = 108.f / 56.f;
+	/** The badge starts this far left of the plate's edge, and the plate starts this far in, when a badge shows. */
+	static constexpr float HeaderBadgeLead = 5.f, HeaderBadgePlateInset = 20.f;
+	/** Measured residual: the layout-centred badge face drew 2.5 units above the plate face's centre (2026-11-13). */
+	static constexpr float HeaderBadgeDrop = 2.5f;
 	UPROPERTY() TObjectPtr<UBorder> HeaderBadgeFace;
 	UPROPERTY() TObjectPtr<UBorder> HeaderBadgeDepth;
 	UPROPERTY() TObjectPtr<UBorder> HeaderPlate;
