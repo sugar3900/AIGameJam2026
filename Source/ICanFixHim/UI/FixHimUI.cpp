@@ -172,7 +172,9 @@ UFixHimButton *UFixHimButton::Make(UWidgetTree *Tree, const FString &LabelText, 
 		auto *Icon = FixHimDesign::Icon(Tree, LeadingIcon, FLinearColor::White);
 		Icon->SetColorAndOpacity(FLinearColor::White);
 		// Use foreground tint so icons follow hover, focus and disabled labels.
-		Icon->Brush.TintColor = FSlateColor::UseForeground();
+		FSlateBrush IconBrush = Icon->GetBrush();
+		IconBrush.TintColor = FSlateColor::UseForeground();
+		Icon->SetBrush(IconBrush);
 		Box->AddChild(Icon);
 		Row->AddChildToHorizontalBox(Box)->SetVerticalAlignment(VAlign_Center);
 		// Fill, not auto: a wrapping label in an auto slot can settle on a too-narrow wrap width.
@@ -554,7 +556,7 @@ UVerticalBox *UFixHimWidget::MakeCardScreen(const FString &Title, float Width)
 	auto *Scroll = WidgetTree->ConstructWidget<UScrollBox>();
 	Scroll->SetAnimateWheelScrolling(false);
 	Scroll->SetScrollbarThickness(FVector2D(7, 7));
-	FScrollBarStyle BarStyle = Scroll->WidgetBarStyle;
+	FScrollBarStyle BarStyle = Scroll->GetWidgetBarStyle();
 	BarStyle.SetNormalThumbImage(Rounded(FixHimDesign::Teal, 3));
 	BarStyle.SetHoveredThumbImage(Rounded(FixHimDesign::Pink, 3));
 	BarStyle.SetDraggedThumbImage(Rounded(FixHimDesign::Ink, 3));
