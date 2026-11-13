@@ -50,6 +50,7 @@ constexpr float NamePadL = 36.f, NamePadR = 52.f, StripPadL = 36.f, StripTuck = 
 
 void UFixHimDialogueWidget::BuildUI()
 {
+	bFocusFirstControl = false; // no reply starts selected (see BuildChoices)
 	UOverlay *Root = WidgetTree->ConstructWidget<UOverlay>();
 	Root->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 	WidgetTree->RootWidget = Root;
@@ -516,9 +517,11 @@ void UFixHimDialogueWidget::BuildChoices()
 		UVerticalBoxSlot *S = ChoiceBox->AddChildToVerticalBox(B);
 		S->SetPadding(FMargin(0.f, 3.f));
 		S->SetHorizontalAlignment(HAlign_Fill);
-		if (i == 0)
-			B->SetKeyboardFocus();
 	}
+	// No reply starts selected. The dialogue itself takes focus so arrows / D-pad still reach NativeOnKeyDown,
+	// where the first Down or Up selects a reply; number keys and clicks choose directly.
+	if (!Current.Choices.IsEmpty())
+		SetKeyboardFocus();
 }
 
 void UFixHimDialogueWidget::RefreshMeters()

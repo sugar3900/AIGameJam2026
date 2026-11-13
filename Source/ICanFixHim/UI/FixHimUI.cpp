@@ -469,7 +469,7 @@ void UFixHimWidget::NativeTick(const FGeometry &MyGeometry, float InDeltaTime)
 			InitialFocusTarget->SetKeyboardFocus();
 			Focused = true;
 		}
-		if (!Focused)
+		if (!Focused && bFocusFirstControl)
 			WidgetTree->ForEachWidget([&](UWidget *W) {
 				if (!Focused &&
 				    (W->IsA<UButton>() || W->IsA<USlider>() || W->IsA<UCheckBox>() || W->IsA<UEditableTextBox>()) &&
