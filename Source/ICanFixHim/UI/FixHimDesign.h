@@ -15,6 +15,9 @@ inline const FLinearColor Ink = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT
 inline const FLinearColor Cream = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("FFF5E5")));
 inline const FLinearColor Orange = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("FF7900")));
 inline const FLinearColor Pink = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("D9005C")));
+/** Extrusions under pink and cream (orange-keyline) surfaces: darker than their keyline so the depth reads. */
+inline const FLinearColor PinkDepth = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("99003F")));
+inline const FLinearColor OrangeDepth = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("B35500"))); // keyline orange at 70% value, same hue
 inline const FLinearColor Friendship = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("76CADB")));
 inline const FLinearColor Disabled = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("E1E1DE")));
 inline const FLinearColor DisabledInk = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("565C60")));
@@ -24,12 +27,10 @@ inline constexpr float DisplayShear = 0.0897720008f; // tan(12) - tan(7)
 /** Keyline (outline) widths. Buttons and plates use ButtonBorder; popup cards and panels use twice that. */
 inline constexpr float ButtonBorder = 6.f, PopupBorder = 12.f;
 /**
- * The extrusion (coloured depth plus ink shadow) matches the keyline: it reaches Border units down and half that
- * sideways, so buttons and plates get half the popups' depth. Depth layer at (7B/24, 7B/12), shadow at (B/2, B);
- * the face leaves DepthReserve(B) of its box for them.
+ * The extrusion matches the keyline: one layer, Border units down and half that sideways, so buttons and plates
+ * get half the popups' depth. The face leaves DepthReserve(B) of its box for it.
  */
-inline FVector2f DepthOffset(float Border) { return FVector2f(Border * 7.f / 24.f, Border * 7.f / 12.f); }
-inline FVector2f ShadowOffset(float Border) { return FVector2f(Border * .5f, Border); }
+inline FVector2f DepthOffset(float Border) { return FVector2f(Border * .5f, Border); }
 inline constexpr float DepthReserveX(float Border) { return Border * .5f + 3.f; }
 inline constexpr float DepthReserveY(float Border) { return Border + 3.f; }
 /**

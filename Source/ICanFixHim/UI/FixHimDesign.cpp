@@ -93,12 +93,13 @@ void Surface(FSlateWindowElementList &Out, int32 Layer, const FGeometry &G, FLin
 		Top = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("E80C70")));
 		Bottom = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("C90055")));
 	}
-	// Pressing pushes the face down onto its depth layer.
+	// Pressing pushes the face down onto its extrusion.
 	const FVector2f Offset = Pressed ? DepthOffset(Keyline) : Focused ? FVector2f(0, -2) : FVector2f(0, 0);
-	Shape(Out, Layer, G, ShadowOffset(Keyline), FaceSize, R, Slanted, Ink, Ink, Tint);
 	const bool Reading = Fill.Equals(FixHimDesign::Cream, .015f);
+	const bool PinkFace = Fill.Equals(FixHimDesign::Pink, .015f);
 	const auto Edge = !Enabled ? DisabledInk : Reading ? Orange : FLinearColor::White;
-	const auto Depth = !Enabled ? DisabledInk : Reading ? Orange : Ink;
+	// One extrusion layer, no separate shadow: cream extrudes burnt orange, pink a deep pink, everything else ink.
+	const auto Depth = !Enabled ? DisabledInk : Reading ? OrangeDepth : PinkFace ? PinkDepth : Ink;
 	Shape(Out, Layer + 1, G, DepthOffset(Keyline), FaceSize, R, Slanted, Depth, Depth, Tint);
 	Shape(Out, Layer + 2, G, Offset, FaceSize, R, Slanted, Focused ? FLinearColor::White : Edge,
 	      Focused ? FLinearColor::White : Edge, Tint);
