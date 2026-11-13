@@ -265,22 +265,30 @@ void UFixHimHUDWidget::SetRepairs(int32 Fixed, int32 Total, int32 Week, int32 Nu
 	}
 }
 
+void UFixHimHUDWidget::PinToast(const FString& Message)
+{
+	bToastPinned = false;
+	ShowToast(Message, 0.f, false);
+	bToastPinned = true;
+	ToastPill->SetRenderOpacity(1.f);
+}
+
+FString UFixHimHUDWidget::GetToastText() const
+{
+	return ToastText ? ToastText->GetText().ToString() : FString();
+}
+
 void UFixHimHUDWidget::HideToast()
 {
+	bToastPinned = false;
 	ToastTime = 0.f;
 	if (ToastPill)
 		ToastPill->SetVisibility(ESlateVisibility::Collapsed);
 }
 
-void UFixHimHUDWidget::SetHeaderOnly(bool bHeaderOnly)
-{
-	if (ControlHint)
-		ControlHint->SetVisibility(bHeaderOnly ? ESlateVisibility::Collapsed : ESlateVisibility::HitTestInvisible);
-}
-
 void UFixHimHUDWidget::ShowToast(const FString& Message, float Seconds, bool bChime)
 {
-	if (!ToastPill)
+	if (!ToastPill || bToastPinned)
 	{
 		return;
 	}

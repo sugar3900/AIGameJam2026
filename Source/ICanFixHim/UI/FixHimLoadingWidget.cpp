@@ -71,7 +71,7 @@ void UFixHimLoadingWidget::BuildUI()
 	auto DotsBox = [this]()
 	{
 		USizeBox* Box = WidgetTree->ConstructWidget<USizeBox>();
-		Box->SetWidthOverride(DotsWidth);
+		Box->SetWidthOverride(DotsWidth * FixHimDesign::TextScale()); // the caption font follows text size too
 		return Box;
 	};
 	CaptionRow->AddChildToHorizontalBox(DotsBox());

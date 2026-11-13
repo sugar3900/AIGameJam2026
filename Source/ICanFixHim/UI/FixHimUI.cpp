@@ -236,8 +236,9 @@ UFixHimButton *UFixHimButton::MakeStandalone(UWidgetTree *Tree, const FString &L
 FLinearColor UFixHimButton::GetIconTint()
 {
 	using namespace FixHimDesign;
-	if (!GetIsEnabled())
-		return DisabledInk;
+	for (const UWidget *W = this; W; W = W->GetParent())
+		if (!W->GetIsEnabled())
+			return DisabledInk; // a disabled container disables the face too (SDesignButton::OnPaint)
 	const bool Active = HasKeyboardFocus() || bSelected || IsPressed() || bPreviewPressed || IsHovered();
 	return bPrimary || Active ? FLinearColor::White : Orange;
 }
@@ -353,6 +354,10 @@ void UFixHimWidget::NativeConstruct()
 	{
 		PopCard->SetRenderScale(FVector2D(FixHimDesign::ReducedMotion() ? 1.f : .96f));
 		PopCard->SetRenderOpacity(0.f);
+		// Hidden cards take no clicks; keyboard focus waits for bPopSettled too (NativeTick).
+		if (PopCard->GetVisibility() != ESlateVisibility::HitTestInvisible)
+			PopVisibility = PopCard->GetVisibility();
+		PopCard->SetVisibility(ESlateVisibility::HitTestInvisible);
 		bPopSettled = false;
 		PopStableFrames = 0;
 		PopLastSize = FVector2D::ZeroVector;
@@ -450,10 +455,11 @@ void UFixHimWidget::NativeTick(const FGeometry &MyGeometry, float InDeltaTime)
 			bPopSettled = true;
 			PopAge = 0.f;
 			PopCard->SetRenderOpacity(1.f);
+			PopCard->SetVisibility(PopVisibility);
 		}
 	}
 	ShownAge += InDeltaTime;
-	if (!bInitialFocus && ShownAge > .12f)
+	if (!bInitialFocus && ShownAge > .12f && (!PopCard || bPopSettled))
 	{
 		bInitialFocus = true;
 		bool Focused = false;
@@ -676,6 +682,7 @@ UVerticalBox *UFixHimWidget::MakeCardScreen(const FString &Title, float Width)
 	DimSlot->SetVerticalAlignment(VAlign_Fill);
 
 	USizeBox *Size = WidgetTree->ConstructWidget<USizeBox>();
+	CardWidth = Width;
 	Size->SetWidthOverride(Width);
 	Size->SetMaxDesiredHeight(960);
 	UOverlaySlot *SizeSlot = Root->AddChildToOverlay(Size);
@@ -688,22 +695,10 @@ UVerticalBox *UFixHimWidget::MakeCardScreen(const FString &Title, float Width)
 	CardSurface = Card;
 	const FMargin CardPadding(32, 32, 40, 40);
 	Size->AddChild(MakeHeaderedSurface(Card, Title, CardPadding));
-	if (!Title.IsEmpty())
-	{
-		HeaderLayouts.Last().bCentreRows = true;
-		HeaderLayouts.Last().Measured = FVector2D(-1, -1);
-		SyncHeaderLayouts();
-	}
-	else
-	{
-		// Titleless (ending) cards: same centring as SyncHeaderLayouts, with fixed padding.
-		using namespace FixHimDesign;
-		const float Shift = (CardPadding.Left - CardPadding.Right) * .5f + DepthReserveX(PopupBorder) * .5f +
-		                    Slant * (CardPadding.Top - CardPadding.Bottom + DepthReserveY(PopupBorder)) * .5f -
-		                    DepthReserveX(ButtonBorder) * .5f;
-		Card->SetPadding(FMargin(CardPadding.Left - Shift, CardPadding.Top, CardPadding.Right + Shift,
-		                         CardPadding.Bottom));
-	}
+	// Every card has a title (the ending card's is set later), so its header layout balances the row centring.
+	HeaderLayouts.Last().bCentreRows = true;
+	HeaderLayouts.Last().Measured = FVector2D(-1, -1);
+	SyncHeaderLayouts();
 	Size->SetRenderTransformPivot(FVector2D(.5f, .5f));
 	PopCard = Size;
 	auto *Layout = WidgetTree->ConstructWidget<UFixHimStack>();
@@ -748,6 +743,7 @@ void UFixHimWidget::DockCard(EFixHimCardDock Dock)
 	switch (Dock)
 	{
 	case EFixHimCardDock::Centre:
+		Size->SetWidthOverride(CardWidth);
 		Slot->SetHorizontalAlignment(HAlign_Center);
 		Slot->SetVerticalAlignment(VAlign_Center);
 		Slot->SetPadding(FMargin(0));

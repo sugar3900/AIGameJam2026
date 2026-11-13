@@ -266,6 +266,10 @@ class ICANFIXHIM_API UFixHimWidget : public UUserWidget
   private:
 	/** The card from MakeCardScreen; it grows in with a small overshoot every time the widget is shown. */
 	UPROPERTY() TObjectPtr<UWidget> PopCard;
+	/** MakeCardScreen's width, restored by DockCard(Centre). */
+	float CardWidth = 520.f;
+	/** PopCard's visibility before it was made hit-test invisible while hidden (see NativeTick). */
+	ESlateVisibility PopVisibility = ESlateVisibility::Visible;
 	float PopAge = 0.f;
 
 	struct FHeaderLayout

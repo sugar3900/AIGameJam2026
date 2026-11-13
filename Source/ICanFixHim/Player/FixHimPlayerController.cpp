@@ -980,7 +980,6 @@ void AFixHimPlayerController::CloseEndingCard()
 	if (HUDWidget)
 	{
 		HUDWidget->HideToast();
-		HUDWidget->SetHeaderOnly(false);
 		HideWidget(HUDWidget);
 		ShowWidget(HUDWidget, 0);
 	}
@@ -1192,8 +1191,8 @@ void AFixHimPlayerController::HandleConversationEnded(const FString& HunkId, con
 		{
 			HideWidget(HUDWidget);
 			ShowWidget(HUDWidget, 36);
-			HUDWidget->SetHeaderOnly(true);
-			HUDWidget->ShowToast(FString::Printf(TEXT("%s Repaired"), *Def->Malady), TNumericLimits<float>::Max(), false);
+			// The control hint is already hidden: SetReticle(false) in EnterState(Ending).
+			HUDWidget->PinToast(FString::Printf(TEXT("%s Repaired"), *Def->Malady));
 		}
 	}
 	else

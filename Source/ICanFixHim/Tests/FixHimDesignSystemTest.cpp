@@ -376,8 +376,9 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 	EndingHUD->SetRoomName(FText::FromString(TEXT("Bedroom"))); // Malcolm's room
 	EndingHUD->SetRepairs(2, 4, 2, 4);
 	EndingHUD->SetReticle(false, EFixHimInteractionAction::None, FText::GetEmpty());
-	EndingHUD->SetHeaderOnly(true);
-	EndingHUD->ShowToast(TEXT("Black Mold Repaired"), TNumericLimits<float>::Max(), false);
+	EndingHUD->PinToast(TEXT("Black Mold Repaired"));
+	EndingHUD->ShowToast(TEXT("Saved"), 1.f, false);
+	TestEqual(TEXT("A pinned toast is not replaced"), EndingHUD->GetToastText(), FString(TEXT("Black Mold Repaired")));
 	Render(EndingHUD, TEXT("14-ending-card-hud"), {1920, 1080}, {1920, 1080});
 	// Docked trials that leave room for ending art.
 	for (const auto &[CardDock, CardName] : {TPair<EFixHimCardDock, const TCHAR *>(EFixHimCardDock::Bottom, TEXT("14-ending-card-bottom")),
