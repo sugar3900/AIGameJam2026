@@ -56,7 +56,7 @@ FSlateFontInfo Font(int32 Size, const TCHAR *Typeface)
 	};
 	static TStrongObjectPtr<UFont> Body = BuildFont(false);
 	static TStrongObjectPtr<UFont> Display = BuildFont(true);
-	const bool IsDisplay = FCString::Strcmp(Typeface, TEXT("Display")) == 0;
+	const bool IsDisplay = FCString::Strncmp(Typeface, TEXT("Display"), 7) == 0;
 	UFont *Asset = IsDisplay ? Display.Get() : Body.Get();
 	const int32 ScaledSize = FMath::RoundToInt(Size * FixHimDesign::TextScale());
 	return Asset && !Asset->GetCompositeFont()->DefaultTypeface.Fonts.IsEmpty()
@@ -536,8 +536,8 @@ void UFixHimButton::SetVariant(EFixHimButtonVariant InVariant)
 	bPrimary = InVariant == EFixHimButtonVariant::Primary;
 	if (Label && bDesignSurface)
 	{
-		const bool Display = InVariant != EFixHimButtonVariant::Reply;
-		Label->SetFont(FixHimUI::Font(LabelSize, Display ? TEXT("Display") : TEXT("Semibold")));
+		const bool Display = true; // Replies use the display face too, matching the show-graphics mock-up.
+		Label->SetFont(FixHimUI::Font(LabelSize, TEXT("Display")));
 		FWidgetTransform Transform;
 		Transform.Shear = Display ? FVector2D(-FMath::RadiansToDegrees(FMath::Atan(FixHimDesign::DisplayShear)), 0)
 		                          : FVector2D::ZeroVector;

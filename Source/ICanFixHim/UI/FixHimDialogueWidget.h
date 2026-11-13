@@ -17,6 +17,7 @@ class UProgressBar;
 class USizeBox;
 class UTextBlock;
 class UVerticalBox;
+class UOverlay;
 class UWrapBox;
 class UMaterialInstanceDynamic;
 class AFixHimHunk;
@@ -84,6 +85,8 @@ private:
 	UPROPERTY() TObjectPtr<UWrapBox> WordWrap;
 	UPROPERTY() TObjectPtr<UVerticalBox> ChoiceBox;
 	UPROPERTY() TObjectPtr<USizeBox> LineBounds;
+	/** Holds the typing and final line layouts; sheared as one block so both lean identically. */
+	UPROPERTY() TObjectPtr<UOverlay> LineArea;
 	UPROPERTY() TObjectPtr<UTextBlock> ContinueHint;
 	UPROPERTY() TObjectPtr<UProgressBar> RomanceBar;
 	UPROPERTY() TObjectPtr<UProgressBar> FriendBar;

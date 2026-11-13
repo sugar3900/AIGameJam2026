@@ -22,6 +22,7 @@
 #include "Components/SizeBox.h"
 #include "Components/Spacer.h"
 #include "Components/ScrollBox.h"
+#include "Components/ScrollBoxSlot.h"
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
@@ -139,11 +140,12 @@ void UFixHimDialogueWidget::BuildUI()
 
 	// Line text: typewriter text while typing, then a wrap box of words so [topics] can be clicked.
 	UOverlay *TextArea = WidgetTree->ConstructWidget<UOverlay>();
+	LineArea = TextArea;
 	LineBounds = WidgetTree->ConstructWidget<USizeBox>();
 	LineBounds->SetMaxDesiredHeight(240);
 	auto *Inset = WidgetTree->ConstructWidget<UBorder>();
 	Inset->SetBrushColor(FLinearColor::Transparent);
-	Inset->SetPadding(FMargin(28, 0, 36, 0));
+	Inset->SetPadding(FMargin(8, 0, 16, 0));
 	LineBounds->AddChild(Inset);
 	auto *LineScroll = WidgetTree->ConstructWidget<UScrollBox>();
 	LineScroll->SetAnimateWheelScrolling(false);
@@ -153,7 +155,8 @@ void UFixHimDialogueWidget::BuildUI()
 	BarStyle.SetHoveredThumbImage(Rounded(Pink, 3));
 	LineScroll->SetWidgetBarStyle(BarStyle);
 	Inset->SetContent(LineScroll);
-	LineScroll->AddChild(TextArea);
+	// Room inside the scroll clip for the sheared line, whose lower rows lean left of its layout box.
+	CastChecked<UScrollBoxSlot>(LineScroll->AddChild(TextArea))->SetPadding(FMargin(20, 0, 20, 0));
 	Col->AddChildToVerticalBox(LineBounds)->SetPadding(FMargin(0, 2, 0, 20));
 	TypingText = MakeText(WidgetTree, TEXT(""), 24, Plum);
 	TypingText->SetAutoWrapText(true);
@@ -353,7 +356,12 @@ void UFixHimDialogueWidget::ShowView(const FDialogueView &View)
 	const FString PlayerName = SaveSub ? SaveSub->GetPlayerName() : UFixHimSettings::Get()->PlayerName;
 	const FString Speaker = bPlayer ? PlayerName : (bNamed ? View.SpeakerName : View.HunkName);
 	NameText->SetText(FText::FromString(Speaker.ToUpper()));
-	TypingText->SetFont(Font(24, TEXT("Regular")));
+	// Spoken lines use the display face, sheared to the 12° grid as one block. Narration stays upright body text.
+	TypingText->SetFont(bNarration ? Font(24, TEXT("Regular")) : Font(FixHimDesign::Line, TEXT("Display")));
+	FWidgetTransform LineLean;
+	if (!bNarration)
+		LineLean.Shear = FVector2D(-FMath::RadiansToDegrees(FMath::Atan(FixHimDesign::DisplayShear)), 0);
+	LineArea->SetRenderTransform(LineLean);
 	TypingText->SetColorAndOpacity(FSlateColor(bNarration ? PlumSoft : Plum));
 
 	ParseTokens(View.Text);
@@ -471,6 +479,9 @@ void UFixHimDialogueWidget::BuildWordWrap()
 	WordWrap->ClearChildren();
 	const bool bNarration = Current.Speaker == EDialogueSpeaker::Narration;
 	TWeakObjectPtr<UFixHimDialogueWidget> Self(this);
+	const int32 LineSize = bNarration ? 24 : FixHimDesign::Line;
+	// "Body" resolves to the display face without MakeText's per-widget shear; LineArea leans the whole line.
+	const TCHAR *LineFace = bNarration ? TEXT("Regular") : TEXT("DisplayFace");
 	auto FlowTokens = Tokens;
 	for (int32 TokenIndex = 0; TokenIndex < FlowTokens.Num(); ++TokenIndex)
 	{
@@ -479,7 +490,7 @@ void UFixHimDialogueWidget::BuildWordWrap()
 			continue;
 		if (Tok.Topic.IsEmpty())
 		{
-			UTextBlock *W = MakeText(WidgetTree, Tok.Text, 24, bNarration ? PlumSoft : Plum, TEXT("Regular"));
+			UTextBlock *W = MakeText(WidgetTree, Tok.Text, LineSize, bNarration ? PlumSoft : Plum, LineFace);
 			WordWrap->AddChildToWrapBox(W)->SetVerticalAlignment(VAlign_Center);
 		}
 		else
@@ -491,7 +502,7 @@ void UFixHimDialogueWidget::BuildWordWrap()
 			Style.SetNormalPadding(FMargin(0));
 			Style.SetPressedPadding(FMargin(0));
 			B->SetStyle(Style);
-			B->Label = MakeText(WidgetTree, Tok.Text, 24, HotPink, TEXT("Semibold"));
+			B->Label = MakeText(WidgetTree, Tok.Text, LineSize, HotPink, bNarration ? TEXT("Semibold") : LineFace);
 			B->SetCursor(EMouseCursor::Hand);
 			CastChecked<UButtonSlot>(B->AddChild(B->Label))->SetPadding(FMargin(0));
 			B->SetToolTipText(FText::FromString(TEXT("Ask about this")));
@@ -518,7 +529,8 @@ void UFixHimDialogueWidget::BuildWordWrap()
 				{
 					while (End < Next.Len() && FChar::IsWhitespace(Next[End]))
 						++End;
-					auto *Punctuation = MakeText(WidgetTree, Next.Left(End), 24, bNarration ? PlumSoft : Plum);
+					auto *Punctuation =
+					    MakeText(WidgetTree, Next.Left(End), LineSize, bNarration ? PlumSoft : Plum, LineFace);
 					Run->AddChildToHorizontalBox(Punctuation)->SetVerticalAlignment(VAlign_Center);
 					Next.RightChopInline(End);
 				}
@@ -543,7 +555,7 @@ void UFixHimDialogueWidget::BuildChoices()
 		Style.SetNormalPadding(FMargin(52, 9, 32, 21));
 		Style.SetPressedPadding(FMargin(54, 12, 30, 18));
 		B->SetStyle(Style);
-		B->Label = MakeText(WidgetTree, Label, FixHimDesign::Reply, Plum, TEXT("Semibold"));
+		B->Label = MakeText(WidgetTree, Label, FixHimDesign::Reply, Plum, TEXT("Display"));
 		B->Label->SetAutoWrapText(true);
 		B->Label->SetRenderTranslation(FVector2D(0, B->Label->GetFont().Size * .08f));
 		B->Label->SetColorAndOpacity(FSlateColor::UseForeground());
