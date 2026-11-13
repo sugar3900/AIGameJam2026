@@ -78,10 +78,16 @@ void UFixHimHUDWidget::BuildUI()
 	ReticleBox->AddChild(Layers);
 	Ret->AddChildToVerticalBox(ReticleBox)->SetHorizontalAlignment(HAlign_Center);
 
-	PromptPill = WidgetTree->ConstructWidget<UFixHimSurface>();
-	PromptPill->SetBrush(Rounded(Plum, 14.f));
-	PromptPill->SetPadding(FMargin(28, 6, 36, 6 + FixHimDesign::Extrusion));
-	PromptText = MakeText(WidgetTree, TEXT(""), 18, Cream, TEXT("Bold"));
+	// Interaction prompt: its own quiet style, a borderless 50% ink parallelogram with white text. No keyline or
+	// extrusion, so padding is symmetric.
+	UFixHimSurface *Prompt = WidgetTree->ConstructWidget<UFixHimSurface>();
+	Prompt->bBorderless = true;
+	Prompt->BorderlessRadius = 6.f;
+	Prompt->SetBrushColor(FixHimDesign::Ink.CopyWithNewOpacity(.5f));
+	Prompt->SetPadding(FMargin(26, 7, 30, 7));
+	PromptPill = Prompt;
+	PromptText = MakeText(WidgetTree, TEXT(""), 20, FLinearColor::White, TEXT("Semibold"));
+	PromptText->SetRenderTranslation(FVector2D(0, PromptText->GetFont().Size * FixHimDesign::CapCentre));
 	PromptPill->SetContent(PromptText);
 	PromptPill->SetVisibility(ESlateVisibility::Collapsed);
 	// Its own slot, shifted below the reticle, so the reticle stays exactly at screen centre whether or not a prompt shows.

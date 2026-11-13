@@ -57,6 +57,8 @@ class ICANFIXHIM_API UFixHimSurface : public UBorder
 	GENERATED_BODY()
   public:
 	bool bBorderless = false;
+	/** Corner radius of a borderless surface (title backdrop: 22; interaction prompt: small, for crisp corners). */
+	float BorderlessRadius = 22.f;
 	/** Keyline width; raise to FixHimDesign::PopupBorder for popup cards and panels. */
 	float BorderWidth = FixHimDesign::ButtonBorder;
   protected:

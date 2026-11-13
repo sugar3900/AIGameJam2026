@@ -139,7 +139,7 @@ class SDesignBorder : public SBorder
 		const FSlateBrush *B = GetBorderImage();
 		const auto Fill = (B ? B->GetTint(S) : FLinearColor::White) * GetBorderBackgroundColor().GetColor(S);
 		if (Owner.IsValid() && Owner->bBorderless)
-			Shape(Out, L, G, FVector2f(0, 0), FVector2f(G.GetLocalSize()), 22, true, Fill, Fill,
+			Shape(Out, L, G, FVector2f(0, 0), FVector2f(G.GetLocalSize()), Owner->BorderlessRadius, true, Fill, Fill,
 			      S.GetColorAndOpacityTint());
 		else
 			Surface(Out, L, G, Fill, S.GetColorAndOpacityTint(), true, false, false, ShouldBeEnabled(E),
