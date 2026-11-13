@@ -229,6 +229,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
 	FRotator ToggleRotation = FRotator(0.f, 100.f, 0.f);
 
+	/** Toggle animation speed in full transitions per second (3.5 = ~0.3 s; a curtain draw is slower). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable", meta = (ClampMin = "0.001"))
+	float ToggleSpeed = 3.5f;
+
 	/** Shown under the reticle, e.g. "Turn on lamp". */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
 	FText PromptOn = NSLOCTEXT("FixHim", "DefaultPromptOn", "Turn off");
@@ -289,7 +293,7 @@ protected:
 	/** This actor's own outline parts only: every mesh that moves with the body, minus reveal art. */
 	void SetOwnOutlineStencil(bool bOn);
 	void BuildShine();
-	void ApplyToggleAlpha(float Alpha);
+	virtual void ApplyToggleAlpha(float Alpha);
 	void ApplyRevealAlpha(float Alpha);
 	bool IsRevealMesh(const UPrimitiveComponent* Mesh) const;
 	void InitFill();
