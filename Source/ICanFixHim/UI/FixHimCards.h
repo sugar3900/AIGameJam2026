@@ -70,7 +70,6 @@ public:
 
 protected:
 	virtual void BuildUI() override;
-	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 	/** Click outside = Continue (after a short beat, so the click that ended the conversation can't skip it). */
 	virtual bool HandleClickOutside() override;
 
@@ -79,6 +78,4 @@ private:
 	UPROPERTY() TObjectPtr<UTextBlock> Title;
 	UPROPERTY() TObjectPtr<UTextBlock> Body;
 	UPROPERTY() TObjectPtr<UTextBlock> Progress;
-	UPROPERTY() TObjectPtr<UBorder> Card;
-	float Age = 0.f;
 };

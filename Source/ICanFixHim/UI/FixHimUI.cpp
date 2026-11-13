@@ -629,11 +629,14 @@ UVerticalBox *UFixHimWidget::MakeCardScreen(const FString &Title, float Width)
 	Size->SetRenderTransformPivot(FVector2D(.5f, .5f));
 	PopCard = Size;
 	auto *Layout = WidgetTree->ConstructWidget<UFixHimStack>();
+	// Long content (ending text) must not lean past the card's reserve; see UFixHimStack::MaxLean.
+	constexpr float CardMaxLean = 120.f;
+	Layout->MaxLean = CardMaxLean;
 	Card->SetContent(Layout);
 	// A rectangular scroll clip must stay inside both slanted edges. The outer stack
 	// positions its centre; reserve half the maximum body's lean on either side.
 	auto *Bounds = WidgetTree->ConstructWidget<USizeBox>();
-	Bounds->SetMaxDesiredHeight(640);
+	Bounds->SetMaxDesiredHeight(720);
 	auto *Inset = WidgetTree->ConstructWidget<UBorder>();
 	Inset->SetBrushColor(FLinearColor::Transparent);
 	Inset->SetPadding(FMargin(60, 0, 60, 0));
@@ -649,6 +652,7 @@ UVerticalBox *UFixHimWidget::MakeCardScreen(const FString &Title, float Width)
 	Inset->SetContent(Scroll);
 	// A grid stack, so rows of card content step along the 12-degree columns.
 	auto *Col = WidgetTree->ConstructWidget<UFixHimStack>();
+	Col->MaxLean = CardMaxLean;
 	Scroll->AddChild(Col);
 	Layout->AddChildToVerticalBox(Bounds);
 	CardActions = WidgetTree->ConstructWidget<UFixHimStack>();

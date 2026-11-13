@@ -315,11 +315,28 @@ bool FFixHimDesignSystemTest::RunTest(const FString &Parameters)
 	Render(Intro, TEXT("13-character-introduction"), {1920, 1080}, {1920, 1080});
 	auto *Ending = Make.template operator()<UFixHimEndingCardWidget>();
 	Ending->TakeWidget();
+	// The longest authored ending (Malcolm, romance success, ~360 characters), read from the shipped dialogue so
+	// the capture shows the tallest card the game can produce.
+	FString MalcolmJson;
+	TSharedPtr<FJsonObject> Malcolm;
+	TestTrue(TEXT("Load Malcolm's dialogue for the ending card"),
+	         FFileHelper::LoadFileToString(
+	             MalcolmJson, *(FPaths::ProjectContentDir() / TEXT("ICanFixHim/Data/Dialogue/malcolm.json"))) &&
+	             FJsonSerializer::Deserialize(TJsonReaderFactory<>::Create(MalcolmJson), Malcolm) && Malcolm);
+	FHunkDefinition EndingDef;
 	FHunkEnding EndingData;
-	EndingData.Title = TEXT("A little rough around the edges");
-	EndingData.Text = LongReply;
-	Def.Endings.Add(TEXT("friend_success"), EndingData);
-	Ending->Setup(Def, TEXT("friend_success"), 2, 4);
+	if (Malcolm)
+	{
+		const TSharedPtr<FJsonObject> Romance =
+		    Malcolm->GetObjectField(TEXT("endings"))->GetObjectField(TEXT("romance_success"));
+		EndingDef.Id = TEXT("malcolm");
+		EndingDef.Name = Malcolm->GetStringField(TEXT("name"));
+		EndingDef.Malady = Malcolm->GetStringField(TEXT("malady"));
+		EndingData.Title = Romance->GetStringField(TEXT("title"));
+		EndingData.Text = Romance->GetStringField(TEXT("text"));
+	}
+	EndingDef.Endings.Add(TEXT("romance_success"), EndingData);
+	Ending->Setup(EndingDef, TEXT("romance_success"), 2, 4);
 	Render(Ending, TEXT("14-ending-card"), {1920, 1080}, {1920, 1080});
 	auto *Transition = Make.template operator()<UFixHimTransitionWidget>();
 	Transition->TakeWidget();

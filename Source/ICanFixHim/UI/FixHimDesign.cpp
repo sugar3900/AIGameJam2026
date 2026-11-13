@@ -340,16 +340,25 @@ namespace
 {
 class SDesignStack : public SVerticalBox
 {
+  public:
+	float MaxLean = 0.f;
+
   protected:
+	float Step(float Height) const
+	{
+		const float Lean = Height * FixHimDesign::Slant;
+		return MaxLean > 0.f && Lean > MaxLean && Height > 0.f ? MaxLean / Height : FixHimDesign::Slant;
+	}
 	virtual FVector2D ComputeDesiredSize(float Scale) const override
 	{
 		const FVector2D Size = SVerticalBox::ComputeDesiredSize(Scale);
-		return Size + FVector2D(Size.Y * FixHimDesign::Slant, 0);
+		return Size + FVector2D(Size.Y * Step(Size.Y), 0);
 	}
 	virtual void OnArrangeChildren(const FGeometry &G, FArrangedChildren &Children) const override
 	{
 		const FVector2D Size = G.GetLocalSize();
-		const float Inset = Size.Y * FixHimDesign::Slant;
+		const float K = Step(Size.Y);
+		const float Inset = Size.Y * K;
 		FArrangedChildren Base(Children.GetFilter());
 		const FGeometry Inner =
 		    G.MakeChild(FVector2D(FMath::Max(1.f, Size.X - Inset), Size.Y), FSlateLayoutTransform());
@@ -362,7 +371,7 @@ class SDesignStack : public SVerticalBox
 			const FVector2D Pos0 = FVector2D(G.GetAccumulatedLayoutTransform().Inverse().TransformPoint(
 			    Child.Geometry.GetAccumulatedLayoutTransform().GetTranslation()));
 			FVector2D Pos = Pos0;
-			Pos.X += (Size.Y - Pos.Y - Child.Geometry.GetLocalSize().Y * .5f) * FixHimDesign::Slant;
+			Pos.X += (Size.Y - Pos.Y - Child.Geometry.GetLocalSize().Y * .5f) * K;
 			Children.AddWidget(G.MakeChild(Child.Widget, Pos, Child.Geometry.GetLocalSize()));
 		}
 	}
@@ -370,7 +379,9 @@ class SDesignStack : public SVerticalBox
 } // namespace
 TSharedRef<SWidget> UFixHimStack::RebuildWidget()
 {
-	MyVerticalBox = SNew(SDesignStack);
+	TSharedRef<SDesignStack> Stack = SNew(SDesignStack);
+	Stack->MaxLean = MaxLean;
+	MyVerticalBox = Stack;
 	for (UPanelSlot *Slot : Slots)
 		if (auto *V = Cast<UVerticalBoxSlot>(Slot))
 			V->BuildSlot(MyVerticalBox.ToSharedRef());

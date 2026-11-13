@@ -75,6 +75,14 @@ UCLASS()
 class ICANFIXHIM_API UFixHimStack : public UVerticalBox
 {
 	GENERATED_BODY()
+  public:
+	/**
+	 * Most the rows may lean across the whole stack, in units (0 = no limit). Each row is narrowed by the stack's
+	 * total lean, so a tall stack (long wrapped text) would otherwise get narrower, wrap more and grow taller;
+	 * past this the rows step less steeply instead.
+	 */
+	float MaxLean = 0.f;
+
   protected:
 	virtual TSharedRef<SWidget> RebuildWidget() override;
 };

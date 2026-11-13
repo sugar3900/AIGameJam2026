@@ -241,14 +241,14 @@ void UFixHimIntroCardWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 
 void UFixHimEndingCardWidget::BuildUI()
 {
-	UVerticalBox* Col = MakeCardScreen(TEXT(""), 880.f); // wide enough that the grid-stepped title keeps two lines
+	UVerticalBox* Col = MakeCardScreen(TEXT(""), 1040.f); // wide enough that the longest ending (~360 characters) fits without scrolling
 	OpenSfx = NAME_None; // the ending jingle covers it
 	OutsideClickMinAge = 0.8f;
-	Card = CardSurface;
 	Col->ClearChildren();
 
 	Kind = MakeText(WidgetTree, TEXT("ENDING"), 20, Pink, TEXT("Bold"));
 	Kind->SetJustification(ETextJustify::Center);
+	Kind->SetAutoWrapText(true);
 	Col->AddChildToVerticalBox(Kind);
 
 	Title = MakeText(WidgetTree, TEXT("Title"), 44, HotPink, TEXT("Display"));
@@ -297,7 +297,6 @@ void UFixHimEndingCardWidget::Setup(const FHunkDefinition& Def, const FString& E
 	Tally.ReplaceInline(TEXT(" "), TEXT("\u00A0"));
 	const FString Fixed = FString::Printf(TEXT("%s repaired.\n%s"), *Def.Malady, *Tally);
 	Progress->SetText(FText::FromString(FixedCount >= TotalCount ? Fixed + TEXT("\nEvery man in this house has been fixed. Or at least seen. Home sweet home.") : Fixed));
-	Age = 0.f;
 }
 
 bool UFixHimEndingCardWidget::HandleClickOutside()
@@ -308,15 +307,4 @@ bool UFixHimEndingCardWidget::HandleClickOutside()
 		return true;
 	}
 	return false;
-}
-
-void UFixHimEndingCardWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
-{
-	Super::NativeTick(MyGeometry, InDeltaTime);
-	Age += InDeltaTime;
-	if (Card)
-	{
-		const float S=FixHimDesign::ReducedMotion() ? 1.f : FMath::Lerp(.96f,1.f,FMath::Clamp(Age/.2f,0.f,1.f));
-		Card->SetRenderScale(FVector2D(FMath::Max(0.01f, S)));
-	}
 }
