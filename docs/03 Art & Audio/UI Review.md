@@ -9,11 +9,11 @@ date: 2026-11-12
 
 ## Design feedback
 
-- **Surfaces:** corner roundness, orange border weight and lower/right extrusion, ink shadows.
+- **Surfaces:** corner roundness; white keyline with ink depth on teal/pink, orange border and extrusion on cream.
 - **Type and spacing:** display/body hierarchy, action-label sizing, angled columns and padding.
 - **Dialogue:** portrait size, relationship row, reading width and the balance between four replies and visible scene.
-- **Floor plan:** narrow Hall/Closet names wrap at 135% text while room footprints stay accurate. Review whether these should use labels outside the cells.
-- **Interaction:** white focus contour and diamond, pressed depth, transition feel, enlarged text and scrolling.
+- **Floor plan:** narrow rooms now use external name tags that overhang their footprint; room geometry is unchanged.
+- **Interaction:** filled pointer, white contour and lift for keyboard/gamepad focus (hover changes fill only), pressed depth, transition feel, enlarged text and scrolling.
 
 Open `FixHim.DesignSystem` from the development console in PIE or a standalone game to try the component workshop. Use Tab/Shift+Tab, arrows or D-pad to navigate and Enter/gamepad A to activate. Options provides 100–135% UI text size and reduced motion. Closing the workshop restores the previous game/pause state.
 
@@ -21,7 +21,7 @@ Open `FixHim.DesignSystem` from the development console in PIE or a standalone g
 
 [Title and initial Continue focus](../Attachments/UI%20Review/ui-title-final.png) · [Options over the title](../Attachments/UI%20Review/ui-options-final.png) · [Spoken dialogue and topic](../Attachments/UI%20Review/ui-topic-final.png) · [Three replies and focus](../Attachments/UI%20Review/ui-dialogue-final.png) · [Floor plan at 135% text](../Attachments/UI%20Review/ui-floor-plan-large-text.png)
 
-These standalone captures show the UI over the real apartment at 1600×900. Reduced world-rendering settings keep the unattended capture responsive; they are UI composition checks, not environment-art references. Standalone dialogue uses the existing live character portrait; isolated stress cases use the painted portrait assets.
+These standalone captures predate the 2026-11-13 review fixes below and have not been regenerated. They show the UI over the real apartment at 1600×900. Reduced world-rendering settings keep the unattended capture responsive; they are UI composition checks, not environment-art references. Standalone dialogue uses the existing live character portrait; isolated stress cases use the painted portrait assets.
 
 ## Shared components
 
@@ -60,9 +60,30 @@ This combined capacity case pairs the 240-character spoken line with four comple
 
 The isolated captures use transparent space around the widgets; the workshop includes its own backdrop. 720p and 1440p captures scale the same 1920×1080 logical layout, matching the game's DPI policy. Ultrawide uses a wider logical viewport. Enlarged reading areas scroll when their content exceeds the available height.
 
+## Visual review triage (2026-11-13)
+
+An independent visual review compared the captures with the Exploration 01 #7 inspiration and the Foundation 02 slant study. Accepted findings are implemented, and the isolated captures above have been regenerated.
+
+**Fixed**
+- **Dialogue footprint:** the slant inset is no longer reserved twice. Narration collapses the portrait column. The portrait sits at the bottom-left, and replies step along the 12° grid with clear spacing below the line.
+- **Scrolling:** cards have a fixed header, a scrolling body and a fixed action footer. Dialogue scrolls only the line text and keeps all replies visible. Scrollbars use a slim teal thumb inside the face.
+- **Focus:** keyboard/gamepad focus uses a filled pointer, a white contour and a lift. Hover changes only the fill. Checkboxes and sliders have their own focus rings.
+- **Labels:** an optical offset centres display and reply labels in their faces.
+- **Forms:** checkboxes share one rounded box with a teal checked fill and a white check. Sliders show filled and unfilled tracks. Back and Close are secondary actions.
+- **Meters:** neutral tracks; each stat fills in its own color.
+- **Topics:** no gap before punctuation, and the underline matches the word width.
+- **Floor plan:** no mid-word breaks, external tags for narrow rooms, an opaque pink current room and no space before "?". This change builds, but the floor plan has no isolated capture and the live capture has not been regenerated.
+- **Character intro:** one teal band, a framed portrait and a shared Continue prompt.
+- **HUD:** the prompt plate clears the reticle, and control hints hide while the reticle is hidden. The title footer contrast is raised.
+- **Fidelity:** teal and pink surfaces use a white keyline with ink depth; cream keeps orange, matching the approved kit. Title actions have leading Phosphor icons. Continue comes first when a save exists. The title backdrop follows the 12° edge.
+
+**Deferred:** splitting Week and Repairs into separate HUD plates; restructuring the dialogue header into a name-plate/malady/meter strip; rich-text topics.
+
+**Left for the designer:** upright versus slanted bodies on very tall panels; whether the portrait shows when the speaker is already visible; centred versus left-aligned modal copy; a header plate on the week transition.
+
 ## Validation
 
-On 2026-11-12, the UE 5.8 macOS Development Editor build succeeded. Native-window automation completed `FixHim.UI.DesignSystem` and `FixHim.UI.Reticles` successfully. The 24 isolated captures cover 720p, 1080p, 1440p and ultrawide, with options, dialogue and the title tested at 135% text size. The suite checks imported fonts, full authored copy, allocated text heights, keyboard/D-pad traversal, disabled-action skipping, gamepad activation, editable-field navigation and text-size changes on cached screens. Its exported cream swatch matches `#FFF5E5`.
+On 2026-11-13, after the review fixes, the UE 5.8 macOS Development Editor build succeeded. Native-window automation completed `FixHim.UI.DesignSystem` and `FixHim.UI.Reticles` successfully. The 24 isolated captures cover 720p, 1080p, 1440p and ultrawide, with options, dialogue and the title tested at 135% text size. The suite checks imported fonts, full authored copy, allocated text heights, keyboard/D-pad traversal, disabled-action skipping, gamepad activation, editable-field navigation and text-size changes on cached screens. Its exported cream swatch matches `#FFF5E5`.
 
 To regenerate the isolated captures, run `Automation RunTests FixHim.UI` in an editor started on `/Engine/Maps/Entry`. PNGs are written to `Saved/DesignSystem/Review/`. Native-window mode covers macOS input-method activation; `-RenderOffscreen` skips only that OS-context check. The live workshop is opened separately with `FixHim.DesignSystem`.
 

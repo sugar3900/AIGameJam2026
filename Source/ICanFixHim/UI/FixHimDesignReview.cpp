@@ -88,7 +88,7 @@ void UFixHimDesignReviewWidget::BuildUI()
 	Hint->SetAutoWrapText(true);
 	Col->AddChildToVerticalBox(Hint)->SetPadding(FMargin(0, 16));
 	TWeakObjectPtr<UFixHimDesignReviewWidget> Self(this);
-	Col->AddChildToVerticalBox(UFixHimButton::Make(
+	CardActions->AddChildToVerticalBox(UFixHimButton::Make(
 	    WidgetTree, TEXT("Close workshop"),
 	    [Self]() {
 		    if (Self.IsValid())

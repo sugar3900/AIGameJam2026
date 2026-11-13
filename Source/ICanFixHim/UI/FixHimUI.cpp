@@ -24,6 +24,9 @@
 #include "Components/ScrollBox.h"
 #include "Components/EditableTextBox.h"
 #include "Components/ScrollBoxSlot.h"
+#include "Components/HorizontalBox.h"
+#include "Components/HorizontalBoxSlot.h"
+#include "Components/Image.h"
 #include "InputCoreTypes.h"
 
 namespace FixHimUI
@@ -149,7 +152,7 @@ void UFixHimButton::HandleClicked()
 }
 
 UFixHimButton *UFixHimButton::Make(UWidgetTree *Tree, const FString &LabelText, TFunction<void()> InOnClick,
-                                   int32 FontSize, bool bPrimary)
+                                   int32 FontSize, bool bPrimary, const FString &LeadingIcon)
 {
 	using namespace FixHimUI;
 	UFixHimButton *B = Tree->ConstructWidget<UFixHimButton>();
@@ -160,9 +163,26 @@ UFixHimButton *UFixHimButton::Make(UWidgetTree *Tree, const FString &LabelText, 
 	B->Label->SetAutoWrapText(true);
 	B->SetCursor(EMouseCursor::Hand);
 	B->Label->SetJustification(ETextJustify::Center);
-	if (auto *Slot = Cast<UButtonSlot>(B->AddChild(B->Label)))
+	UWidget *Content = B->Label;
+	if (!LeadingIcon.IsEmpty())
 	{
-		Slot->SetPadding(FMargin(32, 8, 38, 24));
+		auto *Row = Tree->ConstructWidget<UHorizontalBox>();
+		auto *Box = Tree->ConstructWidget<USizeBox>();
+		Box->SetWidthOverride(28);
+		Box->SetHeightOverride(28);
+		auto *Icon = FixHimDesign::Icon(Tree, LeadingIcon, FLinearColor::White);
+		Icon->SetColorAndOpacity(FLinearColor::White);
+		// Use foreground tint so icons follow hover, focus and disabled labels.
+		Icon->Brush.TintColor = FSlateColor::UseForeground();
+		Box->AddChild(Icon);
+		Row->AddChildToHorizontalBox(Box)->SetVerticalAlignment(VAlign_Center);
+		Row->AddChildToHorizontalBox(B->Label)->SetPadding(FMargin(16, 0, 0, 0));
+		B->Label->SetJustification(ETextJustify::Left);
+		Content = Row;
+	}
+	if (auto *Slot = Cast<UButtonSlot>(B->AddChild(Content)))
+	{
+		Slot->SetPadding(FMargin(52, 8, 38, 24));
 		Slot->SetHorizontalAlignment(HAlign_Fill);
 	}
 	B->SetVariant(bPrimary);
@@ -196,6 +216,7 @@ void UFixHimSlider::ApplyBigStyle(const FLinearColor &Track, const FLinearColor 
 	// White images, tinted by the bar / handle colours below.
 	FSlateBrush BarBrush = Rounded(FLinearColor::White, Bar * 0.5f);
 	BarBrush.ImageSize = FVector2D(Bar, Bar);
+	BarBrush.DrawAs = ESlateBrushDrawType::NoDrawType;
 	Style.SetNormalBarImage(BarBrush);
 	Style.SetHoveredBarImage(BarBrush);
 	Style.SetDisabledBarImage(BarBrush);
@@ -235,17 +256,12 @@ void UFixHimCheckBox::Init(TFunction<void(bool)> InOnChanged)
 	OnChanged = MoveTemp(InOnChanged);
 	OnCheckStateChanged.AddUniqueDynamic(this, &UFixHimCheckBox::HandleChanged);
 	FCheckBoxStyle Style = GetWidgetStyle();
-	FSlateBrush Empty = FixHimUI::Rounded(FixHimDesign::Cream, 8, FixHimDesign::Teal, 3);
+	FSlateBrush Empty;
 	Empty.ImageSize = FVector2D(32, 32);
-	FSlateBrush Hover = FixHimUI::Rounded(FixHimDesign::Cream, 8, FixHimDesign::Pink, 4);
-	Hover.ImageSize = FVector2D(32, 32);
-	FSlateBrush Check;
-	Check.SetResourceObject(
-	    LoadObject<UTexture2D>(nullptr, TEXT("/Game/ICanFixHim/UI/Design/Icons/T_Icon_check.T_Icon_check")));
-	Check.ImageSize = FVector2D(32, 32);
-	Check.TintColor = FSlateColor(FixHimDesign::Teal);
-	Style.SetUncheckedImage(Empty).SetUncheckedHoveredImage(Hover).SetUncheckedPressedImage(Hover);
-	Style.SetCheckedImage(Check).SetCheckedHoveredImage(Check).SetCheckedPressedImage(Check);
+	Empty.DrawAs = ESlateBrushDrawType::NoDrawType;
+	Style.SetUncheckedImage(Empty).SetUncheckedHoveredImage(Empty).SetUncheckedPressedImage(Empty);
+	Style.SetCheckedImage(Empty).SetCheckedHoveredImage(Empty).SetCheckedPressedImage(Empty);
+	Style.SetForegroundColor(FSlateColor(FLinearColor::White));
 	Style.SetPadding(FMargin(8));
 	SetWidgetStyle(Style);
 }
@@ -428,24 +444,43 @@ UVerticalBox *UFixHimWidget::MakeCardScreen(const FString &Title, float Width)
 	UBorder *Card = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Card->SetBrush(Rounded(Cream, 28.f, Pink, 4.f));
 	Card->SetPadding(FMargin(32, 32, 40, 40));
-	UScrollBox *Scroll = WidgetTree->ConstructWidget<UScrollBox>();
-	Scroll->SetConsumeMouseWheel(EConsumeMouseWheel::WhenScrollingPossible);
-	Scroll->SetAnimateWheelScrolling(false);
 	Size->AddChild(Card);
-	Card->SetContent(Scroll);
-	Size->SetRenderTransformPivot(FVector2D(0.5f, 0.5f));
+	Size->SetRenderTransformPivot(FVector2D(.5f, .5f));
 	PopCard = Size;
-
-	UVerticalBox *Col = WidgetTree->ConstructWidget<UFixHimStack>();
+	auto *Layout = WidgetTree->ConstructWidget<UFixHimStack>();
+	Card->SetContent(Layout);
+	if (!Title.IsEmpty())
+	{
+		auto *Heading = MakeText(WidgetTree, Title.ToUpper(), FixHimDesign::Heading, Cream, TEXT("Display"));
+		Heading->SetJustification(ETextJustify::Center);
+		auto *Header = WidgetTree->ConstructWidget<UFixHimSurface>();
+		Header->SetBrush(Rounded(FixHimDesign::Teal, 12));
+		Header->SetPadding(FMargin(32, 12, 40, 16));
+		Header->SetContent(Heading);
+		Layout->AddChildToVerticalBox(Header)->SetPadding(FMargin(0, 0, 0, 20));
+	}
+	// A rectangular scroll clip must stay inside both slanted edges. The outer stack
+	// positions its centre; reserve half the maximum body's lean on either side.
+	auto *Bounds = WidgetTree->ConstructWidget<USizeBox>();
+	Bounds->SetMaxDesiredHeight(640);
+	auto *Inset = WidgetTree->ConstructWidget<UBorder>();
+	Inset->SetBrushColor(FLinearColor::Transparent);
+	Inset->SetPadding(FMargin(60, 0, 60, 0));
+	Bounds->AddChild(Inset);
+	auto *Scroll = WidgetTree->ConstructWidget<UScrollBox>();
+	Scroll->SetAnimateWheelScrolling(false);
+	Scroll->SetScrollbarThickness(FVector2D(7, 7));
+	FScrollBarStyle BarStyle = Scroll->WidgetBarStyle;
+	BarStyle.SetNormalThumbImage(Rounded(FixHimDesign::Teal, 3));
+	BarStyle.SetHoveredThumbImage(Rounded(FixHimDesign::Pink, 3));
+	BarStyle.SetDraggedThumbImage(Rounded(FixHimDesign::Ink, 3));
+	Scroll->SetWidgetBarStyle(BarStyle);
+	Inset->SetContent(Scroll);
+	auto *Col = WidgetTree->ConstructWidget<UVerticalBox>();
 	Scroll->AddChild(Col);
-
-	UTextBlock *Heading = MakeText(WidgetTree, Title.ToUpper(), FixHimDesign::Heading, Cream, TEXT("Display"));
-	Heading->SetJustification(ETextJustify::Center);
-	UFixHimSurface *Header = WidgetTree->ConstructWidget<UFixHimSurface>();
-	Header->SetBrush(Rounded(FixHimDesign::Teal, 12));
-	Header->SetPadding(FMargin(32, 8, 40, 20));
-	Header->SetContent(Heading);
-	Col->AddChildToVerticalBox(Header)->SetPadding(FMargin(0, 0, 0, 24));
+	Layout->AddChildToVerticalBox(Bounds);
+	CardActions = WidgetTree->ConstructWidget<UFixHimStack>();
+	Layout->AddChildToVerticalBox(CardActions)->SetPadding(FMargin(0, 20, 0, 0));
 	return Col;
 }
 
@@ -506,6 +541,7 @@ void UFixHimButton::SetVariant(EFixHimButtonVariant InVariant)
 		FWidgetTransform Transform;
 		Transform.Shear = Display ? FVector2D(-FMath::RadiansToDegrees(FMath::Atan(FixHimDesign::DisplayShear)), 0)
 		                          : FVector2D::ZeroVector;
+		Transform.Translation.Y = Label->GetFont().Size * .1f;
 		Label->SetRenderTransform(Transform);
 	}
 	if (MyButton)

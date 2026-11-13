@@ -58,7 +58,7 @@ void UFixHimIntroCardWidget::BuildUI()
 		S->SetVerticalAlignment(VAlign_Center);
 		return B;
 	};
-	Band2 = MakeBand(Gold, 380.f, -9.f);
+	// One shared teal contour; no second orange slab.
 	Band = MakeBand(PlumSoft, 330.f, -12.f);
 
 	UHorizontalBox* Row = WidgetTree->ConstructWidget<UHorizontalBox>();
@@ -70,7 +70,10 @@ void UFixHimIntroCardWidget::BuildUI()
 	SilBox->SetWidthOverride(420.f);
 	SilBox->SetHeightOverride(420.f);
 	Silhouette = WidgetTree->ConstructWidget<UImage>();
-	SilBox->AddChild(Silhouette);
+	auto *PortraitFrame=WidgetTree->ConstructWidget<UBorder>();
+	PortraitFrame->SetBrush(Rounded(Plum,20,HotPink,4));
+	PortraitFrame->SetPadding(FMargin(6));
+	SilBox->AddChild(PortraitFrame); PortraitFrame->SetContent(Silhouette);
 	Row->AddChildToHorizontalBox(SilBox)->SetVerticalAlignment(VAlign_Center);
 
 	UVerticalBox* Col = WidgetTree->ConstructWidget<UFixHimStack>();
@@ -92,9 +95,9 @@ void UFixHimIntroCardWidget::BuildUI()
 
 	// "Click to continue" pill near the bottom, fading in once the card has landed.
 	UBorder* HintPill = WidgetTree->ConstructWidget<UFixHimSurface>();
-	HintPill->SetBrush(Rounded(Plum, 18.f));
+	HintPill->SetBrush(Rounded(Cream, 18.f));
 	HintPill->SetPadding(FMargin(28.f, 8.f, 36.f, 24.f));
-	Hint = MakeText(WidgetTree, TEXT("click to continue"), 20, Cream, TEXT("Bold"));
+	Hint = MakeText(WidgetTree, TEXT("Continue  /  Enter"), 22, Plum, TEXT("Display"));
 	HintPill->SetContent(Hint);
 	HintPill->SetVisibility(ESlateVisibility::HitTestInvisible);
 	HintPill->SetRenderOpacity(0.f);
@@ -270,7 +273,7 @@ void UFixHimEndingCardWidget::BuildUI()
 	USizeBox* Box = WidgetTree->ConstructWidget<USizeBox>();
 	Box->SetMinDesiredHeight(72.f);
 	Box->AddChild(UFixHimButton::Make(WidgetTree, TEXT("Continue"), [Self]() { if (Self.IsValid() && Self->GetFixHimPC()) { Self->GetFixHimPC()->CloseEndingCard(); } }, 22, true));
-	Col->AddChildToVerticalBox(Box);
+	CardActions->AddChildToVerticalBox(Box);
 }
 
 void UFixHimEndingCardWidget::Setup(const FHunkDefinition& Def, const FString& EndingId, int32 FixedCount, int32 TotalCount)

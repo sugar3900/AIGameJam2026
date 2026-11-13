@@ -33,6 +33,8 @@ UCLASS()
 class ICANFIXHIM_API UFixHimSurface : public UBorder
 {
 	GENERATED_BODY()
+  public:
+	bool bBorderless = false;
   protected:
 	virtual TSharedRef<SWidget> RebuildWidget() override;
 };

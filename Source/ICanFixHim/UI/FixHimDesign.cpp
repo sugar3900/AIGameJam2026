@@ -14,6 +14,8 @@
 #include "Rendering/SlateRenderer.h"
 #include "Styling/CoreStyle.h"
 #include "Widgets/Input/SButton.h"
+#include "Widgets/Input/SCheckBox.h"
+#include "Widgets/Input/SSlider.h"
 #include "Widgets/Layout/SBorder.h"
 
 namespace
@@ -91,32 +93,47 @@ void Surface(FSlateWindowElementList &Out, int32 Layer, const FGeometry &G, FLin
 		Top = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("E80C70")));
 		Bottom = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("C90055")));
 	}
-	const FVector2f Offset = Pressed ? FVector2f(3, 4) : FVector2f(0, 0);
+	const FVector2f Offset = Pressed ? FVector2f(3, 4) : Focused ? FVector2f(0, -2) : FVector2f(0, 0);
 	Shape(Out, Layer, G, FVector2f(9, 12), FaceSize, R, Slanted, Ink, Ink, Tint);
-	const auto Edge = Enabled ? Orange : DisabledInk;
-	Shape(Out, Layer + 1, G, FVector2f(4, 7), FaceSize, R, Slanted, Edge, Edge, Tint);
+	const bool Reading = Fill.Equals(FixHimDesign::Cream, .015f);
+	const auto Edge = !Enabled ? DisabledInk : Reading ? Orange : FLinearColor::White;
+	const auto Depth = !Enabled ? DisabledInk : Reading ? Orange : Ink;
+	Shape(Out, Layer + 1, G, FVector2f(4, 7), FaceSize, R, Slanted, Depth, Depth, Tint);
 	Shape(Out, Layer + 2, G, Offset, FaceSize, R, Slanted, Focused ? FLinearColor::White : Edge,
 	      Focused ? FLinearColor::White : Edge, Tint);
-	Shape(Out, Layer + 3, G, Offset + FVector2f(3, 3), FaceSize - FVector2f(6, 6), R - 3, Slanted, Top, Bottom, Tint);
+	Shape(Out, Layer + 3, G, Offset + FVector2f(Focused ? 5 : 3, Focused ? 5 : 3),
+	      FaceSize - FVector2f(Focused ? 10 : 6, Focused ? 10 : 6), R - 3, Slanted, Top, Bottom, Tint);
 	if (Focused)
 	{
-		// A visible white diamond is a focus cue independent of fill color.
-		TArray<FVector2f> P = {FVector2f(17, Size.Y * .5f - 4), FVector2f(21, Size.Y * .5f),
-		                       FVector2f(17, Size.Y * .5f + 4), FVector2f(13, Size.Y * .5f),
-		                       FVector2f(17, Size.Y * .5f - 4)};
-		FSlateDrawElement::MakeLines(Out, Layer + 4, G.ToPaintGeometry(), P, ESlateDrawEffect::None,
-		                             FLinearColor::White * Tint, true, 2);
+		// Filled upright pointer follows the slanted left edge and the face's optical centre.
+		const float Y = FaceSize.Y * .5f - 2;
+		const float X = (FaceSize.Y - Y) * FixHimDesign::Slant + 13;
+		TArray<FSlateVertex> V;
+		for (FVector2f P : {FVector2f(X, Y - 8), FVector2f(X + 12, Y), FVector2f(X, Y + 8)})
+			V.Add(FSlateVertex::Make<ESlateVertexRounding::Disabled>(G.GetAccumulatedRenderTransform(), P,
+			                                                         FVector2f(.5f, .5f),
+			                                                         (FLinearColor::White * Tint).ToFColor(true)));
+		TArray<SlateIndex> Indices = {0, 1, 2};
+		FSlateDrawElement::MakeCustomVerts(
+		    Out, Layer + 4,
+		    FSlateApplication::Get().GetRenderer()->GetResourceHandle(*FCoreStyle::Get().GetBrush("WhiteBrush")), V,
+		    Indices, nullptr, 0, 0);
 	}
 }
 class SDesignBorder : public SBorder
 {
   public:
+	TWeakObjectPtr<UFixHimSurface> Owner;
 	virtual int32 OnPaint(const FPaintArgs &A, const FGeometry &G, const FSlateRect &C, FSlateWindowElementList &Out,
 	                      int32 L, const FWidgetStyle &S, bool E) const override
 	{
 		const FSlateBrush *B = GetBorderImage();
 		const auto Fill = (B ? B->GetTint(S) : FLinearColor::White) * GetBorderBackgroundColor().GetColor(S);
-		Surface(Out, L, G, Fill, S.GetColorAndOpacityTint(), true, false, false, ShouldBeEnabled(E));
+		if (Owner.IsValid() && Owner->bBorderless)
+			Shape(Out, L, G, FVector2f(0, 0), FVector2f(G.GetLocalSize()), 22, true, Fill, Fill,
+			      S.GetColorAndOpacityTint());
+		else
+			Surface(Out, L, G, Fill, S.GetColorAndOpacityTint(), true, false, false, ShouldBeEnabled(E));
 		return SCompoundWidget::OnPaint(A, G, C, Out, L + 5, S, E);
 	}
 };
@@ -130,7 +147,7 @@ class SDesignButton : public SButton
 		if (Owner.IsValid() && Owner->bInlineTopic)
 		{
 			const FVector2f Size(G.GetLocalSize());
-			TArray<FVector2f> Line = {FVector2f(2, Size.Y - 2), FVector2f(Size.X - 2, Size.Y - 2)};
+			TArray<FVector2f> Line = {FVector2f(0, Size.Y - 2), FVector2f(Size.X, Size.Y - 2)};
 			FSlateDrawElement::MakeLines(Out, L, G.ToPaintGeometry(), Line, ESlateDrawEffect::None,
 			                             FixHimDesign::Pink * S.GetColorAndOpacityTint(), true,
 			                             HasKeyboardFocus() || IsHovered() ? 3.f : 1.5f);
@@ -139,10 +156,9 @@ class SDesignButton : public SButton
 		if (!Owner.IsValid() || !Owner->bDesignSurface)
 			return SButton::OnPaint(A, G, C, Out, L, S, E);
 		using namespace FixHimDesign;
-		const bool Enabled = ShouldBeEnabled(E),
-		           Focused = Enabled && (HasKeyboardFocus() || IsHovered() || Owner->bSelected);
+		const bool Enabled = ShouldBeEnabled(E), Focused = Enabled && (HasKeyboardFocus() || Owner->bSelected);
 		const bool Pressed = IsPressed() || Owner->bPreviewPressed;
-		const bool Active = Focused || Pressed;
+		const bool Active = Focused || Pressed || (Enabled && IsHovered());
 		const FLinearColor Fill = !Enabled                    ? Disabled
 		                          : Owner->bPrimary || Active ? FixHimDesign::Pink
 		                                                      : FixHimDesign::Cream;
@@ -164,11 +180,65 @@ class SDesignButton : public SButton
 		return SCompoundWidget::OnPaint(A, G, C, Out, L + 5, ChildStyle, Enabled);
 	}
 };
+class SDesignCheckBox : public SCheckBox
+{
+  public:
+	FSlateBrush Glyph;
+	virtual int32 OnPaint(const FPaintArgs &A, const FGeometry &G, const FSlateRect &C, FSlateWindowElementList &Out,
+	                      int32 L, const FWidgetStyle &S, bool E) const override
+	{
+		using namespace FixHimDesign;
+		const bool Focus = HasKeyboardFocus();
+		const FLinearColor Fill = !ShouldBeEnabled(E) ? Disabled : IsChecked() ? Teal : Cream;
+		auto Box = FixHimUI::Rounded(Fill, 7, Focus || IsHovered() ? FixHimDesign::Pink : Teal, Focus ? 4 : 3);
+		FSlateDrawElement::MakeBox(Out, L, G.ToPaintGeometry(FVector2f(32, 32), FSlateLayoutTransform(FVector2f(8, 8))),
+		                           &Box, ESlateDrawEffect::None, Box.GetTint(S) * S.GetColorAndOpacityTint());
+		if (IsChecked())
+			FSlateDrawElement::MakeBox(
+			    Out, L + 1, G.ToPaintGeometry(FVector2f(24, 24), FSlateLayoutTransform(FVector2f(12, 12))), &Glyph,
+			    ESlateDrawEffect::None, FLinearColor::White * S.GetColorAndOpacityTint());
+		if (Focus)
+		{
+			auto Ring = FixHimUI::Rounded(FLinearColor::Transparent, 10, Ink, 2);
+			FSlateDrawElement::MakeBox(Out, L + 2,
+			                           G.ToPaintGeometry(FVector2f(42, 42), FSlateLayoutTransform(FVector2f(3, 3))),
+			                           &Ring, ESlateDrawEffect::None, Ring.GetTint(S) * S.GetColorAndOpacityTint());
+		}
+		return SCheckBox::OnPaint(A, G, C, Out, L + 3, S, E);
+	}
+};
+class SDesignSlider : public SSlider
+{
+  public:
+	virtual int32 OnPaint(const FPaintArgs &A, const FGeometry &G, const FSlateRect &C, FSlateWindowElementList &Out,
+	                      int32 L, const FWidgetStyle &S, bool E) const override
+	{
+		const FVector2f Size(G.GetLocalSize());
+		const float W = FMath::Max(1.f, Size.X - 30), Y = Size.Y * .5f;
+		const auto Tint = S.GetColorAndOpacityTint();
+		Shape(Out, L, G, FVector2f(15, Y - 6), FVector2f(W, 12), 6, false, FixHimDesign::Ink.CopyWithNewOpacity(.15f),
+		      FixHimDesign::Ink.CopyWithNewOpacity(.15f), Tint);
+		Shape(Out, L + 1, G, FVector2f(15, Y - 6),
+		      FVector2f(15 + GetNormalizedValue() * FMath::Max(0.f, Size.X - 60), 12), 6, false, FixHimDesign::Teal,
+		      FixHimDesign::Teal, Tint);
+		if (HasKeyboardFocus())
+		{
+			const float X = 30 + GetNormalizedValue() * FMath::Max(0.f, Size.X - 60);
+			auto Ring = FixHimUI::Rounded(FLinearColor::Transparent, 21, FixHimDesign::Pink, 3);
+			FSlateDrawElement::MakeBox(
+			    Out, L + 2, G.ToPaintGeometry(FVector2f(42, 42), FSlateLayoutTransform(FVector2f(X - 21, Y - 21))),
+			    &Ring, ESlateDrawEffect::None, Ring.GetTint(S) * Tint);
+		}
+		return SSlider::OnPaint(A, G, C, Out, L + 3, S, E);
+	}
+};
 } // namespace
 
 TSharedRef<SWidget> UFixHimSurface::RebuildWidget()
 {
-	MyBorder = SNew(SDesignBorder);
+	auto Border = SNew(SDesignBorder);
+	Border->Owner = this;
+	MyBorder = Border;
 	if (GetChildrenCount())
 		CastChecked<UBorderSlot>(GetContentSlot())->BuildSlot(MyBorder.ToSharedRef());
 	return MyBorder.ToSharedRef();
@@ -199,6 +269,29 @@ TSharedRef<SWidget> UFixHimButton::RebuildWidget()
 	if (GetChildrenCount())
 		CastChecked<UButtonSlot>(GetContentSlot())->BuildSlot(MyButton.ToSharedRef());
 	return MyButton.ToSharedRef();
+}
+TSharedRef<SWidget> UFixHimCheckBox::RebuildWidget()
+{
+	auto Check = SNew(SDesignCheckBox)
+	                 .OnCheckStateChanged(BIND_UOBJECT_DELEGATE(FOnCheckStateChanged, SlateOnCheckStateChangedCallback))
+	                 .Style(&GetWidgetStyle())
+	                 .IsFocusable(true);
+	Check->Glyph.SetResourceObject(
+	    LoadObject<UTexture2D>(nullptr, TEXT("/Game/ICanFixHim/UI/Design/Icons/T_Icon_check.T_Icon_check")));
+	MyCheckbox = Check;
+	return Check;
+}
+TSharedRef<SWidget> UFixHimSlider::RebuildWidget()
+{
+	MySlider = SNew(SDesignSlider)
+	               .Style(&GetWidgetStyle())
+	               .IsFocusable(true)
+	               .OnMouseCaptureBegin(BIND_UOBJECT_DELEGATE(FSimpleDelegate, HandleOnMouseCaptureBegin))
+	               .OnMouseCaptureEnd(BIND_UOBJECT_DELEGATE(FSimpleDelegate, HandleOnMouseCaptureEnd))
+	               .OnControllerCaptureBegin(BIND_UOBJECT_DELEGATE(FSimpleDelegate, HandleOnControllerCaptureBegin))
+	               .OnControllerCaptureEnd(BIND_UOBJECT_DELEGATE(FSimpleDelegate, HandleOnControllerCaptureEnd))
+	               .OnValueChanged(BIND_UOBJECT_DELEGATE(FOnFloatValueChanged, HandleOnValueChanged));
+	return MySlider.ToSharedRef();
 }
 namespace FixHimDesign
 {

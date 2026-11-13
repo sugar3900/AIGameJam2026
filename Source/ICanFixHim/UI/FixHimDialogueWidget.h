@@ -83,6 +83,7 @@ private:
 	UPROPERTY() TObjectPtr<UTextBlock> TypingText;
 	UPROPERTY() TObjectPtr<UWrapBox> WordWrap;
 	UPROPERTY() TObjectPtr<UVerticalBox> ChoiceBox;
+	UPROPERTY() TObjectPtr<USizeBox> LineBounds;
 	UPROPERTY() TObjectPtr<UTextBlock> ContinueHint;
 	UPROPERTY() TObjectPtr<UProgressBar> RomanceBar;
 	UPROPERTY() TObjectPtr<UProgressBar> FriendBar;

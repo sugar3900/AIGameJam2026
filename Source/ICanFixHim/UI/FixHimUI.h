@@ -78,7 +78,7 @@ class ICANFIXHIM_API UFixHimButton : public UButton
 
 	/** Builds a styled pill button with a centred label. */
 	static UFixHimButton *Make(UWidgetTree *Tree, const FString &Label, TFunction<void()> OnClick, int32 FontSize = 22,
-	                           bool bPrimary = true);
+	                           bool bPrimary = true, const FString &LeadingIcon = FString());
 
 	UPROPERTY() TObjectPtr<UTextBlock> Label;
 	bool bDesignSurface = false;
@@ -119,6 +119,9 @@ class ICANFIXHIM_API UFixHimSlider : public USlider
 	void ApplyBigStyle(const FLinearColor &Track, const FLinearColor &Handle);
 	static constexpr float BigHitHeight = 48.f;
 
+  protected:
+	virtual TSharedRef<SWidget> RebuildWidget() override;
+
   private:
 	UFUNCTION()
 	void HandleChanged(float NewValue);
@@ -134,6 +137,9 @@ class ICANFIXHIM_API UFixHimCheckBox : public UCheckBox
 
   public:
 	void Init(TFunction<void(bool)> InOnChanged);
+
+  protected:
+	virtual TSharedRef<SWidget> RebuildWidget() override;
 
   private:
 	UFUNCTION()
@@ -196,6 +202,9 @@ class ICANFIXHIM_API UFixHimWidget : public UUserWidget
 	UPROPERTY() TObjectPtr<UWidget> InitialFocusTarget;
 
 	virtual FReply NativeOnMouseButtonDown(const FGeometry &InGeometry, const FPointerEvent &InMouseEvent) override;
+
+	/** Fixed actions outside the scrolling card body. */
+	UPROPERTY() TObjectPtr<UVerticalBox> CardActions;
 
 	/** A centred rounded card with a title, returned content box for children. */
 	UVerticalBox *MakeCardScreen(const FString &Title, float Width = 520.f);

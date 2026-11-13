@@ -83,7 +83,7 @@ void UFixHimHUDWidget::BuildUI()
 	PromptPill->SetContent(PromptText);
 	PromptPill->SetVisibility(ESlateVisibility::Collapsed);
 	// Its own slot, shifted below the reticle, so the reticle stays exactly at screen centre whether or not a prompt shows.
-	PromptPill->SetRenderTranslation(FVector2D(0.f, Settings->ReticleSize * 0.5f + 20.f));
+	PromptPill->SetRenderTranslation(FVector2D(0.f, Settings->ReticleSize * 0.5f + 56.f));
 	UOverlaySlot* PromptSlot = Root->AddChildToOverlay(PromptPill);
 	PromptSlot->SetHorizontalAlignment(HAlign_Center);
 	PromptSlot->SetVerticalAlignment(VAlign_Center);
@@ -113,6 +113,7 @@ void UFixHimHUDWidget::BuildUI()
 
 	// ---- Controls hint (bottom left) ----
 	UTextBlock* Hint = MakeText(WidgetTree, TEXT("WASD move   Mouse look   Click interact   M floor plan   Esc pause   Bed or door = end the day"), 15, FLinearColor(1.f, 1.f, 1.f, 0.75f));
+	ControlHint=Hint;
 	Hint->SetShadowOffset(FVector2D(1.f, 1.f));
 	Hint->SetShadowColorAndOpacity(FLinearColor(0.f, 0.f, 0.f, 0.7f));
 	UOverlaySlot* HintSlot = Root->AddChildToOverlay(Hint);
@@ -155,6 +156,7 @@ void UFixHimHUDWidget::SetReticle(bool bVisible, EFixHimInteractionAction Action
 	TickReticle(bVisible && bWasVisible ? 0.f : -1.f);
 	PromptPill->SetVisibility(bVisible && Action != EFixHimInteractionAction::None && !Prompt.IsEmpty() ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
 	PromptText->SetText(Prompt);
+	if(ControlHint) ControlHint->SetVisibility(bVisible ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
 }
 
 void UFixHimHUDWidget::TickReticle(float DeltaSeconds)
