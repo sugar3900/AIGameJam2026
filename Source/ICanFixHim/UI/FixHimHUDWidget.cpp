@@ -83,11 +83,15 @@ void UFixHimHUDWidget::BuildUI()
 	UFixHimSurface *Prompt = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Prompt->bBorderless = true;
 	Prompt->BorderlessRadius = 6.f;
-	Prompt->SetBrushColor(FixHimDesign::Ink.CopyWithNewOpacity(.5f));
+	Prompt->SetBrushColor(FixHimDesign::Ink.CopyWithNewOpacity(.25f));
 	Prompt->SetPadding(FMargin(26, 7, 30, 7));
 	PromptPill = Prompt;
 	PromptText = MakeText(WidgetTree, TEXT(""), 20, FLinearColor::White, TEXT("Semibold"));
 	PromptText->SetRenderTranslation(FVector2D(0, PromptText->GetFont().Size * FixHimDesign::CapCentre));
+	// Solid ink drop shadow keeps the white text legible over bright parts of the room; offset follows the
+	// extrusion rule (down, half that across).
+	PromptText->SetShadowColorAndOpacity(FixHimDesign::Ink);
+	PromptText->SetShadowOffset(FVector2D(1.f, 2.f));
 	PromptPill->SetContent(PromptText);
 	PromptPill->SetVisibility(ESlateVisibility::Collapsed);
 	// Its own slot, shifted below the reticle, so the reticle stays exactly at screen centre whether or not a prompt shows.
