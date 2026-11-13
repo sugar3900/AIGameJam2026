@@ -130,11 +130,14 @@ void UFixHimHUDWidget::BuildUI()
 	UFixHimSurface *RepPill = WidgetTree->ConstructWidget<UFixHimSurface>();
 	RepPill->SetBrush(Rounded(Pink, 18.f));
 	RepPill->SetPadding(FMargin(24, 8, 32, 8 + FixHimDesign::Extrusion));
-	UVerticalBox *RepCol = WidgetTree->ConstructWidget<UVerticalBox>();
+	// A 12-degree stack, so the small label steps right along the slant like the badge's face above the count.
+	UVerticalBox *RepCol = WidgetTree->ConstructWidget<UFixHimStack>();
 	UTextBlock *RepLabel = MakeText(WidgetTree, TEXT("Repairs"), 18, FLinearColor::White, TEXT("Display"));
 	RepCol->AddChildToVerticalBox(RepLabel)->SetHorizontalAlignment(HAlign_Center);
 	RepairsText = MakeText(WidgetTree, TEXT("0/0"), 40, FLinearColor::White, TEXT("Display"));
-	RepCol->AddChildToVerticalBox(RepairsText)->SetPadding(FMargin(0, -10, 0, 0));
+	UVerticalBoxSlot *CountSlot = RepCol->AddChildToVerticalBox(RepairsText);
+	CountSlot->SetPadding(FMargin(0, -10, 0, 0));
+	CountSlot->SetHorizontalAlignment(HAlign_Center);
 	RepPill->SetContent(RepCol);
 	// Negative lead overlaps the week plate; added second so it draws on top.
 	UHorizontalBoxSlot *RepSlotH = Progress->AddChildToHorizontalBox(RepPill);
