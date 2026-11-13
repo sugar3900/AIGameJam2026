@@ -59,7 +59,10 @@ private:
 	UPROPERTY() TObjectPtr<UBorder> PromptPill;
 	UPROPERTY() TObjectPtr<UTextBlock> RoomText;
 	UPROPERTY() TObjectPtr<UBorder> RoomPill;
+	/** Repairs count ("2/4") on the pink repairs badge. */
 	UPROPERTY() TObjectPtr<UTextBlock> RepairsText;
+	UPROPERTY() TObjectPtr<UTextBlock> WeekText;
+	UPROPERTY() TObjectPtr<UWidget> WeekPill;
 	UPROPERTY() TObjectPtr<UBorder> ToastPill;
 	UPROPERTY() TObjectPtr<UTextBlock> ToastText;
 

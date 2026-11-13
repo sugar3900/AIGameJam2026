@@ -89,7 +89,8 @@ FButtonStyle ButtonStyle(const FLinearColor &Normal, const FLinearColor &Hovered
 	Style.SetDisabled(Rounded(FixHimDesign::Disabled, Radius, FixHimDesign::DisabledInk, 2));
 	Style.SetDisabledForeground(FSlateColor(FixHimDesign::DisabledInk));
 	Style.SetNormalPadding(FMargin(0));
-	Style.SetPressedPadding(FMargin(3, 4, -3, -4)); // follows the face's press offset
+	const FVector2f Press = FixHimDesign::DepthOffset(FixHimDesign::ButtonBorder);
+	Style.SetPressedPadding(FMargin(Press.X, Press.Y, -Press.X, -Press.Y)); // follows the face's press offset
 	return Style;
 }
 
@@ -432,7 +433,8 @@ void UFixHimWidget::NativeTick(const FGeometry &MyGeometry, float InDeltaTime)
 namespace
 {
 // Surface faces leave this much of their box for the extrusion and shadow (see FixHimDesign Surface()).
-constexpr float DepthX = 12.f, DepthY = 15.f;
+constexpr float PlateDepthX = FixHimDesign::DepthReserveX(FixHimDesign::ButtonBorder),
+                PlateDepthY = FixHimDesign::DepthReserveY(FixHimDesign::ButtonBorder);
 
 } // namespace
 
@@ -485,7 +487,7 @@ void UFixHimWidget::SyncHeaderLayouts()
 		const bool bShown = Header->GetVisibility() != ESlateVisibility::Collapsed;
 		float HeaderH = bShown ? Header->GetDesiredSize().Y : 0.f;
 		if (bShown && HeaderH <= 0)
-			HeaderH = 28.f + 1.25f * FixHimDesign::Heading * FixHimDesign::TextScale() + DepthY;
+			HeaderH = 28.f + 1.25f * FixHimDesign::Heading * FixHimDesign::TextScale() + PlateDepthY;
 		float SurfaceH = Surface->GetCachedGeometry().GetLocalSize().Y;
 		if (SurfaceH <= 0)
 			SurfaceH = Surface->GetDesiredSize().Y;
@@ -493,7 +495,11 @@ void UFixHimWidget::SyncHeaderLayouts()
 		if (Measured.Equals(L.Measured, .5))
 			continue;
 		L.Measured = Measured;
-		const float PlateFace = FMath::Max(0.f, HeaderH - DepthY), Drop = PlateFace * .5f;
+		const float PlateFace = FMath::Max(0.f, HeaderH - PlateDepthY), Drop = PlateFace * .5f;
+		const auto *DesignSurface = Cast<UFixHimSurface>(Surface);
+		const float SurfaceBorder = DesignSurface ? DesignSurface->BorderWidth : FixHimDesign::ButtonBorder;
+		const float SurfaceDepthX = FixHimDesign::DepthReserveX(SurfaceBorder),
+		            SurfaceDepthY = FixHimDesign::DepthReserveY(SurfaceBorder);
 		if (auto *SurfaceSlot = Cast<UOverlaySlot>(Surface->Slot))
 			SurfaceSlot->SetPadding(FMargin(0, Drop, 0, 0));
 		FMargin P = L.Padding;
@@ -501,10 +507,10 @@ void UFixHimWidget::SyncHeaderLayouts()
 			P.Top += HeaderH - Drop;
 		Surface->SetPadding(P);
 		// Both faces lean 12 degrees. At the plate's mid-height (the surface's top edge) the surface face spans
-		// [FaceH*K, BoxW-DepthX] and the plate face spans [Left + PlateFace*K/2, Left + PlateW - DepthX - PlateFace*K/2].
-		const float SurfaceFace = FMath::Max(0.f, SurfaceH - DepthY);
+		// [FaceH*K, BoxW-SurfaceDepthX] and the plate face spans [Left + Drop*K, Left + PlateW - PlateDepthX - Drop*K].
+		const float SurfaceFace = FMath::Max(0.f, SurfaceH - SurfaceDepthY);
 		const float Left = SurfaceFace * K + L.Inset - Drop * K;
-		const float Right = L.Inset - Drop * K;
+		const float Right = L.Inset - Drop * K + (SurfaceDepthX - PlateDepthX);
 		if (auto *HeaderSlot = Cast<UOverlaySlot>(Header->Slot))
 			HeaderSlot->SetPadding(FMargin(Left, 0, Right, 0));
 	}

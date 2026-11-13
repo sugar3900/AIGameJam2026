@@ -489,7 +489,8 @@ void UFixHimDialogueWidget::BuildChoices()
 		B->SetVariant(EFixHimButtonVariant::Reply);
 		FButtonStyle Style = ButtonStyle(Cream, Pink, Pink, 12, Gold);
 		Style.SetNormalPadding(FMargin(52, 17, 32, 17 + FixHimDesign::Extrusion));
-		Style.SetPressedPadding(FMargin(55, 21, 29, 13 + FixHimDesign::Extrusion));
+		const FVector2f Press = FixHimDesign::DepthOffset(FixHimDesign::ButtonBorder);
+		Style.SetPressedPadding(FMargin(52 + Press.X, 17 + Press.Y, 32 - Press.X, 17 - Press.Y + FixHimDesign::Extrusion));
 		B->SetStyle(Style);
 		B->Label = MakeText(WidgetTree, Label, FixHimDesign::Reply, Plum, TEXT("Display"));
 		B->Label->SetAutoWrapText(true);

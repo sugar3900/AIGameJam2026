@@ -15,6 +15,8 @@
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
+#include "Components/HorizontalBox.h"
+#include "Components/HorizontalBoxSlot.h"
 
 using namespace FixHimUI;
 
@@ -88,25 +90,64 @@ void UFixHimHUDWidget::BuildUI()
 	PromptSlot->SetHorizontalAlignment(HAlign_Center);
 	PromptSlot->SetVerticalAlignment(VAlign_Center);
 
-	// ---- Room name (top left) ----
+	auto IconBox = [&](const TCHAR *Name, float Size) {
+		USizeBox *Box = WidgetTree->ConstructWidget<USizeBox>();
+		Box->SetWidthOverride(Size);
+		Box->SetHeightOverride(Size);
+		Box->AddChild(FixHimDesign::Icon(WidgetTree, Name, FLinearColor::White));
+		return Box;
+	};
+	auto CapLift = [](UTextBlock *T) { T->SetRenderTranslation(FVector2D(0, T->GetFont().Size * FixHimDesign::CapCentre)); };
+
+	// ---- Room name (top left): pink plate with a wrench, as in the show-graphics mock-up ----
 	RoomPill = WidgetTree->ConstructWidget<UFixHimSurface>();
-	RoomPill->SetBrush(Rounded(FixHimDesign::Teal, 18.f));
-	RoomPill->SetPadding(FMargin(32, 8, 40, 8 + FixHimDesign::Extrusion));
-	RoomText = MakeText(WidgetTree, TEXT(""), 26, Cream, TEXT("Display"));
-	RoomPill->SetContent(RoomText);
+	RoomPill->SetBrush(Rounded(Pink, 18.f));
+	RoomPill->SetPadding(FMargin(30, 8, 40, 8 + FixHimDesign::Extrusion));
+	UHorizontalBox *RoomRow = WidgetTree->ConstructWidget<UHorizontalBox>();
+	RoomRow->AddChildToHorizontalBox(IconBox(TEXT("wrench"), 30))->SetVerticalAlignment(VAlign_Center);
+	RoomText = MakeText(WidgetTree, TEXT(""), 30, FLinearColor::White, TEXT("Display"));
+	CapLift(RoomText);
+	UHorizontalBoxSlot *RoomTextSlot = RoomRow->AddChildToHorizontalBox(RoomText);
+	RoomTextSlot->SetVerticalAlignment(VAlign_Center);
+	RoomTextSlot->SetPadding(FMargin(14, 0, 0, 0));
+	RoomPill->SetContent(RoomRow);
 	UOverlaySlot* RoomSlot = Root->AddChildToOverlay(RoomPill);
 	RoomSlot->SetHorizontalAlignment(HAlign_Left);
 	RoomSlot->SetVerticalAlignment(VAlign_Top);
 	RoomSlot->SetPadding(FMargin(28.f, 24.f));
 	RoomPill->SetVisibility(ESlateVisibility::Collapsed);
 
-	// ---- Repairs (top right) ----
-	UBorder* RepPill = WidgetTree->ConstructWidget<UFixHimSurface>();
-	RepPill->SetBrush(Rounded(FixHimDesign::Teal, 18.f));
-	RepPill->SetPadding(FMargin(32, 8, 40, 8 + FixHimDesign::Extrusion));
-	RepairsText = MakeText(WidgetTree, TEXT("Repairs 0/0"), 18, Cream, TEXT("Bold"));
-	RepPill->SetContent(RepairsText);
-	UOverlaySlot* RepSlot = Root->AddChildToOverlay(RepPill);
+	// ---- Week + repairs (top right): cream week plate tucked under a pink repairs badge ----
+	UHorizontalBox *Progress = WidgetTree->ConstructWidget<UHorizontalBox>();
+	UFixHimSurface *Week = WidgetTree->ConstructWidget<UFixHimSurface>();
+	Week->SetBrush(Rounded(Cream, 16.f));
+	// Extra right padding sits under the badge's overlap.
+	Week->SetPadding(FMargin(28, 8, 56, 8 + FixHimDesign::Extrusion));
+	WeekText = MakeText(WidgetTree, TEXT(""), 28, Plum, TEXT("Display"));
+	CapLift(WeekText);
+	Week->SetContent(WeekText);
+	WeekPill = Week;
+	Week->SetVisibility(ESlateVisibility::Collapsed);
+	Progress->AddChildToHorizontalBox(Week)->SetVerticalAlignment(VAlign_Center);
+	UFixHimSurface *RepPill = WidgetTree->ConstructWidget<UFixHimSurface>();
+	RepPill->SetBrush(Rounded(Pink, 18.f));
+	RepPill->SetPadding(FMargin(24, 8, 32, 8 + FixHimDesign::Extrusion));
+	UHorizontalBox *RepRow = WidgetTree->ConstructWidget<UHorizontalBox>();
+	RepRow->AddChildToHorizontalBox(IconBox(TEXT("house"), 34))->SetVerticalAlignment(VAlign_Center);
+	UVerticalBox *RepCol = WidgetTree->ConstructWidget<UVerticalBox>();
+	UTextBlock *RepLabel = MakeText(WidgetTree, TEXT("Repairs"), 18, FLinearColor::White, TEXT("Display"));
+	RepCol->AddChildToVerticalBox(RepLabel)->SetHorizontalAlignment(HAlign_Center);
+	RepairsText = MakeText(WidgetTree, TEXT("0/0"), 40, FLinearColor::White, TEXT("Display"));
+	RepCol->AddChildToVerticalBox(RepairsText)->SetPadding(FMargin(0, -10, 0, 0));
+	UHorizontalBoxSlot *RepColSlot = RepRow->AddChildToHorizontalBox(RepCol);
+	RepColSlot->SetVerticalAlignment(VAlign_Center);
+	RepColSlot->SetPadding(FMargin(12, 0, 0, 0));
+	RepPill->SetContent(RepRow);
+	// Negative lead overlaps the week plate; added second so it draws on top.
+	UHorizontalBoxSlot *RepSlotH = Progress->AddChildToHorizontalBox(RepPill);
+	RepSlotH->SetVerticalAlignment(VAlign_Center);
+	RepSlotH->SetPadding(FMargin(-30, 0, 0, 0));
+	UOverlaySlot* RepSlot = Root->AddChildToOverlay(Progress);
 	RepSlot->SetHorizontalAlignment(HAlign_Right);
 	RepSlot->SetVerticalAlignment(VAlign_Top);
 	RepSlot->SetPadding(FMargin(28.f, 24.f));
@@ -218,8 +259,13 @@ void UFixHimHUDWidget::SetRepairs(int32 Fixed, int32 Total, int32 Week, int32 Nu
 {
 	if (RepairsText)
 	{
-		const FString WeekText = Week > 0 && Week <= NumWeeks ? FString::Printf(TEXT("Week %d of %d   "), Week, NumWeeks) : FString();
-		RepairsText->SetText(FText::FromString(FString::Printf(TEXT("%sRepairs  %d / %d"), *WeekText, Fixed, Total)));
+		RepairsText->SetText(FText::FromString(FString::Printf(TEXT("%d/%d"), Fixed, Total)));
+	}
+	if (WeekText && WeekPill)
+	{
+		const bool bWeek = Week > 0 && Week <= NumWeeks;
+		WeekText->SetText(bWeek ? FText::FromString(FString::Printf(TEXT("Week %d of %d"), Week, NumWeeks)) : FText::GetEmpty());
+		WeekPill->SetVisibility(bWeek ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
 	}
 }
 

@@ -24,11 +24,20 @@ inline constexpr float DisplayShear = 0.0897720008f; // tan(12) - tan(7)
 /** Keyline (outline) widths. Buttons and plates use ButtonBorder; popup cards and panels use twice that. */
 inline constexpr float ButtonBorder = 6.f, PopupBorder = 12.f;
 /**
- * Vertical centring on slanted surfaces. The face excludes a 15-unit extrusion at the bottom, so text is centred
- * when bottom padding = top padding + Extrusion. Barlow's line box (ascender 1.0 em, descender 0.2 em) puts the
- * capitals' centre 0.05 em below the box centre; CapCentre lifts labels by that much.
+ * The extrusion (coloured depth plus ink shadow) matches the keyline: it reaches Border units down and half that
+ * sideways, so buttons and plates get half the popups' depth. Depth layer at (7B/24, 7B/12), shadow at (B/2, B);
+ * the face leaves DepthReserve(B) of its box for them.
  */
-inline constexpr float Extrusion = 15.f, CapCentre = -.05f;
+inline FVector2f DepthOffset(float Border) { return FVector2f(Border * 7.f / 24.f, Border * 7.f / 12.f); }
+inline FVector2f ShadowOffset(float Border) { return FVector2f(Border * .5f, Border); }
+inline constexpr float DepthReserveX(float Border) { return Border * .5f + 3.f; }
+inline constexpr float DepthReserveY(float Border) { return Border + 3.f; }
+/**
+ * Vertical centring on slanted surfaces: the face excludes the extrusion reserve at the bottom, so text is centred
+ * when bottom padding = top padding + Extrusion (button-weight plates). Barlow's line box (ascender 1.0 em,
+ * descender 0.2 em) puts the capitals' centre 0.05 em below the box centre; CapCentre lifts labels by that much.
+ */
+inline constexpr float Extrusion = DepthReserveY(ButtonBorder), CapCentre = -.05f;
 inline constexpr float HitHeight = 48.f;
 inline constexpr int32 Caption = 16, Body = 22, Line = 28, Reply = 28, Label = 24, Heading = 36, Hero = 72;
 ICANFIXHIM_API bool ReducedMotion();

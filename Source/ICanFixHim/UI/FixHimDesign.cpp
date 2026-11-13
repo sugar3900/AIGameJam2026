@@ -81,7 +81,7 @@ void Surface(FSlateWindowElementList &Out, int32 Layer, const FGeometry &G, FLin
 	using namespace FixHimDesign;
 	const FVector2f Size(G.GetLocalSize());
 	const float R = Size.Y > 140 ? 22.f : 12.f;
-	const FVector2f FaceSize = Size - FVector2f(12, 15);
+	const FVector2f FaceSize = Size - FVector2f(DepthReserveX(Keyline), DepthReserveY(Keyline));
 	FLinearColor Top = Fill, Bottom = Fill;
 	if (Fill.Equals(Teal, .015f))
 	{
@@ -93,12 +93,13 @@ void Surface(FSlateWindowElementList &Out, int32 Layer, const FGeometry &G, FLin
 		Top = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("E80C70")));
 		Bottom = FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("C90055")));
 	}
-	const FVector2f Offset = Pressed ? FVector2f(3, 4) : Focused ? FVector2f(0, -2) : FVector2f(0, 0);
-	Shape(Out, Layer, G, FVector2f(9, 12), FaceSize, R, Slanted, Ink, Ink, Tint);
+	// Pressing pushes the face down onto its depth layer.
+	const FVector2f Offset = Pressed ? DepthOffset(Keyline) : Focused ? FVector2f(0, -2) : FVector2f(0, 0);
+	Shape(Out, Layer, G, ShadowOffset(Keyline), FaceSize, R, Slanted, Ink, Ink, Tint);
 	const bool Reading = Fill.Equals(FixHimDesign::Cream, .015f);
 	const auto Edge = !Enabled ? DisabledInk : Reading ? Orange : FLinearColor::White;
 	const auto Depth = !Enabled ? DisabledInk : Reading ? Orange : Ink;
-	Shape(Out, Layer + 1, G, FVector2f(4, 7), FaceSize, R, Slanted, Depth, Depth, Tint);
+	Shape(Out, Layer + 1, G, DepthOffset(Keyline), FaceSize, R, Slanted, Depth, Depth, Tint);
 	Shape(Out, Layer + 2, G, Offset, FaceSize, R, Slanted, Focused ? FLinearColor::White : Edge,
 	      Focused ? FLinearColor::White : Edge, Tint);
 	// Keyline only: the face is inset by the border width; the extrusion and shadow keep their size.
