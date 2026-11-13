@@ -71,7 +71,7 @@ void UFixHimDesignReviewWidget::BuildUI()
 	R->AddChildToHorizontalBox(MakeText(WidgetTree, TEXT("Checked"), 22, Plum))->SetVerticalAlignment(VAlign_Center);
 	Section(TEXT("PHOSPHOR BOLD / ONE WEIGHT, UPRIGHT GEOMETRY"));
 	R = Row();
-	for (const TCHAR *Name : {TEXT("heart"), TEXT("users"), TEXT("lightning"), TEXT("wrench"), TEXT("house"),
+	for (const TCHAR *Name : {TEXT("heart"), TEXT("users"), TEXT("flame"), TEXT("wrench"), TEXT("house"),
 	                          TEXT("gear"), TEXT("eye"), TEXT("chat_circle_text")})
 	{
 		auto *I = FixHimDesign::Icon(WidgetTree, Name, PlumSoft);

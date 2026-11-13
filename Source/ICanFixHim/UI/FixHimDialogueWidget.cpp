@@ -133,7 +133,7 @@ void UFixHimDialogueWidget::BuildUI()
 	};
 	RomanceBar = AddMeter(TEXT("Romance"), TEXT("heart"), HotPink);
 	FriendBar = AddMeter(TEXT("Friendship"), TEXT("users"), Mint);
-	FrictionBar = AddMeter(TEXT("Friction"), TEXT("lightning"), Ember);
+	FrictionBar = AddMeter(TEXT("Friction"), TEXT("flame"), Ember);
 	MetersBox = Strip;
 	UHorizontalBoxSlot *StripSlot = StripRow->AddChildToHorizontalBox(Strip);
 	StripSlot->SetSize(FSlateChildSize(ESlateSizeRule::Fill));

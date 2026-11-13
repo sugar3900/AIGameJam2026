@@ -61,7 +61,7 @@ Stock Slate button behavior still handles pointer capture, keyboard/gamepad acti
 
 Shared components are used by title/name entry, pause/options/credits, end-day confirmation, dialogue, ending cards, HUD labels, radio captions, character introductions, transitions and keepsakes. The floor plan keeps actual runtime room rectangles and applies the selected palette to its surrounding sheet and statuses.
 
-Dialogue retains its typewriter, clickable topic callbacks and authored choices. The header row (name plate and a teal meter strip whose bars carry Phosphor heart/users/lightning icon badges) straddles the panel via `MakeHeaderedSurface`; narration and generic script scenes hide the relationship group. Four replies stack and wrap. Dialogue has no portrait. Character introductions use visible painted portraits where available.
+Dialogue retains its typewriter, clickable topic callbacks and authored choices. The header row (name plate and a teal meter strip whose bars carry Phosphor heart/users/flame icon badges) straddles the panel via `MakeHeaderedSurface`; narration and generic script scenes hide the relationship group. Four replies stack and wrap. Dialogue has no portrait. Character introductions use visible painted portraits where available.
 
 Keyline width comes from `FixHimDesign::ButtonBorder` (6) and `PopupBorder` (12); set `UFixHimSurface::BorderWidth` for large containers. To centre text on a surface, use `bottom = top + FixHimDesign::Extrusion` padding and fill (not centre) alignment for button content: Slate's centred slot alignment ignores asymmetric padding and would lift labels by half the extrusion. `FixHimDesign::CapCentre` (-0.05 em) centres capitals rather than the line box.
 

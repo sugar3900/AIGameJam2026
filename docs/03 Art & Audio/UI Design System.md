@@ -89,9 +89,9 @@ Complete state designs, hit targets, responsive layout and contrast still need v
 
 Use **Phosphor Bold** consistently, with upright geometry and aligned optical sizes. Do not mix arbitrary weights or shear icons to match panel edges.
 
-The [local SVG library and MIT license](../../Art%20Source/UI%20Concepts/Selected%2007/Foundation%2002/Icons/Phosphor/) includes heart, users, lightning, wrench, house, door-open, gear, play, check, info, eye, chat-circle-text, hand-pointing, moon, x-circle and cursor.
+The [local SVG library and MIT license](../../Art%20Source/UI%20Concepts/Selected%2007/Foundation%2002/Icons/Phosphor/) includes heart, users, flame, lightning, wrench, house, door-open, gear, play, check, info, eye, chat-circle-text, hand-pointing, moon, x-circle and cursor.
 
-Relationship mapping: heart/pink for romance, users/cool teal for friendship, lightning/orange for friction. Keep labels so meaning does not depend on color alone.
+Relationship mapping: heart/pink for romance, users/cool teal for friendship, flame/orange for friction (lightning read too much like "energy"). The dialogue meters show icon badges without text labels, so each icon must carry its meaning on its own alongside its color.
 
 ## Reticles — finalized selection and behavior
 
