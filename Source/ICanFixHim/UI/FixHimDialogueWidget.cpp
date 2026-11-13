@@ -61,8 +61,9 @@ void UFixHimDialogueWidget::BuildUI()
 	PanelSlot->SetVerticalAlignment(VAlign_Bottom);
 	PanelSlot->SetPadding(FMargin(40.f, 0.f, 40.f, 22.f));
 
-	UBorder *Panel = WidgetTree->ConstructWidget<UFixHimSurface>();
+	UFixHimSurface *Panel = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Panel->SetBrush(Rounded(Cream, 26.f, Pink, 4.f));
+	Panel->BorderWidth = FixHimDesign::PopupBorder;
 	Panel->SetVisibility(ESlateVisibility::Visible);
 	PanelSize->SetMaxDesiredHeight(760.f);
 
@@ -77,8 +78,9 @@ void UFixHimDialogueWidget::BuildUI()
 	UVerticalBox *NameStack = WidgetTree->ConstructWidget<UVerticalBox>();
 	NamePill = WidgetTree->ConstructWidget<UFixHimSurface>();
 	NamePill->SetBrush(Rounded(HotPink, 16.f));
-	NamePill->SetPadding(FMargin(NamePadL, 2, NamePadR, 20));
+	NamePill->SetPadding(FMargin(NamePadL, 3, NamePadR, 3 + FixHimDesign::Extrusion));
 	NameText = MakeText(WidgetTree, TEXT("NAME"), 66, FLinearColor::White, TEXT("Display"));
+	NameText->SetRenderTranslation(FVector2D(0, NameText->GetFont().Size * FixHimDesign::CapCentre));
 	NamePill->SetContent(NameText);
 	NameStack->AddChildToVerticalBox(NamePill)->SetHorizontalAlignment(HAlign_Left);
 	NameStackBox = NameStack;
@@ -486,17 +488,18 @@ void UFixHimDialogueWidget::BuildChoices()
 		UFixHimButton *B = WidgetTree->ConstructWidget<UFixHimButton>();
 		B->SetVariant(EFixHimButtonVariant::Reply);
 		FButtonStyle Style = ButtonStyle(Cream, Pink, Pink, 12, Gold);
-		Style.SetNormalPadding(FMargin(52, 9, 32, 21));
-		Style.SetPressedPadding(FMargin(54, 12, 30, 18));
+		Style.SetNormalPadding(FMargin(52, 17, 32, 17 + FixHimDesign::Extrusion));
+		Style.SetPressedPadding(FMargin(55, 21, 29, 13 + FixHimDesign::Extrusion));
 		B->SetStyle(Style);
 		B->Label = MakeText(WidgetTree, Label, FixHimDesign::Reply, Plum, TEXT("Display"));
 		B->Label->SetAutoWrapText(true);
-		B->Label->SetRenderTranslation(FVector2D(0, B->Label->GetFont().Size * .08f));
+		B->Label->SetRenderTranslation(FVector2D(0, B->Label->GetFont().Size * FixHimDesign::CapCentre));
 		B->Label->SetColorAndOpacity(FSlateColor::UseForeground());
 		B->Label->SetJustification(ETextJustify::Left);
 		if (UButtonSlot *LabelSlot = Cast<UButtonSlot>(B->AddChild(B->Label)))
 		{
 			LabelSlot->SetHorizontalAlignment(HAlign_Fill);
+			LabelSlot->SetVerticalAlignment(VAlign_Fill); // see UFixHimButton::Make: centred slots ignore asymmetric padding
 			LabelSlot->SetPadding(FMargin(4.f, 0.f));
 		}
 		B->ClickSfx = TEXT("ChoiceSelect");
@@ -562,7 +565,7 @@ void UFixHimDialogueWidget::SpawnFloater(const FString &Text, const FLinearColor
 {
 	UBorder *Pill = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Pill->SetBrush(Rounded(Color, 20.f));
-	Pill->SetPadding(FMargin(20.f, 7.f));
+	Pill->SetPadding(FMargin(20.f, 7.f, 20.f, 7.f + FixHimDesign::Extrusion));
 	Pill->SetContent(MakeText(WidgetTree, Text, 30, FLinearColor::White, TEXT("Bold")));
 	FloaterBox->AddChildToVerticalBox(Pill)->SetPadding(FMargin(0.f, 4.f));
 	FFloater F;

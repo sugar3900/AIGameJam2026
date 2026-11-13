@@ -63,6 +63,8 @@ Shared components are used by title/name entry, pause/options/credits, end-day c
 
 Dialogue retains its typewriter, clickable topic callbacks and authored choices. The header row (name plate and a teal meter strip whose bars carry Phosphor heart/users/lightning icon badges) straddles the panel via `MakeHeaderedSurface`; narration and generic script scenes hide the relationship group. Four replies stack and wrap. Dialogue has no portrait. Character introductions use visible painted portraits where available.
 
+Keyline width comes from `FixHimDesign::ButtonBorder` (6) and `PopupBorder` (12); set `UFixHimSurface::BorderWidth` for large containers. To centre text on a surface, use `bottom = top + FixHimDesign::Extrusion` padding and fill (not centre) alignment for button content: Slate's centred slot alignment ignores asymmetric padding and would lift labels by half the extrusion. `FixHimDesign::CapCentre` (-0.05 em) centres capitals rather than the line box.
+
 `UFixHimWidget::MakeHeaderedSurface` wraps any slanted surface with a teal title plate straddling its top edge. `MakeCardScreen` and the floor plan use it; the plate position is re-fitted each tick from measured sizes, so text scaling and content changes stay aligned.
 
 The selected v4 logo is imported once for the title screen. Its raster edge speckling and a final editable brand master still need a dedicated finishing pass; it has not been silently replaced by a different logo. Construction stripes and routine ray flourishes remain excluded.

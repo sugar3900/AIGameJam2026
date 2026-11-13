@@ -96,7 +96,7 @@ void UFixHimIntroCardWidget::BuildUI()
 	// "Click to continue" pill near the bottom, fading in once the card has landed.
 	UBorder* HintPill = WidgetTree->ConstructWidget<UFixHimSurface>();
 	HintPill->SetBrush(Rounded(Cream, 18.f));
-	HintPill->SetPadding(FMargin(28.f, 8.f, 36.f, 24.f));
+	HintPill->SetPadding(FMargin(28.f, 8.f, 36.f, 8.f + FixHimDesign::Extrusion));
 	Hint = MakeText(WidgetTree, TEXT("Continue  /  Enter"), 22, Plum, TEXT("Display"));
 	HintPill->SetContent(Hint);
 	HintPill->SetVisibility(ESlateVisibility::HitTestInvisible);

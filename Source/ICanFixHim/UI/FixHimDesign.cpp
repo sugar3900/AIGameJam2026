@@ -76,7 +76,7 @@ void Shape(FSlateWindowElementList &Out, int32 Layer, const FGeometry &G, FVecto
 	FSlateDrawElement::MakeCustomVerts(Out, Layer, Resource, V, Indices, nullptr, 0, 0);
 }
 void Surface(FSlateWindowElementList &Out, int32 Layer, const FGeometry &G, FLinearColor Fill, FLinearColor Tint,
-             bool Slanted, bool Focused, bool Pressed, bool Enabled)
+             bool Slanted, bool Focused, bool Pressed, bool Enabled, float Keyline)
 {
 	using namespace FixHimDesign;
 	const FVector2f Size(G.GetLocalSize());
@@ -101,8 +101,10 @@ void Surface(FSlateWindowElementList &Out, int32 Layer, const FGeometry &G, FLin
 	Shape(Out, Layer + 1, G, FVector2f(4, 7), FaceSize, R, Slanted, Depth, Depth, Tint);
 	Shape(Out, Layer + 2, G, Offset, FaceSize, R, Slanted, Focused ? FLinearColor::White : Edge,
 	      Focused ? FLinearColor::White : Edge, Tint);
-	Shape(Out, Layer + 3, G, Offset + FVector2f(Focused ? 5 : 3, Focused ? 5 : 3),
-	      FaceSize - FVector2f(Focused ? 10 : 6, Focused ? 10 : 6), R - 3, Slanted, Top, Bottom, Tint);
+	// Keyline only: the face is inset by the border width; the extrusion and shadow keep their size.
+	const float K = Focused ? Keyline + 2.f : Keyline;
+	Shape(Out, Layer + 3, G, Offset + FVector2f(K, K), FaceSize - FVector2f(2 * K, 2 * K), FMath::Max(2.f, R - K),
+	      Slanted, Top, Bottom, Tint);
 	if (Focused)
 	{
 		// Filled upright pointer follows the slanted left edge and the face's optical centre.
@@ -133,7 +135,8 @@ class SDesignBorder : public SBorder
 			Shape(Out, L, G, FVector2f(0, 0), FVector2f(G.GetLocalSize()), 22, true, Fill, Fill,
 			      S.GetColorAndOpacityTint());
 		else
-			Surface(Out, L, G, Fill, S.GetColorAndOpacityTint(), true, false, false, ShouldBeEnabled(E));
+			Surface(Out, L, G, Fill, S.GetColorAndOpacityTint(), true, false, false, ShouldBeEnabled(E),
+			        Owner.IsValid() ? Owner->BorderWidth : FixHimDesign::ButtonBorder);
 		return SCompoundWidget::OnPaint(A, G, C, Out, L + 5, S, E);
 	}
 };
@@ -162,7 +165,8 @@ class SDesignButton : public SButton
 		const FLinearColor Fill = !Enabled                    ? Disabled
 		                          : Owner->bPrimary || Active ? FixHimDesign::Pink
 		                                                      : FixHimDesign::Cream;
-		Surface(Out, L, G, Fill, S.GetColorAndOpacityTint(), true, Focused, Pressed, Enabled);
+		Surface(Out, L, G, Fill, S.GetColorAndOpacityTint(), true, Focused, Pressed, Enabled,
+		        FixHimDesign::ButtonBorder);
 		FWidgetStyle ChildStyle = S;
 		ChildStyle.SetForegroundColor(!Enabled ? DisabledInk : Owner->bPrimary || Active ? FLinearColor::White : Ink);
 		// Preserve the specified disabled ink rather than applying Slate's additional gray-out shader.

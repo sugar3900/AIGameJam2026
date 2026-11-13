@@ -89,7 +89,7 @@ FButtonStyle ButtonStyle(const FLinearColor &Normal, const FLinearColor &Hovered
 	Style.SetDisabled(Rounded(FixHimDesign::Disabled, Radius, FixHimDesign::DisabledInk, 2));
 	Style.SetDisabledForeground(FSlateColor(FixHimDesign::DisabledInk));
 	Style.SetNormalPadding(FMargin(0));
-	Style.SetPressedPadding(FMargin(2, 3, -2, -3));
+	Style.SetPressedPadding(FMargin(3, 4, -3, -4)); // follows the face's press offset
 	return Style;
 }
 
@@ -176,14 +176,21 @@ UFixHimButton *UFixHimButton::Make(UWidgetTree *Tree, const FString &LabelText, 
 		Icon->Brush.TintColor = FSlateColor::UseForeground();
 		Box->AddChild(Icon);
 		Row->AddChildToHorizontalBox(Box)->SetVerticalAlignment(VAlign_Center);
-		Row->AddChildToHorizontalBox(B->Label)->SetPadding(FMargin(16, 0, 0, 0));
+		// Fill, not auto: a wrapping label in an auto slot can settle on a too-narrow wrap width.
+		UHorizontalBoxSlot *LabelSlot = Row->AddChildToHorizontalBox(B->Label);
+		LabelSlot->SetPadding(FMargin(16, 0, 0, 0));
+		LabelSlot->SetSize(FSlateChildSize(ESlateSizeRule::Fill));
+		LabelSlot->SetVerticalAlignment(VAlign_Center);
 		B->Label->SetJustification(ETextJustify::Left);
 		Content = Row;
 	}
 	if (auto *Slot = Cast<UButtonSlot>(B->AddChild(Content)))
 	{
-		Slot->SetPadding(FMargin(52, 8, 38, 24));
+		Slot->SetPadding(FMargin(52, 16, 38, 16 + FixHimDesign::Extrusion));
 		Slot->SetHorizontalAlignment(HAlign_Fill);
+		// Fill, not centre: Slate's centred alignment offsets by (top - bottom) padding, which pulls content up
+		// by half the extrusion allowance. Filling the padded box keeps the label centred on the face.
+		Slot->SetVerticalAlignment(VAlign_Fill);
 	}
 	B->SetVariant(bPrimary);
 	B->Init(MoveTemp(InOnClick));
@@ -439,7 +446,8 @@ UWidget *UFixHimWidget::MakeHeaderedSurface(UBorder *Surface, const FString &Tit
 	Heading->SetJustification(ETextJustify::Center);
 	auto *Header = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Header->SetBrush(Rounded(FixHimDesign::Teal, 12));
-	Header->SetPadding(FMargin(32, 12, 40, 16));
+	Header->SetPadding(FMargin(32, 10, 40, 10 + FixHimDesign::Extrusion));
+	Heading->SetRenderTranslation(FVector2D(0, Heading->GetFont().Size * FixHimDesign::CapCentre));
 	Header->SetContent(Heading);
 	return MakeHeaderedSurface(Surface, Header, Padding);
 }
@@ -522,8 +530,9 @@ UVerticalBox *UFixHimWidget::MakeCardScreen(const FString &Title, float Width)
 	SizeSlot->SetHorizontalAlignment(HAlign_Center);
 	SizeSlot->SetVerticalAlignment(VAlign_Center);
 
-	UBorder *Card = WidgetTree->ConstructWidget<UFixHimSurface>();
+	UFixHimSurface *Card = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Card->SetBrush(Rounded(Cream, 28.f, Pink, 4.f));
+	Card->BorderWidth = FixHimDesign::PopupBorder;
 	CardSurface = Card;
 	Size->AddChild(MakeHeaderedSurface(Card, Title, FMargin(32, 32, 40, 40)));
 	Size->SetRenderTransformPivot(FVector2D(.5f, .5f));
@@ -612,7 +621,7 @@ void UFixHimButton::SetVariant(EFixHimButtonVariant InVariant)
 		FWidgetTransform Transform;
 		Transform.Shear = Display ? FVector2D(-FMath::RadiansToDegrees(FMath::Atan(FixHimDesign::DisplayShear)), 0)
 		                          : FVector2D::ZeroVector;
-		Transform.Translation.Y = Label->GetFont().Size * .1f;
+		Transform.Translation.Y = Label->GetFont().Size * FixHimDesign::CapCentre;
 		Label->SetRenderTransform(Transform);
 	}
 	if (MyButton)

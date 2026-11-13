@@ -78,7 +78,7 @@ void UFixHimHUDWidget::BuildUI()
 
 	PromptPill = WidgetTree->ConstructWidget<UFixHimSurface>();
 	PromptPill->SetBrush(Rounded(Plum, 14.f));
-	PromptPill->SetPadding(FMargin(28,6,36,20));
+	PromptPill->SetPadding(FMargin(28, 6, 36, 6 + FixHimDesign::Extrusion));
 	PromptText = MakeText(WidgetTree, TEXT(""), 18, Cream, TEXT("Bold"));
 	PromptPill->SetContent(PromptText);
 	PromptPill->SetVisibility(ESlateVisibility::Collapsed);
@@ -91,7 +91,7 @@ void UFixHimHUDWidget::BuildUI()
 	// ---- Room name (top left) ----
 	RoomPill = WidgetTree->ConstructWidget<UFixHimSurface>();
 	RoomPill->SetBrush(Rounded(FixHimDesign::Teal, 18.f));
-	RoomPill->SetPadding(FMargin(32,8,40,22));
+	RoomPill->SetPadding(FMargin(32, 8, 40, 8 + FixHimDesign::Extrusion));
 	RoomText = MakeText(WidgetTree, TEXT(""), 26, Cream, TEXT("Display"));
 	RoomPill->SetContent(RoomText);
 	UOverlaySlot* RoomSlot = Root->AddChildToOverlay(RoomPill);
@@ -103,7 +103,7 @@ void UFixHimHUDWidget::BuildUI()
 	// ---- Repairs (top right) ----
 	UBorder* RepPill = WidgetTree->ConstructWidget<UFixHimSurface>();
 	RepPill->SetBrush(Rounded(FixHimDesign::Teal, 18.f));
-	RepPill->SetPadding(FMargin(32,8,40,22));
+	RepPill->SetPadding(FMargin(32, 8, 40, 8 + FixHimDesign::Extrusion));
 	RepairsText = MakeText(WidgetTree, TEXT("Repairs 0/0"), 18, Cream, TEXT("Bold"));
 	RepPill->SetContent(RepairsText);
 	UOverlaySlot* RepSlot = Root->AddChildToOverlay(RepPill);
@@ -124,7 +124,7 @@ void UFixHimHUDWidget::BuildUI()
 	// ---- Toast (top centre) ----
 	ToastPill = WidgetTree->ConstructWidget<UFixHimSurface>();
 	ToastPill->SetBrush(Rounded(Pink, 16.f));
-	ToastPill->SetPadding(FMargin(32,8,40,22));
+	ToastPill->SetPadding(FMargin(32, 8, 40, 8 + FixHimDesign::Extrusion));
 	ToastText = MakeText(WidgetTree, TEXT(""), 18, FLinearColor::White, TEXT("Bold"));
 	ToastPill->SetContent(ToastText);
 	UOverlaySlot* ToastSlot = Root->AddChildToOverlay(ToastPill);

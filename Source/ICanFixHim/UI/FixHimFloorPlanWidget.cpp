@@ -34,6 +34,7 @@ void UFixHimFloorPlanWidget::BuildUI()
 
 	Sheet = WidgetTree->ConstructWidget<UFixHimSurface>();
 	Sheet->SetBrush(Rounded(Blueprint, 18.f, FLinearColor(0.75f, 0.85f, 1.f, 0.9f), 3.f));
+	Cast<UFixHimSurface>(Sheet)->BorderWidth = FixHimDesign::PopupBorder;
 	SheetFrame = MakeHeaderedSurface(Sheet, TEXT("Floor plan  -  12 Heartbreak Lane"), FMargin(32, 28, 48, 36));
 	UOverlaySlot *SheetSlot = Root->AddChildToOverlay(SheetFrame);
 	SheetSlot->SetHorizontalAlignment(HAlign_Center);
@@ -207,7 +208,7 @@ void UFixHimFloorPlanWidget::Refresh()
 			// Full words overhang the narrow footprint; geometry and travel destinations stay truthful.
 			auto *Tag = WidgetTree->ConstructWidget<UFixHimSurface>();
 			Tag->SetBrush(Rounded(bHere ? Pink : Cream, 12));
-			Tag->SetPadding(FMargin(24, 10, 30, 24));
+			Tag->SetPadding(FMargin(24, 10, 30, 10 + FixHimDesign::Extrusion));
 			Name->SetAutoWrapText(false);
 			Name->SetColorAndOpacity(FSlateColor(bHere ? FLinearColor::White : Plum));
 			auto *Labels = WidgetTree->ConstructWidget<UVerticalBox>();

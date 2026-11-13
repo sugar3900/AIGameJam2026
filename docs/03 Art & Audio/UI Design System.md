@@ -64,6 +64,9 @@ The selected treatment restores **rounded corners, thicker asymmetric borders an
 - Every element that uses a slant uses the same **12° right lean**: button silhouettes, panels, tabs, header plates, badges, outlines, focus contours and shadows.
 - The **placement grid also uses 12°**. Control origins, text-block anchors and icon anchors align along shared angled columns; rows and text baselines remain horizontal.
 - Rounded cream panel bodies pair with teal headers, orange borders heavier on the lower/right sides, and short ink offset shadows.
+- **Keylines:** buttons and plates use a 6-unit keyline; popup cards and panels use 12. Extrusion and shadow are unchanged by keyline width.
+- **Text is vertically centred on the face** of every button, header and plate: bottom padding = top padding + the 15-unit extrusion, and labels lift by 0.05 em so capitals (not the font's line box) sit on the centre. Buttons carry 16 units of vertical padding.
+- The title screen shows only the logo and menu: no tagline or event footer.
 - **Popup and sheet headers** are teal plates straddling the surface's top edge: the plate face is centred vertically on that edge and inset equally from both slanted sides.
 - Dialogue shows **no character portrait**; the character is present in the scene.
 - The **dialogue header** straddles the panel's top edge: a pink name plate (name only, 66-unit display face) and a teal strip tucked behind it holding the three meters. Each meter is a thick bar in its stat color with a round stat-colored icon badge overlaid on its left end; no text labels or dividers. The meters start at a fixed position that clears the widest name any speaker can have in the playthrough (hunks, extra speakers, the player's name) by at least 36 units, so they never shift between speakers. Replies are unnumbered; number keys still choose by position. Narration has no header. Spoken lines and replies share one size.

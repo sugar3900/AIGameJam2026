@@ -51,14 +51,13 @@ void UFixHimTitleWidget::BuildUI()
 	Col->AddChildToVerticalBox(TitleCol);
 
 	USizeBox *LogoBox = WidgetTree->ConstructWidget<USizeBox>();
-	LogoBox->SetWidthOverride(480);
-	LogoBox->SetHeightOverride(384);
+	// Sized so the 135% text menu (taller padded buttons) still fits with its footer.
+	LogoBox->SetWidthOverride(420);
+	LogoBox->SetHeightOverride(336);
 	UImage *Logo = WidgetTree->ConstructWidget<UImage>();
 	Logo->SetBrushFromTexture(LoadObject<UTexture2D>(nullptr, TEXT("/Game/ICanFixHim/UI/Design/Brand/T_Logo.T_Logo")));
 	LogoBox->AddChild(Logo);
 	TitleCol->AddChildToVerticalBox(LogoBox);
-	UTextBlock *Tag = MakeText(WidgetTree, TEXT("a home renovation romance"), 22, Cream);
-	TitleCol->AddChildToVerticalBox(Tag)->SetPadding(FMargin(0, 12, 0, 0));
 
 	UVerticalBoxSlot *SpacerSlot = Col->AddChildToVerticalBox(WidgetTree->ConstructWidget<USpacer>());
 	SpacerSlot->SetSize(FSlateChildSize(ESlateSizeRule::Fill));
@@ -75,7 +74,7 @@ void UFixHimTitleWidget::BuildUI()
 		                                       : Label == TEXT("Credits")  ? TEXT("info")
 		                                                                   : TEXT("door_open"));
 		Box->AddChild(B);
-		Col->AddChildToVerticalBox(Box)->SetPadding(FMargin(0.f, 0.f, 0.f, 14.f));
+		Col->AddChildToVerticalBox(Box)->SetPadding(FMargin(0.f, 0.f, 0.f, 10.f));
 		return B;
 	};
 
@@ -137,8 +136,6 @@ void UFixHimTitleWidget::BuildUI()
 	    },
 	    false);
 
-	UTextBlock *Footer = MakeText(WidgetTree, TEXT("AI Game Jam 2026"), 16, Cream.CopyWithNewOpacity(.85f));
-	Col->AddChildToVerticalBox(Footer)->SetPadding(FMargin(0.f, 24.f, 0.f, 0.f));
 
 	RefreshContinue();
 }
