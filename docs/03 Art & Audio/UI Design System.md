@@ -49,7 +49,8 @@ Keep cream reading surfaces, disabled controls and reticles flat. Avoid glossy s
 
 | Role | Font | Treatment |
 |---|---|---|
-| Headings, short display labels, all dialogue text (spoken lines, narration, replies) | Barlow Condensed ExtraBold Italic, 800 | Effective 12° right lean |
+| Headings, short display labels | Barlow Condensed ExtraBold Italic, 800 | Effective 12° right lean |
+| All dialogue text (spoken lines, narration, replies) | Barlow SemiBold Italic, 600, at 26 | Effective 12° right lean |
 | Helper text | Barlow Regular, 400 | Upright |
 | Body emphasis and stronger labels | Barlow Semibold, 600 | Upright |
 
@@ -65,7 +66,7 @@ The selected treatment restores **rounded corners, thicker asymmetric borders an
 - The **placement grid also uses 12°**. Control origins, text-block anchors and icon anchors align along shared angled columns; rows and text baselines remain horizontal.
 - Rounded cream panel bodies pair with teal headers, orange borders heavier on the lower/right sides, and short ink offset shadows.
 - **Keylines:** buttons and plates use a 6-unit keyline; popup cards and panels use 12.
-- **Extrusion matches the keyline:** a single extrusion layer (no separate shadow) drops by the keyline width and slides right by half of it, so buttons and plates have half the popups' extrusion. Each surface extrudes in a darker shade of its own family: cream → `#B35500` (keyline orange at 70% value, same hue), pink → `#99003F`, teal and other fills → ink. Pressing pushes the face onto its extrusion.
+- **Extrusion matches the keyline:** a single extrusion layer (no separate shadow) drops by the keyline width and slides right by half of it, so buttons and plates have half the popups' extrusion. Each surface extrudes in a darker shade of its own family: cream → `#B35500` (keyline orange at 70% value, same hue), pink → `#99003F`, teal and other fills → ink. Popup-weight surfaces (cards, dialogue panel, floor plan sheet) also carry a 50% ink shadow just beyond their extrusion. Pressing pushes the face onto its extrusion.
 - **HUD (show-graphics):** the room name sits on a pink plate with a wrench icon; the week sits on its own cream plate, tucked under a pink repairs badge with a house icon, a small "Repairs" label and a large count.
 - **Text is vertically centred on the face** of every button, header and plate: bottom padding = top padding + the extrusion reserve (keyline + 3), and labels lift by 0.05 em so capitals (not the font's line box) sit on the centre. Buttons carry 16 units of vertical padding.
 - The title screen shows only the logo and menu: no tagline or event footer.
@@ -169,7 +170,7 @@ The image still has alpha-edge speckling; cleanup and an editable production mas
 
 The shared Unreal components and first screen migration are implemented on `feature/reusable-ui-design-system`. See [[UI Component Library]] for APIs, source files, asset rebuilding, validation and the review captures. The selected palette, licensed fonts/icons and 12° placement grid are reused across screens; new component proportions and screen compositions still await design feedback.
 
-The implementation includes resizable rounded surfaces and asymmetric borders, shared action/reply/topic controls, visible focus/pressed/disabled states, bounded reading areas, sliders/checkboxes, text-size and reduced-motion settings, and an in-engine component workshop (`FixHim.DesignSystem`). Short action labels and all dialogue text (spoken lines, narration, replies at 28 units) use the selected display treatment; narration is distinguished by teal color. Continue is the primary title action when a save exists. Small status labels use flat or sufficiently dark surfaces; pale relationship colors remain accents beside readable labels.
+The implementation includes resizable rounded surfaces and asymmetric borders, shared action/reply/topic controls, visible focus/pressed/disabled states, bounded reading areas, sliders/checkboxes, text-size and reduced-motion settings, and an in-engine component workshop (`FixHim.DesignSystem`). Short action labels use the display treatment; all dialogue text (spoken lines, narration, replies at 26 units) uses Barlow SemiBold Italic at the same 12° lean; narration is distinguished by teal color. Continue is the primary title action when a save exists. Small status labels use flat or sufficiently dark surfaces; pale relationship colors remain accents beside readable labels.
 
 ## Remaining work and provenance
 

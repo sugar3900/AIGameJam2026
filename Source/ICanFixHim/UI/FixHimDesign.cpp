@@ -100,6 +100,11 @@ void Surface(FSlateWindowElementList &Out, int32 Layer, const FGeometry &G, FLin
 	const auto Edge = !Enabled ? DisabledInk : Reading ? Orange : FLinearColor::White;
 	// One extrusion layer, no separate shadow: cream extrudes burnt orange, pink a deep pink, everything else ink.
 	const auto Depth = !Enabled ? DisabledInk : Reading ? OrangeDepth : PinkFace ? PinkDepth : Ink;
+	if (HasShadow(Keyline))
+	{
+		const FLinearColor Shadow = Ink.CopyWithNewOpacity(ShadowOpacity);
+		Shape(Out, Layer, G, ShadowOffset(Keyline), FaceSize, R, Slanted, Shadow, Shadow, Tint);
+	}
 	Shape(Out, Layer + 1, G, DepthOffset(Keyline), FaceSize, R, Slanted, Depth, Depth, Tint);
 	Shape(Out, Layer + 2, G, Offset, FaceSize, R, Slanted, Focused ? FLinearColor::White : Edge,
 	      Focused ? FLinearColor::White : Edge, Tint);

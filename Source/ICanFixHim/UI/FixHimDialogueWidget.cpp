@@ -175,7 +175,7 @@ void UFixHimDialogueWidget::BuildUI()
 	CastChecked<UScrollBoxSlot>(LineScroll->AddChild(TextArea))->SetPadding(FMargin(20, 0, 20, 0));
 	Col->AddChildToVerticalBox(LineBounds)->SetPadding(FMargin(0, 2, 0, 20));
 	// Authored at the line size: RefreshTextScale restores authored sizes when a cached screen reopens.
-	TypingText = MakeText(WidgetTree, TEXT(""), FixHimDesign::Line, Plum, TEXT("DisplayFace"));
+	TypingText = MakeText(WidgetTree, TEXT(""), FixHimDesign::Line, Plum, TEXT("LeanFace"));
 	TypingText->SetAutoWrapText(true);
 	TextArea->AddChildToOverlay(TypingText)->SetHorizontalAlignment(HAlign_Fill);
 	WordWrap = WidgetTree->ConstructWidget<UWrapBox>();
@@ -294,7 +294,7 @@ void UFixHimDialogueWidget::ShowView(const FDialogueView &View)
 	NameText->SetText(FText::FromString(Speaker.ToUpper()));
 	// Spoken lines and narration share the reply face and size, sheared to the 12° grid as one block.
 	// Narration keeps its teal color to stay distinct from characters.
-	TypingText->SetFont(Font(FixHimDesign::Line, TEXT("Display")));
+	TypingText->SetFont(Font(FixHimDesign::Line, TEXT("LeanFace")));
 	FWidgetTransform LineLean;
 	LineLean.Shear = FVector2D(-FMath::RadiansToDegrees(FMath::Atan(FixHimDesign::DisplayShear)), 0);
 	LineArea->SetRenderTransform(LineLean);
@@ -416,8 +416,8 @@ void UFixHimDialogueWidget::BuildWordWrap()
 	const bool bNarration = Current.Speaker == EDialogueSpeaker::Narration;
 	TWeakObjectPtr<UFixHimDialogueWidget> Self(this);
 	const int32 LineSize = FixHimDesign::Line;
-	// "DisplayFace" is the display font without MakeText's per-widget shear; LineArea leans the whole line.
-	const TCHAR *LineFace = TEXT("DisplayFace");
+	// "LeanFace" is the italic body font without MakeText's per-widget shear; LineArea leans the whole line.
+	const TCHAR *LineFace = TEXT("LeanFace");
 	auto FlowTokens = Tokens;
 	for (int32 TokenIndex = 0; TokenIndex < FlowTokens.Num(); ++TokenIndex)
 	{
@@ -492,7 +492,7 @@ void UFixHimDialogueWidget::BuildChoices()
 		const FVector2f Press = FixHimDesign::DepthOffset(FixHimDesign::ButtonBorder);
 		Style.SetPressedPadding(FMargin(52 + Press.X, 17 + Press.Y, 32 - Press.X, 17 - Press.Y + FixHimDesign::Extrusion));
 		B->SetStyle(Style);
-		B->Label = MakeText(WidgetTree, Label, FixHimDesign::Reply, Plum, TEXT("Display"));
+		B->Label = MakeText(WidgetTree, Label, FixHimDesign::Reply, Plum, TEXT("Lean"));
 		B->Label->SetAutoWrapText(true);
 		B->Label->SetRenderTranslation(FVector2D(0, B->Label->GetFont().Size * FixHimDesign::CapCentre));
 		B->Label->SetColorAndOpacity(FSlateColor::UseForeground());

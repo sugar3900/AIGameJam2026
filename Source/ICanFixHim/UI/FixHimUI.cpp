@@ -37,11 +37,9 @@ static TMap<TWeakObjectPtr<UTextBlock>, int32> AuthoredTextSizes;
 FSlateFontInfo Font(int32 Size, const TCHAR *Typeface)
 {
 	// Strong references keep imported runtime fonts alive and package paths are explicitly cooked.
-	static auto BuildFont = [](bool DisplayFont) {
+	static auto BuildFont = [](const TArray<FString> &Names) {
 		UFont *F = NewObject<UFont>();
 		F->FontCacheType = EFontCacheType::Runtime;
-		const TArray<FString> Names = DisplayFont ? TArray<FString>{TEXT("BarlowCondensed-ExtraBoldItalic")}
-		                                          : TArray<FString>{TEXT("Barlow-Regular"), TEXT("Barlow-SemiBold")};
 		for (int I = 0; I < Names.Num(); ++I)
 		{
 			const FString Path = FString::Printf(TEXT("/Game/ICanFixHim/UI/Design/Fonts/%s.%s"), *Names[I], *Names[I]);
@@ -54,14 +52,17 @@ FSlateFontInfo Font(int32 Size, const TCHAR *Typeface)
 		}
 		return TStrongObjectPtr<UFont>(F);
 	};
-	static TStrongObjectPtr<UFont> Body = BuildFont(false);
-	static TStrongObjectPtr<UFont> Display = BuildFont(true);
+	static TStrongObjectPtr<UFont> Body = BuildFont({TEXT("Barlow-Regular"), TEXT("Barlow-SemiBold")});
+	static TStrongObjectPtr<UFont> Display = BuildFont({TEXT("BarlowCondensed-ExtraBoldItalic")});
+	// "Lean": Barlow SemiBold Italic (7 degrees native), sheared like Display to the 12-degree grid.
+	static TStrongObjectPtr<UFont> Lean = BuildFont({TEXT("Barlow-SemiBoldItalic")});
 	const bool IsDisplay = FCString::Strncmp(Typeface, TEXT("Display"), 7) == 0;
-	UFont *Asset = IsDisplay ? Display.Get() : Body.Get();
+	const bool IsLean = FCString::Strncmp(Typeface, TEXT("Lean"), 4) == 0;
+	UFont *Asset = IsDisplay ? Display.Get() : IsLean ? Lean.Get() : Body.Get();
 	const int32 ScaledSize = FMath::RoundToInt(Size * FixHimDesign::TextScale());
 	return Asset && !Asset->GetCompositeFont()->DefaultTypeface.Fonts.IsEmpty()
 	           ? FSlateFontInfo(Asset, ScaledSize,
-			                    IsDisplay ? FName("Regular")
+			                    IsDisplay || IsLean ? FName("Regular")
 			                    : FCString::Strstr(Typeface, TEXT("Bold")) || FCString::Strstr(Typeface, TEXT("Semi"))
 	                                ? FName("Semibold")
 									: FName("Regular"))
@@ -102,7 +103,8 @@ UTextBlock *MakeText(UWidgetTree *Tree, const FString &Text, int32 Size, const F
 	T->SetFont(Font(Size, Typeface));
 	AuthoredTextSizes.Add(T, Size);
 	T->SetColorAndOpacity(FSlateColor(Color));
-	if (FCString::Strcmp(Typeface, TEXT("Display")) == 0)
+	// "Display"/"Lean" shear per widget; "DisplayFace"/"LeanFace" leave shearing to a parent block.
+	if (FCString::Strcmp(Typeface, TEXT("Display")) == 0 || FCString::Strcmp(Typeface, TEXT("Lean")) == 0)
 	{
 		FWidgetTransform Transform;
 		Transform.Shear = FVector2D(-FMath::RadiansToDegrees(FMath::Atan(FixHimDesign::DisplayShear)), 0);

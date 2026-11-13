@@ -31,8 +31,12 @@ inline constexpr float ButtonBorder = 6.f, PopupBorder = 12.f;
  * get half the popups' depth. The face leaves DepthReserve(B) of its box for it.
  */
 inline FVector2f DepthOffset(float Border) { return FVector2f(Border * .5f, Border); }
-inline constexpr float DepthReserveX(float Border) { return Border * .5f + 3.f; }
-inline constexpr float DepthReserveY(float Border) { return Border + 3.f; }
+/** Popup-weight surfaces add a 50% ink shadow this far beyond their extrusion. */
+inline constexpr bool HasShadow(float Border) { return Border >= PopupBorder; }
+inline constexpr float ShadowExtraX = 3.f, ShadowExtraY = 6.f, ShadowOpacity = .5f;
+inline FVector2f ShadowOffset(float Border) { return DepthOffset(Border) + FVector2f(ShadowExtraX, ShadowExtraY); }
+inline constexpr float DepthReserveX(float Border) { return Border * .5f + 3.f + (HasShadow(Border) ? ShadowExtraX : 0.f); }
+inline constexpr float DepthReserveY(float Border) { return Border + 3.f + (HasShadow(Border) ? ShadowExtraY : 0.f); }
 /**
  * Vertical centring on slanted surfaces: the face excludes the extrusion reserve at the bottom, so text is centred
  * when bottom padding = top padding + Extrusion (button-weight plates). Barlow's line box (ascender 1.0 em,
@@ -40,7 +44,7 @@ inline constexpr float DepthReserveY(float Border) { return Border + 3.f; }
  */
 inline constexpr float Extrusion = DepthReserveY(ButtonBorder), CapCentre = -.05f;
 inline constexpr float HitHeight = 48.f;
-inline constexpr int32 Caption = 16, Body = 22, Line = 28, Reply = 28, Label = 24, Heading = 36, Hero = 72;
+inline constexpr int32 Caption = 16, Body = 22, Line = 26, Reply = 26, Label = 24, Heading = 36, Hero = 72;
 ICANFIXHIM_API bool ReducedMotion();
 ICANFIXHIM_API float TextScale();
 ICANFIXHIM_API UImage *Icon(UWidgetTree *Tree, const FString &Name, const FLinearColor &Tint);
