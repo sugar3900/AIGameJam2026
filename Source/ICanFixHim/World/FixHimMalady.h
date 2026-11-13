@@ -77,6 +77,35 @@ public:
 	float LeakRippleDiameter = 14.f;
 
 	/**
+	 * Leak only, opt-in: while any of these taps is on (and the leak is not repaired) the drain pipe sprays a light fan
+	 * of droplets from LeakSprayOrigin along LeakSprayDirection (both actor-local), drawn with LeakDropMaterial. The
+	 * drops fall under gravity and vanish at LeakSprayFloorZ (actor-local).
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Malady|Authored Leak")
+	TArray<TSoftObjectPtr<AFixHimInteractable>> LeakSprayTaps;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Malady|Authored Leak", meta = (MakeEditWidget))
+	FVector LeakSprayOrigin = FVector::ZeroVector;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Malady|Authored Leak")
+	FVector LeakSprayDirection = FVector(0.f, 1.f, 0.2f);
+
+	/** Half-angle of the spray fan, degrees. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Malady|Authored Leak")
+	float LeakSprayCone = 22.f;
+
+	/** Launch speed range, cm/s. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Malady|Authored Leak")
+	FVector2D LeakSpraySpeed = FVector2D(70.f, 140.f);
+
+	/** Droplets launched per second at full spray. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Malady|Authored Leak")
+	float LeakSprayRate = 55.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Malady|Authored Leak")
+	float LeakSprayFloorZ = 0.f;
+
+	/**
 	 * The breathing-glow overlay drawn on Body. Default on. Turn off only for an invisible inspect proxy whose glowing
 	 * faces would read as a stray pale shape (e.g. a box over authored mold art); the glow light, prompt, inspect and
 	 * repair are unaffected.
@@ -146,6 +175,24 @@ private:
 
 	UPROPERTY(Transient)
 	TObjectPtr<UMaterialInstanceDynamic> RippleMID;
+
+	struct FSprayDrop
+	{
+		FVector Location = FVector::ZeroVector;   // actor-local
+		FVector Velocity = FVector::ZeroVector;
+		float Size = 0.f;
+		bool bAlive = false;
+	};
+	void BuildSpray();
+	void TickSpray(float DeltaSeconds);
+	bool IsSprayTapOn() const;
+
+	UPROPERTY(Transient)
+	TObjectPtr<class UInstancedStaticMeshComponent> Spray;
+	TArray<FSprayDrop> SprayDrops;
+	float SprayAlpha = 0.f;
+	float SprayDebt = 0.f;
+	FRandomStream SprayRng;
 
 	bool bAuthoredLeak = false;
 	float LeakCycleStart = 0.f;

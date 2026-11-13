@@ -13,6 +13,8 @@
 #include "Core/FixHimSettings.h"
 #include "Dialogue/FixHimDialogueSubsystem.h"
 #include "UI/FixHimMenus.h"
+#include "UI/FixHimLoadingWidget.h"
+#include "Core/FixHimWarmupSubsystem.h"
 #include "UI/FixHimHUDWidget.h"
 #include "UI/FixHimDialogueWidget.h"
 #include "UI/FixHimFloorPlanWidget.h"
@@ -166,9 +168,54 @@ void AFixHimPlayerController::BeginPlay()
 
 	EnterState(EFixHimState::Title);
 
-	FString Script;
-	if (FParse::Value(FCommandLine::Get(), TEXT("FixHimScript="), Script, false))
+	FParse::Value(FCommandLine::Get(), TEXT("FixHimScript="), StartupScript, false);
+	// First time this session: the title sits underneath an opaque loading screen until shaders and effects are
+	// prepared (see UFixHimWarmupSubsystem). PlayerTick drives it; returning to the title later skips it.
+	UFixHimWarmupSubsystem* Warmup = UFixHimWarmupSubsystem::Get(this);
+	if (Warmup && !Warmup->IsWarmed())
 	{
+		Warmup->Begin(*GetWorld());
+		LoadingWidget = CreateWidget<UFixHimLoadingWidget>(this, UFixHimLoadingWidget::StaticClass());
+		ShowWidget(LoadingWidget, 1000);
+		LoadingFadeTime = -1.f;
+	}
+	else
+	{
+		FinishLoading();
+	}
+}
+
+void AFixHimPlayerController::UpdateLoading(float DeltaTime)
+{
+	// Driven from the world tick, not the widget's own tick: widgets only tick while Slate paints them (not with
+	// -nullrhi or while minimized), and a startup script must still run then.
+	constexpr float FadeSeconds = 0.45f;
+	if (LoadingFadeTime < 0.f)
+	{
+		UFixHimWarmupSubsystem* Warmup = UFixHimWarmupSubsystem::Get(this);
+		if (Warmup && !Warmup->Update())
+		{
+			return;
+		}
+		LoadingFadeTime = 0.f;
+	}
+	LoadingFadeTime += DeltaTime;
+	const float Alpha = 1.f - FMath::Clamp(LoadingFadeTime / FadeSeconds, 0.f, 1.f);
+	LoadingWidget->SetRenderOpacity(Alpha);
+	if (Alpha <= 0.f)
+	{
+		FinishLoading();
+	}
+}
+
+void AFixHimPlayerController::FinishLoading()
+{
+	HideWidget(LoadingWidget);
+	LoadingWidget = nullptr;
+	if (!StartupScript.IsEmpty())
+	{
+		const FString Script = MoveTemp(StartupScript);
+		StartupScript.Reset();
 		FixHimScript(Script);
 	}
 }
@@ -581,6 +628,10 @@ void AFixHimPlayerController::RefreshInteractionShine()
 void AFixHimPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
+	if (LoadingWidget)
+	{
+		UpdateLoading(DeltaTime);
+	}
 
 	if (State != EFixHimState::Title && State != EFixHimState::Paused && State != EFixHimState::DoorPrompt && State != EFixHimState::Sleeping && State != EFixHimState::Finale)
 	{
@@ -709,7 +760,7 @@ void AFixHimPlayerController::BeginPlaying(bool bFromSave)
 
 void AFixHimPlayerController::StartNewGame()
 {
-	if (State != EFixHimState::Title)
+	if (State != EFixHimState::Title || IsLoading())
 	{
 		return;
 	}
@@ -730,7 +781,7 @@ void AFixHimPlayerController::CancelNameEntry()
 
 void AFixHimPlayerController::BeginNewGame(const FString& PlayerName)
 {
-	if (State != EFixHimState::Title)
+	if (State != EFixHimState::Title || IsLoading())
 	{
 		return;
 	}
@@ -747,7 +798,7 @@ void AFixHimPlayerController::BeginNewGame(const FString& PlayerName)
 
 void AFixHimPlayerController::ContinueGame()
 {
-	if (State != EFixHimState::Title)
+	if (State != EFixHimState::Title || IsLoading())
 	{
 		return;
 	}
@@ -1764,6 +1815,11 @@ void AFixHimPlayerController::FixHimClickAt(float X, float Y)
 	}
 	const FGeometry& Geo = Viewport->GetCachedGeometry();
 	const FVector2D Screen = Geo.LocalToAbsolute(Geo.GetLocalSize() * FVector2D(X, Y));
+	if (IsLoading())
+	{
+		UE_LOG(LogFixHim, Log, TEXT("ClickAt %.3f,%.3f: still loading, ignored"), X, Y);
+		return;
+	}
 	// The topmost popup gets the click (same stacking as the Z orders used by ShowWidget).
 	UFixHimWidget* Target = nullptr;
 	for (UUserWidget* W : TArray<UUserWidget*>{ SubMenu.Get(), NameWidget.Get(), DoorWidget.Get(), EndingWidget.Get(), KeepsakeWidget.Get(),

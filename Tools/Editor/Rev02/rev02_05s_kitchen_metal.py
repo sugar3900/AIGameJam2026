@@ -20,7 +20,7 @@ tools = unreal.AssetToolsHelpers.get_asset_tools()
 R2 = '/Game/ICanFixHim/Environment/Rev02/'; MATS = R2 + 'Materials/'
 acts = {a.get_actor_label(): a for a in A.get_all_level_actors()}
 assert not unreal.get_editor_subsystem(unreal.LevelEditorSubsystem).is_in_play_in_editor(), 'Stop PIE first: editor-world actor queries are empty and asset saves race during PIE'
-_missing = [l for l in ['Art_KI_SinkNarrow_body', 'Art_KI_SinkNarrow_R_tap', 'Art_KI_SinkNarrow_L_tap', 'Sink_Tap', 'Art_KI_Range_Body', 'Art_KI_Range_Door', 'Oven_Door'] if l not in acts]
+_missing = [l for l in ['Art_KI_SinkNarrow_body', 'Art_KI_SinkNarrow_R_tap', 'Art_KI_SinkNarrow_L_tap', 'Sink_Tap', 'Art_KI_Range_Body', 'Art_KI_Range_Door', 'Oven_Door', 'Stove_Burner'] if l not in acts]
 assert not _missing, 'required actors missing (wrong map loaded?): %s' % _missing
 log = []
 
@@ -144,7 +144,8 @@ if find(R3 + 'KI_RANGE03_Body'):
              'Oven_Dark': instance('MI_Range03_OvenDark', cpbr, {'Metallic': 0.0, 'Roughness': 0.50}, {'BaseColor': (0.082, 0.065, 0.052, 1)}),
              'Burner_Cast_Iron': instance('MI_Range03_CastIron', cpbr, {'Metallic': 0.25, 'Roughness': 0.80}, {'BaseColor': (0.075, 0.067, 0.060, 1)}),
              'Gasket': instance('MI_Range03_Gasket', cpbr, {'Metallic': 0.0, 'Roughness': 0.80}, {'BaseColor': (0.13, 0.115, 0.09, 1)})}
-    for lab, comp, mesh in (('Art_KI_Range_Body', None, B3), ('Art_KI_Range_Door', None, D3), ('Oven_Door', 'Body', D3)):
+    # Stove_Burner's Body is the range body (rev02_05x_outline_bodies), like Oven_Door's is the oven door.
+    for lab, comp, mesh in (('Art_KI_Range_Body', None, B3), ('Stove_Burner', 'Body', B3), ('Art_KI_Range_Door', None, D3), ('Oven_Door', 'Body', D3)):
         a = acts[lab]
         for c in a.get_components_by_class(unreal.StaticMeshComponent):
             if comp and c.get_name() != comp: continue
@@ -152,7 +153,7 @@ if find(R3 + 'KI_RANGE03_Body'):
                 a.modify(); c.set_static_mesh(mesh); log.append('%s/%s -> %s' % (lab, c.get_name(), mesh.get_name()))
     missing = [str(s.material_slot_name) for m in (B3, D3) for s in m.static_materials if str(s.material_slot_name) not in RANGE]
     assert not missing, 'unbound Range03 slots %s' % missing
-for lab, comp in (('Art_KI_Range_Body', None), ('Art_KI_Range_Door', None), ('Oven_Door', 'Body')):
+for lab, comp in (('Art_KI_Range_Body', None), ('Stove_Burner', 'Body'), ('Art_KI_Range_Door', None), ('Oven_Door', 'Body')):
     bind(lab, comp, RANGE)
 assert L.save_all_dirty_levels()
 unreal.log('[Rev02 kitchen metal]\n' + '\n'.join(log))

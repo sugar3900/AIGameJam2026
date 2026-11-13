@@ -5,6 +5,8 @@ Creates / refreshes the procedural assets the game code expects (see Config/Defa
   /Game/ICanFixHim/Materials/M_Translucent   unlit translucent, BaseColor / Opacity params
   /Game/ICanFixHim/Materials/M_Sparkle       unlit additive twinkle sprite for the hunks' appear / pop puffs, Color param
   /Game/ICanFixHim/Materials/M_Shine         additive overlay material: a shine band that wipes across a mesh + a soft rim glow
+  /Game/ICanFixHim/Materials/M_HoverOutline  post process: fixed-pixel rim around the visible pixels of the hovered
+                                             interactable (custom depth + stencil, UFixHimHoverOutlineSubsystem)
   /Game/ICanFixHim/Materials/M_UI_Portrait   UI material for scene-capture portraits
   /Game/ICanFixHim/UI/T_Heart, T_PlayerSilhouette              imported from SourceArt/Generated (Tools/Art/*.svg)
 
@@ -25,7 +27,13 @@ def fresh_material(name):
     path = f"{MAT_DIR}/{name}"
     if EAL.does_asset_exist(path):
         mat = EAL.load_asset(path)
-        MEL.delete_all_material_expressions(mat)
+        # UE 5.8's delete_all_material_expressions removes from the array it iterates, so each call only deletes about
+        # every other node; repeat until the graph is empty, or old nodes (and duplicate parameters) pile up.
+        for _ in range(64):
+            if MEL.get_num_material_expressions(mat) == 0:
+                break
+            MEL.delete_all_material_expressions(mat)
+        assert MEL.get_num_material_expressions(mat) == 0, f"could not clear {path}"
         return mat
     return ASSETS.create_asset(name, MAT_DIR, unreal.Material, unreal.MaterialFactoryNew())
 
@@ -235,6 +243,108 @@ def build_shine():
     finish(mat)
 
 
+HOVER_OUTLINE_HLSL = """
+// Screen-space hover rim. Runs before TSR at render resolution, so every offset lands on a texel centre and TSR
+// anti-aliases the result. A pixel is "object" when it carries the outline stencil AND the hovered object is the
+// visible surface there (its custom depth matches the scene depth, i.e. nothing is in front of it).
+// Outside rim: non-object pixels within WidthPx of an object pixel. Inside rim: object pixels within WidthPx of a
+// non-object pixel. Returns rim coverage with a one-pixel anti-aliased falloff.
+struct FHoverRim
+{
+    float Ref;
+    float Tol;
+    float IsObject(FMaterialPixelParameters Parameters, float2 Offset)
+    {
+        if (abs(SceneTextureFetch(PPI_CustomStencil, Offset).r - Ref) > 0.5) return 0.0;
+        float Custom = SceneTextureFetch(PPI_CustomDepth, Offset).r;
+        float Scene = SceneTextureFetch(PPI_SceneDepth, Offset).r;
+        return Custom <= Scene + max(Tol, Scene * 0.002) ? 1.0 : 0.0;
+    }
+};
+FHoverRim Rim;
+Rim.Ref = StencilRef;
+Rim.Tol = DepthTolerance;
+// WidthPx is in display pixels; this pass runs at render resolution (screen percentage / TSR upscale).
+float W = clamp(WidthPx * View.ResolutionFractionAndInv.x, 0.5, 8.0);
+float Want = Inside > 0.5 ? 0.0 : 1.0;
+if (Rim.IsObject(Parameters, float2(0, 0)) == Want) return 0.0;
+int R = (int)ceil(W);
+float Best2 = (W + 0.5) * (W + 0.5);
+float Found = 0.0;
+[loop] for (int y = -R; y <= R; ++y)
+{
+    [loop] for (int x = -R; x <= R; ++x)
+    {
+        float D2 = float(x * x + y * y);
+        if (D2 == 0.0 || D2 >= Best2) continue;
+        if (Rim.IsObject(Parameters, float2(x, y)) == Want) { Best2 = D2; Found = 1.0; }
+    }
+}
+return Found * saturate(W + 0.5 - sqrt(Best2));
+"""
+
+
+def custom_node(mat, x, y, code, out_type, desc, names):
+    node = expr(mat, unreal.MaterialExpressionCustom, x, y, code=code, output_type=out_type, description=desc)
+    inputs = []
+    for n in names:
+        ci = unreal.CustomInput()
+        ci.set_editor_property("input_name", n)
+        inputs.append(ci)
+    node.set_editor_property("inputs", inputs)
+    return node
+
+
+def build_hover_outline():
+    mat = fresh_material("M_HoverOutline")
+    mat.set_editor_property("material_domain", unreal.MaterialDomain.MD_POST_PROCESS)
+    # Before TSR (render resolution): the stencil/depth reads are texel-exact and the rim gets temporal AA. After the
+    # tonemapper the colour would be exact, but the game renders at ~50% and the rim is rebuilt from jittered
+    # render-resolution buffers: 2-px stair steps and 11-16% of rim pixels flicker per frame (tested 2026-11-12).
+    mat.set_editor_property("blendable_location", unreal.BlendableLocation.BL_SCENE_COLOR_AFTER_DOF)
+
+    # SceneTexture nodes wired into unused Custom inputs make the shader bind those buffers.
+    scene_tex = {}
+    for i, (pin, tex_id) in enumerate((("SD", unreal.SceneTextureId.PPI_SCENE_DEPTH),
+                                       ("CD", unreal.SceneTextureId.PPI_CUSTOM_DEPTH),
+                                       ("CS", unreal.SceneTextureId.PPI_CUSTOM_STENCIL))):
+        scene_tex[pin] = expr(mat, unreal.MaterialExpressionSceneTexture, -900, -300 + i * 120, scene_texture_id=tex_id)
+    params = {
+        "WidthPx": scalar_param(mat, "WidthPx", 4.0, -900, 100),
+        "Inside": scalar_param(mat, "Inside", 0.0, -900, 180),
+        "StencilRef": scalar_param(mat, "StencilRef", 1.0, -900, 260),
+        "DepthTolerance": scalar_param(mat, "DepthTolerance", 1.0, -900, 340),
+    }
+    custom = custom_node(mat, -550, 0, HOVER_OUTLINE_HLSL,
+                         unreal.CustomMaterialOutputType.CMOT_FLOAT1, "HoverRim", list(params) + list(scene_tex))
+    for n, e in params.items():
+        MEL.connect_material_expressions(e, "", custom, n)
+    for n, e in scene_tex.items():
+        MEL.connect_material_expressions(e, "Color", custom, n)
+
+    # Rim colour in display terms: divide out exposure so auto-exposure never dims or blows out the outline.
+    color = vec_param(mat, "Color", (1.0, 1.0, 1.0, 1), -550, 250)
+    intensity = scalar_param(mat, "Intensity", 1.5, -550, 380)
+    eye = expr(mat, unreal.MaterialExpressionEyeAdaptation, -550, 460)
+    tinted = expr(mat, unreal.MaterialExpressionMultiply, -350, 300)
+    MEL.connect_material_expressions(color, "RGB", tinted, "A")
+    MEL.connect_material_expressions(intensity, "", tinted, "B")
+    rim_color = expr(mat, unreal.MaterialExpressionDivide, -200, 350)
+    MEL.connect_material_expressions(tinted, "", rim_color, "A")
+    MEL.connect_material_expressions(eye, "", rim_color, "B")
+
+    scene = expr(mat, unreal.MaterialExpressionSceneTexture, -550, -450,
+                 scene_texture_id=unreal.SceneTextureId.PPI_POST_PROCESS_INPUT0)
+    scene_rgb = expr(mat, unreal.MaterialExpressionComponentMask, -350, -450, r=True, g=True, b=True, a=False)
+    MEL.connect_material_expressions(scene, "Color", scene_rgb, "")
+    out = expr(mat, unreal.MaterialExpressionLinearInterpolate, -50, 0)
+    MEL.connect_material_expressions(scene_rgb, "", out, "A")
+    MEL.connect_material_expressions(rim_color, "", out, "B")
+    MEL.connect_material_expressions(custom, "", out, "Alpha")
+    MEL.connect_material_property(out, "", unreal.MaterialProperty.MP_EMISSIVE_COLOR)
+    finish(mat)
+
+
 CEL_HLSL = """
 // Stylised still: tone-mapped scene colour flattened into hard light bands, with an ink outline on the silhouette
 // and on strong internal creases. Returns (rgb, coverage). The capture's alpha is inverse opacity.
@@ -359,16 +469,27 @@ def import_textures():
             EAL.save_loaded_asset(tex)
 
 
+STEPS = {
+    "flat": lambda: build_flat(),
+    "character": lambda: build_character(),
+    "translucent": lambda: build_translucent(),
+    "sparkle": lambda: build_sparkle(),
+    "shine": lambda: build_shine(),
+    "hover_outline": lambda: build_hover_outline(),
+    "portrait": lambda: build_portrait(),
+    "textures": lambda: import_textures(),
+}
+
+
 def main():
     for d in (MAT_DIR, UI_DIR, "/Game/ICanFixHim/Maps"):
         EAL.make_directory(d)
-    build_flat()
-    build_character()
-    build_translucent()
-    build_sparkle()
-    build_shine()
-    build_portrait()
-    import_textures()
+    # Rebuild a subset without re-saving the rest:
+    #   python3 Tools/run_editor_script.py Tools/Editor/create_assets.py --set "ONLY=['hover_outline']"
+    only = globals().get("ONLY")
+    for name, step in STEPS.items():
+        if not only or name in only:
+            step()
     unreal.log("[FixHim] create_assets done")
 
 

@@ -9,6 +9,7 @@
 class AFixHimPlayerController;
 class UStaticMesh;
 class UStaticMeshComponent;
+class UPrimitiveComponent;
 class UPointLightComponent;
 class UMaterialInstanceDynamic;
 class ALight;
@@ -41,10 +42,10 @@ enum class EInteractToggle : uint8
 
 /**
  * Anything in the apartment you can point at and click.
- * Occasionally shimmers with a shine that wipes across it, gets an outline on hover,
+ * Occasionally shimmers with a shine that wipes across it, gets a screen-space outline on hover,
  * and toggles between two states when clicked.
  *
- * Hierarchy: Root -> Pivot -> Body (+ outline shells), Root -> RevealPart, Root -> Light
+ * Hierarchy: Root -> Pivot -> Body, Root -> RevealPart, Root -> Light
  */
 UCLASS()
 class ICANFIXHIM_API AFixHimInteractable : public AActor
@@ -56,6 +57,7 @@ public:
 
 	virtual void OnConstruction(const FTransform& Transform) override;
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintPure, Category = "Interactable")
@@ -113,20 +115,21 @@ public:
 	bool bUseAuthoredBodyMaterials = false;
 
 	/**
-	 * Build the hover outline shell. Default on. Turn off only for an invisible inspect proxy whose inflated shell
-	 * would read as a stray shape (e.g. a thin box behind authored damage art); trace, click, prompt and any glow
-	 * are unaffected.
+	 * Outline this actor on hover (screen-space rim, UFixHimHoverOutlineSubsystem). Default on. Turn off only for an
+	 * invisible inspect proxy whose silhouette would read as a stray shape (e.g. a thin box behind authored damage
+	 * art); trace, click, prompt and any glow are unaffected.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
 	bool bHoverOutline = true;
 
 	/**
-	 * Optional mesh for Body's inverted-hull outline shell, in Body's mesh space. The hull trick only works on
-	 * near-convex shapes; a body with folded soft goods (the bed's throw) shows broad shell faces through its folds.
-	 * Set this to the rigid part (e.g. the bed frame) to outline only that. Null keeps the Body mesh.
+	 * Actors drawn into this actor's hover outline as one silhouette, so parts that sit in front of or inside it
+	 * (the stove's oven door and kettle) don't get rims of their own. One way: hovering a child that is itself an
+	 * interactable still outlines only that child. Interactable children contribute their own outline parts; other
+	 * actors contribute all their primitives. Soft references, so children can live in other sublevels.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
-	TObjectPtr<UStaticMesh> OutlineMeshOverride;
+	TArray<TSoftObjectPtr<AActor>> OutlineChildren;
 
 	/** Emissive applied to Body while On (Light toggles). */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
@@ -146,11 +149,41 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Reveal")
 	TArray<TObjectPtr<AActor>> RevealActors;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
-	FLinearColor OutlineColor = FLinearColor(1.f, 0.35f, 0.75f);
+	/**
+	 * Opt-in (Reveal toggles): a water surface that fills gradually instead of appearing with the stream. The actor is
+	 * authored at its FULL level; while this toggle is on it rises from FillDepth below that to full over FillSeconds,
+	 * and once off it drains over DrainSeconds (0 keeps the water). Its XY scale goes from FillEmptyScale x authored
+	 * (narrower tub bottom) to the authored scale. It is hidden while (nearly) empty.
+	 */
+	UPROPERTY(EditAnywhere, Category = "Reveal|Fill")
+	TObjectPtr<AActor> FillSurface;
 
+	UPROPERTY(EditAnywhere, Category = "Reveal|Fill", meta = (ClampMin = "0"))
+	float FillDepth = 30.f;
+
+	UPROPERTY(EditAnywhere, Category = "Reveal|Fill")
+	FVector2D FillEmptyScale = FVector2D(1.f, 1.f);
+
+	UPROPERTY(EditAnywhere, Category = "Reveal|Fill", meta = (ClampMin = "0.1"))
+	float FillSeconds = 40.f;
+
+	UPROPERTY(EditAnywhere, Category = "Reveal|Fill", meta = (ClampMin = "0"))
+	float DrainSeconds = 60.f;
+
+	/** Ride the surface up and down (e.g. the splash where the stream lands), authored at the full level. */
+	UPROPERTY(EditAnywhere, Category = "Reveal|Fill")
+	TArray<TObjectPtr<AActor>> FillFollowers;
+
+	/** The RevealPart stream (an upright mesh from spout to empty floor) ends at the rising surface instead. */
+	UPROPERTY(EditAnywhere, Category = "Reveal|Fill")
+	bool bFillTrimsReveal = true;
+
+	/** Current fill, 0 empty .. 1 full (not saved). */
+	float GetFillLevel() const { return FillLevel; }
+
+	/** Hover rim colour (screen-space outline). Environment objects are white; maladies take their hunk's glow colour. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
-	float OutlineThickness = 2.2f;
+	FLinearColor OutlineColor = FLinearColor::White;
 
 	/** An occasional shine wipes across the object (ShineMaterial overlay on its meshes). */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable|Look")
@@ -195,6 +228,10 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
 	FRotator ToggleRotation = FRotator(0.f, 100.f, 0.f);
+
+	/** Toggle animation speed in full transitions per second (3.5 = ~0.3 s; a curtain draw is slower). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable", meta = (ClampMin = "0.001"))
+	float ToggleSpeed = 3.5f;
 
 	/** Shown under the reticle, e.g. "Turn on lamp". */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interactable")
@@ -251,17 +288,32 @@ protected:
 	void SetOnLocal(bool bInOn, bool bInstant);
 	void PlayInteractSfx();
 	void ApplyLook();
-	void BuildOutline();
+	/** Write (or stop writing) the hover outline stencil on this actor's outline parts and its OutlineChildren. */
+	void SetOutlineStencil(bool bOn);
+	/** This actor's own outline parts only: every mesh that moves with the body, minus reveal art. */
+	void SetOwnOutlineStencil(bool bOn);
 	void BuildShine();
-	void ApplyToggleAlpha(float Alpha);
+	virtual void ApplyToggleAlpha(float Alpha);
 	void ApplyRevealAlpha(float Alpha);
-	bool IsRevealMesh(const UStaticMeshComponent* Mesh) const;
+	bool IsRevealMesh(const UPrimitiveComponent* Mesh) const;
+	void InitFill();
+	void ApplyFill();
+
+	float FillLevel = 0.f;
+	bool bFillReady = false;
+	FVector FillFullLocation = FVector::ZeroVector;
+	float FillFullSurfaceZ = 0.f;
+	FVector FillFullScale = FVector::OneVector;
+	TArray<FVector> FillFollowerFull;
+	/** RevealPart's authored relative location/scale, its top relative to its pivot (world) and its end Zs. */
+	FVector RevealRelLocation = FVector::ZeroVector;
+	FVector RevealRelScale = FVector::OneVector;
+	FVector RevealTopToPivot = FVector::ZeroVector;
+	float RevealTopZ = 0.f;
+	float RevealBottomZ = 0.f;
 
 	UPROPERTY(Transient)
 	TArray<TObjectPtr<UMaterialInstanceDynamic>> RevealMIDs;
-
-	UPROPERTY(Transient)
-	TArray<TObjectPtr<UStaticMeshComponent>> OutlineShells;
 
 	UPROPERTY(Transient)
 	TObjectPtr<UMaterialInstanceDynamic> BodyMID;

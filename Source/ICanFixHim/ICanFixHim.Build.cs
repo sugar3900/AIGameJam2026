@@ -23,7 +23,8 @@ public class ICanFixHim : ModuleRules
 			"RHI",
 			"Json",
 			"JsonUtilities",
-			"AssetRegistry"
+			"AssetRegistry",
+			"RHI"
 		});
 
 		// Feature folders are include roots, e.g. #include "Dialogue/DialogueTypes.h"

@@ -1,6 +1,7 @@
 // I Can Fix Him - AI Game Jam 2026
 
 #include "World/FixHimInteractable.h"
+#include "World/FixHimHoverOutline.h"
 #include "Core/FixHimAssets.h"
 #include "Core/FixHimSettings.h"
 #include "Audio/FixHimSfxSubsystem.h"
@@ -54,10 +55,100 @@ void AFixHimInteractable::BeginPlay()
 	Super::BeginPlay();
 	Age = FMath::FRand() * 10.f;
 	ApplyLook();
-	BuildOutline();
 	BuildShine();
 	BuildGlow();
 	SetOnLocal(bIsOn, true);
+	InitFill();
+}
+
+void AFixHimInteractable::InitFill()
+{
+	bFillReady = false;
+	if (!IsValid(FillSurface) || FillSurface == this)
+	{
+		return;
+	}
+	if (USceneComponent* SurfaceRoot = FillSurface->GetRootComponent())
+	{
+		SurfaceRoot->SetMobility(EComponentMobility::Movable);
+	}
+	FillFullLocation = FillSurface->GetActorLocation();
+	{
+		// the surface itself (top of the authored water mesh), not the actor origin, is where the stream ends
+		FVector Origin, Extent;
+		FillSurface->GetActorBounds(false, Origin, Extent, true);
+		FillFullSurfaceZ = Origin.Z + Extent.Z;
+	}
+	FillFullScale = FillSurface->GetActorScale3D();
+	FillFollowerFull.Reset();
+	for (AActor* Actor : FillFollowers)
+	{
+		if (IsValid(Actor) && Actor->GetRootComponent()) Actor->GetRootComponent()->SetMobility(EComponentMobility::Movable);
+		FillFollowerFull.Add(IsValid(Actor) ? Actor->GetActorLocation() : FVector::ZeroVector);
+	}
+	RevealTopZ = RevealBottomZ = 0.f;
+	if (bFillTrimsReveal && RevealPart && RevealPart->GetStaticMesh())
+	{
+		RevealRelLocation = RevealPart->GetRelativeLocation();
+		RevealRelScale = RevealPart->GetRelativeScale3D();
+		// The stream runs along its mesh's local Z (it may lean a little, like a spout's arc): its top and bottom are
+		// the mesh bounds' end-cap centres.
+		const FBox Local = RevealPart->GetStaticMesh()->GetBoundingBox();
+		const FTransform& Xf = RevealPart->GetComponentTransform();
+		RevealTopToPivot = Xf.TransformPosition(FVector(Local.GetCenter().X, Local.GetCenter().Y, Local.Max.Z)) - Xf.GetLocation();
+		RevealTopZ = Xf.GetLocation().Z + RevealTopToPivot.Z;
+		RevealBottomZ = Xf.TransformPosition(FVector(Local.GetCenter().X, Local.GetCenter().Y, Local.Min.Z)).Z;
+	}
+	FillLevel = bIsOn ? 1.f : 0.f;
+	bFillReady = true;
+	ApplyFill();
+}
+
+void AFixHimInteractable::ApplyFill()
+{
+	if (!bFillReady || !IsValid(FillSurface))
+	{
+		return;
+	}
+	const FVector Down(0.f, 0.f, (1.f - FillLevel) * FillDepth);
+	const FVector2D S = FMath::Lerp(FillEmptyScale, FVector2D(1.f, 1.f), FillLevel);
+	FillSurface->SetActorLocation(FillFullLocation - Down);
+	FillSurface->SetActorScale3D(FVector(FillFullScale.X * S.X, FillFullScale.Y * S.Y, FillFullScale.Z));
+	FillSurface->SetActorHiddenInGame(FillLevel < 0.01f);
+	for (int32 Index = 0; Index < FillFollowers.Num(); ++Index)
+	{
+		if (IsValid(FillFollowers[Index]) && FillFollowerFull.IsValidIndex(Index))
+		{
+			FillFollowers[Index]->SetActorLocation(FillFollowerFull[Index] - Down);
+		}
+	}
+	if (RevealTopZ > RevealBottomZ + 1.f)
+	{
+		// The stream keeps its top at the spout and ends on the surface: shorten it along its axis about its pivot,
+		// then move it back so the top stays put.
+		const float Bottom = FMath::Clamp(FillFullSurfaceZ - Down.Z, RevealBottomZ, RevealTopZ - 1.f);
+		const float F = (RevealTopZ - Bottom) / (RevealTopZ - RevealBottomZ);
+		RevealPart->SetRelativeScale3D(FVector(RevealRelScale.X, RevealRelScale.Y, RevealRelScale.Z * F));
+		const FVector Shift = GetActorTransform().InverseTransformVectorNoScale(RevealTopToPivot * (1.f - F));
+		RevealPart->SetRelativeLocation(RevealRelLocation + Shift);
+	}
+}
+
+void AFixHimInteractable::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	if (bHovered)
+	{
+		// Children may outlive this actor (e.g. in another sublevel): don't leave them writing the outline stencil.
+		if (bHoverOutline)
+		{
+			SetOutlineStencil(false);
+		}
+		if (UFixHimHoverOutlineSubsystem* Outline = UFixHimHoverOutlineSubsystem::Get(this))
+		{
+			Outline->Hide(this);
+		}
+	}
+	Super::EndPlay(EndPlayReason);
 }
 
 void AFixHimInteractable::BuildGlow()
@@ -153,50 +244,53 @@ void AFixHimInteractable::ApplyLook()
 	}
 }
 
-void AFixHimInteractable::BuildOutline()
+static void SetPrimitiveOutlineStencil(UPrimitiveComponent* Part, bool bOn)
 {
-	if (!bEnabled || !bHoverOutline)
+	Part->SetCustomDepthStencilValue(UFixHimSettings::Get()->OutlineStencilValue);
+	Part->SetRenderCustomDepth(bOn);
+}
+
+void AFixHimInteractable::SetOwnOutlineStencil(bool bOn)
+{
+	// Every mesh that moves with the body (a cabinet and its door, a lamp and its shade) writes the same stencil,
+	// so the screen-space rim wraps their combined visible silhouette. Reveal art (water, flame) is excluded.
+	TArray<UPrimitiveComponent*> Parts;
+	GetComponents<UPrimitiveComponent>(Parts);
+	for (UPrimitiveComponent* Part : Parts)
 	{
-		return;
+		if (Part && !IsRevealMesh(Part) && (Part == Body || Part->IsAttachedTo(Pivot)))
+		{
+			SetPrimitiveOutlineStencil(Part, bOn);
+		}
 	}
-	// Inverted-hull outline: a slightly larger copy of each body mesh rendered with reverse culling
-	// in an unlit colour. Works well for the convex primitives the apartment is built from.
-	TArray<UStaticMeshComponent*> Sources;
-	GetComponents<UStaticMeshComponent>(Sources);
-	for (UStaticMeshComponent* Src : Sources)
+}
+
+void AFixHimInteractable::SetOutlineStencil(bool bOn)
+{
+	SetOwnOutlineStencil(bOn);
+	// Children join the same stencil, so the rim wraps the group as one shape. One level only (no recursion), so a
+	// cycle of children can't loop and a child's own children stay out of its parent's outline.
+	for (const TSoftObjectPtr<AActor>& Soft : OutlineChildren)
 	{
-		if (!Src || !Src->GetStaticMesh() || IsRevealMesh(Src) || OutlineShells.Contains(Src) || !Src->IsVisible())
+		AActor* Child = Soft.Get();
+		if (!Child || Child == this)
 		{
 			continue;
 		}
-		if (Src != Body && !Src->IsAttachedTo(Pivot))
+		if (AFixHimInteractable* Sub = Cast<AFixHimInteractable>(Child))
 		{
+			Sub->SetOwnOutlineStencil(bOn);
 			continue;
 		}
-
-		UStaticMesh* ShellMesh = Src->GetStaticMesh();
-		if (Src == Body && OutlineMeshOverride) ShellMesh = OutlineMeshOverride.Get();
-		const FBox LocalBox = ShellMesh->GetBoundingBox();
-		const FVector Size = LocalBox.GetSize() * Src->GetRelativeScale3D().GetAbs();
-		const FVector Center = LocalBox.GetCenter();
-		const FVector ScaleMul(
-			Size.X > KINDA_SMALL_NUMBER ? 1.f + 2.f * OutlineThickness / Size.X : 1.f,
-			Size.Y > KINDA_SMALL_NUMBER ? 1.f + 2.f * OutlineThickness / Size.Y : 1.f,
-			Size.Z > KINDA_SMALL_NUMBER ? 1.f + 2.f * OutlineThickness / Size.Z : 1.f);
-
-		UStaticMeshComponent* Shell = NewObject<UStaticMeshComponent>(this);
-		Shell->SetStaticMesh(ShellMesh);
-		Shell->SetupAttachment(Src);
-		// Scale about the mesh bounds centre rather than its pivot.
-		Shell->SetRelativeScale3D(ScaleMul);
-		Shell->SetRelativeLocation(Center * (FVector::OneVector - ScaleMul));
-		Shell->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		Shell->SetCastShadow(false);
-		Shell->SetReverseCulling(true);
-		Shell->SetVisibility(false);
-		Shell->RegisterComponent();
-		FixHim::Assets::PaintComponent(Shell, FLinearColor::Black, OutlineColor * 14.f);
-		OutlineShells.Add(Shell);
+		TArray<UPrimitiveComponent*> Parts;
+		Child->GetComponents<UPrimitiveComponent>(Parts);
+		for (UPrimitiveComponent* Part : Parts)
+		{
+			if (Part)
+			{
+				SetPrimitiveOutlineStencil(Part, bOn);
+			}
+		}
 	}
 }
 
@@ -225,7 +319,7 @@ void AFixHimInteractable::BuildShine()
 	TArray<UStaticMeshComponent*> Targets;
 	for (UStaticMeshComponent* Mesh : Meshes)
 	{
-		if (!Mesh || !Mesh->GetStaticMesh() || IsRevealMesh(Mesh) || OutlineShells.Contains(Mesh) || !Mesh->IsVisible())
+		if (!Mesh || !Mesh->GetStaticMesh() || IsRevealMesh(Mesh) || !Mesh->IsVisible())
 		{
 			continue;
 		}
@@ -277,10 +371,28 @@ void AFixHimInteractable::Tick(float DeltaSeconds)
 		}
 	}
 
+	if (bFillReady)
+	{
+		// Fill while the water runs; drain slowly once it is off (DrainSeconds 0 keeps the water).
+		const float Before = FillLevel;
+		if (bIsOn)
+		{
+			FillLevel = FMath::Min(1.f, FillLevel + DeltaSeconds / FMath::Max(FillSeconds, 0.1f));
+		}
+		else if (DrainSeconds > 0.f)
+		{
+			FillLevel = FMath::Max(0.f, FillLevel - DeltaSeconds / DrainSeconds);
+		}
+		if (FillLevel != Before)
+		{
+			ApplyFill();
+		}
+	}
+
 	const float Target = bIsOn ? 1.f : 0.f;
 	if (!FMath::IsNearlyEqual(ToggleAlpha, Target))
 	{
-		ToggleAlpha = FMath::FInterpConstantTo(ToggleAlpha, Target, DeltaSeconds, 3.5f);
+		ToggleAlpha = FMath::FInterpConstantTo(ToggleAlpha, Target, DeltaSeconds, FMath::Max(ToggleSpeed, 0.001f));
 		ApplyToggleAlpha(ToggleAlpha);
 	}
 
@@ -331,7 +443,7 @@ void AFixHimInteractable::SetInteractionShineEnabled(bool bAllow)
 	NextShineAt = Age + FMath::FRandRange(ShineInterval.X, ShineInterval.Y);
 }
 
-bool AFixHimInteractable::IsRevealMesh(const UStaticMeshComponent* Mesh) const
+bool AFixHimInteractable::IsRevealMesh(const UPrimitiveComponent* Mesh) const
 {
 	if (Mesh == RevealPart) return true;
 	return Mesh && RevealActors.ContainsByPredicate([Mesh](const TObjectPtr<AActor>& Actor)
@@ -547,11 +659,20 @@ void AFixHimInteractable::SetHovered(bool bInHovered)
 	{
 		FixHim::Sfx(this, "Hover", 0.7f, 0.04f);
 	}
-	for (UStaticMeshComponent* Shell : OutlineShells)
+	if (!bHoverOutline)
 	{
-		if (Shell)
+		return;
+	}
+	SetOutlineStencil(bHovered);
+	if (UFixHimHoverOutlineSubsystem* Outline = UFixHimHoverOutlineSubsystem::Get(this))
+	{
+		if (bHovered)
 		{
-			Shell->SetVisibility(bHovered);
+			Outline->Show(this, OutlineColor);
+		}
+		else
+		{
+			Outline->Hide(this);
 		}
 	}
 }

@@ -1,0 +1,75 @@
+{
+  "status": "PASS",
+  "blender": "5.2.3 LTS",
+  "triangles": 4806,
+  "positive_closed_components": 7,
+  "bounds_m": [
+    [
+      -0.03500000014901161,
+      -0.014500006102025509,
+      -0.057500001043081284
+    ],
+    [
+      0.03500000014901161,
+      0.006000006105750799,
+      0.05750000476837158
+    ]
+  ],
+  "degenerate_triangles": 0,
+  "nonmanifold_edges": 0,
+  "uv0_areas": {
+    "Outlet_Aged_Screw": 0.6087097779488878,
+    "Outlet_Aged_Receptacle": 1.1415706985745684,
+    "Outlet_Ivory_Painted": 1.4248829962932101,
+    "Outlet_Socket_Shadow": 1.0430041184451297
+  },
+  "open_socket_throats": [
+    {
+      "socket": "upper_socket",
+      "x": -0.0085,
+      "z": 0.027,
+      "backing_hit_y": 0.004000004380941391
+    },
+    {
+      "socket": "upper_socket",
+      "x": 0.0085,
+      "z": 0.027,
+      "backing_hit_y": 0.004000004380941391
+    },
+    {
+      "socket": "upper_socket",
+      "x": 0,
+      "z": 0.014499999999999999,
+      "backing_hit_y": 0.004000004380941391
+    },
+    {
+      "socket": "lower_socket",
+      "x": -0.0085,
+      "z": -0.016999999999999998,
+      "backing_hit_y": 0.003999996930360794
+    },
+    {
+      "socket": "lower_socket",
+      "x": 0.0085,
+      "z": -0.016999999999999998,
+      "backing_hit_y": 0.0040000006556510925
+    },
+    {
+      "socket": "lower_socket",
+      "x": 0,
+      "z": -0.0295,
+      "backing_hit_y": 0.003999996930360794
+    }
+  ],
+  "seated_plug_clearance": [
+    {
+      "socket": "upper_socket",
+      "triangle_contacts": 0
+    },
+    {
+      "socket": "lower_socket",
+      "triangle_contacts": 0
+    }
+  ],
+  "limits": "Source geometry only; runtime interaction and Unreal import not implemented."
+}

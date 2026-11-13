@@ -12,13 +12,13 @@
     "transmission": 0
   },
   {
-    "slot": "DH_Sage_Painted",
+    "slot": "DH_BlueGray_Painted",
     "tint": [
-      0.37,
-      0.47,
-      0.32
+      0.26,
+      0.38,
+      0.49
     ],
-    "roughness": 0.52,
+    "roughness": 0.56,
     "metallic": 0,
     "texture": "enamel",
     "transmission": 0
@@ -105,6 +105,18 @@
     "roughness": 0.24,
     "metallic": 0,
     "texture": null,
+    "transmission": 0
+  },
+  {
+    "slot": "DH_Plug_Bakelite",
+    "tint": [
+      0.22,
+      0.15,
+      0.09
+    ],
+    "roughness": 0.58,
+    "metallic": 0,
+    "texture": "metal",
     "transmission": 0
   }
 ]

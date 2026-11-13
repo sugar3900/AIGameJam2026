@@ -4,90 +4,140 @@
   "checks": [
     {
       "file": "DH_Dehumidifier01.fbx",
-      "vertices": 15943,
-      "triangles": 31410,
-      "closed_positive_components": 123,
+      "vertices": 19138,
+      "triangles": 37696,
+      "closed_positive_components": 150,
       "nonmanifold_edges": 0,
       "degenerate_triangles": 0,
       "bounds_m": [
         [
-          -0.17000000178813934,
-          -0.17169992625713348,
-          -1.547746286689744e-08
+          -0.2150000035762787,
+          -0.1654999852180481,
+          -1.6780829170670586e-08
         ],
         [
-          0.17000000178813934,
-          0.19050000607967377,
-          0.5805000066757202
+          0.2150000035762787,
+          0.20949029922485352,
+          0.533458948135376
         ]
       ],
       "uv0_area_by_slot": {
-        "DH_Aged_Hardware": 14.390809505886406,
-        "DH_Ivory_Painted": 23.513153240082552,
-        "DH_Filter_Shadow": 4.517610404943592,
-        "DH_Rubber": 4.906396300314287,
-        "DH_Collected_Water": 0.5718967032103184,
-        "DH_Sage_Painted": 7.522288580262171,
-        "DH_Amber_Lens": 0.5293070914763305,
-        "DH_Tank_Window": 0.34710382402632445,
-        "DH_Control_Print": 7.409511257087853
+        "DH_Tank_Window": 0.33484045793295997,
+        "DH_Rubber": 4.275226496961717,
+        "DH_Amber_Lens": 0.6075588159015665,
+        "DH_Control_Print": 0.6876660649772173,
+        "DH_Plug_Bakelite": 4.301250808115315,
+        "DH_Collected_Water": 0.6521421992598608,
+        "DH_Aged_Hardware": 27.431565008065167,
+        "DH_Filter_Shadow": 4.61074166294778,
+        "DH_BlueGray_Painted": 9.04165496939824,
+        "DH_Ivory_Painted": 22.61148143475521
       },
       "collision_meshes": 1
     },
     {
       "file": "DH_Dehumidifier01_Body.fbx",
-      "vertices": 14874,
-      "triangles": 29292,
-      "closed_positive_components": 115,
+      "vertices": 14906,
+      "triangles": 29304,
+      "closed_positive_components": 127,
       "nonmanifold_edges": 0,
       "degenerate_triangles": 0,
       "bounds_m": [
         [
-          -0.17000000178813934,
-          -0.17169992625713348,
-          -1.547746286689744e-08
+          -0.2150000035762787,
+          -0.15918909013271332,
+          -1.6780829170670586e-08
         ],
         [
-          0.17000000178813934,
-          0.19050000607967377,
-          0.5805000066757202
+          0.2150000035762787,
+          0.18800003826618195,
+          0.533458948135376
         ]
       ],
       "uv0_area_by_slot": {
-        "DH_Aged_Hardware": 14.390809505886406,
-        "DH_Ivory_Painted": 22.844314820391418,
-        "DH_Filter_Shadow": 4.517610404943592,
-        "DH_Rubber": 4.906396300314287,
-        "DH_Sage_Painted": 5.431110801571478,
-        "DH_Amber_Lens": 0.5293070914763305,
-        "DH_Control_Print": 7.409511257087853
+        "DH_Rubber": 3.7215527614428066,
+        "DH_Amber_Lens": 0.6075588159015665,
+        "DH_Control_Print": 0.6876660649772173,
+        "DH_Aged_Hardware": 25.01644075959406,
+        "DH_Filter_Shadow": 4.61074166294778,
+        "DH_BlueGray_Painted": 7.021349991284502,
+        "DH_Ivory_Painted": 21.996203901088425
       },
       "collision_meshes": 0
     },
     {
       "file": "DH_Dehumidifier01_Tank.fbx",
-      "vertices": 1069,
-      "triangles": 2118,
+      "vertices": 1064,
+      "triangles": 2108,
       "closed_positive_components": 8,
       "nonmanifold_edges": 0,
       "degenerate_triangles": 0,
       "bounds_m": [
         [
-          -0.14100000262260437,
-          -0.15849998593330383,
-          0.07249999791383743
+          -0.1679999977350235,
+          -0.1654999852180481,
+          0.07249998301267624
         ],
         [
-          0.14100000262260437,
-          0.06900004297494888,
-          0.2532922327518463
+          0.1679999977350235,
+          0.07200003415346146,
+          0.25929221510887146
         ]
       ],
       "uv0_area_by_slot": {
-        "DH_Tank_Window": 0.34710382402632445,
-        "DH_Ivory_Painted": 0.6688384196911801,
-        "DH_Collected_Water": 0.5718967032103184,
-        "DH_Sage_Painted": 2.0911777786906893
+        "DH_Tank_Window": 0.33484045793295997,
+        "DH_Collected_Water": 0.6521421992598608,
+        "DH_BlueGray_Painted": 2.020304978113713,
+        "DH_Ivory_Painted": 0.6152775336667956
+      },
+      "collision_meshes": 0
+    },
+    {
+      "file": "DH_Dehumidifier01_CordStowed.fbx",
+      "vertices": 1592,
+      "triangles": 3172,
+      "closed_positive_components": 3,
+      "nonmanifold_edges": 0,
+      "degenerate_triangles": 0,
+      "bounds_m": [
+        [
+          -0.08099989593029022,
+          0.1591639667749405,
+          0.09117698669433594
+        ],
+        [
+          0.10431002080440521,
+          0.20949029922485352,
+          0.17299549281597137
+        ]
+      ],
+      "uv0_area_by_slot": {
+        "DH_Rubber": 0.553673735518919
+      },
+      "collision_meshes": 0
+    },
+    {
+      "file": "DH_Plug01.fbx",
+      "vertices": 1576,
+      "triangles": 3112,
+      "closed_positive_components": 12,
+      "nonmanifold_edges": 0,
+      "degenerate_triangles": 0,
+      "bounds_m": [
+        [
+          -0.01549999974668026,
+          -0.0430000014603138,
+          -0.01600000075995922
+        ],
+        [
+          0.01549999974668026,
+          0.01599999889731407,
+          0.01600000075995922
+        ]
+      ],
+      "uv0_area_by_slot": {
+        "DH_Plug_Bakelite": 4.301250808115315,
+        "DH_Aged_Hardware": 2.415124248471085
       },
       "collision_meshes": 0
     }
@@ -138,5 +188,42 @@
       "triangle_contacts": 0
     }
   ],
-  "limits": "Geometry/source checks only; no Unreal import or gameplay validation claimed."
+  "limits": "Geometry/source checks only; no Unreal import or gameplay validation claimed.",
+  "split_assembly_with_stored_plug": "PASS",
+  "spline_cable": {
+    "file": "DH_CableSegment01.fbx",
+    "vertices": 396,
+    "triangles": 788,
+    "closed_positive_components": 1,
+    "nonmanifold_edges": 0,
+    "degenerate_triangles": 0,
+    "bounds_m": [
+      [
+        0.0,
+        -0.003000000026077032,
+        -0.003000000026077032
+      ],
+      [
+        1.0,
+        0.003000000026077032,
+        0.003000000026077032
+      ]
+    ],
+    "uv0_area_by_slot": {
+      "DH_Rubber": 1.8333333730697632
+    },
+    "collision_meshes": 0
+  },
+  "flat_panel_control_seating": {
+    "Dial seating ring": {
+      "back_surface_depth_mm": -0.2500135451555252
+    },
+    "Power rocker": {
+      "back_surface_depth_mm": -0.7500068750232458
+    },
+    "Tank lamp bezel": {
+      "back_surface_depth_mm": -0.2500070258975029
+    }
+  },
+  "front_vent_setback_mm": 10.000004172325133
 }
